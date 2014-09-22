@@ -3,6 +3,7 @@ http://www.gnu.org/copyleft/gpl.html */
 
 package venc;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,14 +14,15 @@ import venc.i18n.I18nManager;
 import org.yaml.snakeyaml.Yaml;
 
 public class NewBlog {
-    public NewBlog(I18nManager lang, String blogName) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        System.out.println(dateFormat.format(new Date())+" "+lang.getString("creatingNewBlog"));
+    public NewBlog(Core core, String blogName) {
+        I18nManager lang = core.lang;
+        
+        core.printer(lang.getString("creatingNewBlog"));
         Map<String, Object> defaultConfiguration = new HashMap<String, Object>();
         defaultConfiguration.put("blog_name", "Blog name");
         defaultConfiguration.put("author_name", "Your name");
         defaultConfiguration.put("blog_description", "Blog description");
-        defaultConfiguration.put("blog_keywords", "Some keywords that are related to your blog");
+        defaultConfiguration.put("blog_keywdateFormat.format(new Date())ords", "Some keywords that are related to your blog");
         defaultConfiguration.put("author_description", "Tell the world something about you");
         defaultConfiguration.put("license", "The license applied to your content");
         defaultConfiguration.put("url", "Blog url");
@@ -47,12 +49,17 @@ public class NewBlog {
         defaultConfiguration.put("rss_thread_lenght","10");
         defaultConfiguration.put("thread_order", "oldest first");
         
-               
+        core.mkdir(blogName);
+        core.mkdir(blogName+"/blog");
+        core.mkdir(blogName+"/theme");
+        core.mkdir(blogName+"/entries");
+        core.mkdir(blogName+"/templates");
+        
         
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yamlDumper = new Yaml(options);
-        System.out.println(yamlDumper.dump(defaultConfiguration));
+        core.writeFile("./"+blogName+"/blog_configuration.yaml", yamlDumper.dump(defaultConfiguration));
         
     }
 }
