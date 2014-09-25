@@ -22,7 +22,7 @@ public class NewBlog {
         defaultConfiguration.put("blog_name", "Blog name");
         defaultConfiguration.put("author_name", "Your name");
         defaultConfiguration.put("blog_description", "Blog description");
-        defaultConfiguration.put("blog_keywdateFormat.format(new Date())ords", "Some keywords that are related to your blog");
+        defaultConfiguration.put("blog_keywords", "Some keywords that are related to your blog");
         defaultConfiguration.put("author_description", "Tell the world something about you");
         defaultConfiguration.put("license", "The license applied to your content");
         defaultConfiguration.put("url", "Blog url");
@@ -54,6 +54,7 @@ public class NewBlog {
         core.mkdir(blogName+"/theme");
         core.mkdir(blogName+"/entries");
         core.mkdir(blogName+"/templates");
+        core.mkdir(blogName+"/extra");
         
         
         DumperOptions options = new DumperOptions();
