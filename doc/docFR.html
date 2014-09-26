@@ -17,7 +17,8 @@
 			header img {margin: auto;
 				display: block;}
 
-			dt	{font-style: italic;}
+			dt	{font-style: italic;
+				font-weight: bold;}
 
 			.content
 				{width: 80%;
@@ -39,7 +40,7 @@
 				text-align: center;
 				z-index:1;}
 
-			.schem img
+			.schem img, .schem table
 				{width: 100%;
 				background-color: white;
 				border:8px solid white;
@@ -139,7 +140,7 @@ pages ou l'ordre d'affichage de celles-ci. Immédiatement après avoir crée vot
 sans doute du premier fichier que vous éditerez. Une fois avoir remplit ses champs dont l'usage est détaillé plus bas, vous n'aurez normalement plus besoin d'y retoucher.</p>
 
 <p>Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des
-variable d'environnnement, dont l'utilisation est détaillé la section approprié.</p>
+variable d'environnnement, dont l'utilisation est détaillé dans la section approprié.</p>
 			<div class="schem"><img src="blog_configuration.png"></div>
 			<dl>
 				<dt>blog_name</dt>
@@ -191,10 +192,53 @@ publication spécifique à un mot clef. Ce champ devrait donc toujours contenir 
 						<dd>"{author}" par défaut. Définit le répertoire où sera exporté un fil de
 publication spécifique à un auteur. Ce champ devrait donc toujours contenir la variable {auteur}.</dd>
 						<dt>dates_directory_name</dt>
-						<dd>"%Y-%m" par défaut. Définit le format de date utilisé pour les nom répertoires relatifs aux fils de publication associé à des dates.</dd>
+						<dd>"%Y-%m" par défaut. Définit le format de date utilisé pour les nom de répertoires de fils de publications associés à des dates.</dd>
+						<dt>entry_file_name</dt>
+						<dd>"entry{entry_id}.html" par défaut. Définit le nom de fichier
+d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.</dd>
+						<dt>rss_file_name</dt>
+						<dd>"feed.xml" par défaut. Définit le nom de fichier du flux rss.</dd>
 					</dl>
 				</dd>
+				<dt>entries_per_pages</dt>
+				<dd>"10" par défaut. Définit évidément le nombre de publication par page.</dd>
+				<dt>columns</dt>
+				<dd>"1" par défaut. Propriété interessante de VenC détaillé plus loin dans la documentation. Ce champ définit le nombre de colunm dans une page.</dd>
+				<dt>rss_thread_lenght</dt>
+				<dd>"5" par défaut. Définit le nombre de publication à afficher dans le flux RSS.<dd>
+				<dt>thread_order</dt>
+				<dd>"oldest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ ne peut prendre comme valeur "oldest first" ou "latest first".</dd>
 			</dl>
+<h3>Variables d'environnement.</h3>
+<p>Comme il l'a été dit dans la section précédente, certains contextes peuvent faire usage de variables. Le tableau ci dessou en définit l'utilisation et le contexte approprié.</p>
+			<div class="schem">
+			<table>
+				<tr>
+					<td><b>Variable</b></td>
+					<td><b>Champ/Contexte</b></td>
+				</tr>
+				<tr>
+					<td>{page_number}</td>
+					<td>index_file_name</td>
+				</tr>
+				<tr>
+					<td>{category}</td>
+					<td>categories_directory_name</td>
+				</tr>
+				<tr>
+					<td>{tag}</td>
+					<td>tags_directory_name</td>
+				</tr>
+				<tr>
+					<td>{author}</td>
+					<td>authors_directory_name</td>
+				</tr>
+				<tr>
+					<td>{entry_id}</td>
+					<td>entry_file_name</td>
+				</tr>
+			</table>
+			</div>
 		</div>
 	</body>
 </html>
