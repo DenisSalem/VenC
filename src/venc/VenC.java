@@ -35,7 +35,10 @@ public class VenC {
                     NewBlog newBlog = new NewBlog(core, argv[1]);
                     VenC.argv_handler(Arrays.copyOfRange(argv, 2, argv.length));
                     break;
-                    
+                case "-ne":
+                    NewEntry newEntry = new NewEntry(core, argv[1]);
+                    VenC.argv_handler(Arrays.copyOfRange(argv, 2, argv.length));
+
                 default:
                     System.out.println(core.lang.getString("unknowCommand"));
                     VenC.argv_handler(Arrays.copyOfRange(argv, 1, argv.length));

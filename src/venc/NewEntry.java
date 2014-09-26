@@ -10,5 +10,7 @@ package venc;
  * @author anonyme
  */
 public class NewEntry {
-    
+    public NewEntry(Core core, String templateName) {
+        
+    }
 }
