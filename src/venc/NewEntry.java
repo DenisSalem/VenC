@@ -9,6 +9,6 @@ package venc;
  */
 public class NewEntry {
     public NewEntry(Core core, String templateName) {
-        
+
     }
 }

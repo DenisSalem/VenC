@@ -19,7 +19,8 @@ public class VenC {
      */
     public static void main(String[] args) {
         if (args.length != 0) {
-            VenC.argv_handler(args);
+            Core core = new Core();
+            VenC.argv_handler(core, args);
         }
         else {
             new I18nManager();
@@ -27,26 +28,31 @@ public class VenC {
         }
     }
     
-    private static void argv_handler(String[] argv) {
-        Core core = new Core();
-        if (argv.length != 0) {
-            switch(argv[0]) {
-                case "-nb":
-                    NewBlog newBlog = new NewBlog(core, argv[1]);
-                    VenC.argv_handler(Arrays.copyOfRange(argv, 2, argv.length));
-                    break;
-                case "-ne":
-                    NewEntry newEntry = new NewEntry(core, argv[1]);
-                    VenC.argv_handler(Arrays.copyOfRange(argv, 2, argv.length));
-
-                default:
-                    System.out.println(core.lang.getString("unknowCommand"));
-                    VenC.argv_handler(Arrays.copyOfRange(argv, 1, argv.length));
-                    break;
+    private static void argv_handler(Core core, String[] argv) {
+        try {
+            if (argv.length != 0) {
+                switch(argv[0]) {
+                    case "-nb":
+                        NewBlog newBlog = new NewBlog(core, argv[1]);
+                        VenC.argv_handler(core, Arrays.copyOfRange(argv, 2, argv.length));
+                        break;
+                    case "-ne":
+                        core.fastEntriesOverview();
+                        NewEntry newEntry = new NewEntry(core, argv[1]);
+                        VenC.argv_handler(core, Arrays.copyOfRange(argv, 2, argv.length));
+                        break;
+                    default:
+                        System.out.println(argv[0]+": "+core.lang.getString("unknowCommand"));
+                        VenC.argv_handler(core, Arrays.copyOfRange(argv, 1, argv.length));
+                        break;
+                }
             }
+            else {
+                    System.out.println(core.lang.getString("nothingToDo"));       
+                }
         }
-        else {
-                System.out.println(core.lang.getString("nothingToDo"));       
+        catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            System.out.println(argv[0]+": "+core.lang.getString("missingArguments")+e.getLocalizedMessage());
         }
             
     }

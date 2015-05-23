@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import venc.i18n.I18nManager;
 
@@ -51,13 +52,16 @@ public class Core {
         String[] partedFileName = fileName.split("__");
         
         if (partedFileName.length < 3) {
+            System.out.println("1 entries/"+fileName+": "+this.lang.getString("malformedEntryFileName"));
             return false;
         }
         
         if (!this.isInteger(partedFileName[0])) {
+            System.out.println("2 entries/"+fileName+": "+this.lang.getString("malformedEntryFileName"));
             return false;
         }
         if (!this.isDateValid(partedFileName[1])) {
+            System.out.println("3 entries/"+fileName+": "+this.lang.getString("malformedEntryFileName"));
             return false;
         }
         return true;
@@ -66,7 +70,7 @@ public class Core {
     public boolean isDateValid(String date) 
     {
         try {
-            DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
             df.setLenient(false);
             df.parse(date);
             return true;
@@ -77,12 +81,24 @@ public class Core {
     }
 
 
-    public int getLatestEntryId() {
-
-    
-        File dir = new File("entries");
-    
-        return 0;
+    public void fastEntriesOverview() {
+   
+        File dir;
+        String[] files;
+        dir = new File("entries");
+        files = dir.list();
+        int latestEntryId = 0;
+        String[] partedFilename;
+        
+        if(null == files) {
+            System.out.println("entries: "+this.lang.getString("folderDoesntExists"));
+        }
+        else {
+            Arrays.sort(files);
+            for(String file : files) {
+                this.isFileAnEntry(file);
+            }     
+        }
     }
     public boolean mkdir(String folder) {
         File theDir = new File(folder);
