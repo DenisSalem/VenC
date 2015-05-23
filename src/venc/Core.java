@@ -19,6 +19,8 @@ import venc.i18n.I18nManager;
  * @author anonyme
  */
 public class Core {
+    private int latestEntryId = 0;
+            
     public I18nManager lang;
     
     public Core() {
@@ -87,7 +89,6 @@ public class Core {
         String[] files;
         dir = new File("entries");
         files = dir.list();
-        int latestEntryId = 0;
         String[] partedFilename;
         
         if(null == files) {
@@ -96,7 +97,12 @@ public class Core {
         else {
             Arrays.sort(files);
             for(String file : files) {
-                this.isFileAnEntry(file);
+                if(true == this.isFileAnEntry(file)) {
+                    if (this.latestEntryId <= Integer.parseInt(file.split("__")[0])) {
+                        this.latestEntryId = Integer.parseInt(file.split("__")[0]);
+                    }
+                }
+                
             }     
         }
     }
