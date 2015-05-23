@@ -32,22 +32,12 @@ public class Core {
         System.out.println(dateFormat.format(new Date())+" "+string);
     }
     public static boolean isInteger(String str) {
-        int length = str.length();
-	if (str == null) {
-		return false;
-	}
-
-	if (length == 0) {
-		return false;
-	}
-        
-	for (int j = 0; j < length; j++) {
-            char c = str.charAt(j);
-            if (c <= '/' || c >= ':') {
-                return false;
-            }
-	}
-	return true;
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public Boolean isFileAnEntry(String fileName) {
