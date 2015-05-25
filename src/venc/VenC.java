@@ -38,7 +38,7 @@ public class VenC {
                         break;
                     case "-ne":
                         core.fastEntriesOverview();
-                        NewEntry newEntry = new NewEntry(core, argv[1]);
+                        NewEntry newEntry = new NewEntry(core, argv[1], argv[2]);
                         VenC.argv_handler(core, Arrays.copyOfRange(argv, 2, argv.length));
                         break;
                     default:
@@ -52,7 +52,7 @@ public class VenC {
                 }
         }
         catch (java.lang.ArrayIndexOutOfBoundsException e) {
-            System.out.println(argv[0]+": "+core.lang.getString("missingArguments")+e.getLocalizedMessage());
+            System.out.println(argv[0]+": "+core.lang.getString("missingArguments"));
         }
             
     }

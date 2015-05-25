@@ -27,6 +27,15 @@ public class Core {
         this.lang = new I18nManager();
     }
     
+    public String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+    public int getLatestEntryId() {
+        return this.latestEntryId;
+    }
+    
     public void printer(String string) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         System.out.println(dateFormat.format(new Date())+" "+string);
