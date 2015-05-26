@@ -38,7 +38,7 @@ public class VenC {
                         break;
                     case "-ne":
                         core.fastEntriesOverview();
-                        NewEntry newEntry = new NewEntry(core, argv[1], argv[2]);
+                        NewEntry newEntry = new NewEntry(core, argv[1]);
                         VenC.argv_handler(core, Arrays.copyOfRange(argv, 2, argv.length));
                         break;
                     default:
@@ -48,11 +48,11 @@ public class VenC {
                 }
             }
             else {
-                    System.out.println(core.lang.getString("nothingToDo"));       
+                    core.printer(core.lang.getString("nothingToDo"));       
                 }
         }
         catch (java.lang.ArrayIndexOutOfBoundsException e) {
-            System.out.println(argv[0]+": "+core.lang.getString("missingArguments"));
+            core.printer(argv[0]+": "+core.lang.getString("missingArguments"));
         }
             
     }

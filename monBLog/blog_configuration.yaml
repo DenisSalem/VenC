@@ -1,0 +1,28 @@
+blog_name: Blog name
+rss_thread_lenght: '10'
+entries_per_pages: '10'
+blog_language: The language of your blog
+blog_keywords: Some keywords that are related to your blog
+sone: Your sone
+columns: '1'
+freemail: Your Freemail
+url: Blog url
+wot: Your public Web of Trust key
+paths:
+  archives_overview_directory_name: overview
+  authors_directory_name: '{authors}'
+  root: ./
+  tags_directory_name: '{tag}'
+  categories_directory_name: '{category}'
+  index_file_name: index{page_number}.html
+  rss_file_name: feed.xml
+  dates_directory_name: '%Y-%m'
+  entry_file_name: entry{entry_id}.html
+thread_order: oldest first
+email: Your email
+author_name: Your name
+author_description: Tell the world something about you
+blog_description: Blog description
+bitcoin: Your bitcoin address
+license: The license applied to your content
+fms_public_key: Your FMS public key

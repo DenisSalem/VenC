@@ -91,7 +91,7 @@ public class Core {
         String[] partedFilename;
         
         if(null == files) {
-            System.out.println("entries: "+this.lang.getString("folderDoesntExists"));
+            this.printer("entries: "+this.lang.getString("folderDoesntExists"));
         }
         else {
             Arrays.sort(files);
@@ -133,8 +133,11 @@ public class Core {
             out.close();
             this.printer(this.lang.getString("newFile")+" "+filename);
         }
-        catch (Exception e) {
-            this.printer(e.toString());
+        catch (java.io.FileNotFoundException e) {
+            this.printer(this.lang.getString("fileDoesntExists"));
+        }
+        catch (java.io.IOException e) {
+            //this.printer(stream);
         }
     }
 }
