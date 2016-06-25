@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 class Messages:
-    fileNotFound = "Ce fichier n'existe pas"
+    fileNotFound = "{0}: Ce fichier ou ce dossier n'existe pas."
     fileAlreadyExists = "{0}: {1}: Le fichier existe déjà."
     blogName = "Nom du blog"
     yourName = "Votre nom"
@@ -13,3 +13,7 @@ class Messages:
     blogUrl = "L'url du blog"
     blogLanguage = "La langue du blog"
     yourEmail = "Votre adresse email"
+    missingParams = "{0}: Paramètres manquants."
+    cannotReadIn = "{0}: Impossible de lire dans {1}."
+    nothingToDo = "Rien à faire."
+    unknownCommand = "{0}: Commande inconnue."

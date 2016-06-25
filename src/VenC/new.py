@@ -6,6 +6,25 @@ import yaml
 import codecs
 import VenC.core
 
+def entry(argv):
+    if len(argv) != 1:
+        print("VenC: "+VenC.core.Messages.missingParams.format("--new-entry"))
+        return
+    default=		{"authors":	"",
+		  	"tags":		"",
+			"categories":	""}
+    try:
+        wd = os.listdir(os.getcwd())
+    except OSError:
+        print(VenC.core.Messages.cannotReadIn.format(os.getcwd()))
+        return
+    entry_id = VenC.core.GetEntriesList()
+    exit
+    #default["entry_name"] = argv[0]
+    #outputFilename = os.getcwd()+'/entries/'+str(entry_id)+"__"+str(datetime.now().month)+'-'+str(datetime.now().day)+'-'+str(datetime.today().year)+'-'+str(datetime.now().hour)+'-'+str(datetime.now().minute)+"__"+default["entry_name"].replace(' ','_')
+    #stream = codecs.open(outputFilename,'w',encoding="utf-8")
+    #yaml.dump(default, stream, default_flow_style=False, allow_unicode=True) + "---\n"
+
 def blog(argv):
     default_configuration =	{"blog_name":			VenC.core.Messages.blogName,
 				"author_name":			VenC.core.Messages.yourName,
