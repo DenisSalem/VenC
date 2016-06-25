@@ -62,8 +62,7 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 * __rss_thread_lenght__ : "5" par défaut. Définit le nombre de publication à afficher dans le flux RSS.
 * __thread_order__ : "oldest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ ne peut prendre comme valeur "oldest first" ou "latest first".
 * __path__ : Il s'agit d'une variables contenant différents chemins, vous ne devriez normalement pas avoir besoin d'y toucher. La liste de ces chemins est détaillé ci-dessous
-
-* __root__ : "./" par défaut. Le chemins où sera exporté tout le blog à l'intérieur du répertoire blog/.
+* __root__ : "./" par défaut. Le chemins où sera exporté tout le blog à l'intérieur du répertoire _blog_.
 * __index_file_name__ : "index{page_number}.html" par défaut. Le nom de fichier formaté des pages du fil principale de publication. Devrait toujours contenir la variable {page_number}.
 * __categories_directory_name__ : "{category}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à une catégorie de publication. Ce champ devrait donc toujours contenir la variable {category}.
 * __tags_directory_name__ : "{tag}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à un mot clef. Ce champ devrait donc toujours contenir la variable {tag}.
