@@ -10,7 +10,7 @@ import subprocess
 
 def entry(argv):
 
-    if len(argv) != 1:
+    if len(argv) < 1:
         print("VenC: "+VenC.core.Messages.missingParams.format("--new-entry"))
         return
     
@@ -26,14 +26,26 @@ def entry(argv):
     except OSError:
         print(VenC.core.Messages.cannotReadIn.format(os.getcwd()))
         return
+
     entry_id = VenC.core.GetLatestEntryID()+1
     default["entry_name"] = argv[0]
-    outputFilename = os.getcwd()+'/entries/'+str(entry_id)+"__"+str(datetime.datetime.now().month)+'-'+str(datetime.datetime.now().day)+'-'+str(datetime.datetime.today().year)+'-'+str(datetime.datetime.now().hour)+'-'+str(datetime.datetime.now().minute)+"__"+default["entry_name"].replace(' ','_')
+    date = datetime.datetime.now()
+    outputFilename = os.getcwd()+'/entries/'+str(entry_id)+"__"+str(date.now().month)+'-'+str(date.now().day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)+"__"+default["entry_name"].replace(' ','_')
     stream = codecs.open(outputFilename,'w',encoding="utf-8")
-    output = yaml.dump(default, default_flow_style=False, allow_unicode=True) + "---\n"
+    if len(argv) == 1:
+        output = yaml.dump(default, default_flow_style=False, allow_unicode=True) + "---\n"
+    else:
+        try:
+            template = open(os.getcwd()+'/templates/'+argv[1], 'r').read()
+            print(template)
+
+        except FileNotFoundError as e:
+            print("VenC: "+VenC.core.Messages.fileNotFound.format(os.getcwd()+"/templates/"+argv[1]))
+            return
+            
     stream.write(output)
     stream.close()
-    subprocess.call(["nano", outputFilename]) 
+    subprocess.call([VenC.core.blogConfiguration["textEditor"], outputFilename]) 
 
 def blog(argv):
     default_configuration =	{"blog_name":			VenC.core.Messages.blogName,
