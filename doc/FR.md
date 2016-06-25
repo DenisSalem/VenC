@@ -2,9 +2,9 @@
 
 # Sommaire
 
-* I. Présentation
-* II. Installation
-* III. Prise en main
-* III.1. Yaml
-* III.2. Arborescence
+1. Présentation
+2. Installation
+3. Prise en main
+4. Commandes
+5. Thémes
 
