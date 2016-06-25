@@ -1,244 +1,252 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>VenC</title>
-		<style type="text/css">
-			body	{background-color: grey;
-				margin: 0px;
-				font-family: Arial;
-				padding-bottom: 1em;}
-			header {height: 110px;
-				font-size:0.9em;
-				text-align: center;
-				background-color: white;
-				border: 10px solid white;
-				box-shadow: 0px 1px 0px rgba(0,0,0,0.5), 0px 1px 5px rgba(0,0,0,0.5);}
-			header img {margin: auto;
-				display: block;}
+  <head>
+    <meta charset="utf-8">
+    <title>VenC</title>
+    <style type="text/css">
+      body
+        {background-color: grey;
+	margin: 0px;
+	font-family: Sans;
+        font-weight: lighter;
+	padding-bottom: 1em;}
+        header 
+          {height: 110px;
+	  font-size:0.9em;
+	  text-align: center;
+	  background-color: white;
+	  border: 10px solid white;
+	  box-shadow: 0px 1px 0px rgba(0,0,0,0.5), 0px 1px 5px rgba(0,0,0,0.5);}
+	header img
+          {margin: auto;
+	  display: block;}
+	dt
+          {font-style: italic;
+	  font-weight: bold;}
 
-			dt	{font-style: italic;
-				font-weight: bold;}
+        .content
+	  {width: 80%;
+	  margin: auto;
+	  padding: 5px;	
+	  margin-top: 1em;
+	  box-shadow: 0px 3px 3px rgba(0,0,0,0.5);
+	  border: 1px solid transparent;
+	  text-align: justify;
+	  background-color: #CCC;}
 
-			.content
-				{width: 80%;
-				margin: auto;
-				padding: 5px;	
-				margin-top: 1em;
-				box-shadow: 0px 3px 3px rgba(0,0,0,0.5);
-				border: 1px solid transparent;
-				text-align: justify;
-				background-color: #CCC;}
+        .note
+          {font-style: italic;
+          color: rgba(0,0,0,0.5);}
+        .schem
+	  {position: relative;
+	  display: block;
+	  margin: auto;
+	  width: 80%;
+	  max-width: 480px;
+	  text-align: center;
+	  z-index:1;}
 
+	.schem img, .schem table
+	  {width: 100%;
+	  background-color: white;
+	  border:8px solid white;
+	  border-radius: 3px;}
 
-			.schem
-				{position: relative;
-				display: block;
-				margin: auto;
-				width: 80%;
-				max-width: 480px;
-				text-align: center;
-				z-index:1;}
+	.schem:before, .schem:after {
+	  position: absolute;
+	  width: 40%;
+	  height: 10px;
+	  content: '';
+	  color: #000;
+	  left: 3px;
+	  bottom: 10px;
+	  background: transparent;
+	  transform: rotate(-2deg);
+	  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+	  z-index: -1;} 
 
-			.schem img, .schem table
-				{width: 100%;
-				background-color: white;
-				border:8px solid white;
-				border-radius: 3px;}
+	.schem:after {
+	  left: auto;
+	  right: 0px;
+	  transform: rotate(2deg);}
 
-			.schem:before, .schem:after {
-				position: absolute;
-				width: 40%;
-				height: 10px;
-				content: '';
-				color: #000;
-				left: 3px;
-				bottom: 10px;
-				background: transparent;
-				transform: rotate(-2deg);
-				box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
-				z-index: -1;} 
-
-			.schem:after {
-				left: auto;
-				right: 0px;
-				transform: rotate(2deg);}
-
-
-			ul	{list-style-type: square;}
+	ul
+          {list-style-type: square;}
 			
-		</style>
-	</head>
-	<body>
-		<header>
-			<img src="logo.png">
-			Licence GNU/GPLv3
-		</header>
-		<div class="content">
-			<ul>
-				<li>Présentation</li>
-				<li>Installation</li>
-				<li>Prise en main
-					<ul>
-						<li>Yaml</li>
-						<li>Arborescence d'un projet</li>
-						<li>Structures des fichiers<ul>
-							<li>blog_configuration.yaml</li>
-						</ul></li>
-					</ul>
-				</li>
-				<li>Commandes
-					<ul>
-						<li>Nouveau blog</li>
-						<li>Nouvelle publication</li>
-						<li>Exporter le blog</li>
-					</ul>
-				</li>
-				<li>Thémes
-					
-					<ul>
-						<li>Installation</li>
-						<li>Greffons<ul>
-							<li>Défilement infini</li>
-							<li>Moteur de recherche côté client</li>	
-						</ul></li>
-					</ul>
-				</li>
-				<li>Interface graphique pour Freenet</li>
-			</ul>
-		</div>
-		<div class="content">
-			<h1>Présentation</h1>
-			<p>VenC est une application Java conçu par Denis Salem similaire à Octopress/Jekyll pour gérer et créer vos  blogs statique via la console.
+    </style>
+  </head>
+  <body>
+    <header>
+	<img src="logo.png">
+	Licence GNU/GPLv3
+    </header>
+    <div class="content">
+      <ul>
+	<li>Présentation</li>
+	<li>Installation</li>
+	<li>Prise en main
+          <ul>
+	    <li>Yaml</li>
+	    <li>Arborescence d'un projet</li>
+	    <li>Structures des fichiers
+              <ul>
+                <li>blog_configuration.yaml</li>
+	      </ul>
+            </li>
+          </ul>
+        </li>
+	<li>Commandes
+          <ul>
+	    <li>Nouveau blog</li>
+	    <li>Nouvelle publication</li>
+	    <li>Exporter le blog</li>
+	  </ul>
+	</li>
+      </ul> 
+      <ul>
+	<li>Thémes
+	  <ul>
+	    <li>Installation</li>
+	    <li>Greffons
+              <ul>
+	        <li>Défilement infini</li>
+	        <li>Moteur de recherche côté client</li>
+              </ul>
+            </li>
+	  </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <h1>Présentation</h1>
+      <p>VenC est une application python conçu par Denis Salem similaire à Octopress/Jekyll pour gérer et créer vos  blogs statique via la console.
 Avec VenC, tout est fichier texte, pas de base de donnée.
 La configuration de chaque blog repose sur un unique et petit fichier Yaml,
 les thèmes consistent en une poignée de templates html à modifier ou
 créer soit même, les publications quand à elles se présentent pour l'étentiel sous la forme de texte libre.</p>
 
-<p>Les blogs statiques sont tout à fait adaptés aux darknets ou ceux qui veulent un controle totale sur leur site
+      <p>Les blogs statiques sont tout à fait adaptés aux darknets ou ceux qui veulent un controle totale sur leur site
 sans s'embarrasser de CMS lourd et potentiellement vulnérable en terme de sécurité. Par ailleurs, l'extrême simplicité de
 l'organisation des sources des blogs issus de VenC garantie une prise en main rapide et efficace.</p>
-		</div>
-		<div class="content">
-			<h1>Prise en main</h1>
-			<p>Cette partie fait le tour des principales propriétés de VenC</p>
-			<h2>Arborescence</h2>
-			<p>Lorsque vous créez un nouveau projet, VenC produit un certains nombre de répertoire. La racine du projet porte le nom du blog, par exemple, "MooFooBar". Ce répertoire en contient cinq autres.</p>
-			<ul>
-				<li><b>blog</b>: le dossier où est exporté le projet.</li>
-				<li><b>extra</b>: un dossier contenant des ressources quelquonque copiées vers blog/ au moment de l'exportation.</li>
-				<li><b>entries</b>: Contient toutes les publications sous forme de fichiers texte numérotés et datés.</li>
-				<li><b>theme</b>: Contient les templates html, les feuilles de style et éventuellement les scripts JS.</li>
-				<li><b>templates:</b> Contient des modèles vierge de publication.</li>
-			</ul>
-			<div class="schem"><img src="folders.png"></div>
-			<h2>Structures des fichiers</h2>
-			<h3>blog_configuration.yaml</h3>
-			<p>Il s'agit d'un document Yaml à la racine du projet définissant les propriétés du blog, comme
+      </div>
+      <div class="content">
+        <h1>Installation</h1>
+        <p>En premier lieu il convient de s'assurer que python 3.x est installé. VenC a également des dépendances qu'il faut satisfaire:</p>
+        <p class="note">Pour une installation plus facile vous pourriez vouloir utiliser pip</p>
+        <dl>
+          <dt>Python-Markdown</dt>
+          <dd>Vous pouvez jeter un oeil à la <a href="https://pythonhosted.org/Markdown/index.html">page officiel</a> ou directement tapez la commande <span class="note">pip install markdown</span> dans un terminal en étant root.</dd>
+        </dl>
+      </div>
+      <div class="content">
+        <h1>Prise en main</h1>
+	<p>Cette partie fait le tour des principales propriétés de VenC</p>
+	<h2>Arborescence</h2>
+	<p>Lorsque vous créez un nouveau projet, VenC produit un certains nombre de répertoire. La racine du projet porte le nom du blog, par exemple, "MooFooBar". Ce répertoire en contient cinq autres.</p>
+	<ul>
+	  <li><b>blog</b>: le dossier où est exporté le projet.</li>
+	  <li><b>extra</b>: un dossier contenant des ressources quelquonque copiées vers blog/ au moment de l'exportation.</li>
+	  <li><b>entries</b>: Contient toutes les publications sous forme de fichiers texte numérotés et datés.</li>
+	  <li><b>theme</b>: Contient les templates html, les feuilles de style et éventuellement les scripts JS.</li>
+	  <li><b>templates:</b> Contient des modèles vierge de publication.</li>
+	</ul>
+	<div class="schem"><img src="folders.png"></div>
+	  <h2>Structures des fichiers</h2>
+	  <h3>blog_configuration.yaml</h3>
+	  <p>Il s'agit d'un document Yaml à la racine du projet définissant les propriétés du blog, comme
 son titre, le nom de son auteur, ainsi que des détails fonctionnels comme le nombre de publications par
 pages ou l'ordre d'affichage de celles-ci. Immédiatement après avoir crée votre blog, il s'agira
 sans doute du premier fichier que vous éditerez. Une fois avoir remplit ses champs dont l'usage est détaillé plus bas, vous n'aurez normalement plus besoin d'y retoucher.</p>
 
-<p>Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des
+          <p>Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des
 variable d'environnnement, dont l'utilisation est détaillé dans la section approprié.</p>
-			<div class="schem"><img src="blog_configuration.png"></div>
-			<dl>
-				<dt>blog_name</dt>
-				<dd>Sans surprise, il s'agit du titre de votre blog.</dd>
-				<dt>author_name<dt>
-				<dd>Le nom de l'administrateur ou l'auteur du blog.</dd>
-				<dt>blog_description</dt>
-				<dd>Un très cours résumé de ce dont parle votre site.</dd>
-				<dt>blog_keywords</dt>
-				<dd>Les mots clefs associés au site.</dd>
-				<dt>author_description</dt>
-				<dd>Un cours texte à propos de l'auteur du blog.</dd>
-				<dt>license</dt>
-				<dd>La licence appliquée au contenu de votre site.</dd>
-				<dt>url</dt>
-				<dd>L'url du blog.</dd>
-				<dt>blog_language</dt>
-				<dd>Définit la langue du site.</dd>
-				<dt>email</dt>
-				<dd>Votre adresse e-mail.</dd>
-				<dt>sone</dt>
-				<dd>L'adresse de votre sone. Devrait être identique à votre clef public WoT.</dd>
-				<dt>wot</dt>
-				<dd>Votre clef public wot (Web of Trust).</dd>
-				<dt>freemail</dt>
-				<dd>Votre adresse freemail.</dd>
-				<dt>fms_public_key</dt>
-				<dd>Votre clef public FMS.</dd>
-				<dt>bitcoin</dt>
-				<dd>L'adresse de votre porte monaie bitcoin.</dd>
-				<dt>path</dt>
-				<dd>
-					<p>Ces champs ne devraient pas être modifié dans la plupart des cas. Maisi il
+	  <div class="schem"><img src="blog_configuration.png"></div>
+	    <dl>
+	      <dt>blog_name</dt>
+	      <dd>Sans surprise, il s'agit du titre de votre blog.</dd>
+	      <dt>author_name<dt>
+	      <dd>Le nom de l'administrateur ou l'auteur du blog.</dd>
+	      <dt>blog_description</dt>
+	      <dd>Un très cours résumé de ce dont parle votre site.</dd>
+	      <dt>blog_keywords</dt>
+	      <dd>Les mots clefs associés au site.</dd>
+	      <dt>author_description</dt>
+	      <dd>Un cours texte à propos de l'auteur du blog.</dd>
+	      <dt>license</dt>
+	      <dd>La licence appliquée au contenu de votre site.</dd>
+	      <dt>url</dt>
+	      <dd>L'url du blog.</dd>
+	      <dt>blog_language</dt>
+	      <dd>Définit la langue du site.</dd>
+	      <dt>email</dt>
+	      <dd>Votre adresse e-mail.</dd>
+	      <dt>path</dt>
+	      <dd>
+	      <p>Ces champs ne devraient pas être modifié dans la plupart des cas. Maisi il
 peut être bon d'en saisir le fonctionnement.</p>
-
-					<dl>
-						<dt>root</dt>
-						<dd>"./" par défaut. Le chemins où sera exporté tout le blog à l'intérieur du répertoire blog/.</dd>
-						<dt>index_file_name</dt>
-						<dd>"index{page_number}.html" par défaut.
+              <dl>
+		<dt>root</dt>
+		<dd>"./" par défaut. Le chemins où sera exporté tout le blog à l'intérieur du répertoire blog/.</dd>
+		<dt>index_file_name</dt>
+		<dd>"index{page_number}.html" par défaut.
 Le nom de fichier formaté des pages du fil principale de publication. Devrait toujours contenir la variable {page_number}.</dd>
-						<dt>categories_directory_name</dt>
-						<dd>"{category}" par défaut. Définit le répertoire où sera exporté un fil de
+		<dt>categories_directory_name</dt>
+		<dd>"{category}" par défaut. Définit le répertoire où sera exporté un fil de
 publication spécifique à une catégorie de publication. Ce champ devrait donc toujours contenir la variable {category}.</dd>
-						<dt>tags_directory_name</dt>
-						<dd>"{tag}" par défaut. Définit le répertoire où sera exporté un fil de
+		<dt>tags_directory_name</dt>
+		<dd>"{tag}" par défaut. Définit le répertoire où sera exporté un fil de
 publication spécifique à un mot clef. Ce champ devrait donc toujours contenir la variable {tag}.</dd>
-						<dt>authors_directory_name</dt>
-						<dd>"{author}" par défaut. Définit le répertoire où sera exporté un fil de
+		<dt>authors_directory_name</dt>
+		<dd>"{author}" par défaut. Définit le répertoire où sera exporté un fil de
 publication spécifique à un auteur. Ce champ devrait donc toujours contenir la variable {auteur}.</dd>
-						<dt>dates_directory_name</dt>
-						<dd>"%Y-%m" par défaut. Définit le format de date utilisé pour les nom de répertoires de fils de publications associés à des dates.</dd>
-						<dt>entry_file_name</dt>
-						<dd>"entry{entry_id}.html" par défaut. Définit le nom de fichier
+		<dt>dates_directory_name</dt>
+		<dd>"%Y-%m" par défaut. Définit le format de date utilisé pour les nom de répertoires de fils de publications associés à des dates.</dd>
+		<dt>entry_file_name</dt>
+		<dd>"entry{entry_id}.html" par défaut. Définit le nom de fichier
 d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.</dd>
-						<dt>rss_file_name</dt>
-						<dd>"feed.xml" par défaut. Définit le nom de fichier du flux rss.</dd>
-					</dl>
-				</dd>
-				<dt>entries_per_pages</dt>
-				<dd>"10" par défaut. Définit évidément le nombre de publication par page.</dd>
-				<dt>columns</dt>
-				<dd>"1" par défaut. Propriété interessante de VenC détaillé plus loin dans la documentation. Ce champ définit le nombre de colunm dans une page.</dd>
-				<dt>rss_thread_lenght</dt>
-				<dd>"5" par défaut. Définit le nombre de publication à afficher dans le flux RSS.<dd>
-				<dt>thread_order</dt>
-				<dd>"oldest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ ne peut prendre comme valeur "oldest first" ou "latest first".</dd>
-			</dl>
-<h3>Variables d'environnement.</h3>
-<p>Comme il l'a été dit dans la section précédente, certains contextes peuvent faire usage de variables. Le tableau ci dessou en définit l'utilisation et le contexte approprié.</p>
-			<div class="schem">
-			<table>
-				<tr>
-					<td><b>Variable</b></td>
-					<td><b>Champ/Contexte</b></td>
-				</tr>
-				<tr>
-					<td>{page_number}</td>
-					<td>index_file_name</td>
-				</tr>
-				<tr>
-					<td>{category}</td>
-					<td>categories_directory_name</td>
-				</tr>
-				<tr>
-					<td>{tag}</td>
-					<td>tags_directory_name</td>
-				</tr>
-				<tr>
-					<td>{author}</td>
-					<td>authors_directory_name</td>
-				</tr>
-				<tr>
-					<td>{entry_id}</td>
-					<td>entry_file_name</td>
-				</tr>
-			</table>
-			</div>
-		</div>
-	</body>
+		<dt>rss_file_name</dt>
+	        <dd>"feed.xml" par défaut. Définit le nom de fichier du flux rss.</dd>
+	      </dl>
+	    </dd>
+	    <dt>entries_per_pages</dt>
+	    <dd>"10" par défaut. Définit évidément le nombre de publication par page.</dd>
+	    <dt>columns</dt>
+	    <dd>"1" par défaut. Propriété interessante de VenC détaillé plus loin dans la documentation. Ce champ définit le nombre de colunm dans une page.</dd>
+	    <dt>rss_thread_lenght</dt>
+	    <dd>"5" par défaut. Définit le nombre de publication à afficher dans le flux RSS.<dd>
+	    <dt>thread_order</dt>
+	    <dd>"oldest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ ne peut prendre comme valeur "oldest first" ou "latest first".</dd>
+	</dl>
+        <h3>Variables d'environnement.</h3>
+        <p>Comme il l'a été dit dans la section précédente, certains contextes peuvent faire usage de variables. Le tableau ci dessou en définit l'utilisation et le contexte approprié.</p>
+	<div class="schem">
+        <table>
+	  <tr>
+	    <td><b>Variable</b></td>
+	    <td><b>Champ/Contexte</b></td>
+	  </tr>
+	  <tr>
+	    <td>{page_number}</td>
+	    <td>index_file_name</td>
+	  </tr>
+	  <tr>
+	    <td>{category}</td>
+	    <td>categories_directory_name</td>
+	  </tr>
+	  <tr>
+	    <td>{tag}</td>
+	    <td>tags_directory_name</td>
+	  </tr>
+	  <tr>
+	    <td>{author}</td>
+	    <td>authors_directory_name</td>
+	  </tr>
+	  <tr>
+	    <td>{entry_id}</td>
+	    <td>entry_file_name</td>
+	  </tr>
+	</table>
+      </div>
+    </div>
+  </body>
 </html>
