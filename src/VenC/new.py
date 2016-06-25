@@ -4,29 +4,40 @@
 import os
 import yaml
 import codecs
+import datetime
 import VenC.core
+import subprocess
 
 def entry(argv):
+
     if len(argv) != 1:
         print("VenC: "+VenC.core.Messages.missingParams.format("--new-entry"))
         return
-    default=		{"authors":	"",
-		  	"tags":		"",
-			"categories":	""}
+    
+    if VenC.core.blogConfiguration == None:
+        print("VenC: "+VenC.core.Messages.noBlogConfiguration)
+        return
+    
+    default =   {"authors":	"",
+		"tags":		"",
+		"categories":	""}
     try:
         wd = os.listdir(os.getcwd())
     except OSError:
         print(VenC.core.Messages.cannotReadIn.format(os.getcwd()))
         return
-    entry_id = VenC.core.GetEntriesList()
-    exit
-    #default["entry_name"] = argv[0]
-    #outputFilename = os.getcwd()+'/entries/'+str(entry_id)+"__"+str(datetime.now().month)+'-'+str(datetime.now().day)+'-'+str(datetime.today().year)+'-'+str(datetime.now().hour)+'-'+str(datetime.now().minute)+"__"+default["entry_name"].replace(' ','_')
-    #stream = codecs.open(outputFilename,'w',encoding="utf-8")
-    #yaml.dump(default, stream, default_flow_style=False, allow_unicode=True) + "---\n"
+    entry_id = VenC.core.GetLatestEntryID()+1
+    default["entry_name"] = argv[0]
+    outputFilename = os.getcwd()+'/entries/'+str(entry_id)+"__"+str(datetime.datetime.now().month)+'-'+str(datetime.datetime.now().day)+'-'+str(datetime.datetime.today().year)+'-'+str(datetime.datetime.now().hour)+'-'+str(datetime.datetime.now().minute)+"__"+default["entry_name"].replace(' ','_')
+    stream = codecs.open(outputFilename,'w',encoding="utf-8")
+    output = yaml.dump(default, default_flow_style=False, allow_unicode=True) + "---\n"
+    stream.write(output)
+    stream.close()
+    subprocess.call(["nano", outputFilename]) 
 
 def blog(argv):
     default_configuration =	{"blog_name":			VenC.core.Messages.blogName,
+                                "textEditor":                   "nano",
 				"author_name":			VenC.core.Messages.yourName,
 				"blog_description":		VenC.core.Messages.blogDescription,
 				"blog_keywords":		VenC.core.Messages.blogKeywords,

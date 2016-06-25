@@ -17,3 +17,4 @@ class Messages:
     cannotReadIn = "{0}: Impossible de lire dans {1}."
     nothingToDo = "Rien à faire."
     unknownCommand = "{0}: Commande inconnue."
+    noBlogConfiguration = "Le fichier de configuration du blog n'existe pas ou vous n'avez pas les bonnes permissions."
