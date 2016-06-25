@@ -40,3 +40,26 @@ Lorsque vous créez un nouveau projet, VenC produit un certains nombre de réper
 ![](https://github.com/DenisSalem/VenC/raw/master/doc/folders.png "")
 
 ## Structure des fichiers
+
+__blog_configuration.yaml__
+
+Il s'agit d'un document Yaml à la racine du projet définissant les propriétés du blog, comme son titre, le nom de son auteur, ainsi que des détails fonctionnels comme le nombre de publications par pages ou l'ordre d'affichage de celles-ci. Immédiatement après avoir crée votre blog, il s'agira sans doute du premier fichier que vous éditerez. Une fois avoir remplit ses champs dont l'usage est détaillé plus bas, vous n'aurez normalement plus besoin d'y retoucher.
+
+Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des variable d'environnnement, dont l'utilisation est détaillé dans la section approprié.
+
+![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/blog_configuration.png "")
+
+
+* __blog_name__ : Sans surprise, il s'agit du titre de votre blog.
+* __author_name__: Le nom de l'administrateur ou l'auteur du blog.
+* __blog_description__ : Un très cours résumé de ce dont parle votre site.
+* __blog_keywords__ : Les mots clefs associés au site.
+* __author_description__ : Un cours texte à propos de l'auteur du blog.
+* __license__ : La licence appliquée au contenu de votre site.
+* __url__ : L'url du blog.
+* __blog_language__ : Définit la langue du site.
+* __email__ : Votre adresse e-mail.
+* __entries_per_pages__ : "10" par défaut. Définit évidément le nombre de publication par page.
+* __columns__ : "1" par défaut. Propriété interessante de VenC détaillé plus loin dans la documentation. Ce champ définit le nombre de colunm dans une page.
+* __rss_thread_lenght__ : "5" par défaut. Définit le nombre de publication à afficher dans le flux RSS.
+* __thread_order__ : "oldest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ ne peut prendre comme valeur "oldest first" ou "latest first". 
