@@ -12,3 +12,12 @@ VenC est une application python conçu pour linux et similaire à Octopress/Jeky
 
 Les blogs statiques sont tout à fait adaptés aux darknets ou ceux qui veulent un controle totale sur leur site sans s'embarrasser de CMS lourd et potentiellement vulnérable en terme de sécurité. Par ailleurs, l'extrême simplicité de l'organisation des sources des blogs issus de VenC garantie une prise en main rapide et efficace.
 
+# Installation
+
+En premier lieu il convient de s'assurer que python 3.x est installé. VenC a également des dépendances qu'il faut satisfaire:
+
+Pour une installation plus facile vous pourriez vouloir utiliser pip
+
+__Python-Markdown__
+Vous pouvez jeter un oeil à la [page officiel](https://pythonhosted.org/Markdown/index.html) ou directement tapez la commande _pip install markdown_ dans un terminal en étant root.
+
