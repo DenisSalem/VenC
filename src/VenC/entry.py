@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # -*- coding utf-8 -*-
 
-import VenC.languages as lang
+import VenC.core
 import markdown
 import yaml
 import os
@@ -11,4 +11,4 @@ class entry:
         try:
             source = open(entryFilename, 'r').read()
         except FileNotFoundError as e:
-            print(html)
+            print("VenC: "+entryFilename+", "+VenC.core.Messages.fileNotFound)
