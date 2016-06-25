@@ -107,5 +107,5 @@ Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait a
 1. Défilement infini
 2. Moteur de recherche côté client
 
-# Défilement infini
-# Moteur de recherche côté client
+### Défilement infini
+### Moteur de recherche côté client
