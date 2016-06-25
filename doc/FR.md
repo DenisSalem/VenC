@@ -41,6 +41,10 @@ Lorsque vous créez un nouveau projet, VenC produit un certains nombre de réper
 
 ## Structure des fichiers
 
+1. Fichier de configuration principal
+
+### Fichier de configuration principal
+
 __blog_configuration.yaml__
 
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/blog_configuration.png "")
@@ -72,4 +76,36 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 * __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss. 
 
 ## Variables d'environnement
-Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des variable d'environnnement, dont l'utilisation est détaillé dans la section approprié.
+
+Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des variable d'environnnement, dont l'utilisation est détaillé ci-dessous.
+
+* __{page_number}__ : Définit le numéro de la page courante.
+* __{category}__ : Définit la categorie courante de publication.
+* __{tag}__ : Définit le tag courant de publication.
+* __{author}__ : Définit l'auteur courant de la publication.
+* __{entry_id}__ : Définit l'id de la publication courante.
+
+# Commandes
+
+1. Nouveau Blog
+2. Nouvelle publication
+3. Expoter le blog
+
+## Nouveau Blog
+## Nouvelle publication
+## Expoter le blog
+
+# Thémes
+
+1. Installation
+2. Greffons
+
+## Installation
+
+## Greffons
+
+1. Défilement infini
+2. Moteur de recherche côté client
+
+# Défilement infini
+# Moteur de recherche côté client
