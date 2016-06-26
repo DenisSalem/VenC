@@ -130,6 +130,12 @@ dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/do
 * __.:Get::AuthorName:.__ : Retourne le nom de l'auteur du blog.
 * __.:Get::BlogName:.__ : Retourne le titre du blog.
 * __.:Get::BlogDescription:.__ : Retourne la description du blog.
+* __.:Get::BlogKeywords:.__ : Retourne les mots clefs décrivant le blog.
+* __.:Get::AuthorDescription:.__ : Retourne la description de l'auteur du blog.
+* __.:Get::License:.__ : Retourne la licence appliquée au contenu du blog.
+* __.:Get::BlogUrl:.__ : Retourne l'URL du blog.
+* __.:Get::BlogLanguage:.__ : Retourne le language du blog.
+* __.:Get::AuthorEmail:.__ : Retourne l'adresse email de l'auteur du blog.
 
 # Commandes
 
