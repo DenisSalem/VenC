@@ -80,6 +80,8 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 
 Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des variable d'environnnement, dont l'utilisation est détaillé ci-dessous.
 
+__blog_configuration.yaml__
+
 * __{page_number}__ : Définit le numéro de la page courante.
 * __{category}__ : Définit la categorie courante de publication.
 * __{tag}__ : Définit le tag courant de publication.
@@ -87,14 +89,26 @@ Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait a
 * __{entry_id}__ : Définit l'id de la publication courante.
 
 # Commandes
+1. Afficher la version de VenC
+2. Nouveau Blog
+3. Nouvelle publication
+4. Exporter le blog
 
-1. Nouveau Blog
-2. Nouvelle publication
-3. Exporter le blog
+## Afficher la version de VenC
+
+`$ venc -v`
 
 ## Nouveau Blog
+
+`$ venc -nb <nom du blog>`
+
 ## Nouvelle publication
+
+`$ venc -ne <nom de la publication> [nom du template]`
+
 ## Exporter le blog
+
+`$ venc -xb`
 
 # Thémes
 
