@@ -26,10 +26,10 @@ Vous pouvez jeter un oeil à la [page_officiel](http://pyyaml.org/) ou directeme
 
 # Prise en main
 
-1. Arborescence
-2. Structure des fichiers
-3. Pattern Processor
-4. Variables d'environnement
+1. [Arborescence](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#arborescence)
+2. [Structure des fichiers](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#structure-des-fichiers)
+3. [Pattern Processor](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#pattern-processor)
+4. [Variables d'environnement](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#variables-denvironnement)
 
 ## Arborescence
 
