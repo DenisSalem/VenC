@@ -20,8 +20,9 @@ _Pour une installation plus facile vous pourriez vouloir utiliser pip. Cependant
 
 __Python-Markdown__
 Vous pouvez jeter un oeil à la [page officiel](https://pythonhosted.org/Markdown/index.html) ou directement tapez la commande _pip install markdown_ dans un terminal.
+
 __PyYaml__
-Vous pouvez jeter un oeil à la {page_officiel](http://pyyaml.org/) ou directement taper la commande _pip install pyyaml_ dans un terminal.
+Vous pouvez jeter un oeil à la [page_officiel](http://pyyaml.org/) ou directement taper la commande _pip install pyyaml_ dans un terminal.
 
 # Prise en main
 
