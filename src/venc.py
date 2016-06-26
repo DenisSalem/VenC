@@ -2,17 +2,19 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import VenC.core
 import VenC.new
+import VenC.core
+import VenC.export
 
 command_index = {"-v":                  [VenC.core.PrintVersion, 0],
                 "-nb":                  [VenC.new.blog, -1],
                 "-ne":                  [VenC.new.entry, 2],
-                #"-xb":                  [VenC.exportBlog.exportBlog, 0],
-                #"--export-blog":        [VenC.exportBlog.exportBlog, 0],
+                "-xb":                  [VenC.export.blog, 0],
+                "--export-blog":        [VenC.export.blog, 0],
                 "--new-entry":          [VenC.new.entry, 2],
                 "--new-blog":           [VenC.new.blog, -1],
                 "--version":            [VenC.core.PrintVersion, 0]}
+
 def argv_handler(argv=None):
     argv = argv if argv != None else sys.argv[1:]
     if argv != []: 

@@ -3,6 +3,7 @@
 
 import os
 import yaml
+import time
 import datetime
 import VenC.pattern
 
@@ -37,6 +38,7 @@ def GetLatestEntryID():
         return int(entriesList[-1].split("__")[0])
     else:
         return 0
+
 def GetEntriesList():
     try:
         files = os.listdir(os.getcwd()+"/entries")
@@ -89,6 +91,54 @@ def SetNewEntryMetadata(entryDate, entryName):
 
     return entry
     
-
 def PrintVersion(argv):
     print("VenC 1.0.0")
+
+def GetEntriesPerKeys(entries, key):
+    entriesPerKeys = dict()
+    for entry in entries:
+        stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
+        data = yaml.load(stream)
+        for tag in data[key].split(","):
+            try:
+                entriesPerKeys[tag.strip()].append(entry)
+            except KeyError as e:
+                entriesPerKeys[tag.strip()] = [entry]
+
+    return entriesPerKeys
+
+def GetEntriesPerDates(entries):
+    entriesPerDates = dict()
+    for entry in entries:
+        date = time.strftime(blogConfiguration["path"]["dates_directory_name"], time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S"))
+        try:
+            entriesPerDates[date].append(entry)
+        except KeyError as e:
+            entriesPerDates[date] = [entry]
+
+    return entriesPerDates
+
+def GetEntriesPerCategories(entries):
+    entriesPerCategories = dict()
+        
+
+class theme:
+    def __init__(self):
+        self.header = str()
+        self.footer = str()
+        self.entry = str()
+        self.rssHeader = str()
+        self.rssFooter = str()
+        self.rssEntry = str()
+
+        try:
+            self.header = open(os.getcwd()+"/theme/chunk/header.html",'r').read()
+            self.footer = open(os.getcwd()+"/theme/chunk/footer.html",'r').read()
+            self.entry = open(os.getcwd()+"/theme/chunk/entry.html",'r').read()
+            self.rssHeader = open(os.getcwd()+"/theme/chunk/rssHeader.html",'r').read()
+            self.rssFooter = open(os.getcwd()+"/theme/chunk/rssFooter.html",'r').read()
+            self.rssEntry = open(os.getcwd()+"/theme/chunk/rssEntry.html",'r').read()
+
+        except FileNotFoundError as e:
+            print("VenC: "+VenC.core.Messages.fileNotFound.format(str(e.filename)))
+            exit()
