@@ -94,15 +94,42 @@ Les motifs dans sont définis dans la façon suivante dans VenC
 
 ## Variables d'environnement
 
-Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des variable d'environnnement, dont l'utilisation est détaillé ci-dessous.
+1. [blog_configuration.yaml]()
+2. [Templates]()
+2. [Super Globaux]()
 
-__blog_configuration.yaml__
+### blog_configuration.yaml
+
+Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des variable d'environnnement, dont l'utilisation est détaillé ci-dessous.
 
 * __{page_number}__ : Définit le numéro de la page courante.
 * __{category}__ : Définit la categorie courante de publication.
 * __{tag}__ : Définit le tag courant de publication.
 * __{author}__ : Définit l'auteur courant de la publication.
 * __{entry_id}__ : Définit l'id de la publication courante.
+
+### Templates
+
+Un template peut contenir un certains nombre de motifs que VenC peut interpréter.
+
+* __.:Get::EntryID:.__ : Retourne l'identifiant unique de la publication.
+* __.:Get::EntryName:.__ : Retourne le nom de la publication.
+* __.:Get::EntryMonth:.__ : Retourne le mois de création de la publication.
+* __.:Get::EntryYear:.__ : Retourne l'année de création de la publication.
+* __.:Get::EntryDay:.__ : Retourne le jour de création de la publication.
+* __.:Get::EntryHour:.__ : Retourne l'heure de création de la publication.
+* __.:Get::EntryMinute:.__ : Retourne la minute de création de la publication.
+
+À ces motifs s'ajoutes les super globaux généralement disponible quelque soit le contexte.
+
+### Super Globaux
+
+Ces motifs sont généralement disponibles quelque soit le contexte et sont définit
+dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
+
+* __.:Get::AuthorName:.__ : Retourne le nom de l'auteur du blog.
+* __.:Get::BlogName:.__ : Retourne le titre du blog.
+* __.:Get::BlogDescription:.__ : Retourne la description du blog.
 
 # Commandes
 
@@ -149,7 +176,7 @@ Si vous ne spécifiez pas de nom de template, VenC produira une publication tota
 
 Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
 
-Dans ce celui-ci se trouve un répertoire sobrement intitullé blog. C'est dans ce repertoire que ce sera exporté votre site. Une fois l'exportation terminé vous pouvez copier le contenu de ce répertoire vers votre serveur.
+Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce repertoire que ce sera exporté votre site. Une fois l'exportation terminée vous pouvez copier le contenu de ce répertoire vers votre serveur.
 
 Pour en savoir plus sur l'arborescence rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#arborescence).
 
