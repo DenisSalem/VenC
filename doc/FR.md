@@ -129,15 +129,15 @@ __blog_configuration.yaml__
 
 # Thémes
 
-1. Installation
-2. Greffons
+1. [Installation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#installation-1)
+2. [Greffons](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#greffons)
 
 ## Installation
 
 ## Greffons
 
-1. Défilement infini
-2. Moteur de recherche côté client
+1. [Défilement infini](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#d%C3%A9filement-infini)
+2. [Moteur de recherche côté client](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#moteur-de-recherche-c%C3%B4t%C3%A9-client)
 
 ### Défilement infini
 ### Moteur de recherche côté client
