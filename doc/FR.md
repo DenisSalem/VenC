@@ -119,6 +119,8 @@ __blog_configuration.yaml__
 
 `$ venc -nb <nom du blog>`
 
+Vous ne pouvez pas créer un blog sans en spécifier le nom. Une fois que vous avez crée votre blog, la première chose à faire est en général d'éditer le fichier __blog_configuration.yaml__. Pour en savoir plus sur ce fichier de configuration, rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
+
 ## Nouvelle publication
 
 `$ venc -ne <nom de la publication> [nom du template]`
