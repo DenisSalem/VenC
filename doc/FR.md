@@ -1,6 +1,6 @@
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/logo.png "")
 
-1. Présentation
+1. [Présentation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#pr%C3%A9sentation)
 2. Installation
 3. Prise en main
 4. Commandes
