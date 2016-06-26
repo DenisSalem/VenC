@@ -1,10 +1,10 @@
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/logo.png "")
 
 1. [Présentation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#pr%C3%A9sentation)
-2. Installation
-3. Prise en main
-4. Commandes
-5. Thémes
+2. [Installation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#installation)
+3. [Prise en main](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#prise-en-main)
+4. [Commandes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#commandes)
+5. [Thémes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#th%C3%A9mes)
 
 # Présentation
 
