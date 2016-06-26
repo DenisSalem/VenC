@@ -16,10 +16,12 @@ Les blogs statiques sont tout à fait adaptés aux darknets ou ceux qui veulent 
 
 En premier lieu il convient de s'assurer que python 3.x est installé. VenC a également des dépendances qu'il faut satisfaire:
 
-_Pour une installation plus facile vous pourriez vouloir utiliser pip_
+_Pour une installation plus facile vous pourriez vouloir utiliser pip. Cependant, si vous utilisez pip surtout ne fait rien en étant root, vous risqueriez de casser votre système._
 
 __Python-Markdown__
-Vous pouvez jeter un oeil à la [page officiel](https://pythonhosted.org/Markdown/index.html) ou directement tapez la commande _pip install markdown_ dans un terminal en étant root.
+Vous pouvez jeter un oeil à la [page officiel](https://pythonhosted.org/Markdown/index.html) ou directement tapez la commande _pip install markdown_ dans un terminal.
+__PyYaml__
+Vous pouvez jeter un oeil à la {page_officiel](http://pyyaml.org/) ou directement taper la commande _pip install pyyaml_ dans un terminal.
 
 # Prise en main
 
