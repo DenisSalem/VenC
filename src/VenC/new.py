@@ -52,7 +52,10 @@ def entry(argv):
             
     stream.write(output)
     stream.close()
-    subprocess.call([VenC.core.blogConfiguration["textEditor"], outputFilename]) 
+    try:
+        subprocess.call([VenC.core.blogConfiguration["textEditor"], outputFilename]) 
+    except:
+        pass
 
 def blog(argv):
     default_configuration =	{"blog_name":			VenC.core.Messages.blogName,

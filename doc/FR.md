@@ -135,6 +135,14 @@ Vous ne pouvez pas créer un blog sans en spécifier le nom. Une fois que vous a
 
 `$ venc -ne <nom de la publication> [nom du template]`
 
+Pour créer une nouvelle publication vous __devez__ être dans le répertoire de votre blog.
+
+Vous ne pouvez pas créer une publication sans spécifier le titre de celle-ci.
+
+Si vous ne spécifiez pas de nom de template, VenC produira une publication totalement vierge.
+
+À l'issu de cette commande VenC essaiera d'ouvrir la nouvelle publication avec l'éditeur de texte spécifié dans le fichier de configuration principal __blog_configuration.yaml__.
+
 ## Exporter le blog
 
 `$ venc -xb`
