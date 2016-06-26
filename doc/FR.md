@@ -53,6 +53,7 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 
 
 * __blog_name__ : Sans surprise, il s'agit du titre de votre blog.
+* __textEditor__ : L'éditeur de texte choisit pour éditer une nouvelle publication du blog.
 * __author_name__: Le nom de l'administrateur ou l'auteur du blog.
 * __blog_description__ : Un très cours résumé de ce dont parle votre site.
 * __blog_keywords__ : Les mots clefs associés au site.
@@ -89,11 +90,11 @@ Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait a
 
 1. Nouveau Blog
 2. Nouvelle publication
-3. Expoter le blog
+3. Exporter le blog
 
 ## Nouveau Blog
 ## Nouvelle publication
-## Expoter le blog
+## Exporter le blog
 
 # Thémes
 

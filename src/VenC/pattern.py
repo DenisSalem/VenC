@@ -4,12 +4,26 @@
 import cgi
 
 class processor():
-    def __init__(self, openSymbol, closeSymbol, separator, functions=dict()):
+    def __init__(self, openSymbol, closeSymbol, separator):
         self.closeSymbol	= closeSymbol
         self.openSymbol		= openSymbol
         self.separator		= separator
-        self.functions		= functions
+        self.dictionnary        = dict()
+        self.functions		= dict()
+        self.functions["Get"] = self.Get
 
+    def SetWholeDictionnary(self, dictionnary):
+        self.dictionnary = dictionnary
+
+    def Set(self, symbol, value):
+       self.dictionnary[symbol] = str(value)
+
+    def Get(self, symbol):
+        try:
+            return self.dictionnary[symbol[0]]
+        except:
+            return ""
+        
     def parse(self, string,escape=False):
         closeSymbolPos	= list()
         openSymbolPos	= list()
@@ -32,7 +46,7 @@ class processor():
                     if escape:
                         return self.parse(string[:openSymbolPos[-1]]+cgi.escape(output).encode('ascii', 'xmlcharrefreplace').decode(encoding='ascii')+string[closeSymbolPos[0]+2:],escape=True)
                     else:
-                        return self.parse(string[:openSymbolPos[-1]]+output+string[closeSymbolPos[0]+2:])
+                        return self.parse(string[:openSymbolPos[-1]]+str(output)+string[closeSymbolPos[0]+2:])
 
             i+=1
     

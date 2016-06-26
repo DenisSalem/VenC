@@ -5,8 +5,10 @@ import os
 import yaml
 import codecs
 import datetime
-import VenC.core
 import subprocess
+
+import VenC.core
+import VenC.pattern
 
 def entry(argv):
 
@@ -18,7 +20,7 @@ def entry(argv):
         print("VenC: "+VenC.core.Messages.noBlogConfiguration)
         return
     
-    default =   {"authors":	"",
+    content =   {"authors":	"",
 		"tags":		"",
 		"categories":	""}
     try:
@@ -27,17 +29,22 @@ def entry(argv):
         print(VenC.core.Messages.cannotReadIn.format(os.getcwd()))
         return
 
-    entry_id = VenC.core.GetLatestEntryID()+1
-    default["entry_name"] = argv[0]
     date = datetime.datetime.now()
-    outputFilename = os.getcwd()+'/entries/'+str(entry_id)+"__"+str(date.now().month)+'-'+str(date.now().day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)+"__"+default["entry_name"].replace(' ','_')
+
+    entry = VenC.core.SetNewEntryMetadata(date, argv[0])
+
+    content["entry_name"] = argv[0]
+
+    outputFilename = os.getcwd()+'/entries/'+str(entry["EntryID"])+"__"+str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)+"__"+content["entry_name"].replace(' ','_')
     stream = codecs.open(outputFilename,'w',encoding="utf-8")
     if len(argv) == 1:
-        output = yaml.dump(default, default_flow_style=False, allow_unicode=True) + "---\n"
+        output = yaml.dump(content, default_flow_style=False, allow_unicode=True) + "---\n"
     else:
         try:
-            template = open(os.getcwd()+'/templates/'+argv[1], 'r').read()
-            print(template)
+            output = open(os.getcwd()+'/templates/'+argv[1], 'r').read()
+            patternProcessor = VenC.pattern.processor(".:",":.","::")
+            patternProcessor.SetWholeDictionnary(entry)
+            output = patternProcessor.parse(output)
 
         except FileNotFoundError as e:
             print("VenC: "+VenC.core.Messages.fileNotFound.format(os.getcwd()+"/templates/"+argv[1]))

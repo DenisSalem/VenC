@@ -37,7 +37,6 @@ def GetLatestEntryID():
         return int(entriesList[-1].split("__")[0])
     else:
         return 0
-
 def GetEntriesList():
     try:
         files = os.listdir(os.getcwd()+"/entries")
@@ -60,6 +59,36 @@ def GetEntriesList():
         except IndexError:
             pass
     return validFilenames
+
+def GetPublicDataFromBlogConf():
+    data = dict()
+    data["AuthorName"] = blogConfiguration["author_name"]
+    data["BlogName"] = blogConfiguration["blog_name"]
+    data["BlogDescription"] = blogConfiguration["blog_description"]
+    data["BlogKeywords"] = blogConfiguration["blog_keywords"]
+    data["AuthorDescription"] = blogConfiguration["author_description"]
+    data["License"] = blogConfiguration["license"]
+    data["BlogUrl"] =blogConfiguration["url"]
+    data["BlogLanguage"] = blogConfiguration["blog_language"]
+    data["AuthorEmail"] = blogConfiguration["email"]
+    return data
+
+def SetNewEntryMetadata(entryDate, entryName):
+    entry = dict()
+    entry["EntryID"] = GetLatestEntryID()+1
+    entry["EntryName"] = entryName
+    entry["EntryMonth"] = entryDate.month
+    entry["EntryYear"] = entryDate.year
+    entry["EntryDay"] = entryDate.day
+    entry["EntryHour"] = entryDate.hour
+    entry["EntryMinute"] = entryDate.minute
+
+    publicDataFromBlogConf = GetPublicDataFromBlogConf()
+    for key in publicDataFromBlogConf:
+        entry[key] = publicDataFromBlogConf[key]  
+
+    return entry
+    
 
 def PrintVersion(argv):
     print("VenC 1.0.0")
