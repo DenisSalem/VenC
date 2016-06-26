@@ -16,7 +16,7 @@ Les blogs statiques sont tout à fait adaptés aux darknets ou ceux qui veulent 
 
 En premier lieu il convient de s'assurer que python 3.x est installé. VenC a également des dépendances qu'il faut satisfaire:
 
-_Pour une installation plus facile vous pourriez vouloir utiliser pip. Cependant, si vous utilisez pip surtout ne fait rien en étant root, vous risqueriez de casser votre système._
+_Pour une installation plus facile vous pourriez vouloir utiliser pip. Cependant, n'utilisez surtout pas pip en étant root, vous risqueriez de casser votre système._
 
 __Python-Markdown__
 Vous pouvez jeter un oeil à la [page officiel](https://pythonhosted.org/Markdown/index.html) ou directement tapez la commande _pip install markdown_ dans un terminal.
@@ -28,7 +28,8 @@ Vous pouvez jeter un oeil à la [page_officiel](http://pyyaml.org/) ou directeme
 
 1. Arborescence
 2. Structure des fichiers
-3. Variables d'environnement
+3. Pattern Processor
+4. Variables d'environnement
 
 ## Arborescence
 
@@ -78,6 +79,18 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 * __dates_directory_name__ : "%Y-%m" par défaut. Définit le format de date utilisé pour les nom de répertoires de fils de publications associés à des dates.
 * __entry_file_name__ : "entry{entry_id}.html" par défaut. Définit le nom de fichier d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.
 * __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss. 
+
+## Pattern Processor
+
+VenC utilise un moteur de reconnaissance de motif permettant une mise en page facilitée et automatisée. Ce système permet également d'utiliser des modules externes. La création et l'ajout de greffons sera détaillé dans une autre partie.
+
+_Les motifs pouvant être reconnues dépendent du contexte dans lesquel ils sont trouvé._
+
+Les motifs dans sont définis dans la façon suivante dans VenC
+
+* Chaque motifs commencent par '.:'
+* Chaque motifs se terminent par ':.'
+* Le ou les séparateurs à l'intérieur d'un motif sont représentés par '::'
 
 ## Variables d'environnement
 
