@@ -147,6 +147,12 @@ Si vous ne spécifiez pas de nom de template, VenC produira une publication tota
 
 `$ venc -xb`
 
+Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
+
+Dans ce celui-ci se trouve un répertoire sobrement intitullé blog. C'est dans ce repertoire que ce sera exporté votre site. Une fois l'exportation terminé vous pouvez copier le contenu de ce répertoire vers votre serveur.
+
+Pour en savoir plus sur l'arborescence rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#arborescence).
+
 # Thémes
 
 1. [Installation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#installation-1)
