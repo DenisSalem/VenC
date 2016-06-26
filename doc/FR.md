@@ -45,7 +45,7 @@ Lorsque vous créez un nouveau projet, VenC produit un certains nombre de réper
 
 ## Structure des fichiers
 
-1. Fichier de configuration principal
+1. [Fichier de configuration principal](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal)
 
 ### Fichier de configuration principal
 
@@ -105,10 +105,11 @@ __blog_configuration.yaml__
 * __{entry_id}__ : Définit l'id de la publication courante.
 
 # Commandes
-1. Afficher la version de VenC
-2. Nouveau Blog
-3. Nouvelle publication
-4. Exporter le blog
+
+1. [Afficher la version de VenC](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#afficher-la-version-de-venc)
+2. [Nouveau Blog](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#nouveau-blog)
+3. [Nouvelle publication](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#nouvelle-publication)
+4. [Exporter le blog](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#exporter-le-blog)
 
 ## Afficher la version de VenC
 
