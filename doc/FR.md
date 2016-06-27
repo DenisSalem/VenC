@@ -124,21 +124,6 @@ Un template peut contenir un certains nombre de motifs que VenC peut interpréte
 
 ### Publication
 
-Une publication peut contenir les mêmes motifs qu'un template.
-
-* __.:Get::EntryUrl:.__:
-### Publication
-
-Une publication peut contenir les mêmes motifs qu'un template.
-
-* __.:Get::EntryUrl:.__:
-### Publication
-
-Une publication peut contenir les mêmes motifs qu'un template.
-
-* __.:Get::EntryUrl:.__:
-### Publication
-
 Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux là s'ajoutent:
 
 * __.:Get::EntryUrl:.__ : Permet de récuper le permaliens de la publication.
