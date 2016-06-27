@@ -122,6 +122,32 @@ Un template peut contenir un certains nombre de motifs que VenC peut interpréte
 
 À ces motifs s'ajoutes les super globaux généralement disponible quelque soit le contexte.
 
+### Publication
+
+Une publication peut contenir les mêmes motifs qu'un template.
+
+* __.:Get::EntryUrl:.__:
+### Publication
+
+Une publication peut contenir les mêmes motifs qu'un template.
+
+* __.:Get::EntryUrl:.__:
+### Publication
+
+Une publication peut contenir les mêmes motifs qu'un template.
+
+* __.:Get::EntryUrl:.__:
+### Publication
+
+Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux là s'ajoutent:
+
+* __.:Get::EntryUrl:.__ : Permet de récuper le permaliens de la publication.
+* __.:Get::EntryContent:.__ : Permet de récuper le corps de la publication.
+* __.:Get::EntryDate:.__ : Permet de récuper la date de la publication formatée.
+* __.:For::EntryAuthors:: <Contexte spéciaux>:.__ : Permet d'itérer à travers la liste des auteurs de la publication.
+* __.:For::EntryTags:: <Contexte spéciaux> :.__ : Permet d'itérer à travers la liste des tags de la publication.
+* __.:For::EntryCategories:: <Contexte spéciaux> :.__ : Permet d'itérer à travers la liste des catégories de la publication.
+
 ### Super Globaux
 
 Ces motifs sont généralement disponibles quelque soit le contexte et sont définit
