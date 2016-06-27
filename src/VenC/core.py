@@ -17,7 +17,7 @@ def GetMessages():
 
 Messages = GetMessages()
 
-class key:
+class Key:
     def __init__(self, value, entry):
         self.weight = 1
         self.value = value
@@ -25,7 +25,7 @@ class key:
         self.childs = list()
 
 
-class theme:
+class Theme:
     def __init__(self):
         self.header = str()
         self.footer = str()
@@ -141,7 +141,7 @@ def GetEntriesPerKeys(entries, keyType):
                 selectedKey.relatedTo.append(entry)
                 selectedKey.weight+=1
             except:
-                entriesPerKeys.append(key(tag,entry))
+                entriesPerKeys.append(Key(tag,entry))
 
     return entriesPerKeys
 
@@ -151,11 +151,10 @@ def GetEntriesPerDates(entries):
         date = time.strftime(blogConfiguration["path"]["dates_directory_name"], time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S"))
         try:
             selectedKey = GetKeyByName(entriesPerDates, date)
-            entriesPerDates[date].append(entry)
             selectedKey.relatedTo.append(entry)
             selectedKey.weight+=1
         except:
-            entriesPerDates.append(key(date,entry))
+            entriesPerDates.append(Key(date,entry))
 
     return entriesPerDates
 
@@ -165,11 +164,20 @@ def GetEntriesPerCategories(entries):
         stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
         data = yaml.load(stream)
         for category in data["categories"].split(","):
+            nodes = entriesPerCategories
             for subCategory in category.split(" > "):
                 try:
+                    selectedKey = GetKeyByName(nodes, subCategory.strip())
+                    selectedKey.relatedTo.append(entry)
+                    selectedKey.relatedTo = list(set(selectedKey.relatedTo))
+                    selectedKey.weight+=1
                 except:
+                    selectedKey = Key(subCategory.strip(), entry)
+                    nodes.append(selectedKey)
 
-        
+                nodes = selectedKey.childs
+
+    return entriesPerCategories 
         
         
 
