@@ -4,6 +4,7 @@
 import os
 import yaml
 import time
+import markdown
 import datetime
 import VenC.pattern
 
@@ -179,5 +180,8 @@ def GetEntriesPerCategories(entries):
 
     return entriesPerCategories 
         
-        
-
+def GetEntry(entryFilename):
+    stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
+    output = yaml.load(stream.split("---\n")[0])
+    output["EntryContent"] = markdown.markdown(stream.split("---\n")[1])
+    return output

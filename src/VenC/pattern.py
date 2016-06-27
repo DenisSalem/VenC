@@ -12,8 +12,24 @@ class processor():
         self.functions		= dict()
         self.functions["Get"] = self.Get
 
+    def SetFunction(self, key, function):
+        self.functions[key] = function
+
+    def DelFunction(self, key):
+        try:
+            del self.functions[key]
+        except:
+            pass
+
+    def DelValue(self, key):
+        try:
+            del self.dictionnary[key]
+        except:
+            pass
+
     def SetWholeDictionnary(self, dictionnary):
-        self.dictionnary = dictionnary
+        for key in dictionnary:
+            self.dictionnary[key] = dictionnary[key]
 
     def Set(self, symbol, value):
        self.dictionnary[symbol] = str(value)
