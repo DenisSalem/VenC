@@ -185,8 +185,8 @@ def GetEntry(entryFilename):
     output = yaml.load(stream.split("---\n")[0])
     output["EntryContent"] = markdown.markdown(stream.split("---\n")[1])
     output["EntryID"] = entryFilename.split('__')[0]
-    #for key in output.keys():
-    #    print(key)
+    for key in output.keys():
+        print(key, output[key])
     return output
 
 def GetFormattedDate(unformattedDate):

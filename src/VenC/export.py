@@ -65,7 +65,8 @@ class Blog:
             self.entry = VenC.core.GetEntry(entry)
             patternProcessor.Set("PageNumber", self.pageCounter)
             patternProcessor.Set("EntryUrl", folderDestination+self.GetIndexFilename(self.pageCounter))
-            patternProcessor.Set("EntryDate", VenC.core.GetFormattedDate(entry.split('__')[1])) 
+            patternProcessor.Set("EntryDate", VenC.core.GetFormattedDate(entry.split('__')[1]))
+            patternProcessor.Set("EntryAuthors", self.entry["authors"].split(",") if self.entry["authors"] != str() else list())
             patternProcessor.SetWholeDictionnary(self.entry)
             if self.entryCounter == 0:
                 self.outputPage = str()

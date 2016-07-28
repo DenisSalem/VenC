@@ -11,6 +11,7 @@ class processor():
         self.dictionnary        = dict()
         self.functions		= dict()
         self.functions["Get"] = self.Get
+        self.functions["For"] = self.For
 
     def SetFunction(self, key, function):
         self.functions[key] = function
@@ -32,14 +33,24 @@ class processor():
             self.dictionnary[key] = dictionnary[key]
 
     def Set(self, symbol, value):
-       self.dictionnary[symbol] = str(value)
+       self.dictionnary[symbol] = value
 
     def Get(self, symbol):
         try:
             return self.dictionnary[symbol[0]]
         except:
             return ""
-        
+
+    def For(self, argv):
+        outputString = str()
+        try:
+            for Item in self.dictionnary[argv[0]]:
+                outputString += argv[1].format(item=Item.strip()) + argv[2]
+
+            return outputString[:-len(argv[2])]
+        except Exception as e:
+            return str()
+
     def parse(self, string,escape=False):
         closeSymbolPos	= list()
         openSymbolPos	= list()
