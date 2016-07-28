@@ -130,9 +130,11 @@ Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux 
 * __.:Get::EntryUrl:.__ : Permet de récuper le permaliens de la publication.
 * __.:Get::EntryContent:.__ : Permet de récuper le corps de la publication.
 * __.:Get::EntryDate:.__ : Permet de récuper la date de la publication formatée.
-* __.:For::EntryAuthors:: <Contexte spéciaux>:.__ : Permet d'itérer à travers la liste des auteurs de la publication.
-* __.:For::EntryTags:: <Contexte spéciaux> :.__ : Permet d'itérer à travers la liste des tags de la publication.
-* __.:For::EntryCategories:: <Contexte spéciaux> :.__ : Permet d'itérer à travers la liste des catégories de la publication.
+* __.:For::EntryAuthors::blah blah {item} blah :.__ : Permet d'itérer à travers la liste des auteurs de la publication.
+* __.:For::EntryTags::blah blah {item} blah :.__ : Permet d'itérer à travers la liste des tags de la publication.
+* __.:For::EntryCategories::blah {item} blah blah :.__ : Permet d'itérer à travers la liste des catégories de la publication.
+
+Notons qu'en général le second paramétre pour la fonction _for_ est en fait du texte libre, pour accéder à l'item de l'itération courante on utilise le mot clef {item}.
 
 ### Super Globaux
 

@@ -179,7 +179,7 @@ def GetEntriesPerCategories(entries):
                 nodes = selectedKey.childs
 
     return entriesPerCategories 
-        
+
 def GetEntry(entryFilename):
     stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
     output = yaml.load(stream.split("---\n")[0])
@@ -188,3 +188,13 @@ def GetEntry(entryFilename):
     #for key in output.keys():
     #    print(key)
     return output
+
+def GetFormattedDate(unformattedDate):
+    data = unformattedDate.split('-')
+    return datetime.datetime(
+        year=int(data[2]),
+        month=int(data[0]),
+        day=int(data[1]),
+        hour=int(data[3]),
+        minute=int(data[4])
+    ).strftime(blogConfiguration["date_format"])

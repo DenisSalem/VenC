@@ -60,7 +60,7 @@ def entry(argv):
 def blog(argv):
     default_configuration =	{"blog_name":			VenC.core.Messages.blogName,
                                 "textEditor":                   "nano",
-                                "date_format":                  "%A %d. %B %Y"
+                                "date_format":                  "%A %d. %B %Y",
 				"author_name":			VenC.core.Messages.yourName,
 				"blog_description":		VenC.core.Messages.blogDescription,
 				"blog_keywords":		VenC.core.Messages.blogKeywords,
