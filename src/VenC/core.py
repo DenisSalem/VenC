@@ -184,4 +184,7 @@ def GetEntry(entryFilename):
     stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
     output = yaml.load(stream.split("---\n")[0])
     output["EntryContent"] = markdown.markdown(stream.split("---\n")[1])
+    output["EntryID"] = entryFilename.split('__')[0]
+    #for key in output.keys():
+    #    print(key)
     return output

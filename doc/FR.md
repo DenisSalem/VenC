@@ -58,6 +58,7 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 
 * __blog_name__ : Sans surprise, il s'agit du titre de votre blog.
 * __textEditor__ : L'éditeur de texte choisit pour éditer une nouvelle publication du blog.
+* __date_format__ : "%A %d. %B %Y" par défaut. Définit le format de date utilisé à l'intérieur du blog.
 * __author_name__: Le nom de l'administrateur ou l'auteur du blog.
 * __blog_description__ : Un très cours résumé de ce dont parle votre site.
 * __blog_keywords__ : Les mots clefs associés au site.

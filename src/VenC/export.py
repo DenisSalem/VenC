@@ -1,15 +1,17 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
+import codecs
 import VenC.core
 import VenC.pattern
+
 def blog(argv):
     if VenC.core.blogConfiguration == None:
         print("VenC: "+VenC.core.Messages.noBlogConfiguration)
         return
 
     currentBlog = Blog()
-    currentBlog.exportThread(currentBlog.entriesList)
+    currentBlog.export()
 
 class Blog:
     def __init__(self):
@@ -36,9 +38,20 @@ class Blog:
         self.entryCounter = 0
         self.pageCounter = 0
         self.outputPage = str()
-        self.inThread = inThread 
+        self.inThread = inThread
 
-    def exportThread(self, inputEntries, fileDestination="", threadKey=""):
+    def WritePage(self, folderDestination):
+        stream = codecs.open("blog/"+folderDestination+self.GetIndexFilename(self.pageCounter-1),'w',encoding="utf-8")
+        stream.write(self.outputPage)
+        stream.close()
+
+    def GetIndexFilename(self, pageCounter):
+        return "index"+ (str(pageCounter) if pageCounter != 0 else str())+".html"
+
+    def export(self):
+        self.exportThread(self.entriesList)
+
+    def exportThread(self, inputEntries, folderDestination=""):
         self.initStates(inThread=True)
 
         # Configure patternProcessor instance with some fixed values and functions
@@ -51,6 +64,7 @@ class Blog:
         for entry in inputEntries:
             self.entry = VenC.core.GetEntry(entry)
             patternProcessor.Set("PageNumber", self.pageCounter)
+            patternProcessor.Set("EntryUrl", folderDestination+self.GetIndexFilename(self.pageCounter))
             patternProcessor.SetWholeDictionnary(self.entry)
             if self.entryCounter == 0:
                 self.outputPage = str()
@@ -62,7 +76,9 @@ class Blog:
                 self.outputPage+= patternProcessor.parse(self.theme.footer)
                 self.pageCounter += 1
                 self.entryCounter = 0
-                print(self.outputPage)
+
+                self.WritePage(folderDestination)
+
 
             
                 
