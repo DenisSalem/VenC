@@ -72,8 +72,6 @@ def blog(argv):
 				"path":				{"root": "./",
 								"index_file_name":			"index{page_number}.html",
 								"categories_directory_name":		"{category}",
-								"tags_directory_name":			"{tag}",
-								"authors_directory_name":		"{author}",
 								"dates_directory_name":			"%Y-%m",
 								"entry_file_name":			"entry{entry_id}.html",
 								"archives_overview_directory_name":	"overview"},

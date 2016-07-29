@@ -75,8 +75,6 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 * __root__ : "./" par défaut. Le chemins où sera exporté tout le blog à l'intérieur du répertoire _blog_.
 * __index_file_name__ : "index{page_number}.html" par défaut. Le nom de fichier formaté des pages du fil principale de publication. Devrait toujours contenir la variable {page_number}.
 * __categories_directory_name__ : "{category}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à une catégorie de publication. Ce champ devrait donc toujours contenir la variable {category}.
-* __tags_directory_name__ : "{tag}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à un mot clef. Ce champ devrait donc toujours contenir la variable {tag}.
-* __authors_directory_name__ : "{author}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à un auteur. Ce champ devrait donc toujours contenir la variable {auteur}.
 * __dates_directory_name__ : "%Y-%m" par défaut. Définit le format de date utilisé pour les nom de répertoires de fils de publications associés à des dates.
 * __entry_file_name__ : "entry{entry_id}.html" par défaut. Définit le nom de fichier d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.
 * __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss. 
@@ -105,8 +103,6 @@ Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait a
 
 * __{page_number}__ : Définit le numéro de la page courante.
 * __{category}__ : Définit la categorie courante de publication.
-* __{tag}__ : Définit le tag courant de publication.
-* __{author}__ : Définit l'auteur courant de la publication.
 * __{entry_id}__ : Définit l'id de la publication courante.
 
 ### Templates
