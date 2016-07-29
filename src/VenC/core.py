@@ -180,6 +180,17 @@ def GetEntriesPerCategories(entries):
 
     return entriesPerCategories 
 
+def GetCategoriesTree(categories):
+    output = dict()
+    for category in categories:
+        node = output
+        for subCategory in category.split(' > '):
+            if not subCategory.strip() in node.keys():
+                node[subCategory.strip()] = dict()
+            node = node[subCategory.strip()]
+
+    return output
+
 def GetEntry(entryFilename):
     stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
     dump = yaml.load(stream.split("---\n")[0])
@@ -190,9 +201,11 @@ def GetEntry(entryFilename):
     output["EntryDate"] = VenC.core.GetFormattedDate(entryFilename.split('__')[1])
     output["EntryAuthors"] = dump["authors"].split(",") if dump["authors"] != str() else list()
     output["EntryTags"] = dump["tags"].split(",") if dump["tags"] != str() else list()
+    output["EntryCategories"] = GetCategoriesTree(dump["categories"].split(','))
+    output["EntryCategoriesTop"] = list()
+    for category in dump["categories"].split(','):
+        output["EntryCategoriesTop"].append(category.split(' > ')[-1].strip())
 
-    #for key in output.keys():
-    #    print(key, output[key])
     return output
 
 def GetFormattedDate(unformattedDate):
