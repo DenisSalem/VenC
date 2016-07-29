@@ -137,6 +137,8 @@ On arrive maintenant au cas particulier des categories. Les categories forment u
 
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/7b18cb9db99c4983768935c3cee1f8c4c6f731ac/doc/treesFR.png "")
 
+Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche compléte_" désigne le chemin complet de puis la racine d'un arbre jusqu'à une feuille de cette arbre.
+
 * __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriqués.
 * __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante.
 
