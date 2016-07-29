@@ -126,12 +126,24 @@ Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux 
 * __.:Get::EntryUrl:.__ : Permet de récuper le permaliens de la publication.
 * __.:Get::EntryContent:.__ : Permet de récuper le corps de la publication.
 * __.:Get::EntryDate:.__ : Permet de récuper la date de la publication formatée.
-* __.:For::EntryAuthors::blah blah {item} blah:: séparateur :.__ : Permet d'itérer à travers la liste des auteurs de la publication.
-* __.:For::EntryTags::blah blah {item} blah:: séparateur :.__ : Permet d'itérer à travers la liste des tags de la publication.
-* __.:For::EntryCategories::blah {item} blah blah :: séparateur :.__ : Permet d'itérer à travers la liste des catégories de la publication.
+
+
+Il existe également des listes. Il s'agit de variables particulières accessiblent dans une publication. Ces variables peuvent être parcourue itérativement et récursivement pour en extraire le contenue et le mettre en forme. Cette extraction se fait grace au variable spécial _For_ et _RecursiveFor_ dont on va détailler le fonctionnement plus bas. Mais avant voici les listes disponibles:
+
+* __EntryTags__ : La liste de mot clefs de la publication courante.
+* __EntryAuthors__ : La liste des auteurs de la publication courante.
+
+__Qu'est ce qu'une branche? Qu'est-ce qu'une feuille?__
+
+* __EntryCategories__ : La liste des categories (branche complète) de la publication courante.
+* __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante.
+
+* __.:For:: liste :: blah blah {item} blah :: séparateur :.__ : Permet d'itérer à travers une liste. 
+* __.:RecursiveFor::EntryCategories::blah {item} blah blah :: séparateur :.__ : Permet d'itérer à travers un arbre, un type particulier de liste.
 
 Notons qu'en général le second paramétre pour la fonction _for_ est en fait du texte libre, pour accéder à l'item de l'itération courante on utilise le mot clef {item}.
 Idem pour le troisième paramétre, le séparateur. Le séparateur permet d'insérer du texte après le texte libre de l'itération courante.
+
 ### Super Globaux
 
 Ces motifs sont généralement disponibles quelque soit le contexte et sont définit
