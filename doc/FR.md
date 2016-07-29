@@ -137,16 +137,19 @@ On arrive maintenant au cas particulier des categories. Les categories forment u
 
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/7b18cb9db99c4983768935c3cee1f8c4c6f731ac/doc/treesFR.png "")
 
-Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche compléte_" désigne le chemin complet de puis la racine d'un arbre jusqu'à une feuille de cette arbre.
+Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche compléte_" désigne le chemin complet depuis la racine d'un arbre jusqu'à une feuille de cette arbre.
 
 * __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriqués.
 * __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante.
 
 * __.:For:: liste :: blah blah {item} blah :: séparateur :.__ : Permet d'itérer à travers une liste. 
-* __.:RecursiveFor::EntryCategories::blah {item} blah blah :: séparateur :.__ : Permet d'itérer à travers un arbre, un type particulier de liste.
+* __.:RecursiveFor::EntryCategories:: ouverture :: blah {item} blah blah :: séparateur :: fermeture :.__ : Permet d'itérer à travers un arbre, un type particulier de liste.
 
-Notons qu'en général le second paramétre pour la fonction _for_ est en fait du texte libre, pour accéder à l'item de l'itération courante on utilise le mot clef {item}.
+Notons qu'en général le second paramétre pour la fonction _For_ est en fait du texte libre, pour accéder à l'item de l'itération courante on utilise le mot clef {item}.
 Idem pour le troisième paramétre, le séparateur. Le séparateur permet d'insérer du texte après le texte libre de l'itération courante.
+
+De façon identique, pour la fonction _RecursiveFor_, le second, le quatriéme et cinquiéme paramétre constituent du texte libre.
+Des exemples d'utilisation de ces fonctions sont détaillés dans la partie astuces.
 
 ### Super Globaux
 
