@@ -182,9 +182,15 @@ def GetEntriesPerCategories(entries):
 
 def GetEntry(entryFilename):
     stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
-    output = yaml.load(stream.split("---\n")[0])
+    dump = yaml.load(stream.split("---\n")[0])
+    output = dict()
     output["EntryContent"] = markdown.markdown(stream.split("---\n")[1])
     output["EntryID"] = entryFilename.split('__')[0]
+    output["EntryName"] = dump["entry_name"]
+    output["EntryDate"] = VenC.core.GetFormattedDate(entryFilename.split('__')[1])
+    output["EntryAuthors"] = dump["authors"].split(",") if dump["authors"] != str() else list()
+    output["EntryTags"] = dump["tags"].split(",") if dump["tags"] != str() else list()
+
     #for key in output.keys():
     #    print(key, output[key])
     return output
