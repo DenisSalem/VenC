@@ -135,7 +135,7 @@ Il existe également des listes. Il s'agit de variables particulières accessibl
 
 On arrive maintenant au cas particulier des categories. Les categories forment un arbres comme illustré ci-dessous
 
-![](https://raw.githubusercontent.com/DenisSalem/VenC/7b18cb9db99c4983768935c3cee1f8c4c6f731ac/doc/treesFR.png "")
+![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/treesFR.png "")
 
 Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche compléte_" désigne le chemin complet depuis la racine d'un arbre jusqu'à une feuille de cette arbre.
 
