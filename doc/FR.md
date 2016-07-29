@@ -133,7 +133,9 @@ Il existe également des listes. Il s'agit de variables particulières accessibl
 * __EntryTags__ : La liste de mot clefs de la publication courante.
 * __EntryAuthors__ : La liste des auteurs de la publication courante.
 
-__Qu'est ce qu'une branche? Qu'est-ce qu'une feuille?__
+On arrive maintenant au cas particulier des categories. Les categories forment un arbres comme illustré ci-dessous
+
+![](https://raw.githubusercontent.com/DenisSalem/VenC/7b18cb9db99c4983768935c3cee1f8c4c6f731ac/doc/treesFR.png "")
 
 * __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriqués.
 * __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante.
