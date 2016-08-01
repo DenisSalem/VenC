@@ -12,6 +12,7 @@ class processor():
         self.functions		= dict()
         self.functions["Get"] = self.Get
         self.functions["For"] = self.For
+        self.functions["RecursiveFor"] = self.RecursiveFor
 
     def SetFunction(self, key, function):
         self.functions[key] = function
@@ -49,6 +50,32 @@ class processor():
 
             return outputString[:-len(argv[2])]
         except Exception as e:
+            return str()
+
+    def _RecuriveFor(self, openString, content, separator,closeString, nodes):
+        outputString = openString
+        for category in nodes.keys():
+            if nodes[category] == dict():
+                outputString += content.format(item=category) + separator
+
+            else:
+                outputString += content.format(item=category) + self._RecursiveFor(openString, content, separator, closeString, nodes[category])
+
+        return outputString + closeString
+
+    def RecursiveFor(self, argv):
+        outputString = str()
+        try:
+            outputString += self._RecursiveFor(
+                argv[1],
+                argv[2],
+                argv[3],
+                argv[4],
+                self.dictionnary[argv[0]]
+            )
+            return outputString
+        except Exception as e:
+            raise
             return str()
 
     def parse(self, string,escape=False):
