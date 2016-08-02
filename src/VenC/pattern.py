@@ -52,14 +52,19 @@ class processor():
         except Exception as e:
             return str()
 
-    def _RecuriveFor(self, openString, content, separator,closeString, nodes):
+    def _RecursiveFor(self, openString, content, separator,closeString, nodes):
         outputString = openString
-        for category in nodes.keys():
-            if nodes[category] == dict():
-                outputString += content.format(item=category) + separator
+        for Key in nodes.keys():
+            variables = dict()
+            for key in nodes[Key]:
+                if key[:2] == '__':
+                    variables[key[2:]] = nodes[Key][key]
+            variables["item"] = Key
+            if nodes[Key]["_nodes"] == dict():
+                outputString += content.format(variables) + separator
 
             else:
-                outputString += content.format(item=category) + self._RecursiveFor(openString, content, separator, closeString, nodes[category])
+                outputString += content.format(variables) + self._RecursiveFor(openString, content, separator, closeString, nodes[Key]["_nodes"])
 
         return outputString + closeString
 
@@ -71,7 +76,7 @@ class processor():
                 argv[2],
                 argv[3],
                 argv[4],
-                self.dictionnary[argv[0]]
+                self.dictionnary[argv[0]]["_nodes"]
             )
             return outputString
         except Exception as e:

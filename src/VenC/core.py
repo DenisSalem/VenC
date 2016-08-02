@@ -181,13 +181,16 @@ def GetEntriesPerCategories(entries):
     return entriesPerCategories 
 
 def GetCategoriesTree(categories):
-    output = dict()
+    output = {"_nodes":dict()}
     for category in categories:
-        node = output
+        path = str()
+        node = output["_nodes"]
         for subCategory in category.split(' > '):
+            path += subCategory+'/'
             if not subCategory.strip() in node.keys():
-                node[subCategory.strip()] = dict()
-            node = node[subCategory.strip()]
+                node[subCategory.strip()] = {"_nodes":dict()}
+            node[subCategory.strip()]["__CategoryPath"] = path
+            node = node[subCategory.strip()]["_nodes"]
 
     return output
 
