@@ -70,12 +70,26 @@ class Blog:
         except:
             return str()
 
-    def GetNextPage(self. argv):
+    def GetNextPage(self, argv):
         pattern = argv[0]
-        pass
+        currentPage = self.patternProcessor.Get(["PageNumber"])
+        pagesCount = len(self.patternProcessor.Get(["PagesList"]))
+        destinationPage = currentPage + 1
+        destinationPageUrl = "index"+str(destinationPage)+".html"
+        if destinationPage > pagesCount - 1:
+            return str()
+        else:
+            return pattern.format({"destinationPage":destinationPage,"destinationPageUrl":destinationPageUrl})
+
     def GetPreviousPage(self, argv):
         pattern = argv[0]
-        pass
+        currentPage = self.patternProcessor.Get(["PageNumber"])
+        destinationPage = currentPage - 1
+        destinationPageUrl = "index.html" if currentPage - 1 == 0 else "index"+str(currentPage - 1)+".html"
+        if destinationPage < 0:
+            return str()
+        else:
+            return pattern.format({"destinationPage":destinationPage,"destinationPageUrl":destinationPageUrl})
 
     def exportThread(self, inputEntries, folderDestination=""):
         self.initStates(inThread=True)
@@ -84,6 +98,8 @@ class Blog:
         self.patternProcessor.SetFunction("IfInThread", self.IfInThread)
         self.patternProcessor.Set("PagesList", VenC.core.GetListOfPages(int(VenC.core.blogConfiguration["entries_per_pages"]),len(inputEntries)))
         self.patternProcessor.SetFunction("PagesList", self.GetPagesList)
+        self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousPage)
+        self.patternProcessor.SetFunction("GetNextPage", self.GetNextPage)
         
         for key in self.publicDataFromBlogConf:
             self.patternProcessor.Set(key, self.publicDataFromBlogConf[key])
