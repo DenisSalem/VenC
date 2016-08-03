@@ -85,16 +85,19 @@ VenC utilise un moteur de reconnaissance de motif permettant une mise en page fa
 
 _Les motifs pouvant être reconnues dépendent du contexte dans lesquel ils sont trouvé._
 
-Les motifs dans sont définis dans la façon suivante dans VenC
+Les motifs sont définis de la façon suivante dans VenC
 
 * Chaque motifs commencent par '.:'
 * Chaque motifs se terminent par ':.'
 * Le ou les séparateurs à l'intérieur d'un motif sont représentés par '::'
 
+Un motif est une fonction pouvant prendre des paramétres. L'objectif est de remplacer un motif par une chaine de caractére formaté. Typiquement, les motifs
+permettent d'accéder au données du blog ou de faire de la mise en page spécifique pour faire, par exemple, un menu déroulant, ou une bar de navigation.
+
 ## Variables d'environnement
 
 1. [blog_configuration.yaml]()
-2. [Templates]()
+2. [Variables d'environnement des Templates]()
 2. [Super Globaux]()
 
 ### blog_configuration.yaml
@@ -105,8 +108,9 @@ Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait a
 * __{category}__ : Définit la categorie courante de publication.
 * __{entry_id}__ : Définit l'id de la publication courante.
 
-### Templates
+### Variables d'environnement des Templates
 
+Pour en savoir plus sur les templates, rendez vous [ici](none.html "")
 Un template peut contenir un certains nombre de motifs que VenC peut interpréter.
 
 * __.:Get::EntryID:.__ : Retourne l'identifiant unique de la publication.
