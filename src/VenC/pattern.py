@@ -40,7 +40,6 @@ class processor():
         try:
             return self.dictionnary[symbol[0]]
         except:
-            raise
             return ""
 
     def For(self, argv):

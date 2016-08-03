@@ -57,7 +57,16 @@ class Blog:
             listLenght = int(argv[0])
             pattern = argv[1]
             separator = argv[2]
-            return str(self.patternProcessor.Get(["PagesList"]))
+            currentPage = self.patternProcessor.Get(["PageNumber"])
+            pagesList = self.patternProcessor.Get(["PagesList"])
+            output = str()
+            for e in pagesList:
+                if (not int(e["pageNumber"]) < int(currentPage) - listLenght) and (not int(e["pageNumber"]) > int(currentPage) + listLenght):
+                    output += pattern.format(e) + separator
+
+            
+            return output[:-len(separator)]
+
         except:
             return str()
 

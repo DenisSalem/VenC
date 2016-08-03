@@ -246,5 +246,4 @@ def GetListOfPages(entriesPerPage,entriesCount):
                 "pageUrl": "index"+str(pageNumber)+".html" if pageNumber != 0 else "index.html" 
             }
         )
-    print(listOfPages)
     return listOfPages
