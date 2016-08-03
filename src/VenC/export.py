@@ -70,6 +70,13 @@ class Blog:
         except:
             return str()
 
+    def GetNextPage(self. argv):
+        pattern = argv[0]
+        pass
+    def GetPreviousPage(self, argv):
+        pattern = argv[0]
+        pass
+
     def exportThread(self, inputEntries, folderDestination=""):
         self.initStates(inThread=True)
 
