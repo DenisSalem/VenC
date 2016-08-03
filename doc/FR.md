@@ -96,9 +96,10 @@ permettent d'accéder au données du blog ou de faire de la mise en page spécif
 
 ## Variables d'environnement
 
-1. [blog_configuration.yaml]()
-2. [Variables d'environnement des Templates]()
-2. [Super Globaux]()
+1. [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#blog_configurationyaml)
+2. [Variables d'environnement des Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#variables-denvironnement-des-templates)
+2. [Super Globaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#super-globaux)
+4. [Publication](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#publication)
 
 ### blog_configuration.yaml
 
