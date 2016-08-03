@@ -39,6 +39,7 @@ class Blog:
         self.pageCounter = 0
         self.outputPage = str()
         self.inThread = inThread
+        self.patternProcessor = VenC.pattern.processor(".:",":.","::")
 
     def WritePage(self, folderDestination):
         stream = codecs.open("blog/"+folderDestination+self.GetIndexFilename(self.pageCounter-1),'w',encoding="utf-8")
@@ -51,31 +52,42 @@ class Blog:
     def export(self):
         self.exportThread(self.entriesList)
 
+    def GetPagesList(self, argv):
+        try:
+            listLenght = int(argv[0])
+            pattern = argv[1]
+            separator = argv[2]
+            return str(self.patternProcessor.Get(["PagesList"]))
+        except:
+            return str()
+
     def exportThread(self, inputEntries, folderDestination=""):
         self.initStates(inThread=True)
 
         # Configure patternProcessor instance with some fixed values and functions
-        patternProcessor = VenC.pattern.processor(".:",":.","::")
-        patternProcessor.SetFunction("IfInThread", self.IfInThread)
+        self.patternProcessor.SetFunction("IfInThread", self.IfInThread)
+        self.patternProcessor.Set("PagesList", VenC.core.GetListOfPages(int(VenC.core.blogConfiguration["entries_per_pages"]),len(inputEntries)))
+        self.patternProcessor.SetFunction("PagesList", self.GetPagesList)
+        
         for key in self.publicDataFromBlogConf:
-            patternProcessor.Set(key, self.publicDataFromBlogConf[key])
+            self.patternProcessor.Set(key, self.publicDataFromBlogConf[key])
 
         # Process actual entries
         for entry in inputEntries:
             # Update entry datas
             self.entry = VenC.core.GetEntry(entry)
-            patternProcessor.Set("PageNumber", self.pageCounter)
-            patternProcessor.Set("EntryUrl", folderDestination+self.GetIndexFilename(self.pageCounter))
-            patternProcessor.SetWholeDictionnary(self.entry)
+            self.patternProcessor.Set("PageNumber", self.pageCounter)
+            self.patternProcessor.Set("EntryUrl", folderDestination+self.GetIndexFilename(self.pageCounter))
+            self.patternProcessor.SetWholeDictionnary(self.entry)
 
             if self.entryCounter == 0:
                 self.outputPage = str()
-                self.outputPage += patternProcessor.parse(self.theme.header)
+                self.outputPage += self.patternProcessor.parse(self.theme.header)
 
-            self.outputPage += patternProcessor.parse(self.theme.entry)+"\n"
+            self.outputPage += self.patternProcessor.parse(self.theme.entry)+"\n"
             self.entryCounter += 1
             if self.entryCounter >= int(VenC.core.blogConfiguration["entries_per_pages"]) or entry == inputEntries[-1]:
-                self.outputPage+= patternProcessor.parse(self.theme.footer)
+                self.outputPage+= self.patternProcessor.parse(self.theme.footer)
                 self.pageCounter += 1
                 self.entryCounter = 0
 

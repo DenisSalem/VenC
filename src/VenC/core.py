@@ -4,6 +4,7 @@
 import os
 import yaml
 import time
+import math
 import markdown
 import datetime
 import VenC.pattern
@@ -136,13 +137,16 @@ def GetEntriesPerKeys(entries, keyType):
     for entry in entries:
         stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
         data = yaml.load(stream)
-        for tag in data[keyType].split(","):
-            try:
-                selectedKey = GetKeyByName(entriesPerKeys, tag)
-                selectedKey.relatedTo.append(entry)
-                selectedKey.weight+=1
-            except:
-                entriesPerKeys.append(Key(tag,entry))
+        try:
+            for tag in data[keyType].split(","):
+                try:
+                    selectedKey = GetKeyByName(entriesPerKeys, tag)
+                    selectedKey.relatedTo.append(entry)
+                    selectedKey.weight+=1
+                except:
+                    entriesPerKeys.append(Key(tag,entry))
+        except:
+            return list()
 
     return entriesPerKeys
 
@@ -202,12 +206,23 @@ def GetEntry(entryFilename):
     output["EntryID"] = entryFilename.split('__')[0]
     output["EntryName"] = dump["entry_name"]
     output["EntryDate"] = VenC.core.GetFormattedDate(entryFilename.split('__')[1])
-    output["EntryAuthors"] = dump["authors"].split(",") if dump["authors"] != str() else list()
-    output["EntryTags"] = dump["tags"].split(",") if dump["tags"] != str() else list()
-    output["EntryCategories"] = GetCategoriesTree(dump["categories"].split(','))
-    output["EntryCategoriesTop"] = list()
-    for category in dump["categories"].split(','):
-        output["EntryCategoriesTop"].append(category.split(' > ')[-1].strip())
+    output["EntryAuthors"] = [ {"author":e} for e in list(dump["authors"].split(",") if dump["authors"] != str() else list()) ]
+    try:
+        output["EntryTags"] = [ {"tag":e} for e in list(dump["tags"].split(",") if dump["tags"] != str() else list())]
+    except:
+        output["entryTags"] = list()
+    try:
+        output["EntryCategories"] = GetCategoriesTree(dump["categories"].split(','))
+        output["EntryCategoriesTop"] = list()
+        for category in dump["categories"].split(','):
+            categoryLeaf= category.split(' > ')[-1].strip()
+            categoryLeafUrl=str()
+            for subCategory in category.split(' > '):
+                categoryLeafUrl +=subCategory.strip()+'/'
+            output["EntryCategoriesTop"].append({"categoryLeaf": categoryLeaf, "categoryLeafUrl":categoryLeafUrl})
+    except:
+        output["EntryCategories"] = dict()
+        output["EntryCategoriesTop"] = list()
 
     return output
 
@@ -220,3 +235,16 @@ def GetFormattedDate(unformattedDate):
         hour=int(data[3]),
         minute=int(data[4])
     ).strftime(blogConfiguration["date_format"])
+
+def GetListOfPages(entriesPerPage,entriesCount):
+    listOfPages = list()
+    pagesCount = math.ceil(entriesCount/entriesPerPage)
+    for pageNumber in range(0,pagesCount):
+        listOfPages.append(
+            {
+                "pageNumber": pageNumber,
+                "pageUrl": "index"+str(pageNumber)+".html" if pageNumber != 0 else "index.html" 
+            }
+        )
+    print(listOfPages)
+    return listOfPages

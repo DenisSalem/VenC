@@ -40,13 +40,14 @@ class processor():
         try:
             return self.dictionnary[symbol[0]]
         except:
+            raise
             return ""
 
     def For(self, argv):
         outputString = str()
         try:
             for Item in self.dictionnary[argv[0]]:
-                outputString += argv[1].format(item=Item.strip()) + argv[2]
+                outputString += argv[1].format(Item) + argv[2]
 
             return outputString[:-len(argv[2])]
         except Exception as e:
