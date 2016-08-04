@@ -163,6 +163,18 @@ def GetEntriesPerDates(entries):
 
     return entriesPerDates
 
+def GetCategoriesList(entries):
+    output = list()
+    for entry in entries:
+        stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
+        data = yaml.load(stream)
+        for category in data["categories"].split(","):
+            if not category in output:
+                output.append(category)
+
+    return output
+            
+
 def GetEntriesPerCategories(entries):
     entriesPerCategories = list()
     for entry in entries:
@@ -184,7 +196,7 @@ def GetEntriesPerCategories(entries):
 
     return entriesPerCategories 
 
-def GetCategoriesTree(categories):
+def GetCategoriesTree(categories, relativeOrigin):
     output = {"_nodes":dict()}
     for category in categories:
         path = str()
@@ -193,12 +205,13 @@ def GetCategoriesTree(categories):
             path += subCategory+'/'
             if not subCategory.strip() in node.keys():
                 node[subCategory.strip()] = {"_nodes":dict()}
-            node[subCategory.strip()]["__CategoryPath"] = path
+                node[subCategory.strip()]["__categoryPath"] = path.strip()
+                node[subCategory.strip()]["__relativeOrigin"] = relativeOrigin
             node = node[subCategory.strip()]["_nodes"]
 
     return output
 
-def GetEntry(entryFilename):
+def GetEntry(entryFilename, relativeOrigin):
     stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
     dump = yaml.load(stream.split("---\n")[0])
     output = dict()
@@ -212,14 +225,14 @@ def GetEntry(entryFilename):
     except:
         output["entryTags"] = list()
     try:
-        output["EntryCategories"] = GetCategoriesTree(dump["categories"].split(','))
+        output["EntryCategories"] = GetCategoriesTree(dump["categories"].split(','), relativeOrigin)
         output["EntryCategoriesTop"] = list()
         for category in dump["categories"].split(','):
             categoryLeaf= category.split(' > ')[-1].strip()
             categoryLeafUrl=str()
             for subCategory in category.split(' > '):
                 categoryLeafUrl +=subCategory.strip()+'/'
-            output["EntryCategoriesTop"].append({"categoryLeaf": categoryLeaf, "categoryLeafUrl":categoryLeafUrl})
+            output["EntryCategoriesTop"].append({"relativeOrigin":relativeOrigin, "categoryLeaf": categoryLeaf, "categoryLeafUrl":categoryLeafUrl})
     except:
         output["EntryCategories"] = dict()
         output["EntryCategoriesTop"] = list()

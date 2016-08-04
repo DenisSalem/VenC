@@ -146,6 +146,7 @@ Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche 
 
 * __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriqués.
 * __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante.
+* __BlogCategories__ : La liste des categories (branche complète) du blog. Se présente sous la forme de listes imbriqués.
 
 * __.:For:: liste :: blah blah {item} blah :: séparateur :.__ : Permet d'itérer à travers une liste. 
 * __.:RecursiveFor::EntryCategories:: ouverture :: blah {item} blah blah :: séparateur :: fermeture :.__ : Permet d'itérer à travers un arbre, un type particulier de liste.
