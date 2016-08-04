@@ -84,13 +84,13 @@ class Blog:
             output = str()
             for e in pagesList:
                 if (not int(e["pageNumber"]) < int(currentPage) - listLenght) and (not int(e["pageNumber"]) > int(currentPage) + listLenght):
-                    output += pattern.format(variables) + separator
+                    output += pattern.format(e) + separator
 
             
             return output[:-len(separator)]
 
-        except:
-            return str()
+        except Exception as e:
+            return str(e)
 
     def GetNextPage(self, argv):
         pattern = argv[0]
