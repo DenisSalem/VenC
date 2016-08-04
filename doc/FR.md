@@ -201,7 +201,7 @@ Vous ne pouvez pas créer un blog sans en spécifier le nom. Une fois que vous a
 
 ## Nouvelle publication
 
-`$ venc -ne <nom de la publication> [nom du template]`
+`$ venc -ne "<nom de la publication>" [nom du template]`
 
 Pour créer une nouvelle publication vous __devez__ être dans le répertoire de votre blog.
 

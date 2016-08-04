@@ -79,7 +79,7 @@ def GetEntriesList():
         exit()
     
     validFilenames = list()
-    for filename in sorted(files, key = lambda filename: orderableStrToInt(filename.split("__")[0])):
+    for filename in sorted(files, key = lambda filename: orderableStrToInt(filename.split("__")[0]), reverse= (True if blogConfiguration["thread_order"] == "latest first" else False)):
         explodedFilename = filename.split("__")
         try:
             date = explodedFilename[1].split('-')
