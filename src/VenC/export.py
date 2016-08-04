@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import time
 import codecs
 import VenC.core
 import VenC.pattern
@@ -133,6 +134,7 @@ class Blog:
             
             self.entry = VenC.core.GetEntry(entry, self.relativeOrigin)
             self.patternProcessor.Set("PageNumber", self.pageCounter)
+            self.patternProcessor.Set("EntryDateUrl", self.relativeOrigin+time.strftime(VenC.core.blogConfiguration["path"]["dates_directory_name"], time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S")))
             self.patternProcessor.Set("EntryUrl", self.relativeOrigin+"entry"+self.entry["EntryID"]+".html")
             self.patternProcessor.SetWholeDictionnary(self.entry)
 
