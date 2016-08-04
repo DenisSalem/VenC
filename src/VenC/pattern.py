@@ -39,8 +39,8 @@ class processor():
     def Get(self, symbol):
         try:
             return self.dictionnary[symbol[0]]
-        except:
-            return ""
+        except Exception as e:
+            return str(e)
 
     def For(self, argv):
         outputString = str()
@@ -50,21 +50,24 @@ class processor():
 
             return outputString[:-len(argv[2])]
         except Exception as e:
-            return str()
+            return str(e)
 
     def _RecursiveFor(self, openString, content, separator,closeString, nodes):
         outputString = openString
-        for Key in nodes.keys():
-            variables = dict()
-            for key in nodes[Key]:
-                if key[:2] == '__':
-                    variables[key[2:]] = nodes[Key][key]
-            variables["item"] = Key
-            if nodes[Key]["_nodes"] == dict():
-                outputString += content.format(variables) + separator
+        try:
+            for Key in nodes.keys():
+                variables = dict()
+                for key in nodes[Key]:
+                    if key[:2] == '__':
+                        variables[key[2:]] = nodes[Key][key]
+                variables["item"] = Key
+                if nodes[Key]["_nodes"] == dict():
+                    outputString += content.format(variables) + separator
 
-            else:
-                outputString += content.format(variables) + self._RecursiveFor(openString, content, separator, closeString, nodes[Key]["_nodes"])
+                else:
+                    outputString += content.format(variables) + self._RecursiveFor(openString, content, separator, closeString, nodes[Key]["_nodes"])
+        except Exception as e:
+            return str(e)
 
         return outputString + closeString
 

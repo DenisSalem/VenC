@@ -118,6 +118,7 @@ class Blog:
         self.patternProcessor.SetFunction("IfInThread", self.IfInThread)
         self.patternProcessor.Set("PagesList", VenC.core.GetListOfPages(int(VenC.core.blogConfiguration["entries_per_pages"]),len(inputEntries)))
         self.patternProcessor.Set("BlogCategories", VenC.core.GetCategoriesTree(VenC.core.GetCategoriesList(self.entriesList), self.relativeOrigin))
+        self.patternProcessor.Set("BlogDates", VenC.core.GetDatesList(self.entriesPerDates, self.relativeOrigin))
         self.patternProcessor.Set("RelativeOrigin", self.relativeOrigin)
         self.patternProcessor.SetFunction("PagesList", self.GetPagesList)
         self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousPage)

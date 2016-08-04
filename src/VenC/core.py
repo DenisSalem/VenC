@@ -163,6 +163,13 @@ def GetEntriesPerDates(entries):
 
     return entriesPerDates
 
+def GetDatesList(keys, relativeOrigin):
+    output = list()
+    for key in keys:
+        output.append({"date": key.value, "weight":key.weight,"dateUrl":relativeOrigin+key.value})
+
+    return output
+
 def GetCategoriesList(entries):
     output = list()
     for entry in entries:
