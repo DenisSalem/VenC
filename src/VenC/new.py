@@ -77,7 +77,7 @@ def blog(argv):
 								"archives_overview_directory_name":	"overview"},
 								"rss_file_name":			"feed.xml",
 				"entries_per_pages":		10,
-				"columns":			3,
+				"columns":			1,
 				"rss_thread_lenght":		5,
 				"thread_order":			"latest first"}
     for folder_name in argv:
