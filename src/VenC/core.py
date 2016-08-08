@@ -37,12 +37,12 @@ class Theme:
         self.rssEntry = str()
 
         try:
-            self.header = open(os.getcwd()+"/theme/chunk/header.html",'r').read()
-            self.footer = open(os.getcwd()+"/theme/chunk/footer.html",'r').read()
-            self.entry = open(os.getcwd()+"/theme/chunk/entry.html",'r').read()
-            self.rssHeader = open(os.getcwd()+"/theme/chunk/rssHeader.html",'r').read()
-            self.rssFooter = open(os.getcwd()+"/theme/chunk/rssFooter.html",'r').read()
-            self.rssEntry = open(os.getcwd()+"/theme/chunk/rssEntry.html",'r').read()
+            self.header = open(os.getcwd()+"/theme/chunks/header.html",'r').read()
+            self.footer = open(os.getcwd()+"/theme/chunks/footer.html",'r').read()
+            self.entry = open(os.getcwd()+"/theme/chunks/entry.html",'r').read()
+            self.rssHeader = open(os.getcwd()+"/theme/chunks/rssHeader.html",'r').read()
+            self.rssFooter = open(os.getcwd()+"/theme/chunks/rssFooter.html",'r').read()
+            self.rssEntry = open(os.getcwd()+"/theme/chunks/rssEntry.html",'r').read()
 
         except FileNotFoundError as e:
             print("VenC: "+VenC.core.Messages.fileNotFound.format(str(e.filename)))

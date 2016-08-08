@@ -3,6 +3,7 @@
 
 import os
 import time
+import shutil
 import codecs
 import VenC.core
 import VenC.pattern
@@ -65,6 +66,12 @@ class Blog:
             self.exportThread(e.relatedTo, folderDestination=e.value+'/')
         self.relativeOrigin = str()
         self.exportCategories(self.entriesPerCategories)
+        try:
+            assets = os.listdir(os.getcwd()+"/theme/assets")
+            for asset in assets:
+                shutil.copy(os.getcwd()+"/theme/assets/"+asset, os.getcwd()+"/blog/"+asset)
+        except:
+            raise
 
     def exportCategories(self, categories):
         for category in categories:
