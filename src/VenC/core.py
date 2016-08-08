@@ -66,7 +66,7 @@ def orderableStrToInt(string):
 def GetLatestEntryID():
     entriesList = GetEntriesList()
     if len(entriesList) != 0:
-        return int(entriesList[-1].split("__")[0])
+        return int(sorted(entriesList)[-1].split("__")[0])
     else:
         return 0
 
@@ -79,7 +79,7 @@ def GetEntriesList():
         exit()
     
     validFilenames = list()
-    for filename in sorted(files, key = lambda filename: orderableStrToInt(filename.split("__")[0]), reverse= (True if blogConfiguration["thread_order"] == "latest first" else False)):
+    for filename in sorted(files, key = lambda filename: orderableStrToInt(filename.split("__")[0]), reverse=(blogConfiguration["thread_order"].strip() == "latest first")):
         explodedFilename = filename.split("__")
         try:
             date = explodedFilename[1].split('-')
@@ -91,6 +91,7 @@ def GetEntriesList():
 
         except IndexError:
             pass
+
     return validFilenames
 
 def GetPublicDataFromBlogConf():

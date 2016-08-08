@@ -131,7 +131,6 @@ class Blog:
 
         # Process actual entries
         columnsNumber = 1 if VenC.core.blogConfiguration["columns"] < 1 else int(VenC.core.blogConfiguration["columns"])
-        self.columns = [ "<div id=\"__VENC_COLUMN_"+str(i)+"__\" class=\"__VENC_COLUMN__\">" for i in range(0,columnsNumber) ]
         for entry in inputEntries:
             # Update entry datas
             
@@ -142,10 +141,9 @@ class Blog:
             self.patternProcessor.SetWholeDictionnary(self.entry)
 
             if self.entryCounter == 0:
+                self.columns = [ "<div id=\"__VENC_COLUMN_"+str(i)+"__\" class=\"__VENC_COLUMN__\">" for i in range(0,columnsNumber) ]
                 self.outputPage = str()
                 self.outputPage += self.patternProcessor.parse(self.theme.header)
-
-
             
             self.columns[ self.entryCounter % columnsNumber ] += self.patternProcessor.parse(self.theme.entry)+"\n"
             self.entryCounter += 1
@@ -153,7 +151,7 @@ class Blog:
                 self.columns = [ column+"</div>" for column in self.columns ]
                 for column in self.columns:
                     self.outputPage += column
-                self.outputPage+= self.patternProcessor.parse(self.theme.footer)
+                self.outputPage += self.patternProcessor.parse(self.theme.footer)
                 self.pageCounter += 1
                 self.entryCounter = 0
 
