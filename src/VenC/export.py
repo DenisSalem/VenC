@@ -38,26 +38,43 @@ class Blog:
         else:
             return str()
 
-    def initStates(self,inThread=False):
+    def initStates(self,inputEntries, singleEntry, inThread=False):
         self.entryCounter = 0
         self.pageCounter = 0
         self.outputPage = str()
         self.inThread = inThread
+        self.entriesNumber = len(inputEntries)
         self.patternProcessor = VenC.pattern.processor(".:",":.","::")
+        self.patternProcessor.SetFunction("IfInThread", self.IfInThread)
+        self.patternProcessor.Set("PagesList", VenC.core.GetListOfPages(int(VenC.core.blogConfiguration["entries_per_pages"]),len(inputEntries)))
+        self.patternProcessor.Set("BlogCategories", VenC.core.GetCategoriesTree(VenC.core.GetCategoriesList(self.entriesList), self.relativeOrigin))
+        self.patternProcessor.Set("BlogDates", VenC.core.GetDatesList(self.entriesPerDates, self.relativeOrigin))
+        self.patternProcessor.Set("RelativeOrigin", self.relativeOrigin)
+        self.patternProcessor.Set("SingleEntry", singleEntry)
+        self.patternProcessor.SetFunction("PagesList", self.GetPagesList)
+        self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousPage)
+        self.patternProcessor.SetFunction("GetNextPage", self.GetNextPage)
+        
+        for key in self.publicDataFromBlogConf:
+            self.patternProcessor.Set(key, self.publicDataFromBlogConf[key])
 
-    def WritePage(self, folderDestination):
+
+    def WritePage(self, folderDestination, singleEntry):
         try:
             os.chdir("blog/")
             os.makedirs(folderDestination)
             os.chdir("../")
         except:
             os.chdir("../")
-        stream = codecs.open("blog/"+folderDestination+self.GetIndexFilename(self.pageCounter-1),'w',encoding="utf-8")
+        stream = codecs.open("blog/"+folderDestination+self.GetFilename(self.pageCounter-1, singleEntry),'w',encoding="utf-8")
         stream.write(self.outputPage)
         stream.close()
 
-    def GetIndexFilename(self, pageCounter):
-        return "index"+ (str(pageCounter) if pageCounter != 0 else str())+".html"
+    def GetFilename(self, pageCounter, singleEntry):
+        if singleEntry:
+            return "entry"+ str(self.entriesNumber - pageCounter) +".html"
+        else:  
+            return "index"+ (str(pageCounter) if pageCounter != 0 else str())+".html"
 
     def export(self):
         self.exportThread(self.entriesList)
@@ -66,6 +83,8 @@ class Blog:
             self.exportThread(e.relatedTo, folderDestination=e.value+'/')
         self.relativeOrigin = str()
         self.exportCategories(self.entriesPerCategories)
+        self.relativeOrigin = str()
+        self.exportThread(self.entriesList, singleEntry=True)
         try:
             assets = os.listdir(os.getcwd()+"/theme/assets")
             for asset in assets:
@@ -89,6 +108,10 @@ class Blog:
             separator = argv[2]
             currentPage = self.patternProcessor.Get(["PageNumber"])
             pagesList = self.patternProcessor.Get(["PagesList"])
+            
+            if len(pagesList) == 1 or self.patternProcessor.Get(["SingleEntry"]):
+                return str()
+
             output = str()
             for e in pagesList:
                 if (not int(e["pageNumber"]) < int(currentPage) - listLenght) and (not int(e["pageNumber"]) > int(currentPage) + listLenght):
@@ -106,7 +129,7 @@ class Blog:
         pagesCount = len(self.patternProcessor.Get(["PagesList"]))
         destinationPage = currentPage + 1
         destinationPageUrl = "index"+str(destinationPage)+".html"
-        if destinationPage > pagesCount - 1:
+        if destinationPage > pagesCount - 1 or self.patternProcessor.Get(["SingleEntry"]) :
             return str()
         else:
             return pattern.format({"destinationPage":destinationPage,"destinationPageUrl":destinationPageUrl})
@@ -116,28 +139,21 @@ class Blog:
         currentPage = self.patternProcessor.Get(["PageNumber"])
         destinationPage = currentPage - 1
         destinationPageUrl = "index.html" if currentPage - 1 == 0 else "index"+str(currentPage - 1)+".html"
-        if destinationPage < 0:
+        if destinationPage < 0 or self.patternProcessor.Get(["SingleEntry"]):
             return str()
         else:
             return pattern.format({"destinationPage":destinationPage,"destinationPageUrl":destinationPageUrl})
 
-    def exportThread(self, inputEntries, folderDestination=""):
-        self.initStates(inThread=True)
+    def exportThread(self, inputEntries, folderDestination="", singleEntry=False):
+        self.initStates(inputEntries, singleEntry, inThread=True)
         # Configure patternProcessor instance with some fixed values and functions
-        self.patternProcessor.SetFunction("IfInThread", self.IfInThread)
-        self.patternProcessor.Set("PagesList", VenC.core.GetListOfPages(int(VenC.core.blogConfiguration["entries_per_pages"]),len(inputEntries)))
-        self.patternProcessor.Set("BlogCategories", VenC.core.GetCategoriesTree(VenC.core.GetCategoriesList(self.entriesList), self.relativeOrigin))
-        self.patternProcessor.Set("BlogDates", VenC.core.GetDatesList(self.entriesPerDates, self.relativeOrigin))
-        self.patternProcessor.Set("RelativeOrigin", self.relativeOrigin)
-        self.patternProcessor.SetFunction("PagesList", self.GetPagesList)
-        self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousPage)
-        self.patternProcessor.SetFunction("GetNextPage", self.GetNextPage)
-        
-        for key in self.publicDataFromBlogConf:
-            self.patternProcessor.Set(key, self.publicDataFromBlogConf[key])
-
         # Process actual entries
-        columnsNumber = 1 if VenC.core.blogConfiguration["columns"] < 1 else int(VenC.core.blogConfiguration["columns"])
+        if singleEntry:
+            columnsNumber = 1
+            VenC.core.blogConfiguration["entries_per_pages"] = 1
+        else:
+            columnsNumber = 1 if VenC.core.blogConfiguration["columns"] < 1 else int(VenC.core.blogConfiguration["columns"])
+
         for entry in inputEntries:
             # Update entry datas
             
@@ -162,7 +178,7 @@ class Blog:
                 self.pageCounter += 1
                 self.entryCounter = 0
 
-                self.WritePage(folderDestination)
+                self.WritePage(folderDestination, singleEntry)
 
 
             
