@@ -72,9 +72,9 @@ class Blog:
 
     def GetFilename(self, pageCounter, singleEntry):
         if singleEntry:
-            return "entry"+ str(self.entriesNumber - pageCounter) +".html"
+            return VenC.core.blogConfiguration["path"]["entry_file_name"].format(entry_id=  str(self.entriesNumber - pageCounter))
         else:  
-            return "index"+ (str(pageCounter) if pageCounter != 0 else str())+".html"
+            return VenC.core.blogConfiguration["path"]["index_file_name"].format(page_number=(str(pageCounter) if pageCounter != 0 else str()))
 
     def export(self):
         self.exportThread(self.entriesList)
@@ -94,7 +94,7 @@ class Blog:
 
     def exportCategories(self, categories):
         for category in categories:
-            self.destinationPath+= category.value+'/'
+            self.destinationPath+= VenC.core.blogConfiguration["path"]["category_directory_name"].format(category=category.value+'/')
             self.relativeOrigin += "../"
             self.exportThread(category.relatedTo, folderDestination=self.destinationPath)
             self.exportCategories(category.childs)

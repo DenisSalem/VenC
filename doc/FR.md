@@ -45,7 +45,9 @@ Dans le cas peu probable où vous voudriez supprimer VenC de votre système tape
 terminal en étant root
 
 `rm -rfv /usr/lib/python< votre version >/VenC`
+
 `rm -rfv /usr/share/VenC`
+
 `rm -v /usr/bin/venc`
 
 # Prise en main
@@ -77,7 +79,7 @@ __blog_configuration.yaml__
 
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/blog_configuration.png "")
 
-Il s'agit d'un document Yaml à la racine du projet définissant les propriétés du blog, comme son titre, le nom de son auteur, ainsi que des détails fonctionnels comme le nombre de publications par pages ou l'ordre d'affichage de celles-ci. Immédiatement après avoir crée votre blog, il s'agira sans doute du premier fichier que vous éditerez. Une fois avoir remplit ses champs dont l'usage est détaillé ci-dessous, vous n'aurez normalement plus besoin d'y retoucher.
+Il s'agit d'un document Yaml à la racine du projet définissant les propriétés du blog, comme son titre, le nom de son auteur, ainsi que des détails fonctionnels comme le nombre de publications par pages ou l'ordre d'affichage de celles-ci. Immédiatement après avoir crée votre blog, il s'agira sans doute du premier fichier que vous éditerez. Une fois avoir remplit ces champs dont l'usage est détaillé ci-dessous, vous n'aurez normalement plus besoin d'y retoucher.
 
 
 * __blog_name__ : Sans surprise, il s'agit du titre de votre blog.
@@ -94,11 +96,10 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 * __entries_per_pages__ : "10" par défaut. Définit évidément le nombre de publication par page.
 * __columns__ : "1" par défaut. Propriété interessante de VenC détaillé plus loin dans la documentation. Ce champ définit le nombre de colunm dans une page.
 * __rss_thread_lenght__ : "5" par défaut. Définit le nombre de publication à afficher dans le flux RSS.
-* __thread_order__ : "oldest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ ne peut prendre comme valeur "oldest first" ou "latest first".
+* __thread_order__ : "latest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ ne peut prendre comme valeur soit "oldest first", soit "latest first".
 * __path__ : Il s'agit d'une variables contenant différents chemins, vous ne devriez normalement pas avoir besoin d'y toucher. La liste de ces chemins est détaillé ci-dessous
-* __root__ : "./" par défaut. Le chemins où sera exporté tout le blog à l'intérieur du répertoire _blog_.
 * __index_file_name__ : "index{page_number}.html" par défaut. Le nom de fichier formaté des pages du fil principale de publication. Devrait toujours contenir la variable {page_number}.
-* __categories_directory_name__ : "{category}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à une catégorie de publication. Ce champ devrait donc toujours contenir la variable {category}.
+* __category_directory_name__ : "{category}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à une catégorie de publication. Ce champ devrait donc toujours contenir la variable {category}.
 * __dates_directory_name__ : "%Y-%m" par défaut. Définit le format de date utilisé pour les nom de répertoires de fils de publications associés à des dates.
 * __entry_file_name__ : "entry{entry_id}.html" par défaut. Définit le nom de fichier d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.
 * __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss. 
