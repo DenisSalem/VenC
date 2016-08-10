@@ -132,6 +132,7 @@ Notons également que le nom de fichier d'une publication est formatté d'une fa
 
 `<id>__<mois>-<jour>-<année>-<heure>-<minute>__<titre>`
 
+Pour créer une nouvelle publication rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#nouvelle-publication)
 
 ## Pattern Processor
 
@@ -164,11 +165,33 @@ Un template peut contenir un certains nombre de motifs que VenC peut interpréte
 * __.:Get::EntryMinute:.__ : Retourne la minute de création de la publication.
 
 À ces motifs s'ajoutes les super globaux généralement disponible quelque soit le contexte.
+
+### Motifs Super Globaux
+
+Ces motifs sont généralement disponibles quelque soit le contexte et sont définit
+dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
+
+* __.:Get::AuthorName:.__ : Retourne le nom de l'auteur du blog.
+* __.:Get::BlogName:.__ : Retourne le titre du blog.
+* __.:Get::BlogDescription:.__ : Retourne la description du blog.
+* __.:Get::BlogKeywords:.__ : Retourne les mots clefs décrivant le blog.
+* __.:Get::AuthorDescription:.__ : Retourne la description de l'auteur du blog.
+* __.:Get::License:.__ : Retourne la licence appliquée au contenu du blog.
+* __.:Get::BlogUrl:.__ : Retourne l'URL du blog.
+* __.:Get::BlogLanguage:.__ : Retourne le language du blog.
+* __.:Get::AuthorEmail:.__ : Retourne l'adresse email de l'auteur du blog.
+
+### Motifs de Publications
+
+Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux là s'ajoutent:
+
+* __.:Get::EntryUrl:.__ : Permet de récuper le permaliens de la publication.
+* __.:Get::EntryContent:.__ : Permet de récuper le corps de la publication.
+* __.:Get::EntryDate:.__ : Permet de récuper la date de la publication formatée.
+
 ## Variables d'environnement
 
 1. [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#blog_configurationyaml)
-2. [Super Globaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#super-globaux)
-4. [Publication](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#publication)
 
 ### blog_configuration.yaml
 
@@ -178,15 +201,7 @@ Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait a
 * __{category}__ : Définit la categorie courante de publication.
 * __{entry_id}__ : Définit l'id de la publication courante.
 
-
-### Publication
-
-Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux là s'ajoutent:
-
-* __.:Get::EntryUrl:.__ : Permet de récuper le permaliens de la publication.
-* __.:Get::EntryContent:.__ : Permet de récuper le corps de la publication.
-* __.:Get::EntryDate:.__ : Permet de récuper la date de la publication formatée.
-
+### Variables de motifs
 
 Il existe également des listes. Il s'agit de variables particulières accessiblent dans une publication. Ces variables peuvent être parcourue itérativement et récursivement pour en extraire le contenue et le mettre en forme. Cette extraction se fait grace au variable spécial _For_ et _RecursiveFor_ dont on va détailler le fonctionnement plus bas. Mais avant voici les listes disponibles:
 
@@ -212,20 +227,6 @@ Idem pour le troisième paramétre, le séparateur. Le séparateur permet d'ins�
 De façon identique, pour la fonction _RecursiveFor_, le second, le quatriéme et cinquiéme paramétre constituent du texte libre.
 Des exemples d'utilisation de ces fonctions sont détaillés dans la partie astuces.
 
-### Super Globaux
-
-Ces motifs sont généralement disponibles quelque soit le contexte et sont définit
-dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
-
-* __.:Get::AuthorName:.__ : Retourne le nom de l'auteur du blog.
-* __.:Get::BlogName:.__ : Retourne le titre du blog.
-* __.:Get::BlogDescription:.__ : Retourne la description du blog.
-* __.:Get::BlogKeywords:.__ : Retourne les mots clefs décrivant le blog.
-* __.:Get::AuthorDescription:.__ : Retourne la description de l'auteur du blog.
-* __.:Get::License:.__ : Retourne la licence appliquée au contenu du blog.
-* __.:Get::BlogUrl:.__ : Retourne l'URL du blog.
-* __.:Get::BlogLanguage:.__ : Retourne le language du blog.
-* __.:Get::AuthorEmail:.__ : Retourne l'adresse email de l'auteur du blog.
 
 # Commandes
 
