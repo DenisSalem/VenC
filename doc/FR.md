@@ -123,12 +123,15 @@ Une publication contient une premier partie au format [Yaml](http://yaml.org) co
 
 Finalement une publication vierge se présente de la façon suivante:
 
-`
-authors: 
-tags:
-categories:
----
-`
+
+![](https://github.com/DenisSalem/VenC/blob/master/doc/newEntryFR.png?raw=true "")
+
+Les deux partie sont séparé par trois tirets (ceux du six). Sur la capture d'écran la partie contenant la syntax Markdown est vide. On parle bien d'une publication vierge.
+
+Notons également que le nom de fichier d'une publication est formatté d'une façon particulière.
+
+`<id>__<mois>-<jour>-<année>-<heure>-<minute>__<titre>`
+
 
 ## Pattern Processor
 
