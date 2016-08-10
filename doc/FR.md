@@ -72,7 +72,8 @@ Lorsque vous créez un nouveau projet, VenC produit un certains nombre de réper
 ## Structure des fichiers
 
 1. [Fichier de configuration principal](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal)
-2. [Templates]()
+2. [Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#templates)
+3. [Publications](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#Publications)
 
 ### Fichier de configuration principal
 
