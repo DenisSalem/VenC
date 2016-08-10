@@ -2,9 +2,10 @@
 
 1. [Présentation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#pr%C3%A9sentation)
 2. [Installation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#installation)
-3. [Prise en main](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#prise-en-main)
-4. [Commandes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#commandes)
-5. [Thémes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#th%C3%A9mes)
+3. [Désinstallation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#désinstallation)
+4. [Prise en main](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#prise-en-main)
+5. [Commandes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#commandes)
+6. [Thémes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#th%C3%A9mes)
 
 # Présentation
 
@@ -23,6 +24,29 @@ Vous pouvez jeter un oeil à la [page officiel](https://pythonhosted.org/Markdow
 
 __PyYaml__
 Vous pouvez jeter un oeil à la [page_officiel](http://pyyaml.org/) ou directement taper la commande _pip install pyyaml_ dans un terminal.
+
+Ceci étant fait, clonez le repository de VenC
+
+`git clone https://github.com/DenisSalem/VenC`
+
+Déplacez vous à présent dans le répertoire de de VenC
+
+`cd VenC`
+
+Puis lancez le script d'installation
+
+`./install.sh`
+
+Voilà, VenC est normalement correctement installé sur votre système.
+
+# Désinstallation
+
+Dans le cas peu probable où vous voudriez supprimer VenC de votre système tapez successivement dans un
+terminal en étant root
+
+`rm -rfv /usr/lib/python< votre version >/VenC`
+`rm -rfv /usr/share/VenC`
+`rm -v /usr/bin/venc`
 
 # Prise en main
 
