@@ -72,6 +72,7 @@ Lorsque vous créez un nouveau projet, VenC produit un certains nombre de réper
 ## Structure des fichiers
 
 1. [Fichier de configuration principal](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal)
+2. [Templates]()
 
 ### Fichier de configuration principal
 
@@ -102,9 +103,35 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 * __category_directory_name__ : "{category}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à une catégorie de publication. Ce champ devrait donc toujours contenir la variable {category}.
 * __dates_directory_name__ : "%Y-%m" par défaut. Définit le format de date utilisé pour les nom de répertoires de fils de publications associés à des dates.
 * __entry_file_name__ : "entry{entry_id}.html" par défaut. Définit le nom de fichier d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.
-* __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss. 
+* __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss. Pas encore implémenté.
+
+### Templates
+
+Un template est en fait une publication vierge qui a cependant été préformatté pour contenir des informations souvent utilisés pour lesquels on ne veut pas perdre du
+temps à réécrire ou mettre en forme. Un fichier template contient donc des [motifs](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
+pouvant être interprété. Il n'y a pas de template par défaut, c'est à l'utilisateur de créer les siens. Lorsqu'aucun template n'est utilisé. Venc produit une publication
+totalement vierge.
+
+### Publications
+
+Une publication est un fichier similaire à un template mais dont le propos est d'être remplit par l'utilisateur manuellement en y rédigeant le contenu de la publication désiré.
+Cela peut-être un billet d'humeur, un article de fond, une galerie d'image, etc. Pour faciliter l'édition de votre blog avec VenC vous êtes fortement encouragé à utiliser des
+templates.
+
+Une publication contient une premier partie au format [Yaml](http://yaml.org) contenant les métadonnées de la publication, puis une seconde au format [Markdown](https://daringfireball.net/projects/markdown/) qui elle contiendra la publication à proprement parler.
+
+Finalement une publication vierge se présente de la façon suivante:
+
+`
+authors: 
+tags:
+categories:
+---
+`
 
 ## Pattern Processor
+
+1. [Motifs de Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
 
 VenC utilise un moteur de reconnaissance de motif permettant une mise en page facilitée et automatisée. Ce système permet également d'utiliser des modules externes. La création et l'ajout de greffons sera détaillé dans une autre partie.
 
@@ -119,24 +146,9 @@ Les motifs sont définis de la façon suivante dans VenC
 Un motif est une fonction pouvant prendre des paramétres. L'objectif est de remplacer un motif par une chaine de caractére formaté. Typiquement, les motifs
 permettent d'accéder au données du blog ou de faire de la mise en page spécifique pour faire, par exemple, un menu déroulant, ou une bar de navigation.
 
-## Variables d'environnement
+### Motifs de Templates
 
-1. [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#blog_configurationyaml)
-2. [Variables d'environnement des Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#variables-denvironnement-des-templates)
-2. [Super Globaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#super-globaux)
-4. [Publication](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#publication)
-
-### blog_configuration.yaml
-
-Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des variable d'environnnement, dont l'utilisation est détaillé ci-dessous.
-
-* __{page_number}__ : Définit le numéro de la page courante.
-* __{category}__ : Définit la categorie courante de publication.
-* __{entry_id}__ : Définit l'id de la publication courante.
-
-### Variables d'environnement des Templates
-
-Pour en savoir plus sur les templates, rendez vous [ici](none.html "")
+Pour en savoir plus sur les templates, rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#templates)
 Un template peut contenir un certains nombre de motifs que VenC peut interpréter.
 
 * __.:Get::EntryID:.__ : Retourne l'identifiant unique de la publication.
@@ -148,6 +160,20 @@ Un template peut contenir un certains nombre de motifs que VenC peut interpréte
 * __.:Get::EntryMinute:.__ : Retourne la minute de création de la publication.
 
 À ces motifs s'ajoutes les super globaux généralement disponible quelque soit le contexte.
+## Variables d'environnement
+
+1. [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#blog_configurationyaml)
+2. [Super Globaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#super-globaux)
+4. [Publication](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#publication)
+
+### blog_configuration.yaml
+
+Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des variable d'environnnement, dont l'utilisation est détaillé ci-dessous.
+
+* __{page_number}__ : Définit le numéro de la page courante.
+* __{category}__ : Définit la categorie courante de publication.
+* __{entry_id}__ : Définit l'id de la publication courante.
+
 
 ### Publication
 
