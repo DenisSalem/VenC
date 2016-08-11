@@ -221,18 +221,18 @@ Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait a
 
 Il existe également des variables particulières sous la forme de listes. Ces variables peuvent être parcourue itérativement et récursivement pour en extraire le contenue et le mettre en forme. Cette extraction se fait grace aux motifs spéciaux _For_ et _RecursiveFor_ dont on va détailler le fonctionnement plus bas. Mais avant voici les listes disponibles:
 
-* __EntryTags__ : La liste de mot clefs de la publication courante.
+* __EntryTags__ : La liste de mot clefs de la publication courante. Pour accéder au mot clé de l'itération courante utilisez la variable contextuelle {0[tag]}.
 * __EntryAuthors__ : La liste des auteurs de la publication courante. Pour accéder à la l'item courant utiliser la variable de contexte {0[author]}.
-
+* __BlogDates__ : La liste des liens vers les publications groupé par dates tel que définit dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal). Il y a plusieur items disponibles pour une itération courange; __{0[date]}__, __{0[dateUrl]}__. Respectivement la période tel que formatté dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal) et le chemin vers le repertoire associé à cette période.
 On arrive maintenant au cas particulier des categories. Les categories forment un arbres comme illustré ci-dessous
 
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/treesFR.png "")
 
 Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche compléte_" désigne le chemin complet depuis la racine d'un arbre jusqu'à une feuille de cette arbre.
 
-* __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriqués. Il y a plusieur items disponible pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante.
-* __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante. Il y a plusieur items disponible pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryLeaf]}__ et __{0[categoryLeafUrl]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le nom de la category feuille et l'url vers la category feuille.
-* __BlogCategories__ : La liste des categories (branche complète) du blog. Se présente sous la forme de listes imbriqués. Il y a plusieur items disponible pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante. 
+* __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriqués. Il y a plusieur items disponibles pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante.
+* __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante. Il y a plusieur items disponibles pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryLeaf]}__ et __{0[categoryLeafUrl]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le nom de la category feuille et l'url vers la category feuille.
+* __BlogCategories__ : La liste des categories (branche complète) du blog. Se présente sous la forme de listes imbriqués. Il y a plusieur items disponible pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante.
 
 Pour utiliser ces variables spéciales de motifs reportez vous à la partie [Motifs spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux)
 
