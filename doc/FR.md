@@ -205,8 +205,9 @@ Idem pour le troisième paramétre, le séparateur. Le séparateur permet d'ins�
 
 De façon identique, pour la fonction _RecursiveFor_, le second, le quatriéme et cinquiéme paramétre constituent du texte libre.
 
-* __.:GetPreviousPage:: texte libre :.__ : 
-* __.:GetNextPage:: texte libre :.__ : 
+* __.:GetPreviousPage:: texte libre :.__ : Quand est appelé dans un fil d'exporation, ce motif permet de récupérer l'url de la page précédente, si elle existe. Pour accéder à l'url de la page précédente utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
+* __.:GetNextPage:: texte libre :.__ : Quand est appelé dans un fil d'exporation, ce motif permet de récupérer l'url de la page suivante si elle existe. Pour accéder à l'url de la page suivente utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
+* __.:PageList:: taille :.__ : Permet de récuper une liste des publication antérieur et postérieur à la publication. La taille de cette liste est determinée par __taille__, qui doit être un nombre entier.
 
 ## Variables d'environnement
 
