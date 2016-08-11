@@ -191,6 +191,7 @@ Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux 
 * __.:Get::EntryUrl:.__ : Permet de récuper le permaliens de la publication.
 * __.:Get::EntryContent:.__ : Permet de récuper le corps de la publication.
 * __.:Get::EntryDate:.__ : Permet de récuper la date de la publication formatée.
+* __.:Get::EntryDateUrl:.__ : Permet de récuper le chemin de la période correspondant à date de la publication.
 
 ### Motifs spéciaux
 
@@ -203,6 +204,9 @@ Notons qu'en général le second paramétre pour la fonction _For_ est en fait d
 Idem pour le troisième paramétre, le séparateur. Le séparateur permet d'insérer du texte après le texte libre de l'itération courante.
 
 De façon identique, pour la fonction _RecursiveFor_, le second, le quatriéme et cinquiéme paramétre constituent du texte libre.
+
+* __.:GetPreviousPage:: texte libre :.__ : 
+* __.:GetNextPage:: texte libre :.__ : 
 
 ## Variables d'environnement
 
