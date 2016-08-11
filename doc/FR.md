@@ -138,7 +138,8 @@ Pour créer une nouvelle publication rendez vous [ici](https://github.com/DenisS
 
 1. [Motifs de Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
 2. [Motifs Super Globaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-super-globaux)
-3. [Motifs de Publications](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-publication)
+3. [Motifs de Publications](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-publications)
+4. [Motifs Spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux)
 
 VenC utilise un moteur de reconnaissance de motif permettant une mise en page facilitée et automatisée. Ce système permet également d'utiliser des modules externes. La création et l'ajout de greffons sera détaillé dans une autre partie.
 
