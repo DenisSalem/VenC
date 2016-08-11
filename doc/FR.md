@@ -196,10 +196,10 @@ Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux 
 
 Il est possible dans certains cas de d'accéder à des données itérativement, quand celle-ci se présente sous la forme d'une liste ou d'un arbre
 
-* __.:For:: liste :: blah blah {item} blah :: séparateur :.__ : Permet d'itérer à travers une liste. 
-* __.:RecursiveFor:: arbre :: ouverture :: blah {item} blah blah :: séparateur :: fermeture :.__ : Permet d'itérer à travers un arbre, un type particulier de liste.
+* __.:For:: liste :: blah blah {0[item]} blah :: séparateur :.__ : Permet d'itérer à travers une liste. 
+* __.:RecursiveFor:: arbre :: ouverture :: blah {0[item]} blah blah :: séparateur :: fermeture :.__ : Permet d'itérer à travers un arbre, un type particulier de liste.
 
-Notons qu'en général le second paramétre pour la fonction _For_ est en fait du texte libre, pour accéder à l'item de l'itération courante on utilise la variable de context {item}.
+Notons qu'en général le second paramétre pour la fonction _For_ est en fait du texte libre, pour accéder à l'item de l'itération courante on utilise la variable de context {0[item]}.
 Idem pour le troisième paramétre, le séparateur. Le séparateur permet d'insérer du texte après le texte libre de l'itération courante.
 
 De façon identique, pour la fonction _RecursiveFor_, le second, le quatriéme et cinquiéme paramétre constituent du texte libre.
@@ -207,6 +207,7 @@ De façon identique, pour la fonction _RecursiveFor_, le second, le quatriéme e
 ## Variables d'environnement
 
 1. [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#blog_configurationyaml)
+2. [Variables de motifs](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#variables-de-motifs)
 
 ### blog_configuration.yaml
 
@@ -221,7 +222,7 @@ Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait a
 Il existe également des variables particulières sous la forme de listes. Ces variables peuvent être parcourue itérativement et récursivement pour en extraire le contenue et le mettre en forme. Cette extraction se fait grace aux motifs spéciaux _For_ et _RecursiveFor_ dont on va détailler le fonctionnement plus bas. Mais avant voici les listes disponibles:
 
 * __EntryTags__ : La liste de mot clefs de la publication courante.
-* __EntryAuthors__ : La liste des auteurs de la publication courante.
+* __EntryAuthors__ : La liste des auteurs de la publication courante. Pour accéder à la l'item courant utiliser la variable de contexte {0[author]}.
 
 On arrive maintenant au cas particulier des categories. Les categories forment un arbres comme illustré ci-dessous
 
@@ -229,12 +230,11 @@ On arrive maintenant au cas particulier des categories. Les categories forment u
 
 Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche compléte_" désigne le chemin complet depuis la racine d'un arbre jusqu'à une feuille de cette arbre.
 
-* __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriqués.
+* __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriqués. Il y a plusieur item disponible pour une itération courante; {0[relativeOrigin]}, {0[categoryLeaf]}, {0[categoryLeafUrl]}. Respectivement le chemin relatif de la page courange vers la racine du blog, le nom de la category feuille et l'url vers la category feuille. 
 * __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante.
 * __BlogCategories__ : La liste des categories (branche complète) du blog. Se présente sous la forme de listes imbriqués.
 
 Pour utiliser ces variables spéciales de motifs reportez vous à la partie [Motifs spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux)
-
 
 # Commandes
 
