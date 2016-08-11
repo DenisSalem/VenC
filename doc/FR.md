@@ -137,6 +137,8 @@ Pour créer une nouvelle publication rendez vous [ici](https://github.com/DenisS
 ## Pattern Processor
 
 1. [Motifs de Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
+2. [Motifs Super Globaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-super-globaux)
+3. [Motifs de Publications](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-publication)
 
 VenC utilise un moteur de reconnaissance de motif permettant une mise en page facilitée et automatisée. Ce système permet également d'utiliser des modules externes. La création et l'ajout de greffons sera détaillé dans une autre partie.
 
@@ -189,6 +191,18 @@ Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux 
 * __.:Get::EntryContent:.__ : Permet de récuper le corps de la publication.
 * __.:Get::EntryDate:.__ : Permet de récuper la date de la publication formatée.
 
+### Motifs spéciaux
+
+Il est possible dans certains cas de d'accéder à des données itérativement, quand celle-ci se présente sous la forme d'une liste ou d'un arbre
+
+* __.:For:: liste :: blah blah {item} blah :: séparateur :.__ : Permet d'itérer à travers une liste. 
+* __.:RecursiveFor:: arbre :: ouverture :: blah {item} blah blah :: séparateur :: fermeture :.__ : Permet d'itérer à travers un arbre, un type particulier de liste.
+
+Notons qu'en général le second paramétre pour la fonction _For_ est en fait du texte libre, pour accéder à l'item de l'itération courante on utilise la variable de context {item}.
+Idem pour le troisième paramétre, le séparateur. Le séparateur permet d'insérer du texte après le texte libre de l'itération courante.
+
+De façon identique, pour la fonction _RecursiveFor_, le second, le quatriéme et cinquiéme paramétre constituent du texte libre.
+
 ## Variables d'environnement
 
 1. [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#blog_configurationyaml)
@@ -203,7 +217,7 @@ Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait a
 
 ### Variables de motifs
 
-Il existe également des listes. Il s'agit de variables particulières accessiblent dans une publication. Ces variables peuvent être parcourue itérativement et récursivement pour en extraire le contenue et le mettre en forme. Cette extraction se fait grace au variable spécial _For_ et _RecursiveFor_ dont on va détailler le fonctionnement plus bas. Mais avant voici les listes disponibles:
+Il existe également des variables particulières sous la forme de listes. Ces variables peuvent être parcourue itérativement et récursivement pour en extraire le contenue et le mettre en forme. Cette extraction se fait grace aux motifs spéciaux _For_ et _RecursiveFor_ dont on va détailler le fonctionnement plus bas. Mais avant voici les listes disponibles:
 
 * __EntryTags__ : La liste de mot clefs de la publication courante.
 * __EntryAuthors__ : La liste des auteurs de la publication courante.
@@ -218,14 +232,7 @@ Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche 
 * __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante.
 * __BlogCategories__ : La liste des categories (branche complète) du blog. Se présente sous la forme de listes imbriqués.
 
-* __.:For:: liste :: blah blah {item} blah :: séparateur :.__ : Permet d'itérer à travers une liste. 
-* __.:RecursiveFor::EntryCategories:: ouverture :: blah {item} blah blah :: séparateur :: fermeture :.__ : Permet d'itérer à travers un arbre, un type particulier de liste.
-
-Notons qu'en général le second paramétre pour la fonction _For_ est en fait du texte libre, pour accéder à l'item de l'itération courante on utilise le mot clef {item}.
-Idem pour le troisième paramétre, le séparateur. Le séparateur permet d'insérer du texte après le texte libre de l'itération courante.
-
-De façon identique, pour la fonction _RecursiveFor_, le second, le quatriéme et cinquiéme paramétre constituent du texte libre.
-Des exemples d'utilisation de ces fonctions sont détaillés dans la partie astuces.
+Pour utiliser ces variables spéciales de motifs reportez vous à la partie [Motifs spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux)
 
 
 # Commandes
