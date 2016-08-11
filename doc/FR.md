@@ -5,7 +5,8 @@
 3. [Désinstallation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#désinstallation)
 4. [Prise en main](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#prise-en-main)
 5. [Commandes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#commandes)
-6. [Thémes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#th%C3%A9mes)
+6. [Astuces]((https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#astuces)
+7. [Thémes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#th%C3%A9mes)
 
 # Présentation
 
@@ -72,8 +73,9 @@ Lorsque vous créez un nouveau projet, VenC produit un certains nombre de réper
 ## Structure des fichiers
 
 1. [Fichier de configuration principal](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal)
-2. [Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#templates)
-3. [Publications](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#Publications)
+2. [Les Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#les-templates)
+3. [Les Publications](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#les-ublications)
+4. [Les Thémes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#les-thémes)
 
 ### Fichier de configuration principal
 
@@ -106,14 +108,14 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 * __entry_file_name__ : "entry{entry_id}.html" par défaut. Définit le nom de fichier d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.
 * __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss. Pas encore implémenté.
 
-### Templates
+### Les Templates
 
 Un template est en fait une publication vierge qui a cependant été préformatté pour contenir des informations souvent utilisés pour lesquels on ne veut pas perdre du
 temps à réécrire ou mettre en forme. Un fichier template contient donc des [motifs](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
 pouvant être interprété. Il n'y a pas de template par défaut, c'est à l'utilisateur de créer les siens. Lorsqu'aucun template n'est utilisé. Venc produit une publication
 totalement vierge.
 
-### Publications
+### Les Publications
 
 Une publication est un fichier similaire à un template mais dont le propos est d'être remplit par l'utilisateur manuellement en y rédigeant le contenu de la publication désiré.
 Cela peut-être un billet d'humeur, un article de fond, une galerie d'image, etc. Pour faciliter l'édition de votre blog avec VenC vous êtes fortement encouragé à utiliser des
@@ -133,6 +135,10 @@ Notons également que le nom de fichier d'une publication est formatté d'une fa
 `<id>__<mois>-<jour>-<année>-<heure>-<minute>__<titre>`
 
 Pour créer une nouvelle publication rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#nouvelle-publication)
+
+### Les Thémes
+
+À compléter.
 
 ## Pattern Processor
 
@@ -291,6 +297,10 @@ Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce r
 
 Pour en savoir plus sur l'arborescence rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#arborescence).
 
+# Astuces
+
+À compléter
+
 # Thémes
 
 1. [Installation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#installation-1)
@@ -298,10 +308,14 @@ Pour en savoir plus sur l'arborescence rendez vous [ici](https://github.com/Deni
 
 ## Installation
 
+À compléter
+
 ## Greffons
 
 1. [Défilement infini](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#d%C3%A9filement-infini)
 2. [Moteur de recherche côté client](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#moteur-de-recherche-c%C3%B4t%C3%A9-client)
 
 ### Défilement infini
+À compléter
 ### Moteur de recherche côté client
+Non implémenté
