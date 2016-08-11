@@ -230,9 +230,9 @@ On arrive maintenant au cas particulier des categories. Les categories forment u
 
 Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche compléte_" désigne le chemin complet depuis la racine d'un arbre jusqu'à une feuille de cette arbre.
 
-* __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriqués. Il y a plusieur item disponible pour une itération courante; {0[relativeOrigin]}, {0[categoryLeaf]}, {0[categoryLeafUrl]}. Respectivement le chemin relatif de la page courange vers la racine du blog, le nom de la category feuille et l'url vers la category feuille. 
-* __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante.
-* __BlogCategories__ : La liste des categories (branche complète) du blog. Se présente sous la forme de listes imbriqués.
+* __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriqués. Il y a plusieur items disponible pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante.
+* __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante. Il y a plusieur items disponible pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryLeaf]}__ et __{0[categoryLeafUrl]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le nom de la category feuille et l'url vers la category feuille.
+* __BlogCategories__ : La liste des categories (branche complète) du blog. Se présente sous la forme de listes imbriqués. Il y a plusieur items disponible pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante. 
 
 Pour utiliser ces variables spéciales de motifs reportez vous à la partie [Motifs spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux)
 
