@@ -5,7 +5,7 @@
 3. [Désinstallation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#désinstallation)
 4. [Prise en main](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#prise-en-main)
 5. [Commandes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#commandes)
-6. [Astuces]((https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#astuces)
+6. [Astuces](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#astuces)
 7. [Thémes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#th%C3%A9mes)
 
 # Présentation
