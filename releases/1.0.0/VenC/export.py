@@ -157,8 +157,10 @@ class Blog:
         self.initStates(inputEntries, False, inThread=True)
         self.outputPage = str()
         self.outputPage += self.patternProcessor.parse(self.theme.rssHeader)
+
         for entry in inputEntries[:int(VenC.core.blogConfiguration["rss_thread_lenght"])]:
             self.initEntryStates(entry)
+            self.outputPage += self.patternProcessor.parse(self.theme.rssEntry)
         self.outputPage += self.patternProcessor.parse(self.theme.rssFooter)
         
         stream = codecs.open("blog/"+folderDestination+"/feed.xml",'w',encoding="utf-8")
