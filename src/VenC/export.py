@@ -86,13 +86,24 @@ class Blog:
         self.exportCategories(self.entriesPerCategories)
         self.relativeOrigin = str()
         self.exportThread(self.entriesList, singleEntry=True)
+        self.exportExtraData(os.getcwd()+"/theme/assets")
+        self.exportExtraData(os.getcwd()+"/extra")
+    
+    def exportExtraData(self,origin, destination=""):
         try:
-            assets = os.listdir(os.getcwd()+"/theme/assets")
-            for asset in assets:
-                shutil.copy(os.getcwd()+"/theme/assets/"+asset, os.getcwd()+"/blog/"+asset)
+            folder = os.listdir(origin)
+            for item in folder:
+                if os.path.isdir(origin+"/"+item):
+                    try:
+                        os.mkdir(os.getcwd()+"/blog/"+destination+item)
+                        self.exportExtraData(origin+'/'+item, item+'/')
+                    except:
+                        raise
+                else:
+                    shutil.copy(origin+"/"+item, os.getcwd()+"/blog/"+destination+item)
         except:
             raise
-
+        
     def exportCategories(self, categories):
         for category in categories:
             self.destinationPath+= VenC.core.blogConfiguration["path"]["category_directory_name"].format(category=category.value+'/')

@@ -3,8 +3,8 @@ __________|___________________________________
 
 version 1.0.0 Last minute edition :p
 
-HIGHT     | Copy recursively, if necessary, data from extra.
-HIGHT     | Copy recursively, if necessary data from assets.
+DONE      | Copy recursively, if necessary, data from extra.
+DONE      | Copy recursively, if necessary data from assets.
 DONE      | Copy if necessary data from assets.
 DONE      | Export RSS recusively (for each thread and sub category thread)
 
