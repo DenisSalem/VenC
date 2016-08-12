@@ -1,6 +1,13 @@
 Priority  | TODO
 __________|___________________________________
 
+version 1.0.0
+
+HIGHT     | Copy recursively, if necessary, data from extra.
+HIGHT     | Copy recursively, if necessary data from assets.
+DONE      | Copy if necessary data from assets.
+HIGHT     | Export RSS recusively (for each thread and sub category thread)
+
 version 1.1.x
 
 HIGHT     | Must implement weight exploitation
@@ -8,3 +15,5 @@ HIGHT     | Must support FTP
 MEDIUM    | Client-side search engine
 MEDIUM    | GetPrevious and GetNextPage should work outside thread
 LOW       | Add some extra variables; BlogAuthors, BlogTags.
+MEDIUM    | Print errors when pattern processor fail.
+MEDIUM    | Add row and column number of the faulty line when pattern processor fail.

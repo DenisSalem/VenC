@@ -160,7 +160,18 @@ Pour créer une nouvelle publication rendez vous [ici](https://github.com/DenisS
 
 ### Les Thémes
 
-À compléter.
+Un théme est l'ensemble des fragment qui seront assemblés et interprétés par VenC pour former votre blog, c'est dans un thème que sera définit la mise en page de votre site.
+Typiquement, un thème est un repertoire contenant au moins le dossier __chunks__ et un autre, optionel __assets__.
+
+- __assets__ : Contient des ressources nécessaires à la mise en page ou au fonctionnement du blog. Cela peut-être des images, des feuilles de style CSS ou des script JS. Vous pouvez également y entreposer des librairies JQuery ou bootstrap.
+
+- __chunks__ : Doit contenir les fichiers suivant
+  - header.html
+  - entry.html
+  - footer.html
+  - rssHeader.html
+  - rssEntry.html
+  - rssFooter.html
 
 ## Pattern Processor
 
