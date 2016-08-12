@@ -78,6 +78,7 @@ class Blog:
 
     def export(self):
         self.exportThread(self.entriesList)
+        self.exportRss(self.entriesList)
         self.relativeOrigin += "../"
         for e in self.entriesPerDates:
             self.exportThread(e.relatedTo, folderDestination=e.value+'/')
@@ -97,6 +98,7 @@ class Blog:
             self.destinationPath+= VenC.core.blogConfiguration["path"]["category_directory_name"].format(category=category.value+'/')
             self.relativeOrigin += "../"
             self.exportThread(category.relatedTo, folderDestination=self.destinationPath)
+            self.exportRss(category.relatedTo, folderDestination=self.destinationPath)
             self.exportCategories(category.childs)
             self.relativeOrigin = self.relativeOrigin[:-3]
             self.destinationPath = self.destinationPath[:-len(category.value+"/")]
@@ -144,6 +146,25 @@ class Blog:
         else:
             return pattern.format({"destinationPage":destinationPage,"destinationPageUrl":destinationPageUrl})
 
+    def initEntryStates(self, entry):
+        self.entry = VenC.core.GetEntry(entry, self.relativeOrigin)
+        self.patternProcessor.Set("PageNumber", self.pageCounter)
+        self.patternProcessor.Set("EntryDateUrl", self.relativeOrigin+time.strftime(VenC.core.blogConfiguration["path"]["dates_directory_name"], time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S")))
+        self.patternProcessor.Set("EntryUrl", self.relativeOrigin+"entry"+self.entry["EntryID"]+".html")
+        self.patternProcessor.SetWholeDictionnary(self.entry)
+
+    def exportRss(self, inputEntries, folderDestination=""):
+        self.initStates(inputEntries, False, inThread=True)
+        self.outputPage = str()
+        self.outputPage += self.patternProcessor.parse(self.theme.rssHeader)
+        for entry in inputEntries[:int(VenC.core.blogConfiguration["rss_thread_lenght"])]:
+            self.initEntryStates(entry)
+        self.outputPage += self.patternProcessor.parse(self.theme.rssFooter)
+        
+        stream = codecs.open("blog/"+folderDestination+"/feed.xml",'w',encoding="utf-8")
+        stream.write(self.outputPage)
+        stream.close()
+
     def exportThread(self, inputEntries, folderDestination="", singleEntry=False):
         self.initStates(inputEntries, singleEntry, inThread=True)
         # Configure patternProcessor instance with some fixed values and functions
@@ -155,14 +176,8 @@ class Blog:
             columnsNumber = 1 if VenC.core.blogConfiguration["columns"] < 1 else int(VenC.core.blogConfiguration["columns"])
 
         for entry in inputEntries:
-            # Update entry datas
+            self.initEntryStates(entry)
             
-            self.entry = VenC.core.GetEntry(entry, self.relativeOrigin)
-            self.patternProcessor.Set("PageNumber", self.pageCounter)
-            self.patternProcessor.Set("EntryDateUrl", self.relativeOrigin+time.strftime(VenC.core.blogConfiguration["path"]["dates_directory_name"], time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S")))
-            self.patternProcessor.Set("EntryUrl", self.relativeOrigin+"entry"+self.entry["EntryID"]+".html")
-            self.patternProcessor.SetWholeDictionnary(self.entry)
-
             if self.entryCounter == 0:
                 self.columns = [ "<div id=\"__VENC_COLUMN_"+str(i)+"__\" class=\"__VENC_COLUMN__\">" for i in range(0,columnsNumber) ]
                 self.outputPage = str()

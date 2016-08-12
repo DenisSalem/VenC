@@ -143,6 +143,7 @@ def GetEntriesPerKeys(entries, keyType):
                 try:
                     selectedKey = GetKeyByName(entriesPerKeys, tag)
                     selectedKey.relatedTo.append(entry)
+                    # Must implement weight exploitation in upcoming version
                     selectedKey.weight+=1
                 except:
                     entriesPerKeys.append(Key(tag,entry))
