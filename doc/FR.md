@@ -173,6 +173,21 @@ Typiquement, un thème est un repertoire contenant au moins le dossier __chunks_
   - rssEntry.html
   - rssFooter.html
 
+Comme vous l'avez sans doute compris VenC met bout à bout les morceaux de votre blog en formattant l'entête (header.html) et en répétant un certain nombre de fois le contenu de formatté du morceau qui définit une publication (entry.html). La page courante est alors terminé en y ajoutant le morceau pied de page (footer.html) également formatté.
+
+C'est exactement le même principe pour le flux RSS qui est construit de façon identique.
+
+Il n'est pas forcément évident de créer un théme de toute pièce et vous n'avez peut-être pas envie de perdre trop de temps à tester le fonctionnement de tout ça. Le meilleur
+moyen de créer un thème soit même c'est de jeter un oeil au thème [dummy](https://github.com/DenisSalem/VenC/tree/master/src/share/themes/dummy). Ce théme en l'état n'est pas
+utilisable, mais c'est une solide base pour créer le votre. Si vous avez déjà installé VenC sur votre système vous pourrez trouver ce thème dans 
+
+`/usr/share/VenC/themes/dummy`
+
+Une autre approche est de regarder comment sont construit d'autres thémes. Ceux là seront ajoutés au fur et a mesure sur le repository github de VenC.
+
+Vous pouvez également vous aider de la partie [Astuces](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#astuces) dans laquelle sont décrites
+des techniques pour réaliser des mises en pages très spécifiques et dans laquelle l'utilisation peut-être un peu obscure des motifs de VenC sera illustrés.
+
 ## Pattern Processor
 
 1. [Motifs de Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
