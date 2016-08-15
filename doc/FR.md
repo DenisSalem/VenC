@@ -32,9 +32,9 @@
 
 # Présentation
 
-VenC est une application python conçu pour linux et similaire à Octopress/Jekyll pour gérer et créer vos blogs statique via la console. Avec VenC, tout est fichier texte, pas de base de donnée. La configuration de chaque blog repose sur un unique et petit fichier Yaml, les thèmes consistent en une poignée de templates html à modifier ou créer soit même, les publications quant à elles, se présentent sous la forme d'une partie YAML et d'une autre Markdown.
+VenC est une application python conçu pour linux et similaire à Octopress/Jekyll pour gérer et créer vos blogs statiques via la console. Avec VenC, tout est fichier texte, pas de base de données. La configuration de chaque blog repose sur un unique et petit fichier Yaml, les thèmes consistent en une poignée de templates HTML à modifier ou créer soit même, les publications quant à elles, se présentent sous la forme d'une partie YAML et d'une autre Markdown.
 
-Les blogs statiques sont tout à fait adaptés aux darknets ou ceux qui veulent un controle totale sur leur site sans s'embarrasser de CMS lourd et potentiellement vulnérable en terme de sécurité. Par ailleurs, l'extrême simplicité de l'organisation des sources des blogs issus de VenC garantie une prise en main rapide et efficace.
+Les blogs statiques sont tout à fait adaptés aux darknets ou ceux qui veulent un controle totale sur leur site sans s'embarrasser de CMS lourds et potentiellement vulnérables en terme de sécurité. Par ailleurs, l'extrême simplicité de l'organisation des sources des blogs issues de VenC garantie une prise en main rapide et efficace.
 
 # Installation
 
@@ -56,7 +56,7 @@ Déplacez vous à présent dans le répertoire de de VenC
 
 `cd VenC`
 
-Puis lancez le script d'installation
+Puis lancez le script d'installation en étant root.
 
 `./install.sh`
 
@@ -64,7 +64,7 @@ Voilà, VenC est normalement correctement installé sur votre système.
 
 # Désinstallation
 
-Dans le cas peu probable où vous voudriez supprimer VenC de votre système tapez successivement dans un
+Dans le cas peu probable où vous voudriez supprimer VenC de votre système tapez successivement les commandes suivantes dans un
 terminal en étant root
 
 `rm -rfv /usr/lib/python< votre version >/VenC`
@@ -82,13 +82,13 @@ terminal en étant root
 
 ## Arborescence
 
-Lorsque vous créez un nouveau projet, VenC produit un certains nombre de répertoire. La racine du projet porte le nom du blog, par exemple, "MooFooBar". Ce répertoire en contient cinq autres.
+Lorsque vous créez un nouveau projet, VenC produit un certains nombre de répertoires. La racine du projet porte le nom du blog, par exemple, "MooFooBar". Ce répertoire en contient cinq autres.
 
-* __blog__: le dossier où est exporté le projet.
-* __extra__: un dossier contenant des ressources quelquonque copiées vers blog/ au moment de l'exportation.
+* __blog__: Le dossier où est exporté le projet.
+* __extra__: Un dossier contenant des ressources quelquonques copiées vers __blog/__ au moment de l'exportation.
 * __entries__: Contient toutes les publications sous forme de fichiers texte numérotés et datés.
 * __theme__: Contient les templates html, les feuilles de style et éventuellement les scripts JS.
-* __templates__: Contient des modèles vierge de publication.
+* __templates__: Contient des modèles vierges de publication.
 
 ![](https://github.com/DenisSalem/VenC/raw/master/doc/folders.png "")
 
@@ -120,21 +120,21 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 * __blog_language__ : Définit la langue du site.
 * __email__ : Votre adresse e-mail.
 * __entries_per_pages__ : "10" par défaut. Définit évidément le nombre de publication par page.
-* __columns__ : "1" par défaut. Propriété interessante de VenC détaillé plus loin dans la documentation. Ce champ définit le nombre de colunm dans une page.
-* __rss_thread_lenght__ : "5" par défaut. Définit le nombre de publication à afficher dans le flux RSS.
-* __thread_order__ : "latest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ ne peut prendre comme valeur soit "oldest first", soit "latest first".
-* __path__ : Il s'agit d'une variables contenant différents chemins, vous ne devriez normalement pas avoir besoin d'y toucher. La liste de ces chemins est détaillé ci-dessous
-* __index_file_name__ : "index{page_number}.html" par défaut. Le nom de fichier formaté des pages du fil principale de publication. Devrait toujours contenir la variable {page_number}.
+* __columns__ : "1" par défaut. Ce champ définit le nombre de colonnes dans une page.
+* __rss_thread_lenght__ : "5" par défaut. Définit le nombre de publications à afficher dans le flux RSS.
+* __thread_order__ : "latest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ peut prendre comme valeur soit "oldest first", soit "latest first".
+* __path__ : Il s'agit d'une variable contenant différents chemins, vous ne devriez normalement pas avoir besoin d'y toucher. La liste de ces chemins est détaillé ci-dessous
+* __index_file_name__ : "index{page_number}.html" par défaut. Le nom de fichier formaté des pages du fil principale de publications. Devrait toujours contenir la variable {page_number}.
 * __category_directory_name__ : "{category}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à une catégorie de publication. Ce champ devrait donc toujours contenir la variable {category}.
 * __dates_directory_name__ : "%Y-%m" par défaut. Définit le format de date utilisé pour les nom de répertoires de fils de publications associés à des dates.
 * __entry_file_name__ : "entry{entry_id}.html" par défaut. Définit le nom de fichier d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.
-* __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss. Pas encore implémenté.
+* __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss.
 
 ### Les Templates
 
-Un template est en fait une publication vierge qui a cependant été préformatté pour contenir des informations souvent utilisés pour lesquels on ne veut pas perdre du
+Un template est en fait une publication vierge qui a cependant été préformatté pour contenir des informations souvent utilisées pour lesquels on ne veut pas perdre du
 temps à réécrire ou mettre en forme. Un fichier template contient donc des [motifs](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
-pouvant être interprété. Il n'y a pas de template par défaut, c'est à l'utilisateur de créer les siens. Lorsqu'aucun template n'est utilisé. Venc produit une publication
+pouvant être interprétés. Il n'y a pas de template par défaut, c'est à l'utilisateur de créer les siens. Lorsqu'aucun template n'est utilisé VenC produit une publication
 totalement vierge.
 
 ### Les Publications
@@ -173,20 +173,20 @@ Typiquement, un thème est un repertoire contenant au moins le dossier __chunks_
   - rssEntry.html
   - rssFooter.html
 
-Comme vous l'avez sans doute compris VenC met bout à bout les morceaux de votre blog en formattant l'entête (header.html) et en répétant un certain nombre de fois le contenu de formatté du morceau qui définit une publication (entry.html). La page courante est alors terminé en y ajoutant le morceau pied de page (footer.html) également formatté.
+Comme vous l'avez sans doute compris VenC met bout à bout les morceaux de votre blog en formattant l'entête (header.html) et en répétant un certain nombre de fois l'operation qui consiste à formatté le morceau qui définit une publication (entry.html) pour la publication courante. La page courante est alors terminé en y ajoutant le morceau pied de page (footer.html) également formatté.
 
 C'est exactement le même principe pour le flux RSS qui est construit de façon identique.
 
 Il n'est pas forcément évident de créer un théme de toute pièce et vous n'avez peut-être pas envie de perdre trop de temps à tester le fonctionnement de tout ça. Le meilleur
 moyen de créer un thème soit même c'est de jeter un oeil au thème [dummy](https://github.com/DenisSalem/VenC/tree/master/src/share/themes/dummy). Ce théme en l'état n'est pas
-utilisable, mais c'est une solide base pour créer le votre. Si vous avez déjà installé VenC sur votre système vous pourrez trouver ce thème dans 
+utilisable, mais c'est une solide base pour créer le votre. Le style CSS reste à définir, et vous pourriez vouloir réorganiser les éléments de la page. Si vous avez déjà installé VenC sur votre système vous pourrez trouver ce thème dans 
 
 `/usr/share/VenC/themes/dummy`
 
-Une autre approche est de regarder comment sont construit d'autres thémes. Ceux là seront ajoutés au fur et a mesure sur le repository github de VenC.
+Une autre approche est de regarder comment sont construit d'autres thémes. Ceux là seront ajoutés au fur et à mesure sur le repository github de VenC.
 
 Vous pouvez également vous aider de la partie [Astuces](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#astuces) dans laquelle sont décrites
-des techniques pour réaliser des mises en pages très spécifiques et dans laquelle l'utilisation peut-être un peu obscure des motifs de VenC sera illustrés.
+des techniques pour réaliser des mises en pages très spécifiques et pour laquelle l'utilisation peut-être un peu obscure des motifs de VenC sera illustrées.
 
 ## Pattern Processor
 
@@ -195,7 +195,7 @@ des techniques pour réaliser des mises en pages très spécifiques et dans laqu
 3. [Motifs de Publications](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-publications)
 4. [Motifs Spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux)
 
-VenC utilise un moteur de reconnaissance de motif permettant une mise en page facilitée et automatisée. Ce système permet également d'utiliser des modules externes. La création et l'ajout de greffons sera détaillé dans une autre partie.
+VenC utilise un moteur de reconnaissance de motif permettant une mise en page facilitée et automatisée. Ce système devrait permettre dans de futur version d'utiliser des modules externes. La création et l'ajout de greffons sera détaillé dans une autre partie.
 
 _Les motifs pouvant être reconnues dépendent du contexte dans lesquel ils sont trouvé._
 
@@ -205,8 +205,8 @@ Les motifs sont définis de la façon suivante dans VenC
 * Chaque motifs se terminent par ':.'
 * Le ou les séparateurs à l'intérieur d'un motif sont représentés par '::'
 
-Un motif est une fonction pouvant prendre des paramétres. L'objectif est de remplacer un motif par une chaine de caractére formaté. Typiquement, les motifs
-permettent d'accéder au données du blog ou de faire de la mise en page spécifique pour faire, par exemple, un menu déroulant, ou une bar de navigation.
+Un motif est une fonction pouvant prendre des paramétres. L'objectif est de remplacer un motif par une chaine de caractére formattée. Typiquement, les motifs
+permettent d'accéder aux données du blog ou de faire de la mise en page spécifique pour faire, par exemple, un menu déroulant, ou une bar de navigation.
 
 ### Motifs de Templates
 
@@ -221,7 +221,7 @@ Un template peut contenir un certains nombre de motifs que VenC peut interpréte
 * __.:Get::EntryHour:.__ : Retourne l'heure de création de la publication.
 * __.:Get::EntryMinute:.__ : Retourne la minute de création de la publication.
 
-À ces motifs s'ajoutes les super globaux généralement disponible quelque soit le contexte.
+À ces motifs s'ajoutent les supers globaux généralement disponibles quelque soit le contexte.
 
 ### Motifs Super Globaux
 
@@ -244,12 +244,12 @@ Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux 
 
 * __.:Get::EntryUrl:.__ : Permet de récuper le permaliens de la publication.
 * __.:Get::EntryContent:.__ : Permet de récuper le corps de la publication.
-* __.:Get::EntryDate:.__ : Permet de récuper la date de la publication formatée.
+* __.:Get::EntryDate:.__ : Permet de récuper la date de la publication formattée.
 * __.:Get::EntryDateUrl:.__ : Permet de récuper le chemin de la période correspondant à date de la publication.
 
 ### Motifs spéciaux
 
-Il est possible dans certains cas de d'accéder à des données itérativement, quand celle-ci se présente sous la forme d'une liste ou d'un arbre
+Il est possible dans certains cas d'accéder à des données itérativement, quand celles-ci se présentent sous la forme d'une liste ou d'un arbre
 
 * __.:For:: liste :: blah blah {0[item]} blah :: séparateur :.__ : Permet d'itérer à travers une liste. 
 * __.:RecursiveFor:: arbre :: ouverture :: blah {0[item]} blah blah :: séparateur :: fermeture :.__ : Permet d'itérer à travers un arbre, un type particulier de liste.
@@ -261,8 +261,8 @@ De façon identique, pour la fonction _RecursiveFor_, le second, le quatriéme e
 
 * __.:GetPreviousPage:: texte libre :.__ : Quand est appelé dans un fil d'exporation, ce motif permet de récupérer l'url de la page précédente, si elle existe. Pour accéder à l'url de la page précédente utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
 * __.:GetNextPage:: texte libre :.__ : Quand est appelé dans un fil d'exporation, ce motif permet de récupérer l'url de la page suivante si elle existe. Pour accéder à l'url de la page suivente utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
-* __.:PageList:: taille :.__ : Permet de récuper une liste des publication antérieur et postérieur à la publication. La taille de cette liste est determinée par __taille__, qui doit être un nombre entier.
-* __.:IfInThread:: text libre :.__ : Motifs conditionnel qui permet d'afficher le texte libre ou non selon que l'on se trouve dans un fil de publication ou sur une publication. Cela permet par exemple d'adapter d'avoir une mise en page particulière pour une publication unique et pour un fil de publications.
+* __.:PageList:: taille :.__ : Permet de récupérer une liste des publications antérieurs et postérieurs à la publication. La taille de cette liste est determinée par __taille__, qui doit être un nombre entier.
+* __.:IfInThread:: text libre :.__ : Motifs conditionnel qui permet d'afficher le texte libre ou non selon que l'on se trouve dans un fil de publication ou sur une publication. Cela permet par exemple d'avoir une mise en page particulière pour une publication unique et pour un fil de publications.
 
 ## Variables d'environnement
 
@@ -279,20 +279,21 @@ Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait a
 
 ### Variables de motifs
 
-Il existe également des variables particulières sous la forme de listes. Ces variables peuvent être parcourue itérativement et récursivement pour en extraire le contenue et le mettre en forme. Cette extraction se fait grace aux motifs spéciaux _For_ et _RecursiveFor_ dont on va détailler le fonctionnement plus bas. Mais avant voici les listes disponibles:
+Il existe également des variables particulières sous la forme de listes. Ces variables peuvent être parcourue itérativement et récursivement pour en extraire le contenue et le mettre en forme. Cette extraction se fait grace aux motifs spéciaux _For_ et _RecursiveFor_ dont le fonctionnement est détaillée dans la partie [Motifs Spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux). Mais avant voici les listes disponibles:
 
 * __EntryTags__ : La liste de mot clefs de la publication courante. Pour accéder au mot clé de l'itération courante utilisez la variable contextuelle {0[tag]}.
-* __EntryAuthors__ : La liste des auteurs de la publication courante. Pour accéder à la l'item courant utiliser la variable de contexte {0[author]}.
+* __EntryAuthors__ : La liste des auteurs de la publication courante. Pour accéder à l'item courant utiliser la variable de contexte {0[author]}.
 * __BlogDates__ : La liste des liens vers les publications groupé par dates tel que définit dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal). Il y a plusieur items disponibles pour une itération courange; __{0[date]}__, __{0[dateUrl]}__. Respectivement la période tel que formatté dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal) et le chemin vers le repertoire associé à cette période.
+
 On arrive maintenant au cas particulier des categories. Les categories forment un arbres comme illustré ci-dessous
 
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/treesFR.png "")
 
 Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche compléte_" désigne le chemin complet depuis la racine d'un arbre jusqu'à une feuille de cette arbre.
 
-* __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriqués. Il y a plusieur items disponibles pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante.
+* __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriquées. Il y a plusieurs items disponibles pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante.
 * __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante. Il y a plusieur items disponibles pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryLeaf]}__ et __{0[categoryLeafUrl]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le nom de la category feuille et l'url vers la category feuille.
-* __BlogCategories__ : La liste des categories (branche complète) du blog. Se présente sous la forme de listes imbriqués. Il y a plusieur items disponible pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante.
+* __BlogCategories__ : La liste des categories (branche complète) du blog. Se présente sous la forme de listes imbriqués. Il y a plusieur items disponibles pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante.
 
 Pour utiliser ces variables spéciales de motifs reportez vous à la partie [Motifs spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux)
 
@@ -331,7 +332,7 @@ Pour créer une nouvelle publication vous __devez__ être dans le répertoire de
 
 Vous ne pouvez pas créer une publication sans spécifier le titre de celle-ci.
 
-Si vous ne spécifiez pas de nom de template, VenC produira une publication totalement vierge.
+Si vous ne spécifiez pas de nom de template, VenC produira une publication totalement vierge. Le nom de template est en fait le nom de fichier du template désiré se trouvant dans le répertoire __templates__.
 
 À l'issu de cette commande VenC essaiera d'ouvrir la nouvelle publication avec l'éditeur de texte spécifié dans le fichier de configuration principal __blog_configuration.yaml__.
 
@@ -356,7 +357,7 @@ Pour en savoir plus sur l'arborescence rendez vous [ici](https://github.com/Deni
 
 ## Installation
 
-À compléter
+Pour installer un un thèm sur votre blog copiez le repertoire __chunks__ et __assets__ (si ce dernier existe) dans le sous répertoire __théme__ de votre blog.
 
 ## Greffons
 
@@ -364,6 +365,9 @@ Pour en savoir plus sur l'arborescence rendez vous [ici](https://github.com/Deni
 2. [Moteur de recherche côté client](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#moteur-de-recherche-c%C3%B4t%C3%A9-client)
 
 ### Défilement infini
+
 À compléter
+
 ### Moteur de recherche côté client
+
 Non implémenté
