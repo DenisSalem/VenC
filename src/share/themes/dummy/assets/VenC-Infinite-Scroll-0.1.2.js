@@ -52,12 +52,17 @@ function __VENC_initPageOffset__() {
 
 function __VENC_InfiniteScroll__(e) { // Flow control
 	console.log(window.__VENC_notBusy__);
-	if (window.__VENC_notBusy__ == 0) {
-		document.getElementById("VENC_LOADING").style.opacity = "0";
-	}
-	else {
-		document.getElementById("VENC_LOADING").style.opacity = "1";
-	}
+        try {
+	  if (window.__VENC_notBusy__ == 0) {
+	    document.getElementById("VENC_LOADING").style.opacity = "0";
+	  }
+	  else {
+	    document.getElementById("VENC_LOADING").style.opacity = "1";
+	  }
+        }
+        catch (e) {
+          console.log("There is no VENC_LOADING element.");
+        }
 	currentColumns = document.getElementsByClassName("__VENC_COLUMN__");
 	viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 	for (i=0; i < currentColumns.length; i++) {
@@ -72,8 +77,13 @@ function __VENC_InfiniteScroll__(e) { // Flow control
 }
 
 function __VENC_preLoading__() {
-	document.getElementById("__VENC_NAVIGATION__").setAttribute("style","display: none;");
-	window.__VENC_timer__ = setInterval(__VENC_InfiniteScroll__, 250);
+        try {
+	  document.getElementById("__VENC_NAVIGATION__").setAttribute("style","display: none;");
+	}
+        catch (e) {
+          console.log("There is no __VENC_NAVIGATION__ element.");
+        }
+        window.__VENC_timer__ = setInterval(__VENC_InfiniteScroll__, 250);
 }
 
 var __VENC_pageNumber__ = __VENC_initPageOffset__();
