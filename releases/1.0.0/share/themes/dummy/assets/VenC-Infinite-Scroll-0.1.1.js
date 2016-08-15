@@ -53,10 +53,10 @@ function __VENC_initPageOffset__() {
 function __VENC_InfiniteScroll__(e) { // Flow control
 	console.log(window.__VENC_notBusy__);
 	if (window.__VENC_notBusy__ == 0) {
-		document.getElementById("loadingNonagon").style.opacity = "0";
+		document.getElementById("VENC_LOADING").style.opacity = "0";
 	}
 	else {
-		document.getElementById("loadingNonagon").style.opacity = "1";
+		document.getElementById("VENC_LOADING").style.opacity = "1";
 	}
 	currentColumns = document.getElementsByClassName("__VENC_COLUMN__");
 	viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
