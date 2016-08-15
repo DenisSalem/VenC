@@ -366,7 +366,28 @@ Pour installer un un thèm sur votre blog copiez le repertoire __chunks__ et __a
 
 ### Défilement infini
 
-À compléter
+Il s'agit d'un script AJAX qui va automatiquement charger le contenu des pages suivantes dans la page courante. Ce module est idéale pour les galeries d'images, par exemple.
+Pour installer ce module il suffit de copier
+
+`VenC-Infinite-Scroll-<version>.js`
+
+depuis
+
+`/usr/share/VenC/themes/dummy/assets
+
+dans 
+
+`<blog>/themes/assets`
+
+Puis ajoutez dans __header.html__ 
+    
+`<script type="text/javascript" src=".:Get::RelativeOrigin:.VenC-Infinite-Scroll-<version>.js"></script>`
+
+Voilà, maintenant la magie opère. Attention cependant. Assurez vous que les contraintes suivantes sont respectés dans votre théme.
+
+- L'élément contenant votre publication doit avoir le nom de classe "entry" sinon le module ne parviendra pas à détecter et récupérer les publications de votre blog.
+- Vous pouvez avoir une image de chargement n'importe où dans votre page, mais si vous voulez la faire interagir avec le module il doit avoir pour nom d'id "__VENC_LOADING__".
+- Vous pouvez vouloir supprimer un élément contenant des liens de navigations, pour cela il faut que cet élément porte le nom d'id "__VENC_NAVIGATION__"
 
 ### Moteur de recherche côté client
 

@@ -54,14 +54,14 @@ function __VENC_InfiniteScroll__(e) { // Flow control
 	console.log(window.__VENC_notBusy__);
         try {
 	  if (window.__VENC_notBusy__ == 0) {
-	    document.getElementById("VENC_LOADING").style.opacity = "0";
+	    document.getElementById("__VENC_LOADING__").style.opacity = "0";
 	  }
 	  else {
-	    document.getElementById("VENC_LOADING").style.opacity = "1";
+	    document.getElementById("__VENC_LOADING__").style.opacity = "1";
 	  }
         }
         catch (e) {
-          console.log("There is no VENC_LOADING element.");
+          console.log("There is no __VENC_LOADING__ element.");
         }
 	currentColumns = document.getElementsByClassName("__VENC_COLUMN__");
 	viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
