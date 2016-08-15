@@ -357,7 +357,7 @@ Pour en savoir plus sur l'arborescence rendez vous [ici](https://github.com/Deni
 
 ## Installation
 
-Pour installer un un thèm sur votre blog copiez le repertoire __chunks__ et __assets__ (si ce dernier existe) dans le sous répertoire __théme__ de votre blog.
+Pour installer un un théme sur votre blog copiez le repertoire __chunks__ et __assets__ (si ce dernier existe) dans le sous répertoire __theme__ de votre blog.
 
 ## Greffons
 
