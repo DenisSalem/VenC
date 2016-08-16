@@ -10,8 +10,8 @@ DONE      | Export RSS recusively (for each thread and sub category thread)
 
 version 1.1.x
 
-HIGH     | Must implement weight exploitation
-HIGH     | Must support FTP
+HIGH      | Must implement weight exploitation
+HIGH      | Must support FTP
 MEDIUM    | Client-side search engine
 MEDIUM    | GetPrevious and GetNextPage should work outside thread
 LOW       | Add some extra variables; BlogAuthors, BlogTags.
