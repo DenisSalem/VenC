@@ -10,6 +10,7 @@ DONE      | Export RSS recusively (for each thread and sub category thread)
 
 version 1.1.x
 
+HIGH      | Syntax coloration via pygmentize
 HIGH      | Must implement weight exploitation
 HIGH      | Must support FTP
 MEDIUM    | Client-side search engine
