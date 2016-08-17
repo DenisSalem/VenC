@@ -9,7 +9,7 @@ class Messages:
     blogDescription = "Courte description du blog"
     blogKeywords = "Quelques mots clefs qui définissent votre blog"
     aboutYou = "À propos de vous"
-    license = "La licence appliqué à votre contenu"
+    license = "La licence appliquée à votre contenu"
     blogUrl = "L'url du blog"
     blogLanguage = "La langue du blog"
     yourEmail = "Votre adresse email"
