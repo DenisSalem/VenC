@@ -36,6 +36,21 @@ VenC est une application python conçue pour linux et similaire à [Octopress](h
 
 Les blogs statiques sont tout à fait adaptés aux darknets ou ceux qui veulent un contrôle total sur leur site sans s'embarrasser de CMS lourds et potentiellement vulnérables en terme de sécurité. Par ailleurs, l'extrême simplicité de l'organisation des sources des blogs issues de VenC garantit une prise en main rapide et efficace.
 
+En outre, voilà ce que VenC propose:
+
+- Création de blog statique (HTML/CSS ).
+- Mise en page simple à personnaliser directement en HTML/CSS.
+- Possibilité de créer un agencement en nombre arbitraire de colonne ( comme sur mon site ).
+- Module de défilement infinie simple et facile à mettre en oeuvre ( comme sur mon site ).
+- Les publications peuvent être organisées par catégories et sous catégories.
+- Les publications peuvent être organisées par période de dates.
+- Publication chronologique ascendante ou descendante.
+- Flux RSS pour chaque fils de publications.
+- Permaliens.
+- Gestion et édition du blog entièrement en ligne de commande.
+- VenC est conçu pour GNU/Linux spécifiquement.
+- Rédaction des publications en markdown.
+
 # Installation
 
 En premier lieu il convient de s'assurer que python 3.x est installé. VenC a également des dépendances qu'il faut satisfaire:
