@@ -32,7 +32,7 @@
 
 # Présentation
 
-VenC est une application python conçue pour linux et similaire à Octopress/Jekyll pour gérer et créer vos blogs statiques via la console. Avec VenC, tout est fichier texte, pas de base de données. La configuration de chaque blog repose sur un unique et petit fichier Yaml, les thèmes consistent en une poignée de templates HTML à modifier ou créer soi même, les publications quant à elles, se présentent sous la forme d'une partie YAML et d'une autre Markdown.
+VenC est une application python conçue pour linux et similaire à [Octopress](http://octopress.org)/[Jekyll](http://jekyllrb.com) pour gérer et créer vos blogs statiques via la console. Avec VenC, tout est fichier texte, pas de base de données. La configuration de chaque blog repose sur un unique et petit fichier Yaml, les thèmes consistent en une poignée de templates HTML à modifier ou créer soi même, les publications quant à elles, se présentent sous la forme d'une partie YAML et d'une autre Markdown.
 
 Les blogs statiques sont tout à fait adaptés aux darknets ou ceux qui veulent un contrôle total sur leur site sans s'embarrasser de CMS lourds et potentiellement vulnérables en terme de sécurité. Par ailleurs, l'extrême simplicité de l'organisation des sources des blogs issues de VenC garantit une prise en main rapide et efficace.
 
@@ -147,8 +147,15 @@ Une publication contient un premier partie au format [Yaml](http://yaml.org) con
 
 Finalement une publication vierge se présente de la façon suivante:
 
-
 ![](https://github.com/DenisSalem/VenC/blob/master/doc/newEntryFR.png?raw=true "")
+
+On a donc trois champs à compléter, ou pas.
+
+- __authors__ : C'est la liste des auteurs de la publications, séparés par une virgule. Pas exemple _Denis Salem, Benjamin Bayard, Richard Stallman_.
+- __categories__ : C'est la liste des categories de la publications, séparées par une virgule. Vous pouvez également avoir des sous categories pour une publication qui définiront ensuite un arbre de categories. Pour définir une sous catégories il faut séparer la categorie parente de la categorie fille par ' > '. Ce procédé peut-être répété autant de fois que nécessaire. Par exemple _Metal > Copper, Metal > Steel > Properties, Materials_.
+- __entry_name__ : C'est le nom de votre publication tel que vous l'avez définit au moment de créer la publication avec `venc -ne <titre de la publication>`.
+- __tags__ : C'est la liste des mots clefs de la publications, séparées par une virgule. Par exemple _Libre, Open-source, Linux_.
+
 
 Les deux parties sont séparées par trois tirets (ceux du six). Sur la capture d'écran la partie contenant la syntaxe Markdown est vide. On parle bien d'une publication vierge.
 
@@ -157,6 +164,7 @@ Notons également que le nom de fichier d'une publication est formaté d'une fa�
 `<id>__<mois>-<jour>-<année>-<heure>-<minute>__<titre>`
 
 Pour créer une nouvelle publication rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#nouvelle-publication)
+
 
 ### Les Thèmes
 
