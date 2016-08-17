@@ -122,28 +122,26 @@ It is a Yaml document in the project's root which defines blog's properties, suc
 * __rss_thread_lenght__ : "5" by default. Defines the number of publications to print in the RSS feed.
 * __thread_order__ : "latest first" by default. Defines the order of publications. Oldest to newest, or the other way around. This field can be set to "oldest first", or "latest first".
 * __path__ : A variable containing various paths, you normally shouldn't need to touch it. Those paths list is detailed below.
-* __index_file_name__ : "index{page_number}.html" by default. Le nom de fichier formaté des pages du fil principale de publications. Devrait toujours contenir la variable {page_number}.
-* __category_directory_name__ : "{category}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à une catégorie de publication. Ce champ devrait donc toujours contenir la variable {category}.
-* __dates_directory_name__ : "%Y-%m" par défaut. Définit le format de date utilisé pour les nom de répertoires de fils de publications associés à des dates.
-* __entry_file_name__ : "entry{entry_id}.html" par défaut. Définit le nom de fichier d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.
-* __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss.
+* __index_file_name__ : "index{page_number}.html" by default. Main thread of publications' fomratted filename. Should always contain the variable {page_number}.
+* __category_directory_name__ : "{category}" by default. Defines the directory where will be exported a publication thread specific to a category of publication. This field should always contain the variable {category}.
+* __dates_directory_name__ : "%Y-%m" by default. Defines the date format used for directories' names of publications threads associated to dates.
+* __entry_file_name__ : "entry{entry_id}.html" by default. Defines the filename of a unique publication. This field should always contain the variable {entry_id}.
+* __rss_file_name__ : "feed.xml" by default. Defines the rss feed's filename.
 
-### Les Templates
+### Templates
 
-Un template est en fait une publication vierge qui a cependant été préformatté pour contenir des informations souvent utilisées pour lesquels on ne veut pas perdre du
-temps à réécrire ou mettre en forme. Un fichier template contient donc des [motifs](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
-pouvant être interprétés. Il n'y a pas de template par défaut, c'est à l'utilisateur de créer les siens. Lorsqu'aucun template n'est utilisé VenC produit une publication
-totalement vierge.
+A template actually is a blank publication which has been preformatted to contain information informations often used for which we don't want to lose time to rewrite or to shape. So a template file contains [patterns](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
+which can be called. There is no template by default, it up to the user to create theirs. When no template is used VenC creates a fully blank publication.
 
-### Les Publications
+### Publications
 
-Une publication est un fichier similaire à un template mais dont le propos est d'être remplit par l'utilisateur manuellement en y rédigeant le contenu de la publication désiré.
-Cela peut-être un billet d'humeur, un article de fond, une galerie d'image, etc. Pour faciliter l'édition de votre blog avec VenC vous êtes fortement encouragé à utiliser des
+A publication is a file similar to a template but which the purpose is to be filled by the user manually by redacting the desired content.
+It can be a mood note, a documented article, an image galery, etc. To ease the edition of your blog with VenC you are strongly encouraged to use
 templates.
 
-Une publication contient une premier partie au format [Yaml](http://yaml.org) contenant les métadonnées de la publication, puis une seconde au format [Markdown](https://daringfireball.net/projects/markdown/) qui elle contiendra la publication à proprement parler.
+A publication contains a firts part in [Yaml](http://yaml.org) format contening publication's metadatas, An another one in [Markdown](https://daringfireball.net/projects/markdown/) format which will contain the said publication.
 
-Finalement une publication vierge se présente de la façon suivante:
+Finaly a blank publication looks like this:
 
 
 ![](https://github.com/DenisSalem/VenC/blob/master/doc/newEntryFR.png?raw=true "")
