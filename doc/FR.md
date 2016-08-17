@@ -151,10 +151,10 @@ Finalement une publication vierge se présente de la façon suivante:
 
 On a donc trois champs à compléter, ou pas.
 
-- __authors__ : C'est la liste des auteurs de la publications, séparés par une virgule. Pas exemple _Denis Salem, Benjamin Bayard, Richard Stallman_.
-- __categories__ : C'est la liste des categories de la publications, séparées par une virgule. Vous pouvez également avoir des sous categories pour une publication qui définiront ensuite un arbre de categories. Pour définir une sous catégories il faut séparer la categorie parente de la categorie fille par ' > '. Ce procédé peut-être répété autant de fois que nécessaire. Par exemple _Metal > Copper, Metal > Steel > Properties, Materials_.
+- __authors__ : C'est la liste des auteurs de la publication, séparés par une virgule. Pas exemple _Denis Salem, Benjamin Bayard, Richard Stallman_.
+- __categories__ : C'est la liste des categories de la publication, séparées par une virgule. Vous pouvez également avoir des sous categories pour une publication qui définiront ensuite un arbre de categories. Pour définir une sous catégories il faut séparer la categorie parente de la categorie fille par ' > '. Ce procédé peut-être répété autant de fois que nécessaire. Par exemple _Metal > Copper, Metal > Steel > Properties, Materials_.
 - __entry_name__ : C'est le nom de votre publication tel que vous l'avez définit au moment de créer la publication avec `venc -ne <titre de la publication>`.
-- __tags__ : C'est la liste des mots clefs de la publications, séparées par une virgule. Par exemple _Libre, Open-source, Linux_.
+- __tags__ : C'est la liste des mots clefs de la publication, séparées par une virgule. Par exemple _Libre, Open-source, Linux_.
 
 
 Les deux parties sont séparées par trois tirets (ceux du six). Sur la capture d'écran la partie contenant la syntaxe Markdown est vide. On parle bien d'une publication vierge.
