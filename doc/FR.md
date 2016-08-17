@@ -111,7 +111,7 @@ Lorsque vous créez un nouveau projet, VenC produit un certain nombre de répert
 
 1. [Fichier de configuration principal](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal)
 2. [Les Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#les-templates)
-3. [Les Publications](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#les-ublications)
+3. [Les Publications](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#les-publications)
 4. [Les Thèmes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#les-thèmes)
 
 ### Fichier de configuration principal
@@ -186,7 +186,7 @@ Pour créer une nouvelle publication rendez vous [ici](https://github.com/DenisS
 Un thème est l'ensemble des fragments qui seront assemblés et interprétés par VenC pour former votre blog, c'est dans un thème que sera définie la mise en page de votre site.
 Typiquement, un thème est un repertoire contenant au moins le dossier __chunks__ et un autre, optionel __assets__.
 
-- __assets__ : Contient des ressources nécessaires à la mise en page ou au fonctionnement du blog. Cela peut-être des images, des feuilles de style CSS ou des script JS. Vous pouvez également y entreposer des librairies JQuery ou bootstrap.
+- __assets__ : Contient des ressources nécessaires à la mise en page ou au fonctionnement du blog. Cela peut-être des images, des feuilles de style CSS ou des script JS. Vous pouvez également y entreposer des librairies comme JQuery ou bootstrap.
 
 - __chunks__ : Doit contenir les fichiers suivant
   - header.html
