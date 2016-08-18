@@ -260,6 +260,7 @@ dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/do
 * __.:Get::BlogUrl:.__ : Retourne l'URL du blog.
 * __.:Get::BlogLanguage:.__ : Retourne le language du blog.
 * __.:Get::AuthorEmail:.__ : Retourne l'adresse email de l'auteur du blog.
+* __.:Get::RelativeOrigin:.__ : Retourne le chemin relatif de la racine du blog.
 
 ### Motifs de Publications
 
