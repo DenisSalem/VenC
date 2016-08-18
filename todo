@@ -17,6 +17,5 @@ HIGH      | Must implement weight exploitation
 HIGH      | Must support FTP
 MEDIUM    | Client-side search engine
 MEDIUM    | GetPrevious and GetNextPage should work outside thread
-LOW       | Add some extra variables; BlogAuthors, BlogTags.
 MEDIUM    | Print errors when pattern processor fail.
 MEDIUM    | Add row and column number of the faulty line when pattern processor fail.
