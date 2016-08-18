@@ -36,7 +36,7 @@ class Blog:
         if self.inThread:
             return argv[0]
         else:
-            return str()
+            return argv[1]
 
     def initStates(self,inputEntries, singleEntry, inThread=False):
         self.entryCounter = 0
