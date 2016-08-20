@@ -73,7 +73,7 @@ def blog(argv):
 								"category_directory_name":		"{category}",
 								"dates_directory_name":			"%Y-%m",
 								"entry_file_name":			"entry{entry_id}.html",
-								"rss_file_name":			"feed.xml",
+								"rss_file_name":			"feed.xml"},
 				"entries_per_pages":		10,
 				"columns":			1,
 				"rss_thread_lenght":		5,
