@@ -33,7 +33,6 @@ class Blog:
         self.relativeOrigin = str()
 
     def IfInThread(self, argv):
-        print(argv[0], argv[1])
         if self.inThread:
             return argv[0]
         else:

@@ -45,13 +45,57 @@ class Theme:
             self.rssEntry = open(os.getcwd()+"/theme/chunks/rssEntry.html",'r').read()
 
         except FileNotFoundError as e:
-            print("VenC: "+VenC.core.Messages.fileNotFound.format(str(e.filename)))
+            print("VenC: "+Messages.fileNotFound.format(str(e.filename)))
             exit()
 
 def GetConfigurationFile():
     try:
-        return yaml.load(open(os.getcwd()+"/blog_configuration.yaml",'r').read())
+        blogConfiguration = yaml.load(open(os.getcwd()+"/blog_configuration.yaml",'r').read())
+        
+        mandatoryFields = [
+            "blog_name",
+            "textEditor",
+            "date_format",
+	    "author_name",
+	    "blog_description",
+	    "blog_keywords",
+	    "author_description",
+	    "license",
+	    "url",
+	    "blog_language",
+	    "email",
+	    "entries_per_pages",
+            "columns",
+	    "rss_thread_lenght",
+            "thread_order"
+        ]
+
+        everythingIsOkay = True
+        for field in mandatoryFields:
+            if not field in blogConfiguration.keys():
+                everythingIsOkay = False
+                print("VenC: "+Messages.missingMandatoryFieldInBlogConf.format(field))
+        
+        mandatoryFields = [
+            "index_file_name",
+	    "category_directory_name",
+	    "dates_directory_name",
+	    "entry_file_name",
+	    "rss_file_name"
+        ]
+
+        for field in mandatoryFields:
+            if not field in blogConfiguration["path"].keys():
+                everythingIsOkay = False
+                print("VenC: "+Messages.missingMandatoryFieldInBlogConf.format(field))
+
+        if not everythingIsOkay:
+            exit()
+
+        return blogConfiguration
+
     except:
+        raise
         return None
 
 blogConfiguration = GetConfigurationFile()
