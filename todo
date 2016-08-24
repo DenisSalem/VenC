@@ -13,7 +13,7 @@ version 1.1.x
 DONE      | Make pattern processor recursive
 DONE      | IfInThread special pattern must act like if/else statement
 DONE      | Notice missing variables in blog_conf
-MEDIUM    | Add command to edit and automatically re-export the blog
+DONE	  | Add command to edit and automatically re-export the blog
 HIGH      | Syntax coloration via pygmentize
 HIGH      | Must implement weight exploitation
 HIGH      | Must support FTP

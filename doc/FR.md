@@ -332,9 +332,17 @@ Pour utiliser ces variables spéciales de motifs reportez vous à la partie [Mot
 
 `$ venc -v`
 
+ou
+
+`$ venc --version`
+
 ## Nouveau Blog
 
 `$ venc -nb <nom du blog>`
+
+ou
+
+`$ venc --new-blog <nom du blog>`
 
 VenC crée le répertoire contenant les sources du blog à l'endroit ou vous tapez la commande.
 
@@ -352,6 +360,10 @@ Vous ne pouvez pas créer un blog sans en spécifier le nom. Une fois que vous a
 
 `$ venc -ne "<nom de la publication>" [nom du template]`
 
+ou
+
+`$ venc --new-entry "<nom de la publication>" [nom du template]`
+
 Pour créer une nouvelle publication vous __devez__ être dans le répertoire de votre blog.
 
 Vous ne pouvez pas créer une publication sans spécifier le titre de celle-ci.
@@ -363,6 +375,10 @@ Si vous ne spécifiez pas de nom de template, VenC produira une publication tota
 ## Exporter le blog
 
 `$ venc -xb`
+
+ou
+
+`$ venc --export-blog`
 
 Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
 

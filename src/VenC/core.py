@@ -95,7 +95,6 @@ def GetConfigurationFile():
         return blogConfiguration
 
     except:
-        raise
         return None
 
 blogConfiguration = GetConfigurationFile()
@@ -168,7 +167,7 @@ def SetNewEntryMetadata(entryDate, entryName):
     return entry
     
 def PrintVersion(argv):
-    print("VenC 1.0.0")
+    print("VenC 1.1.0")
 
 
 def GetKeyByName(keys, name):

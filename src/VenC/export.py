@@ -5,6 +5,8 @@ import os
 import time
 import shutil
 import codecs
+import subprocess
+
 import VenC.core
 import VenC.pattern
 
@@ -15,6 +17,15 @@ def blog(argv):
 
     currentBlog = Blog()
     currentBlog.export()
+
+def edit(argv):
+    try:
+        proc = subprocess.Popen([VenC.core.blogConfiguration["textEditor"], argv[0]])
+        while proc.poll() == None:
+            pass
+    except:
+        raise
+    blog(list())
 
 class Blog:
     def __init__(self):
