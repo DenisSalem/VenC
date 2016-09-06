@@ -19,3 +19,4 @@ class Messages:
     unknownCommand = "{0}: Commande inconnue."
     noBlogConfiguration = "Le fichier de configuration du blog n'existe pas ou vous n'avez pas les bonnes permissions."
     missingMandatoryFieldInBlogConf = "Attention, le champ \"{0}\" est manquant dans dans le fichier de configartion principal du blog."
+    doNotForgetToIncludeCSSFileInHeader= "N'oubliez pas d'inclure le fichier CSS {0} dans header.html."

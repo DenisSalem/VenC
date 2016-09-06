@@ -7,7 +7,11 @@ import time
 import math
 import markdown
 import datetime
+import pygments
+import pygments.lexers
+import pygments.formatters
 import VenC.pattern
+
 
 def GetMessages():
     import locale
@@ -18,6 +22,24 @@ def GetMessages():
     return language.Messages()
 
 Messages = GetMessages()
+
+def CodeHighlight(argv):
+    try:
+        lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=True)
+        formatter = pygments.formatters.HtmlFormatter(linenos=(argv[1]=="True"),cssclass="venc_source_"+argv[0])
+        code = argv[2]
+        result = pygments.highlight(code, lexer, formatter)
+        css  = formatter.get_style_defs('.venc_source_'+argv[0])
+    
+        if not os.path.exists(os.getcwd()+"/extra/venc_source_"+argv[0]+".css"):
+            print(Messages.doNotForgetToIncludeCSSFileInHeader.format("venc_source_"+argv[0]+".css"))
+            stream = open(os.getcwd()+"/extra/venc_source_"+argv[0]+".css",'w')
+            stream.write(css)
+
+        return result
+    except Exception as e:
+        print("VenC:", e)
+        return str()
 
 class Key:
     def __init__(self, value, entry):

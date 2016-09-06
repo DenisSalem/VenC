@@ -6,6 +6,7 @@ version="1.0.0"
 cp -v   releases/$version/venc.py     /usr/bin/venc
 cp -vR  releases/$version/VenC        /usr/lib/$python/
 cp -vR  src/share       /usr/share/VenC
+chmod +rx     /usr/bin/venc
 chmod +rx     /usr/lib/$python/VenC
 chmod +rx -R  /usr/share/VenC
 chmod +rx     /usr/lib/$python/VenC/languages

@@ -65,6 +65,7 @@ class Blog:
         self.patternProcessor.SetFunction("PagesList", self.GetPagesList)
         self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousPage)
         self.patternProcessor.SetFunction("GetNextPage", self.GetNextPage)
+        self.patternProcessor.SetFunction("CodeHighlight", VenC.core.CodeHighlight)
         
         for key in self.publicDataFromBlogConf:
             self.patternProcessor.Set(key, self.publicDataFromBlogConf[key])
