@@ -28,12 +28,28 @@
   1. [Installing](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#installing-1)
   2. [Plugins](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#plugins)
     1. [Infinite scrolling](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#infinite-scrolling)
-    2. [Clientside search engine](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#clientside-search-engine
+    2. [Clientside search engine](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#clientside-search-engine)
+
 # Presentation
 
-VenC is a python application written for linux and similar to Octopress/Jekyll to create and administrate your static blogs using the commandline. Using VenC, everything is text file, no database. Every blog's configuration is based on one unique and small Yaml file, themes consist in a handful of HTML templates to modify or to create yourself, on publications' side, they have one YAML part and one Markdown part.
+VenC is a python application written for linux and similar to [Octopress](http://octopress.org)/[Jekyll](http://jekyllrb.com) to create and administrate your static blogs using the commandline. Using VenC, everything is text file, no database. Every blog's configuration is based on one unique and small Yaml file, themes consist in a handful of HTML templates to modify or to create yourself, on publications' side, they have one YAML part and one Markdown part.
 
 Static blogs are fully adapted for darknets or for those who want a full control on their website without having to deal with heavy and potentially vulnerables CMS in security matter. Moreover, the extreme simplicity of the organisation of blogs' sources outcome from VenC guaranties a fast and efficient handling.
+
+Also, here is what VenC has to offer:
+
+- Creation of static blog (HTML/CSS).
+- Simple page layout that you can directly personalize using HTML/CSS.
+- Ability to create an arrangement in an arbitrary number of columns (as on my website).
+- Infinite scrolling module simple and easy to setup (as on my website).
+- Publications can be organised by categories and sub-categories.
+- Publications can be organised by date periods.
+- Up or down chronologic publicating.
+- RSS feeds for every publications thread.
+- Permalinks.
+- Managing and editing the blog entirely via the commandline.
+- VenC is conceived by GNU/Linux specifically.
+- Publication's redaction in markdown.
 
 # Installing
 
@@ -108,13 +124,13 @@ It is a Yaml document in the project's root which defines blog's properties, suc
 
 * __blog_name__ : Obviously your blog's name.
 * __textEditor__ : Chosen text editor to edit your publications.
-* __date_format__ : "%A %d. %B %Y" by default. Défines the date format used within the blog.
+* __date_format__ : "%A %d. %B %Y" by default. Defines the date format used within the blog. The date format is in fact the one used by Python. Learn more on this format [here](http://strftime.org)
 * __author_name__: Name of the administrator or author of the blog.
 * __blog_description__ : A quick summary of what your site's about.
 * __blog_keywords__ : Keywords associated to the website.
 * __author_description__ : A short text about the author.
 * __license__ : Your content's license.
-* __url__ : Blog's URL.
+* __url__ : Blog's URL. Can be left blank depending on the theme used.
 * __blog_language__ : Blog's language.
 * __email__ : Your e-mail address.
 * __entries_per_pages__ : "10" by default. Obviously defines the per page publications number.
@@ -124,7 +140,7 @@ It is a Yaml document in the project's root which defines blog's properties, suc
 * __path__ : A variable containing various paths, you normally shouldn't need to touch it. Those paths list is detailed below.
 * __index_file_name__ : "index{page_number}.html" by default. Main thread of publications' fomratted filename. Should always contain the variable {page_number}.
 * __category_directory_name__ : "{category}" by default. Defines the directory where will be exported a publication thread specific to a category of publication. This field should always contain the variable {category}.
-* __dates_directory_name__ : "%Y-%m" by default. Defines the date format used for directories' names of publications threads associated to dates.
+* __dates_directory_name__ : "%Y-%m" by default. Defines the date format used for directories' names of publications threads associated to dates. The date format is in fact the one used by Python. Learn more on this format [here](http://strftime.org)
 * __entry_file_name__ : "entry{entry_id}.html" by default. Defines the filename of a unique publication. This field should always contain the variable {entry_id}.
 * __rss_file_name__ : "feed.xml" by default. Defines the rss feed's filename.
 
@@ -146,22 +162,29 @@ Finaly a blank publication looks like this:
 
 ![](https://github.com/DenisSalem/VenC/blob/master/doc/newEntryFR.png?raw=true "")
 
-Les deux partie sont séparé par trois tirets (ceux du six). Sur la capture d'écran la partie contenant la syntax Markdown est vide. On parle bien d'une publication vierge.
+SO we have four fields to complete, or not.
 
-Notons également que le nom de fichier d'une publication est formatté d'une façon particulière.
+- __authors__ : It's the list of the publication's authors, separated by a coma. For example _Denis Salem, Aaron Swartz, Richard Stallman_.
+- __categories__ : The list of the publication's categories, separated by a coma. You can also have sub-categories for a publication which will then define a categories tree. To define a sub-category one has to separate the parent category from the sub-category by ' > '. This can be repeated as many times as necessary. For example _Metal > Copper, Metal > Steel > Properties, Materials_.
+- __entry_name__ : It's your publication's name as you defined it when creating the publication using `venc -ne <title of the publication>`.
+- __tags__ : The list of the publication's keywords, separated by a coma. For example _Libre, Open-source, Linux_.
 
-`<id>__<mois>-<jour>-<année>-<heure>-<minute>__<titre>`
+Both parts are separated by three dashes (the ones of the six). On the screenshot, the part containing the Markdown syntax is blank. So we are really talking about a blank publication.
 
-Pour créer une nouvelle publication rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#nouvelle-publication)
+Also, let's note that a publication's file name is formatted in a particular way.
 
-### Les Thémes
+`<id>__<month>-<day>-<year>-<hour>-<minute>__<title>`
 
-Un théme est l'ensemble des fragment qui seront assemblés et interprétés par VenC pour former votre blog, c'est dans un thème que sera définit la mise en page de votre site.
-Typiquement, un thème est un repertoire contenant au moins le dossier __chunks__ et un autre, optionel __assets__.
+To create a new publication it's [here](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#new-publication)
 
-- __assets__ : Contient des ressources nécessaires à la mise en page ou au fonctionnement du blog. Cela peut-être des images, des feuilles de style CSS ou des script JS. Vous pouvez également y entreposer des librairies JQuery ou bootstrap.
+### Themes
 
-- __chunks__ : Doit contenir les fichiers suivant
+A theme is the assembly of all fragments which will be joined together and interpreted by VenC to form your blog, it's in a theme that will be defined your website's page layout.
+Typically, a theme is a directory containing at leat one folder, the __chunks__ folder and another, optional __assets__.
+
+- __assets__ : Contains the necessary ressources for the page layout or the blog's operation. This can be images, CSS style sheets or JS scripts. You can also put there librairies like JQuery or bootstrap.
+
+- __chunks__ : Must contain the following files
   - header.html
   - entry.html
   - footer.html
@@ -169,222 +192,233 @@ Typiquement, un thème est un repertoire contenant au moins le dossier __chunks_
   - rssEntry.html
   - rssFooter.html
 
-Comme vous l'avez sans doute compris VenC met bout à bout les morceaux de votre blog en formattant l'entête (header.html) et en répétant un certain nombre de fois l'operation qui consiste à formatté le morceau qui définit une publication (entry.html) pour la publication courante. La page courante est alors terminé en y ajoutant le morceau pied de page (footer.html) également formatté.
+As you may have understood, VenC puts together the pieces of your blog by formatting the header (header.html) and by repeating a certain amount of times the operation which consists on formatting the piece which defines a publication (entry.html) for the current publication. The the current page is finished by adding the footer piece (footer.html) also formatted.
 
-C'est exactement le même principe pour le flux RSS qui est construit de façon identique.
+It's exactly the same principle for the RSS feed which is constructed identically.
 
-Il n'est pas forcément évident de créer un théme de toute pièce et vous n'avez peut-être pas envie de perdre trop de temps à tester le fonctionnement de tout ça. Le meilleur
-moyen de créer un thème soit même c'est de jeter un oeil au thème [dummy](https://github.com/DenisSalem/VenC/tree/master/src/share/themes/dummy). Ce théme en l'état n'est pas
-utilisable, mais c'est une solide base pour créer le votre. Le style CSS reste à définir, et vous pourriez vouloir réorganiser les éléments de la page. Si vous avez déjà installé VenC sur votre système vous pourrez trouver ce thème dans 
+It is not necessarily easy to create a theme from scratch and may want to avoid loosing too much time testing the fuctioning of all this. The best way to create a theme by yourself is to take a look at the [dummy](https://github.com/DenisSalem/VenC/tree/master/src/share/themes/dummy) theme. THis theme, as is, is not usable, but it is a solid base to create yours. The CSS style is to define, and you may want to reorganize the elements in the page. If you have already installed VenC on your system you will find that theme in 
 
 `/usr/share/VenC/themes/dummy`
 
-Une autre approche est de regarder comment sont construit d'autres thémes. Ceux là seront ajoutés au fur et à mesure sur le repository github de VenC.
+Another approach is to look at how are constructed other themes. These ones will be added gradually on the github repository of VenC.
 
-Vous pouvez également vous aider de la partie [Astuces](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#astuces) dans laquelle sont décrites
-des techniques pour réaliser des mises en pages très spécifiques et pour laquelle l'utilisation peut-être un peu obscure des motifs de VenC sera illustrées.
+You can also help yourself with the [tips](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#tips) part in which are described various techniques to realise really specific page layouts and for which the usage may be a little bit obscure of VenC's patterns will be illustrated.
 
 ## Pattern Processor
 
-1. [Motifs de Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
-2. [Motifs Super Globaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-super-globaux)
-3. [Motifs de Publications](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-publications)
-4. [Motifs Spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux)
+1. [Template Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#template-patterns)
+2. [Super Global Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#msuper-global-patterns)
+3. [Publications Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#publications-patterns)
+4. [Spécial Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#spécial-patterns)
 
-VenC utilise un moteur de reconnaissance de motif permettant une mise en page facilitée et automatisée. Ce système devrait permettre dans de futur version d'utiliser des modules externes. La création et l'ajout de greffons sera détaillé dans une autre partie.
+VenC uses a pattern recognition engine allowing an easy and automated page layout setup. This system should allow in futur versions to use external modules. Plugin's creation and usage will be detailed in another part.
 
-_Les motifs pouvant être reconnues dépendent du contexte dans lesquel ils sont trouvé._
+_Patterns which can be recognised are depending on the context in which they are found._
 
-Les motifs sont définis de la façon suivante dans VenC
+Patterns are defined like so in VenC
 
-* Chaque motifs commencent par '.:'
-* Chaque motifs se terminent par ':.'
-* Le ou les séparateurs à l'intérieur d'un motif sont représentés par '::'
+* Every pattern begins with '.:'
+* Every pattern ends with ':.'
+* The separator(s) within a pattern are represented with '::'
 
-Un motif est une fonction pouvant prendre des paramétres. L'objectif est de remplacer un motif par une chaine de caractére formattée. Typiquement, les motifs
-permettent d'accéder aux données du blog ou de faire de la mise en page spécifique pour faire, par exemple, un menu déroulant, ou une bar de navigation.
+A pattern is a function which can take parametres. The objective is to replace a pattern by a formatted character string. Typically, patterns allow accessing to the blog's data or editing the page layout to do, say, a drop-down menu, or a navigation bar.
 
-### Motifs de Templates
+### Templates patterns
 
-Pour en savoir plus sur les templates, rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#templates)
-Un template peut contenir un certains nombre de motifs que VenC peut interpréter.
+For more info on templates, it's [here](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#templates)
+A template can contain a few patterns that VenC can interprete.
 
-* __.:Get::EntryID:.__ : Retourne l'identifiant unique de la publication.
-* __.:Get::EntryName:.__ : Retourne le nom de la publication.
-* __.:Get::EntryMonth:.__ : Retourne le mois de création de la publication.
-* __.:Get::EntryYear:.__ : Retourne l'année de création de la publication.
-* __.:Get::EntryDay:.__ : Retourne le jour de création de la publication.
-* __.:Get::EntryHour:.__ : Retourne l'heure de création de la publication.
-* __.:Get::EntryMinute:.__ : Retourne la minute de création de la publication.
+* __.:Get::EntryID:.__ : Returns the unique publication's ID.
+* __.:Get::EntryName:.__ : Returns the publication's name.
+* __.:Get::EntryMonth:.__ : Returns the month of the publication's creation.
+* __.:Get::EntryYear:.__ : Returns the year of the publication's creation.
+* __.:Get::EntryDay:.__ : Returns the day of the publication's creation.
+* __.:Get::EntryHour:.__ : Returns the hour of the publication's creation.
+* __.:Get::EntryMinute:.__ : Returns the minute of the publication's creation.
 
-À ces motifs s'ajoutent les supers globaux généralement disponibles quelque soit le contexte.
+To those patterns, add the super globals which are generally available in any context.
 
-### Motifs Super Globaux
+### Super Global Patterns
 
-Ces motifs sont généralement disponibles quelque soit le contexte et sont définit
-dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
+Those patterns are generally available in any context and are defined in [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file).
 
-* __.:Get::AuthorName:.__ : Retourne le nom de l'auteur du blog.
-* __.:Get::BlogName:.__ : Retourne le titre du blog.
-* __.:Get::BlogDescription:.__ : Retourne la description du blog.
-* __.:Get::BlogKeywords:.__ : Retourne les mots clefs décrivant le blog.
-* __.:Get::AuthorDescription:.__ : Retourne la description de l'auteur du blog.
-* __.:Get::License:.__ : Retourne la licence appliquée au contenu du blog.
-* __.:Get::BlogUrl:.__ : Retourne l'URL du blog.
-* __.:Get::BlogLanguage:.__ : Retourne le language du blog.
-* __.:Get::AuthorEmail:.__ : Retourne l'adresse email de l'auteur du blog.
+* __.:Get::AuthorName:.__ : Returns the blog's author's name.
+* __.:Get::BlogName:.__ : Returns the blog's title.
+* __.:Get::BlogDescription:.__ : Returns the blog's description.
+* __.:Get::BlogKeywords:.__ : Returns the blog's keywords.
+* __.:Get::AuthorDescription:.__ : Returns the blog's author's description.
+* __.:Get::License:.__ : Returns the blog's content's license.
+* __.:Get::BlogUrl:.__ : Returns the blog's URL.
+* __.:Get::BlogLanguage:.__ : Returns the blog's language.
+* __.:Get::AuthorEmail:.__ : Returns the blog's author's email.
+* __.:Get::RelativeOrigin:.__ : Returns the blog's root's relative path.
 
-### Motifs de Publications
+### Publications Patterns
 
-Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux là s'ajoutent:
+A publication can contain the same patterns as the ones of a template. Also, add:
 
-* __.:Get::EntryUrl:.__ : Permet de récuper le permaliens de la publication.
-* __.:Get::EntryContent:.__ : Permet de récuper le corps de la publication.
-* __.:Get::EntryDate:.__ : Permet de récuper la date de la publication formattée.
-* __.:Get::EntryDateUrl:.__ : Permet de récuper le chemin de la période correspondant à date de la publication.
+* __.:Get::EntryUrl:.__ : Returns the publication's permalinks.
+* __.:Get::EntryContent:.__ : Returns the publication's body.
+* __.:Get::EntryDate:.__ : Returns the formatted publication's date.
+* __.:Get::EntryDateUrl:.__ : Returns the publication's date period's path.
 
-### Motifs spéciaux
+### Special Patterns
 
-Il est possible dans certains cas d'accéder à des données itérativement, quand celles-ci se présentent sous la forme d'une liste ou d'un arbre
+It is possible in some cases to access some data iteratively, when these ones are as a list or as a tree
 
-* __.:For:: liste :: blah blah {0[item]} blah :: séparateur :.__ : Permet d'itérer à travers une liste. 
-* __.:RecursiveFor:: arbre :: ouverture :: blah {0[item]} blah blah :: séparateur :: fermeture :.__ : Permet d'itérer à travers un arbre, un type particulier de liste.
+* __.:For:: liste :: bla bla {0[item]} bla :: separator :.__ : Allows iterating through a list. 
+* __.:RecursiveFor:: arbre :: opening :: bla {0[item]} bla bla :: separator :: closing :.__ : Allows iterating through a tree, a particular type of list.
 
-Notons qu'en général le second paramétre pour la fonction _For_ est en fait du texte libre, pour accéder à l'item de l'itération courante on utilise la variable de context {0[item]}.
-Idem pour le troisième paramétre, le séparateur. Le séparateur permet d'insérer du texte après le texte libre de l'itération courante.
+Note that in general the second parameter for the _For_ function actually is free text, to access the current iteration's item we use the context variable {0[item]}.
+Ditto for the last parameter, the separator. The separator allows inserting some text after the current's iteration's free text.
 
-De façon identique, pour la fonction _RecursiveFor_, le second, le quatriéme et cinquiéme paramétre constituent du texte libre.
+Similarily, for the _RecursiveFor_ function, THe second, the fourth and fifth parameter are free text.
 
-* __.:GetPreviousPage:: texte libre :.__ : Quand est appelé dans un fil d'exporation, ce motif permet de récupérer l'url de la page précédente, si elle existe. Pour accéder à l'url de la page précédente utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
-* __.:GetNextPage:: texte libre :.__ : Quand est appelé dans un fil d'exporation, ce motif permet de récupérer l'url de la page suivante si elle existe. Pour accéder à l'url de la page suivente utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
-* __.:PageList:: taille :.__ : Permet de récupérer une liste des publications antérieurs et postérieurs à la publication. La taille de cette liste est determinée par __taille__, qui doit être un nombre entier.
-* __.:IfInThread:: text libre :.__ : Motifs conditionnel qui permet d'afficher le texte libre ou non selon que l'on se trouve dans un fil de publication ou sur une publication. Cela permet par exemple d'avoir une mise en page particulière pour une publication unique et pour un fil de publications.
+* __.:GetPreviousPage:: free text :.__ : When called in an exportation's thread, this pattern allows getting the previous page's URL, if it exists. To access the previous page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text.
+* __.:GetNextPage:: free text :.__ : When called in an exportation's thread, this pattern allows getting the next page's URL, if it exists. To access the next page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text. 
+* __.:PageList:: length :.__ : Allows getting a list of previous and next publications. The list's length is determined by __length__, which must be an integer.
+* __.:IfInThread:: free text :.__ : Conditionnal pattern which allows printing the free or not text whether we are in a publication's thread or in a publication. This allows for example to have a particular page layout for a unique publication or for a publication's thread.
 
-## Variables d'environnement
+## Environment Variables
 
-1. [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#blog_configurationyaml)
-2. [Variables de motifs](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#variables-de-motifs)
+1. [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#blog_configurationyaml)
+2. [Pattern variables](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#pattern-variables)
 
 ### blog_configuration.yaml
 
-Comme dans d'autres contexte de VenC. Le fichier de configuration du blog fait appelle à des variable d'environnnement, dont l'utilisation est détaillé ci-dessous.
+Like in other VenC contexts. The blog's configuration file uses environment variables, the usage is detailed right below.
 
-* __{page_number}__ : Définit le numéro de la page courante.
-* __{category}__ : Définit la categorie courante de publication.
-* __{entry_id}__ : Définit l'id de la publication courante.
+* __{page_number}__ : Defines the current page's number.
+* __{category}__ : Defines the current publicating category.
+* __{entry_id}__ : Defines the current publication's ID.
 
-### Variables de motifs
+### Pattern variables
 
-Il existe également des variables particulières sous la forme de listes. Ces variables peuvent être parcourue itérativement et récursivement pour en extraire le contenue et le mettre en forme. Cette extraction se fait grace aux motifs spéciaux _For_ et _RecursiveFor_ dont le fonctionnement est détaillée dans la partie [Motifs Spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux). Mais avant voici les listes disponibles:
+There also exist particular variables as lists. Those variables can be browsed iteratively and recursively to extract the content and to shape it. This extraction is done using special patterns _For_ and _RecursiveFor_. You can find out more on their functioning in the [Special Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#spécial-patterns) part. But before, here are the available lists:
 
-* __EntryTags__ : La liste de mot clefs de la publication courante. Pour accéder au mot clé de l'itération courante utilisez la variable contextuelle {0[tag]}.
-* __EntryAuthors__ : La liste des auteurs de la publication courante. Pour accéder à l'item courant utiliser la variable de contexte {0[author]}.
-* __BlogDates__ : La liste des liens vers les publications groupé par dates tel que définit dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal). Il y a plusieur items disponibles pour une itération courange; __{0[date]}__, __{0[dateUrl]}__. Respectivement la période tel que formatté dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal) et le chemin vers le repertoire associé à cette période.
+* __EntryTags__ : The current publication's keywords list. To access the current iteration's keyword use the contextual variable {0[tag]}.
+* __EntryAuthors__ : the list of the current publication's authors. To access the current item use the contextual variable {0[author]}.
+* __BlogDates__ : The list of th links to the publications grouped by date as defined in [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file). There are several available items for a current iteration: __{0[date]}__, __{0[dateUrl]}__. Respectively the period as formatted [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file) and the path to the directory associated to this period.
 
-On arrive maintenant au cas particulier des categories. Les categories forment un arbres comme illustré ci-dessous
+We now arrive in the particular case of categories. Categories form a tree as illustrated right below
 
-![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/treesFR.png "")
+![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/treesEN.png "")
 
-Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche compléte_" désigne le chemin complet depuis la racine d'un arbre jusqu'à une feuille de cette arbre.
+Dwon below, we call "_leave_" the end of a branch, a so called "_complete branch_" is the complete path from the root of a tree to a leave of that tree.
 
-* __EntryCategories__ : La liste des categories (branche complète) de la publication courante. Se présente sous la forme de listes imbriquées. Il y a plusieurs items disponibles pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante.
-* __EntryCategoriesTop__ : La liste des categories (feuille) de la publication courante. Il y a plusieur items disponibles pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryLeaf]}__ et __{0[categoryLeafUrl]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le nom de la category feuille et l'url vers la category feuille.
-* __BlogCategories__ : La liste des categories (branche complète) du blog. Se présente sous la forme de listes imbriqués. Il y a plusieur items disponibles pour une itération courante; __{0[relativeOrigin]}__, __{0[categoryPath]}__ et __{0[item]}__. Respectivement le chemin relatif de la page courante vers la racine du blog, le chemin relatif vers la sous-categorie courante et le nom de la sous-categorie courante.
+* __EntryCategories__ : The category list (complete branch) of the current publication. Is found as nested lists. There are several available items for a current iteration: __{0[relativeOrigin]}__, __{0[categoryPath]}__ and __{0[item]}__. Respectively the current's page relative path to the blog's root, the current sub-category's relative path and the current sub-category's name.
+* __EntryCategoriesTop__ : The list of the current publication's categories (leave). There are several available items for a current iteration: __{0[relativeOrigin]}__, __{0[categoryLeaf]}__ and __{0[categoryLeafUrl]}__. Respectively current page's relative path to the blog's root, the leave category's name and the URL towards the leave category.
+* __BlogCategories__ : The list of the blog's categories (complete branches). Comes as nested lists. There are several available items for a current iteration: __{0[relativeOrigin]}__, __{0[categoryPath]}__ and __{0[item]}__. Respectively the current page's relative path to the blog's root, the current sub-category's relative path and the sub-category's name.
 
-Pour utiliser ces variables spéciales de motifs reportez vous à la partie [Motifs spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux)
+To use these patterns' special variables, go to the [Spécial Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#spécial-patterns) part.
 
-# Commandes
+# Commands
 
-1. [Afficher la version de VenC](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#afficher-la-version-de-venc)
-2. [Nouveau Blog](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#nouveau-blog)
-3. [Nouvelle publication](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#nouvelle-publication)
-4. [Exporter le blog](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#exporter-le-blog)
+1. [Print VenC's version](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#print-vencs-version)
+2. [New Blog](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#new-blog)
+3. [New publication](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#new-publication)
+4. [Exporting the blog](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#exporting-the-blog)
 
-## Afficher la version de VenC
+## Print VenC's version
 
 `$ venc -v`
 
-## Nouveau Blog
+or
 
-`$ venc -nb <nom du blog>`
+`$ venc --version`
 
-VenC crée le répertoire contenant les sources du blog à l'endroit ou vous tapez la commande.
+## New Blog
 
-`$ venc -nb "monSuperBlog"`
+`$ venc -nb <name of the blog>`
 
-`$ cd monSuperBlog`
+or
+
+`$ venc --new-blog <name of the blog>`
+
+VenC creates the directory containing the blog's sources in the place where you type in the command.
+
+`$ venc -nb "mySuperBlog"`
+
+`$ cd mySuperBlog`
 
 `$ ls`
 
 `blog  blog_configuration.yaml  entries  extra  templates  theme`
 
-Vous ne pouvez pas créer un blog sans en spécifier le nom. Une fois que vous avez crée votre blog, la première chose à faire est en général d'éditer le fichier __blog_configuration.yaml__. Pour en savoir plus sur ce fichier de configuration, rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
+You cannot create a blog without giving it a name. Once you have created your blog, the first thing to do in general is to edit the file __blog_configuration.yaml__. For more info on this config file, it is [here](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file).
 
-## Nouvelle publication
+## New publication
 
 `$ venc -ne "<nom de la publication>" [nom du template]`
 
-Pour créer une nouvelle publication vous __devez__ être dans le répertoire de votre blog.
+or
 
-Vous ne pouvez pas créer une publication sans spécifier le titre de celle-ci.
+`$ venc --new-entry "<name of the publication>" [name of the template]`
 
-Si vous ne spécifiez pas de nom de template, VenC produira une publication totalement vierge. Le nom de template est en fait le nom de fichier du template désiré se trouvant dans le répertoire __templates__.
+To create a new publication, you __must__ be within the directory of your blog.
 
-À l'issu de cette commande VenC essaiera d'ouvrir la nouvelle publication avec l'éditeur de texte spécifié dans le fichier de configuration principal __blog_configuration.yaml__.
+You cannot create a publication whithout giving it a title.
 
-## Exporter le blog
+If you do not specify a template's name, VenC will make a publication totally blank. The template's name is in fact the filename of the desired template found in the __templates__ directory.
+
+After this command VenC will try to open the new publication with the text editor specified in the main config file __blog_configuration.yaml__.
+
+## Exporting the blog
 
 `$ venc -xb`
 
-Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
+or
 
-Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce repertoire que ce sera exporté votre site. Une fois l'exportation terminée vous pouvez copier le contenu de ce répertoire vers votre serveur.
+`$ venc --export-blog`
 
-Pour en savoir plus sur l'arborescence rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#arborescence).
+To export your blog you __must__ be in your blog's directory.
 
-# Astuces
+There, is located a directory soberly titled blog. It is in this directory that your website will be exported. Once the exportation finished you can copy this directory's content on your server.
 
-À compléter
+For more info on the file tree, it is [here](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#file-tree).
 
-# Thémes
+# Tips
 
-1. [Installation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#installation-1)
-2. [Greffons](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#greffons)
+To do
 
-## Installation
+# Themes
 
-Pour installer un un théme sur votre blog copiez le repertoire __chunks__ et __assets__ (si ce dernier existe) dans le sous répertoire __theme__ de votre blog.
+1. [Installating](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#installating-1)
+2. [Plugins](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#plugins)
 
-## Greffons
+## Installing
 
-1. [Défilement infini](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#d%C3%A9filement-infini)
-2. [Moteur de recherche côté client](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#moteur-de-recherche-c%C3%B4t%C3%A9-client)
+To install a theme on your blog, copy the directory __chunks__ and __assets__ (if this one exists) in the sub-directory __theme__ of your blog.
 
-### Défilement infini
+## Plugins
 
-Il s'agit d'un script AJAX qui va automatiquement charger le contenu des pages suivantes dans la page courante. Ce module est idéale pour les galeries d'images, par exemple.
-Pour installer ce module il suffit de copier
+1. [Infinite Scrolling](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#infinite-scrolling)
+2. [Clientside Search Engine](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#clientside-search-engine)
+
+### Infinite Scrolling
+
+It is an AJAX script which will automatically load the next pages' contents in the current page. This module is ideal for image galleries, for example. TO install this module, one just has to copy it
 
 `VenC-Infinite-Scroll-<version>.js`
 
-depuis
+from
 
 `/usr/share/VenC/themes/dummy/assets
 
-dans 
+in 
 
 `<blog>/themes/assets`
 
-Puis ajoutez dans __header.html__ 
+Then add in __header.html__ 
     
 `<script type="text/javascript" src=".:Get::RelativeOrigin:.VenC-Infinite-Scroll-<version>.js"></script>`
 
-Voilà, maintenant la magie opère. Attention cependant. Assurez vous que les contraintes suivantes sont respectés dans votre théme.
+Voilà, now the magic happens. But be careful. Check that the following are respected in your theme.
 
-- L'élément contenant votre publication doit avoir le nom de classe "entry" sinon le module ne parviendra pas à détecter et récupérer les publications de votre blog.
-- Vous pouvez avoir une image de chargement n'importe où dans votre page, mais si vous voulez la faire interagir avec le module il doit avoir pour nom d'id "__VENC_LOADING__".
-- Vous pouvez vouloir supprimer un élément contenant des liens de navigations, pour cela il faut que cet élément porte le nom d'id "__VENC_NAVIGATION__"
+- The element containing your publication must have the class name "entry" or else the module won't be able to detect and get the publications of your blog.
+- You can have a loading image anywhere in your page, but if you want to make it interact with the module it must have as ID name "__VENC_LOADING__".
+- You can simply want to delete an element containing navigation links, for that the element will have to have as ID name "__VENC_NAVIGATION__".
 
-### Moteur de recherche côté client
+### Clientside search engine
 
-Non implémenté
+Not implemented yet
