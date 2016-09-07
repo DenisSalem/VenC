@@ -248,7 +248,7 @@ def GetCategoriesList(entries):
         data = yaml.load(stream)
         if data != None:
             for category in data["categories"].split(","):
-                if not category in output:
+                if (not category in output) and category != '':
                     output.append(category)
 
     return output
@@ -261,18 +261,19 @@ def GetEntriesPerCategories(entries):
         data = yaml.load(stream)
         if data != None:
             for category in data["categories"].split(","):
-                nodes = entriesPerCategories
-                for subCategory in category.split(" > "):
-                    try:
-                        selectedKey = GetKeyByName(nodes, subCategory.strip())
-                        selectedKey.relatedTo.append(entry)
-                        selectedKey.relatedTo = list(set(selectedKey.relatedTo))
-                        selectedKey.weight+=1
-                    except:
-                        selectedKey = Key(subCategory.strip(), entry)
-                        nodes.append(selectedKey)
+                if category != '':
+                    nodes = entriesPerCategories
+                    for subCategory in category.split(" > "):
+                        try:
+                            selectedKey = GetKeyByName(nodes, subCategory.strip())
+                            selectedKey.relatedTo.append(entry)
+                            selectedKey.relatedTo = list(set(selectedKey.relatedTo))
+                            selectedKey.weight+=1
+                        except:
+                            selectedKey = Key(subCategory.strip(), entry)
+                            nodes.append(selectedKey)
 
-                    nodes = selectedKey.childs
+                        nodes = selectedKey.childs
 
     return entriesPerCategories 
 

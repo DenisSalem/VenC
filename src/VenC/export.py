@@ -154,8 +154,10 @@ class Blog:
         for e in self.entriesPerDates:
             self.exportThread(e.relatedTo, folderDestination=e.value+'/')
         self.relativeOrigin = str()
+        
         self.exportCategories(self.entriesPerCategories)
         self.relativeOrigin = str()
+        
         self.exportThread(self.entriesList, singleEntry=True)
         self.exportExtraData(os.getcwd()+"/theme/assets")
         self.exportExtraData(os.getcwd()+"/extra")
