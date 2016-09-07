@@ -230,6 +230,10 @@ class Blog:
 
     def initEntryStates(self, entry):
         self.entry = VenC.core.GetEntry(entry, self.relativeOrigin)
+        if self.entry == None:
+            print("VenC:", VenC.core.Messages.possibleMalformedEntry.format(entry))
+            exit()
+
         self.patternProcessor.Set("PageNumber", self.pageCounter)
         self.patternProcessor.Set("EntryDateUrl", self.relativeOrigin+time.strftime(VenC.core.blogConfiguration["path"]["dates_directory_name"], time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S")))
         self.patternProcessor.Set("EntryUrl", self.relativeOrigin+"entry"+self.entry["EntryID"]+".html")

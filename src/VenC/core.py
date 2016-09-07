@@ -246,9 +246,10 @@ def GetCategoriesList(entries):
     for entry in entries:
         stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
         data = yaml.load(stream)
-        for category in data["categories"].split(","):
-            if not category in output:
-                output.append(category)
+        if data != None:
+            for category in data["categories"].split(","):
+                if not category in output:
+                    output.append(category)
 
     return output
             
@@ -258,19 +259,20 @@ def GetEntriesPerCategories(entries):
     for entry in entries:
         stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
         data = yaml.load(stream)
-        for category in data["categories"].split(","):
-            nodes = entriesPerCategories
-            for subCategory in category.split(" > "):
-                try:
-                    selectedKey = GetKeyByName(nodes, subCategory.strip())
-                    selectedKey.relatedTo.append(entry)
-                    selectedKey.relatedTo = list(set(selectedKey.relatedTo))
-                    selectedKey.weight+=1
-                except:
-                    selectedKey = Key(subCategory.strip(), entry)
-                    nodes.append(selectedKey)
+        if data != None:
+            for category in data["categories"].split(","):
+                nodes = entriesPerCategories
+                for subCategory in category.split(" > "):
+                    try:
+                        selectedKey = GetKeyByName(nodes, subCategory.strip())
+                        selectedKey.relatedTo.append(entry)
+                        selectedKey.relatedTo = list(set(selectedKey.relatedTo))
+                        selectedKey.weight+=1
+                    except:
+                        selectedKey = Key(subCategory.strip(), entry)
+                        nodes.append(selectedKey)
 
-                nodes = selectedKey.childs
+                    nodes = selectedKey.childs
 
     return entriesPerCategories 
 
@@ -292,6 +294,8 @@ def GetCategoriesTree(categories, relativeOrigin):
 def GetEntry(entryFilename, relativeOrigin):
     stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
     dump = yaml.load(stream.split("---\n")[0])
+    if dump == None:
+        return None
     output = dict()
     output["EntryContent"] = markdown.markdown(stream.split("---\n")[1])
     output["EntryID"] = entryFilename.split('__')[0]
