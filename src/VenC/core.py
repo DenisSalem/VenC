@@ -84,6 +84,7 @@ def GetConfigurationFile():
 	    "author_description",
 	    "license",
 	    "url",
+            "ftp_host",
 	    "blog_language",
 	    "email",
 	    "entries_per_pages",
@@ -103,7 +104,8 @@ def GetConfigurationFile():
 	    "category_directory_name",
 	    "dates_directory_name",
 	    "entry_file_name",
-	    "rss_file_name"
+	    "rss_file_name",
+            "ftp"
         ]
 
         for field in mandatoryFields:
@@ -112,7 +114,7 @@ def GetConfigurationFile():
                 print("VenC: "+Messages.missingMandatoryFieldInBlogConf.format(field))
 
         if not everythingIsOkay:
-            exit()
+            return -1
 
         return blogConfiguration
 
@@ -120,6 +122,8 @@ def GetConfigurationFile():
         return None
 
 blogConfiguration = GetConfigurationFile()
+if blogConfiguration == -1:
+    exit()
 
 def orderableStrToInt(string):
     try:

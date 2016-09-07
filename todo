@@ -16,7 +16,7 @@ DONE      | Notice missing variables in blog_conf
 DONE	  | Add command to edit and automatically re-export the blog
 DONE      | Syntax coloration via pygmentize
 HIGH      | Must implement weight exploitation
-HIGH      | Must support FTP
+DONE      | Must support FTP
 MEDIUM    | Client-side search engine
 MEDIUM    | GetPrevious and GetNextPage should work outside thread
 MEDIUM    | Print errors when pattern processor fail.

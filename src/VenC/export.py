@@ -4,11 +4,70 @@
 import os
 import time
 import shutil
+import ftplib
 import codecs
+import getpass
 import subprocess
-
 import VenC.core
 import VenC.pattern
+
+
+def ftpExportRecursively(origin, ftp):
+        folder = os.listdir(origin)
+        for item in folder:
+            if os.path.isdir(origin+"/"+item):
+                try:
+                    ftp.mkd(item)
+                    ftp.cwd(ftp.pwd()+"/"+item)
+                    ftpExportRecursively(origin+"/"+item, ftp)
+                    ftp.cwd(ftp.pwd()[:-len("/"+item)])
+                except:
+                    try:
+                        ftp.cwd(ftp.pwd()+"/"+item)
+                        ftpExportRecursively(origin+"/"+item, ftp)
+                        ftp.cwd(ftp.pwd()[:-len("/"+item)])
+                    except:
+                        raise
+
+            else:
+                ftp.storbinary("STOR "+ftp.pwd()+"/"+item, open(origin+"/"+item, 'rb'))
+                #shutil.copy(origin+"/"+item, os.getcwd()+"/blog/"+destination+item)
+
+def ftpCleanDestination(ftp):
+    listing = list()
+    listing = ftp.nlst()
+    for item in listing:
+        if item not in ['.','..']:
+            try:
+                ftp.delete(item)
+            except Exception:
+                try:
+                    ftp.rmd(item)
+                except:
+                    ftp.cwd(ftp.pwd()+"/"+item)
+                    ftpCleanDestination(ftp)
+                    ftp.cwd(ftp.pwd()[:-len("/"+item)])
+
+def ftp(argv):
+    if VenC.core.blogConfiguration == None:
+        print("VenC: "+VenC.core.Messages.noBlogConfiguration)
+        return
+
+    ftp = ftplib.FTP(VenC.core.blogConfiguration["ftp_host"])
+    username = input(VenC.core.Messages.username)
+    userPasswd = getpass.getpass(prompt=VenC.core.Messages.userPasswd)
+    try:
+        ftp.login(user=username,passwd=userPasswd)
+        ftp.cwd(VenC.core.blogConfiguration["path"]["ftp"])
+        print("VenC:", VenC.core.Messages.cleanFtpDirectory)
+        ftpCleanDestination(ftp)
+        print("VenC:", VenC.core.Messages.copyToFtpDirectory)
+        ftpExportRecursively(os.getcwd()+"/blog", ftp)
+    
+    except ftplib.error_perm as e:
+        print(e)
+        return
+        
 
 def blog(argv):
     if VenC.core.blogConfiguration == None:
