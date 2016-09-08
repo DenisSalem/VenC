@@ -204,6 +204,7 @@ def GetKeyByName(keys, name):
             return key
     return None
 
+# DEPRECATED
 def GetEntriesPerKeys(entries, keyType):
     entriesPerKeys = list()
     for entry in entries:
@@ -214,7 +215,6 @@ def GetEntriesPerKeys(entries, keyType):
                 try:
                     selectedKey = GetKeyByName(entriesPerKeys, tag)
                     selectedKey.relatedTo.append(entry)
-                    # Must implement weight exploitation in upcoming version
                     selectedKey.weight+=1
                 except:
                     entriesPerKeys.append(Key(tag,entry))
@@ -254,7 +254,6 @@ def GetCategoriesList(entries):
                     output.append(category)
 
     return output
-            
 
 def GetEntriesPerCategories(entries):
     entriesPerCategories = list()
@@ -288,8 +287,11 @@ def GetCategoriesTree(categories, relativeOrigin):
             path += subCategory+'/'
             if not subCategory.strip() in node.keys():
                 node[subCategory.strip()] = {"_nodes":dict()}
+                node[subCategory.strip()]["__weight"] = 1
                 node[subCategory.strip()]["__categoryPath"] = path.strip()
                 node[subCategory.strip()]["__relativeOrigin"] = relativeOrigin
+            else:
+                node[subCategory.strip()]["__weight"] += 1
             node = node[subCategory.strip()]["_nodes"]
 
     return output

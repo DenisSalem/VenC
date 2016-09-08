@@ -46,6 +46,7 @@ class processor():
         outputString = str()
         try:
             for Item in self.dictionnary[argv[0]]:
+                print(Item)
                 outputString += argv[1].format(Item) + argv[2]
 
             return outputString[:-len(argv[2])]
