@@ -228,7 +228,7 @@ def GetDatesList(keys, relativeOrigin):
     for key in output:
         key["weight"] = str(key["weight"]/maxWeight)[0]
 
-    return output
+    return sorted(output, key = lambda date: int(date["date"])) 
 
 def GetCategoriesList(entries):
     output = list()
@@ -281,29 +281,34 @@ def GetCategoriesTree(categories, relativeOrigin):
 
 def GetBlogCategoriesLeafs(entries, relativeOrigin):
     maxWeight = 0
+    output = list()
     for entryFilename in entries:
         stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
         dump = yaml.load(stream.split("---\n")[0])
         categoriesLeafs = dict()
-        for category in dump["categories"].split(','):
-            categoryLeaf= category.split(' > ')[-1].strip()
-            if len(categoryLeaf) > 0:
-                categoryLeafUrl=str()
-                for subCategory in category.split(' > '):
-                    categoryLeafUrl +=subCategory.strip()+'/'
-                if categoryLeaf in categoriesLeafs.keys():
-                    categoriesLeafs[categoryLeaf]["weight"] +=1
-                    if maxWeight < output[categoryLeaf]["weight"]:
-                        maxWeight = output[categoryLeaf]["weight"]
-                else:
-                    categoriesLeafs[categoryLeaf] = {"weight":1, "relativeOrigin":relativeOrigin, "categoryLeaf": categoryLeaf, "categoryLeafUrl":categoryLeafUrl}
-                    if maxWeight < categoriesLeafs[categoryLeaf]["weight"]:
-                        maxWeight = categoriesLeafs[categoryLeaf]["weight"]
+        try:
+            for category in dump["categories"].split(','):
+                categoryLeaf= category.split(' > ')[-1].strip()
+                if len(categoryLeaf) > 0:
+                    categoryLeafUrl=str()
+                    for subCategory in category.split(' > '):
+                        categoryLeafUrl +=subCategory.strip()+'/'
+                    if categoryLeaf in categoriesLeafs.keys():
+                        categoriesLeafs[categoryLeaf]["weight"] +=1
+                        if maxWeight < output[categoryLeaf]["weight"]:
+                            maxWeight = output[categoryLeaf]["weight"]
+                    else:
+                        categoriesLeafs[categoryLeaf] = {"weight":1, "relativeOrigin":relativeOrigin, "categoryLeaf": categoryLeaf, "categoryLeafUrl":categoryLeafUrl}
+                        if maxWeight < categoriesLeafs[categoryLeaf]["weight"]:
+                            maxWeight = categoriesLeafs[categoryLeaf]["weight"]
 
-    output = list()
-    for categoryLeaf in categoriesLeafs.keys():
-        categoriesLeafs[categoryLeaf]["weight"] = str(categoriesLeafs[categoryLeaf]["weight"]/maxWeight)[0]
-        output.append(categoriesLeafs[categoryLeaf])
+            for categoryLeaf in categoriesLeafs.keys():
+                categoriesLeafs[categoryLeaf]["weight"] = str(categoriesLeafs[categoryLeaf]["weight"]/maxWeight)[0]
+                output.append(categoriesLeafs[categoryLeaf])
+        except TypeError:
+            print("VenC:", Messages.possibleMalformedEntry.format(entryFilename))
+            exit()
+
     return output
 
 def GetEntry(entryFilename, relativeOrigin):

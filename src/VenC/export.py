@@ -160,7 +160,7 @@ class Blog:
         self.exportCategories(self.entriesPerCategories)
         self.relativeOrigin = str()
         
-        self.exportThread(self.entriesList, singleEntry=True)
+        self.exportThread(self.entriesList, singleEntry=True, inThread=False)
         self.exportExtraData(os.getcwd()+"/theme/assets")
         self.exportExtraData(os.getcwd()+"/extra")
     
@@ -257,8 +257,8 @@ class Blog:
         stream.write(self.outputPage)
         stream.close()
 
-    def exportThread(self, inputEntries, folderDestination="", singleEntry=False):
-        self.initStates(inputEntries, singleEntry, inThread=True)
+    def exportThread(self, inputEntries, folderDestination="", singleEntry=False, inThread=True):
+        self.initStates(inputEntries, singleEntry, inThread=inThread)
         # Configure patternProcessor instance with some fixed values and functions
         # Process actual entries
         if singleEntry:

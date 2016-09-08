@@ -10,10 +10,12 @@ DONE      | Export RSS recusively (for each thread and sub category thread)
 
 version 1.1.x
 
+HIGH      | Fix infinite scroll opacity transition
+DONE      | Fix wrong dates listing order
 DONE      | Fix categories list input
-DONE      | EntryCategoriesTop turns to EntryCategoriesLeafs
 DONE      | Fix wrong entries sorting when getting latest ID
 DONE	  | Fix wrong relative path when categories are empty
+DONE      | EntryCategoriesTop turns to EntryCategoriesLeafs
 DONE      | Notice malformed entries
 DONE      | Make pattern processor recursive
 DONE      | IfInThread special pattern must act like if/else statement
