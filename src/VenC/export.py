@@ -31,7 +31,6 @@ def ftpExportRecursively(origin, ftp):
 
             else:
                 ftp.storbinary("STOR "+ftp.pwd()+"/"+item, open(origin+"/"+item, 'rb'))
-                #shutil.copy(origin+"/"+item, os.getcwd()+"/blog/"+destination+item)
 
 def ftpCleanDestination(ftp):
     listing = list()

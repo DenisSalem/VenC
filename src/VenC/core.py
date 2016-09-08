@@ -133,9 +133,10 @@ def orderableStrToInt(string):
         return -1
 
 def GetLatestEntryID():
-    entriesList = GetEntriesList()
+    entriesList = sorted(GetEntriesList(), key = lambda entry : int(entry.split("__")[0]))
+    
     if len(entriesList) != 0:
-        return int(sorted(entriesList)[-1].split("__")[0])
+        return int(entriesList[-1].split("__")[0])
     else:
         return 0
 
@@ -154,7 +155,8 @@ def GetEntriesList():
             date = explodedFilename[1].split('-')
             entryID = int(explodedFilename[0])
             datetime.datetime(year=int(date[2]),month=int(date[0]),day=int(date[1]),hour=int(date[3]),minute=int(date[4])) 
-            validFilenames.append(filename)
+            if entryID > 0:
+                validFilenames.append(filename)
         except ValueError:
             pass
 

@@ -11,7 +11,6 @@ import VenC.core
 import VenC.pattern
 
 def entry(argv):
-
     if len(argv) < 1:
         print("VenC: "+VenC.core.Messages.missingParams.format("--new-entry"))
         return
@@ -49,10 +48,10 @@ def entry(argv):
         except FileNotFoundError as e:
             print("VenC: "+VenC.core.Messages.fileNotFound.format(os.getcwd()+"/templates/"+argv[1]))
             return
-            
     stream.write(output)
     stream.close()
     try:
+        pass
         subprocess.call([VenC.core.blogConfiguration["textEditor"], outputFilename]) 
     except:
         pass
