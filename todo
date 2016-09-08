@@ -8,9 +8,9 @@ DONE      | Copy recursively, if necessary data from assets.
 DONE      | Copy if necessary data from assets.
 DONE      | Export RSS recusively (for each thread and sub category thread)
 
-version 1.1.x
+version 1.1.0
 
-HIGH      | Fix infinite scroll opacity transition
+DONE      | Fix wrong association with entry id and entry filename
 DONE      | Fix wrong dates listing order
 DONE      | Fix categories list input
 DONE      | Fix wrong entries sorting when getting latest ID
@@ -24,7 +24,11 @@ DONE	  | Add command to edit and automatically re-export the blog
 DONE      | Syntax coloration via pygmentize
 DONE      | Must implement weight exploitation for BlogCategoriesLeaf and BlogDates
 DONE      | Must support FTP
-MEDIUM    | Client-side search engine
-MEDIUM    | GetPrevious and GetNextPage should work outside thread
-MEDIUM    | Print errors when pattern processor fail.
-MEDIUM    | Add row and column number of the faulty line when pattern processor fail.
+
+version 1.2.x
+
+HIGH    | Client-side search engine
+HIGH    | GetPrevious and GetNextPage should work outside thread
+HIGH    | Print errors when pattern processor fail.
+HIGH    | Add row and column number of the faulty line when pattern processor fail.
+HIGH    | Fix infinite scroll opacity transition

@@ -96,7 +96,7 @@ class Blog:
         self.pageCounter = 0
         self.outputPage = str()
         self.columns = list()
-        self.inThread = False
+        self.inThread = True
         self.entry = dict()
         self.destinationPath = str()
         self.relativeOrigin = str()
@@ -107,7 +107,7 @@ class Blog:
         else:
             return argv[1]
 
-    def initStates(self,inputEntries, singleEntry, inThread=False):
+    def initStates(self,inputEntries, inThread):
         self.entryCounter = 0
         self.pageCounter = 0
         self.outputPage = str()
@@ -122,7 +122,7 @@ class Blog:
         self.patternProcessor.Set("BlogCategoriesLeafs", blogCategoriesLeafs)
         self.patternProcessor.Set("BlogDates", VenC.core.GetDatesList(self.entriesPerDates, self.relativeOrigin))
         self.patternProcessor.Set("RelativeOrigin", self.relativeOrigin)
-        self.patternProcessor.Set("SingleEntry", singleEntry)
+        self.patternProcessor.Set("SingleEntry", not inThread)
         self.patternProcessor.SetFunction("PagesList", self.GetPagesList)
         self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousPage)
         self.patternProcessor.SetFunction("GetNextPage", self.GetNextPage)
@@ -132,35 +132,35 @@ class Blog:
             self.patternProcessor.Set(key, self.publicDataFromBlogConf[key])
 
 
-    def WritePage(self, folderDestination, singleEntry):
+    def WritePage(self, folderDestination, entry):
         try:
             os.chdir("blog/")
             os.makedirs(folderDestination)
             os.chdir("../")
         except:
             os.chdir("../")
-        stream = codecs.open("blog/"+folderDestination+self.GetFilename(self.pageCounter-1, singleEntry),'w',encoding="utf-8")
+        if entry == -1:
+            stream = codecs.open("blog/"+folderDestination+self.GetFilename(self.pageCounter-1),'w',encoding="utf-8")
+        else:
+            stream = codecs.open("blog/"+folderDestination+VenC.core.blogConfiguration["path"]["entry_file_name"].format(entry_id=entry),'w',encoding="utf-8")
         stream.write(self.outputPage)
         stream.close()
 
-    def GetFilename(self, pageCounter, singleEntry):
-        if singleEntry:
-            return VenC.core.blogConfiguration["path"]["entry_file_name"].format(entry_id=  str(self.entriesNumber - pageCounter))
-        else:  
-            return VenC.core.blogConfiguration["path"]["index_file_name"].format(page_number=(str(pageCounter) if pageCounter != 0 else str()))
+    def GetFilename(self, pageCounter):
+        return VenC.core.blogConfiguration["path"]["index_file_name"].format(page_number=(str(pageCounter) if pageCounter != 0 else str()))
 
     def export(self):
-        self.exportThread(self.entriesList)
+        self.exportThread(self.entriesList, True)
         self.exportRss(self.entriesList)
         self.relativeOrigin += "../"
         for e in self.entriesPerDates:
-            self.exportThread(e.relatedTo, folderDestination=e.value+'/')
+            self.exportThread(e.relatedTo, True, folderDestination=e.value+'/')
         self.relativeOrigin = str()
         
         self.exportCategories(self.entriesPerCategories)
         self.relativeOrigin = str()
         
-        self.exportThread(self.entriesList, singleEntry=True, inThread=False)
+        self.exportThread(self.entriesList, False)
         self.exportExtraData(os.getcwd()+"/theme/assets")
         self.exportExtraData(os.getcwd()+"/extra")
     
@@ -183,8 +183,8 @@ class Blog:
         for category in categories:
             self.destinationPath+= VenC.core.blogConfiguration["path"]["category_directory_name"].format(category=category.value+'/')
             self.relativeOrigin += "../"
-            self.exportThread(category.relatedTo, folderDestination=self.destinationPath)
-            self.exportRss(category.relatedTo, folderDestination=self.destinationPath)
+            self.exportThread(category.relatedTo, True, folderDestination=self.destinationPath)
+            self.exportRss(category.relatedTo, True, folderDestination=self.destinationPath)
             self.exportCategories(category.childs)
             self.relativeOrigin = self.relativeOrigin[:-3]
             self.destinationPath = self.destinationPath[:-len(category.value+"/")]
@@ -205,7 +205,6 @@ class Blog:
                 if (not int(e["pageNumber"]) < int(currentPage) - listLenght) and (not int(e["pageNumber"]) > int(currentPage) + listLenght):
                     output += pattern.format(e) + separator
 
-            
             return output[:-len(separator)]
 
         except Exception as e:
@@ -244,7 +243,7 @@ class Blog:
         self.patternProcessor.SetWholeDictionnary(self.entry)
 
     def exportRss(self, inputEntries, folderDestination=""):
-        self.initStates(inputEntries, False, inThread=True)
+        self.initStates(inputEntries, True)
         self.outputPage = str()
         self.outputPage += self.patternProcessor.parse(self.theme.rssHeader)
 
@@ -257,11 +256,11 @@ class Blog:
         stream.write(self.outputPage)
         stream.close()
 
-    def exportThread(self, inputEntries, folderDestination="", singleEntry=False, inThread=True):
-        self.initStates(inputEntries, singleEntry, inThread=inThread)
+    def exportThread(self, inputEntries, inThread, folderDestination=""):
+        self.initStates(inputEntries, inThread)
         # Configure patternProcessor instance with some fixed values and functions
         # Process actual entries
-        if singleEntry:
+        if not inThread:
             columnsNumber = 1
             VenC.core.blogConfiguration["entries_per_pages"] = 1
         else:
@@ -284,8 +283,7 @@ class Blog:
                 self.outputPage += self.patternProcessor.parse(self.theme.footer)
                 self.pageCounter += 1
                 self.entryCounter = 0
-
-                self.WritePage(folderDestination, singleEntry)
+                self.WritePage(folderDestination, ( int(entry.split("__")[0]) if not inThread else -1))
 
 
             
