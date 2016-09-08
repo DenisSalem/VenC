@@ -46,7 +46,6 @@ class processor():
         outputString = str()
         try:
             for Item in self.dictionnary[argv[0]]:
-                print(Item)
                 outputString += argv[1].format(Item) + argv[2]
 
             return outputString[:-len(argv[2])]
@@ -68,6 +67,7 @@ class processor():
                 else:
                     outputString += content.format(variables) + self._RecursiveFor(openString, content, separator, closeString, nodes[Key]["_nodes"])
         except Exception as e:
+            raise
             return str(e)
 
         return outputString + closeString

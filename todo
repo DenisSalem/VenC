@@ -10,6 +10,8 @@ DONE      | Export RSS recusively (for each thread and sub category thread)
 
 version 1.1.x
 
+DONE      | Fix categories list input
+DONE      | EntryCategoriesTop turns to EntryCategoriesLeafs
 DONE      | Fix wrong entries sorting when getting latest ID
 DONE	  | Fix wrong relative path when categories are empty
 DONE      | Notice malformed entries
@@ -18,7 +20,7 @@ DONE      | IfInThread special pattern must act like if/else statement
 DONE      | Notice missing variables in blog_conf
 DONE	  | Add command to edit and automatically re-export the blog
 DONE      | Syntax coloration via pygmentize
-HIGH      | Must implement weight exploitation
+DONE      | Must implement weight exploitation for BlogCategoriesLeaf and BlogDates
 DONE      | Must support FTP
 MEDIUM    | Client-side search engine
 MEDIUM    | GetPrevious and GetNextPage should work outside thread

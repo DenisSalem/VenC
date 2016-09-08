@@ -204,25 +204,6 @@ def GetKeyByName(keys, name):
             return key
     return None
 
-# DEPRECATED
-def GetEntriesPerKeys(entries, keyType):
-    entriesPerKeys = list()
-    for entry in entries:
-        stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
-        data = yaml.load(stream)
-        try:
-            for tag in data[keyType].split(","):
-                try:
-                    selectedKey = GetKeyByName(entriesPerKeys, tag)
-                    selectedKey.relatedTo.append(entry)
-                    selectedKey.weight+=1
-                except:
-                    entriesPerKeys.append(Key(tag,entry))
-        except:
-            return list()
-
-    return entriesPerKeys
-
 def GetEntriesPerDates(entries):
     entriesPerDates = list()
     for entry in entries:
@@ -238,8 +219,14 @@ def GetEntriesPerDates(entries):
 
 def GetDatesList(keys, relativeOrigin):
     output = list()
+    maxWeight = 0
     for key in keys:
+        if maxWeight < key.weight:
+            maxWeight = key.weight
         output.append({"date": key.value, "weight":key.weight,"dateUrl":relativeOrigin+key.value})
+
+    for key in output:
+        key["weight"] = str(key["weight"]/maxWeight)[0]
 
     return output
 
@@ -269,7 +256,6 @@ def GetEntriesPerCategories(entries):
                             selectedKey = GetKeyByName(nodes, subCategory.strip())
                             selectedKey.relatedTo.append(entry)
                             selectedKey.relatedTo = list(set(selectedKey.relatedTo))
-                            selectedKey.weight+=1
                         except:
                             selectedKey = Key(subCategory.strip(), entry)
                             nodes.append(selectedKey)
@@ -287,13 +273,37 @@ def GetCategoriesTree(categories, relativeOrigin):
             path += subCategory+'/'
             if not subCategory.strip() in node.keys():
                 node[subCategory.strip()] = {"_nodes":dict()}
-                node[subCategory.strip()]["__weight"] = 1
                 node[subCategory.strip()]["__categoryPath"] = path.strip()
                 node[subCategory.strip()]["__relativeOrigin"] = relativeOrigin
-            else:
-                node[subCategory.strip()]["__weight"] += 1
             node = node[subCategory.strip()]["_nodes"]
 
+    return output
+
+def GetBlogCategoriesLeafs(entries, relativeOrigin):
+    maxWeight = 0
+    for entryFilename in entries:
+        stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
+        dump = yaml.load(stream.split("---\n")[0])
+        categoriesLeafs = dict()
+        for category in dump["categories"].split(','):
+            categoryLeaf= category.split(' > ')[-1].strip()
+            if len(categoryLeaf) > 0:
+                categoryLeafUrl=str()
+                for subCategory in category.split(' > '):
+                    categoryLeafUrl +=subCategory.strip()+'/'
+                if categoryLeaf in categoriesLeafs.keys():
+                    categoriesLeafs[categoryLeaf]["weight"] +=1
+                    if maxWeight < output[categoryLeaf]["weight"]:
+                        maxWeight = output[categoryLeaf]["weight"]
+                else:
+                    categoriesLeafs[categoryLeaf] = {"weight":1, "relativeOrigin":relativeOrigin, "categoryLeaf": categoryLeaf, "categoryLeafUrl":categoryLeafUrl}
+                    if maxWeight < categoriesLeafs[categoryLeaf]["weight"]:
+                        maxWeight = categoriesLeafs[categoryLeaf]["weight"]
+
+    output = list()
+    for categoryLeaf in categoriesLeafs.keys():
+        categoriesLeafs[categoryLeaf]["weight"] = str(categoriesLeafs[categoryLeaf]["weight"]/maxWeight)[0]
+        output.append(categoriesLeafs[categoryLeaf])
     return output
 
 def GetEntry(entryFilename, relativeOrigin):
@@ -313,16 +323,17 @@ def GetEntry(entryFilename, relativeOrigin):
         output["entryTags"] = list()
     try:
         output["EntryCategories"] = GetCategoriesTree(dump["categories"].split(','), relativeOrigin)
-        output["EntryCategoriesTop"] = list()
+        output["EntryCategoriesLeafs"] = list()
         for category in dump["categories"].split(','):
             categoryLeaf= category.split(' > ')[-1].strip()
-            categoryLeafUrl=str()
-            for subCategory in category.split(' > '):
-                categoryLeafUrl +=subCategory.strip()+'/'
-            output["EntryCategoriesTop"].append({"relativeOrigin":relativeOrigin, "categoryLeaf": categoryLeaf, "categoryLeafUrl":categoryLeafUrl})
+            if len(categoryLeaf) != 0:
+                categoryLeafUrl=str()
+                for subCategory in category.split(' > '):
+                    categoryLeafUrl +=subCategory.strip()+'/'
+                output["EntryCategoriesLeafs"].append({"relativeOrigin":relativeOrigin, "categoryLeaf": categoryLeaf, "categoryLeafUrl":categoryLeafUrl})
     except:
         output["EntryCategories"] = dict()
-        output["EntryCategoriesTop"] = list()
+        output["EntryCategoriesLeafs"] = list()
 
     return output
 
