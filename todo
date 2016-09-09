@@ -16,7 +16,6 @@ DONE      | Fix categories list input
 DONE      | Fix wrong entries sorting when getting latest ID
 DONE	  | Fix wrong relative path when categories are empty
 DONE      | EntryCategoriesTop turns to EntryCategoriesLeafs
-DONE      | Notice malformed entries
 DONE      | Make pattern processor recursive
 DONE      | IfInThread special pattern must act like if/else statement
 DONE      | Notice missing variables in blog_conf
@@ -27,7 +26,8 @@ DONE      | Must support FTP
 
 version 1.2.x
 
-HIGHT   | Add custom CSS to entries
+HIGH    | Notice malformed entries
+HIGH    | Add custom CSS to entries
 HIGH    | Client-side search engine
 HIGH    | GetPrevious and GetNextPage should work outside thread
 HIGH    | Print errors when pattern processor fail.

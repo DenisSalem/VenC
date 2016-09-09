@@ -37,19 +37,28 @@ VenC est une application python conçue pour linux et similaire à [Octopress](h
 Les blogs statiques sont tout à fait adaptés aux darknets ou ceux qui veulent un contrôle total sur leur site sans s'embarrasser de CMS lourds et potentiellement vulnérables en terme de sécurité. Par ailleurs, l'extrême simplicité de l'organisation des sources des blogs issues de VenC garantit une prise en main rapide et efficace.
 
 En outre, voilà ce que VenC propose:
+- Depuis la version 1.0.0
+  - Création de blog statique (HTML/CSS ).
+  - Mise en page simple à personnaliser directement en HTML/CSS.
+  - Possibilité de créer un agencement en nombre arbitraire de colonne ( comme sur mon site ).
+  - Module de défilement infinie simple et facile à mettre en oeuvre ( comme sur mon site ).
+  - Les publications peuvent être organisées par catégories et sous catégories.
+  - Les publications peuvent être organisées par période de dates.
+  - Publication chronologique ascendante ou descendante.
+  - Flux RSS pour chaque fils de publications.
+  - Permaliens.
+  - Gestion et édition du blog entièrement en ligne de commande.
+  - VenC est conçu pour GNU/Linux spécifiquement.
+  - Rédaction des publications en markdown.
 
-- Création de blog statique (HTML/CSS ).
-- Mise en page simple à personnaliser directement en HTML/CSS.
-- Possibilité de créer un agencement en nombre arbitraire de colonne ( comme sur mon site ).
-- Module de défilement infinie simple et facile à mettre en oeuvre ( comme sur mon site ).
-- Les publications peuvent être organisées par catégories et sous catégories.
-- Les publications peuvent être organisées par période de dates.
-- Publication chronologique ascendante ou descendante.
-- Flux RSS pour chaque fils de publications.
-- Permaliens.
-- Gestion et édition du blog entièrement en ligne de commande.
-- VenC est conçu pour GNU/Linux spécifiquement.
-- Rédaction des publications en markdown.
+- Depuis la version 1.1.0
+  - Exportation du blog via FTP.
+  - Coloration Syntaxique.
+  - Détection de motifs récursif.
+  - Exploitation de variables déterminant le nombre et le poids des publications dans un fil de publications, idéal pour faire des nuages de tags.
+  - Ajout d'une commande pour éditer un fichier du blog et automatiquement recompiler le blog.
+  - Détection de variables manquantes dans le fichier de configuration du blog.
+  - Le motif IfInThread se comporte comme une structure conditionnel if/else.
 
 # Installation
 
@@ -404,6 +413,27 @@ Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
 Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce repertoire que ce sera exporté votre site. Une fois l'exportation terminée vous pouvez copier le contenu de ce répertoire vers votre serveur.
 
 Pour en savoir plus sur l'arborescence rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#arborescence).
+
+## Exporter le blog en ligne
+`$ venc -xftp`
+
+ou
+
+`$ venc --export-via-ftp`
+
+Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
+
+Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce repertoire que ce sera exporté votre site. Une fois l'exportation terminée le répertoire sera copié vers votre serveur. À ce moment une invite d'authentification apparaitra dans le terminal.
+
+## Editer un fichier du blog et recompiler le blog automatiquement.
+
+`$ venc -ex <fichier>`
+
+ou
+
+`$ venc --edit-and-export <fichier>`
+
+Cette commande ouvre le fichier passé en paramétre avec l'éditeur de texte de votre choix, définit dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal) puis, une fois l'édition terminé, recompile l'ensemble du blog.
 
 # Astuces
 

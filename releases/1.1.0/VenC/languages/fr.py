@@ -27,3 +27,4 @@ class Messages:
     cleanFtpDirectory="Nettoyage du repertoire FTP de destination..."
     copyToFtpDirectory="Copie du blog vers le repertoire FTP de destination..."
     possibleMalformedEntry="La publication {0} est probablement mal formée... Abandon."
+    blogRecompilation="Recompilation du blog locale..."

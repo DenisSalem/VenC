@@ -48,6 +48,9 @@ def ftpCleanDestination(ftp):
                     ftp.cwd(ftp.pwd()[:-len("/"+item)])
 
 def ftp(argv):
+    print("VenC:", VenC.core.Messages.blogRecompilation)
+    blog(argv)
+
     if VenC.core.blogConfiguration == None:
         print("VenC: "+VenC.core.Messages.noBlogConfiguration)
         return
