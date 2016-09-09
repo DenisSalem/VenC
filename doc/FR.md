@@ -305,8 +305,8 @@ Comme dans d'autres contextes de VenC. Le fichier de configuration du blog fait 
 
 Il existe également des variables particulières sous la forme de listes. Ces variables peuvent être parcourues itérativement et récursivement pour en extraire le contenu et le mettre en forme. Cette extraction se fait grace aux motifs spéciaux _For_ et _RecursiveFor_ dont le fonctionnement est détaillé dans la partie [Motifs Spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux). Mais avant voici les listes disponibles:
 
-* __EntryTags__ : La liste de mot clefs de la publication courante. Pour accéder au mot clé de l'itération courante utilisez la variable contextuelle {0[tag]}.
-* __EntryAuthors__ : La liste des auteurs de la publication courante. Pour accéder à l'item courant utiliser la variable de contexte {0[author]}.
+* __EntryTags__ : La liste de mot clefs de la publication courante. Pour accéder au mot clé de l'itération courante utilisez la variable contextuelle __{0[tag]}__.
+* __EntryAuthors__ : La liste des auteurs de la publication courante. Pour accéder à l'item courant utiliser la variable de contexte __{0[author]}__.
 * __BlogDates__ : La liste des liens vers les publications groupées par dates tel que défini dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal). Il y a plusieurs items disponibles pour une itération courante; __{0[date]}__, __{0[dateUrl]}__. Respectivement la période tel que formatée dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal) et le chemin vers le repertoire associé à cette période.
 
 On arrive maintenant au cas particulier des categories. Les categories forment un arbre comme illustré ci-dessous
