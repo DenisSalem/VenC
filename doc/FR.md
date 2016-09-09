@@ -136,27 +136,29 @@ __blog_configuration.yaml__
 Il s'agit d'un document Yaml à la racine du projet définissant les propriétés du blog, comme son titre, le nom de son auteur, ainsi que des détails fonctionnels comme le nombre de publications par pages ou l'ordre d'affichage de celles-ci. Immédiatement après avoir créé votre blog, il s'agira sans doute du premier fichier que vous éditerez. Après avoir rempli ces champs dont l'usage est détaillé ci-dessous, vous n'aurez normalement plus besoin d'y retoucher.
 
 
-* __blog_name__ : Sans surprise, il s'agit du titre de votre blog.
-* __textEditor__ : L'éditeur de texte choisi pour éditer une nouvelle publication du blog.
-* __date_format__ : "%A %d. %B %Y" par défaut. Définit le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par python. Pour en savoir plus sur ce format rendez vous [ici](http://strftime.org).
-* __author_name__: Le nom de l'administrateur ou l'auteur du blog.
-* __blog_description__ : Un très court résumé de ce dont parle votre site.
-* __blog_keywords__ : Les mots clefs associés au site.
-* __author_description__ : Un court texte à propos de l'auteur du blog.
-* __license__ : La licence appliquée au contenu de votre site.
-* __url__ : L'url du blog. Peut être laissée vide, selon le thème utilisé.
-* __blog_language__ : Définit la langue du site.
-* __email__ : Votre adresse e-mail.
-* __entries_per_pages__ : "10" par défaut. Définit évidemment le nombre de publications par page.
-* __columns__ : "1" par défaut. Ce champ définit le nombre de colonnes dans une page.
-* __rss_thread_lenght__ : "5" par défaut. Définit le nombre de publications à afficher dans le flux RSS.
-* __thread_order__ : "latest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ peut prendre comme valeur soit "oldest first", soit "latest first".
-* __path__ : Il s'agit d'une variable contenant différents chemins, vous ne devriez normalement pas avoir besoin d'y toucher. La liste de ces chemins est détaillé ci-dessous
-* __index_file_name__ : "index{page_number}.html" par défaut. Le nom de fichier formaté des pages du fil principal de publications. Devrait toujours contenir la variable {page_number}.
-* __category_directory_name__ : "{category}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à une catégorie de publication. Ce champ devrait donc toujours contenir la variable {category}.
-* __dates_directory_name__ : "%Y-%m" par défaut. Définit le format de date utilisé pour les noms de répertoires de fils de publications associés à des dates. Le format des dates est en fait le même que celui utilisé par python. Pour en savoir plus sur ce format rendez vous [ici](http://strftime.org).
-* __entry_file_name__ : "entry{entry_id}.html" par défaut. Définit le nom de fichier d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.
-* __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss.
+- __blog_name__ : Sans surprise, il s'agit du titre de votre blog.
+- __textEditor__ : L'éditeur de texte choisi pour éditer une nouvelle publication du blog.
+- __date_format__ : "%A %d. %B %Y" par défaut. Définit le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par python. Pour en savoir plus sur ce format rendez vous [ici](http://strftime.org).
+- __author_name__: Le nom de l'administrateur ou l'auteur du blog.
+- __ftp_host__ : Le nom d'hôte de votre serveur FTP.
+- __blog_description__ : Un très court résumé de ce dont parle votre site.
+- __blog_keywords__ : Les mots clefs associés au site.
+- __author_description__ : Un court texte à propos de l'auteur du blog.
+- __license__ : La licence appliquée au contenu de votre site.
+- __url__ : L'url du blog. Peut être laissée vide, selon le thème utilisé.
+- __blog_language__ : Définit la langue du site.
+- __email__ : Votre adresse e-mail.
+- __entries_per_pages__ : "10" par défaut. Définit évidemment le nombre de publications par page.
+- __columns__ : "1" par défaut. Ce champ définit le nombre de colonnes dans une page.
+- __rss_thread_lenght__ : "5" par défaut. Définit le nombre de publications à afficher dans le flux RSS.
+- __thread_order__ : "latest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ peut prendre comme valeur soit "oldest first", soit "latest first".
+- __path__ : Il s'agit d'une variable contenant différents chemins, vous ne devriez normalement pas avoir besoin d'y toucher. La liste de ces chemins est détaillé ci-dessous
+  - __index_file_name__ : "index{page_number}.html" par défaut. Le nom de fichier formaté des pages du fil principal de publications. Devrait toujours contenir la variable {page_number}.
+  - __category_directory_name__ : "{category}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à une catégorie de publication. Ce champ devrait donc toujours contenir la variable {category}.
+  - __dates_directory_name__ : "%Y-%m" par défaut. Définit le format de date utilisé pour les noms de répertoires de fils de publications associés à des dates. Le format des dates est en fait le même que celui utilisé par python. Pour en savoir plus sur ce format rendez vous [ici](http://strftime.org).
+  - __entry_file_name__ : "entry{entry_id}.html" par défaut. Définit le nom de fichier d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.
+  - __rss_file_name__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss.
+  - __ftp__ : Le chemin absolu du répertoire de destination sur votre serveur ftp.
 
 ### Les Templates
 
