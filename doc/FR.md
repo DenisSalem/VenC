@@ -286,7 +286,7 @@ De façon identique, pour la fonction _RecursiveFor_, le second, le quatrième e
 * __.:GetPreviousPage:: texte libre :.__ : Quand appelé dans un fil d'exportation, ce motif permet de récupérer l'url de la page précédente, si elle existe. Pour accéder à l'url de la page précédente utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
 * __.:GetNextPage:: texte libre :.__ : Quand appelé dans un fil d'exportation, ce motif permet de récupérer l'url de la page suivante si elle existe. Pour accéder à l'url de la page suivante utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
 * __.:PageList:: taille :.__ : Permet de récupérer une liste des publications antérieurs et postérieurs à la publication. La taille de cette liste est determinée par __taille__, qui doit être un nombre entier.
-* __.:IfInThread:: text libre :.__ : Motif conditionnel qui permet d'afficher le texte libre ou non selon que l'on se trouve dans un fil de publication ou sur une publication. Cela permet par exemple d'avoir une mise en page particulière pour une publication unique et pour un fil de publications.
+* __.:IfInThread:: text libre si la condition est vrai :: text libre si la condition est fausse:.__ : Motif conditionnel qui permet d'afficher le texte libre ou non selon que l'on se trouve dans un fil de publication ou sur une publication. Cela permet par exemple d'avoir une mise en page particulière pour une publication unique et pour un fil de publications en incluant les feuilles de styles qui conviennent.
 
 ## Variables d'environnement
 
