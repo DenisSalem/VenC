@@ -27,6 +27,7 @@ DONE      | Must support FTP
 
 version 1.2.x
 
+HIGHT   | Add custom CSS to entries
 HIGH    | Client-side search engine
 HIGH    | GetPrevious and GetNextPage should work outside thread
 HIGH    | Print errors when pattern processor fail.

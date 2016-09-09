@@ -226,7 +226,8 @@ def GetDatesList(keys, relativeOrigin):
         output.append({"date": key.value, "weight":key.weight,"dateUrl":relativeOrigin+key.value})
 
     for key in output:
-        key["weight"] = str(key["weight"]/maxWeight)[0]
+        key["count"] = str(key["weight"])
+        key["weight"] = str(int((key["weight"]/maxWeight)*10))
 
     return sorted(output, key = lambda date: int(date["date"])) 
 
@@ -303,7 +304,8 @@ def GetBlogCategoriesLeafs(entries, relativeOrigin):
                             maxWeight = categoriesLeafs[categoryLeaf]["weight"]
 
             for categoryLeaf in categoriesLeafs.keys():
-                categoriesLeafs[categoryLeaf]["weight"] = str(categoriesLeafs[categoryLeaf]["weight"]/maxWeight)[0]
+                categoriesLeafs[categoryLeaf]["count"] = str(categoriesLeafs[categoryLeaf]["weight"])
+                categoriesLeafs[categoryLeaf]["weight"] = str(int((categoriesLeafs[categoryLeaf]["weight"]/maxWeight)*10))
                 output.append(categoriesLeafs[categoryLeaf])
         except TypeError:
             print("VenC:", Messages.possibleMalformedEntry.format(entryFilename))
