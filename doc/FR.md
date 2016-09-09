@@ -1,5 +1,7 @@
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/logo.png "")
 
+# Version 1.1.0
+
 1. [Présentation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#pr%C3%A9sentation)
 2. [Installation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#installation)
 3. [Désinstallation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#désinstallation)
