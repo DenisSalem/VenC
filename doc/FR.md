@@ -23,6 +23,8 @@
     2. [Nouveau Blog](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#nouveau-blog)
     3. [Nouvelle publication](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#nouvelle-publication)
     4. [Exporter le blog](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#exporter-le-blog)
+    5. [Exporter le blog en ligne](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#exporter-le-blog-en-ligne)
+    6. [Editer un fichier du blog et recompiler le blog automatiquement](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#editer-un-fichier-du-blog-et-recompiler-le-blog-automatiquement)
 6. [Astuces](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#astuces)
 7. [Thèmes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#thèmes)
   1. [Installation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#installation-1)
