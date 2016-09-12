@@ -47,6 +47,7 @@ class Key:
         self.weight = 1
         self.path = str()
         self.value = value
+        self.relativeOrigin = "../"
         self.relatedTo = [entry]
         self.childs = list()
 
@@ -223,8 +224,8 @@ def GetDatesList(keys, relativeOrigin):
     output = list()
     maxWeight = 0
     for key in keys:
-        if maxWeight < key.weight:
-            maxWeight = key.weight
+        if maxWeight < key.count:
+            maxWeight = key.count
         output.append({"date": key.value, "count":key.count,"dateUrl":relativeOrigin+key.value})
 
     for key in output:
@@ -246,7 +247,7 @@ def GetCategoriesList(entries):
 
 def GetEntriesPerCategories(entries):
     entriesPerCategories = list()
-    relativePath = "../"
+    relativeOrigin = "../"
     for entry in entries:
         stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
         try:
@@ -266,57 +267,48 @@ def GetEntriesPerCategories(entries):
                                 selectedKey.relatedTo.append(entry)
                                 selectedKey.relativeOrigin = relativeOrigin
                                 selectedKey.count += 1
-                                selectedPath.path += subCategory+'/'
+                                selectedKey.path += subCategory+'/'
                                 selectedKey.relatedTo = list(set(selectedKey.relatedTo))
-                            except:
+                            except Exception as e:
                                 selectedKey = Key(subCategory.strip(), entry)
                                 selectedKey.path = subCategory+'/'
                                 nodes.append(selectedKey)
-                        
+                            
                             nodes = selectedKey.childs
-                            relativePath += "../"
+                            relativeOrigin += "../"
                 
-                    relativePath = "../"
+                    relativeOrigin = "../"
             except TypeError:
                 print("VenC:", VenC.core.Messages.possibleMalformedEntry.format(entry))
                 exit()
 
     return entriesPerCategories 
 
-# UNDER HEAVY MAINTENANCE
-def GetCategoriesTree(categories):
-    output = {"_nodes":dict()}
-    return output
-    maxWeight = 0
-
+def GetCategoriesTreeMaxWeight(categories, maxWeight=0):
+    currentMaxWeight = maxWeight
     for category in categories:
-        print
-        path = str()
-        node = output["_nodes"]
-        for subCategory in category.split(' > '):
-            path += subCategory+'/'
-            if not subCategory.strip() in node.keys():
-                node[subCategory.strip()] = {"_nodes":dict()}
-                node[subCategory.strip()]["__count"] = 1
-                node[subCategory.strip()]["__categoryPath"] = path.strip()
-                node[subCategory.strip()]["__relativeOrigin"] = relativeOrigin
-            else:
-                node[subCategory.strip()]["__count"] +=1
-            
-            if maxWeight < node[subCategory.strip()]["__count"]:
-                maxWeight = node[subCategory.strip()]["__count"] 
+        if category.count > currentMaxWeight:
+            currentMaxWeight = category.count
+        m = GetCategoriesTreeMaxWeight(category.childs, maxWeight=currentMaxWeight)
+        if m > currentMaxWeight:
+            currentMaxWeight = m
 
-            node = node[subCategory.strip()]["_nodes"]
+    return currentMaxWeight
 
-    #computes weight
+def GetCategoriesTree(categories, maxWeight, output={"_nodes":dict()}):
     for category in categories:
         node = output["_nodes"]
-        for subCategory in category.split(' > '):
-            node[subCategory.strip()]["__weight"] = int((node[subCategory.strip()]["__count"] / maxWeight) * 10)
-            node = node[subCategory.strip()]["_nodes"]
-            #print(node[subCategory.strip()]["__weight"], node[subCategory.strip()]["__count"])
+        if not category.value in node.keys():
+            node[category.value] = {"_nodes":dict()}
+            node[category.value]["__categoryPath"] = category.path
+            node[category.value]["__count"] = category.count
+            node[category.value]["__weight"] = int((category.count/maxWeight) * 10)
+            node[category.value]["__relativeOrigin"] = category.relativeOrigin
+            node[category.value]["_nodes"] = {"_nodes":dict()}
 
-    return output
+        GetCategoriesTree(category.childs, maxWeight, node[category.value]["_nodes"])
+
+    return output    
 
 def GetEntry(entryFilename, relativeOrigin):
     stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()

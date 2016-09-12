@@ -27,9 +27,9 @@ DONE      | Must support FTP.
 version 1.1.1
 
 DONE      | Remove BlogCategoriesLeafs.
-HIGH      | Implement weight exploitation for BlogCategories.
+DONE      | Fix wrong dates sorting
+DONE      | Implement weight exploitation for BlogCategories.
 HIGH      | Sort entries in categories tree.
-HIGH      | Fix wrong dates sorting
 
 version 1.2.x
 

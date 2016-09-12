@@ -119,7 +119,8 @@ class Blog:
         self.patternProcessor = VenC.pattern.processor(".:",":.","::")
         self.patternProcessor.SetFunction("IfInThread", self.IfInThread)
         self.patternProcessor.Set("PagesList", VenC.core.GetListOfPages(int(VenC.core.blogConfiguration["entries_per_pages"]),len(inputEntries)))
-        categoriesTree = VenC.core.GetCategoriesTree(VenC.core.GetCategoriesList(self.entriesList))
+        #categoriesTree = VenC.core.GetCategoriesTree(VenC.core.GetEntriCategoriesList(self.entriesList))
+        categoriesTree = VenC.core.GetCategoriesTree(self.entriesPerCategories, VenC.core.GetCategoriesTreeMaxWeight(self.entriesPerCategories))
         self.patternProcessor.Set("BlogCategories", categoriesTree)
         self.patternProcessor.Set("BlogDates", VenC.core.GetDatesList(self.entriesPerDates, self.relativeOrigin))
         self.patternProcessor.Set("RelativeOrigin", self.relativeOrigin)
@@ -185,7 +186,7 @@ class Blog:
         
     def exportCategories(self, categories):
         for category in categories:
-            print(VenC.core.Messages.exportCategories.format(category))
+            print(VenC.core.Messages.exportCategories.format(category.value))
             self.destinationPath+= VenC.core.blogConfiguration["path"]["category_directory_name"].format(category=category.value+'/')
             self.relativeOrigin += "../"
             self.exportThread(category.relatedTo, True, folderDestination=self.destinationPath)
