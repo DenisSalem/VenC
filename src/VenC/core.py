@@ -290,18 +290,23 @@ def GetCategoriesTreeMaxWeight(categories, maxWeight=0):
 
     return currentMaxWeight
 
-def GetCategoriesTree(categories, relativeOrigin, maxWeight, output={"_nodes":dict()}):
+def GetCategoriesTree(categories, relativeOrigin, maxWeight, root={}):
+    node = root
+
+    if len(categories) != 0:
+        node["_nodes"] = dict()
+
     for category in categories:
-        node = output["_nodes"]
-        node[category.value] = {"_nodes":dict()}
+        node[category.value] = dict()
         node[category.value]["__categoryPath"] = category.path
         node[category.value]["__count"] = category.count
         node[category.value]["__weight"] = int((category.count/maxWeight) * 10)
         node[category.value]["__relativeOrigin"] = relativeOrigin
-        node[category.value]["_nodes"] = {"_nodes":dict()}
-        GetCategoriesTree(category.childs, relativeOrigin, maxWeight, node[category.value]["_nodes"])
-
-    return output    
+        if len(category.childs) != 0:
+            node[category.value]["_nodes"] = dict()
+            GetCategoriesTree(category.childs, relativeOrigin, maxWeight, node[category.value]["_nodes"])
+            print(node, category.value)
+    return node  
 
 def GetEntry(entryFilename, relativeOrigin):
     stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()

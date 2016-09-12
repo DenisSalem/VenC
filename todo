@@ -28,7 +28,7 @@ version 1.1.1
 
 DONE      | Remove BlogCategoriesLeafs.
 DONE      | Fix wrong dates sorting
-DONE      | Implement weight exploitation for BlogCategories.
+ALMOST DONE      | Implement weight exploitation for BlogCategories anf fix mess with RecursiveFor
 HIGH      | Sort entries in categories tree.
 
 version 1.2.x

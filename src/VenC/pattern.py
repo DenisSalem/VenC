@@ -61,11 +61,11 @@ class processor():
                     if key[:2] == '__':
                         variables[key[2:]] = nodes[Key][key]
                 variables["item"] = Key
-                if "_nodes" in nodes[Key].keys():
-                    outputString += content.format(variables) + separator
-
-                else:
-                    outputString += content.format(variables) + self._RecursiveFor(openString, content, separator, closeString, nodes[Key]["_nodes"])
+                if Key != "_nodes":
+                    if not "_nodes" in nodes[Key].keys():
+                        outputString += content.format(variables) + separator
+                    else:
+                        outputString += content.format(variables) + self._RecursiveFor(openString, content, separator, closeString, nodes[Key]["_nodes"])
         except Exception as e:
             raise
             return str(e)
@@ -74,13 +74,14 @@ class processor():
 
     def RecursiveFor(self, argv):
         outputString = str()
+        print(len(self.dictionnary[argv[0]].keys()))
         try:
             outputString += self._RecursiveFor(
                 argv[1],
                 argv[2],
                 argv[3],
                 argv[4],
-                self.dictionnary[argv[0]]["_nodes"]
+                self.dictionnary[argv[0]]
             )
             return outputString
         except Exception as e:
