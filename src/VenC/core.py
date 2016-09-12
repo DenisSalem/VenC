@@ -298,14 +298,12 @@ def GetCategoriesTreeMaxWeight(categories, maxWeight=0):
 def GetCategoriesTree(categories, maxWeight, output={"_nodes":dict()}):
     for category in categories:
         node = output["_nodes"]
-        if not category.value in node.keys():
-            node[category.value] = {"_nodes":dict()}
-            node[category.value]["__categoryPath"] = category.path
-            node[category.value]["__count"] = category.count
-            node[category.value]["__weight"] = int((category.count/maxWeight) * 10)
-            node[category.value]["__relativeOrigin"] = category.relativeOrigin
-            node[category.value]["_nodes"] = {"_nodes":dict()}
-
+        node[category.value] = {"_nodes":dict()}
+        node[category.value]["__categoryPath"] = category.path
+        node[category.value]["__count"] = category.count
+        node[category.value]["__weight"] = int((category.count/maxWeight) * 10)
+        node[category.value]["__relativeOrigin"] = category.relativeOrigin
+        node[category.value]["_nodes"] = {"_nodes":dict()}
         GetCategoriesTree(category.childs, maxWeight, node[category.value]["_nodes"])
 
     return output    

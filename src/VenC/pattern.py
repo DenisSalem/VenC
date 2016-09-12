@@ -61,7 +61,7 @@ class processor():
                     if key[:2] == '__':
                         variables[key[2:]] = nodes[Key][key]
                 variables["item"] = Key
-                if nodes[Key]["_nodes"] == dict():
+                if "_nodes" in nodes[Key].keys():
                     outputString += content.format(variables) + separator
 
                 else:
