@@ -47,7 +47,7 @@ class Key:
         self.weight = 1
         self.path = str()
         self.value = value
-        self.relativeOrigin = "../"
+        self.relativeOrigin = str()
         self.relatedTo = [entry]
         self.childs = list()
 
@@ -247,7 +247,6 @@ def GetCategoriesList(entries):
 
 def GetEntriesPerCategories(entries):
     entriesPerCategories = list()
-    relativeOrigin = "../"
     for entry in entries:
         stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
         try:
@@ -265,9 +264,7 @@ def GetEntriesPerCategories(entries):
                             try:
                                 selectedKey = GetKeyByName(nodes, subCategory.strip())
                                 selectedKey.relatedTo.append(entry)
-                                selectedKey.relativeOrigin = relativeOrigin
                                 selectedKey.count += 1
-                                selectedKey.path += subCategory+'/'
                                 selectedKey.relatedTo = list(set(selectedKey.relatedTo))
                             except Exception as e:
                                 selectedKey = Key(subCategory.strip(), entry)
@@ -275,9 +272,7 @@ def GetEntriesPerCategories(entries):
                                 nodes.append(selectedKey)
                             
                             nodes = selectedKey.childs
-                            relativeOrigin += "../"
                 
-                    relativeOrigin = "../"
             except TypeError:
                 print("VenC:", VenC.core.Messages.possibleMalformedEntry.format(entry))
                 exit()
@@ -295,16 +290,16 @@ def GetCategoriesTreeMaxWeight(categories, maxWeight=0):
 
     return currentMaxWeight
 
-def GetCategoriesTree(categories, maxWeight, output={"_nodes":dict()}):
+def GetCategoriesTree(categories, relativeOrigin, maxWeight, output={"_nodes":dict()}):
     for category in categories:
         node = output["_nodes"]
         node[category.value] = {"_nodes":dict()}
         node[category.value]["__categoryPath"] = category.path
         node[category.value]["__count"] = category.count
         node[category.value]["__weight"] = int((category.count/maxWeight) * 10)
-        node[category.value]["__relativeOrigin"] = category.relativeOrigin
+        node[category.value]["__relativeOrigin"] = relativeOrigin
         node[category.value]["_nodes"] = {"_nodes":dict()}
-        GetCategoriesTree(category.childs, maxWeight, node[category.value]["_nodes"])
+        GetCategoriesTree(category.childs, relativeOrigin, maxWeight, node[category.value]["_nodes"])
 
     return output    
 

@@ -119,7 +119,7 @@ class Blog:
         self.patternProcessor = VenC.pattern.processor(".:",":.","::")
         self.patternProcessor.SetFunction("IfInThread", self.IfInThread)
         self.patternProcessor.Set("PagesList", VenC.core.GetListOfPages(int(VenC.core.blogConfiguration["entries_per_pages"]),len(inputEntries)))
-        categoriesTree = VenC.core.GetCategoriesTree(self.entriesPerCategories, VenC.core.GetCategoriesTreeMaxWeight(self.entriesPerCategories))
+        categoriesTree = VenC.core.GetCategoriesTree(self.entriesPerCategories, self.relativeOrigin, VenC.core.GetCategoriesTreeMaxWeight(self.entriesPerCategories))
         self.patternProcessor.Set("BlogCategories", categoriesTree)
         self.patternProcessor.Set("BlogDates", VenC.core.GetDatesList(self.entriesPerDates, self.relativeOrigin))
         self.patternProcessor.Set("RelativeOrigin", self.relativeOrigin)
