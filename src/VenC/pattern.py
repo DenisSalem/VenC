@@ -55,7 +55,7 @@ class processor():
     def _RecursiveFor(self, openString, content, separator,closeString, nodes):
         outputString = openString
         try:
-            for Key in nodes.keys():
+            for Key in sorted(nodes.keys()):
                 variables = dict()
                 for key in nodes[Key]:
                     if key[:2] == '__':
@@ -67,7 +67,6 @@ class processor():
                     else:
                         outputString += content.format(variables) + self._RecursiveFor(openString, content, separator, closeString, nodes[Key]["_nodes"])
         except Exception as e:
-            raise
             return str(e)
 
         return outputString + closeString

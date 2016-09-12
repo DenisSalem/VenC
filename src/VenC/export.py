@@ -271,7 +271,7 @@ class Blog:
         else:
             columnsNumber = 1 if VenC.core.blogConfiguration["columns"] < 1 else int(VenC.core.blogConfiguration["columns"])
 
-        for entry in inputEntries:
+        for entry in sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(VenC.core.blogConfiguration["thread_order"].strip() == "latest first")):
             self.initEntryStates(entry)
             
             if self.entryCounter == 0:
