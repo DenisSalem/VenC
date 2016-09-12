@@ -330,10 +330,10 @@ Il existe également des variables particulières sous la forme de listes. Ces v
 - __EntryTags__ : La liste de mot clefs de la publication courante. Pour accéder au mot clé de l'itération courante utilisez la variable contextuelle __{0[tag]}__.
 - __EntryAuthors__ : La liste des auteurs de la publication courante. Pour accéder à l'item courant utiliser la variable de contexte __{0[author]}__.
 - __BlogDates__ : La liste des liens vers les publications groupées par dates tel que défini dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal). Il y a plusieurs items disponibles pour une itération courante;
- - __{0[date]}__ : La période tel que formatée dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
+ - __{0[date]}__ : La période telle que formatée dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
  - __{0[dateUrl]}__ : Le chemin vers le repertoire associé à cette période.
- - __{0[count]}__ : Le nombre de publications dans l'archives.
- - __{0[weight]}__ : La part des publications contenues dans l'archives courante sous la forme d'un entier compris entre 0 et 10.
+ - __{0[count]}__ : Le nombre de publications dans l'archive.
+ - __{0[weight]}__ : La part des publications contenues dans l'archive courante sous la forme d'un entier compris entre 0 et 10.
 
 On arrive maintenant au cas particulier des categories. Les categories forment un arbre comme illustré ci-dessous
 
