@@ -43,7 +43,9 @@ def CodeHighlight(argv):
 
 class Key:
     def __init__(self, value, entry):
+        self.count = 1
         self.weight = 1
+        self.path = str()
         self.value = value
         self.relatedTo = [entry]
         self.childs = list()
@@ -211,7 +213,7 @@ def GetEntriesPerDates(entries):
         try:
             selectedKey = GetKeyByName(entriesPerDates, date)
             selectedKey.relatedTo.append(entry)
-            selectedKey.weight+=1
+            selectedKey.count+=1
         except:
             entriesPerDates.append(Key(date,entry))
 
@@ -223,13 +225,12 @@ def GetDatesList(keys, relativeOrigin):
     for key in keys:
         if maxWeight < key.weight:
             maxWeight = key.weight
-        output.append({"date": key.value, "weight":key.weight,"dateUrl":relativeOrigin+key.value})
+        output.append({"date": key.value, "count":key.count,"dateUrl":relativeOrigin+key.value})
 
     for key in output:
-        key["count"] = str(key["weight"])
-        key["weight"] = str(int((key["weight"]/maxWeight)*10))
+        key["weight"] = str(int((key["count"]/maxWeight)*10))
 
-    return sorted(output, key = lambda date: int(date["date"])) 
+    return sorted(output, key = lambda date: datetime.datetime.strptime(date["date"], blogConfiguration["path"]["dates_directory_name"])) 
 
 def GetCategoriesList(entries):
     output = list()
@@ -245,71 +246,75 @@ def GetCategoriesList(entries):
 
 def GetEntriesPerCategories(entries):
     entriesPerCategories = list()
+    relativePath = "../"
     for entry in entries:
         stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
-        data = yaml.load(stream)
-        if data != None:
-            for category in data["categories"].split(","):
-                if category != '':
-                    nodes = entriesPerCategories
-                    for subCategory in category.split(" > "):
-                        try:
-                            selectedKey = GetKeyByName(nodes, subCategory.strip())
-                            selectedKey.relatedTo.append(entry)
-                            selectedKey.relatedTo = list(set(selectedKey.relatedTo))
-                        except:
-                            selectedKey = Key(subCategory.strip(), entry)
-                            nodes.append(selectedKey)
+        try:
+            data = yaml.load(stream)
+        except yaml.parser.ParserError:
+            print("VenC:", VenC.core.Messages.possibleMalformedEntry.format(entry))
+            exit()
 
-                        nodes = selectedKey.childs
+        if data != None:
+            try:
+                for category in data["categories"].split(","):
+                    if category != '':
+                        nodes = entriesPerCategories
+                        for subCategory in category.split(" > "):
+                            try:
+                                selectedKey = GetKeyByName(nodes, subCategory.strip())
+                                selectedKey.relatedTo.append(entry)
+                                selectedKey.relativeOrigin = relativeOrigin
+                                selectedKey.count += 1
+                                selectedPath.path += subCategory+'/'
+                                selectedKey.relatedTo = list(set(selectedKey.relatedTo))
+                            except:
+                                selectedKey = Key(subCategory.strip(), entry)
+                                selectedKey.path = subCategory+'/'
+                                nodes.append(selectedKey)
+                        
+                            nodes = selectedKey.childs
+                            relativePath += "../"
+                
+                    relativePath = "../"
+            except TypeError:
+                print("VenC:", VenC.core.Messages.possibleMalformedEntry.format(entry))
+                exit()
 
     return entriesPerCategories 
 
-def GetCategoriesTree(categories, relativeOrigin):
+# UNDER HEAVY MAINTENANCE
+def GetCategoriesTree(categories):
     output = {"_nodes":dict()}
+    return output
+    maxWeight = 0
+
     for category in categories:
+        print
         path = str()
         node = output["_nodes"]
         for subCategory in category.split(' > '):
             path += subCategory+'/'
             if not subCategory.strip() in node.keys():
                 node[subCategory.strip()] = {"_nodes":dict()}
+                node[subCategory.strip()]["__count"] = 1
                 node[subCategory.strip()]["__categoryPath"] = path.strip()
                 node[subCategory.strip()]["__relativeOrigin"] = relativeOrigin
+            else:
+                node[subCategory.strip()]["__count"] +=1
+            
+            if maxWeight < node[subCategory.strip()]["__count"]:
+                maxWeight = node[subCategory.strip()]["__count"] 
+
             node = node[subCategory.strip()]["_nodes"]
 
-    return output
-
-def GetBlogCategoriesLeafs(entries, relativeOrigin):
-    maxWeight = 0
-    output = list()
-    for entryFilename in entries:
-        stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
-        dump = yaml.load(stream.split("---\n")[0])
-        categoriesLeafs = dict()
-        try:
-            for category in dump["categories"].split(','):
-                categoryLeaf= category.split(' > ')[-1].strip()
-                if len(categoryLeaf) > 0:
-                    categoryLeafUrl=str()
-                    for subCategory in category.split(' > '):
-                        categoryLeafUrl +=subCategory.strip()+'/'
-                    if categoryLeaf in categoriesLeafs.keys():
-                        categoriesLeafs[categoryLeaf]["weight"] +=1
-                        if maxWeight < output[categoryLeaf]["weight"]:
-                            maxWeight = output[categoryLeaf]["weight"]
-                    else:
-                        categoriesLeafs[categoryLeaf] = {"weight":1, "relativeOrigin":relativeOrigin, "categoryLeaf": categoryLeaf, "categoryLeafUrl":categoryLeafUrl}
-                        if maxWeight < categoriesLeafs[categoryLeaf]["weight"]:
-                            maxWeight = categoriesLeafs[categoryLeaf]["weight"]
-
-            for categoryLeaf in categoriesLeafs.keys():
-                categoriesLeafs[categoryLeaf]["count"] = str(categoriesLeafs[categoryLeaf]["weight"])
-                categoriesLeafs[categoryLeaf]["weight"] = str(int((categoriesLeafs[categoryLeaf]["weight"]/maxWeight)*10))
-                output.append(categoriesLeafs[categoryLeaf])
-        except TypeError:
-            print("VenC:", Messages.possibleMalformedEntry.format(entryFilename))
-            exit()
+    #computes weight
+    for category in categories:
+        node = output["_nodes"]
+        for subCategory in category.split(' > '):
+            node[subCategory.strip()]["__weight"] = int((node[subCategory.strip()]["__count"] / maxWeight) * 10)
+            node = node[subCategory.strip()]["_nodes"]
+            #print(node[subCategory.strip()]["__weight"], node[subCategory.strip()]["__count"])
 
     return output
 

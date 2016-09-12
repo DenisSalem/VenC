@@ -24,6 +24,13 @@ DONE      | Syntax coloration via pygmentize.
 DONE      | Must implement weight exploitation for BlogCategoriesLeaf and BlogDates.
 DONE      | Must support FTP.
 
+version 1.1.1
+
+DONE      | Remove BlogCategoriesLeafs.
+HIGH      | Implement weight exploitation for BlogCategories.
+HIGH      | Sort entries in categories tree.
+HIGH      | Fix wrong dates sorting
+
 version 1.2.x
 
 HIGH    | Installation via pypi.

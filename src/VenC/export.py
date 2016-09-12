@@ -119,10 +119,8 @@ class Blog:
         self.patternProcessor = VenC.pattern.processor(".:",":.","::")
         self.patternProcessor.SetFunction("IfInThread", self.IfInThread)
         self.patternProcessor.Set("PagesList", VenC.core.GetListOfPages(int(VenC.core.blogConfiguration["entries_per_pages"]),len(inputEntries)))
-        categoriesTree = VenC.core.GetCategoriesTree(VenC.core.GetCategoriesList(self.entriesList), self.relativeOrigin)
+        categoriesTree = VenC.core.GetCategoriesTree(VenC.core.GetCategoriesList(self.entriesList))
         self.patternProcessor.Set("BlogCategories", categoriesTree)
-        blogCategoriesLeafs = VenC.core.GetBlogCategoriesLeafs(self.entriesList, self.relativeOrigin)
-        self.patternProcessor.Set("BlogCategoriesLeafs", blogCategoriesLeafs)
         self.patternProcessor.Set("BlogDates", VenC.core.GetDatesList(self.entriesPerDates, self.relativeOrigin))
         self.patternProcessor.Set("RelativeOrigin", self.relativeOrigin)
         self.patternProcessor.Set("SingleEntry", not inThread)
@@ -153,10 +151,13 @@ class Blog:
         return VenC.core.blogConfiguration["path"]["index_file_name"].format(page_number=(str(pageCounter) if pageCounter != 0 else str()))
 
     def export(self):
+        print(VenC.core.Messages.exportMainThread)
         self.exportThread(self.entriesList, True)
+        print(VenC.core.Messages.exportMainThreadRss)
         self.exportRss(self.entriesList)
         self.relativeOrigin += "../"
         for e in self.entriesPerDates:
+            print(VenC.core.Messages.exportArchives.format(e.value))
             self.exportThread(e.relatedTo, True, folderDestination=e.value+'/')
         self.relativeOrigin = str()
         
@@ -184,10 +185,11 @@ class Blog:
         
     def exportCategories(self, categories):
         for category in categories:
+            print(VenC.core.Messages.exportCategories.format(category))
             self.destinationPath+= VenC.core.blogConfiguration["path"]["category_directory_name"].format(category=category.value+'/')
             self.relativeOrigin += "../"
             self.exportThread(category.relatedTo, True, folderDestination=self.destinationPath)
-            self.exportRss(category.relatedTo, True, folderDestination=self.destinationPath)
+            self.exportRss(category.relatedTo, folderDestination=self.destinationPath)
             self.exportCategories(category.childs)
             self.relativeOrigin = self.relativeOrigin[:-3]
             self.destinationPath = self.destinationPath[:-len(category.value+"/")]

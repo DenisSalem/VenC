@@ -1,6 +1,6 @@
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/logo.png "")
 
-# Version 1.1.0
+# Version 1.1.1
 
 1. [Présentation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#pr%C3%A9sentation)
 2. [Installation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#installation)
@@ -75,6 +75,9 @@ Vous pouvez jeter un oeil à la [page officielle](https://pythonhosted.org/Markd
 
 __PyYaml__
 Vous pouvez jeter un oeil à la [page_officielle](http://pyyaml.org/) ou directement taper la commande _pip install pyyaml_ dans un terminal.
+
+__Pygments__ 
+Vous pouvez jeter un oeil à la [page_officielle](http://pygments.org/) ou directement taper la commande _pip install pygments_ dans un terminal.
 
 Ceci étant fait, clonez le repository de VenC
 
@@ -324,9 +327,13 @@ Comme dans d'autres contextes de VenC. Le fichier de configuration du blog fait 
 
 Il existe également des variables particulières sous la forme de listes. Ces variables peuvent être parcourues itérativement et récursivement pour en extraire le contenu et le mettre en forme. Cette extraction se fait grace aux motifs spéciaux _For_ et _RecursiveFor_ dont le fonctionnement est détaillé dans la partie [Motifs Spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux). Mais avant voici les listes disponibles:
 
-* __EntryTags__ : La liste de mot clefs de la publication courante. Pour accéder au mot clé de l'itération courante utilisez la variable contextuelle __{0[tag]}__.
-* __EntryAuthors__ : La liste des auteurs de la publication courante. Pour accéder à l'item courant utiliser la variable de contexte __{0[author]}__.
-* __BlogDates__ : La liste des liens vers les publications groupées par dates tel que défini dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal). Il y a plusieurs items disponibles pour une itération courante; __{0[date]}__, __{0[dateUrl]}__. Respectivement la période tel que formatée dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal) et le chemin vers le repertoire associé à cette période.
+- __EntryTags__ : La liste de mot clefs de la publication courante. Pour accéder au mot clé de l'itération courante utilisez la variable contextuelle __{0[tag]}__.
+- __EntryAuthors__ : La liste des auteurs de la publication courante. Pour accéder à l'item courant utiliser la variable de contexte __{0[author]}__.
+- __BlogDates__ : La liste des liens vers les publications groupées par dates tel que défini dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal). Il y a plusieurs items disponibles pour une itération courante;
+ - __{0[date]}__ : La période tel que formatée dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
+ - __{0[dateUrl]}__ : Le chemin vers le repertoire associé à cette période.
+ - __{0[count]}__ : Le nombre de publications dans l'archives.
+ - __{0[weight]}__ : La part des publications contenues dans l'archives courante sous la forme d'un entier compris entre 0 et 10.
 
 On arrive maintenant au cas particulier des categories. Les categories forment un arbre comme illustré ci-dessous
 
@@ -338,16 +345,6 @@ Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche 
   - __{0[relativeOrigin]}__ : Le chemin relatif de la page courante vers la racine du blog.
   - __{0[categoryPath]}__ : Le chemin relatif vers la sous-categorie courante.
   - __{0[item]}__: Le nom de la sous-categorie courante.
-- __EntryCategoriesLeafs__ : La liste des categories (feuilles) de la publication courante. Il y a plusieurs items disponibles pour une itération courante;
-  - __{0[relativeOrigin]}__ : Le chemin relatif de la page courante vers la racine du blog.
-  - __{0[categoryLeaf]}__ : Le nom de la categorie feuille.
-  - __{0[categoryLeafUrl]}__ : L'url vers la categorie feuille.
-- __BlogCategoriesLeafs__ : La liste des categories (feuilles) du blog. Il y a plusieurs items disponibles pour une itération courante;
-  - __{0[relativeOrigin]}__ : Le chemin relatif de la page courante vers la racine du blog.
-  - __{0[categoryLeaf]}__ : Le nom de la categorie feuille.
-  - __{0[weight]}__ : La part des publications contenues dans la categorie courante sous la forme d'un entier compris entre 0 et 10.
-  - __{0[count]}__ : Le nombre de publication contenu dans la categorie.
-  - __{0[categoryLeafUrl]}__: L'url vers la categorie feuille.
 - __BlogCategories__ : La liste des categories (branche complète) du blog. Se présente sous la forme de listes imbriquées. Il y a plusieurs items disponibles pour une itération courante ;
   - __{0[relativeOrigin]}__ :Le chemin relatif de la page courante vers la racine du blog.
   - __{0[categoryPath]}__ : Le chemin relatif vers la sous-categorie courante.

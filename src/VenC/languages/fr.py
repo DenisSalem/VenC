@@ -28,3 +28,7 @@ class Messages:
     copyToFtpDirectory="Copie du blog vers le repertoire FTP de destination..."
     possibleMalformedEntry="La publication {0} est probablement mal formée... Abandon."
     blogRecompilation="Recompilation du blog locale..."
+    exportArchives="Exportation locale du fil de publications de {0}."
+    exportMainThread="Exportation locale du fil de publications principal."
+    exportMainThreadRss="Exportation locale du flux RSS du fil de publications principal."
+    exportCategories="Exportation locale du fil de publications de la categorie {0}."
