@@ -260,7 +260,9 @@ def GetEntriesPerCategories(entries):
                 for category in data["categories"].split(","):
                     if category != '':
                         nodes = entriesPerCategories
+                        path = str()
                         for subCategory in category.split(" > "):
+                            path += subCategory+'/'
                             try:
                                 selectedKey = GetKeyByName(nodes, subCategory.strip())
                                 selectedKey.relatedTo.append(entry)
@@ -268,7 +270,7 @@ def GetEntriesPerCategories(entries):
                                 selectedKey.relatedTo = list(set(selectedKey.relatedTo))
                             except Exception as e:
                                 selectedKey = Key(subCategory.strip(), entry)
-                                selectedKey.path = subCategory+'/'
+                                selectedKey.path = path
                                 nodes.append(selectedKey)
                             
                             nodes = selectedKey.childs
@@ -305,7 +307,6 @@ def GetCategoriesTree(categories, relativeOrigin, maxWeight, root={}):
         if len(category.childs) != 0:
             node[category.value]["_nodes"] = dict()
             GetCategoriesTree(category.childs, relativeOrigin, maxWeight, node[category.value]["_nodes"])
-            print(node, category.value)
     return node  
 
 def GetEntry(entryFilename, relativeOrigin):

@@ -74,7 +74,6 @@ class processor():
 
     def RecursiveFor(self, argv):
         outputString = str()
-        print(len(self.dictionnary[argv[0]].keys()))
         try:
             outputString += self._RecursiveFor(
                 argv[1],
