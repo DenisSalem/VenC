@@ -349,6 +349,8 @@ Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche 
   - __{0[relativeOrigin]}__ :Le chemin relatif de la page courante vers la racine du blog.
   - __{0[categoryPath]}__ : Le chemin relatif vers la sous-categorie courante.
   - __{0[item]}__ : Le nom de la sous-categorie courante.
+  - __{0[count]}__ : Le nombre de publications dans la categorie.
+  - __{0[weight]}__ : La part des publications contenues dans la categorie courante sous la forme d'un entier compris entre 0 et 10.
 
 Pour utiliser ces variables spéciales de motifs reportez vous à la partie [Motifs spéciaux](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-spéciaux)
 
