@@ -32,3 +32,4 @@ class Messages:
     exportMainThread="Exportation locale du fil de publications principal."
     exportMainThreadRss="Exportation locale du flux RSS du fil de publications principal."
     exportCategories="Exportation locale du fil de publications de la categorie {0}."
+    exportCategoriesRss="Exportation locale du flux RSS du fil publications de la categorie {0}."

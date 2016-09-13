@@ -11,7 +11,6 @@ import subprocess
 import VenC.core
 import VenC.pattern
 
-
 def ftpExportRecursively(origin, ftp):
         folder = os.listdir(origin)
         for item in folder:
@@ -189,6 +188,7 @@ class Blog:
             self.destinationPath+= VenC.core.blogConfiguration["path"]["category_directory_name"].format(category=category.value+'/')
             self.relativeOrigin += "../"
             self.exportThread(category.relatedTo, True, folderDestination=self.destinationPath)
+            print(VenC.core.Messages.exportCategoriesRss.format(category.value))
             self.exportRss(category.relatedTo, folderDestination=self.destinationPath)
             self.exportCategories(category.childs)
             self.relativeOrigin = self.relativeOrigin[:-3]
@@ -271,7 +271,8 @@ class Blog:
         else:
             columnsNumber = 1 if VenC.core.blogConfiguration["columns"] < 1 else int(VenC.core.blogConfiguration["columns"])
 
-        for entry in sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(VenC.core.blogConfiguration["thread_order"].strip() == "latest first")):
+        sortedEntries =  sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(VenC.core.blogConfiguration["thread_order"].strip() == "latest first"))
+        for entry in sortedEntries:
             self.initEntryStates(entry)
             
             if self.entryCounter == 0:
@@ -281,7 +282,7 @@ class Blog:
             
             self.columns[ self.entryCounter % columnsNumber ] += self.patternProcessor.parse(self.theme.entry)+"\n"
             self.entryCounter += 1
-            if self.entryCounter >= int(VenC.core.blogConfiguration["entries_per_pages"]) or entry == inputEntries[-1]:
+            if self.entryCounter >= int(VenC.core.blogConfiguration["entries_per_pages"]) or entry == sortedEntries[-1]:
                 self.columns = [ column+"</div>" for column in self.columns ]
                 for column in self.columns:
                     self.outputPage += column

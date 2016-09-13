@@ -26,6 +26,7 @@ DONE      | Must support FTP.
 
 version 1.1.1
 
+DONE      | Fix entries skipping
 DONE      | Remove BlogCategoriesLeafs.
 DONE      | Fix wrong dates sorting
 DONE      | Implement weight exploitation for BlogCategories anf fix mess with RecursiveFor
