@@ -1,6 +1,6 @@
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/logo.png "")
 
-# Version 1.1.1
+# Version 1.1.2
 
 1. [Présentation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#pr%C3%A9sentation)
 2. [Installation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#installation)
@@ -279,6 +279,7 @@ dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/do
 * __.:Get::BlogLanguage:.__ : Retourne le language du blog.
 * __.:Get::AuthorEmail:.__ : Retourne l'adresse email de l'auteur du blog.
 * __.:Get::RelativeOrigin:.__ : Retourne le chemin relatif de la racine du blog.
+* __.:Get::RelativeLocation:.__ : Retourne le répertoire courant relativement à la racine du blog.
 
 ### Motifs de Publications
 
@@ -334,6 +335,10 @@ Il existe également des variables particulières sous la forme de listes. Ces v
  - __{0[dateUrl]}__ : Le chemin vers le repertoire associé à cette période.
  - __{0[count]}__ : Le nombre de publications dans l'archives.
  - __{0[weight]}__ : La part des publications contenues dans l'archives courante sous la forme d'un entier compris entre 0 et 10.
+- __EntryCategoriesLeaves__ : La liste des categories (feuilles) de la publication courante. Il y a plusieurs items disponibles pour une itération courante;
+  - __{0[relativeOrigin]}__ : Le chemin relatif de la page courante vers la racine du blog.
+  - __{0[categoryLeafPath]}__ : Le chemin relatif vers la sous-categorie courante.
+  - __{0[categoryLeaf]}__: Le nom de la sous-categorie courante.
 
 On arrive maintenant au cas particulier des categories. Les categories forment un arbre comme illustré ci-dessous
 

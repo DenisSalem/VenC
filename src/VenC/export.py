@@ -122,6 +122,7 @@ class Blog:
         self.patternProcessor.Set("BlogCategories", categoriesTree)
         self.patternProcessor.Set("BlogDates", VenC.core.GetDatesList(self.entriesPerDates, self.relativeOrigin))
         self.patternProcessor.Set("RelativeOrigin", self.relativeOrigin)
+        self.patternProcessor.Set("RelativeLocation", self.destinationPath)
         self.patternProcessor.Set("SingleEntry", not inThread)
         self.patternProcessor.SetFunction("PagesList", self.GetPagesList)
         self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousPage)
@@ -156,13 +157,15 @@ class Blog:
         self.exportRss(self.entriesList)
         self.relativeOrigin += "../"
         for e in self.entriesPerDates:
+            self.relativeLocation = e.value+'/'
             print(VenC.core.Messages.exportArchives.format(e.value))
             self.exportThread(e.relatedTo, True, folderDestination=e.value+'/')
         self.relativeOrigin = str()
+        self.relativeLocation = str()
         
         self.exportCategories(self.entriesPerCategories)
         self.relativeOrigin = str()
-        
+        self.relativeLocation = str()
         self.exportThread(self.entriesList, False)
         self.exportExtraData(os.getcwd()+"/theme/assets")
         self.exportExtraData(os.getcwd()+"/extra")
@@ -252,7 +255,8 @@ class Blog:
         self.outputPage = str()
         self.outputPage += self.patternProcessor.parse(self.theme.rssHeader)
 
-        for entry in inputEntries[:int(VenC.core.blogConfiguration["rss_thread_lenght"])]:
+        sortedEntries =  sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(VenC.core.blogConfiguration["thread_order"].strip() == "latest first"))
+        for entry in sortedEntries[:int(VenC.core.blogConfiguration["rss_thread_lenght"])]:
             self.initEntryStates(entry)
             self.outputPage += self.patternProcessor.parse(self.theme.rssEntry)
         self.outputPage += self.patternProcessor.parse(self.theme.rssFooter)

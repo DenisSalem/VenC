@@ -32,11 +32,17 @@ DONE      | Fix wrong dates sorting
 DONE      | Implement weight exploitation for BlogCategories anf fix mess with RecursiveFor
 DONE      | Sort entries in categories tree.
 DONE      | Add verbose when export blog
+DONE      | Notice malformed entries.
+
+version 1.1.2
+
+DONE      | Fix entries from RSS feed order.
+DONE      | Add relativeLocation .:Get::RelativeLocation:.
+DONE      | Turns EntryCategoriesLeafs to EntryCategoriesLeaves.
 
 version 1.2.x
 
 HIGH    | Installation via pypi.
-HIGH    | Notice malformed entries.
 HIGH    | Add custom CSS to entries.
 HIGH    | Client-side search engine.
 HIGH    | GetPrevious and GetNextPage should work outside thread.

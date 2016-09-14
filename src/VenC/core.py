@@ -326,17 +326,17 @@ def GetEntry(entryFilename, relativeOrigin):
         output["entryTags"] = list()
     try:
         output["EntryCategories"] = GetCategoriesTree(dump["categories"].split(','), relativeOrigin)
-        output["EntryCategoriesLeafs"] = list()
+        output["EntryCategoriesLeaves"] = list()
         for category in dump["categories"].split(','):
             categoryLeaf= category.split(' > ')[-1].strip()
             if len(categoryLeaf) != 0:
                 categoryLeafUrl=str()
                 for subCategory in category.split(' > '):
                     categoryLeafUrl +=subCategory.strip()+'/'
-                output["EntryCategoriesLeafs"].append({"relativeOrigin":relativeOrigin, "categoryLeaf": categoryLeaf, "categoryLeafUrl":categoryLeafUrl})
+                output["EntryCategoriesLeaves"].append({"relativeOrigin":relativeOrigin, "categoryLeaf": categoryLeaf, "categoryLeafPath":categoryLeafUrl})
     except:
         output["EntryCategories"] = dict()
-        output["EntryCategoriesLeafs"] = list()
+        output["EntryCategoriesLeaves"] = list()
 
     return output
 
