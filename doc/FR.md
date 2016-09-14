@@ -305,11 +305,11 @@ De façon identique, pour la fonction _RecursiveFor_, le second, le quatrième e
 - __.:GetPreviousPage:: texte libre :.__ : Quand appelé dans un fil d'exportation, ce motif permet de récupérer l'url de la page précédente, si elle existe. Pour accéder à l'url de la page précédente utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
 - __.:GetNextPage:: texte libre :.__ : Quand appelé dans un fil d'exportation, ce motif permet de récupérer l'url de la page suivante si elle existe. Pour accéder à l'url de la page suivante utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
 - __.:PageList:: taille :.__ : Permet de récupérer une liste des publications antérieurs et postérieurs à la publication. La taille de cette liste est determinée par __taille__, qui doit être un nombre entier.
-- __.:IfInThread:: text libre si la condition est vrai :: text libre si la condition est fausse:.__ : Motif conditionnel qui permet d'afficher du texte libre selon que l'on se trouve dans un fil de publication ou sur une publication. Cela permet par exemple d'avoir une mise en page particulière en incluant les feuilles de styles qui conviennent.
-- __.:CodeHighlight::language::True | False:: code source :.__ : Fonctionnalité très pratique de coloration syntaxique basée sur la libraire[pygments](http://pygments.org/) permettant de publier et de mettre en forme du code source. Ce motif, quand il est détecté, produit des feuilles de styles CSS dans le repertoire extra de votre blog, n'oubliez pas de les inclures dans header.html.
-  - Le premier paramétre du motif est le language que l'on souhaite colorer.
-  - Le second paramétre du motif indique si il faut numéroter les lignes du code source. Ce paramétre peut prendre comme valeurs soit True, soit False.
-  - Le dernier paramétre est du texte libre correspondant à votre code source.
+- __.:IfInThread:: texte libre si la condition est vraie :: texte libre si la condition est fausse:.__ : Motif conditionnel qui permet d'afficher du texte libre selon que l'on se trouve dans un fil de publication ou sur une publication. Cela permet par exemple d'avoir une mise en page particulière en incluant les feuilles de styles qui conviennent.
+- __.:CodeHighlight::langage::True | False:: code source :.__ : Fonctionnalité très pratique de coloration syntaxique basée sur la librairie[pygments](http://pygments.org/) permettant de publier et de mettre en forme du code source. Ce motif, quand il est détecté, produit des feuilles de styles CSS dans le repertoire extra de votre blog, n'oubliez pas de les inclures dans header.html.
+  - Le premier paramètre du motif est le langage que l'on souhaite colorer.
+  - Le second paramètre du motif indique si il faut numéroter les lignes du code source. Ce paramètre peut prendre comme valeurs soit True, soit False.
+  - Le dernier paramètre est du texte libre correspondant à votre code source.
 
 ## Variables d'environnement
 
@@ -331,10 +331,10 @@ Il existe également des variables particulières sous la forme de listes. Ces v
 - __EntryTags__ : La liste de mot clefs de la publication courante. Pour accéder au mot clé de l'itération courante utilisez la variable contextuelle __{0[tag]}__.
 - __EntryAuthors__ : La liste des auteurs de la publication courante. Pour accéder à l'item courant utiliser la variable de contexte __{0[author]}__.
 - __BlogDates__ : La liste des liens vers les publications groupées par dates tel que défini dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal). Il y a plusieurs items disponibles pour une itération courante;
- - __{0[date]}__ : La période tel que formatée dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
- - __{0[dateUrl]}__ : Le chemin vers le repertoire associé à cette période.
- - __{0[count]}__ : Le nombre de publications dans l'archives.
- - __{0[weight]}__ : La part des publications contenues dans l'archives courante sous la forme d'un entier compris entre 0 et 10.
+ - __{0[date]}__ : La période telle que formatée dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
+ - __{0[dateUrl]}__ : Le chemin vers le répertoire associé à cette période.
+ - __{0[count]}__ : Le nombre de publications dans l'archive.
+ - __{0[weight]}__ : La part des publications contenues dans l'archive courante sous la forme d'un entier compris entre 0 et 10.
 - __EntryCategoriesLeaves__ : La liste des categories (feuilles) de la publication courante. Il y a plusieurs items disponibles pour une itération courante;
   - __{0[relativeOrigin]}__ : Le chemin relatif de la page courante vers la racine du blog.
   - __{0[categoryLeafPath]}__ : Le chemin relatif vers la sous-categorie courante.
