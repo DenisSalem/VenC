@@ -292,7 +292,7 @@ def GetCategoriesTreeMaxWeight(categories, maxWeight=0):
 
     return currentMaxWeight
 
-def GetCategoriesTree(categories, relativeOrigin, maxWeight, root={}):
+def GetCategoriesTree(categories, relativeOrigin, root, maxWeight=None):
     node = root
 
     if len(categories) != 0:
@@ -301,12 +301,13 @@ def GetCategoriesTree(categories, relativeOrigin, maxWeight, root={}):
     for category in categories:
         node[category.value] = dict()
         node[category.value]["__categoryPath"] = category.path
-        node[category.value]["__count"] = category.count
-        node[category.value]["__weight"] = int((category.count/maxWeight) * 10)
+        if maxWeight != None:
+            node[category.value]["__count"] = category.count
+            node[category.value]["__weight"] = int((category.count/maxWeight) * 10)
         node[category.value]["__relativeOrigin"] = relativeOrigin
         if len(category.childs) != 0:
             node[category.value]["_nodes"] = dict()
-            GetCategoriesTree(category.childs, relativeOrigin, maxWeight, node[category.value]["_nodes"])
+            GetCategoriesTree(category.childs, relativeOrigin, node[category.value]["_nodes"], maxWeight)
     return node  
 
 def GetEntry(entryFilename, relativeOrigin):
@@ -325,7 +326,8 @@ def GetEntry(entryFilename, relativeOrigin):
     except:
         output["entryTags"] = list()
     try:
-        output["EntryCategories"] = GetCategoriesTree(dump["categories"].split(','), relativeOrigin)
+        entryPerCategories =GetEntriesPerCategories([entryFilename])
+        output["EntryCategories"] = GetCategoriesTree(entryPerCategories, relativeOrigin, dict())
         output["EntryCategoriesLeaves"] = list()
         for category in dump["categories"].split(','):
             categoryLeaf= category.split(' > ')[-1].strip()

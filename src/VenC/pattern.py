@@ -67,6 +67,8 @@ class processor():
                     else:
                         outputString += content.format(variables) + self._RecursiveFor(openString, content, separator, closeString, nodes[Key]["_nodes"])
         except Exception as e:
+            print(nodes[Key])
+            raise
             return str(e)
 
         return outputString + closeString
