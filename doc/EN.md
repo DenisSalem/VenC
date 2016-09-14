@@ -1,5 +1,7 @@
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/logo.png "")
 
+# Version 1.1.1
+
 1. [Presentation](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#presentation)
 2. [Installing](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#installating)
 3. [Uninstalling](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#unsinstalling)
@@ -23,6 +25,8 @@
     2. [New Blog](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#new-blog)
     3. [New publication](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#new-publication)
     4. [Exporting the blog](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#exporting-the-blog)
+    5. [Exporting the blog online](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#exporting-the-blog-online)
+    6. [Edit a file on the blog and recompile automatically the blog](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#edit-a-file-on-the-blog-and-recompile-automatically-the-blog)
 6. [Tips](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#tips)
 7. [Themes](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#themes-1)
   1. [Installing](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#installing-1)
@@ -38,18 +42,28 @@ Static blogs are fully adapted for darknets or for those who want a full control
 
 Also, here is what VenC has to offer:
 
-- Creation of static blog (HTML/CSS).
-- Simple page layout that you can directly personalize using HTML/CSS.
-- Ability to create an arrangement in an arbitrary number of columns (as on my website).
-- Infinite scrolling module simple and easy to setup (as on my website).
-- Publications can be organised by categories and sub-categories.
-- Publications can be organised by date periods.
-- Up or down chronologic publicating.
-- RSS feeds for every publications thread.
-- Permalinks.
-- Managing and editing the blog entirely via the commandline.
-- VenC is conceived by GNU/Linux specifically.
-- Publication's redaction in markdown.
+- From version 1.0.0
+ - Creation of static blog (HTML/CSS).
+ - Simple page layout that you can directly personalize using HTML/CSS.
+ - Ability to create an arrangement in an arbitrary number of columns (as on my website).
+ - Infinite scrolling module simple and easy to setup (as on my website).
+ - Publications can be organised by categories and sub-categories.
+ - Publications can be organised by date periods.
+ - Up or down chronologic publicating.
+ - RSS feeds for every publications thread.
+ - Permalinks.
+ - Managing and editing the blog entirely via the commandline.
+ - VenC is conceived by GNU/Linux specifically.
+ - Publication's redaction in markdown.
+
+- From version 1.1.0
+ - Blog exportation via ftp.
+ - Syntax coloration.
+ - Recursive patterns detection.
+ - Using variables containing weight and number of publications, ideal to make tags clouds.
+ - Added a command to edit a file on the blog and recompile it automatically.
+ - Detection of missing variables in the blog's config file.
+ - The IfInThread pattern behaves as a conditional If/Else structure.
 
 # Installing
 
@@ -62,6 +76,9 @@ You can take a peak at the [official page](https://pythonhosted.org/Markdown/ind
 
 __PyYaml__
 You can take a peak at the [official page](http://pyyaml.org/) or just type in _pip install pyyaml_ in a terminal.
+
+__Pygments__
+You can take a peak at the [official page](http://pygments.org/) or just type in _pip install pygments_ in a terminal
 
 Having this done, clone the VenC repository
 
@@ -126,6 +143,7 @@ It is a Yaml document in the project's root which defines blog's properties, suc
 * __textEditor__ : Chosen text editor to edit your publications.
 * __date_format__ : "%A %d. %B %Y" by default. Defines the date format used within the blog. The date format is in fact the one used by Python. Learn more on this format [here](http://strftime.org)
 * __author_name__: Name of the administrator or author of the blog.
+* __ftp_host__ : Your ftp hostname
 * __blog_description__ : A quick summary of what your site's about.
 * __blog_keywords__ : Keywords associated to the website.
 * __author_description__ : A short text about the author.
@@ -138,11 +156,12 @@ It is a Yaml document in the project's root which defines blog's properties, suc
 * __rss_thread_lenght__ : "5" by default. Defines the number of publications to print in the RSS feed.
 * __thread_order__ : "latest first" by default. Defines the order of publications. Oldest to newest, or the other way around. This field can be set to "oldest first", or "latest first".
 * __path__ : A variable containing various paths, you normally shouldn't need to touch it. Those paths list is detailed below.
-* __index_file_name__ : "index{page_number}.html" by default. Main thread of publications' fomratted filename. Should always contain the variable {page_number}.
-* __category_directory_name__ : "{category}" by default. Defines the directory where will be exported a publication thread specific to a category of publication. This field should always contain the variable {category}.
-* __dates_directory_name__ : "%Y-%m" by default. Defines the date format used for directories' names of publications threads associated to dates. The date format is in fact the one used by Python. Learn more on this format [here](http://strftime.org)
-* __entry_file_name__ : "entry{entry_id}.html" by default. Defines the filename of a unique publication. This field should always contain the variable {entry_id}.
-* __rss_file_name__ : "feed.xml" by default. Defines the rss feed's filename.
+ * __index_file_name__ : "index{page_number}.html" by default. Main thread of publications' fomratted filename. Should always contain the variable {page_number}.
+ * __category_directory_name__ : "{category}" by default. Defines the directory where will be exported a publication thread specific to a category of publication. This field should always contain the variable {category}.
+ * __dates_directory_name__ : "%Y-%m" by default. Defines the date format used for directories' names of publications threads associated to dates. The date format is in fact the one used by Python. Learn more on this format [here](http://strftime.org)
+ * __entry_file_name__ : "entry{entry_id}.html" by default. Defines the filename of a unique publication. This field should always contain the variable {entry_id}.
+ * __rss_file_name__ : "feed.xml" by default. Defines the rss feed's filename.
+ * __ftp__ : The absolute path for your destination directory on your ftp server
 
 ### Templates
 
@@ -277,7 +296,11 @@ Similarily, for the _RecursiveFor_ function, THe second, the fourth and fifth pa
 * __.:GetPreviousPage:: free text :.__ : When called in an exportation's thread, this pattern allows getting the previous page's URL, if it exists. To access the previous page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text.
 * __.:GetNextPage:: free text :.__ : When called in an exportation's thread, this pattern allows getting the next page's URL, if it exists. To access the next page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text. 
 * __.:PageList:: length :.__ : Allows getting a list of previous and next publications. The list's length is determined by __length__, which must be an integer.
-* __.:IfInThread:: free text :.__ : Conditionnal pattern which allows printing the free or not text whether we are in a publication's thread or in a publication. This allows for example to have a particular page layout for a unique publication or for a publication's thread.
+* __.:IfInThread:: free text if True :: free text if False:.__ : Conditionnal pattern which allows printing the free or not text whether we are in a publication's thread or in a publication. This allows for example to have a particular page layout for a unique publication or for a publication's thread including the corresponding style sheets.
+* __.:CodeHighlight::language::True | False:: source code :.__ : Very handy syntax coloration feature based on the [pygments](http://pygments.org/) library  allowing you to publish and to shape some source code. This pattern, when detected, produces CSS style sheets in the extra directory of your blog, do not forget to include them in header.html.
+  - The first parameter in the pattern is the language that we want to color.
+  - The second parameter in the pattern indicates if we have to number the source code's lines. This parameter can either be True or False.
+  - The last parameter is free text corresponding to your source code.
 
 ## Environment Variables
 
@@ -296,9 +319,13 @@ Like in other VenC contexts. The blog's configuration file uses environment vari
 
 There also exist particular variables as lists. Those variables can be browsed iteratively and recursively to extract the content and to shape it. This extraction is done using special patterns _For_ and _RecursiveFor_. You can find out more on their functioning in the [Special Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#spécial-patterns) part. But before, here are the available lists:
 
-* __EntryTags__ : The current publication's keywords list. To access the current iteration's keyword use the contextual variable {0[tag]}.
-* __EntryAuthors__ : the list of the current publication's authors. To access the current item use the contextual variable {0[author]}.
-* __BlogDates__ : The list of th links to the publications grouped by date as defined in [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file). There are several available items for a current iteration: __{0[date]}__, __{0[dateUrl]}__. Respectively the period as formatted [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file) and the path to the directory associated to this period.
+* __EntryTags__ : The current publication's keywords list. To access the current iteration's keyword use the contextual variable __{0[tag]}__.
+* __EntryAuthors__ : the list of the current publication's authors. To access the current item use the contextual variable __{0[author]}__.
+* __BlogDates__ : The list of the links to the publications grouped by date as defined in [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file). There are several available items for a current iteration: __{0[date]}__, __{0[dateUrl]}__. Respectively the period as formatted [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file) and the path to the directory associated to this period.
+  - __{0[date]}__ : Time period as formatted in [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file).
+  -  __{0[dateUrl]}__ : The path to the directory associated with this time period.
+  -  __{0[count]}__ : The number of publications in the archive.
+  -  __{0[weight]}__ : the weight of publications contained in the current archive as an integer between 0 and 10
 
 We now arrive in the particular case of categories. Categories form a tree as illustrated right below
 
@@ -306,9 +333,24 @@ We now arrive in the particular case of categories. Categories form a tree as il
 
 Dwon below, we call "_leave_" the end of a branch, a so called "_complete branch_" is the complete path from the root of a tree to a leave of that tree.
 
-* __EntryCategories__ : The category list (complete branch) of the current publication. Is found as nested lists. There are several available items for a current iteration: __{0[relativeOrigin]}__, __{0[categoryPath]}__ and __{0[item]}__. Respectively the current's page relative path to the blog's root, the current sub-category's relative path and the current sub-category's name.
-* __EntryCategoriesTop__ : The list of the current publication's categories (leave). There are several available items for a current iteration: __{0[relativeOrigin]}__, __{0[categoryLeaf]}__ and __{0[categoryLeafUrl]}__. Respectively current page's relative path to the blog's root, the leave category's name and the URL towards the leave category.
-* __BlogCategories__ : The list of the blog's categories (complete branches). Comes as nested lists. There are several available items for a current iteration: __{0[relativeOrigin]}__, __{0[categoryPath]}__ and __{0[item]}__. Respectively the current page's relative path to the blog's root, the current sub-category's relative path and the sub-category's name.
+* __EntryCategories__ : The category list (complete branch) of the current publication. Is found as nested lists. There are several available items for a current iteration: 
+  * __{0[relativeOrigin]}__ : The current's page relative path to the blog's root.
+  * __{0[categoryPath]}__ : The current sub-category's relative path.
+  * __{0[item]}__ : The current sub-category's name.
+* __EntryCategoriesLeafs__ : The list of the current publication's categories (leaves). There are several available items for a current iteration: 
+  * __{0[relativeOrigin]}__ : The current's page relative path to the blog's root.
+  * __{0[categoryLeaf]}__ : The leaf category's name.
+  * __{0[categoryLeafUrl]}__ : The URL towards the leaf's category.
+* __BlogCategoriesLeafs__ : The list of your blog's categories (leaves). There are several available items for a current iteration:
+  * __{0[relativeOrigin]}__ : The current's page relative path to the blog's root.
+  * __{0[categoryLeaf]}__ : The leaf category's name.
+  * __{0[weight]}__ : The weight of publications contained in the current category as an integer between 0 and 10.
+  * __{0[count]}__ : The number of publications contained in the category.
+  * __{0[categoryLeafUrl]}__: The URL towards the leaf's category.
+* __BlogCategories__ : The list of the blog's categories (complete branches). Comes as nested lists. There are several available items for a current iteration:
+  * __{0[relativeOrigin]}__ The current page's relative path to the blog's root.
+  * __{0[categoryPath]}__ The current sub-category's relative path.
+  * __{0[item]}__  The sub-category's name.
 
 To use these patterns' special variables, go to the [Spécial Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#spécial-patterns) part.
 
@@ -376,6 +418,28 @@ To export your blog you __must__ be in your blog's directory.
 There, is located a directory soberly titled blog. It is in this directory that your website will be exported. Once the exportation finished you can copy this directory's content on your server.
 
 For more info on the file tree, it is [here](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#file-tree).
+
+## Exporting the blog online.
+`$ venc -xftp`
+
+or
+
+`$ venc --export-via-ftp`
+
+To export your blog you __must__ be in your blog's directory.
+
+There, is located a directory soberly titled blog. It is in this directory that your website will be exported. Once the exportation finished the directory will be copied to your server. At this moment an authentication invite will appear in the terminal.
+
+## Edit a file on the blog and recompile automatically the blog.
+
+`$ venc -ex <file>`
+
+or
+
+`$ venc --edit-and-export <file>`
+
+THis command opens a folder passed as a parameter with your favorite text editor, defined in [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file) then, once the edition completed, recompiles the whole blog.
+
 
 # Tips
 
