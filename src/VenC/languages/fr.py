@@ -1,5 +1,4 @@
-#! /usr/bin/python
-# -*- coding: utf-8 -*-
+#! /usr/bin/python3
 
 class Messages:
     fileNotFound = "{0}: Ce fichier ou ce dossier n'existe pas."
