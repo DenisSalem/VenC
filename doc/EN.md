@@ -1,6 +1,6 @@
 ![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/logo.png "")
 
-# Version 1.1.1
+# Version 1.1.2
 
 1. [Presentation](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#presentation)
 2. [Installing](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#installating)
@@ -271,6 +271,7 @@ Those patterns are generally available in any context and are defined in [blog_c
 * __.:Get::BlogLanguage:.__ : Returns the blog's language.
 * __.:Get::AuthorEmail:.__ : Returns the blog's author's email.
 * __.:Get::RelativeOrigin:.__ : Returns the blog's root's relative path.
+* __.:Get::RelativeLocation:.__ : Returns the current directory relatively to the blog's root.
 
 ### Publications Patterns
 
@@ -337,7 +338,7 @@ Dwon below, we call "_leave_" the end of a branch, a so called "_complete branch
   * __{0[relativeOrigin]}__ : The current's page relative path to the blog's root.
   * __{0[categoryPath]}__ : The current sub-category's relative path.
   * __{0[item]}__ : The current sub-category's name.
-* __EntryCategoriesLeafs__ : The list of the current publication's categories (leaves). There are several available items for a current iteration: 
+* __EntryCategoriesLeaves__ : The list of the current publication's categories (leaves). There are several available items for a current iteration: 
   * __{0[relativeOrigin]}__ : The current's page relative path to the blog's root.
   * __{0[categoryLeaf]}__ : The leaf category's name.
   * __{0[categoryLeafUrl]}__ : The URL towards the leaf's category.
