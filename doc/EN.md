@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/logo.png "")
+![](https://framagit.org/denissalem/VenC/raw/master/doc/logo.png "")
 
 # Version 1.1.2
 
