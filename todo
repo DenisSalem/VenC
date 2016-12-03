@@ -1,0 +1,72 @@
+
+
+
+
+
+
+
+
+Priority  | TODO
+__________|___________________________________
+
+version 1.0.0 Last minute edition :p
+
+DONE      | Copy recursively, if necessary, data from extra.
+DONE      | Copy recursively, if necessary data from assets.
+DONE      | Copy if necessary data from assets.
+DONE      | Export RSS recusively (for each thread and sub category thread).
+
+version 1.1.0
+
+DONE      | Fix wrong association with entry id and entry filename.
+DONE      | Fix wrong dates listing order.
+DONE      | Fix categories list input.
+DONE      | Fix wrong entries sorting when getting latest ID.
+DONE	  | Fix wrong relative path when categories are empty.
+DONE      | EntryCategoriesTop turns to EntryCategoriesLeafs.
+DONE      | Make pattern processor recursive.
+DONE      | IfInThread special pattern must act like if/else statement.
+DONE      | Notice missing variables in blog_conf.
+DONE	  | Add command to edit and automatically re-export the blog.
+DONE      | Syntax coloration via pygmentize.
+DONE      | Must implement weight exploitation for BlogCategoriesLeaf and BlogDates.
+DONE      | Must support FTP.
+
+version 1.1.1
+
+DONE      | Fix entries skipping
+DONE      | Remove BlogCategoriesLeafs.
+DONE      | Fix wrong dates sorting
+DONE      | Implement weight exploitation for BlogCategories anf fix mess with RecursiveFor
+DONE      | Sort entries in categories tree.
+DONE      | Add verbose when export blog
+DONE      | Notice malformed entries.
+
+version 1.1.2
+
+DONE      | Fix entries from RSS feed order.
+DONE      | Add relativeLocation .:Get::RelativeLocation:.
+DONE      | Turns EntryCategoriesLeafs to EntryCategoriesLeaves.
+
+version 1.2.0
+
+DONE    | Fix CodeHighlight and markdown collision
+DONE    | Fix wrong line number with codehilight
+DONE    | Add more verbose on corrupt Entry. Stop nicely.
+DONE    | Fix empty entry creation when passing wrong or none template
+DONE    | Add custom metadata to entries. CSS and doNotUseMarkdown.
+DONE    | Add remote copy commande.
+DONE    | Make markdown optional.
+DONE    | Fix parsing when reading template.
+DONE    | Print errors when pattern processor fail.
+DONE    | Print ressource and current string when pattern processor fail.
+DONE    | Add -h commande to print reminder
+DONE    | Add english language.
+HIGH    | Clean blog folder on compilation.
+HIGH    | Installation via pypi.
+HIGH    | GetPrevious and GetNextPage should work outside thread.
+
+version 1.2.x
+
+LOW     | Client-side search engine.
+LOW     | Fix infinite scroll opacity transition.
