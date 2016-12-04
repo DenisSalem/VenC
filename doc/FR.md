@@ -398,7 +398,7 @@ VenC crée le répertoire contenant les sources du blog à l'endroit ou vous tap
 	$ ls
 	blog  blog_configuration.yaml  entries  extra  templates  theme
 
-Vous ne pouvez pas créer un blog sans en spécifier le nom. Une fois que vous avez créé votre blog, la première chose à faire est en général d'éditer le fichier __blog_configuration.yaml__. Pour en savoir plus sur ce fichier de configuration, rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
+Vous ne pouvez pas créer un blog sans en spécifier le nom. Une fois que vous avez créé votre blog, la première chose à faire est en général d'éditer le fichier __blog_configuration.yaml__. Pour en savoir plus sur ce fichier de configuration, rendez vous [ici](#fichier-de-configuration-principal).
 
 ## Nouvelle publication
 
@@ -428,7 +428,7 @@ Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
 
 Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce repertoire que ce sera exporté votre site. Une fois l'exportation terminée vous pouvez copier le contenu de ce répertoire vers votre serveur.
 
-Pour en savoir plus sur l'arborescence rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#arborescence).
+Pour en savoir plus sur l'arborescence rendez vous [ici](#arborescence).
 
 ## Exporter le blog en ligne
 
@@ -460,7 +460,7 @@ ou
 
 	$ venc --edit-and-export <fichier>
 
-Cette commande ouvre le fichier passé en paramétre avec l'éditeur de texte de votre choix, définit dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal) puis, une fois l'édition terminé, recompile l'ensemble du blog.
+Cette commande ouvre le fichier passé en paramétre avec l'éditeur de texte de votre choix, définit dans [blog_configuration.yaml](#fichier-de-configuration-principal) puis, une fois l'édition terminé, recompile l'ensemble du blog.
 
 ## Afficher l'aide mémoire
 
@@ -478,8 +478,8 @@ Vous avez oublié comment faire tel ou tel chose? Cette commande affiche dans le
 
 # Thèmes
 
-1. [Installation](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#installation-1)
-2. [Greffons](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#greffons)
+1. [Installation](#installation-1)
+2. [Greffons](#greffons)
 
 ## Installation
 
@@ -487,8 +487,8 @@ Pour installer un thème sur votre blog copiez le répertoire __chunks__ et __as
 
 ## Greffons
 
-1. [Défilement infini](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#d%C3%A9filement-infini)
-2. [Moteur de recherche côté client](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#moteur-de-recherche-c%C3%B4t%C3%A9-client)
+1. [Défilement infini](#d%C3%A9filement-infini)
+2. [Moteur de recherche côté client](#moteur-de-recherche-c%C3%B4t%C3%A9-client)
 
 ### Défilement infini
 

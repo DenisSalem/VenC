@@ -368,6 +368,10 @@ To use these patterns' special variables, go to the [Special Patterns](#special-
 2. [New Blog](#new-blog)
 3. [New publication](#new-publication)
 4. [Exporting the blog](#exporting-the-blog)
+5. [Exporting the blog online](#exporting-the-blog-online)
+6. [Remote copy](#remote-copy)
+7. [Edit a file from blog and recompile automatically](#edit-a-file-from-blog-and-recompile-automatically)
+8. [Display reminder](#display-reminder)
 
 ## Print VenC's version
 
@@ -425,9 +429,9 @@ To export your blog you __must__ be in your blog's directory.
 
 There, is located a directory soberly titled blog. It is in this directory that your website will be exported. Once the exportation finished you can copy this directory's content on your server.
 
-For more info on the file tree, it is [here](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#file-tree).
+For more info on the file tree, it is [here](#file-tree).
 
-## Exporting the blog online.
+## Exporting the blog online
 `$ venc -xftp`
 
 or
@@ -438,7 +442,7 @@ To export your blog you __must__ be in your blog's directory.
 
 There, is located a directory soberly titled blog. It is in this directory that your website will be exported. Once the exportation finished the directory will be copied to your server. At this moment an authentication invite will appear in the terminal.
 
-## Edit a file on the blog and recompile automatically the blog.
+## Edit a file from blog and recompile automatically
 
 `$ venc -ex <file>`
 
@@ -446,8 +450,17 @@ or
 
 `$ venc --edit-and-export <file>`
 
-THis command opens a folder passed as a parameter with your favorite text editor, defined in [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file) then, once the edition completed, recompiles the whole blog.
+THis command opens a folder passed as a parameter with your favorite text editor, defined in [blog_configuration.yaml](#main-config-file) then, once the edition completed, recompiles the whole blog.
 
+## Display reminder
+
+	$ venc -h
+
+ou
+
+	$ venc --help
+
+So you forget how to do something? This command display in the terminal the usual features you are looking for!
 
 # Tips
 
@@ -455,8 +468,8 @@ To do
 
 # Themes
 
-1. [Installating](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#installating-1)
-2. [Plugins](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#plugins)
+1. [Installating](#installating-1)
+2. [Plugins](#plugins)
 
 ## Installing
 
@@ -464,8 +477,8 @@ To install a theme on your blog, copy the directory __chunks__ and __assets__ (i
 
 ## Plugins
 
-1. [Infinite Scrolling](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#infinite-scrolling)
-2. [Clientside Search Engine](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#clientside-search-engine)
+1. [Infinite Scrolling](#infinite-scrolling)
+2. [Clientside Search Engine](#clientside-search-engine)
 
 ### Infinite Scrolling
 
