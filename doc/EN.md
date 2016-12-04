@@ -221,7 +221,7 @@ As you may have understood, VenC puts together the pieces of your blog by format
 
 It's exactly the same principle for the RSS feed which is constructed identically.
 
-It is not necessarily easy to create a theme from scratch and may want to avoid loosing too much time testing the fuctioning of all this. The best way to create a theme by yourself is to take a look at the [dummy](https://framagit.org/denissalem/VenC/tree/master/src/share/themes/dummy) theme. THis theme, as is, is not usable, but it is a solid base to create yours. The CSS style is to define, and you may want to reorganize the elements in the page. If you have already installed VenC on your system you will find that theme in 
+It is not necessarily easy to create a theme from scratch and may want to avoid loosing too much time testing the fuctioning of all this. The best way to create a theme by yourself is to take a look at the [dummy](https://framagit.org/denissalem/VenC/tree/master/src/share/themes/dummy) theme. This theme, as is, is not usable, but it is a solid base to create yours. The CSS style is to define, and you may want to reorganize the elements in the page. If you have already installed VenC on your system you will find that theme in 
 
 `/usr/share/VenC/themes/dummy`
 
@@ -299,7 +299,7 @@ It is possible in some cases to access some data iteratively, when these ones ar
 Note that in general the second parameter for the _For_ function actually is free text, to access the current iteration's item we use the context variable {0[item]}.
 Ditto for the last parameter, the separator. The separator allows inserting some text after the current's iteration's free text.
 
-Similarily, for the _RecursiveFor_ function, THe second, the fourth and fifth parameter are free text.
+Similarily, for the _RecursiveFor_ function, The second, the fourth and fifth parameter are free text.
 
 * __.:GetPreviousPage:: free text :.__ : When called in an exportation's thread, this pattern allows getting the previous page's URL, if it exists. To access the previous page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text.
 * __.:GetNextPage:: free text :.__ : When called in an exportation's thread, this pattern allows getting the next page's URL, if it exists. To access the next page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text. 
@@ -450,7 +450,7 @@ or
 
 `$ venc --edit-and-export <file>`
 
-THis command opens a folder passed as a parameter with your favorite text editor, defined in [blog_configuration.yaml](#main-config-file) then, once the edition completed, recompiles the whole blog.
+This command opens a folder passed as a parameter with your favorite text editor, defined in [blog_configuration.yaml](#main-config-file) then, once the edition completed, recompiles the whole blog.
 
 ## Display reminder
 
