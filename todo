@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 Priority  | TODO
 __________|___________________________________
 
@@ -51,7 +43,7 @@ DONE      | Turns EntryCategoriesLeafs to EntryCategoriesLeaves.
 version 1.2.0
 
 DONE    | Fix CodeHighlight and markdown collision
-DONE    | Fix wrong line number with codehilight
+DONE    | Fix wrong line number with codehighlight
 DONE    | Add more verbose on corrupt Entry. Stop nicely.
 DONE    | Fix empty entry creation when passing wrong or none template
 DONE    | Add custom metadata to entries. CSS and doNotUseMarkdown.

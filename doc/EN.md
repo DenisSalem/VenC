@@ -1,38 +1,38 @@
 ![](https://framagit.org/denissalem/VenC/raw/master/doc/logo.png "")
 
-# Version 1.1.2
+# Version 1.2.0
 
-1. [Presentation](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#presentation)
-2. [Installing](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#installating)
-3. [Uninstalling](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#unsinstalling)
-4. [Taking your marks](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#taking-your-marks)
-  1. [File Tree](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#file-tree)
-  2. [Files structure](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#files-structure)
-    1. [Main config file](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file)
-    2. [Templates](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#templates)
-    3. [Publications](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#publications)
-    4. [Themes](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#themes)
-  3. [Pattern Processor](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#pattern-processor)
-    1. [Templates Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#templates-patterns)
-    2. [Over Global Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#over-gloabal-patterns)
-    3. [Publications Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#publications-patterns)
-    4. [Special Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#special-patterns)
-  4. [Environment variables](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#environment-variables)
-    1. [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#blog_configurationyaml)
-    2. [Pattern variables](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#pattern-variables)
-  5. [Commands](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#commands)
-    1. [Print VenC's version](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#print-vencs-version)
-    2. [New Blog](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#new-blog)
-    3. [New publication](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#new-publication)
-    4. [Exporting the blog](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#exporting-the-blog)
-    5. [Exporting the blog online](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#exporting-the-blog-online)
-    6. [Edit a file on the blog and recompile automatically the blog](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#edit-a-file-on-the-blog-and-recompile-automatically-the-blog)
-6. [Tips](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#tips)
-7. [Themes](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#themes-1)
-  1. [Installing](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#installing-1)
-  2. [Plugins](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#plugins)
-    1. [Infinite scrolling](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#infinite-scrolling)
-    2. [Clientside search engine](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#clientside-search-engine)
+1. [Presentation](#presentation)
+2. [Installing](#installing)
+3. [Uninstalling](#unsinstalling)
+4. [Taking your marks](#taking-your-marks)
+  1. [File Tree](#file-tree)
+  2. [Files structure](#files-structure)
+    1. [Main config file](#main-config-file)
+    2. [Templates](#templates)
+    3. [Publications](#publications)
+    4. [Themes](#themes)
+  3. [Pattern Processor](#pattern-processor)
+    1. [Templates Patterns](#templates-patterns)
+    2. [Over Global Patterns](#over-gloabal-patterns)
+    3. [Publications Patterns](#publications-patterns)
+    4. [Special Patterns](#special-patterns)
+  4. [Environment variables](#environment-variables)
+    1. [blog_configuration.yaml](#blog_configurationyaml)
+    2. [Pattern variables](#pattern-variables)
+  5. [Commands](#commands)
+    1. [Print VenC's version](#print-vencs-version)
+    2. [New Blog](#new-blog)
+    3. [New publication](#new-publication)
+    4. [Exporting the blog](#exporting-the-blog)
+    5. [Exporting the blog online](#exporting-the-blog-online)
+    6. [Edit a file on the blog and recompile automatically the blog](#edit-a-file-on-the-blog-and-recompile-automatically-the-blog)
+6. [Tips](#tips)
+7. [Themes](#themes-1)
+  1. [Installing](#installing-1)
+  2. [Plugins](#plugins)
+    1. [Infinite scrolling](#infinite-scrolling)
+    2. [Clientside search engine](#clientside-search-engine)
 
 # Presentation
 
@@ -82,7 +82,7 @@ You can take a peak at the [official page](http://pygments.org/) or just type in
 
 Having this done, clone the VenC repository
 
-`git clone https://github.com/DenisSalem/VenC`
+`git clone https://framagit.org/denissalem/VenC`
 
 Change directory to VenC's
 
@@ -121,7 +121,7 @@ When you create a new project, VenC creates a certain amount of directories. The
 * __theme__: Contains html templates, stylesheets and optionally JS scripts.
 * __templates__: Contains blank publication models.
 
-![](https://github.com/DenisSalem/VenC/raw/master/doc/folders.png "")
+![Folders](https://framagit.org/denissalem/VenC/raw/master/doc/folders.png "Folders")
 
 ## Structure des fichiers
 
@@ -165,7 +165,7 @@ It is a Yaml document in the project's root which defines blog's properties, suc
 
 ### Templates
 
-A template actually is a blank publication which has been preformatted to contain information informations often used for which we don't want to lose time to rewrite or to shape. So a template file contains [patterns](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
+A template actually is a blank publication which has been preformatted to contain information informations often used for which we don't want to lose time to rewrite or to shape. So a template file contains [patterns](#templates-patterns)
 which can be called. There is no template by default, it up to the user to create theirs. When no template is used VenC creates a fully blank publication.
 
 ### Publications
@@ -178,15 +178,21 @@ A publication contains a firts part in [Yaml](http://yaml.org) format contening 
 
 Finaly a blank publication looks like this:
 
+  CSS: ''
+  authors: ''
+  categories: ''
+  entry_name: name of the entry
+  tags: ''
 
-![](https://github.com/DenisSalem/VenC/blob/master/doc/newEntryFR.png?raw=true "")
-
-SO we have four fields to complete, or not.
+So we have five fields to complete, or not.
 
 - __authors__ : It's the list of the publication's authors, separated by a coma. For example _Denis Salem, Aaron Swartz, Richard Stallman_.
 - __categories__ : The list of the publication's categories, separated by a coma. You can also have sub-categories for a publication which will then define a categories tree. To define a sub-category one has to separate the parent category from the sub-category by ' > '. This can be repeated as many times as necessary. For example _Metal > Copper, Metal > Steel > Properties, Materials_.
 - __entry_name__ : It's your publication's name as you defined it when creating the publication using `venc -ne <title of the publication>`.
 - __tags__ : The list of the publication's keywords, separated by a coma. For example _Libre, Open-source, Linux_.
+- __CSS__ : Optionnal, since version *1.2.0*. Hold a CSS class name you can use in current entry.
+- __doNotUseMarkDown__ : Optionnal, since version *1.2.0*. Tell to VenC if content of the current entry must be parsed as [Markdown](https://daringfireball.net/projects/markdown/) or not. This field does not need any particular value. By default VenC use [Markdown](https://daringfireball.net/projects/markdown/).
+-
 
 Both parts are separated by three dashes (the ones of the six). On the screenshot, the part containing the Markdown syntax is blank. So we are really talking about a blank publication.
 
@@ -194,7 +200,7 @@ Also, let's note that a publication's file name is formatted in a particular way
 
 `<id>__<month>-<day>-<year>-<hour>-<minute>__<title>`
 
-To create a new publication it's [here](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#new-publication)
+To create a new publication it's [here](#new-publication)
 
 ### Themes
 
@@ -215,20 +221,20 @@ As you may have understood, VenC puts together the pieces of your blog by format
 
 It's exactly the same principle for the RSS feed which is constructed identically.
 
-It is not necessarily easy to create a theme from scratch and may want to avoid loosing too much time testing the fuctioning of all this. The best way to create a theme by yourself is to take a look at the [dummy](https://github.com/DenisSalem/VenC/tree/master/src/share/themes/dummy) theme. THis theme, as is, is not usable, but it is a solid base to create yours. The CSS style is to define, and you may want to reorganize the elements in the page. If you have already installed VenC on your system you will find that theme in 
+It is not necessarily easy to create a theme from scratch and may want to avoid loosing too much time testing the fuctioning of all this. The best way to create a theme by yourself is to take a look at the [dummy](https://framagit.org/denissalem/VenC/tree/master/src/share/themes/dummy) theme. THis theme, as is, is not usable, but it is a solid base to create yours. The CSS style is to define, and you may want to reorganize the elements in the page. If you have already installed VenC on your system you will find that theme in 
 
 `/usr/share/VenC/themes/dummy`
 
 Another approach is to look at how are constructed other themes. These ones will be added gradually on the github repository of VenC.
 
-You can also help yourself with the [tips](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#tips) part in which are described various techniques to realise really specific page layouts and for which the usage may be a little bit obscure of VenC's patterns will be illustrated.
+You can also help yourself with the [tips](#tips) part in which are described various techniques to realise really specific page layouts and for which the usage may be a little bit obscure of VenC's patterns will be illustrated.
 
 ## Pattern Processor
 
-1. [Template Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#template-patterns)
-2. [Super Global Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#msuper-global-patterns)
-3. [Publications Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#publications-patterns)
-4. [Spécial Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#spécial-patterns)
+1. [Template Patterns](#template-patterns)
+2. [Super Global Patterns](#super-global-patterns)
+3. [Publications Patterns](#publications-patterns)
+4. [Special Patterns](#special-patterns)
 
 VenC uses a pattern recognition engine allowing an easy and automated page layout setup. This system should allow in futur versions to use external modules. Plugin's creation and usage will be detailed in another part.
 
@@ -244,7 +250,7 @@ A pattern is a function which can take parametres. The objective is to replace a
 
 ### Templates patterns
 
-For more info on templates, it's [here](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#templates)
+For more info on templates, it's [here](#templates)
 A template can contain a few patterns that VenC can interprete.
 
 * __.:Get::EntryID:.__ : Returns the unique publication's ID.
@@ -259,7 +265,7 @@ To those patterns, add the super globals which are generally available in any co
 
 ### Super Global Patterns
 
-Those patterns are generally available in any context and are defined in [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file).
+Those patterns are generally available in any context and are defined in [blog_configuration.yaml](#main-config-file).
 
 * __.:Get::AuthorName:.__ : Returns the blog's author's name.
 * __.:Get::BlogName:.__ : Returns the blog's title.
@@ -278,6 +284,7 @@ Those patterns are generally available in any context and are defined in [blog_c
 A publication can contain the same patterns as the ones of a template. Also, add:
 
 * __.:Get::EntryUrl:.__ : Returns the publication's permalinks.
+* __.:Get::EntryCSS:.__ : Returns the CSS class associated with the entry.
 * __.:Get::EntryContent:.__ : Returns the publication's body.
 * __.:Get::EntryDate:.__ : Returns the formatted publication's date.
 * __.:Get::EntryDateUrl:.__ : Returns the publication's date period's path.
@@ -305,8 +312,8 @@ Similarily, for the _RecursiveFor_ function, THe second, the fourth and fifth pa
 
 ## Environment Variables
 
-1. [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#blog_configurationyaml)
-2. [Pattern variables](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#pattern-variables)
+1. [blog_configuration.yaml](#blog_configurationyaml)
+2. [Pattern variables](#pattern-variables)
 
 ### blog_configuration.yaml
 
@@ -318,19 +325,19 @@ Like in other VenC contexts. The blog's configuration file uses environment vari
 
 ### Pattern variables
 
-There also exist particular variables as lists. Those variables can be browsed iteratively and recursively to extract the content and to shape it. This extraction is done using special patterns _For_ and _RecursiveFor_. You can find out more on their functioning in the [Special Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#spécial-patterns) part. But before, here are the available lists:
+There also exist particular variables as lists. Those variables can be browsed iteratively and recursively to extract the content and to shape it. This extraction is done using special patterns _For_ and _RecursiveFor_. You can find out more on their functioning in the [Special Patterns](#spécial-patterns) part. But before, here are the available lists:
 
 * __EntryTags__ : The current publication's keywords list. To access the current iteration's keyword use the contextual variable __{0[tag]}__.
 * __EntryAuthors__ : the list of the current publication's authors. To access the current item use the contextual variable __{0[author]}__.
-* __BlogDates__ : The list of the links to the publications grouped by date as defined in [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file). There are several available items for a current iteration: __{0[date]}__, __{0[dateUrl]}__. Respectively the period as formatted [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file) and the path to the directory associated to this period.
-  - __{0[date]}__ : Time period as formatted in [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file).
+* __BlogDates__ : The list of the links to the publications grouped by date as defined in [blog_configuration.yaml](#main-config-file). There are several available items for a current iteration: __{0[date]}__, __{0[dateUrl]}__. Respectively the period as formatted [blog_configuration.yaml](#main-config-file) and the path to the directory associated to this period.
+  - __{0[date]}__ : Time period as formatted in [blog_configuration.yaml](#main-config-file).
   -  __{0[dateUrl]}__ : The path to the directory associated with this time period.
   -  __{0[count]}__ : The number of publications in the archive.
   -  __{0[weight]}__ : the weight of publications contained in the current archive as an integer between 0 and 10
 
 We now arrive in the particular case of categories. Categories form a tree as illustrated right below
 
-![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/treesEN.png "")
+![Categories tree](https://framagit.org/denissalem/VenC/raw/master/doc/treesEN.png "Categories tree")
 
 Dwon below, we call "_leave_" the end of a branch, a so called "_complete branch_" is the complete path from the root of a tree to a leave of that tree.
 
@@ -353,14 +360,14 @@ Dwon below, we call "_leave_" the end of a branch, a so called "_complete branch
   * __{0[categoryPath]}__ The current sub-category's relative path.
   * __{0[item]}__  The sub-category's name.
 
-To use these patterns' special variables, go to the [Spécial Patterns](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#spécial-patterns) part.
+To use these patterns' special variables, go to the [Special Patterns](#special-patterns) part.
 
 # Commands
 
-1. [Print VenC's version](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#print-vencs-version)
-2. [New Blog](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#new-blog)
-3. [New publication](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#new-publication)
-4. [Exporting the blog](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#exporting-the-blog)
+1. [Print VenC's version](#print-vencs-version)
+2. [New Blog](#new-blog)
+3. [New publication](#new-publication)
+4. [Exporting the blog](#exporting-the-blog)
 
 ## Print VenC's version
 

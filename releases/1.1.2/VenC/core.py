@@ -198,7 +198,7 @@ def SetNewEntryMetadata(entryDate, entryName):
     return entry
     
 def PrintVersion(argv):
-    print("VenC 1.1.0")
+    print("VenC 1.1.2")
 
 
 def GetKeyByName(keys, name):
