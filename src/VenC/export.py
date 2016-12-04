@@ -75,11 +75,20 @@ def ftp(argv):
     blog(argv)
     remoteCopy(argv)
 
+def rmTreeErrorHandler(function, path, excinfo):
+    print("VenC:",function)
+    print("VenC:",path)
+    print("VenC:",excinfo)
+    exit()
+
 def blog(argv):
     if VenC.core.blogConfiguration == None:
         print("VenC: "+VenC.core.Messages.noBlogConfiguration)
         return
 
+    # cleaning direcoty
+    shutil.rmtree("blog", ignore_errors=False, onerror=rmTreeErrorHandler)
+    os.makedirs("blog")
     currentBlog = Blog()
     currentBlog.export()
 

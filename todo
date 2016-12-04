@@ -42,7 +42,7 @@ DONE      | Turns EntryCategoriesLeafs to EntryCategoriesLeaves.
 
 version 1.2.0
 
-DONE    | Fix CodeHighlight and markdown collision
+DONE	| Fix CodeHighlight and markdown collision
 DONE    | Fix wrong line number with codehighlight
 DONE    | Add more verbose on corrupt Entry. Stop nicely.
 DONE    | Fix empty entry creation when passing wrong or none template
@@ -54,9 +54,9 @@ DONE    | Print errors when pattern processor fail.
 DONE    | Print ressource and current string when pattern processor fail.
 DONE    | Add -h commande to print reminder
 DONE    | Add english language.
-HIGH    | Clean blog folder on compilation.
-HIGH    | Installation via pypi.
+DONE    | Clean blog folder on compilation.
 HIGH    | GetPrevious and GetNextPage should work outside thread.
+HIGH    | Installation via pypi.
 
 version 1.2.x
 
