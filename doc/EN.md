@@ -4,7 +4,7 @@
 
 1. [Presentation](#presentation)
 2. [Installing](#installing)
-3. [Uninstalling](#unsinstalling)
+3. [Uninstalling](#uninstalling)
 4. [Taking your marks](#taking-your-marks)
   1. [File Tree](#file-tree)
   2. [Files structure](#files-structure)
