@@ -81,15 +81,15 @@ Vous pouvez jeter un oeil à la [page_officielle](http://pygments.org/) ou direc
 
 Ceci étant fait, clonez le repository de VenC
 
-`git clone https://framagit.com/denissalem/VenC`
+	git clone https://framagit.com/denissalem/VenC
 
 Déplacez vous à présent dans le répertoire de VenC
 
-`cd VenC`
+	cd VenC
 
 Puis lancez le script d'installation en étant root.
 
-`./install.sh`
+	./install.sh
 
 Voilà, VenC est normalement correctement installé sur votre système.
 
@@ -98,11 +98,9 @@ Voilà, VenC est normalement correctement installé sur votre système.
 Dans le cas peu probable où vous voudriez supprimer VenC de votre système tapez successivement les commandes suivantes dans un
 terminal en étant root
 
-`rm -rfv /usr/lib/python< votre version >/VenC`
-
-`rm -rfv /usr/share/VenC`
-
-`rm -v /usr/bin/venc`
+	rm -rfv /usr/lib/python< votre version >/VenC
+	rm -rfv /usr/share/VenC
+	rm -v /usr/bin/venc
 
 # Prise en main
 
@@ -180,11 +178,11 @@ Une publication contient un premier partie au format [Yaml](http://yaml.org) con
 
 Finalement une publication vierge se présente de la façon suivante:
 
-  CSS: ''
-  authors: ''
-  categories: ''
-  entry_name: titre de la publication
-  tags: ''
+	CSS: ''
+	authors: ''
+	categories: ''
+	entry_name: titre de la publication
+	tags: ''
 
 On a donc cinq champs à compléter, ou pas.
 
