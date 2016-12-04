@@ -373,39 +373,36 @@ Pour utiliser ces variables spéciales de motifs reportez vous à la partie [Mot
 
 ## Afficher la version de VenC
 
-`$ venc -v`
+	$ venc -v
 
 ou
 
-`$ venc --version`
+	$ venc --version
 
 ## Nouveau Blog
 
-`$ venc -nb <nom du blog>`
+	$ venc -nb <nom du blog>
 
 ou
 
-`$ venc --new-blog <nom du blog>`
+	$ venc --new-blog <nom du blog>
 
 VenC crée le répertoire contenant les sources du blog à l'endroit ou vous tapez la commande.
 
-`$ venc -nb "monSuperBlog"`
-
-`$ cd monSuperBlog`
-
-`$ ls`
-
-`blog  blog_configuration.yaml  entries  extra  templates  theme`
+	$ venc -nb "monSuperBlog"
+	$ cd monSuperBlog
+	$ ls
+	blog  blog_configuration.yaml  entries  extra  templates  theme
 
 Vous ne pouvez pas créer un blog sans en spécifier le nom. Une fois que vous avez créé votre blog, la première chose à faire est en général d'éditer le fichier __blog_configuration.yaml__. Pour en savoir plus sur ce fichier de configuration, rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
 
 ## Nouvelle publication
 
-`$ venc -ne "<nom de la publication>" [nom du template]`
+	$ venc -ne "<nom de la publication>" [nom du template]
 
 ou
 
-`$ venc --new-entry "<nom de la publication>" [nom du template]`
+	$ venc --new-entry "<nom de la publication>" [nom du template]
 
 Pour créer une nouvelle publication vous __devez__ être dans le répertoire de votre blog.
 
@@ -417,11 +414,11 @@ Si vous ne spécifiez pas de nom de template, VenC produira une publication tota
 
 ## Exporter le blog
 
-`$ venc -xb`
+	$ venc -xb
 
 ou
 
-`$ venc --export-blog`
+	$ venc --export-blog
 
 Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
 
@@ -430,11 +427,11 @@ Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce r
 Pour en savoir plus sur l'arborescence rendez vous [ici](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#arborescence).
 
 ## Exporter le blog en ligne
-`$ venc -xftp`
+	$ venc -xftp
 
 ou
 
-`$ venc --export-via-ftp`
+	$ venc --export-via-ftp
 
 Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
 
@@ -442,21 +439,21 @@ Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce r
 
 ## Editer un fichier du blog et recompiler le blog automatiquement.
 
-`$ venc -ex <fichier>`
+	$ venc -ex <fichier>
 
 ou
 
-`$ venc --edit-and-export <fichier>`
+	$ venc --edit-and-export <fichier>
 
 Cette commande ouvre le fichier passé en paramétre avec l'éditeur de texte de votre choix, définit dans [blog_configuration.yaml](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal) puis, une fois l'édition terminé, recompile l'ensemble du blog.
 
 ## Afficher l'aide mémoire
 
-`$ venc -h`
+	$ venc -h
 
 ou
 
-`$ venc --help`
+	$ venc --help
 
 Vous avez oublié comment faire tel ou tel chose? Cette commande affiche dans le terminal les commandes disponibles!
 
