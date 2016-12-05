@@ -139,8 +139,13 @@ class Blog:
         self.patternProcessor.Set("RelativeLocation", self.destinationPath)
         self.patternProcessor.Set("SingleEntry", not inThread)
         self.patternProcessor.SetFunction("PagesList", self.GetPagesList)
-        self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousPage)
-        self.patternProcessor.SetFunction("GetNextPage", self.GetNextPage)
+        if inThread:
+            self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousPageInThread)
+            self.patternProcessor.SetFunction("GetNextPage", self.GetNextPageInThread)
+        else:
+            self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousEntry)
+            self.patternProcessor.SetFunction("GetNextPage", self.GetNextEntry)
+            
         self.patternProcessor.SetFunction("CodeHighlight", VenC.core.CodeHighlight)
         
         for key in self.publicDataFromBlogConf:
@@ -165,11 +170,17 @@ class Blog:
         return VenC.core.blogConfiguration["path"]["index_file_name"].format(page_number=(str(pageCounter) if pageCounter != 0 else str()))
 
     def export(self):
+        # Main thread
         print("VenC:",VenC.core.Messages.exportMainThread)
         self.exportThread(self.entriesList, True)
         print("VenC:",VenC.core.Messages.exportMainThreadRss)
         self.exportRss(self.entriesList)
         self.relativeOrigin += "../"
+        
+        # Entries
+        self.exportThread(self.entriesList, False)
+        
+        # Dates
         for e in self.entriesPerDates:
             self.relativeLocation = e.value+'/'
             print("VenC:", VenC.core.Messages.exportArchives.format(e.value))
@@ -177,10 +188,12 @@ class Blog:
         self.relativeOrigin = str()
         self.relativeLocation = str()
         
+        # Categories
         self.exportCategories(self.entriesPerCategories)
         self.relativeOrigin = str()
         self.relativeLocation = str()
-        self.exportThread(self.entriesList, False)
+
+        # Extra data
         self.exportExtraData(os.getcwd()+"/theme/assets")
         self.exportExtraData(os.getcwd()+"/extra")
     
@@ -232,7 +245,16 @@ class Blog:
         except Exception as e:
             return str(e)
 
-    def GetNextPage(self, argv):
+    def GetNextEntry(self, argv):
+        pattern = argv[0]
+        currentPage = self.patternProcessor.Get(["PageNumber"])
+        pagesCount = len(self.patternProcessor.Get(["PagesList"]))
+        return str()
+
+    def GetPreviousEntry(self, argv):
+        return str()
+
+    def GetNextPageInThread(self, argv):
         pattern = argv[0]
         currentPage = self.patternProcessor.Get(["PageNumber"])
         pagesCount = len(self.patternProcessor.Get(["PagesList"]))
@@ -243,7 +265,7 @@ class Blog:
         else:
             return pattern.format({"destinationPage":destinationPage,"destinationPageUrl":destinationPageUrl})
 
-    def GetPreviousPage(self, argv):
+    def GetPreviousPageInThread(self, argv):
         pattern = argv[0]
         currentPage = self.patternProcessor.Get(["PageNumber"])
         destinationPage = currentPage - 1
