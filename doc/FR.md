@@ -44,8 +44,8 @@ En outre, voilà ce que VenC propose:
 - Depuis la version 1.0.0
   - Création de blog statique (HTML/CSS ).
   - Mise en page simple à personnaliser directement en HTML/CSS.
-  - Possibilité de créer un agencement en nombre arbitraire de colonne ( comme sur mon site ).
-  - Module de défilement infinie simple et facile à mettre en oeuvre ( comme sur mon site ).
+  - Possibilité de créer un agencement en nombre arbitraire de colonne.
+  - Module de défilement infinie simple et facile à mettre en oeuvre.
   - Les publications peuvent être organisées par catégories et sous catégories.
   - Les publications peuvent être organisées par période de dates.
   - Publication chronologique ascendante ou descendante.

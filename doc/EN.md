@@ -45,8 +45,8 @@ Also, here is what VenC has to offer:
 - From version 1.0.0
  - Creation of static blog (HTML/CSS).
  - Simple page layout that you can directly personalize using HTML/CSS.
- - Ability to create an arrangement in an arbitrary number of columns (as on my website).
- - Infinite scrolling module simple and easy to setup (as on my website).
+ - Ability to create an arrangement in an arbitrary number of columns.
+ - Infinite scrolling module simple and easy to setup.
  - Publications can be organised by categories and sub-categories.
  - Publications can be organised by date periods.
  - Up or down chronologic publicating.
