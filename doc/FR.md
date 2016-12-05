@@ -6,33 +6,33 @@
 2. [Installation](#installation)
 3. [Désinstallation](#désinstallation)
 4. [Prise en main](#prise-en-main)
-  1. [Arborescence](#arborescence)
-  2. [Structure des fichiers](#structure-des-fichiers)
-    1. [Fichier de configuration principal](fichier-de-configuration-principal)
-    2. [Les Templates](#les-templates)
-    3. [Les Publications](#les-publications)
-    4. [Les Thèmes](#les-thèmes)
-  3. [Pattern Processor](#pattern-processor)
-    1. [Motifs de Templates](#motifs-de-templates)
-    2. [Motifs Super Globaux](#motifs-super-globaux)
-    3. [Motifs de Publications](#motifs-de-publications)
-    4. [Motifs Spéciaux](#motifs-sp%C3%A9ciaux)
-  4. [Variables d'environnement](#variables-denvironnement)
-    1. [blog_configuration.yaml](#blog_configurationyaml)
-    2. [Variables de motifs](#variables-de-motifs)
-  5. [Commandes](#commandes)
-    1. [Afficher la version de VenC](#afficher-la-version-de-venc)
-    2. [Nouveau Blog](#nouveau-blog)
-    3. [Nouvelle publication](#nouvelle-publication)
-    4. [Exporter le blog](#exporter-le-blog)
-    5. [Exporter le blog en ligne](#exporter-le-blog-en-ligne)
-    6. [Editer un fichier du blog et recompiler le blog automatiquement](editer-un-fichier-du-blog-et-recompiler-le-blog-automatiquement)
+	1. [Arborescence](#arborescence)
+	2. [Structure des fichiers](#structure-des-fichiers)
+		1. [Fichier de configuration principal](fichier-de-configuration-principal)
+		2. [Les Templates](#les-templates)
+		3. [Les Publications](#les-publications)
+		4. [Les Thèmes](#les-thèmes)
+	3. [Pattern Processor](#pattern-processor)
+		1. [Motifs de Templates](#motifs-de-templates)
+		2. [Motifs Super Globaux](#motifs-super-globaux)
+		3. [Motifs de Publications](#motifs-de-publications)
+		4. [Motifs Spéciaux](#motifs-sp%C3%A9ciaux)
+	4. [Variables d'environnement](#variables-denvironnement)
+		1. [blog_configuration.yaml](#blog_configurationyaml)
+		2. [Variables de motifs](#variables-de-motifs)
+5. [Commandes](#commandes)
+	1. [Afficher la version de VenC](#afficher-la-version-de-venc)
+	2. [Nouveau Blog](#nouveau-blog)
+	3. [Nouvelle publication](#nouvelle-publication)
+	4. [Exporter le blog](#exporter-le-blog)
+	5. [Exporter le blog en ligne](#exporter-le-blog-en-ligne)
+	6. [Editer un fichier du blog et recompiler le blog automatiquement](editer-un-fichier-du-blog-et-recompiler-le-blog-automatiquement)
 6. [Astuces](#astuces)
 7. [Thèmes](#thèmes)
-  1. [Installation](#installation-1)
-  2. [Greffons](#greffons)
-    1. [Défilement infini](#d%C3%A9filement-infini)
-    2. [Moteur de recherche côté client](#moteur-de-recherche-c%C3%B4t%C3%A9-client)
+	1. [Installation](#installation-1)
+	2. [Greffons](#greffons)
+		1. [Défilement infini](#d%C3%A9filement-infini)
+		2. [Moteur de recherche côté client](#moteur-de-recherche-c%C3%B4t%C3%A9-client)
 
 # Présentation
 
@@ -44,8 +44,8 @@ En outre, voilà ce que VenC propose:
 - Depuis la version 1.0.0
   - Création de blog statique (HTML/CSS ).
   - Mise en page simple à personnaliser directement en HTML/CSS.
-  - Possibilité de créer un agencement en nombre arbitraire de colonne ( comme sur mon site ).
-  - Module de défilement infinie simple et facile à mettre en oeuvre ( comme sur mon site ).
+  - Possibilité de créer un agencement en nombre arbitraire de colonne.
+  - Module de défilement infinie simple et facile à mettre en oeuvre.
   - Les publications peuvent être organisées par catégories et sous catégories.
   - Les publications peuvent être organisées par période de dates.
   - Publication chronologique ascendante ou descendante.

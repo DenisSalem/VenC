@@ -6,33 +6,33 @@
 2. [Installing](#installing)
 3. [Uninstalling](#uninstalling)
 4. [Taking your marks](#taking-your-marks)
-  1. [File Tree](#file-tree)
-  2. [Files structure](#files-structure)
-    1. [Main config file](#main-config-file)
-    2. [Templates](#templates)
-    3. [Publications](#publications)
-    4. [Themes](#themes)
-  3. [Pattern Processor](#pattern-processor)
-    1. [Templates Patterns](#templates-patterns)
-    2. [Over Global Patterns](#over-gloabal-patterns)
-    3. [Publications Patterns](#publications-patterns)
-    4. [Special Patterns](#special-patterns)
-  4. [Environment variables](#environment-variables)
-    1. [blog_configuration.yaml](#blog_configurationyaml)
-    2. [Pattern variables](#pattern-variables)
-  5. [Commands](#commands)
-    1. [Print VenC's version](#print-vencs-version)
-    2. [New Blog](#new-blog)
-    3. [New publication](#new-publication)
-    4. [Exporting the blog](#exporting-the-blog)
-    5. [Exporting the blog online](#exporting-the-blog-online)
-    6. [Edit a file on the blog and recompile automatically the blog](#edit-a-file-on-the-blog-and-recompile-automatically-the-blog)
+	1. [File Tree](#file-tree)
+	2. [Files structure](#files-structure)
+		1. [Main config file](#main-config-file)
+		2. [Templates](#templates)
+		3. [Publications](#publications)
+		4. [Themes](#themes)
+	3. [Pattern Processor](#pattern-processor)
+		1. [Templates Patterns](#templates-patterns)
+		2. [Over Global Patterns](#over-gloabal-patterns)
+		3. [Publications Patterns](#publications-patterns)
+		4. [Special Patterns](#special-patterns)
+	4. [Environment variables](#environment-variables)
+		1. [blog_configuration.yaml](#blog_configurationyaml)
+		2. [Pattern variables](#pattern-variables)
+5. [Commands](#commands)
+	1. [Print VenC's version](#print-vencs-version)
+	2. [New Blog](#new-blog)
+	3. [New publication](#new-publication)
+	4. [Exporting the blog](#exporting-the-blog)
+	5. [Exporting the blog online](#exporting-the-blog-online)
+	6. [Edit a file on the blog and recompile automatically the blog](#edit-a-file-on-the-blog-and-recompile-automatically-the-blog)
 6. [Tips](#tips)
 7. [Themes](#themes-1)
-  1. [Installing](#installing-1)
-  2. [Plugins](#plugins)
-    1. [Infinite scrolling](#infinite-scrolling)
-    2. [Clientside search engine](#clientside-search-engine)
+	1. [Installing](#installing-1)
+	2. [Plugins](#plugins)
+		1. [Infinite scrolling](#infinite-scrolling)
+		2. [Clientside search engine](#clientside-search-engine)
 
 # Presentation
 
@@ -45,8 +45,8 @@ Also, here is what VenC has to offer:
 - From version 1.0.0
  - Creation of static blog (HTML/CSS).
  - Simple page layout that you can directly personalize using HTML/CSS.
- - Ability to create an arrangement in an arbitrary number of columns (as on my website).
- - Infinite scrolling module simple and easy to setup (as on my website).
+ - Ability to create an arrangement in an arbitrary number of columns.
+ - Infinite scrolling module simple and easy to setup.
  - Publications can be organised by categories and sub-categories.
  - Publications can be organised by date periods.
  - Up or down chronologic publicating.
