@@ -53,7 +53,7 @@ Also, here is what VenC has to offer:
  - RSS feeds for every publications thread.
  - Permalinks.
  - Managing and editing the blog entirely via the commandline.
- - VenC is conceived by GNU/Linux specifically.
+ - VenC is designed to run on GNU/Linux specifically.
  - Publication's redaction in markdown.
 
 - From version 1.1.0
