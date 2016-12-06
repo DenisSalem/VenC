@@ -192,7 +192,6 @@ So we have five fields to complete, or not.
 - __tags__ : The list of the publication's keywords, separated by a coma. For example _Libre, Open-source, Linux_.
 - __CSS__ : Optionnal, since version *1.2.0*. Hold a CSS class name you can use in current entry.
 - __doNotUseMarkDown__ : Optionnal, since version *1.2.0*. Tell to VenC if content of the current entry must be parsed as [Markdown](https://daringfireball.net/projects/markdown/) or not. This field does not need any particular value. By default VenC use [Markdown](https://daringfireball.net/projects/markdown/).
--
 
 Both parts are separated by three dashes (the ones of the six). On the screenshot, the part containing the Markdown syntax is blank. So we are really talking about a blank publication.
 
