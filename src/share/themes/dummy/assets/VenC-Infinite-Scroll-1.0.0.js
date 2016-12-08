@@ -76,6 +76,7 @@ function VENC_INFINITE_SCROLL_AJAX() {
 					VENC_INFINITE_SCROLL.queue++;
 					VENC_INFINITE_SCROLL.imageDefaultSetup(images[k]);
 					images[k].onload = function(e) {
+						VENC_INFINITE_SCROLL.queue--;
 						VENC_INFINITE_SCROLL.onLoadImage(this);
 					}
 					d = new Date()
@@ -100,9 +101,11 @@ function VENC_INFINITE_SCROLL_RUN() {
 		if (currentColumns[i].clientHeight <= viewPortHeight + window.pageYOffset) {
 			if (VENC_INFINITE_SCROLL.queue == 0) {
 				VENC_INFINITE_SCROLL.pushColumns();
+				return 1;
 			}
 		}
 	}
+	return 0;
 };
 
 function VENC_INFINITE_SCROLL_ON_LOAD() {
