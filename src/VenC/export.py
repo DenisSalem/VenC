@@ -76,9 +76,13 @@ def ftp(argv):
     remoteCopy(argv)
 
 def rmTreeErrorHandler(function, path, excinfo):
+    if path == "blog" and excinfo[0] == FileNotFoundError:
+      print("VenC: "+VenC.core.Messages.blogFolderDoesntExists)
+      return
+
     print("VenC:",function)
     print("VenC:",path)
-    print("VenC:",excinfo)
+    print("VenC:",excinfo[0])
     exit()
 
 def blog(argv):
@@ -301,6 +305,8 @@ class Blog:
             self.outputPage += self.patternProcessor.parse(self.theme.rssEntry)
         self.patternProcessor.ressource = "theme/chunks/rssFooter.html"
         self.outputPage += self.patternProcessor.parse(self.theme.rssFooter)
+       	self.outputPage = self.outputPage.replace("<p><div","<div").replace("</div>\n</p>","</div>") # sanitize
+       
         
         stream = codecs.open("blog/"+folderDestination+"/feed.xml",'w',encoding="utf-8")
         stream.write(self.outputPage)
@@ -336,6 +342,7 @@ class Blog:
                     self.outputPage += column
                 self.patternProcessor.ressource = "theme/chunks/footer.html"
                 self.outputPage += self.patternProcessor.parse(self.theme.footer)
+       	        self.outputPage = self.outputPage.replace("<p><div","<div").replace("</div>\n</p>","</div>") #sanitize
                 self.pageCounter += 1
                 self.entryCounter = 0
                 self.WritePage(folderDestination, ( int(entry.split("__")[0]) if not inThread else -1))

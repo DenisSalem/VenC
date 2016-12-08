@@ -3,6 +3,9 @@
 python=$(python -c "import sys; v=sys.version_info; print('python'+str(v[0])+'.'+str(v[1]))")
 version="1.0.0"
 
+echo "Current $python"
+
+python="python3.5"
 cp -v   src/venc.py     /usr/bin/venc
 cp -vR  src/VenC        /usr/lib/$python/
 cp -vR  src/share/*     /usr/share/VenC

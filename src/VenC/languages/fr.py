@@ -40,3 +40,4 @@ class Messages:
     argEntryName="Nom de la publication"
     argTemplateName="Nom du template"
     argInputFilename="Nom de fichier"
+    blogFolderDoesntExists="Le dossier de destination n'existe pas... VenC s'en fiche et va en faire un nouveau."

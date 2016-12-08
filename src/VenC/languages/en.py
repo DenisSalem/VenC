@@ -40,3 +40,4 @@ class Messages:
     argEntryName="Entry name"
     argTemplateName="Template name"
     argInputFilename="Filename"
+    blogFolderDoesntExists="Destination folder doesn't exist. VenC doesn't care and will built a new one."
