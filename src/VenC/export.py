@@ -177,12 +177,11 @@ class Blog:
         # Main thread
         print("VenC:",VenC.core.Messages.exportMainThread)
         self.exportThread(self.entriesList, True)
-        print("VenC:",VenC.core.Messages.exportMainThreadRss)
-        self.exportRss(self.entriesList)
-        self.relativeOrigin += "../"
         
         # Entries
         self.exportThread(self.entriesList, False)
+        
+        self.relativeOrigin += "../"
         
         # Dates
         for e in self.entriesPerDates:
@@ -196,6 +195,9 @@ class Blog:
         self.exportCategories(self.entriesPerCategories)
         self.relativeOrigin = str()
         self.relativeLocation = str()
+        
+        print("VenC:",VenC.core.Messages.exportMainThreadRss)
+        self.exportRss(self.entriesList)
 
         # Extra data
         self.exportExtraData(os.getcwd()+"/theme/assets")
@@ -319,8 +321,9 @@ class Blog:
         # Process actual entries
         if not inThread:
             columnsNumber = 1
-            VenC.core.blogConfiguration["entries_per_pages"] = 1
+            entries_per_pages = 1
         else:
+            entries_per_pages  = VenC.core.blogConfiguration["entries_per_pages"]
             columnsNumber = 1 if VenC.core.blogConfiguration["columns"] < 1 else int(VenC.core.blogConfiguration["columns"])
 
         sortedEntries =  sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(VenC.core.blogConfiguration["thread_order"].strip() == "latest first"))
@@ -336,7 +339,7 @@ class Blog:
             self.patternProcessor.ressource = entry
             self.columns[ self.entryCounter % columnsNumber ] += self.patternProcessor.parse(self.theme.entry)+"\n"
             self.entryCounter += 1
-            if self.entryCounter >= int(VenC.core.blogConfiguration["entries_per_pages"]) or entry == sortedEntries[-1]:
+            if self.entryCounter >= int(entries_per_pages) or entry == sortedEntries[-1]:
                 self.columns = [ column+"</div>" for column in self.columns ]
                 for column in self.columns:
                     self.outputPage += column

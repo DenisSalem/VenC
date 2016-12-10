@@ -23,7 +23,6 @@ def GetMessages():
         from VenC.languages import fr as language
     else:
         from VenC.languages import en as language
-
     return language.Messages()
 
 Messages = GetMessages()
