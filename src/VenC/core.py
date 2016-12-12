@@ -12,6 +12,8 @@ import VenC.pattern
 import pygments.lexers
 import pygments.formatters
 
+errors=list()
+
 class OutputColors:
     FAIL = '\033[91m'
     END     = '\033[0m'

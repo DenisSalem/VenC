@@ -16,6 +16,7 @@ class processor():
         self.strict             = True
         self.currentString      = str()
         self.ressource          = str()
+        self.errors             = list()
 
     def SetFunction(self, key, function):
         self.functions[key] = function
@@ -44,12 +45,16 @@ class processor():
             return self.dictionnary[symbol[0]]
 
         except KeyError as e:
-            print("VenC: "+VenC.core.Messages.getUnknownValue.format(e))
-            if self.ressource != str():
-                print("VenC: "+VenC.core.Messages.inRessource.format(self.ressource))
+            if self.strict:
+                err = VenC.core.OutputColors.FAIL+"VenC: "+VenC.core.Messages.getUnknownValue.format(e)+"\n"
+            
+                if self.ressource != str():
+            	    err +="VenC: "+VenC.core.Messages.inRessource.format(self.ressource)+"\n"
                 
-            print(VenC.core.OutputColors.FAIL+self.currentString+VenC.core.OutputColors.END)
-            exit()
+                err += self.currentString+VenC.core.OutputColors.END+"\n"
+                if not err in VenC.core.errors:
+                    VenC.core.errors.append(err)
+                    print(err)
 
             return "~§"+"Get§§"+symbol[0]+"§~"
 
@@ -126,6 +131,8 @@ class processor():
                     if fields[0] in self.functions.keys():
                         output = self.functions[fields[0]](fields[1:])
                     else:
+		      	if self.strict:
+                            pass #complain		
                         output = "~§"+ "§§".join(fields)+"§~"
 
                     if escape:
