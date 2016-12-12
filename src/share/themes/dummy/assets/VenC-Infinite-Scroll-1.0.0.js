@@ -35,7 +35,7 @@ var VENC_INFINITE_SCROLL = {
 		}
 	},
 	initPageOffset : function() {
-		currentFilename = window.location.pathname.split('/')[window.location.pathname.split('/').length-1];
+		currentFilename = this.currentLocation();
 		if (currentFilename == '' | currentFilename == "index.html")
 			currentFilename = '0';
 		else if (currentFilename.replace( /[.html0123456789]+/g, '') != "index") {
@@ -54,6 +54,9 @@ var VENC_INFINITE_SCROLL = {
 		this.xmlhttp.open("GET","index"+this.pageOffset+".html",true);
 		this.pageOffset++;
 		this.xmlhttp.send();
+	},
+	currentLocation : function() {
+		return window.location.pathname.split('/')[window.location.pathname.split('/').length-1];
 	},
 	ajax : Object
 };
@@ -99,7 +102,8 @@ function VENC_INFINITE_SCROLL_RUN() {
 	viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 	for (i=0; i < currentColumns.length; i++) {
 		if (currentColumns[i].clientHeight <= viewPortHeight + window.pageYOffset) {
-			if (VENC_INFINITE_SCROLL.queue == 0) {
+		  	currentFilename = VENC_INFINITE_SCROLL.currentLocation();
+			if (VENC_INFINITE_SCROLL.queue == 0 && currentFilename.replace( /[.html0123456789]+/g, '') == "index") {
 				VENC_INFINITE_SCROLL.pushColumns();
 				return 1;
 			}
