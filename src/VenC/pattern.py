@@ -51,9 +51,9 @@ class processor():
                 if self.ressource != str():
             	    err +="VenC: "+VenC.core.Messages.inRessource.format(self.ressource)+"\n"
                 
-                err += self.currentString+VenC.core.OutputColors.END+"\n"
                 if not err in VenC.core.errors:
                     VenC.core.errors.append(err)
+                    err += self.currentString+VenC.core.OutputColors.END+"\n\n"
                     print(err)
 
             return "~§"+"Get§§"+symbol[0]+"§~"
@@ -131,10 +131,16 @@ class processor():
                     if fields[0] in self.functions.keys():
                         output = self.functions[fields[0]](fields[1:])
                     else:
-		      	if self.strict:
-                            pass #complain		
-                        output = "~§"+ "§§".join(fields)+"§~"
-
+                        err = VenC.core.OutputColors.FAIL+"VenC: "+VenC.core.Messages.unknownPattern.format(fields[0])+"\n"
+                        if self.ressource != str():
+            	            err +="VenC: "+VenC.core.Messages.inRessource.format(self.ressource)+"\n"
+                
+                        if not err in VenC.core.errors:
+                            VenC.core.errors.append(err)
+                            err += string+VenC.core.OutputColors.END+"\n\n"
+                            print(err)
+                        
+                            output = "<!-- ~§"+"§§".join(fields)+"§~ -->"
                     if escape:
                         return self.parse(string[:openSymbolPos[-1]]+cgi.escape(output).encode('ascii', 'xmlcharrefreplace').decode(encoding='ascii')+string[closeSymbolPos[0]+2:],escape=True)
                     else:

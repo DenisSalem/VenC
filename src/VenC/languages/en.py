@@ -34,6 +34,8 @@ class Messages:
     exportCategoriesRss="Exporting local entries RSS feed thread from category '{0}'."
     missingMandatoryFieldInEntry="Field '{0}' in entry number {1} is missing."
     getUnknownValue="Get: Value {0} isn't defined."
+    unknownPattern="The pattern '{0}'doesn't exists."
+    unknownContextual="Contextual variable {0} doesn't exists."
     inRessource="In ressource '{0}'."
     somethingGoesWrongReturnEmptyString="An error occurs. Replacement with an empty string."
     argBlogName="Blog name {0}"

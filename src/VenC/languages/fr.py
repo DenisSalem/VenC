@@ -34,6 +34,8 @@ class Messages:
     exportCategoriesRss="Exportation locale du flux RSS du fil de publications de la categorie '{0}'."
     missingMandatoryFieldInEntry="Le champ '{0}' dans l'entrée numéro {1} est manquant."
     getUnknownValue="Get: La valeur {0} n'existe pas."
+    unknownPattern="Le motif '{0}' n'existe pas."
+    unknownContextual="La variable contextuel {0} n'existe pas."
     inRessource="Dans la ressource '{0}'."
     somethingGoesWrongReturnEmptyString="Une erreur s'est produite. Remplacement pas une chaine de caractère vide."
     argBlogName="Nom du blog {0}"
