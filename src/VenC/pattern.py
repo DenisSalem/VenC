@@ -18,6 +18,20 @@ class processor():
         self.ressource          = str()
         self.errors             = list()
 
+    def handleError(self,error, default,enable=False):
+        if self.strict or enable:
+            err = VenC.core.OutputColors.FAIL+"VenC: "+error+"\n"
+            
+            if self.ressource != str():
+            	err +="VenC: "+VenC.core.Messages.inRessource.format(self.ressource)+"\n"
+                
+            if not err in VenC.core.errors:
+                VenC.core.errors.append(err)
+                err += self.currentString+VenC.core.OutputColors.END+"\n\n"
+                print(err)
+        
+        return default
+
     def SetFunction(self, key, function):
         self.functions[key] = function
 
@@ -45,25 +59,10 @@ class processor():
             return self.dictionnary[symbol[0]]
 
         except KeyError as e:
-            if self.strict:
-                err = VenC.core.OutputColors.FAIL+"VenC: "+VenC.core.Messages.getUnknownValue.format(e)+"\n"
-            
-                if self.ressource != str():
-            	    err +="VenC: "+VenC.core.Messages.inRessource.format(self.ressource)+"\n"
-                
-                if not err in VenC.core.errors:
-                    VenC.core.errors.append(err)
-                    err += self.currentString+VenC.core.OutputColors.END+"\n\n"
-                    print(err)
+            return self.handleError(VenC.core.Messages.getUnknownValue.format(e), "~§"+"Get§§"+"$$".join(symbol)+"§~",True)
 
-            return "~§"+"Get§§"+symbol[0]+"§~"
-
-        except Exception as e:
-            if self.ressource != str():
-                print("VenC: "+VenC.core.Messages.inRessource.format(self.ressource))
-                print("VenC: "+VenC.core.Messages.somethingGoesWrongReturnEmptyString)
-
-            return str()
+        except IndexError as e:
+            return self.handleError(VenC.core.Messages.getNotEnoughArgs.format(e), "~§"+"Get§§"+"$$".join(symbol)+"§~",True)
 
     def For(self, argv):
         outputString = str()
@@ -72,8 +71,11 @@ class processor():
                 outputString += argv[1].format(Item) + argv[2]
 
             return outputString[:-len(argv[2])]
-        except Exception as e:
-            return str(e)
+        except KeyError as e:
+            return self.handleError(VenC.core.Messages.forUnknownValue.format(e),"~§For§§"+"§§".join(argv)+"§~",True)
+        
+        except IndexError as e:
+            return self.handleError(VenC.core.Messages.forNotEnoughArgs,"~§For§§"+"§§".join(argv)+"§~",True)
 
     def _RecursiveFor(self, openString, content, separator,closeString, nodes):
         outputString = openString
@@ -89,10 +91,8 @@ class processor():
                         outputString += content.format(variables) + separator
                     else:
                         outputString += content.format(variables) + self._RecursiveFor(openString, content, separator, closeString, nodes[Key]["_nodes"])
-        except Exception as e:
-            print(nodes[Key])
-            raise
-            return str(e)
+        except KeyError as e:
+            return self.handleError(VenC.core.Messages.forUnknownValue.format(e),"<!-- Recursive For KeyError exception, shouldn't happen -->",True)
 
         return outputString + closeString
 
@@ -107,9 +107,10 @@ class processor():
                 self.dictionnary[argv[0]]
             )
             return outputString
-        except Exception as e:
-            raise
-            return str()
+        except IndexError as e:
+            return self.handleError(VenC.core.Messages.recursiveForNotEnoughArgs,"~§RecursiveFor§§"+"§§".join(argv)+"§~",True)
+        except KeyError as e:
+            return self.handleError(VenC.core.Messages.recursiveForUnknownValue.format(e),"~§RecursiveFor§§"+"§§".join(argv)+"§~",True)
 
     def parse(self, string,escape=False):
         self.currentString = string
@@ -131,16 +132,8 @@ class processor():
                     if fields[0] in self.functions.keys():
                         output = self.functions[fields[0]](fields[1:])
                     else:
-                        err = VenC.core.OutputColors.FAIL+"VenC: "+VenC.core.Messages.unknownPattern.format(fields[0])+"\n"
-                        if self.ressource != str():
-            	            err +="VenC: "+VenC.core.Messages.inRessource.format(self.ressource)+"\n"
-                
-                        if not err in VenC.core.errors:
-                            VenC.core.errors.append(err)
-                            err += string+VenC.core.OutputColors.END+"\n\n"
-                            print(err)
-                        
-                            output = "<!-- ~§"+"§§".join(fields)+"§~ -->"
+                        output =  self.handleError(VenC.core.Messages.unknownPattern.format(fields[0]),"~§"+"§§".join(fields)+"§~")
+                    
                     if escape:
                         return self.parse(string[:openSymbolPos[-1]]+cgi.escape(output).encode('ascii', 'xmlcharrefreplace').decode(encoding='ascii')+string[closeSymbolPos[0]+2:],escape=True)
                     else:
