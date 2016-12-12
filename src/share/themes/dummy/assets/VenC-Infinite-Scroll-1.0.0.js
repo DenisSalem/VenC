@@ -103,7 +103,7 @@ function VENC_INFINITE_SCROLL_RUN() {
 	for (i=0; i < currentColumns.length; i++) {
 		if (currentColumns[i].clientHeight <= viewPortHeight + window.pageYOffset) {
 		  	currentFilename = VENC_INFINITE_SCROLL.currentLocation();
-			if (VENC_INFINITE_SCROLL.queue == 0 && currentFilename.replace( /[.html0123456789]+/g, '') == "index") {
+			if (VENC_INFINITE_SCROLL.queue == 0 && (currentFilename.replace( /[.html0123456789]+/g, '') == "index" || currentFilename == "")) {
 				VENC_INFINITE_SCROLL.pushColumns();
 				return 1;
 			}
