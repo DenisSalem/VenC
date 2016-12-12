@@ -51,10 +51,11 @@ DONE    | Add remote copy commande.
 DONE    | Make markdown optional.
 DONE    | Fix parsing when reading template.
 DONE    | Print errors when pattern processor fail.
-ALMOST  | Print ressource and current string when pattern processor fail.
 DONE    | Add -h commande to print reminder
 DONE    | Add english language.
 DONE    | Clean blog folder on compilation.
+DONE	| Fix documentation about .:PagesList:.
+ALMOST  | Print ressource and current string when pattern processor fail.
 ALMOST  | Fix infinite scroll : opacity transition and loading image issue.
 HIGH	| Fix Entry tags index out of range. 
 HIGH    | GetPrevious and GetNextPage should work outside thread.

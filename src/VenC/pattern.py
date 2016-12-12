@@ -44,13 +44,12 @@ class processor():
             return self.dictionnary[symbol[0]]
 
         except KeyError as e:
-            if self.strict:
-                print("VenC: "+VenC.core.Messages.getUnknownValue.format(e))
-                if self.ressource != str():
-                    print("VenC: "+VenC.core.Messages.inRessource.format(self.ressource))
+            print("VenC: "+VenC.core.Messages.getUnknownValue.format(e))
+            if self.ressource != str():
+                print("VenC: "+VenC.core.Messages.inRessource.format(self.ressource))
                 
-                print(VenC.core.OutputColors.FAIL+self.currentString+VenC.core.OutputColors.END)
-                exit()
+            print(VenC.core.OutputColors.FAIL+self.currentString+VenC.core.OutputColors.END)
+            exit()
 
             return "~§"+"Get§§"+symbol[0]+"§~"
 
