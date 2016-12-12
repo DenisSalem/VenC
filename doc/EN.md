@@ -300,8 +300,8 @@ Ditto for the last parameter, the separator. The separator allows inserting some
 
 Similarily, for the _RecursiveFor_ function, The second, the fourth and fifth parameter are free text.
 
-* __.:GetPreviousPage:: free text :.__ : When called in an exportation's thread, this pattern allows getting the previous page's URL, if it exists. To access the previous page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text.
-* __.:GetNextPage:: free text :.__ : When called in an exportation's thread, this pattern allows getting the next page's URL, if it exists. To access the next page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text. 
+* __.:GetPreviousPage:: free text :.__ : When called in a thread context, this pattern allows getting the previous page's URL, if it exists. To access the previous page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text.
+* __.:GetNextPage:: free text :.__ : When called in a thread context, this pattern allows getting the next page's URL, if it exists. To access the next page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text. 
 * __.:PageList:: length :.__ : Allows getting a list of previous and next publications. The list's length is determined by __length__, which must be an integer.
 * __.:IfInThread:: free text if True :: free text if False:.__ : Conditionnal pattern which allows printing the free or not text whether we are in a publication's thread or in a publication. This allows for example to have a particular page layout for a unique publication or for a publication's thread including the corresponding style sheets.
 * __.:CodeHighlight::language::True | False:: source code :.__ : Very handy syntax coloration feature based on the [pygments](http://pygments.org/) library  allowing you to publish and to shape some source code. This pattern, when detected, produces CSS style sheets in the extra directory of your blog, do not forget to include them in header.html.
