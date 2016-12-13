@@ -4,16 +4,11 @@ var VENC_INFINITE_SCROLL = {
 	pageOffset : 0,
 	xmlhttp : Object,
 	timer: Object,
-	imageDefaultSetup: function(img) {
-		img.style.opacity = "0.0";
-	},
-	entryDefautSetup: function(entry) {
+	imageDefaultSetup: function(img) {},
+	entryDefaultSetup: function(entry) {
 		entry.style.opacity = "0.0";
 	},
-	onLoadImage: function(img) {
-		img.style.transition = "opacity 0.5s ease";
-		img.style.opacity = "1.0";
-	},
+	onLoadImage: function(img) {},
 	onLoadEntry: function(entry){
 		entry.style.transition = "opacity 0.5s ease";
 		entry.style.opacity = "1.0";
@@ -74,14 +69,25 @@ function VENC_INFINITE_SCROLL_AJAX() {
 				entriesClones.push( newEntries[j].cloneNode(true));
 			}
 			for(j=0; j < entriesClones.length; j++) {
+				VENC_INFINITE_SCROLL.entryDefaultSetup(entriesClones[j]);
 				images = entriesClones[j].getElementsByTagName("img");
 				for (k=0; k < images.length; k++) {
 					VENC_INFINITE_SCROLL.queue++;
 					VENC_INFINITE_SCROLL.imageDefaultSetup(images[k]);
+					images[k].loaded = false;
 					images[k].onload = function(e) {
+					  	this.loaded = true;
 						VENC_INFINITE_SCROLL.queue--;
 						VENC_INFINITE_SCROLL.onLoadImage(this);
+
+						for(l = 0; l < images.lenght; l) {
+							if (images[l].loaded == false) {
+								return;
+							}
+						}
+						VENC_INFINITE_SCROLL.onLoadEntry(this.closest(".entry"));
 					}
+
 					d = new Date()
 					images[k].src = images[k].src+"?uglyWorkAround="+d.getTime();
 				}

@@ -57,7 +57,7 @@ DONE    | Clean blog folder on compilation.
 DONE	| Fix documentation about .:PagesList:.
 DONE	| Fix Entry tags index out of range. 
 DONE    | Print ressource and current string when pattern processor fail.
-ALMOST  | Fix infinite scroll : opacity transition and loading image issue.
+DONE	| Fix infinite scroll : opacity transition and loading image issue. Upgrade the whole plugin :)
 HIGH    | GetPrevious and GetNextPage should work outside thread.
 HIGH    | Installation via pypi.
 
