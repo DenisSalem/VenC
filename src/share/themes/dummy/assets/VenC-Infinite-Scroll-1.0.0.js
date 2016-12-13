@@ -71,25 +71,30 @@ function VENC_INFINITE_SCROLL_AJAX() {
 			for(j=0; j < entriesClones.length; j++) {
 				VENC_INFINITE_SCROLL.entryDefaultSetup(entriesClones[j]);
 				images = entriesClones[j].getElementsByTagName("img");
-				for (k=0; k < images.length; k++) {
-					VENC_INFINITE_SCROLL.queue++;
-					VENC_INFINITE_SCROLL.imageDefaultSetup(images[k]);
-					images[k].loaded = false;
-					images[k].onload = function(e) {
-					  	this.loaded = true;
-						VENC_INFINITE_SCROLL.queue--;
-						VENC_INFINITE_SCROLL.onLoadImage(this);
+				if (images.length == 0) {
+					VENC_INFINITE_SCROLL.onLoadEntry(entriesClones[j]);
+				}
+				else {
+					for (k=0; k < images.length; k++) {
+						VENC_INFINITE_SCROLL.queue++;
+						VENC_INFINITE_SCROLL.imageDefaultSetup(images[k]);
+						images[k].loaded = false;
+						images[k].onload = function(e) {
+					  		this.loaded = true;
+							VENC_INFINITE_SCROLL.queue--;
+							VENC_INFINITE_SCROLL.onLoadImage(this);
 
-						for(l = 0; l < images.lenght; l) {
-							if (images[l].loaded == false) {
-								return;
+							for(l = 0; l < images.lenght; l) {
+								if (images[l].loaded == false) {
+									return;
+								}
 							}
+							VENC_INFINITE_SCROLL.onLoadEntry(this.closest(".entry"));
 						}
-						VENC_INFINITE_SCROLL.onLoadEntry(this.closest(".entry"));
-					}
 
-					d = new Date()
-					images[k].src = images[k].src+"?uglyWorkAround="+d.getTime();
+						d = new Date()
+						images[k].src = images[k].src+"?uglyWorkAround="+d.getTime();
+					}
 				}
 				currentColumns[i].appendChild(entriesClones[j]);
 			}
