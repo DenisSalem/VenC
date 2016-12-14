@@ -59,7 +59,7 @@ DONE	| Fix Entry tags index out of range.
 DONE    | Print ressource and current string when pattern processor fail.
 DONE	| Fix infinite scroll : opacity transition and loading image issue. Upgrade the whole plugin :)
 DONE	| Fix index_file_name issue: GetPreviousPage and GetNextPage were ignoring blog_configuration.yaml value
-HIGH    | GetPrevious and GetNextPage should work outside thread.
+DONE    | GetPrevious and GetNextPage should work outside thread.
 HIGH    | Installation via pypi.
 
 version 1.2.x
