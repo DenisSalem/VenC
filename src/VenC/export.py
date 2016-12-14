@@ -252,22 +252,58 @@ class Blog:
         except Exception as e:
             return str(e)
 
-    def GetNextEntry(self, argv):
-        pattern = argv[0]
-        currentPage = self.patternProcessor.Get(["PageNumber"])
-        pagesCount = len(self.patternProcessor.Get(["PagesList"]))
+    def GetPreviousEntry(self, argv):
+        trigger = False
+        output = dict()
+        try:
+            pattern = argv[0]
+        except IndexError:
+            return self.handleError("GetPreviousEntry: "+VenC.core.Messages.notEnoughArgs,"~§GetPreviousEntry§§"+"§§".join(argv)+"§~",True)
+
+        sortedEntries = VenC.core.GetSortedEntriesList(self.entriesList)
+        for i in range(0, len(sortedEntries)):
+            if trigger == True:
+                output["destinationPageUrl"] = VenC.core.blogConfiguration["path"]["entry_file_name"].format(entry_id=sortedEntries[i].split("__")[0])
+                output["destinationPage"] = sortedEntries[i].split("__")[0]
+                output["entryName"] = VenC.core.GetEntry(sortedEntries[i])["EntryName"]
+                return pattern.format(output)
+            
+            if sortedEntries[i].split("__")[0] == self.entry["EntryID"]:
+                trigger = True;
+
         return str()
 
-    def GetPreviousEntry(self, argv):
+    def GetNextEntry(self, argv):
+        trigger = False
+        output = dict()
+        try:
+            pattern = argv[0]
+        except IndexError:
+            return self.handleError("GetPreviousEntry: "+VenC.core.Messages.notEnoughArgs,"~§GetNextEntry§§"+"§§".join(argv)+"§~",True)
+
+        sortedEntries = list(reversed(VenC.core.GetSortedEntriesList(self.entriesList)))
+        for i in range(0, len(sortedEntries)):
+            if trigger == True:
+                output["destinationPageUrl"] = VenC.core.blogConfiguration["path"]["entry_file_name"].format(entry_id=sortedEntries[i].split("__")[0])
+                output["destinationPage"] = sortedEntries[i].split("__")[0]
+                output["entryName"] = VenC.core.GetEntry(sortedEntries[i])["EntryName"]
+                return pattern.format(output)
+            
+            if sortedEntries[i].split("__")[0] == self.entry["EntryID"]:
+                trigger = True;
+
         return str()
 
     def GetNextPageInThread(self, argv):
-        pattern = argv[0]
+        try:
+            pattern = argv[0]
+        except IndexError:
+            return self.handleError("GetPreviousEntry: "+VenC.core.Messages.notEnoughArgs,"~§GetPreviousEntry§§"+"§§".join(argv)+"§~",True)
         currentPage = self.patternProcessor.Get(["PageNumber"])
         pagesCount = len(self.patternProcessor.Get(["PagesList"]))
         destinationPage = currentPage + 1
-        destinationPageUrl = "index"+str(destinationPage)+".html"
-        if destinationPage > pagesCount - 1 or self.patternProcessor.Get(["SingleEntry"]) :
+        destinationPageUrl = VenC.core.blogConfiguration["path"]["index_file_name"].format(page_number=str(destinationPage))
+        if destinationPage > pagesCount - 1 or self.patternProcessor.Get(["SingleEntry"]):
             return str()
         else:
             try:
@@ -287,7 +323,7 @@ class Blog:
         pattern = argv[0]
         currentPage = self.patternProcessor.Get(["PageNumber"])
         destinationPage = currentPage - 1
-        destinationPageUrl = "index.html" if currentPage - 1 == 0 else "index"+str(currentPage - 1)+".html"
+        destinationPageUrl = VenC.core.blogConfiguration["path"]["index_file_name"].format(page_number= ("" if currentPage - 1 == 0 else str(currentPage - 1)))
         if destinationPage < 0 or self.patternProcessor.Get(["SingleEntry"]):
             return str()
         else:
@@ -306,6 +342,7 @@ class Blog:
 
     def initEntryStates(self, entry):
         self.entry = VenC.core.MergeDictionnary(VenC.core.GetEntry(entry, self.relativeOrigin), self.publicDataFromBlogConf)
+        
         self.entry["EntryContent"] = self.entry["EntryContent"].replace("~§",".:").replace("§§","::").replace("§~",":.")
         if self.entry == None:
             print("VenC:", VenC.core.Messages.possibleMalformedEntry.format(entry))
@@ -325,7 +362,7 @@ class Blog:
         self.ressource = "theme/chunks/rssHeader.html"
         self.outputPage += self.patternProcessor.parse(self.theme.rssHeader)
 
-        sortedEntries =  sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(VenC.core.blogConfiguration["thread_order"].strip() == "latest first"))
+        sortedEntries = VenC.core.GetSortedEntriesList(inputEntries)
         for entry in sortedEntries[:int(VenC.core.blogConfiguration["rss_thread_lenght"])]:
             self.initEntryStates(entry)
             self.patternProcessor.ressource = "theme/chunks/rssEntry.html"
@@ -353,7 +390,7 @@ class Blog:
             entries_per_pages  = VenC.core.blogConfiguration["entries_per_pages"]
             columnsNumber = 1 if VenC.core.blogConfiguration["columns"] < 1 else int(VenC.core.blogConfiguration["columns"])
 
-        sortedEntries =  sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(VenC.core.blogConfiguration["thread_order"].strip() == "latest first"))
+        sortedEntries = VenC.core.GetSortedEntriesList(inputEntries)
         for entry in sortedEntries:
             self.initEntryStates(entry)
             

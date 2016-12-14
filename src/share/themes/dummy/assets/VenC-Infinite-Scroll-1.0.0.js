@@ -125,7 +125,7 @@ function VENC_INFINITE_SCROLL_RUN() {
 
 function VENC_INFINITE_SCROLL_ON_LOAD() {
 	VENC_INFINITE_SCROLL.initPageOffset()
-	if (VENC_INFINITE_SCROLL.hideVenCNavigation) {
+	if (VENC_INFINITE_SCROLL.hideVenCNavigation && (currentFilename.replace( /[.html0123456789]+/g, '') == "index")) {
        		try {
 	 	 	document.getElementById("__VENC_NAVIGATION__").setAttribute("style","display: none;");
 		}

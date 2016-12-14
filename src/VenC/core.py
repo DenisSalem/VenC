@@ -44,6 +44,7 @@ def CodeHighlight(argv):
             stream.write(css)
 
         return result
+
     except Exception as e:
         raise
         print("VenC:", e)
@@ -175,6 +176,9 @@ def GetEntriesList():
             pass
 
     return validFilenames
+
+def GetSortedEntriesList(inputEntries):
+    return sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(blogConfiguration["thread_order"].strip() == "latest first"))
 
 def MergeDictionnary(current,public):
     d = current.copy()
@@ -330,7 +334,7 @@ def ToBase64_(argv):
     return "~§CodeHighlight§§"+argv[0]+"§§"+argv[1]+"§§"+base64.b64encode(bytes(argv[2],encoding='utf-8')).decode("utf-8", "strict")+"§~"
     
 
-def GetEntry(entryFilename, relativeOrigin):
+def GetEntry(entryFilename, relativeOrigin=""):
     stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
     dump = yaml.load(stream.split("---\n")[0])
     if dump == None:
