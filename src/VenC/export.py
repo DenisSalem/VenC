@@ -178,7 +178,6 @@ class Blog:
         # Main thread
         print("VenC:",VenC.core.Messages.exportMainThread)
         self.exportThread(self.entriesList, True)
-        
         # Entries
         self.exportThread(self.entriesList, False)
         
@@ -253,6 +252,7 @@ class Blog:
             return str(e)
 
     def GetPreviousEntry(self, argv):
+
         trigger = False
         output = dict()
         try:
@@ -274,6 +274,7 @@ class Blog:
         return str()
 
     def GetNextEntry(self, argv):
+
         trigger = False
         output = dict()
         try:
@@ -295,6 +296,7 @@ class Blog:
         return str()
 
     def GetNextPageInThread(self, argv):
+
         try:
             pattern = argv[0]
         except IndexError:
@@ -307,7 +309,7 @@ class Blog:
             return str()
         else:
             try:
-                return pattern.format({"destinationPage":destinationPage,"destinationPageUrl":destinationPageUrl})
+                return pattern.format({"destinationPage":destinationPage,"destinationPageUrl":destinationPageUrl,"entryName":""})
             except KeyError as e:
                 err = VenC.core.OutputColors.FAIL+"VenC: GetNextPage: "+VenC.core.Messages.unknownContextual.format(e)+"\n"
                 if self.ressource != str():
@@ -320,6 +322,7 @@ class Blog:
                 return "<!-- ~§GetNextPage§§"+"§§".join(argv)+"§~ -->"
 	        
     def GetPreviousPageInThread(self, argv):
+
         pattern = argv[0]
         currentPage = self.patternProcessor.Get(["PageNumber"])
         destinationPage = currentPage - 1
@@ -328,7 +331,7 @@ class Blog:
             return str()
         else:
             try:
-                return pattern.format({"destinationPage":destinationPage,"destinationPageUrl":destinationPageUrl})
+                return pattern.format({"destinationPage":destinationPage,"destinationPageUrl":destinationPageUrl,"entryName":""})
             except KeyError as e:
                 err = VenC.core.OutputColors.FAIL+"VenC: GetPreviousPage: "+VenC.core.Messages.unknownContextual.format(e)+"\n"
                 if self.ressource != str():

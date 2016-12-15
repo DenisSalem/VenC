@@ -30,7 +30,7 @@ var VENC_INFINITE_SCROLL = {
 		}
 	},
 	initPageOffset : function() {
-		currentFilename = this.currentLocation();
+		currentFilename = this.currentLocation;
 		if (currentFilename == '' | currentFilename == "index.html")
 			currentFilename = '0';
 		else if (currentFilename.replace( /[.html0123456789]+/g, '') != "index") {
@@ -50,9 +50,8 @@ var VENC_INFINITE_SCROLL = {
 		this.pageOffset++;
 		this.xmlhttp.send();
 	},
-	currentLocation : function() {
-		return window.location.pathname.split('/')[window.location.pathname.split('/').length-1];
-	},
+	dontWait: true,
+	currentLocation : Object,
 	ajax : Object
 };
 
@@ -113,8 +112,7 @@ function VENC_INFINITE_SCROLL_RUN() {
 	viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 	for (i=0; i < currentColumns.length; i++) {
 		if (currentColumns[i].clientHeight <= viewPortHeight + window.pageYOffset) {
-		  	currentFilename = VENC_INFINITE_SCROLL.currentLocation();
-			if (VENC_INFINITE_SCROLL.queue == 0 && (currentFilename.replace( /[.html0123456789]+/g, '') == "index" || currentFilename == "")) {
+			if ((VENC_INFINITE_SCROLL.queue == 0 || VENC_INFINITE_SCROLL.dontWait) && (VENC_INFINITE_SCROLL.currentLocation.replace( /[.html0123456789]+/g, '') == "index" || VENC_INFINITE_SCROLL.currentLocation == "")) {
 				VENC_INFINITE_SCROLL.pushColumns();
 				return 1;
 			}
@@ -124,8 +122,9 @@ function VENC_INFINITE_SCROLL_RUN() {
 };
 
 function VENC_INFINITE_SCROLL_ON_LOAD() {
+	VENC_INFINITE_SCROLL.currentLocation = window.location.pathname.split('/')[window.location.pathname.split('/').length-1]
 	VENC_INFINITE_SCROLL.initPageOffset()
-	if (VENC_INFINITE_SCROLL.hideVenCNavigation && (currentFilename.replace( /[.html0123456789]+/g, '') == "index")) {
+	if (VENC_INFINITE_SCROLL.hideVenCNavigation && (VENC_INFINITE_SCROLL.currentLocation.replace( /[.html0123456789]+/g, '') == "index" || VENC_INFINITE_SCROLL.currentLocation == "")) {
        		try {
 	 	 	document.getElementById("__VENC_NAVIGATION__").setAttribute("style","display: none;");
 		}
