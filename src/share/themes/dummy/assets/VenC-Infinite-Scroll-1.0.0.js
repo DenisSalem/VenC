@@ -2,6 +2,7 @@ var VENC_INFINITE_SCROLL = {
 	queue: 0,
 	hideVenCNavigation: true,
 	pageOffset : 0,
+	interval : 250,
 	xmlhttp : Object,
 	timer: Object,
 	imageDefaultSetup: function(img) {},
@@ -133,6 +134,6 @@ function VENC_INFINITE_SCROLL_ON_LOAD() {
        		}
 	}
 	VENC_INFINITE_SCROLL.ajax = VENC_INFINITE_SCROLL_AJAX;
-	VENC_INFINITE_SCROLL.timer = setInterval(VENC_INFINITE_SCROLL_RUN, 250);
+	VENC_INFINITE_SCROLL.timer = setInterval(VENC_INFINITE_SCROLL_RUN, VENC_INFINITE_SCROLL.interval);
 };
 
