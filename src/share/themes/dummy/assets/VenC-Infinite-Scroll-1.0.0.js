@@ -51,7 +51,7 @@ var VENC_INFINITE_SCROLL = {
 		this.pageOffset++;
 		this.xmlhttp.send();
 	},
-	dontWait: true,
+	dontWait: false,
 	currentLocation : Object,
 	ajax : Object
 };
