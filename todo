@@ -60,8 +60,8 @@ DONE    | Print ressource and current string when pattern processor fail.
 DONE	| Fix infinite scroll : opacity transition and loading image issue. Upgrade the whole plugin :)
 DONE	| Fix index_file_name issue: GetPreviousPage and GetNextPage were ignoring blog_configuration.yaml value
 DONE    | GetPrevious and GetNextPage should work outside thread.
+DONE	| Optimize I/O stream
 HIGH    | Installation via pypi.
-HIGH	| Optimize I/O stream
 
 version 1.2.x
 
