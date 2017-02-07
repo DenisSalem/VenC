@@ -231,7 +231,6 @@ class Blog:
         for key in self.publicDataFromBlogConf:
             self.patternProcessor.Set(key, self.publicDataFromBlogConf[key])
 
-
     def WritePage(self, folderDestination, entry):
         try:
             os.chdir("blog/")
@@ -469,8 +468,12 @@ class Blog:
             columnsNumber = 1 if VenC.core.blogConfiguration["columns"] < 1 else int(VenC.core.blogConfiguration["columns"])
 
         sortedEntries = VenC.core.GetSortedEntriesList(inputEntries)
+        total = float()
         for entry in sortedEntries:
+        
+            
             self.initEntryStates(entry)
+            
             
             if self.entryCounter == 0:
                 self.columns = [ "<div id=\"__VENC_COLUMN_"+str(i)+"__\" class=\"__VENC_COLUMN__\">" for i in range(0,columnsNumber) ]
@@ -494,8 +497,6 @@ class Blog:
                 self.pageCounter += 1
                 self.entryCounter = 0
                 self.WritePage(folderDestination, ( int(entry.split("__")[0]) if not inThread else -1))
-
-
             
                 
 

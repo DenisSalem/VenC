@@ -1,11 +1,9 @@
 #! /usr/bin/python3
 
 import os
-import yaml
 import time
 import math
 import base64
-import markdown
 import datetime
 import pygments
 import VenC.pattern

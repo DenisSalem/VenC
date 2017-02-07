@@ -66,4 +66,5 @@ HIGH    | Installation via pypi.
 version 1.2.x
 
 HIGH	| Clean GetEntry
+MEDIUM	| Rewrite pattern processor to get it faster
 LOW     | Client-side search engine.
