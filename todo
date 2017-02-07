@@ -61,7 +61,9 @@ DONE	| Fix infinite scroll : opacity transition and loading image issue. Upgrade
 DONE	| Fix index_file_name issue: GetPreviousPage and GetNextPage were ignoring blog_configuration.yaml value
 DONE    | GetPrevious and GetNextPage should work outside thread.
 HIGH    | Installation via pypi.
+HIGH	| Optimize I/O stream
 
 version 1.2.x
 
+HIGH	| Clean GetEntry
 LOW     | Client-side search engine.

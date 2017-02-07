@@ -260,7 +260,7 @@ class Blog:
         except IndexError:
             return self.handleError("GetPreviousEntry: "+VenC.core.Messages.notEnoughArgs,"~§GetPreviousEntry§§"+"§§".join(argv)+"§~",True)
 
-        sortedEntries = VenC.core.GetSortedEntriesList(self.entriesList)
+        sortedEntries = VenC.core.GetSortedEntriesList(self.entriesList.keys())
         for i in range(0, len(sortedEntries)):
             if trigger == True:
                 output["destinationPageUrl"] = VenC.core.blogConfiguration["path"]["entry_file_name"].format(entry_id=sortedEntries[i].split("__")[0])

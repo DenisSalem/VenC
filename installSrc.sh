@@ -2,7 +2,7 @@
 
 python=$(python -c "import sys; v=sys.version_info; print('python'+str(v[0])+'.'+str(v[1]))")
 version="1.0.0"
-
+python="python3.5"
 echo "Current $python"
 
 cp -v   src/venc.py     /usr/bin/venc

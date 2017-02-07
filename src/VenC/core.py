@@ -160,7 +160,7 @@ def GetEntriesList():
         print("VenC: "+Messages.fileNotFound.format(os.getcwd()+"/entries"))
         exit()
     
-    validFilenames = list()
+    entries = dict()
     for filename in files:
         explodedFilename = filename.split("__")
         try:
@@ -168,14 +168,14 @@ def GetEntriesList():
             entryID = int(explodedFilename[0])
             datetime.datetime(year=int(date[2]),month=int(date[0]),day=int(date[1]),hour=int(date[3]),minute=int(date[4])) 
             if entryID > 0:
-                validFilenames.append(filename)
+                entries[filename] = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
         except ValueError:
             pass
 
         except IndexError:
             pass
 
-    return validFilenames
+    return entries
 
 def GetSortedEntriesList(inputEntries):
     return sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(blogConfiguration["thread_order"].strip() == "latest first"))
@@ -217,7 +217,6 @@ def SetNewEntryMetadata(entryDate, entryName):
 def PrintVersion(argv):
     print("VenC 1.2.0")
 
-
 def GetKeyByName(keys, name):
     for key in keys:
         if key.value == name:
@@ -226,7 +225,7 @@ def GetKeyByName(keys, name):
 
 def GetEntriesPerDates(entries):
     entriesPerDates = list()
-    for entry in entries:
+    for entry in entries.keys():
         date = time.strftime(blogConfiguration["path"]["dates_directory_name"], time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S"))
         try:
             selectedKey = GetKeyByName(entriesPerDates, date)
@@ -252,8 +251,8 @@ def GetDatesList(keys, relativeOrigin):
 
 def GetCategoriesList(entries):
     output = list()
-    for entry in entries:
-        stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
+    for entry in entries.keys():
+        stream = entries[entry].split("---\n")[0]
         data = yaml.load(stream)
         if data != None:
             for category in data["categories"].split(","):
@@ -264,8 +263,8 @@ def GetCategoriesList(entries):
 
 def GetEntriesPerCategories(entries):
     entriesPerCategories = list()
-    for entry in entries:
-        stream = open(os.getcwd()+"/entries/"+entry,'r').read().split("---\n")[0]
+    for entry in entries.keys():
+        stream = entries[entry].split("---\n")[0]
         try:
             data = yaml.load(stream)
         except yaml.scanner.ScannerError:
@@ -334,9 +333,8 @@ def ToBase64_(argv):
     return "~§CodeHighlight§§"+argv[0]+"§§"+argv[1]+"§§"+base64.b64encode(bytes(argv[2],encoding='utf-8')).decode("utf-8", "strict")+"§~"
     
 
-def GetEntry(entryFilename, relativeOrigin=""):
-    stream = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
-    dump = yaml.load(stream.split("---\n")[0])
+def GetEntry(entryStream, relativeOrigin=""):
+    dump = yaml.load(entryStream.split("---\n")[0])
     if dump == None:
         return None
 
@@ -376,9 +374,9 @@ def GetEntry(entryFilename, relativeOrigin=""):
         toBase64.strict = False
         toBase64.SetFunction("CodeHighlight", ToBase64_)
         if output["doNotUseMarkdown"]:
-            output["EntryContent"] = toBase64.parse(stream.split("---\n")[1])
+            output["EntryContent"] = toBase64.parse(entryStream.split("---\n")[1])
         else:
-            output["EntryContent"] = markdown.markdown( toBase64.parse(stream.split("---\n")[1]) )
+            output["EntryContent"] = markdown.markdown( toBase64.parse(entryStream.split("---\n")[1]) )
     except Exception as e:
         print("VenC:",VenC.core.Messages.possibleMalformedEntry.format(output["EntryID"]))
         exit()
