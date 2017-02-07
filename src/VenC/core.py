@@ -168,7 +168,7 @@ def GetEntriesList():
             entryID = int(explodedFilename[0])
             datetime.datetime(year=int(date[2]),month=int(date[0]),day=int(date[1]),hour=int(date[3]),minute=int(date[4])) 
             if entryID > 0:
-                entries[filename] = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
+                entries[filename] = open(os.getcwd()+"/entries/"+filename,'r').read()
         except ValueError:
             pass
 
@@ -331,79 +331,6 @@ def GetCategoriesTree(categories, relativeOrigin, root, maxWeight=None):
 
 def ToBase64_(argv):
     return "~§CodeHighlight§§"+argv[0]+"§§"+argv[1]+"§§"+base64.b64encode(bytes(argv[2],encoding='utf-8')).decode("utf-8", "strict")+"§~"
-    
-
-def GetEntry(entryStream, relativeOrigin=""):
-    dump = yaml.load(entryStream.split("---\n")[0])
-    if dump == None:
-        return None
-
-    output = dict()
-    for key in dump.keys():
-        if not key in ["authors","tags","categories","entry_name","doNotUseMarkdown"]:
-            output["Entry"+key] = dump[key]
-    
-
-    # Optional since 1.2.0
-    if "doNotUseMarkdown" in dump.keys():
-        output["doNotUseMarkdown"] = True
-    else:
-        output["doNotUseMarkdown"] = False
-   
-    if "CSS" not in dump.keys():
-        output["EntryCSS"] = ""
-
-    output["EntryID"] = entryFilename.split('__')[0]
-    output["EntryDate"] = VenC.core.GetFormattedDate(entryFilename.split('__')[1])
-
-    try:
-        output["EntryName"] = dump["entry_name"]
-    except KeyError:
-        print("VenC:",VenC.core.Messages.missingMandatoryFieldInEntry.format("entry_name", output["EntryID"]))
-        exit()
-
-    try:
-        output["EntryAuthors"] = [ {"author":e} for e in list(dump["authors"].split(",") if dump["authors"] != str() else list()) ]
-    except KeyError:
-        print("VenC:",VenC.core.Messages.missingMandatoryFieldInEntry.format("authors", output["EntryID"]))
-        exit()
-
-    try:
-        toBase64 = VenC.pattern.processor(".:",":.","::")
-        toBase64.ressource = entryFilename
-        toBase64.strict = False
-        toBase64.SetFunction("CodeHighlight", ToBase64_)
-        if output["doNotUseMarkdown"]:
-            output["EntryContent"] = toBase64.parse(entryStream.split("---\n")[1])
-        else:
-            output["EntryContent"] = markdown.markdown( toBase64.parse(entryStream.split("---\n")[1]) )
-    except Exception as e:
-        print("VenC:",VenC.core.Messages.possibleMalformedEntry.format(output["EntryID"]))
-        exit()
-        
-    try:
-        output["EntryTags"] = [ {"tag":e} for e in list(dump["tags"].split(",") if dump["tags"] != str() else list())]
-    except KeyError:
-        print("VenC:",VenC.core.Messages.missingMandatoryFieldInEntry.format("tags", output["EntryID"]))
-        exit()
-    except:
-        output["EntryTags"] = list()
-    try:
-        entryPerCategories = GetEntriesPerCategories([entryFilename])
-        output["EntryCategories"] = GetCategoriesTree(entryPerCategories, relativeOrigin, dict())
-        output["EntryCategoriesLeaves"] = list()
-        for category in dump["categories"].split(','):
-            categoryLeaf= category.split(' > ')[-1].strip()
-            if len(categoryLeaf) != 0:
-                categoryLeafUrl=str()
-                for subCategory in category.split(' > '):
-                    categoryLeafUrl +=subCategory.strip()+'/'
-                output["EntryCategoriesLeaves"].append({"relativeOrigin":relativeOrigin, "categoryLeaf": categoryLeaf, "categoryLeafPath":categoryLeafUrl})
-    except:
-        output["EntryCategories"] = dict()
-        output["EntryCategoriesLeaves"] = list()
-
-    return output
 
 def GetFormattedDate(unformattedDate):
     data = unformattedDate.split('-')

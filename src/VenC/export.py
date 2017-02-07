@@ -2,10 +2,12 @@
 
 import os
 import time
+import yaml
 import shutil
 import ftplib
 import codecs
 import getpass
+import markdown
 import subprocess
 import VenC.core
 import VenC.pattern
@@ -121,6 +123,79 @@ class Blog:
         self.destinationPath = str()
         self.relativeOrigin = str()
         self.ressource = str()
+
+    def GetEntry(self, entryFilename, relativeOrigin=""):
+        dump = yaml.load(self.entriesList[entryFilename].split("---\n")[0])
+        if dump == None:
+            return None
+
+        output = dict()
+        for key in dump.keys():
+            if not key in ["authors","tags","categories","entry_name","doNotUseMarkdown"]:
+                output["Entry"+key] = dump[key]
+    
+
+        # Optional since 1.2.0
+        if "doNotUseMarkdown" in dump.keys():
+            output["doNotUseMarkdown"] = True
+        else:
+            output["doNotUseMarkdown"] = False
+   
+        if "CSS" not in dump.keys():
+            output["EntryCSS"] = ""
+
+        output["EntryID"] = entryFilename.split('__')[0]
+        output["EntryDate"] = VenC.core.GetFormattedDate(entryFilename.split('__')[1])
+
+        try:
+            output["EntryName"] = dump["entry_name"]
+        except KeyError:
+            print("VenC:",VenC.core.Messages.missingMandatoryFieldInEntry.format("entry_name", output["EntryID"]))
+            exit()
+
+        try:
+            output["EntryAuthors"] = [ {"author":e} for e in list(dump["authors"].split(",") if dump["authors"] != str() else list()) ]
+        except KeyError:
+            print("VenC:",VenC.core.Messages.missingMandatoryFieldInEntry.format("authors", output["EntryID"]))
+            exit()
+
+        try:
+            toBase64 = VenC.pattern.processor(".:",":.","::")
+            toBase64.ressource = entryFilename
+            toBase64.strict = False
+            toBase64.SetFunction("CodeHighlight", VenC.core.ToBase64_)
+            if output["doNotUseMarkdown"]:
+                output["EntryContent"] = toBase64.parse(self.entriesList[entryFilename].split("---\n")[1])
+            else:
+                output["EntryContent"] = markdown.markdown( toBase64.parse(self.entriesList[entryFilename].split("---\n")[1]) )
+        except Exception as e:
+            print(e)
+            print("VenC:",VenC.core.Messages.possibleMalformedEntry.format(output["EntryID"]))
+            exit()
+        
+        try:
+            output["EntryTags"] = [ {"tag":e} for e in list(dump["tags"].split(",") if dump["tags"] != str() else list())]
+        except KeyError:
+            print("VenC:",VenC.core.Messages.missingMandatoryFieldInEntry.format("tags", output["EntryID"]))
+            exit()
+        except:
+            output["EntryTags"] = list()
+        try:
+            entryPerCategories = GetEntriesPerCategories([entryFilename])
+            output["EntryCategories"] = GetCategoriesTree(entryPerCategories, relativeOrigin, dict())
+            output["EntryCategoriesLeaves"] = list()
+            for category in dump["categories"].split(','):
+                categoryLeaf= category.split(' > ')[-1].strip()
+                if len(categoryLeaf) != 0:
+                    categoryLeafUrl=str()
+                    for subCategory in category.split(' > '):
+                        categoryLeafUrl +=subCategory.strip()+'/'
+                    output["EntryCategoriesLeaves"].append({"relativeOrigin":relativeOrigin, "categoryLeaf": categoryLeaf, "categoryLeafPath":categoryLeafUrl})
+        except:
+            output["EntryCategories"] = dict()
+            output["EntryCategoriesLeaves"] = list()
+
+        return output
 
     def IfInThread(self, argv):
         if self.inThread:
@@ -265,7 +340,7 @@ class Blog:
             if trigger == True:
                 output["destinationPageUrl"] = VenC.core.blogConfiguration["path"]["entry_file_name"].format(entry_id=sortedEntries[i].split("__")[0])
                 output["destinationPage"] = sortedEntries[i].split("__")[0]
-                output["entryName"] = VenC.core.GetEntry(sortedEntries[i])["EntryName"]
+                output["entryName"] = self.GetEntry(sortedEntries[i])["EntryName"]
                 return pattern.format(output)
             
             if sortedEntries[i].split("__")[0] == self.entry["EntryID"]:
@@ -287,7 +362,7 @@ class Blog:
             if trigger == True:
                 output["destinationPageUrl"] = VenC.core.blogConfiguration["path"]["entry_file_name"].format(entry_id=sortedEntries[i].split("__")[0])
                 output["destinationPage"] = sortedEntries[i].split("__")[0]
-                output["entryName"] = VenC.core.GetEntry(sortedEntries[i])["EntryName"]
+                output["entryName"] = self.GetEntry(sortedEntries[i])["EntryName"]
                 return pattern.format(output)
             
             if sortedEntries[i].split("__")[0] == self.entry["EntryID"]:
@@ -344,7 +419,7 @@ class Blog:
                 return "<!-- ~§GetPreviousPage§§"+"§§".join(argv)+"§~ -->"
 
     def initEntryStates(self, entry):
-        self.entry = VenC.core.MergeDictionnary(VenC.core.GetEntry(entry, self.relativeOrigin), self.publicDataFromBlogConf)
+        self.entry = VenC.core.MergeDictionnary(self.GetEntry(entry, self.relativeOrigin), self.publicDataFromBlogConf)
         
         self.entry["EntryContent"] = self.entry["EntryContent"].replace("~§",".:").replace("§§","::").replace("§~",":.")
         if self.entry == None:
