@@ -16,6 +16,8 @@ class processor():
         self.strict             = True
         self.currentString      = str()
         self.ressource          = str()
+        self.preProcessedString = list()
+        self.patternsIndex      = list()
         self.errors             = list()
 
     def handleError(self,error, default,enable=False):
@@ -112,13 +114,49 @@ class processor():
         except KeyError as e:
             return self.handleError(VenC.core.Messages.recursiveForUnknownValue.format(e),"~§RecursiveFor§§"+"§§".join(argv)+"§~",True)
 
-    def parse(self, string,escape=False):
+    def parse(self, escape=False):
+        if len(self.patternsIndex) == 0:
+            return self.currentString
+        
+        for index in self.patternsIndex:
+            self.preProcessedString[index] = self._process(self.preProcessedString[index], escape)
+
+        return ''.join(self.preProcessedString)
+
+    def preProcess(self, string):
         self.currentString = string
+        closeSymbolPos	= list()
+        openSymbolPos	= list()
+        i		= int()
+        
+        while i < len(string):
+            if i + len(self.openSymbol) <= len(string) and string[i:i+len(self.openSymbol)] == self.openSymbol:
+                openSymbolPos.append(i)
+
+            elif i + len(self.closeSymbol) <= len(string) and string[i:i+len(self.closeSymbol)] == self.closeSymbol:
+                closeSymbolPos.append(i)
+
+            if len(closeSymbolPos) == len(openSymbolPos) and len(closeSymbolPos) != 0 and len(openSymbolPos) != 0:
+                self.preProcessedString.append(string[i-closeSymbolPos[-1]:openSymbolPos[0]])
+                self.preProcessedString.append(string[openSymbolPos[0]:closeSymbolPos[-1]+len(self.closeSymbol)])
+                self.patternsIndex.append(len(self.preProcessedString)-1)
+                
+                string = string[closeSymbolPos[-1]+len(self.closeSymbol):]
+                openSymbolPos = list()
+                closeSymbolPos = list()
+                i=0
+            else:
+                i+=1
+
+        self.preProcessedString.append(string)
+
+    def _process(self, string, escape):
         closeSymbolPos	= list()
         openSymbolPos	= list()
         output		= str()
         fields		= list()
         i		= int()
+
         while i < len(string):
             if i + len(self.openSymbol) <= len(string) and string[i:i+len(self.openSymbol)] == self.openSymbol:
                 openSymbolPos.append(i)
@@ -128,16 +166,16 @@ class processor():
 
             if len(closeSymbolPos) <= len(openSymbolPos) and len(closeSymbolPos) != 0 and len(openSymbolPos) != 0:
                 if openSymbolPos[-1] < closeSymbolPos[0]:
-                    fields = [field for field in string[openSymbolPos[-1]+2:closeSymbolPos[0]].split(self.separator) if field != '']
+                    fields = [field for field in string[openSymbolPos[-1]+len(self.openSymbol):closeSymbolPos[0]].split(self.separator) if field != '']
                     if fields[0] in self.functions.keys():
                         output = self.functions[fields[0]](fields[1:])
                     else:
                         output =  self.handleError(VenC.core.Messages.unknownPattern.format(fields[0]),"~§"+"§§".join(fields)+"§~")
                     
                     if escape:
-                        return self.parse(string[:openSymbolPos[-1]]+cgi.escape(output).encode('ascii', 'xmlcharrefreplace').decode(encoding='ascii')+string[closeSymbolPos[0]+2:],escape=True)
+                        return self._process(string[:openSymbolPos[-1]]+cgi.escape(output).encode('ascii', 'xmlcharrefreplace').decode(encoding='ascii')+string[closeSymbolPos[0]+len(self.closeSymbol):],escape=True)
                     else:
-                        return self.parse(string[:openSymbolPos[-1]]+str(output)+string[closeSymbolPos[0]+2:])
+                        return self._process(string[:openSymbolPos[-1]]+str(output)+string[closeSymbolPos[0]+2:],escape=False)
 
             i+=1
     
