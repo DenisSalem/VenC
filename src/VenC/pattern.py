@@ -14,10 +14,11 @@ class processor():
         self.functions["For"] = self.For
         self.functions["RecursiveFor"] = self.RecursiveFor
         self.strict             = True
+        self.currentStrings     = dict()
         self.currentString      = str()
         self.ressource          = str()
-        self.preProcessedString = list()
-        self.patternsIndex      = list()
+        self.preProcessedStrings = dict()
+        self.patternsIndex      = dict()
         self.errors             = list()
 
     def handleError(self,error, default,enable=False):
@@ -114,17 +115,10 @@ class processor():
         except KeyError as e:
             return self.handleError(VenC.core.Messages.recursiveForUnknownValue.format(e),"~§RecursiveFor§§"+"§§".join(argv)+"§~",True)
 
-    def parse(self, escape=False):
-        if len(self.patternsIndex) == 0:
-            return self.currentString
-        
-        for index in self.patternsIndex:
-            self.preProcessedString[index] = self._process(self.preProcessedString[index], escape)
-
-        return ''.join(self.preProcessedString)
-
-    def preProcess(self, string):
-        self.currentString = string
+    def preProcess(self, inputIndex, string):
+        self.currentStrings[inputIndex] = str(string)
+        self.preProcessedStrings[inputIndex] = list()
+        self.patternsIndex[inputIndex] = list()
         closeSymbolPos	= list()
         openSymbolPos	= list()
         i		= int()
@@ -137,9 +131,9 @@ class processor():
                 closeSymbolPos.append(i)
 
             if len(closeSymbolPos) == len(openSymbolPos) and len(closeSymbolPos) != 0 and len(openSymbolPos) != 0:
-                self.preProcessedString.append(string[i-closeSymbolPos[-1]:openSymbolPos[0]])
-                self.preProcessedString.append(string[openSymbolPos[0]:closeSymbolPos[-1]+len(self.closeSymbol)])
-                self.patternsIndex.append(len(self.preProcessedString)-1)
+                self.preProcessedStrings[inputIndex].append(string[i-closeSymbolPos[-1]:openSymbolPos[0]])
+                self.preProcessedStrings[inputIndex].append(string[openSymbolPos[0]:closeSymbolPos[-1]+len(self.closeSymbol)])
+                self.patternsIndex[inputIndex].append(len(self.preProcessedStrings[inputIndex])-1)
                 
                 string = string[closeSymbolPos[-1]+len(self.closeSymbol):]
                 openSymbolPos = list()
@@ -148,7 +142,22 @@ class processor():
             else:
                 i+=1
 
-        self.preProcessedString.append(string)
+        self.preProcessedStrings[inputIndex].append(string)
+
+    def parse(self, inputIndex, escape=False):
+        if len(self.patternsIndex) == 0:
+            return self.currentStrings[inputIndex]
+        
+        output = str()
+
+        self.currentString = self.currentStrings[inputIndex]
+        for index in range(0,len(self.preProcessedStrings[inputIndex])):
+            if index in self.patternsIndex[inputIndex]:
+                output += self._process(self.preProcessedStrings[inputIndex][index], escape)
+            else:
+                output += self.preProcessedStrings[inputIndex][index]
+
+        return output
 
     def _process(self, string, escape):
         closeSymbolPos	= list()
@@ -156,6 +165,7 @@ class processor():
         output		= str()
         fields		= list()
         i		= int()
+
 
         while i < len(string):
             if i + len(self.openSymbol) <= len(string) and string[i:i+len(self.openSymbol)] == self.openSymbol:

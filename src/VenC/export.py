@@ -123,7 +123,7 @@ class Blog:
         self.destinationPath = str()
         self.relativeOrigin = str()
         self.ressource = str()
-        self.initPatternProcessors()
+        self.initPatternProcessor()
 
     def GetEntry(self, entryFilename, relativeOrigin=""):
         dump = yaml.load(self.entriesList[entryFilename].split("---\n")[0])
@@ -165,11 +165,11 @@ class Blog:
             toBase64.ressource = entryFilename
             toBase64.strict = False
             toBase64.SetFunction("CodeHighlight", VenC.core.ToBase64_)
-            toBase64.preProcess(self.entriesList[entryFilename].split("---\n")[1])
+            toBase64.preProcess(entryFilename,self.entriesList[entryFilename].split("---\n")[1])
             if output["doNotUseMarkdown"]:
-                output["EntryContent"] = toBase64.parse()
+                output["EntryContent"] = toBase64.parse(entryFilename)
             else:
-                output["EntryContent"] = markdown.markdown( toBase64.parse() )
+                output["EntryContent"] = markdown.markdown( toBase64.parse(entryFilename) )
         except Exception as e:
             raise
             print("VenC:",VenC.core.Messages.possibleMalformedEntry.format(output["EntryID"]))
@@ -205,26 +205,19 @@ class Blog:
         else:
             return argv[1]
 
-    def initPatternProcessors(self): 
-        self.patternProcessors = dict()
-        self.patternProcessors["header"] = VenC.pattern.processor(".:",":.","::")
-        self.patternProcessors["entry"] = VenC.pattern.processor(".:",":.","::")
-        self.patternProcessors["footer"] = VenC.pattern.processor(".:",":.","::")
-        self.patternProcessors["rssHeader"] = VenC.pattern.processor(".:",":.","::")
-        self.patternProcessors["rssEntry"] = VenC.pattern.processor(".:",":.","::")
-        self.patternProcessors["rssFooter"] = VenC.pattern.processor(".:",":.","::")
+    def initPatternProcessor(self): 
+        self.patternProcessor = VenC.pattern.processor(".:",":.","::")
         
-        self.patternProcessors["header"].preProcess(self.theme.header)
-        self.patternProcessors["entry"].preProcess(self.theme.entry)
-        self.patternProcessors["footer"].preProcess(self.theme.footer)
-        self.patternProcessors["header"].preProcess(self.theme.rssHeader)
-        self.patternProcessors["entry"].preProcess(self.theme.rssEntry)
-        self.patternProcessors["footer"].preProcess(self.theme.rssFooter)
+        self.patternProcessor.preProcess("header", self.theme.header)
+        self.patternProcessor.preProcess("entry", self.theme.entry)
+        self.patternProcessor.preProcess("footer", self.theme.footer)
+        self.patternProcessor.preProcess("rssHeader", self.theme.rssHeader)
+        self.patternProcessor.preProcess("rssEntry", self.theme.rssEntry)
+        self.patternProcessor.preProcess("rssFooter",self.theme.rssFooter)
         
-        for key in self.patternProcessors.keys():
-            self.patternProcessors[key].SetFunction("IfInThread", self.IfInThread)
-            self.patternProcessors[key].SetFunction("PagesList", self.GetPagesList)
-            self.patternProcessors[key].SetFunction("CodeHighlight", VenC.core.CodeHighlight)
+        self.patternProcessor.SetFunction("IfInThread", self.IfInThread)
+        self.patternProcessor.SetFunction("PagesList", self.GetPagesList)
+        self.patternProcessor.SetFunction("CodeHighlight", VenC.core.CodeHighlight)
 
     def initStates(self, inputEntries, inThread):
         self.entryCounter = 0
@@ -235,23 +228,22 @@ class Blog:
 
         categoriesTree = VenC.core.GetCategoriesTree(self.entriesPerCategories, self.relativeOrigin, dict(), maxWeight=VenC.core.GetCategoriesTreeMaxWeight(self.entriesPerCategories))
         
-        for pp in self.patternProcessors.keys():
-            self.patternProcessors[pp].Set("PagesList", VenC.core.GetListOfPages(int(VenC.core.blogConfiguration["entries_per_pages"]),len(inputEntries)))
-            self.patternProcessors[pp].Set("BlogCategories", categoriesTree)
-            self.patternProcessors[pp].Set("BlogDates", VenC.core.GetDatesList(self.entriesPerDates, self.relativeOrigin))
-            self.patternProcessors[pp].Set("RelativeOrigin", self.relativeOrigin)
-            self.patternProcessors[pp].Set("RelativeLocation", self.destinationPath)
-            self.patternProcessors[pp].Set("SingleEntry", not inThread)
+        self.patternProcessor.Set("PagesList", VenC.core.GetListOfPages(int(VenC.core.blogConfiguration["entries_per_pages"]),len(inputEntries)))
+        self.patternProcessor.Set("BlogCategories", categoriesTree)
+        self.patternProcessor.Set("BlogDates", VenC.core.GetDatesList(self.entriesPerDates, self.relativeOrigin))
+        self.patternProcessor.Set("RelativeOrigin", self.relativeOrigin)
+        self.patternProcessor.Set("RelativeLocation", self.destinationPath)
+        self.patternProcessor.Set("SingleEntry", not inThread)
             
-            if inThread:
-                self.patternProcessors[pp].SetFunction("GetPreviousPage", self.GetPreviousPageInThread)
-                self.patternProcessors[pp].SetFunction("GetNextPage", self.GetNextPageInThread)
-            else:
-                self.patternProcessors[pp].SetFunction("GetPreviousPage", self.GetPreviousEntry)
-                self.patternProcessors[pp].SetFunction("GetNextPage", self.GetNextEntry)
-            
-            for key in self.publicDataFromBlogConf:
-                self.patternProcessors[pp].Set(key, self.publicDataFromBlogConf[key])
+        if inThread:
+            self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousPageInThread)
+            self.patternProcessor.SetFunction("GetNextPage", self.GetNextPageInThread)
+        else:
+            self.patternProcessor.SetFunction("GetPreviousPage", self.GetPreviousEntry)
+            self.patternProcessor.SetFunction("GetNextPage", self.GetNextEntry)
+
+        for key in self.publicDataFromBlogConf:
+           self.patternProcessor.Set(key, self.publicDataFromBlogConf[key])
 
     def WritePage(self, folderDestination, entry):
         try:
@@ -331,10 +323,10 @@ class Blog:
             listLenght = int(argv[0])
             pattern = argv[1]
             separator = argv[2]
-            currentPage = self.patternProcessors.Get(["PageNumber"])
-            pagesList = self.patternProcessors.Get(["PagesList"])
+            currentPage = self.patternProcessor.Get(["PageNumber"])
+            pagesList = self.patternProcessor.Get(["PagesList"])
             
-            if len(pagesList) == 1 or self.patternProcessors.Get(["SingleEntry"]):
+            if len(pagesList) == 1 or self.patternProcessor.Get(["SingleEntry"]):
                 return str()
 
             output = str()
@@ -397,11 +389,11 @@ class Blog:
             pattern = argv[0]
         except IndexError:
             return self.handleError("GetPreviousEntry: "+VenC.core.Messages.notEnoughArgs,"~§GetPreviousEntry§§"+"§§".join(argv)+"§~",True)
-        currentPage = self.patternProcessors.Get(["PageNumber"])
-        pagesCount = len(self.patternProcessors.Get(["PagesList"]))
+        currentPage = self.patternProcessor.Get(["PageNumber"])
+        pagesCount = len(self.patternProcessor.Get(["PagesList"]))
         destinationPage = currentPage + 1
         destinationPageUrl = VenC.core.blogConfiguration["path"]["index_file_name"].format(page_number=str(destinationPage))
-        if destinationPage > pagesCount - 1 or self.patternProcessors.Get(["SingleEntry"]):
+        if destinationPage > pagesCount - 1 or self.patternProcessor.Get(["SingleEntry"]):
             return str()
         else:
             try:
@@ -419,10 +411,10 @@ class Blog:
 	        
     def GetPreviousPageInThread(self, argv):
         pattern = argv[0]
-        currentPage = self.patternProcessors.Get(["PageNumber"])
+        currentPage = self.patternProcessor.Get(["PageNumber"])
         destinationPage = currentPage - 1
         destinationPageUrl = VenC.core.blogConfiguration["path"]["index_file_name"].format(page_number= ("" if currentPage - 1 == 0 else str(currentPage - 1)))
-        if destinationPage < 0 or self.patternProcessors.Get(["SingleEntry"]):
+        if destinationPage < 0 or self.patternProcessor.Get(["SingleEntry"]):
             return str()
         else:
             try:
@@ -446,29 +438,29 @@ class Blog:
             print("VenC:", VenC.core.Messages.possibleMalformedEntry.format(entry))
             exit()
 
-        self.patternProcessors["entry"].Set("PageNumber", self.pageCounter)
-        self.patternProcessors["entry"].Set("EntryDateUrl", self.relativeOrigin+time.strftime(VenC.core.blogConfiguration["path"]["dates_directory_name"], time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S")))
-        self.patternProcessors["entry"].Set("EntryUrl", self.relativeOrigin+"entry"+self.entry["EntryID"]+".html")
-        self.patternProcessors["entry"].SetWholeDictionnary(self.entry)
-        self.patternProcessors["entry"].ressource = str()
+        self.patternProcessor.Set("PageNumber", self.pageCounter)
+        self.patternProcessor.Set("EntryDateUrl", self.relativeOrigin+time.strftime(VenC.core.blogConfiguration["path"]["dates_directory_name"], time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S")))
+        self.patternProcessor.Set("EntryUrl", self.relativeOrigin+"entry"+self.entry["EntryID"]+".html")
+        self.patternProcessor.SetWholeDictionnary(self.entry)
+        self.patternProcessor.ressource = str()
         self.ressource = str()
 
     def exportRss(self, inputEntries, folderDestination=""):
         self.initStates(inputEntries, True)
         self.outputPage = str()
-        self.patternProcessors["rssHeader"].ressource = "theme/chunks/rssHeader.html"
+        self.patternProcessor.ressource = "theme/chunks/rssHeader.html"
         self.ressource = "theme/chunks/rssHeader.html"
-        self.outputPage += self.patternProcessors["rssHeader"].parse()
+        self.outputPage += self.patternProcessor.parse("rssHeader")
 
         sortedEntries = VenC.core.GetSortedEntriesList(inputEntries)
         for entry in sortedEntries[:int(VenC.core.blogConfiguration["rss_thread_lenght"])]:
             self.initEntryStates(entry)
-            self.patternProcessors["rssEntry"].ressource = "theme/chunks/rssEntry.html"
+            self.patternProcessor.ressource = "theme/chunks/rssEntry.html"
             self.ressource = "theme/chunks/rssEntry.html"
-            self.outputPage += self.patternProcessors["rssEntry"].parse()
-        self.patternProcessors["rssFooter"].ressource = "theme/chunks/rssFooter.html"
+            self.outputPage += self.patternProcessor.parse("rssEntry")
+        self.patternProcessor.ressource = "theme/chunks/rssFooter.html"
         self.ressource = "theme/chunks/rssFooter.html"
-        self.outputPage += self.patternProcessors["rssFooter"].parse()
+        self.outputPage += self.patternProcessor.parse("rssFooter")
        	self.outputPage = self.outputPage.replace("<p><div","<div").replace("</div>\n</p>","</div>") # sanitize
        
         
@@ -479,7 +471,7 @@ class Blog:
     def exportThread(self, inputEntries, inThread, folderDestination=""):
         self.initStates(inputEntries, inThread)
 
-        # Configure patternProcessors instance with some fixed values and functions
+        # Configure patternProcessor instance with some fixed values and functions
         # Process actual entries
         if not inThread:
             columnsNumber = 1
@@ -491,29 +483,25 @@ class Blog:
         sortedEntries = VenC.core.GetSortedEntriesList(inputEntries)
         total = float()
         for entry in sortedEntries:
-        
-            
             self.initEntryStates(entry)
-            
-            
             if self.entryCounter == 0:
                 self.columns = [ "<div id=\"__VENC_COLUMN_"+str(i)+"__\" class=\"__VENC_COLUMN__\">" for i in range(0,columnsNumber) ]
                 self.outputPage = str()
-                self.patternProcessors["header"].ressource = "theme/chunks/header.html"
+                self.patternProcessor.ressource = "theme/chunks/header.html"
                 self.ressource = "theme/chunks/header.html"
-                self.outputPage += self.patternProcessors["header"].parse()
+                self.outputPage += self.patternProcessor.parse("header")
            
-            self.patternProcessors["entry"].ressource = entry
+            self.patternProcessor.ressource = entry
             self.ressource = entry
-            self.columns[ self.entryCounter % columnsNumber ] += self.patternProcessors["entry"].parse()+"\n"
+            self.columns[ self.entryCounter % columnsNumber ] += self.patternProcessor.parse("entry")+"\n"
             self.entryCounter += 1
             if self.entryCounter >= int(entries_per_pages) or entry == sortedEntries[-1]:
                 self.columns = [ column+"</div>" for column in self.columns ]
                 for column in self.columns:
                     self.outputPage += column
-                self.patternProcessors["footer"].ressource = "theme/chunks/footer.html"
+                self.patternProcessor.ressource = "theme/chunks/footer.html"
                 self.ressource = "theme/chunks/footer.html"
-                self.outputPage += self.patternProcessors["footer"].parse()
+                self.outputPage += self.patternProcessor.parse("footer")
        	        self.outputPage = self.outputPage.replace("<p><div","<div").replace("</div>\n</p>","</div>") #sanitize
                 self.pageCounter += 1
                 self.entryCounter = 0
