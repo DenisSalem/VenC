@@ -35,20 +35,27 @@ patternProcessor.SetFunction("FunctionA", functionA)
 patternProcessor.SetFunction("FunctionB", functionB)
 patternProcessor.SetFunction("FunctionC", functionC)
 
-result = ("BBB" == patternProcessor.parse(".:FunctionA::AAA:."))
+patternProcessor.preProcess("test1", ".:FunctionA::AAA:.")
+patternProcessor.preProcess("test2", ".:FunctionA::AAB:.")
+patternProcessor.preProcess("test3", ".:FunctionB:: .:FunctionA::AAA:. :: DDD :.")
+patternProcessor.preProcess("test4", ".:FunctionC:: EEE :: .:FunctionB::BBB:. :.")
+patternProcessor.preProcess("test5", ".:FunctionC:: .:FunctionB::BBB:. :: .:FunctionB::BBB:. :.")
+patternProcessor.preProcess("test6", ".:FunctionC:: .:FunctionB::BBB:. :: .:FunctionZ::BBB:. :.")
+
+result = ("BBB" == patternProcessor.parse("test1"))
 print(result,"\tSimple pattern recognition")
 
-result = ("" == patternProcessor.parse(".:FunctionA::AAB:."))
+result = ("" == patternProcessor.parse("test2"))
 print(result,"\tSimple pattern recognition with wrong parameters")
 
-result = ("CCCDDD" == patternProcessor.parse(".:FunctionB:: .:FunctionA::AAA:. :: DDD :."))
+result = ("CCCDDD" == patternProcessor.parse("test3"))
 print(result,"\tRecursive pattern recognition")
 
-result = ("DDDEEE" == patternProcessor.parse(".:FunctionC:: EEE :: .:FunctionB::BBB:. :."))
+result = ("DDDEEE" == patternProcessor.parse("test4"))
 print(result,"\tRecursive pattern recognition on second parameter")
 
-result = ("DDDCCC" == patternProcessor.parse(".:FunctionC:: .:FunctionB::BBB:. :: .:FunctionB::BBB:. :."))
+result = ("DDDCCC" == patternProcessor.parse("test5"))
 print(result,"\tRecursive pattern recognition on first and second parameter")
 
-result = ("" == patternProcessor.parse(".:FunctionC:: .:FunctionB::BBB:. :: .:FunctionZ::BBB:. :."))
-print(result,"\tRecursive pattern recognition on first and second parameter, with wrong second parameter")
+result = ("" == patternProcessor.parse("test6"))
+print(result,"\tRecursive pattern recognition on first and second parameter, with wrong second pattern")
