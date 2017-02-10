@@ -62,7 +62,7 @@ DONE	| Fix index_file_name issue: GetPreviousPage and GetNextPage were ignoring 
 DONE    | GetPrevious and GetNextPage should work outside thread.
 DONE	| Optimize I/O stream
 DONE	| Optimize pattern processor to get it twice faster
-HIGH    | Installation via pypi.
+DONE    | Installation via pypi.
 
 version 1.2.x
 
