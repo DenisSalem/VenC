@@ -1,0 +1,87 @@
+body, html
+  {margin: 0px;
+  font-family: sans;
+  font-weight: lighter;
+  background-color: white;}
+a
+  {outline: none;
+  text-decoration: none;
+  color: black;
+  transition: 0.5s ease all;
+  opacity: 0.5;}
+
+a:hover
+  {opacity:1.0;}
+
+hr
+  {border: 0px;
+  background-color: grey;
+  height: 1px;}
+
+/***************/
+/* H E A D E R */
+/***************/
+ 
+header
+  {text-align: center;
+  max-width: 800px;
+  margin: auto;
+  color: black;}
+
+header ul
+  {margin: 0px;
+  list-style-type: none;
+  padding: 0px;}
+
+header li
+  {display: inline-block;
+  margin: 1em;}
+
+#__VENC_THREAD__
+  {max-width: 800px;
+  text-align: center;
+  margin: auto;}
+
+.entry
+  {font-size: 0.7em;
+  text-align: center;
+  transition: 1s ease all;
+  overflow: hidden;}
+
+.entry p
+  {margin: 0px;}
+
+.entry img
+  {max-width: 100%;
+  display: inline-block;
+  margin: auto;}
+
+.permalink
+  {display: block;
+  width: 100%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+  font-size: 1em;}
+
+footer
+  {padding: 1em;
+  font-size: 1.25em;
+  text-align: center;}
+ 
+footer #pagesList
+  {list-style-type: none;
+  display:inline-block;
+  text-align: center;
+  margin: 0px;
+  padding-left: 3px;}
+
+footer a
+  {color: black;}
+
+footer #pagesList li, #previous, #next
+  {display: inline-block;}
+
+@media (max-width: 360px) {
+  #archives, #categoriesHeader {display: none;}
+}

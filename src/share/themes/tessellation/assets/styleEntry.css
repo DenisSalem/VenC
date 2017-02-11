@@ -1,0 +1,9 @@
+.entry img
+  {width: auto;}
+.permalink
+  {display: none;}
+
+.__VENC_COLUMN__
+  {display: block;
+  margin: auto;
+  width: 100%;}
