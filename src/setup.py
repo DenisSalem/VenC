@@ -4,7 +4,7 @@ from setuptools import setup
 import os
 
 setup(name='VenC',
-    version='1.2.0-3',
+    version='1.2.0-4',
     description='A static blog generator.',
     author='Denis Salem',
     author_email='denissalem@tuxfamily.org',
