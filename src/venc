@@ -1,0 +1,58 @@
+#! /usr/bin/python3
+
+import sys
+import VenC.new
+import VenC.core
+import VenC.export
+
+def printHelp(argv=None):
+    print("-v\t--version")
+    print("-nb\t--new-blog <\""+VenC.core.Messages.argBlogName.format("1")+"\"> [\""+VenC.core.Messages.argBlogName.format("2")+"\" ... ]")
+    print("-ne\t--new-entry <\""+VenC.core.Messages.argEntryName+"\"> [\""+VenC.core.Messages.argTemplateName+"\"]")
+    print("-xb\t--export-blog")
+    print("-ex\t--edit-and-xport <\""+VenC.core.Messages.argInputFilename+"\">")
+    print("-xftp\t--export-via-ftp")
+    print("-rc\t--remote-copy")
+    print("-h\t--help")
+
+command_index = {"-v":                  [VenC.core.PrintVersion, 0],
+                "-nb":                  [VenC.new.blog, -1],
+                "-ne":                  [VenC.new.entry, 2],
+                "-xb":                  [VenC.export.blog, 0],
+                "-ex":                  [VenC.export.edit, 1],
+                "-xftp":                [VenC.export.ftp, 0],
+                "-rc":                  [VenC.export.remoteCopy, 0],
+                "-h":                   [printHelp, 0],
+                "--help":               [printHelp, 0],
+                "--remote-copy":        [VenC.export.remoteCopy, 0],
+                "--export-via-ftp":     [VenC.export.ftp, 0],
+                "--edit-and-export":    [VenC.export.edit, 1],
+                "--export-blog":        [VenC.export.blog, 0],
+                "--new-entry":          [VenC.new.entry, 2],
+                "--new-blog":           [VenC.new.blog, -1],
+                "--version":            [VenC.core.PrintVersion, 0]}
+
+
+def argv_handler(argv=None):
+    argv = argv if argv != None else sys.argv[1:]
+    if argv != []: 
+       if argv[0] in command_index:
+           if command_index[argv[0]][1] != -1: 
+               arguments = argv[1:command_index[argv[0]][1]+1]
+           else:
+               arguments = list()
+               for argument in argv[1:]:
+                   if argument not in command_index.keys():
+                       arguments.append(argument)
+                   else:
+                       break
+           command_index[argv[0]][0](arguments)
+           argv_handler(argv[len(arguments)+1:])
+       else:
+           print(VenC.core.Messages.unknownCommand.format(argv[0]))
+           argv_handler(argv[1:])
+if sys.argv[1:] != []: 
+    argv_handler()
+else:
+    print("VenC: "+VenC.core.Messages.nothingToDo)
+
