@@ -64,7 +64,8 @@ DONE	| Optimize I/O stream
 DONE	| Optimize pattern processor to get it twice faster
 DONE    | Installation via pypi.
 DONE	| Add some themes
-HIGH	| Choose theme to apply while export
+WIP	| Choose theme to apply while export
+HIGH	| Display available themes
 
 version 1.2.x
 

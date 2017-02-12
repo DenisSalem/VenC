@@ -46,3 +46,6 @@ class Messages:
     argTemplateName="Nom du template"
     argInputFilename="Nom de fichier"
     blogFolderDoesntExists="Le dossier de destination n'existe pas... VenC s'en fiche et va en faire un nouveau."
+    themeDescriptionDummy = "A compléter"
+    themeDescriptionGentle = "A compléter"
+    themeDescriptionTessellation = "A compléter"

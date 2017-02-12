@@ -88,6 +88,9 @@ def rmTreeErrorHandler(function, path, excinfo):
     exit()
 
 def blog(argv):
+    if len(argv) == 1:
+        print(argv)
+    
     if VenC.core.blogConfiguration == None:
         print("VenC: "+VenC.core.Messages.noBlogConfiguration)
         return
