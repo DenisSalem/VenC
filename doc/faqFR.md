@@ -3,7 +3,8 @@
 # FAQ
 
 1. [Pourquoi VenC n'est officiellement supporté que par Linux](#pourquoi-venc-nest-officiellement-support%C3%A9-que-par-linux)
-2. [Commande introuvable](#commande introuvable)
+2. [Commande introuvable](#commande-introuvable)
+3. [Erreurs python](#erreurs-python)
 
 ## Pourquoi VenC n'est officiellement supporté que par Linux?
 
@@ -21,4 +22,24 @@ Dans ce cas, vous pouvez ajouter à votre _~/.bashrc_ la ligne suivante:
 
 Si le fichier n'existe pas déjà cependant, il faudra le créer.
 
+## Erreurs python
+
+Normalement VenC gère toutes les erreurs et exceptions de sorte de ne pas interrompre le programme ou de vous aviser du problème de façon commode.
+
+Si malgré tout vous obtenez des erreurs c'est probablement que votre installation n'est pas correct.
+
+> AttributeError: 'NoneType' object has no attribute 'split'
+
+Cela arrive lorsque VenC est installé avec la version python 2 de [pip](https://pypi.python.org/pypi/pip). VenC fonctionne avec python 3, il faut donc installer VenC avec pip3.
+En général, la version de [pip](https://pypi.python.org/pypi/pip) que vous utilisez par défaut correspond à la version de python également utilisé par défaut sur votre système.
+
+En particulier sur les système basés sur debian, vous devrez installer pip3
+
+> sudo apt-get install python3-pip
+
+Après ça, désinstallez VenC avec la version python 2 de [pip](https://pypi.python.org/pypi/pip), et réinstallez VenC avec la version python 3 de [pip](https://pypi.python.org/pypi/pip).
+
+> pip3 install venc --user
+
+Ça devrait le faire!
 
