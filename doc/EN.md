@@ -57,7 +57,7 @@ Also, here is what VenC has to offer:
  - VenC is designed to run on GNU/Linux specifically.
  - Publication's redaction in markdown.
 
-- From version 1.1.0
+- Since version 1.1.0
  - Blog exportation via ftp.
  - Syntax coloration.
  - Recursive patterns detection.
@@ -66,44 +66,38 @@ Also, here is what VenC has to offer:
  - Detection of missing variables in the blog's config file.
  - The IfInThread pattern behaves as a conditional If/Else structure.
 
+- Since version 1.1.2
+  - You can attach a specific CSS stylesheet to single entries.
+  - Markdown parser is now optional.
+  - Remote copy of your blog is available.
+  - Add some nice themes.
+  - Install via pip
+  - More verbosity on errors.
+  - English langage is now supported.
+  - Add a reminder command 
+
 # Installing
 
-First of all, you should verify that python 3.x is installed. VenC also has dependances that we need to satisfy:
+Since the version 1.2.0 you install VenC with [pip](https://pypi.python.org/pypi/pip) which is awesome because it's way more easier!
+Careful by the way, VenC rely on python 3, so be sure to use the right pip version. On debian like system you must use pip3. 
 
-_For an easier installation, you may want to use pip. However, don't use pip as root, you may break your system._
+> pip install venc --user
 
-__Python-Markdown__
-You can take a peak at the [official page](https://pythonhosted.org/Markdown/index.html) or just type in _pip install markdown_ in a terminal.
+Don't forget to add _--user_ argument so VenC is installed in the user environment of python instead of your system, which is strongly advised.
 
-__PyYaml__
-You can take a peak at the [official page](http://pyyaml.org/) or just type in _pip install pyyaml_ in a terminal.
+Also you can upgrade VenC with
 
-__Pygments__
-You can take a peak at the [official page](http://pygments.org/) or just type in _pip install pygments_ in a terminal
+> pip install --upgrade venc
 
-Having this done, clone the VenC repository
-
-`git clone https://framagit.org/denissalem/VenC`
-
-Change directory to VenC's
-
-`cd VenC`
-
-Then start the installation script as root.
-
-`./install.sh`
-
-Voilà, VenC should be correctly installed on your system.
+It might be possible  you face some _unknown command_ error while using VenC. If so check out this specific part of the [FAQ](https://framagit.org/denissalem/VenC/blob/master/doc/faqEN.md)
 
 # Uninstalling
 
-In the not-so-likely-to-happen case where you'd like to uninstall VenC from your system type consecutively the following commands in a root terminal
+Easy as pie, but still sad! You can uninstall VenC with
 
-`rm -rfv /usr/lib/python< yourversion >/VenC`
+> pip uninstall venc
 
-`rm -rfv /usr/share/VenC`
-
-`rm -v /usr/bin/venc`
+That's it!
 
 # Taking your marks
 

@@ -42,6 +42,7 @@ VenC est une application python conçue pour linux et similaire à [Octopress](h
 Les blogs statiques sont tout à fait adaptés aux darknets ou ceux qui veulent un contrôle total sur leur site sans s'embarrasser de CMS lourds et potentiellement vulnérables en terme de sécurité. Par ailleurs, l'extrême simplicité de l'organisation des sources des blogs issues de VenC garantit une prise en main rapide et efficace.
 
 En outre, voilà ce que VenC propose:
+
 - Depuis la version 1.0.0
   - Création de blog statique (HTML/CSS ).
   - Mise en page simple à personnaliser directement en HTML/CSS.
@@ -65,43 +66,38 @@ En outre, voilà ce que VenC propose:
   - Détection de variables manquantes dans le fichier de configuration du blog.
   - Le motif IfInThread se comporte comme une structure conditionnel if/else.
 
+- Depuis la version 1.1.2
+  - Support de style CSS unique par publication.
+  - Interpréteur markdown optionnel.
+  - Copie en ligne du blog.
+  - Ajout de thèmes.
+  - Installation via pip
+  - Verbosité plus élevé lors d'erreur.
+  - Support de la langue anglaise.
+  - Ajout d'un aide mémoire.
+
 # Installation
 
-En premier lieu il convient de s'assurer que python 3.x est installé. VenC a également des dépendances qu'il faut satisfaire:
+Depuis la version 1.2.0 VenC s'installe avec [pip](https://pypi.python.org/pypi/pip) ce qui rend le processus substantiellement plus simple!
+Attention cependant, VenC utilise python 3, assurez vous donc d'utiliser la version correspondante de pip. Sur les systèmes basé sur debian il s'agit de pip3.
 
-_Pour une installation plus facile vous pourriez vouloir utiliser pip. Cependant, n'utilisez surtout pas pip en étant root, vous risqueriez de casser votre système._
+> pip install venc --user
 
-__Python-Markdown__
-Vous pouvez jeter un oeil à la [page officielle](https://pythonhosted.org/Markdown/index.html) ou directement tapez la commande _pip install markdown_ dans un terminal.
+N'oubliez pas de rajouter l'argument _--user_. Cela installe VenC dans l'environment utilisateur, au lieu du système, ce qui est fortement recommandé.
 
-__PyYaml__
-Vous pouvez jeter un oeil à la [page_officielle](http://pyyaml.org/) ou directement taper la commande _pip install pyyaml_ dans un terminal.
+Vous pouvez également mettre à jour VenC avec
 
-__Pygments__ 
-Vous pouvez jeter un oeil à la [page_officielle](http://pygments.org/) ou directement taper la commande _pip install pygments_ dans un terminal.
+> pip install --upgrade venc
 
-Ceci étant fait, clonez le repository de VenC
-
-	git clone https://framagit.com/denissalem/VenC
-
-Déplacez vous à présent dans le répertoire de VenC
-
-	cd VenC
-
-Puis lancez le script d'installation en étant root.
-
-	./install.sh
-
-Voilà, VenC est normalement correctement installé sur votre système.
+Il se peut que vous rencontriez une erreur au moment d'utiliser VenC. Si c'est le cas allez jeter un oeil à cette partie de la [FAQ](https://framagit.org/denissalem/VenC/blob/master/doc/faqFR.md)
 
 # Désinstallation
 
-Dans le cas peu probable où vous voudriez supprimer VenC de votre système tapez successivement les commandes suivantes dans un
-terminal en étant root
+Pour désinstaller VenC, c'est triste, mais rien de plus simple.
 
-	rm -rfv /usr/lib/python< votre version >/VenC
-	rm -rfv /usr/share/VenC
-	rm -v /usr/bin/venc
+> pip uninstall venc
+
+Et voilà!
 
 # Prise en main
 
