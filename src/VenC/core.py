@@ -32,7 +32,7 @@ Messages = GetMessages()
 themes = {
     "dummy": {"columns":1,"_themeDescription_": Messages.themeDescriptionDummy},
     "gentle": {"columns":1,"_themeDescription_": Messages.themeDescriptionGentle},
-    "tessellation": {"columns":1,"_themeDescription_": Messages.themeDescriptionTessellation},
+    "tessellation": {"columns":3,"_themeDescription_": Messages.themeDescriptionTessellation},
 }
 
 def CodeHighlight(argv):
