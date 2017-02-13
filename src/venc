@@ -14,6 +14,11 @@ def printHelp(argv=None):
     print("-xftp\t--export-via-ftp")
     print("-rc\t--remote-copy")
     print("-h\t--help")
+    print("-t\t--themes")
+
+def printThemes(argv=None):
+    for theme in VenC.core.themes.keys():
+        print ("- "+VenC.core.OutputColors.GREEN+theme+VenC.core.OutputColors.END+":", VenC.core.themes[theme]["_themeDescription_"]+"\n")
 
 command_index = {"-v":                  [VenC.core.PrintVersion, 0],
                 "-nb":                  [VenC.new.blog, -1],
@@ -23,6 +28,8 @@ command_index = {"-v":                  [VenC.core.PrintVersion, 0],
                 "-xftp":                [VenC.export.ftp, 1],
                 "-rc":                  [VenC.export.remoteCopy, 0],
                 "-h":                   [printHelp, 0],
+                "-t":                   [printThemes, 0],
+                "--themes":             [printThemes, 0],
                 "--help":               [printHelp, 0],
                 "--remote-copy":        [VenC.export.remoteCopy, 0],
                 "--export-via-ftp":     [VenC.export.ftp, 1],

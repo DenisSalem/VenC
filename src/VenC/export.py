@@ -88,9 +88,19 @@ def rmTreeErrorHandler(function, path, excinfo):
     exit()
 
 def blog(argv):
+    themeFolder = os.getcwd()+"/theme/"
     if len(argv) == 1:
-        print(argv)
-    
+        if not argv[0] in VenC.core.themes.keys(): 
+            print("VenC:", VenC.core.Messages.themeDoesntExists.format(argv[0]))
+            exit()
+        else:
+            themeFolder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
+        
+        for param in VenC.core.themes[argv[0]].keys():
+            if param[0] != "_": # marker to detect what's we are looking for
+                VenC.core.blogConfiguration[param] = VenC.core.themes[argv[0]][param]
+
+
     if VenC.core.blogConfiguration == None:
         print("VenC: "+VenC.core.Messages.noBlogConfiguration)
         return
@@ -98,7 +108,7 @@ def blog(argv):
     # cleaning direcoty
     shutil.rmtree("blog", ignore_errors=False, onerror=rmTreeErrorHandler)
     os.makedirs("blog")
-    currentBlog = Blog()
+    currentBlog = Blog(themeFolder)
     currentBlog.export()
 
 def edit(argv):
@@ -111,8 +121,9 @@ def edit(argv):
     blog(list())
 
 class Blog:
-    def __init__(self):
-        self.theme = VenC.core.Theme()
+    def __init__(self,themeFolder):
+        self.theme = VenC.core.Theme(themeFolder)
+        self.themeFolder = themeFolder
         self.entriesList = VenC.core.GetEntriesList()
         self.entriesPerDates = VenC.core.GetEntriesPerDates(self.entriesList)
         self.entriesPerCategories = VenC.core.GetEntriesPerCategories(self.entriesList)
@@ -291,7 +302,7 @@ class Blog:
         self.exportRss(self.entriesList)
 
         # Extra data
-        self.exportExtraData(os.getcwd()+"/theme/assets")
+        self.exportExtraData(self.themeFolder+"/assets")
         self.exportExtraData(os.getcwd()+"/extra")
     
     def exportExtraData(self,origin, destination=""):

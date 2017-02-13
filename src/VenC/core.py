@@ -14,8 +14,9 @@ import pygments.formatters
 errors=list()
 
 class OutputColors:
-    FAIL = '\033[91m'
-    END     = '\033[0m'
+    FAIL  = '\033[91m'
+    GREEN = '\033[92m'
+    END   = '\033[0m'
 
 def GetMessages():
     import locale
@@ -67,7 +68,7 @@ class Key:
 
 
 class Theme:
-    def __init__(self):
+    def __init__(self, themeFolder):
         self.header = str()
         self.footer = str()
         self.entry = str()
@@ -76,12 +77,12 @@ class Theme:
         self.rssEntry = str()
 
         try:
-            self.header = open(os.getcwd()+"/theme/chunks/header.html",'r').read()
-            self.footer = open(os.getcwd()+"/theme/chunks/footer.html",'r').read()
-            self.entry = open(os.getcwd()+"/theme/chunks/entry.html",'r').read()
-            self.rssHeader = open(os.getcwd()+"/theme/chunks/rssHeader.html",'r').read()
-            self.rssFooter = open(os.getcwd()+"/theme/chunks/rssFooter.html",'r').read()
-            self.rssEntry = open(os.getcwd()+"/theme/chunks/rssEntry.html",'r').read()
+            self.header = open(themeFolder+"chunks/header.html",'r').read()
+            self.footer = open(themeFolder+"chunks/footer.html",'r').read()
+            self.entry = open(themeFolder+"chunks/entry.html",'r').read()
+            self.rssHeader = open(themeFolder+"chunks/rssHeader.html",'r').read()
+            self.rssFooter = open(themeFolder+"chunks/rssFooter.html",'r').read()
+            self.rssEntry = open(themeFolder+"chunks/rssEntry.html",'r').read()
 
         except FileNotFoundError as e:
             print("VenC: "+Messages.fileNotFound.format(str(e.filename)))
@@ -100,7 +101,7 @@ def GetConfigurationFile():
 	    "blog_keywords",
 	    "author_description",
 	    "license",
-	    "url",
+	    "blog_url",
             "ftp_host",
 	    "blog_language",
 	    "email",
@@ -192,15 +193,10 @@ def MergeDictionnary(current,public):
 
 def GetPublicDataFromBlogConf():
     data = dict()
-    data["AuthorName"] = blogConfiguration["author_name"]
-    data["BlogName"] = blogConfiguration["blog_name"]
-    data["BlogDescription"] = blogConfiguration["blog_description"]
-    data["BlogKeywords"] = blogConfiguration["blog_keywords"]
-    data["AuthorDescription"] = blogConfiguration["author_description"]
-    data["License"] = blogConfiguration["license"]
-    data["BlogUrl"] =blogConfiguration["url"]
-    data["BlogLanguage"] = blogConfiguration["blog_language"]
-    data["AuthorEmail"] = blogConfiguration["email"]
+    for key in blogConfiguration.keys():
+        if not key in ["path","rss_thread_lenght","textEditor","thread_order","ftp_host","date_format"]:
+            formatted = "".join([ s.title() for s in  key.split("_")])
+            data[formatted] = blogConfiguration[key]
     return data
 
 def SetNewEntryMetadata(entryDate, entryName):

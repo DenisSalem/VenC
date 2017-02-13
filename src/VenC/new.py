@@ -71,7 +71,7 @@ def blog(argv):
 				"blog_keywords":		VenC.core.Messages.blogKeywords,
 				"author_description":		VenC.core.Messages.aboutYou,
 				"license":			VenC.core.Messages.license,
-				"url":				VenC.core.Messages.blogUrl,
+				"blog_url":				VenC.core.Messages.blogUrl,
                                 "ftp_host":                     VenC.core.Messages.ftpHost,
 				"blog_language":		VenC.core.Messages.blogLanguage,
 				"email":			VenC.core.Messages.yourEmail,
