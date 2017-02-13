@@ -24,9 +24,10 @@
 	1. [Afficher la version de VenC](#afficher-la-version-de-venc)
 	2. [Nouveau Blog](#nouveau-blog)
 	3. [Nouvelle publication](#nouvelle-publication)
-	4. [Exporter le blog](#exporter-le-blog)
-	5. [Exporter le blog en ligne](#exporter-le-blog-en-ligne)
-	6. [Editer un fichier du blog et recompiler le blog automatiquement](editer-un-fichier-du-blog-et-recompiler-le-blog-automatiquement)
+	4. [Afficher les thèmes disponibles](#afficher-les-thèmes-disponibles)
+	5. [Exporter le blog](#exporter-le-blog)
+	6. [Exporter le blog en ligne](#exporter-le-blog-en-ligne)
+	7. [Editer un fichier du blog et recompiler le blog automatiquement](editer-un-fichier-du-blog-et-recompiler-le-blog-automatiquement)
 6. [Astuces](#astuces)
 7. [Thèmes](#thèmes)
 	1. [Installation](#installation-1)
@@ -416,13 +417,25 @@ Si vous ne spécifiez pas de nom de template, VenC produira une publication tota
 
 À l'issue de cette commande VenC essaiera d'ouvrir la nouvelle publication avec l'éditeur de texte spécifié dans le fichier de configuration principal __blog_configuration.yaml__.
 
-## Exporter le blog
-
-	$ venc -xb
+## Afficher les thèmes disponibles
+	
+	$ venc -t
 
 ou
 
-	$ venc --export-blog
+	$ venc --themes
+
+Affiche la liste des thèmes locaux livré avec VenC. Ces thèmes sont normalement installé dans
+
+> ~/.local/share/VenC/themes
+
+## Exporter le blog
+
+	$ venc -xb [thème]
+
+ou
+
+	$ venc --export-blog [thème]
 
 Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
 
@@ -430,17 +443,19 @@ Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce r
 
 Pour en savoir plus sur l'arborescence rendez vous [ici](#arborescence).
 
+Vous pouvez spécier un thème, le blog sera alors compilé avec. Si aucun thème n'est précisé VenC compilera le blog avec le thème local.
+
 ## Exporter le blog en ligne
 
-	$ venc -xftp
+	$ venc -xftp [thème]
 
 ou
 
-	$ venc --export-via-ftp
+	$ venc --export-via-ftp [thème]
 
 Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
 
-Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce repertoire que ce sera exporté votre site. Une fois l'exportation terminée le contenu du répertoire sera copié vers votre serveur. À ce moment une invite d'authentification apparaitra dans le terminal.
+Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce repertoire que ce sera exporté votre site. Une fois l'exportation terminée le contenu du répertoire sera copié vers votre serveur. À ce moment une invite d'authentification apparaitra dans le terminal. Comme pour l'exportation locale, vous pouvez spécifier un thème à utiliser.
 
 ## Copier le blog en ligne
 

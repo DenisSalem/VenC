@@ -24,9 +24,10 @@
 	1. [Print VenC's version](#print-vencs-version)
 	2. [New Blog](#new-blog)
 	3. [New publication](#new-publication)
-	4. [Exporting the blog](#exporting-the-blog)
-	5. [Exporting the blog online](#exporting-the-blog-online)
-	6. [Edit a file on the blog and recompile automatically the blog](#edit-a-file-on-the-blog-and-recompile-automatically-the-blog)
+	4. [Display available themes](#display-available-themes)
+	5. [Exporting the blog](#exporting-the-blog)
+	6. [Exporting the blog online](#exporting-the-blog-online)
+	7. [Edit a file on the blog and recompile automatically the blog](#edit-a-file-on-the-blog-and-recompile-automatically-the-blog)
 6. [Tips](#tips)
 7. [Themes](#themes-1)
 	1. [Installing](#installing-1)
@@ -416,13 +417,26 @@ If you do not specify a template's name, VenC will make a publication totally bl
 
 After this command VenC will try to open the new publication with the text editor specified in the main config file __blog_configuration.yaml__.
 
+## Display available themes
+
+
+	$ venc -t
+
+ou
+
+	$ venc --themes
+
+Display available themes ship with VenC. Theses themes should be localted in 
+
+> ~/.local/share/VenC/themes
+
 ## Exporting the blog
 
-`$ venc -xb`
+`$ venc -xb [theme]`
 
 or
 
-`$ venc --export-blog`
+`$ venc --export-blog [theme]`
 
 To export your blog you __must__ be in your blog's directory.
 
@@ -430,16 +444,20 @@ There, is located a directory soberly titled blog. It is in this directory that 
 
 For more info on the file tree, it is [here](#file-tree).
 
+You can specify a theme to use while compile your blog. If none theme is given VenC will compile with your locale theme in the site folder.
+
 ## Exporting the blog online
-`$ venc -xftp`
+`$ venc -xftp [theme]`
 
 or
 
-`$ venc --export-via-ftp`
+`$ venc --export-via-ftp [theme]`
 
 To export your blog you __must__ be in your blog's directory.
 
 There, is located a directory soberly titled blog. It is in this directory that your website will be exported. Once the exportation finished the directory will be copied to your server. At this moment an authentication invite will appear in the terminal.
+
+Like for regular blog exportation, you can specify a theme.
 
 ## Edit a file from blog and recompile automatically
 
