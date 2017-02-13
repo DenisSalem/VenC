@@ -2,9 +2,14 @@
 
 # FAQ
 
-1. [I Get Unknown command](#i-get-unknown-command)
+1. [Why VenC is only supported by Linux?](#why-venc-is-only-supported-by-linux)
+2. [I Get Unknown command](#i-get-unknown-command)
 
-# I get Unknown command
+## Why VenC is only supported by Linux?
+
+That's quite simple my friend, because all other operating system are crap!
+
+## I get Unknown command
 
 VenC should be installed with [pip](https://pypi.python.org/pypi/pip) in the user side, not in the system. With this way your environment need to be aware of the paths of VenC. For instance, VenC is located in _~/.local/bin_. 
 
