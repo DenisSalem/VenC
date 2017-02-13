@@ -28,8 +28,7 @@
 	5. [Exporting the blog](#exporting-the-blog)
 	6. [Exporting the blog online](#exporting-the-blog-online)
 	7. [Edit a file on the blog and recompile automatically the blog](#edit-a-file-on-the-blog-and-recompile-automatically-the-blog)
-6. [Tips](#tips)
-7. [Themes](#themes-1)
+6. [Themes](#themes-1)
 	1. [Installing](#installing-1)
 	2. [Plugins](#plugins)
 		1. [Infinite scrolling](#infinite-scrolling)
@@ -221,7 +220,7 @@ It is not necessarily easy to create a theme from scratch and may want to avoid 
 
 Another approach is to look at how are constructed other themes. These ones will be added gradually on the github repository of VenC.
 
-You can also help yourself with the [tips](#tips) part in which are described various techniques to realise really specific page layouts and for which the usage may be a little bit obscure of VenC's patterns will be illustrated.
+You can also help yourself with the [Tutorial](https://framagit.org/denissalem/VenC/blob/master/doc/howtoEN.md) part in which are described various techniques to realise really specific page layouts and for which the usage may be a little bit obscure of VenC's patterns will be illustrated.
 
 ## Pattern Processor
 
@@ -472,10 +471,6 @@ ou
 	$ venc --help
 
 So you forget how to do something? This command display in the terminal the usual features you are looking for!
-
-# Tips
-
-To do
 
 # Themes
 

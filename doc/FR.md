@@ -28,8 +28,7 @@
 	5. [Exporter le blog](#exporter-le-blog)
 	6. [Exporter le blog en ligne](#exporter-le-blog-en-ligne)
 	7. [Editer un fichier du blog et recompiler le blog automatiquement](#editer-un-fichier-du-blog-et-recompiler-le-blog-automatiquement)
-6. [Astuces](#astuces)
-7. [Thèmes](#thèmes)
+6. [Thèmes](#thèmes)
 	1. [Installation](#installation-1)
 	2. [Greffons](#greffons)
 		1. [Défilement infini](#d%C3%A9filement-infini)
@@ -223,11 +222,11 @@ Il n'est pas forcément évident de créer un thème de toute pièce et vous n'a
 moyen de créer un thème soi même c'est de jeter un oeil au thème [dummy](https://framagit.org/denissalem/VenC/tree/master/src/share/themes/dummy). Ce thème en l'état n'est pas
 utilisable, mais c'est une solide base pour créer le votre. Le style CSS reste à définir, et vous pourriez vouloir réorganiser les éléments de la page. Si vous avez déjà installé VenC sur votre système vous pourrez trouver ce thème dans 
 
-`/usr/share/VenC/themes/dummy`
+`~/.local/share/VenC/themes/dummy`
 
 Une autre approche est de regarder comment sont construits d'autres thèmes. Ceux là seront ajoutés au fur et à mesure sur le repository github de VenC.
 
-Vous pouvez également vous aider de la partie [Astuces](#astuces) dans laquelle sont décrites
+Vous pouvez également vous aider de la partie [Tutoriel](https://framagit.org/denissalem/VenC/blob/master/doc/howtoFR.md) dans laquelle sont décrites
 des techniques pour réaliser des mises en pages très spécifiques et pour lesquelles l'utilisation peut-être un peu obscure des motifs de VenC sera illustrée.
 
 ## Pattern Processor
@@ -482,10 +481,6 @@ ou
 	$ venc --help
 
 Vous avez oublié comment faire tel ou tel chose? Cette commande affiche dans le terminal les commandes disponibles!
-
-# Astuces
-
-À compléter
 
 # Thèmes
 
