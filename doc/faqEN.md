@@ -8,7 +8,7 @@
 
 ## Why VenC is only supported by Linux?
 
-That's quite simple my friend, because all other operating system are crap!
+That's quite simple my friend, because all other operating systems are crap!
 
 ## I get Unknown command
 
