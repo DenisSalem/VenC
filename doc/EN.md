@@ -149,7 +149,7 @@ It is a Yaml document in the project's root which defines blog's properties, suc
 * __blog_keywords__ : Keywords associated to the website.
 * __author_description__ : A short text about the author.
 * __license__ : Your content's license.
-* __url__ : Blog's URL. Can be left blank depending on the theme used.
+* __blog_url__ : Blog's URL. Can be left blank depending on the theme used.
 * __blog_language__ : Blog's language.
 * __email__ : Your e-mail address.
 * __entries_per_pages__ : "10" by default. Obviously defines the per page publications number.

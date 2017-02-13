@@ -147,7 +147,7 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 - __blog_keywords__ : Les mots clefs associés au site.
 - __author_description__ : Un court texte à propos de l'auteur du blog.
 - __license__ : La licence appliquée au contenu de votre site.
-- __url__ : L'url du blog. Peut être laissée vide, selon le thème utilisé.
+- __blog_url__ : L'url du blog. Peut être laissée vide, selon le thème utilisé.
 - __blog_language__ : Définit la langue du site.
 - __email__ : Votre adresse e-mail.
 - __entries_per_pages__ : "10" par défaut. Définit évidemment le nombre de publications par page.
