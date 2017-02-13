@@ -74,7 +74,7 @@ def blog(argv):
 				"blog_url":				VenC.core.Messages.blogUrl,
                                 "ftp_host":                     VenC.core.Messages.ftpHost,
 				"blog_language":		VenC.core.Messages.blogLanguage,
-				"email":			VenC.core.Messages.yourEmail,
+				"author_email":			VenC.core.Messages.yourEmail,
 				"path":				{"ftp":                         VenC.core.Messages.ftpPath,
                                                                 "index_file_name":		"index{page_number}.html",
 								"category_directory_name":	"{category}",

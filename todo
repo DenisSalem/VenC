@@ -67,8 +67,7 @@ DONE	| Add some themes
 DONE	| Choose theme to apply while export
 DONE	| Display available themes
 DONE	| modified default blog_configuration structure, replace url by blog_url
-HIGH	| fix dummy theme
-HIGH	| Add "install theme" command
+DONE	| fix dummy theme
 
 version 1.2.x
 

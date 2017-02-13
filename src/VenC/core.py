@@ -104,7 +104,7 @@ def GetConfigurationFile():
 	    "blog_url",
             "ftp_host",
 	    "blog_language",
-	    "email",
+	    "author_email",
 	    "entries_per_pages",
             "columns",
 	    "rss_thread_lenght",

@@ -149,7 +149,7 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 - __license__ : La licence appliquée au contenu de votre site.
 - __blog_url__ : L'url du blog. Peut être laissée vide, selon le thème utilisé.
 - __blog_language__ : Définit la langue du site.
-- __email__ : Votre adresse e-mail.
+- __author_email__ : Votre adresse e-mail.
 - __entries_per_pages__ : "10" par défaut. Définit évidemment le nombre de publications par page.
 - __columns__ : "1" par défaut. Ce champ définit le nombre de colonnes dans une page.
 - __rss_thread_lenght__ : "5" par défaut. Définit le nombre de publications à afficher dans le flux RSS.

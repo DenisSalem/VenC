@@ -151,7 +151,7 @@ It is a Yaml document in the project's root which defines blog's properties, suc
 * __license__ : Your content's license.
 * __blog_url__ : Blog's URL. Can be left blank depending on the theme used.
 * __blog_language__ : Blog's language.
-* __email__ : Your e-mail address.
+* __author_email__ : Your e-mail address.
 * __entries_per_pages__ : "10" by default. Obviously defines the per page publications number.
 * __columns__ : "1" by default. This field defines the number of columns in a page.
 * __rss_thread_lenght__ : "5" by default. Defines the number of publications to print in the RSS feed.
