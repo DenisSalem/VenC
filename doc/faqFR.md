@@ -2,9 +2,14 @@
 
 # FAQ
 
-1. [Commande introuvable](#commande introuvable)
+1. [Pourquoi VenC n'est officiellement supporté que par Linux](#)
+2. [Commande introuvable](#commande introuvable)
 
-# Commande introuvable
+## Pourquoi VenC n'est officiellement supporté que par Linux?
+
+Et bien c'est très simple camarade, comme dirait Jean-Pierre Coffe, _Les autres système d'exploitations, c'est de la merde!_
+
+## Commande introuvable
 
 VenC devrait être installé avec [pip](https://pypi.python.org/pypi/pip), dans l'environment python, côté utilisateur (pas dans le système donc). De cette façon le système à besoin de connaître l'emplacement de VenC, dont le l'exécutable devrait se trouver dans _~/.local/bin_.
 

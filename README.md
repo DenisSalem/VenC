@@ -1,6 +1,6 @@
 ![](https://framagit.org/denissalem/VenC/raw/master/doc/logo.png "")
 
-# Tutorial
+# Tutorials
 
 - [Français](https://framagit.org/denissalem/VenC/blob/master/doc/howtoFR.md)
 - [English](https://framagit.org/denissalem/VenC/blob/master/doc/howtoEN.md)

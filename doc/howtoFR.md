@@ -1,8 +1,9 @@
 ![](https://framagit.org/denissalem/VenC/raw/master/doc/logo.png "")
 
-# Tutoriel
+# Tutoriels
 
 1. [Installer VenC et créer son blog en moins de 5 minutes!](#installer-venc-et-cr%C3%A9er-son-blog-en-moins-de-5-minutes)
+2. [Créer une nouvelle publication](#créer-une-nouvelle-publication)
 
 ## Installer VenC et créer son blog en moins de 5 minutes!
 
@@ -25,3 +26,5 @@ La prochaine étape consiste à paramétrer un peu le blog. Pour ça il suffit d
 Et voilà, c'est terminé! Votre blog est prêt à l'emploi!
 
 _Si vous avez rencontré une difficulté durant ce tutoriel, jetez un oeil à la [FAQ](https://framagit.org/denissalem/VenC/blob/master/doc/faqFR.md), la solution s'y trouvera certainement!_
+
+# Créer une nouvelle publication

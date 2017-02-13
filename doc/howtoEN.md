@@ -3,6 +3,7 @@
 # Tutoriel
 
 1. [Install VenC and create your blog in 5 minutes!](#install-venc-and-create-your-blog-in-5-minutes)
+2. [Create a new publication](#create-a-new-publication)
 
 ## Install VenC and create your blog in 5 minutes!
 
@@ -25,4 +26,6 @@ The next step is to setup your blog. It's quick and easy, just edit the file nam
 That's it, your done! The blog is ready to use!
 
 _In case your face somes troubles during the process check out the [FAQ](https://framagit.org/denissalem/VenC/blob/master/doc/faqFR.md). No doubt there you'll find a solution!_
+
+## Create a new publication
 
