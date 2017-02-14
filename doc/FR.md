@@ -82,7 +82,7 @@ Attention cependant, VenC utilise python 3, assurez vous donc d'utiliser la vers
 
 > pip install venc --user
 
-N'oubliez pas de rajouter l'argument _--user_. Cela installe VenC dans l'environment utilisateur, au lieu du système, ce qui est fortement recommandé.
+N'oubliez pas de rajouter l'argument _--user_. Cela installe VenC dans l'environnement utilisateur, au lieu du système, ce qui est fortement recommandé.
 
 Vous pouvez également mettre à jour VenC avec
 

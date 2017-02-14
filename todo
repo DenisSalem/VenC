@@ -66,8 +66,9 @@ DONE    | Installation via pypi.
 DONE	| Add some themes
 DONE	| Choose theme to apply while export
 DONE	| Display available themes
-DONE	| modified default blog_configuration structure, replace url by blog_url
-DONE	| fix dummy theme
+DONE	| Modified default blog_configuration structure, replace url by blog_url
+DONE	| Fix dummy theme
+DONE	| Fix edit-and-export NoneType error
 
 version 1.2.x
 

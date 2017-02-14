@@ -1,6 +1,6 @@
 ![](https://framagit.org/denissalem/VenC/raw/master/doc/logo.png "")
 
-# Tutoriel
+# How to
 
 1. [Install VenC and create your blog in 5 minutes!](#install-venc-and-create-your-blog-in-5-minutes)
 2. [Create a new publication](#create-a-new-publication)

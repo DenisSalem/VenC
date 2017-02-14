@@ -112,10 +112,21 @@ def blog(argv):
     currentBlog.export()
 
 def edit(argv):
+    if VenC.core.blogConfiguration == None:
+        print("VenC: "+VenC.core.Messages.noBlogConfiguration)
+        exit()
+
+    if len(argv) != 1:
+        print("VenC:", VenC.core.Messages.missingParams.format("--edit-and-export"))
+        exit()
+    
     try:
         proc = subprocess.Popen([VenC.core.blogConfiguration["textEditor"], argv[0]])
         while proc.poll() == None:
             pass
+    except TypeError:
+        print("VenC:", VenC.core.Messages.unknownTextEditor.format(VenC.core.blogConfiguration["textEditor"]))
+        exit()
     except:
         raise
     blog(list())

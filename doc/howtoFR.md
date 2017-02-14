@@ -27,4 +27,38 @@ Et voilà, c'est terminé! Votre blog est prêt à l'emploi!
 
 _Si vous avez rencontré une difficulté durant ce tutoriel, jetez un oeil à la [FAQ](https://framagit.org/denissalem/VenC/blob/master/doc/faqFR.md), la solution s'y trouvera certainement!_
 
-# Créer une nouvelle publication
+# Créer et éditer une nouvelle publication
+
+Pour créer une nouvelle publication, placez vous dans le répertoire de votre blog et tapez la commande suivante
+
+> venc --new-entry "Ma Première Publication"
+
+Cette commande crée la publication et la stock dans le repertoire *entries* de votre blog.
+
+__Astuce : L'éditeur de texte par défaut définit dans votre fichier de configuration devrait être _nano_. Quand vous créez une nouvelle publication VenC l'ouvre pour vous dans l'éditeur de texte ainsi définit. Vous pouvez changer votre éditeur de texte dans *blog_configuration.yaml*.__
+
+Une publication vierge ressemble à ça
+
+	CSS: ''
+	authors: ''
+	categories: ''
+	entry_name: Ma Première Publication
+	tags: ''
+	---
+
+C'est un document découpé en deux parties à l'aide de la ligne _triple tiret du six_
+
+La premiére partie contient les méta-données de la publication et la seconde contient la publication à proprement parler au format Markdown.
+
+__Astuce : Par défaut VenC utilise la syntax Markdown, vous pouvez cependant désactiver Markdown en ajoutant le champ _doNotUseMarkdown_ à la liste des méta-données du document. Oui, le champ est vide, il n'a pas besoin de valeur particulière.__
+
+Pour en savoir plus sur les méta-données des publications rendez vous [ici](https://framagit.org/denissalem/VenC/blob/master/doc/FR.md#les-publications)
+
+La rédaction de la publication se fait dans la seconde partie du document donc, après les trois tiret.
+
+Une fois que vous avez terminé d'écrire le meilleur billet de blog de tous les internets, enregistrez, et c'est finis! Il n'y a plus qu'à publier!
+
+
+
+
+
