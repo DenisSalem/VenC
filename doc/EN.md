@@ -26,8 +26,9 @@
 	3. [New publication](#new-publication)
 	4. [Display available themes](#display-available-themes)
 	5. [Exporting the blog](#exporting-the-blog)
-	6. [Exporting the blog online](#exporting-the-blog-online)
-	7. [Edit a file on the blog and recompile automatically the blog](#edit-a-file-on-the-blog-and-recompile-automatically-the-blog)
+	6. [Remote copy](#remote-copy)
+	7. [Exporting the blog online](#exporting-the-blog-online)
+	8. [Edit a file on the blog and recompile automatically the blog](#edit-a-file-on-the-blog-and-recompile-automatically-the-blog)
 6. [Themes](#themes-1)
 	1. [Installing](#installing-1)
 	2. [Plugins](#plugins)
@@ -439,7 +440,20 @@ For more info on the file tree, it is [here](#file-tree).
 
 You can specify a theme to use while compile your blog. If none theme is given VenC will compile with your locale theme in the site folder.
 
+## Remote copy
+
+	$ venc -rc
+
+or
+
+	$ venc --remote-copy
+
+This command allow you to copy in a remote location, via FTP, the content of the *blog* directory. By running this command an authentification prompt will bi issued.
+
+To copy the blog into remote location you __must__ be in your blog directory.
+
 ## Exporting the blog online
+
 `$ venc -xftp [theme]`
 
 or
