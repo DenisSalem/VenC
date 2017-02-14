@@ -21,7 +21,7 @@ And that's it! You can now create your blog!
 
 After issue this command VenC create a folder named "MyAwesomeBlog" that hold everything related to your blog. This folder is located in the place where you issue the command. It's strongly advised to take of this folder and even perfom some backup sometimes!
 
-The next step is to setup your blog. It's quick and easy, just edit the file named *blog_configuration.yaml* at the root of the folder of your blog. The main idea there is to define some informations about the blog as well as some options. The configuration file is explained [there](https://framagit.org/denissalem/VenC/blob/master/doc/EN.md#main-config-file) so be sure to have a look!
+The next step is to setup your blog. It's quick and easy, just edit the file named *blog_configuration.yaml* at the root of the folder of your blog. The main idea there is to define some informations about the blog as well as some options. The configuration file is explained [there](EN.md#main-config-file) so be sure to have a look!
 
 That's it, your done! The blog is ready to use!
 

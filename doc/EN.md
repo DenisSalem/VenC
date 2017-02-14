@@ -1,4 +1,4 @@
-![](https://framagit.org/denissalem/VenC/raw/master/doc/logo.png "")
+![VenC](http://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg "VenC")
 
 # Version 1.2.0
 
@@ -88,7 +88,7 @@ Also you can upgrade VenC with
 
 > pip install --upgrade venc
 
-It might be possible  you face some _unknown command_ error while using VenC. If so check out this specific part of the [FAQ](https://framagit.org/denissalem/VenC/blob/master/doc/faqEN.md)
+It might be possible  you face some _unknown command_ error while using VenC. If so check out this specific part of the [FAQ](faqEN.md)
 
 # Uninstalling
 
@@ -100,10 +100,10 @@ That's it!
 
 # Taking your marks
 
-1. [File Tree](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#file-tree)
-2. [Files structure](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#files-structure)
-3. [Pattern Processor](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#pattern-processor)
-4. [Environmen Variables](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#environment-variables)
+1. [File Tree](#file-tree)
+2. [Files structure](#files-structure)
+3. [Pattern Processor](#pattern-processor)
+4. [Environmen Variables](#environment-variables)
 
 ## File Tree
 
@@ -119,10 +119,10 @@ When you create a new project, VenC creates a certain amount of directories. The
 
 ## Structure des fichiers
 
-1. [Main config file](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file)
-2. [Templates](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#templates)
-3. [Publications](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#publications)
-4. [Themes](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#themes)
+1. [Main config file](#main-config-file)
+2. [Templates](#templates)
+3. [Publications](#publications)
+4. [Themes](#themes)
 
 ### Main config file
 
@@ -214,13 +214,13 @@ As you may have understood, VenC puts together the pieces of your blog by format
 
 It's exactly the same principle for the RSS feed which is constructed identically.
 
-It is not necessarily easy to create a theme from scratch and may want to avoid loosing too much time testing the fuctioning of all this. The best way to create a theme by yourself is to take a look at the [dummy](https://framagit.org/denissalem/VenC/tree/master/src/share/themes/dummy) theme. This theme, as is, is not usable, but it is a solid base to create yours. The CSS style is to define, and you may want to reorganize the elements in the page. If you have already installed VenC on your system you will find that theme in 
+It is not necessarily easy to create a theme from scratch and may want to avoid loosing too much time testing the fuctioning of all this. The best way to create a theme by yourself is to take a look at the [dummy](../src/share/themes/dummy) theme. This theme, as is, is not usable, but it is a solid base to create yours. The CSS style is to define, and you may want to reorganize the elements in the page. If you have already installed VenC on your system you will find that theme in 
 
 `/usr/share/VenC/themes/dummy`
 
 Another approach is to look at how are constructed other themes. These ones will be added gradually on the github repository of VenC.
 
-You can also help yourself with the [Tutorial](https://framagit.org/denissalem/VenC/blob/master/doc/howtoEN.md) part in which are described various techniques to realise really specific page layouts and for which the usage may be a little bit obscure of VenC's patterns will be illustrated.
+You can also help yourself with the [Tutorial](howtoEN.md) part in which are described various techniques to realise really specific page layouts and for which the usage may be a little bit obscure of VenC's patterns will be illustrated.
 
 ## Pattern Processor
 
@@ -392,7 +392,7 @@ VenC creates the directory containing the blog's sources in the place where you 
 
 `blog  blog_configuration.yaml  entries  extra  templates  theme`
 
-You cannot create a blog without giving it a name. Once you have created your blog, the first thing to do in general is to edit the file __blog_configuration.yaml__. For more info on this config file, it is [here](https://github.com/DenisSalem/VenC/blob/master/doc/EN.md#main-config-file).
+You cannot create a blog without giving it a name. Once you have created your blog, the first thing to do in general is to edit the file __blog_configuration.yaml__. For more info on this config file, it is [here](EN.md#main-config-file).
 
 ## New publication
 
