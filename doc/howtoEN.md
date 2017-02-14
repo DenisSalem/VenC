@@ -58,5 +58,16 @@ So the writting of the content of your publication is done below the triple dash
 
 Once you've done the best post of the entire internet and beyond save your entry, then you're ready to publish!
 
+## publish
 
+So that's it, you wrote one or more entries, and you want to see how beautiful it look's like! Go to the root directory of your blog and issue the following
 
+	venc --export-blog gentle
+
+This will create all the HTML pages of your blog by using the theme known as __*gentle*__. To know which available themes we do have you can issue the following
+
+	venc --themes
+
+Then you can recompile your blog by passing the name of the desired theme, printed in green with the previous command.
+
+You may want to do your own HTML/CSS theme. A good way to achieve that is to use __*dummy*__ as a base. Just copy this theme into your local theme folder known as _theme_

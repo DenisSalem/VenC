@@ -70,19 +70,21 @@ Cette commande va créer les pages HTML de votre blog en utilisant le thème __*
 
 	venc --themes
 
-Vous pouvez alors recompiler votre blog en passant en paramètre le nom des thèmes dans la liste, en vert.
+Vous pouvez alors recompiler votre blog en passant en paramètre le nom d'un des thèmes dans la liste, en vert.
 
-Si vous souhaitez faire votre propre thème HTML/CSS vous pouvez vous aider du thème __*dummy*__ qui contiens un squelette HTML pouvant servir de base. Copiez alors les fichiers du dans le répertoire _theme_ de votre blog.
+Si vous souhaitez faire votre propre thème HTML/CSS vous pouvez vous aider du thème __*dummy*__ qui contiens un squelette HTML pouvant servir de base. Copiez alors les fichiers de celui-ci dans le répertoire _theme_ de votre blog.
 
-Pour compiler le blog avec ce thème bien à vous tapez
+Pour compiler le blog avec ce thème bien à vous:
 
 	venc -export-blog
 
-Sans passer en paramétre le nom d'un thème donc. VenC utilisera par défaut le thème local.
+VenC utilise par défaut le thème local quand aucun nom de thème ne lui est précisé.
 
 Pour en savoir plus sur les thèmes rendez-vous [ici](FR.md#les-thèmes)
 
-Le contenu de votre site est maintenant disponible dans le repertoire _blog_ de votre Blog. Pour visualiser le résultat vous pouvez ouvrir dans le navigateur de votre choix le fichier index.html.
+Le contenu de votre site est maintenant disponible dans le repertoire _blog_ de votre blog. Pour visualiser le résultat vous pouvez ouvrir dans le navigateur de votre choix le fichier index.html qui s'y trouve.
+
+Et voilà, le moins qu'on puisse dire, c'est que _vous pesez lourd dans le game_ maintenant!
 
 
 
