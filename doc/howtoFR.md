@@ -4,7 +4,7 @@
 
 1. [Installer VenC et créer son blog en moins de 5 minutes!](#installer-venc-et-cr%C3%A9er-son-blog-en-moins-de-5-minutes)
 2. [Créer une nouvelle publication](#créer-une-nouvelle-publication)
-3. [Publier]
+3. [Publier](#publier)
 
 
 ## Installer VenC et créer son blog en moins de 5 minutes!
@@ -60,6 +60,29 @@ La rédaction de la publication se fait dans la seconde partie du document donc,
 
 Une fois que vous avez terminé d'écrire le meilleur billet de blog de tous les internets, enregistrez, et c'est finis! Il n'y à plus qu'à publier!
 
+## Publier
+
+Vous avez donc écris un ou plusieurs article et vous voulez voir ce que ça donne! Placez vous dans le répertoire de votre blog et lancez la commande
+
+	venc --export-blog gentle
+
+Cette commande va créer les pages HTML de votre blog en utilisant le thème __*gentle*__. Pour connaitre quels sont les thèmes disponibles, tapez
+
+	venc --themes
+
+Vous pouvez alors recompiler votre blog en passant en paramètre le nom des thèmes dans la liste, en vert.
+
+Si vous souhaitez faire votre propre thème HTML/CSS vous pouvez vous aider du thème __*dummy*__ qui contiens un squelette HTML pouvant servir de base. Copiez alors les fichiers du dans le répertoire _theme_ de votre blog.
+
+Pour compiler le blog avec ce thème bien à vous tapez
+
+	venc -export-blog
+
+Sans passer en paramétre le nom d'un thème donc. VenC utilisera par défaut le thème local.
+
+Pour en savoir plus sur les thèmes rendez-vous [ici](FR.md#les-thèmes)
+
+Le contenu de votre site est maintenant disponible dans le repertoire _blog_ de votre Blog. Pour visualiser le résultat vous pouvez ouvrir dans le navigateur de votre choix le fichier index.html.
 
 
 
