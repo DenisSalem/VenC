@@ -1,4 +1,4 @@
-![](/denissalem/VenC/raw/master/doc/logo.svg "")
+![VenC](/denissalem/VenC/raw/master/doc/logo.png "VenC")
 
 # Tutoriels
 
