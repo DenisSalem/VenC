@@ -52,7 +52,7 @@ La premiére partie contient les méta-données de la publication au format [yam
 
 __Astuce : Par défaut VenC utilise la syntax [Markdown](https://daringfireball.net/projects/markdown/), vous pouvez cependant désactiver [Markdown](https://daringfireball.net/projects/markdown/) en ajoutant le champ _doNotUseMarkdown_ à la liste des méta-données du document. Oui, le champ est vide, il n'a pas besoin de valeur particulière.__
 
-Pour en savoir plus sur les méta-données des publications rendez vous [ici](https://framagit.org/denissalem/VenC/blob/master/doc/FR.md#les-publications)
+Pour en savoir plus sur les méta-données des publications rendez vous [ici](/denissalem/VenC/blob/master/doc/FR.md#les-publications)
 
 La rédaction de la publication se fait dans la seconde partie du document donc, après les trois tiret.
 
