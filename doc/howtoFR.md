@@ -4,6 +4,8 @@
 
 1. [Installer VenC et créer son blog en moins de 5 minutes!](#installer-venc-et-cr%C3%A9er-son-blog-en-moins-de-5-minutes)
 2. [Créer une nouvelle publication](#créer-une-nouvelle-publication)
+3. [Publier]
+
 
 ## Installer VenC et créer son blog en moins de 5 minutes!
 
@@ -13,11 +15,11 @@ Dabord, il faut installer [pip](https://pypi.python.org/pypi/pip), si ce n'est p
 
 Une fois que c'est fait on install VenC. Pour de vrai.
 
-> pip install venc --user
+	pip install venc --user
 
 Vous pouvez maintenant créer votre blog!
 
-> venc --new-blog "MonSuperBlog"
+	venc --new-blog "MonSuperBlog"
 
 Après cette commande, VenC a créer un répertoire appelé "MonSuperBlog" à l'endroit où vous avez lancé la commande. Ce repertoire contient toutes les informations de votre blog. Il faut donc le garder préciseument, et même en faire des sauvegardes de temps à autres!
 
@@ -31,7 +33,7 @@ _Si vous avez rencontré une difficulté durant ce tutoriel, jetez un oeil à la
 
 Pour créer une nouvelle publication, placez vous dans le répertoire de votre blog et tapez la commande suivante
 
-> venc --new-entry "Ma Première Publication"
+	venc --new-entry "Ma Première Publication"
 
 Cette commande crée la publication et la stock dans le repertoire *entries* de votre blog.
 

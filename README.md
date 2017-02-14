@@ -8,7 +8,7 @@
 # Documentations
 
 - [VenC 1.2.0 - Français](https://framagit.org/denissalem/VenC/blob/master/doc/FR.md)
-- [VenC 1.2.0 - English](https://framagit.org/denissalem/VenC/blob/master/doc/EN.md) (translation by [benben962](https://github.com/benben962))
+- [VenC 1.2.0 - English](https://framagit.org/denissalem/VenC/blob/master/doc/EN.md) (translation by [benben962](https://github.com/benben962) and [denissalem](https://denissalem.tuxfamily.org))
 
 # FAQ
 
