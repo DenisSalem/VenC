@@ -88,7 +88,7 @@ Vous pouvez également mettre à jour VenC avec
 
 > pip install --upgrade venc
 
-Il se peut que vous rencontriez une erreur au moment d'utiliser VenC. Si c'est le cas allez jeter un oeil à cette partie de la [FAQ](https://framagit.org/denissalem/VenC/blob/master/doc/faqFR.md)
+Il se peut que vous rencontriez une erreur au moment d'utiliser VenC. Si c'est le cas allez jeter un oeil à cette partie de la [FAQ](faqFR.md)
 
 # Désinstallation
 
@@ -100,10 +100,10 @@ Et voilà!
 
 # Prise en main
 
-1. [Arborescence](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#arborescence)
-2. [Structure des fichiers](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#structure-des-fichiers)
-3. [Pattern Processor](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#pattern-processor)
-4. [Variables d'environnement](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#variables-denvironnement)
+1. [Arborescence](#arborescence)
+2. [Structure des fichiers](#structure-des-fichiers)
+3. [Pattern Processor](#pattern-processor)
+4. [Variables d'environnement](#variables-denvironnement)
 
 ## Arborescence
 
@@ -119,10 +119,10 @@ Lorsque vous créez un nouveau projet, VenC produit un certain nombre de répert
 
 ## Structure des fichiers
 
-1. [Fichier de configuration principal](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal)
-2. [Les Templates](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#les-templates)
-3. [Les Publications](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#les-publications)
-4. [Les Thèmes](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#les-thèmes)
+1. [Fichier de configuration principal](#fichier-de-configuration-principal)
+2. [Les Templates](#les-templates)
+3. [Les Publications](#les-publications)
+4. [Les Thèmes](#les-thèmes)
 
 ### Fichier de configuration principal
 
@@ -160,7 +160,7 @@ Il s'agit d'un document Yaml à la racine du projet définissant les propriété
 ### Les Templates
 
 Un template est en fait une publication vierge qui a cependant été préformatée pour contenir des informations souvent utilisées pour lesquels on ne veut pas perdre du
-temps à réécrire ou mettre en forme. Un fichier template contient donc des [motifs](https://github.com/DenisSalem/VenC/blob/master/doc/FR.md#motifs-de-templates)
+temps à réécrire ou mettre en forme. Un fichier template contient donc des [motifs](#motifs-de-templates)
 pouvant être interprétés. Il n'y a pas de template par défaut, c'est à l'utilisateur de créer les siens. Lorsqu'aucun template n'est utilisé VenC produit une publication
 totalement vierge.
 
@@ -219,14 +219,14 @@ Comme vous l'avez sans doute compris VenC met bout à bout les morceaux de votre
 C'est exactement le même principe pour le flux RSS qui est construit de façon identique.
 
 Il n'est pas forcément évident de créer un thème de toute pièce et vous n'avez peut-être pas envie de perdre trop de temps à tester le fonctionnement de tout ça. Le meilleur
-moyen de créer un thème soi même c'est de jeter un oeil au thème [dummy](https://framagit.org/denissalem/VenC/tree/master/src/share/themes/dummy). Ce thème en l'état n'est pas
+moyen de créer un thème soi même c'est de jeter un oeil au thème [dummy](../src/share/themes/dummy). Ce thème en l'état n'est pas
 utilisable, mais c'est une solide base pour créer le votre. Le style CSS reste à définir, et vous pourriez vouloir réorganiser les éléments de la page. Si vous avez déjà installé VenC sur votre système vous pourrez trouver ce thème dans 
 
 `~/.local/share/VenC/themes/dummy`
 
 Une autre approche est de regarder comment sont construits d'autres thèmes. Ceux là seront ajoutés au fur et à mesure sur le repository github de VenC.
 
-Vous pouvez également vous aider de la partie [Tutoriel](https://framagit.org/denissalem/VenC/blob/master/doc/howtoFR.md) dans laquelle sont décrites
+Vous pouvez également vous aider de la partie [Tutoriel](howtoFR.md) dans laquelle sont décrites
 des techniques pour réaliser des mises en pages très spécifiques et pour lesquelles l'utilisation peut-être un peu obscure des motifs de VenC sera illustrée.
 
 ## Pattern Processor
