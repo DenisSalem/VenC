@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang=".:Get::BlogLanguage:.">
+  <head>
+    <title>.:Get::BlogName:.</title>
+    <meta name="generator" content="VenC" />
+    <meta name="keywords" content=".:Get::BlogKeywords:." />
+    <meta name="description" content=".:Get::BlogDescription:."/>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src=".:Get::RelativeOrigin:.VenC-Infinite-Scroll-1.0.0.js"></script>
+    <script type="text/javascript">
+	window.onload = VENC_INFINITE_SCROLL_ON_LOAD;
+    </script>
+    <link rel="alternate" type="application/rss+xml" title=".:Get::BlogName:." href="feed.xml" />
+    <link rel="stylesheet" href=".:Get::RelativeOrigin:.style.css" type="text/css" />
+    <link rel="stylesheet" href=".:Get::RelativeOrigin:.venc_source_C.css" type="text/css" />
+    .:IfInThread::<link rel="stylesheet" href=".:Get::RelativeOrigin:.styleThread.css" type="text/css" />::<link rel="stylesheet" href=".:Get::RelativeOrigin:.styleEntry.css" type="text/css" />:.
+  </head>
+  <body>
+    <header>
+      <h1>
+        <a href=".:IfInThread:: ../.:Get::RelativeOrigin:. :: index.html :. ">
+          <img src=".:Get::RelativeOrigin:.ds-icon.png" alt=".:Get::BlogName:." title=".:Get::BlogName:." />
+        </a>
+      </h1>
+      <h2>CATEGORIES</h2>
+      <div id="categories">
+        .:RecursiveFor::BlogCategories::<ul>::<li><a href="{0[relativeOrigin]}{0[categoryPath]}" title="{0[count]} publications">{0[item]}</a>::</li>::</ul>:. 
+      </div>
+      <h2 id="archivesHeader">ARCHIVES</h2>
+      <ul id="archives">.:For::BlogDates::<li><a href="{0[dateUrl]}" title="{0[count]} publications">{0[date]}</a></li>:: :.</ul>
+      <div id="__VENC_LOADING__"></div>
+    </header>
+    <div id="__VENC_THREAD__">
