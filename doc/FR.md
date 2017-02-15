@@ -281,6 +281,14 @@ dans [blog_configuration.yaml](#fichier-de-configuration-principal).
 * __.:Get::RelativeOrigin:.__ : Retourne le chemin relatif de la racine du blog.
 * __.:Get::RelativeLocation:.__ : Retourne le répertoire courant relativement à la racine du blog.
 
+Vous pouvez également définir vos propres variables en rajoutant des champs au fichier de configuration [blog_configuration.yaml](#fichier-de-configuration-principal). Par exemple en rajoutant la ligne
+
+	Banner: 'maBanniere.jpg'
+
+dans le fichier de configuration, vous pourrez récupérer la valeurs de _Banner_ avec
+
+	.:Get::Banner:.
+
 ### Motifs de Publications
 
 Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux là s'ajoutent:

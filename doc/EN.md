@@ -273,6 +273,14 @@ Those patterns are generally available in any context and are defined in [blog_c
 * __.:Get::RelativeOrigin:.__ : Returns the blog's root's relative path.
 * __.:Get::RelativeLocation:.__ : Returns the current directory relatively to the blog's root.
 
+You can also define your own variables by adding extra fields in [blog_configuration.yaml](#main-config-file). For exemple
+
+	Banner: 'myBanner.jpg'
+
+You can then get the value of _Banner_ with
+
+	.:Get::Banner:.
+
 ### Publications Patterns
 
 A publication can contain the same patterns as the ones of a template. Also, add:
