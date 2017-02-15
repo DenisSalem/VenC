@@ -2,15 +2,15 @@
 
 # Tutorials
 
-- [Français](https://framagit.org/denissalem/VenC/blob/master/doc/howtoFR.md)
-- [English](https://framagit.org/denissalem/VenC/blob/master/doc/howtoEN.md)
+- [Français](doc/howtoFR.md)
+- [English](doc/howtoEN.md)
 
 # Documentations
 
-- [VenC 1.2.0 - Français](https://framagit.org/denissalem/VenC/blob/master/doc/FR.md)
-- [VenC 1.2.0 - English](https://framagit.org/denissalem/VenC/blob/master/doc/EN.md) (translation by [benben962](https://github.com/benben962) and [denissalem](https://denissalem.tuxfamily.org))
+- [VenC 1.2.0 - Français](doc/FR.md)
+- [VenC 1.2.0 - English](doc/EN.md) (translation by [benben962](https://github.com/benben962) and [denissalem](https://denissalem.tuxfamily.org))
 
 # FAQ
 
-- [Français](https://framagit.org/denissalem/VenC/blob/master/doc/faqFR.md)
-- [English](https://framagit.org/denissalem/VenC/blob/master/doc/faqEN.md)
+- [Français](doc/faqFR.md)
+- [English](doc/faqEN.md)
