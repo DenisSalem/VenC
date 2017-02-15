@@ -307,8 +307,14 @@ Idem pour le troisième paramètre, le séparateur. Le séparateur permet d'ins�
 
 De façon identique, pour la fonction _RecursiveFor_, le second, le quatrième et cinquième paramètre constituent du texte libre.
 
-- __.:GetPreviousPage:: texte libre :.__ : Quand est appelé dans un fil de publications, ce motif permet de récupérer l'url de la page précédente, si elle existe. Pour accéder à l'url de la page précédente utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
-- __.:GetNextPage:: texte libre :.__ : Quand appelé dans un fil de publications, ce motif permet de récupérer l'url de la page suivante si elle existe. Pour accéder à l'url de la page suivante utilisez la variable contextuelle __{0[destinationPageUrl]}__ à l'intérieur du texte libre.
+- __.:GetPreviousPage:: texte libre :.__ : Permet d'accéder à la page précédente. Un certain nombre de variable sont disponibles dans le champ _texte libre_:
+  - __{0[destinationPage]}__ : Contient le numéro de la page précédente. 
+  - __{0[destinationPageUrl]}__ : Contient l'url de la page précédente.
+  - __{0[entryName]}__ : Dans une page contenant une et une seule publication, indique le nom de la publication précédente. 
+- __.:GetNextPage:: texte libre :.__ : Permet d'accéder à la page suivante. Un certain nombre de variable sot disponibles dans le champ _texte libre_.
+  - __{0[destinationPage]}__ : Contient le numéro de la page suivante. 
+  - __{0[destinationPageUrl]}__ : Contient l'url de la page suivate.
+  - __{0[entryName]}__ : Dans une page contenant une et une seule publication, indique le nom de la publication suivante. 
 - __.:PagesList:: taille :: texte libre :.__ : Permet de récupérer une liste des publications antérieurs et postérieurs à la publication courante. La taille de cette liste est determinée par __taille__, qui doit être un nombre entier. Il y a deux variables contextuelles dans ce motif: {0[pageUrl]} et {0[pageNumber]} qui respectivement donne l'url de la page de destination, ainsi que le numéro de la page de destinationa.
 - __.:IfInThread:: texte libre si la condition est vraie :: texte libre si la condition est fausse:.__ : Motif conditionnel qui permet d'afficher du texte libre selon que l'on se trouve dans un fil de publication ou sur une publication. Cela permet par exemple d'avoir une mise en page particulière en incluant les feuilles de styles qui conviennent.
 - __.:CodeHighlight::langage::True | False:: code source :.__ : Fonctionnalité très pratique de coloration syntaxique basée sur la librairie[pygments](http://pygments.org/) permettant de publier et de mettre en forme du code source. Ce motif, quand il est détecté, produit des feuilles de styles CSS dans le repertoire extra de votre blog, n'oubliez pas de les inclures dans header.html.
@@ -505,6 +511,9 @@ Vous avez oublié comment faire tel ou tel chose? Cette commande affiche dans le
 ## Installation
 
 Pour installer un thème sur votre blog copiez le répertoire __chunks__ et __assets__ (si ce dernier existe) dans le sous répertoire __theme__ de votre blog.
+Les thémes par défauts sont disponibles dans
+
+	~/.local/share/VenC/themes
 
 ## Greffons
 
@@ -520,15 +529,15 @@ Pour installer ce module il suffit de copier
 
 depuis
 
-`/usr/share/VenC/themes/dummy/assets
+	~/.local/share/VenC/themes/dummy/assets
 
 dans 
 
-`<blog>/themes/assets`
+	<blog>/themes/assets
 
 Puis ajoutez dans __header.html__ 
     
-`<script type="text/javascript" src=".:Get::RelativeOrigin:.VenC-Infinite-Scroll-<version>.js"></script>`
+	<script type="text/javascript" src=".:Get::RelativeOrigin:.VenC-Infinite-Scroll-<version>.js"></script>
 
 Voilà, maintenant la magie opère. Attention cependant. Assurez vous que les contraintes suivantes sont respectées dans votre thème.
 

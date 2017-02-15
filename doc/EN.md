@@ -300,8 +300,14 @@ Ditto for the last parameter, the separator. The separator allows inserting some
 
 Similarily, for the _RecursiveFor_ function, The second, the fourth and fifth parameter are free text.
 
-* __.:GetPreviousPage:: free text :.__ : When called in a thread context, this pattern allows getting the previous page's URL, if it exists. To access the previous page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text.
-* __.:GetNextPage:: free text :.__ : When called in a thread context, this pattern allows getting the next page's URL, if it exists. To access the next page's URL use the contextual variable __{0[destinationPageUrl]}__ whithin the free text. 
+* __.:GetPreviousPage:: free text :.__ : Allow to get the previous page. Some variables are availables in _free text_ field:
+  - __{0[destinationPage]}__ : Hold the number of the previous page. 
+  - __{0[destinationPageUrl]}__ : Hold the url of the previous page.
+  - __{0[entryName]}__ : In an entry page only, refer to the previous entry name. 
+* __.:GetNextPage:: free text :.__ : Allow to get the next page. Some variables are availables in _free text_ field:
+  - __{0[destinationPage]}__ : Hold the number of the next page. 
+  - __{0[destinationPageUrl]}__ : Hold the url of the next page.
+  - __{0[entryName]}__ : In an entry page only, refer to the next entry name. 
 * __.:PagesList:: length :: free text :.__ : Allows getting a list of previous and next publications. The list's length is determined by __length__, which must be an integer. There is two contextual variable there: {0[pageUrl]} and {0[pageNumber]}. The first one give you the url of the destination page, and the last one give you it's number.
 * __.:IfInThread:: free text if True :: free text if False:.__ : Conditionnal pattern which allows printing the free or not text whether we are in a publication's thread or in a publication. This allows for example to have a particular page layout for a unique publication or for a publication's thread including the corresponding style sheets.
 * __.:CodeHighlight::language::True | False:: source code :.__ : Very handy syntax coloration feature based on the [pygments](http://pygments.org/) library  allowing you to publish and to shape some source code. This pattern, when detected, produces CSS style sheets in the extra directory of your blog, do not forget to include them in header.html.
@@ -510,6 +516,9 @@ So you forget how to do something? This command display in the terminal the usua
 ## Installing
 
 To install a theme on your blog, copy the directory __chunks__ and __assets__ (if this one exists) in the sub-directory __theme__ of your blog.
+Default themes are located in
+
+	~/.local/share/VenC/themes
 
 ## Plugins
 
@@ -520,19 +529,19 @@ To install a theme on your blog, copy the directory __chunks__ and __assets__ (i
 
 It is an AJAX script which will automatically load the next pages' contents in the current page. This module is ideal for image galleries, for example. TO install this module, one just has to copy it
 
-`VenC-Infinite-Scroll-<version>.js`
+	VenC-Infinite-Scroll-<version>.js
 
 from
 
-`/usr/share/VenC/themes/dummy/assets
+	/usr/share/VenC/themes/dummy/assets
 
 in 
 
-`<blog>/themes/assets`
+	<blog>/themes/assets
 
 Then add in __header.html__ 
     
-`<script type="text/javascript" src=".:Get::RelativeOrigin:.VenC-Infinite-Scroll-<version>.js"></script>`
+	<script type="text/javascript" src=".:Get::RelativeOrigin:.VenC-Infinite-Scroll-<version>.js"></script>
 
 Voilà, now the magic happens. But be careful. Check that the following are respected in your theme.
 
