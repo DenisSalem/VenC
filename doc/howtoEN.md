@@ -4,6 +4,8 @@
 
 1. [Install VenC and create your blog in 5 minutes!](#install-venc-and-create-your-blog-in-5-minutes)
 2. [Create a new publication](#create-a-new-publication)
+3. [Publish](#publish)
+4. [Put online](#put-online)
 
 ## Install VenC and create your blog in 5 minutes!
 
@@ -52,13 +54,13 @@ The first part of the entry hold metadata describing your entry in [yaml](http:/
 
 __Tips: By default VenC parse the content of a publication as a [Markdown](https://daringfireball.net/projects/markdown/) document. It is allowed to disable this feature for the current entry you're writting by adding the field _doNotUseMarkdown_ to the metadatas. Yes, this field is empty, it does not require any particular value.__
 
-To learn more about entry's metadatas check out the related documentation [there](EN.md#publications)
+To learn more about entry's metadatas check out the related documentation [there](EN.md#publications).
 
 So the writting of the content of your publication is done below the triple dash.
 
 Once you've done the best post of the entire internet and beyond save your entry, then you're ready to publish!
 
-## publish
+## Publish
 
 So that's it, you wrote one or more entries, and you want to see how beautiful it look's like! Go to the root directory of your blog and issue the following
 
@@ -70,4 +72,44 @@ This will create all the HTML pages of your blog by using the theme known as __*
 
 Then you can recompile your blog by passing the name of the desired theme, printed in green with the previous command.
 
-You may want to do your own HTML/CSS theme. A good way to achieve that is to use __*dummy*__ as a base. Just copy this theme into your local theme folder known as _theme_
+You may want to do your own HTML/CSS theme. A good way to achieve that is to use __*dummy*__ as a base. Just copy this theme into your local theme folder known as _theme_. The source of dummy should be located in _~/.local/share/VenC/themes/_.
+
+To recompile the blog with this theme of your own just run
+
+	venc --export-blog
+
+By default, VenC use the local theme located in the root folder of your blog when you do not specify any theme name.
+
+You may want to learn more about themes so be sure to have a look to [this](EN.md#themes).
+
+So now, the content of yout blog is available in _blog_ directory. To have a look, just open in your browser the _index.html_ located in.
+
+There it is! You did it like a rock star!
+
+## Put online
+
+So now everything look's good, you wan't to share your work with the world wide web!
+
+There is many ways to achieve that. You can manually copy all the content of the blog folder to the remote server of your choice. But it might be a little bit anoying since VenC can do it for you.
+
+The first step is to edit *blog_configuration.yaml* so you can define the ftp destination server with the field *ftp_host*, then define the path where the content of your blog will be located in the server with the subfield _ftp_, in _path_.
+
+
+__Careful: Special attention on the ftp directory that you define. VenC will erase it's content, so be sure about what you're doing!__
+
+After filling the previous you can run
+
+	venc --remote-copy
+
+It will ask for the user and the password of the target ftp server. Once you give the right answer, VenC performs the transfer. Take a coffee and wait a little bit!
+
+You can also recompile and copy the blog online in one commande with
+
+	venc --export-via-ftp [theme]
+
+It will prompt you as well as the previous command.
+
+__Tips: You can pass a theme name to the command above so it will compile the blog with. If none theme are specified it will compile with the local theme.__
+
+Once it's done, congratulation, your blog should be online, spread the news!
+

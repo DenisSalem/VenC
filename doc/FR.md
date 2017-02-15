@@ -222,7 +222,7 @@ Il n'est pas forcément évident de créer un thème de toute pièce et vous n'a
 moyen de créer un thème soi même c'est de jeter un oeil au thème [dummy](../src/share/themes/dummy). Ce thème en l'état n'est pas
 utilisable, mais c'est une solide base pour créer le votre. Le style CSS reste à définir, et vous pourriez vouloir réorganiser les éléments de la page. Si vous avez déjà installé VenC sur votre système vous pourrez trouver ce thème dans 
 
-`~/.local/share/VenC/themes/dummy`
+	~/.local/share/VenC/themes/dummy
 
 Une autre approche est de regarder comment sont construits d'autres thèmes. Ceux là seront ajoutés au fur et à mesure sur le repository github de VenC.
 

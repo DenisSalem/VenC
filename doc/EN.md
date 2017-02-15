@@ -217,7 +217,7 @@ It's exactly the same principle for the RSS feed which is constructed identicall
 
 It is not necessarily easy to create a theme from scratch and may want to avoid loosing too much time testing the fuctioning of all this. The best way to create a theme by yourself is to take a look at the [dummy](../src/share/themes/dummy) theme. This theme, as is, is not usable, but it is a solid base to create yours. The CSS style is to define, and you may want to reorganize the elements in the page. If you have already installed VenC on your system you will find that theme in 
 
-`/usr/share/VenC/themes/dummy`
+	~/.local/share/VenC/themes/dummy
 
 Another approach is to look at how are constructed other themes. These ones will be added gradually on the github repository of VenC.
 
