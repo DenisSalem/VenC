@@ -116,9 +116,8 @@ When you create a new project, VenC creates a certain amount of directories. The
 * __theme__: Contains html templates, stylesheets and optionally JS scripts.
 * __templates__: Contains blank publication models.
 
-![Folders](https://framagit.org/denissalem/VenC/raw/master/doc/folders.png "Folders")
 
-## Structure des fichiers
+## Files structure
 
 1. [Main config file](#main-config-file)
 2. [Templates](#templates)
@@ -128,8 +127,6 @@ When you create a new project, VenC creates a certain amount of directories. The
 ### Main config file
 
 __blog_configuration.yaml__
-
-![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/blog_configuration.png "")
 
 It is a Yaml document in the project's root which defines blog's properties, such as it's title, it's author name, or functionnal details such as the number of by page publications or the printing order of those. Immediately after creating your blog, it will probably be the first file you'll edit. After fulfilling those fields (detailed below), you normally won't have to touch it again.
 
@@ -339,9 +336,20 @@ There also exist particular variables as lists. Those variables can be browsed i
 
 We now arrive in the particular case of categories. Categories form a tree as illustrated right below
 
-![Categories tree](https://framagit.org/denissalem/VenC/raw/master/doc/treesEN.png "Categories tree")
+- Materials
+  - Metal
+    - Steel
+    - Gold
+    - Platinum
+  - Plastics
+    - PLA
+    - ABS
+    - PP
+- Art
+  - Movie
+  - Music
 
-Dwon below, we call "_leave_" the end of a branch, a so called "_complete branch_" is the complete path from the root of a tree to a leave of that tree.
+Down below, we call "_leave_" the end of a branch, a so called "_complete branch_" is the complete path from the root of a tree to a leave of that tree.
 
 * __EntryCategories__ : The category list (complete branch) of the current publication. Is found as nested lists. There are several available items for a current iteration: 
   * __{0[relativeOrigin]}__ : The current's page relative path to the blog's root.

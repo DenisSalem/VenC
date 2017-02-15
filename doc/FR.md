@@ -115,8 +115,6 @@ Lorsque vous créez un nouveau projet, VenC produit un certain nombre de répert
 * __theme__: Contient les templates html, les feuilles de style et éventuellement les scripts JS.
 * __templates__: Contient des modèles vierges de publication.
 
-![Arborescence](https://framagit.org/denissalem/VenC/raw/master/doc/folders.png "Arborescence")
-
 ## Structure des fichiers
 
 1. [Fichier de configuration principal](#fichier-de-configuration-principal)
@@ -127,8 +125,6 @@ Lorsque vous créez un nouveau projet, VenC produit un certain nombre de répert
 ### Fichier de configuration principal
 
 __blog_configuration.yaml__
-
-![](https://raw.githubusercontent.com/DenisSalem/VenC/master/doc/blog_configuration.png "")
 
 Il s'agit d'un document Yaml à la racine du projet définissant les propriétés du blog, comme son titre, le nom de son auteur, ainsi que des détails fonctionnels comme le nombre de publications par pages ou l'ordre d'affichage de celles-ci. Immédiatement après avoir créé votre blog, il s'agira sans doute du premier fichier que vous éditerez. Après avoir rempli ces champs dont l'usage est détaillé ci-dessous, vous n'aurez normalement plus besoin d'y retoucher.
 
@@ -351,7 +347,18 @@ Il existe également des variables particulières sous la forme de listes. Ces v
 
 On arrive maintenant au cas particulier des categories. Les categories forment un arbre comme illustré ci-dessous
 
-![Arbre de catégories](https://framagit.org/denissalem/VenC/raw/master/doc/treesFR.png "Arbre de catégories")
+- Matériaux
+  - Métaux
+    - Argent
+    - Or
+    - Platine
+  - Plastiques
+    - PLA
+    - ABS
+    - PP
+- Art
+  - Cinéma
+  - Musique
 
 Plus bas on désigne par "_feuille_" l'extrémité d'une branche, une "_branche complète_" désigne le chemin complet depuis la racine d'un arbre jusqu'à une feuille de cette arbre.
 
