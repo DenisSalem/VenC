@@ -1,4 +1,4 @@
-![VenC](http://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg "VenC")
+![VenC](https://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg "VenC")
 
 # FAQ
 
@@ -12,7 +12,7 @@ Et bien c'est très simple camarade, comme dirait Jean-Pierre Coffe, _Les autres
 
 ## Commande introuvable
 
-VenC devrait être installé avec [pip](https://pypi.python.org/pypi/pip), dans l'environment python, côté utilisateur (pas dans le système donc). De cette façon le système à besoin de connaître l'emplacement de VenC, dont le l'exécutable devrait se trouver dans _~/.local/bin_.
+VenC devrait être installé avec [pip](https://pypi.python.org/pypi/pip), dans l'environment python, côté utilisateur (pas dans le système donc). De cette façon le système à besoin de connaître l'emplacement de VenC, dont l'exécutable devrait se trouver dans _~/.local/bin_.
 
 Sur certaine distribution Linux, comme [Archlinux](https://www.archlinux.org/) et [Gentoo](https://www.gentoo.org/), la variable d'environnement _PATH_ peut être incomplète par défaut, ce qui produit en effet une erreur type _commande introuvable_.
 

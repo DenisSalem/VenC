@@ -1,4 +1,4 @@
-![VenC](http://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg "VenC")
+![VenC](https://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg "VenC")
 
 # Tutoriels
 
@@ -90,4 +90,22 @@ Et voilà, le moins qu'on puisse dire, c'est que _vous pesez lourd dans le game_
 
 Maintenant que votre blog vous plait, il est temps de le mettre en ligne et d'en faire profiter les internautes!
 
-Il y a plusieurs façon de faire.
+Il y a plusieurs façon de faire. La première approche consiste à copier manuellement le contenu du répertoire _blog_ vers le serveur en ligne. Mais ce peut-être un peu fastidieux quand on sait que VenC prend peut prendre en charge le transfert de votre blog en ligne.
+
+Pour que VenC puisse mettre en ligne votre blog, vous devez lui fournir quelques informations dans le fichier _blog_configuration.yaml_. Pour cela renseignez le champ _ftp_host_ avec l'adresse du serveur FTP de destination. Renseignez également le sous-champ _ftp_ du champ _path_ en indiquant le chemin de destination où sera copié le contenu de votre blog, sur le serveur en ligne.
+
+__Attention: Soyez vigilant en renseignant le champ _ftp_ qui détermine le chemin de destination. Au moment de l'exporation en ligne, VenC efface le contenu de ce répertoire! Assurez de savoir ce que vous faite!__
+
+Après avoir fournis les informations dont VenC a besoin, vous pouvez copier votre blog en ligne:
+
+	venc --remote-copy
+
+De cette façon, VenC vous demandera de vous authentifier auprès du serveur. C'est seulement après vous être authentifié que le transfert commencera. Vous pouvez allers vous chercher un café, ou un jus de tomate. Perso, je préfère le jus de tomate.
+
+Une autre façon de faire est de compiler le blog et de l'exporter en ligne en une seule commande
+
+	venc --export-via-ftp [thème]
+
+Comme pour la commande précédente, vous devrez vous authentifier. Vous pouvez également préciser un nom de thème avec lequel vous voulez compiler votre blog.
+
+Voilà, c'est tout! Normalement, votre blog devrait être en ligne avec ça!

@@ -1,4 +1,4 @@
-![VenC](http://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg "VenC")
+![VenC](https://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg "VenC")
 
 # How to
 
@@ -27,7 +27,7 @@ The next step is to setup your blog. It's quick and easy, just edit the file nam
 
 That's it, your done! The blog is ready to use!
 
-_In case your face somes troubles during the process check out the [FAQ](https://framagit.org/denissalem/VenC/blob/master/doc/faqFR.md). No doubt there you'll find a solution!_
+_In case your face somes troubles during the process check out the [FAQ](https://framagit.org/denissalem/VenC/blob/master/doc/faqEN.md). No doubt there you'll find a solution!_
 
 ## Create a new publication
 
