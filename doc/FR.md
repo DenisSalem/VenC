@@ -71,7 +71,7 @@ En outre, voilà ce que VenC propose:
   - Copie en ligne du blog.
   - Ajout de thèmes.
   - Installation via pip
-  - Verbosité plus élevé lors d'erreur.
+  - Verbosité plus élevé lors d'erreurs.
   - Support de la langue anglaise.
   - Ajout d'un aide mémoire.
 
