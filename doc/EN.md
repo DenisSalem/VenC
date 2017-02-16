@@ -66,7 +66,7 @@ Also, here is what VenC has to offer:
  - Detection of missing variables in the blog's config file.
  - The IfInThread pattern behaves as a conditional If/Else structure.
 
-- Since version 1.1.2
+- Since version 1.2.0
   - You can attach a specific CSS stylesheet to single entries.
   - Markdown parser is now optional.
   - Remote copy of your blog is available.

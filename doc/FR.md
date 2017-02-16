@@ -65,7 +65,7 @@ En outre, voilà ce que VenC propose:
   - Détection de variables manquantes dans le fichier de configuration du blog.
   - Le motif IfInThread se comporte comme une structure conditionnel if/else.
 
-- Depuis la version 1.1.2
+- Depuis la version 1.2.0
   - Support de style CSS unique par publication.
   - Interpréteur markdown optionnel.
   - Copie en ligne du blog.
