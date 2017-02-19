@@ -72,5 +72,6 @@ DONE	| Fix edit-and-export NoneType error
 
 version 1.2.x
 
+DONE	| Fix key errors in templates
 HIGH	| Clean GetEntry
 LOW     | Client-side search engine.

@@ -48,7 +48,8 @@ def entry(argv):
             currentData["EntryDate"] = VenC.core.GetFormattedDate(entryDate)
             patternProcessor.SetWholeDictionnary(currentData)
             patternProcessor.ressource = '/templates/'+argv[1]
-            output = patternProcessor.parse(output)
+            patternProcessor.preProcess("new",output)
+            output = patternProcessor.parse("new")
             stream = codecs.open(outputFilename,'w',encoding="utf-8")
             stream.write(output)
 
