@@ -35,13 +35,16 @@ themes = {
     "tessellation": {"columns":3,"_themeDescription_": Messages.themeDescriptionTessellation},
 }
 
+def ToBase64_(argv):
+    return "~§CodeHighlight§§"+argv[0]+"§§"+argv[1]+"§§"+base64.b64encode(bytes('\:\:'.join(argv[2:]),encoding='utf-8')).decode("utf-8", "strict")+"§~"
+
 def CodeHighlight(argv):
     try:
         lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=True)
 
         formatter = pygments.formatters.HtmlFormatter(linenos=("inline" if argv[1]=="True" else False),cssclass="venc_source_"+argv[0].replace('+','Plus'))
         code = base64.b64decode(bytes(argv[2],encoding='utf-8'))
-        result = pygments.highlight(code, lexer, formatter)
+        result = pygments.highlight(code.decode("utf-8").replace("\:",":"), lexer, formatter)
         css  = formatter.get_style_defs('.venc_source_'+argv[0].replace('+','Plus'))
     
         if not os.path.exists(os.getcwd()+"/extra/venc_source_"+argv[0].replace('+','Plus')+".css"):
@@ -330,8 +333,6 @@ def GetCategoriesTree(categories, relativeOrigin, root, maxWeight=None):
             GetCategoriesTree(category.childs, relativeOrigin, node[category.value]["_nodes"], maxWeight)
     return node  
 
-def ToBase64_(argv):
-    return "~§CodeHighlight§§"+argv[0]+"§§"+argv[1]+"§§"+base64.b64encode(bytes(argv[2],encoding='utf-8')).decode("utf-8", "strict")+"§~"
 
 def GetFormattedDate(unformattedDate):
     data = unformattedDate.split('-')
