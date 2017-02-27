@@ -7,6 +7,10 @@ body, html
   font-family: sans;
   font-weight: lighter;
   background-color: white;}
+
+strong
+  {font-weight: bold;}
+
 a
   {outline: none;
   color: black;
@@ -22,6 +26,9 @@ h1
 /***************/
 /* H E A D E R */
 /***************/
+
+#banner
+  {width: 90%;}
 
 header h2
   {font-size: 0.8em;
