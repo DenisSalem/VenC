@@ -3,6 +3,7 @@
 import os
 import time
 import yaml
+import base64
 import shutil
 import ftplib
 import codecs
@@ -11,6 +12,10 @@ import markdown
 import subprocess
 import VenC.core
 import VenC.pattern
+import pygments.lexers
+import pygments.formatters
+
+
 
 def ftpExportRecursively(origin, ftp):
         folder = os.listdir(origin)
@@ -149,6 +154,32 @@ class Blog:
         self.relativeOrigin = str()
         self.ressource = str()
         self.initPatternProcessor()
+        self.warnings = list()
+
+    def CodeHighlight(self, argv):
+        try:
+            lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=True)
+
+            formatter = pygments.formatters.HtmlFormatter(linenos=("inline" if argv[1]=="True" else False),cssclass="venc_source_"+argv[0].replace('+','Plus'))
+            code = base64.b64decode(bytes(argv[2],encoding='utf-8'))
+            result = pygments.highlight(code.decode("utf-8").replace("\:",":"), lexer, formatter)
+            css  = formatter.get_style_defs('.venc_source_'+argv[0].replace('+','Plus'))
+    
+            msg = VenC.core.Messages.doNotForgetToIncludeCSSFileInHeader.format("venc_source_"+argv[0].replace('+','Plus')+".css")
+            if not msg in self.warnings:
+                print(msg)
+                self.warnings.append(msg)
+
+            if not os.path.exists(os.getcwd()+"/extra/venc_source_"+argv[0].replace('+','Plus')+".css"):
+                stream = open(os.getcwd()+"/extra/venc_source_"+argv[0].replace('+','Plus')+".css",'w')
+                stream.write(css)
+
+            return result
+    
+        except Exception as e:
+            raise
+            print("VenC:", e)
+            return str()
 
     def GetEntry(self, entryFilename, relativeOrigin=""):
         dump = yaml.load(self.entriesList[entryFilename].split("---\n")[0])
@@ -242,7 +273,7 @@ class Blog:
         
         self.patternProcessor.SetFunction("IfInThread", self.IfInThread)
         self.patternProcessor.SetFunction("PagesList", self.GetPagesList)
-        self.patternProcessor.SetFunction("CodeHighlight", VenC.core.CodeHighlight)
+        self.patternProcessor.SetFunction("CodeHighlight", self.CodeHighlight)
 
     def initStates(self, inputEntries, inThread):
         self.entryCounter = 0

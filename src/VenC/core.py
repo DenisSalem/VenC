@@ -4,12 +4,11 @@ import os
 import time
 import math
 import yaml
+import shutil
 import base64
 import datetime
 import pygments
 import VenC.pattern
-import pygments.lexers
-import pygments.formatters
 
 errors=list()
 
@@ -37,27 +36,6 @@ themes = {
 
 def ToBase64_(argv):
     return "~§CodeHighlight§§"+argv[0]+"§§"+argv[1]+"§§"+base64.b64encode(bytes('\:\:'.join(argv[2:]),encoding='utf-8')).decode("utf-8", "strict")+"§~"
-
-def CodeHighlight(argv):
-    try:
-        lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=True)
-
-        formatter = pygments.formatters.HtmlFormatter(linenos=("inline" if argv[1]=="True" else False),cssclass="venc_source_"+argv[0].replace('+','Plus'))
-        code = base64.b64decode(bytes(argv[2],encoding='utf-8'))
-        result = pygments.highlight(code.decode("utf-8").replace("\:",":"), lexer, formatter)
-        css  = formatter.get_style_defs('.venc_source_'+argv[0].replace('+','Plus'))
-    
-        if not os.path.exists(os.getcwd()+"/extra/venc_source_"+argv[0].replace('+','Plus')+".css"):
-            print(Messages.doNotForgetToIncludeCSSFileInHeader.format("venc_source_"+argv[0].replace('+','Plus')+".css"))
-            stream = open(os.getcwd()+"/extra/venc_source_"+argv[0].replace('+','Plus')+".css",'w')
-            stream.write(css)
-
-        return result
-
-    except Exception as e:
-        raise
-        print("VenC:", e)
-        return str()
 
 class Key:
     def __init__(self, value, entry):
@@ -143,8 +121,30 @@ def GetConfigurationFile():
         return None
 
 blogConfiguration = GetConfigurationFile()
+
 if blogConfiguration == -1:
     exit()
+
+def InstallTheme(argv):
+    if blogConfiguration == None:
+        print("VenC: "+VenC.core.Messages.noBlogConfiguration)
+        return
+
+    newFolderName = "theme "+str(datetime.datetime.now()).replace(':','-')
+
+    try:
+        shutil.move("theme", newFolderName)
+    except FileNotFoundError:
+        print("VenC:",VenC.core.Messages.fileNotFound.format("'theme'"))
+
+    try:
+        shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0], "theme")
+    except FileNotFoundError as e:
+        print("VenC:",VenC.core.Messages.themeDoesntExists.format("'"+argv[0]+"'"))
+        try:
+            shutil.move(newFolderName, "theme")
+        except:
+            pass
 
 def orderableStrToInt(string):
     try:
@@ -219,7 +219,7 @@ def SetNewEntryMetadata(entryDate, entryName):
     return entry
     
 def PrintVersion(argv):
-    print("VenC 1.2.0")
+    print("VenC 1.2.1")
 
 def GetKeyByName(keys, name):
     for key in keys:

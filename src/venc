@@ -9,12 +9,13 @@ def printHelp(argv=None):
     print("-v\t--version")
     print("-nb\t--new-blog <\""+VenC.core.Messages.argBlogName.format("1")+"\"> [\""+VenC.core.Messages.argBlogName.format("2")+"\" ... ]")
     print("-ne\t--new-entry <\""+VenC.core.Messages.argEntryName+"\"> [\""+VenC.core.Messages.argTemplateName+"\"]")
-    print("-xb\t--export-blog")
+    print("-xb\t--export-blog ["+VenC.core.Messages.themeName+"]")
     print("-ex\t--edit-and-xport <\""+VenC.core.Messages.argInputFilename+"\">")
     print("-xftp\t--export-via-ftp")
     print("-rc\t--remote-copy")
     print("-h\t--help")
     print("-t\t--themes")
+    print("-it\t--install-themes <"+VenC.core.Messages.themeName+">")
 
 def printThemes(argv=None):
     for theme in VenC.core.themes.keys():
@@ -27,6 +28,7 @@ command_index = {"-v":                  [VenC.core.PrintVersion, 0],
                 "-ex":                  [VenC.export.edit, 1],
                 "-xftp":                [VenC.export.ftp, 1],
                 "-rc":                  [VenC.export.remoteCopy, 0],
+                "-it":                  [VenC.core.InstallTheme, 1],
                 "-h":                   [printHelp, 0],
                 "-t":                   [printThemes, 0],
                 "--themes":             [printThemes, 0],
@@ -34,6 +36,7 @@ command_index = {"-v":                  [VenC.core.PrintVersion, 0],
                 "--remote-copy":        [VenC.export.remoteCopy, 0],
                 "--export-via-ftp":     [VenC.export.ftp, 1],
                 "--edit-and-export":    [VenC.export.edit, 1],
+                "--install-theme":      [VenC.core.InstallTheme, 1],
                 "--export-blog":        [VenC.export.blog, 1],
                 "--new-entry":          [VenC.new.entry, 2],
                 "--new-blog":           [VenC.new.blog, -1],

@@ -75,9 +75,7 @@ version 1.2.x
 DONE	| Fix wrong css style name on C++
 DONE	| Fix key errors in templates
 DONE	| Fix wrong parsing with semi-colon on CodeHighlight
-HIGH	| Warn about possible missing code highlight CSS
-HIGH	| Install theme command
-HIGH	| Wrong context name while issue error in new.py
+DONE	| Warn about possible missing code highlight CSS
+DONE	| Install theme command
 HIGH	| Clean GetEntry
-HIGH	| EntryName must be available in global metadata
 LOW     | Client-side search engine

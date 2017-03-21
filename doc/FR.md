@@ -1,6 +1,6 @@
 ![VenC](https://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg "VenC")
 
-# Version 1.2.0
+# Version 1.2.1
 
 1. [Présentation](#pr%C3%A9sentation)
 2. [Installation](#installation)
@@ -483,6 +483,16 @@ ou
 
 Cette commande permet de copier le blog courant sur le serveur FTP, sans le recompiler. Une invite d'authentification FTP apparaitra dans le terminal pour lancer la procédure.
 
+## Installer un théme
+
+	$ venc -it <Nom du thème>
+
+ou
+
+	$ venc --install-theme <Nom du thème>
+
+Cette commande déplace et sauvegarde l'anciens thème dans un dossier daté à la racine de votre blog. Le nouveau théme, passé en paramétre est alors installé.
+
 ## Editer un fichier du blog et recompiler le blog automatiquement
 
 	$ venc -ex <fichier>
@@ -514,6 +524,8 @@ Pour installer un thème sur votre blog copiez le répertoire __chunks__ et __as
 Les thémes par défauts sont disponibles dans
 
 	~/.local/share/VenC/themes
+
+Vous pouvez également utiliser [la commande prévu pour]().
 
 ## Greffons
 

@@ -17,7 +17,7 @@ def entry(argv):
     if VenC.core.blogConfiguration == None:
         print("VenC: "+VenC.core.Messages.noBlogConfiguration)
         return
-    
+            
     content =   {"authors":	"",
 		"tags":		"",
 		"categories":	"",
@@ -35,10 +35,12 @@ def entry(argv):
     content["entry_name"] = argv[0]
     entryDate = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
     outputFilename = os.getcwd()+'/entries/'+str(entry["EntryID"])+"__"+entryDate+"__"+content["entry_name"].replace(' ','_')
+
     if len(argv) == 1:
         stream = codecs.open(outputFilename,'w',encoding="utf-8")
         output = yaml.dump(content, default_flow_style=False, allow_unicode=True) + "---\n"
         stream.write(output)
+   
     else:
         try:
             output = open(os.getcwd()+'/templates/'+argv[1], 'r').read()

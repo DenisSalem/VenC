@@ -51,3 +51,4 @@ class Messages:
     themeDescriptionTessellation = "Theme with three columns. It's light, clear, and elegant. Fit nicely for a galery."
     themeDoesntExists = "{0}: Theme doesn't exists."
     unknownTextEditor = "{0}: unknown text editor."
+    themeName = "Theme name"
