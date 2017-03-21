@@ -28,7 +28,8 @@
 	5. [Exporter le blog](#exporter-le-blog)
 	6. [Exporter le blog en ligne](#exporter-le-blog-en-ligne)
 	7. [Editer un fichier du blog et recompiler le blog automatiquement](#editer-un-fichier-du-blog-et-recompiler-le-blog-automatiquement)
-        8. [Installer un thème](#installer-un-théme)
+	8. [Installer un thème](#installer-un-théme)
+
 6. [Thèmes](#thèmes)
 	1. [Installation](#installation-1)
 	2. [Greffons](#greffons)
