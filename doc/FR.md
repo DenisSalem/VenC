@@ -28,6 +28,7 @@
 	5. [Exporter le blog](#exporter-le-blog)
 	6. [Exporter le blog en ligne](#exporter-le-blog-en-ligne)
 	7. [Editer un fichier du blog et recompiler le blog automatiquement](#editer-un-fichier-du-blog-et-recompiler-le-blog-automatiquement)
+        8. [Installer un thème](#installer-un-théme)
 6. [Thèmes](#thèmes)
 	1. [Installation](#installation-1)
 	2. [Greffons](#greffons)
@@ -483,16 +484,6 @@ ou
 
 Cette commande permet de copier le blog courant sur le serveur FTP, sans le recompiler. Une invite d'authentification FTP apparaitra dans le terminal pour lancer la procédure.
 
-## Installer un théme
-
-	$ venc -it <Nom du thème>
-
-ou
-
-	$ venc --install-theme <Nom du thème>
-
-Cette commande déplace et sauvegarde l'anciens thème dans un dossier daté à la racine de votre blog. Le nouveau théme, passé en paramétre est alors installé.
-
 ## Editer un fichier du blog et recompiler le blog automatiquement
 
 	$ venc -ex <fichier>
@@ -513,6 +504,16 @@ ou
 
 Vous avez oublié comment faire tel ou tel chose? Cette commande affiche dans le terminal les commandes disponibles!
 
+## Installer un théme
+
+	$ venc -it <Nom du thème>
+
+ou
+
+	$ venc --install-theme <Nom du thème>
+
+Cette commande déplace et sauvegarde l'anciens thème dans un dossier daté à la racine de votre blog. Le nouveau théme, passé en paramétre est alors installé.
+
 # Thèmes
 
 1. [Installation](#installation-1)
@@ -525,7 +526,7 @@ Les thémes par défauts sont disponibles dans
 
 	~/.local/share/VenC/themes
 
-Vous pouvez également utiliser [la commande prévu pour]().
+Vous pouvez également utiliser [la commande prévu pour](#installer-un-théme).
 
 ## Greffons
 

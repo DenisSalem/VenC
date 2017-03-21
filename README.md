@@ -7,8 +7,8 @@
 
 # Documentations
 
-- [VenC 1.2.0 - Français](doc/FR.md)
-- [VenC 1.2.0 - English](doc/EN.md) (translation by [benben962](https://github.com/benben962) and [denissalem](https://denissalem.tuxfamily.org))
+- [VenC 1.2.1 - Français](doc/FR.md)
+- [VenC 1.2.1 - English](doc/EN.md) (translation by [benben962](https://github.com/benben962) and [denissalem](https://denissalem.tuxfamily.org))
 
 # FAQ
 
