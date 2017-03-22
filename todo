@@ -70,12 +70,15 @@ DONE	| Modified default blog_configuration structure, replace url by blog_url
 DONE	| Fix dummy theme
 DONE	| Fix edit-and-export NoneType error
 
-version 1.2.x
+version 1.2.1
 
 DONE	| Fix wrong css style name on C++
 DONE	| Fix key errors in templates
 DONE	| Fix wrong parsing with semi-colon on CodeHighlight
 DONE	| Warn about possible missing code highlight CSS
 DONE	| Install theme command
+
+version 1.2.x
+
 HIGH	| Clean GetEntry
-LOW     | Client-side search engine
+HIGH    | Client-side search engine
