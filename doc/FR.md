@@ -26,9 +26,10 @@
 	3. [Nouvelle publication](#nouvelle-publication)
 	4. [Afficher les thèmes disponibles](#afficher-les-thèmes-disponibles)
 	5. [Exporter le blog](#exporter-le-blog)
-	6. [Exporter le blog en ligne](#exporter-le-blog-en-ligne)
-	7. [Editer un fichier du blog et recompiler le blog automatiquement](#editer-un-fichier-du-blog-et-recompiler-le-blog-automatiquement)
-	8. [Installer un thème](#installer-un-théme)
+	6. [Copier le blog local en ligne](#copier-le-blog-local-en-ligne)
+	7. [Exporter le blog en ligne](#exporter-le-blog-en-ligne)
+	8. [Editer un fichier du blog et recompiler le blog automatiquement](#editer-un-fichier-du-blog-et-recompiler-le-blog-automatiquement)
+	9. [Installer un thème](#installer-un-théme)
 
 6. [Thèmes](#thèmes)
 	1. [Installation](#installation-1)
@@ -475,7 +476,7 @@ Pour exporter votre blog vous __devez__ être dans le répertoire de votre blog.
 
 Dans celui-ci se trouve un répertoire sobrement intitulé blog. C'est dans ce repertoire que ce sera exporté votre site. Une fois l'exportation terminée le contenu du répertoire sera copié vers votre serveur. À ce moment une invite d'authentification apparaitra dans le terminal. Comme pour l'exportation locale, vous pouvez spécifier un thème à utiliser.
 
-## Copier le blog en ligne
+## Copier le blog local en ligne
 
 	$ venc -rc
 
@@ -513,7 +514,7 @@ ou
 
 	$ venc --install-theme <Nom du thème>
 
-Cette commande déplace et sauvegarde l'anciens thème dans un dossier daté à la racine de votre blog. Le nouveau théme, passé en paramétre est alors installé.
+Cette commande déplace et sauvegarde l'anciens thème dans un dossier daté à la racine de votre blog. Le nouveau théme, passé en paramétre, est alors installé.
 
 # Thèmes
 
