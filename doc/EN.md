@@ -29,6 +29,8 @@
 	6. [Remote copy](#remote-copy)
 	7. [Exporting the blog online](#exporting-the-blog-online)
 	8. [Edit a file on the blog and recompile automatically the blog](#edit-a-file-on-the-blog-and-recompile-automatically-the-blog)
+	9. [Install theme](#install theme)
+9. [Installer theme](#install-theme)
 6. [Themes](#themes-1)
 	1. [Installing](#installing-1)
 	2. [Plugins](#plugins)
@@ -388,6 +390,7 @@ To use these patterns' special variables, go to the [Special Patterns](#special-
 6. [Remote copy](#remote-copy)
 7. [Edit a file from blog and recompile automatically](#edit-a-file-from-blog-and-recompile-automatically)
 8. [Display reminder](#display-reminder)
+9. [Installer theme](#install-theme)
 
 ## Print VenC's version
 
@@ -502,11 +505,21 @@ This command opens a folder passed as a parameter with your favorite text editor
 
 	$ venc -h
 
-ou
+or
 
 	$ venc --help
 
 So you forget how to do something? This command display in the terminal the usual features you are looking for!
+
+## Install theme
+
+	$ venc -it <theme name>
+
+or
+
+	$ venc --install-theme <theme name>
+
+This command move the current theme to a time-stamped folder in the root directory of your blog. The used theme, given in parameter, is then installed.
 
 # Themes
 
@@ -519,6 +532,8 @@ To install a theme on your blog, copy the directory __chunks__ and __assets__ (i
 Default themes are located in
 
 	~/.local/share/VenC/themes
+
+A more convenient way to install theme is to use [the proper command for this purpose](#install-theme).
 
 ## Plugins
 

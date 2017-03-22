@@ -391,9 +391,10 @@ Pour utiliser ces variables spéciales de motifs reportez vous à la partie [Mot
 3. [Nouvelle publication](#nouvelle-publication)
 4. [Exporter le blog](#exporter-le-blog)
 5. [Exporter le blog en ligne](#exporter-le-blog-en-ligne)
-6. [Copier le blog en ligne](#copier-le-blog-en-ligne)
+6. [Copier le blog local en ligne](#copier-le-blog-local-en-ligne)
 7. [Editer un fichier du blog et recompiler le blog automatiquement](#editer-un-fichier-du-blog-et-recompiler-le-blog-automatiquement)
 8. [Afficher l'aide mémoire](#afficher-laide-mémoire)
+9. [Installer un thème](#installer-un-théme)
 
 ## Afficher la version de VenC
 
