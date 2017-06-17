@@ -1,6 +1,5 @@
 #! /usr/bin/python3
 
-import os
 import time
 import math
 import yaml
@@ -8,7 +7,12 @@ import base64
 import datetime
 import pygments
 
-from VenC.constants import MsgFormat 
+MsgFormat = {
+    "END" : '\033[0m',
+    "GREEN" : '\033[92m',
+    "RED" : '\033[91m',
+    "YELLOW" : '\033[33m'
+}
 
 # hold error messages
 errors=list()
@@ -23,7 +27,7 @@ def Notify(msg, color="GREEN"):
 def ToBase64_(argv):
     return "~§CodeHighlight§§"+argv[0]+"§§"+argv[1]+"§§"+base64.b64encode(bytes('\:\:'.join(argv[2:]),encoding='utf-8')).decode("utf-8", "strict")+"§~"
 
-def orderableStrToInt(string):
+def OrderableStrToInt(string):
     try:
         return int(string)
 
@@ -43,7 +47,9 @@ def GetFormattedDate(unformattedDate):
         day=int(data[1]),
         hour=int(data[3]),
         minute=int(data[4])
-    ).strftime(blogConfiguration["date_format"])
+    ).strftime(
+        blogConfiguration["date_format"]
+    )
 
 def GetListOfPages(entriesPerPage,entriesCount):
     listOfPages = list()
@@ -57,7 +63,7 @@ def GetListOfPages(entriesPerPage,entriesCount):
         )
     return listOfPages
 
-def rmTreeErrorHandler(function, path, excinfo):
+def RmTreeErrorHandler(function, path, excinfo):
     if path == "blog" and excinfo[0] == FileNotFoundError:
         Die(Messages.blogFolderDoesntExists)
 

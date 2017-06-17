@@ -7,6 +7,7 @@ import datetime
 import subprocess
 
 from VenC.configuration import GetBlogConfiguration
+from VenC.configuration import GetPublicDataFromBlogConf
 from VenC.helpers import Notify
 from VenC.helpers import Die
 from VenC.l10n import Messages
@@ -33,7 +34,7 @@ def NewEntry(argv):
 
     date = datetime.datetime.now()
 
-    entry = Entries.SetNewEntryMetadata(date, argv[0])
+    entry = Entries.SetNewEntryMetadata(date, argv[0],  blogConfiguration)
 
     content["entry_name"] = argv[0]
     entryDate = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
@@ -73,6 +74,9 @@ def NewEntry(argv):
     Notify(Messages.entryWritten)
 
 def NewBlog(argv):
+    if len(argv) < 1:
+        Die(Messages.missingParams.format("--new-blog"))
+
     default_configuration =	{"blog_name":			Messages.blogName,
                                 "textEditor":                   "nano",
                                 "date_format":                  "%A %d. %B %Y",

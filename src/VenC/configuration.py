@@ -3,6 +3,7 @@
 import os
 import yaml
 
+from VenC.helpers import Die
 from VenC.helpers import Notify
 from VenC.l10n import Messages
 
@@ -63,6 +64,7 @@ def GetBlogConfiguration():
         return blogConfiguration
 
     except FileNotFoundError:
+        raise
         Die(Messages.noBlogConfiguration)
 
     except PermissionError:

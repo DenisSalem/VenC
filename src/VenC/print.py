@@ -1,9 +1,9 @@
 #! /usr/bin/python3
 
 
-from VenC.constants import MsgFormat
-from VenC.constants import ThemesDescriptor
+from VenC.helpers import MsgFormat
 from VenC.l10n import Messages;
+from VenC.theme import ThemesDescriptor
 
 def PrintVersion(argv):
     print("VenC 2.0.0")
@@ -22,4 +22,4 @@ def PrintHelp(argv=None):
 
 def PrintThemes(argv=None):
     for theme in ThemesDescriptor.keys():
-        print ("- "+MsgFormat["GREEN"]+theme+MsgFormat["END"]+":", ThemesDescriptor[theme]["_themeDescription_"]+"\n")
+        print ("- "+MsgFormat["GREEN"]+theme+MsgFormat["END"]+":", ThemesDescriptor[theme]["_themeDescription_"])

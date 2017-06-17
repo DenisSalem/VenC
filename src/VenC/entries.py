@@ -1,13 +1,15 @@
 #! /usr/bin/python3
 
+import os
+
 from VenC.configuration import GetBlogConfiguration
+from VenC.configuration import GetPublicDataFromBlogConf
+
 from VenC.helpers import Die
 from VenC.l10n import Messages
 
-blogConfiguration = GetBlogConfiguration()
-
-def GetSortedEntriesList(inputEntries):
-    return sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(blogConfiguration["thread_order"].strip() == "latest first"))
+def GetSortedEntriesList(inputEntries, threadOrder):
+    return sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(threadOrder.strip() == "latest first"))
 
 def GetEntriesList():
     try:
@@ -41,7 +43,7 @@ def GetLatestEntryID():
     else:
         return 0
 
-def SetNewEntryMetadata(entryDate, entryName):
+def SetNewEntryMetadata(entryDate, entryName, blogConfiguration):
     entry = dict()
     entry["EntryID"] = GetLatestEntryID()+1
     entry["EntryName"] = entryName
@@ -57,10 +59,10 @@ def SetNewEntryMetadata(entryDate, entryName):
 
     return entry
 
-def GetEntriesPerDates(entries):
+def GetEntriesPerDates(entries, dateDirectoryName):
     entriesPerDates = list()
     for entry in entries.keys():
-        date = time.strftime(blogConfiguration["path"]["dates_directory_name"], time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S"))
+        date = time.strftime(dateDirectoryName, time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S"))
         try:
             selectedKey = GetKeyByName(entriesPerDates, date)
             selectedKey.relatedTo.append(entry)
@@ -89,11 +91,10 @@ def GetEntriesPerCategories(entries):
         try:
             data = yaml.load(stream)
         except yaml.scanner.ScannerError:
-            print("VenC:", VenC.core.Messages.possibleMalformedEntry.format(entry))
-            exit()
+            Die(Messages.possibleMalformedEntry.format(entry))
+
         except yaml.parser.ParserError:
-            print("VenC:", VenC.core.Messages.possibleMalformedEntry.format(entry))
-            exit()
+            Die(Messages.possibleMalformedEntry.format(entry))
 
         if data != None:
             try:
@@ -116,7 +117,6 @@ def GetEntriesPerCategories(entries):
                             nodes = selectedKey.childs
                 
             except TypeError:
-                print("VenC:", VenC.core.Messages.possibleMalformedEntry.format(entry))
-                exit()
+                Die(Messages.possibleMalformedEntry.format(entry))
 
     return entriesPerCategories

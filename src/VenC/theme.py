@@ -2,6 +2,12 @@
 
 from VenC.l10n import Messages
 
+ThemesDescriptor = {
+    "dummy": {"columns":1,"_themeDescription_": Messages.themeDescriptionDummy},
+    "gentle": {"columns":1,"_themeDescription_": Messages.themeDescriptionGentle},
+    "tessellation": {"columns":3,"_themeDescription_": Messages.themeDescriptionTessellation},
+}
+
 class Theme:
     def __init__(self, themeFolder):
         self.header = str()
@@ -20,4 +26,4 @@ class Theme:
             self.rssEntry = open(themeFolder+"chunks/rssEntry.html",'r').read()
 
         except FileNotFoundError as e:
-            die(Messages.fileNotFound.format(str(e.filename)))
+            Die(Messages.fileNotFound.format(str(e.filename)))

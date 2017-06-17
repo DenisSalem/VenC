@@ -6,7 +6,7 @@ import sys
 from VenC.export import ExportBlog
 from VenC.export import EditAndExport
 from VenC.export import ExportAndRemoteCopy
-from VenC.export import RemoteCopy
+from VenC.remote import RemoteCopy
 from VenC.helpers import Notify
 from VenC.install import InstallTheme
 from VenC.l10n import Messages; 
@@ -15,7 +15,6 @@ from VenC.new import NewEntry
 from VenC.print import PrintVersion
 from VenC.print import PrintThemes
 from VenC.print import PrintHelp
-
 
 commandIndex = {"-v":                   [PrintVersion, 0],
                 "-nb":                  [NewBlog, -1],
