@@ -4,8 +4,9 @@ import VenC.l10n;
 
 MsgFormat = {
     "END" : '\033[0m',
+    "GREEN" : '\033[92m',
     "RED" : '\033[91m',
-    "GREEN" : '\033[92m'
+    "YELLOW" : '\033[33m'
 }
 
 ThemesDescriptor = {

@@ -6,16 +6,19 @@ import codecs
 import datetime
 import subprocess
 
-from VenC.configuration import BlogConfiguration
-from VenC.l10n import Messages
+from VenC.configuration import GetBlogConfiguration
 from VenC.helpers import Notify
+from VenC.helpers import Die
+from VenC.l10n import Messages
+
+import VenC.entries as Entries
 import VenC.helpers as Helpers
 import VenC.pattern as Pattern
 
 def NewEntry(argv):
+    blogConfiguration = GetBlogConfiguration()
     if len(argv) < 1:
-        Notify(Messages.missingParams.format("--new-entry"))
-        exit()
+        Die(Messages.missingParams.format("--new-entry"))
             
     content =   {"authors":	"",
 		"tags":		"",
@@ -26,12 +29,11 @@ def NewEntry(argv):
         wd = os.listdir(os.getcwd())
 
     except OSError:
-        Notify(Messages.cannotReadIn.format(os.getcwd()))
-        exit()
+        Die(Messages.cannotReadIn.format(os.getcwd()))
 
     date = datetime.datetime.now()
 
-    entry = Helpers.SetNewEntryMetadata(date, argv[0])
+    entry = Entries.SetNewEntryMetadata(date, argv[0])
 
     content["entry_name"] = argv[0]
     entryDate = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
@@ -46,7 +48,7 @@ def NewEntry(argv):
         try:
             output = open(os.getcwd()+'/templates/'+argv[1], 'r').read()
             patternProcessor = Pattern.Processor(".:",":.","::")
-            currentData = Helpers.GetPublicDataFromBlogConf()
+            currentData = Helpers.GetPublicDataFromBlogConf(BlogConfiguration)
             currentData["EntryName"] = argv[0]
             currentData["EntryDate"] = Helpers.GetFormattedDate(entryDate)
             patternProcessor.SetWholeDictionnary(currentData)
@@ -57,18 +59,18 @@ def NewEntry(argv):
             stream.write(output)
 
         except FileNotFoundError as e:
-            Notify(Messages.fileNotFound.format(os.getcwd()+"/templates/"+argv[1]))
-            exit()
+            Die(Messages.fileNotFound.format(os.getcwd()+"/templates/"+argv[1]))
     stream.close()
 
     try:
-        command = BlogConfiguration["textEditor"].split(' ')
+        command = blogConfiguration["textEditor"].split(' ')
         command.append(outputFilename)
         subprocess.call(command) 
 
     except FileNotFoundError:
-        Notify(Messages.unknownCommand.format(BlogConfiguration["textEditor"]))
-        exit()
+        Die(Messages.unknownCommand.format(blogConfiguration["textEditor"]))
+
+    Notify(Messages.entryWritten)
 
 def NewBlog(argv):
     default_configuration =	{"blog_name":			Messages.blogName,
@@ -98,8 +100,7 @@ def NewBlog(argv):
             os.mkdir(folder_name)
 
         except OSError:
-            Notify(Messages.fileAlreadyExists.format("--new-blog",os.getcwd()+'/'+folder_name))
-            exit()
+            Die(Messages.fileAlreadyExists.format("--new-blog",os.getcwd()+'/'+folder_name))
 
         os.mkdir(folder_name+'/'+"blog")
         os.mkdir(folder_name+'/'+"entries")
@@ -108,3 +109,5 @@ def NewBlog(argv):
         os.mkdir(folder_name+'/'+"templates")
         stream = codecs.open(folder_name+'/'+'blog_configuration.yaml', 'w',encoding="utf-8")
         yaml.dump(default_configuration, stream, default_flow_style=False, allow_unicode=True)
+
+    Notify(Messages.blogCreated)

@@ -4,12 +4,14 @@ import datetime
 import os
 import shutil
 
-from VenC.configuration import BlogConfiguration
+from VenC.configuration import GetBlogConfiguration
 from VenC.helpers import Notify
+from VenC.helpers import Die
 from VenC.l10n import Messages
 
 def InstallTheme(argv):
-    if BlogConfiguration == None:
+    blogConfiguration = GetBlogConfiguration()
+    if blogConfiguration == None:
         Notify(Messages.noBlogConfiguration)
         return
 
@@ -19,17 +21,18 @@ def InstallTheme(argv):
         shutil.move("theme", newFolderName)
     
     except FileNotFoundError:
-        Notify(Messages.fileNotFound.format("'theme'"))
+        Die(Messages.fileNotFound.format("'theme'"))
 
     try:
         shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0], "theme")
     
     except FileNotFoundError as e:
-        Notify(Messages.themeDoesntExists.format("'"+argv[0]+"'"))
-    
         ''' Restore previous states '''
         try:
             shutil.move(newFolderName, "theme")
+            Die(Messages.themeDoesntExists.format("'"+argv[0]+"'"))
 
         except Exception as e:
-            Notify(str(e))
+            Die(str(e))
+
+    Notify(Messages.themeInstalled)

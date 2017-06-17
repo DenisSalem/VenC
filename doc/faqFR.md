@@ -8,7 +8,7 @@
 
 ## Pourquoi VenC n'est officiellement supporté que par Linux?
 
-Et bien c'est très simple camarade, comme dirait Jean-Pierre Coffe, _Les autres système d'exploitations, c'est de la merde!_
+Et bien c'est très simple camarade, comme dirait Jean-Pierre Coffe, _Les systèmes d'exploitations propriétaires, c'est de la merde!_
 
 ## Commande introuvable
 

@@ -1,6 +1,9 @@
 #! /usr/bin/python3
 
 class Messages:
+    blogCreated = "Votre blog a été crée!"
+    themeInstalled = "Le thème à bien été installé!"
+    entryWritten = "La publication a bien été ajouté!"
     fileNotFound = "{0}: Ce fichier ou ce dossier n'existe pas."
     fileAlreadyExists = "{0}: {1}: Le fichier existe déjà."
     blogName = "Nom du blog"

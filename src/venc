@@ -7,6 +7,7 @@ from VenC.export import ExportBlog
 from VenC.export import EditAndExport
 from VenC.export import ExportAndRemoteCopy
 from VenC.export import RemoteCopy
+from VenC.helpers import Notify
 from VenC.install import InstallTheme
 from VenC.l10n import Messages; 
 from VenC.new import NewBlog
@@ -57,12 +58,12 @@ def argv_handler(argv=None):
            argv_handler(argv[len(arguments)+1:])
 
        else:
-           print(Messages.unknownCommand.format(argv[0]))
+           Notify(Messages.unknownCommand.format(argv[0]),"RED")
            argv_handler(argv[1:])
 
 if sys.argv[1:] != []: 
     argv_handler()
 
 else:
-    print("VenC: "+Messages.nothingToDo)
+    Notify(Messages.nothingToDo,"YELLOW")
 

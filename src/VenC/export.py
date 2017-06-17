@@ -15,100 +15,30 @@ import VenC.pattern
 import pygments.lexers
 import pygments.formatters
 
-
-
-def ftpExportRecursively(origin, ftp):
-        folder = os.listdir(origin)
-        for item in folder:
-            if os.path.isdir(origin+"/"+item):
-                try:
-                    ftp.mkd(item)
-                    ftp.cwd(ftp.pwd()+"/"+item)
-                    ftpExportRecursively(origin+"/"+item, ftp)
-                    ftp.cwd(ftp.pwd()[:-len("/"+item)])
-                except:
-                    try:
-                        ftp.cwd(ftp.pwd()+"/"+item)
-                        ftpExportRecursively(origin+"/"+item, ftp)
-                        ftp.cwd(ftp.pwd()[:-len("/"+item)])
-                    except:
-                        raise
-
-            else:
-                ftp.storbinary("STOR "+ftp.pwd()+"/"+item, open(origin+"/"+item, 'rb'))
-
-def ftpCleanDestination(ftp):
-    listing = list()
-    listing = ftp.nlst()
-    for item in listing:
-        if item not in ['.','..']:
-            try:
-                ftp.delete(item)
-            except Exception:
-                try:
-                    ftp.rmd(item)
-                except:
-                    ftp.cwd(ftp.pwd()+"/"+item)
-                    ftpCleanDestination(ftp)
-                    ftp.cwd(ftp.pwd()[:-len("/"+item)])
-
-def RemoteCopy(argv):
-    if VenC.core.blogConfiguration == None:
-        print("VenC: "+VenC.core.Messages.noBlogConfiguration)
-        return
-
-    try:
-        ftp = ftplib.FTP(VenC.core.blogConfiguration["ftp_host"])
-    except Exception as e:
-        print("VenC:", e)
-        return
-
-    username = input("VenC: "+VenC.core.Messages.username)
-    userPasswd = getpass.getpass(prompt="VenC: "+VenC.core.Messages.userPasswd)
-    try:
-        ftp.login(user=username,passwd=userPasswd)
-        ftp.cwd(VenC.core.blogConfiguration["path"]["ftp"])
-        print("VenC:", VenC.core.Messages.cleanFtpDirectory)
-        ftpCleanDestination(ftp)
-        print("VenC:", VenC.core.Messages.copyToFtpDirectory)
-        ftpExportRecursively(os.getcwd()+"/blog", ftp)
-    
-    except ftplib.error_perm as e:
-        print(e)
-        return
+from VenC.configuration import GetBlogConfiguration
+from VenC.constants import ThemesDescriptor
+from VenC.l10n import Messages
+from VenC.theme import Theme
 
 def ExportAndRemoteCopy(argv):
-    print("VenC:", VenC.l10n.Messages.blogRecompilation)
+    Notify(Messages.blogRecompilation)
     Blog(argv)
     RemoteCopy(argv)
 
-def rmTreeErrorHandler(function, path, excinfo):
-    if path == "blog" and excinfo[0] == FileNotFoundError:
-      print("VenC: "+VenC.core.Messages.blogFolderDoesntExists)
-      return
-
-    print("VenC:",function)
-    print("VenC:",path)
-    print("VenC:",excinfo[0])
-    exit()
-
 def ExportBlog(argv):
+    blogConfiguration = GetBlogConfiguration()
     themeFolder = os.getcwd()+"/theme/"
     if len(argv) == 1:
-        if not argv[0] in VenC.core.themes.keys(): 
-            print("VenC:", VenC.core.Messages.themeDoesntExists.format(argv[0]))
+        if not argv[0] in ThemesDescriptor.keys(): 
+            print("VenC:", Messages.themeDoesntExists.format(argv[0]))
             exit()
         else:
             themeFolder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
         
-        for param in VenC.core.themes[argv[0]].keys():
-            if param[0] != "_": # marker to detect what's we are looking for
-                VenC.core.blogConfiguration[param] = VenC.core.themes[argv[0]][param]
+        for param in ThemesDescriptor[argv[0]].keys():
+            if param[0] != "_": # marker to detect field names we do not want to replace
+                blogConfiguration[param] = ThemesDescriptor[argv[0]][param]
 
-
-    if VenC.core.blogConfiguration == None:
-        print("VenC: "+VenC.core.Messages.noBlogConfiguration)
-        return
 
     # cleaning direcoty
     shutil.rmtree("blog", ignore_errors=False, onerror=rmTreeErrorHandler)

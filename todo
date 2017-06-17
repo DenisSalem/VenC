@@ -82,5 +82,8 @@ version 2.0.0
 
 DONE	| Subprocess call catch exception
 DONE	| Subprocess support args
-HIGH	| Massive refactorisation and code cleaning
+WIP	| No more awkward silence when something is successfully done!
+WIP	| Add more coloration for message!
+WIP	| Massive refactorisation and code cleaning
+HIGH	| Reorganize themes dependencies
 HIGH    | Client-side search engine
