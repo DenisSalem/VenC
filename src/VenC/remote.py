@@ -1,10 +1,17 @@
 #! /usr/bin/python3
 
-def RemoteCopy(argv=list()):
-    try:
-        ftp = ftplib.FTP(VenC.core.blogConfiguration["ftp_host"])
+import ftplib
+import socket
 
-    except Exception as e:
+from VenC.configuration import GetBlogConfiguration
+from VenC.helpers import Die
+
+def RemoteCopy(argv=list()):
+    blogConfiguration = GetBlogConfiguration()
+    try:
+        ftp = ftplib.FTP(blogConfiguration["ftp_host"])
+
+    except socket.gaierror as e:
         Die(str(e))
 
     username = input("VenC: "+Messages.username)

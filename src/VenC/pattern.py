@@ -88,6 +88,7 @@ class Processor():
                 outputString += argv[1].format(Item) + argv[2]
 
             return outputString[:-len(argv[2])]
+
         except KeyError as e:
             return self.handleError(
                 Messages.forUnknownValue.format(e),
