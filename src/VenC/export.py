@@ -10,7 +10,7 @@ import codecs
 import getpass
 import markdown
 import subprocess
-import VenC.core
+import VenC.l10n
 import VenC.pattern
 import pygments.lexers
 import pygments.formatters
@@ -52,7 +52,7 @@ def ftpCleanDestination(ftp):
                     ftpCleanDestination(ftp)
                     ftp.cwd(ftp.pwd()[:-len("/"+item)])
 
-def remoteCopy(argv):
+def RemoteCopy(argv):
     if VenC.core.blogConfiguration == None:
         print("VenC: "+VenC.core.Messages.noBlogConfiguration)
         return
@@ -77,10 +77,10 @@ def remoteCopy(argv):
         print(e)
         return
 
-def ftp(argv):
-    print("VenC:", VenC.core.Messages.blogRecompilation)
-    blog(argv)
-    remoteCopy(argv)
+def ExportAndRemoteCopy(argv):
+    print("VenC:", VenC.l10n.Messages.blogRecompilation)
+    Blog(argv)
+    RemoteCopy(argv)
 
 def rmTreeErrorHandler(function, path, excinfo):
     if path == "blog" and excinfo[0] == FileNotFoundError:
@@ -92,7 +92,7 @@ def rmTreeErrorHandler(function, path, excinfo):
     print("VenC:",excinfo[0])
     exit()
 
-def blog(argv):
+def ExportBlog(argv):
     themeFolder = os.getcwd()+"/theme/"
     if len(argv) == 1:
         if not argv[0] in VenC.core.themes.keys(): 
@@ -116,7 +116,7 @@ def blog(argv):
     currentBlog = Blog(themeFolder)
     currentBlog.export()
 
-def edit(argv):
+def EditAndExport(argv):
     if VenC.core.blogConfiguration == None:
         print("VenC: "+VenC.core.Messages.noBlogConfiguration)
         exit()

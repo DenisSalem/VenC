@@ -1,9 +1,12 @@
 #! /usr/bin/python3
 
 import cgi
-import VenC.core
+import VenC.l10n
+import VenC.helpers
 
-class processor():
+from VenC.constants import MsgFormat
+
+class Processor():
     def __init__(self, openSymbol, closeSymbol, separator):
         self.closeSymbol	= closeSymbol
         self.openSymbol		= openSymbol
@@ -23,14 +26,14 @@ class processor():
 
     def handleError(self,error, default,enable=False):
         if self.strict or enable:
-            err = VenC.core.OutputColors.FAIL+"VenC: "+error+"\n"
+            err = FAIL+"VenC: "+error+"\n"
             
             if self.ressource != str():
-            	err +="VenC: "+VenC.core.Messages.inRessource.format(self.ressource)+"\n"
+            	err +="VenC: "+VenC.l10n.Messages.inRessource.format(self.ressource)+"\n"
                 
-            if not err in VenC.core.errors:
-                VenC.core.errors.append(err)
-                err += self.currentString+VenC.core.OutputColors.END+"\n\n"
+            if not err in VenC.helpers.errors:
+                VenC.helpers.errors.append(err)
+                err += self.currentString+END+"\n\n"
                 print(err)
         
         return default
@@ -62,10 +65,10 @@ class processor():
             return self.dictionnary[symbol[0]]
 
         except KeyError as e:
-            return self.handleError(VenC.core.Messages.getUnknownValue.format(e), "~§"+"Get§§"+"$$".join(symbol)+"§~")
+            return self.handleError(VenC.l10n.Messages.getUnknownValue.format(e), "~§"+"Get§§"+"$$".join(symbol)+"§~")
 
         except IndexError as e:
-            return self.handleError("Get: "+VenC.core.Messages.notEnoughArgs.format(e), "~§"+"Get§§"+"$$".join(symbol)+"§~",True)
+            return self.handleError("Get: "+VenC.l10n.Messages.notEnoughArgs.format(e), "~§"+"Get§§"+"$$".join(symbol)+"§~",True)
 
     def For(self, argv):
         outputString = str()
@@ -75,10 +78,10 @@ class processor():
 
             return outputString[:-len(argv[2])]
         except KeyError as e:
-            return self.handleError(VenC.core.Messages.forUnknownValue.format(e),"~§For§§"+"§§".join(argv)+"§~",True)
+            return self.handleError(VenC.l10n.Messages.forUnknownValue.format(e),"~§For§§"+"§§".join(argv)+"§~",True)
         
         except IndexError as e:
-            return self.handleError("For: "+VenC.core.Messages.notEnoughArgs,"~§For§§"+"§§".join(argv)+"§~",True)
+            return self.handleError("For: "+VenC.l10n.Messages.notEnoughArgs,"~§For§§"+"§§".join(argv)+"§~",True)
 
     def _RecursiveFor(self, openString, content, separator,closeString, nodes):
         outputString = openString
@@ -92,10 +95,12 @@ class processor():
                 if Key != "_nodes":
                     if not "_nodes" in nodes[Key].keys():
                         outputString += content.format(variables) + separator
+
                     else:
                         outputString += content.format(variables) + self._RecursiveFor(openString, content, separator, closeString, nodes[Key]["_nodes"])
+
         except KeyError as e:
-            return self.handleError(VenC.core.Messages.forUnknownValue.format(e),"<!-- Recursive For KeyError exception, shouldn't happen -->",True)
+            return self.handleError(VenC.l10n.Messages.forUnknownValue.format(e),"<!-- Recursive For KeyError exception, shouldn't happen -->",True)
 
         return outputString + closeString
 
@@ -110,10 +115,12 @@ class processor():
                 self.dictionnary[argv[0]]
             )
             return outputString
+
         except IndexError as e:
-            return self.handleError("RecursiveFor: "+VenC.core.Messages.notEnoughArgs,"~§RecursiveFor§§"+"§§".join(argv)+"§~",True)
+            return self.handleError("RecursiveFor: "+VenC.l10n.Messages.notEnoughArgs,"~§RecursiveFor§§"+"§§".join(argv)+"§~",True)
+
         except KeyError as e:
-            return self.handleError(VenC.core.Messages.recursiveForUnknownValue.format(e),"~§RecursiveFor§§"+"§§".join(argv)+"§~",True)
+            return self.handleError(VenC.l10n.Messages.recursiveForUnknownValue.format(e),"~§RecursiveFor§§"+"§§".join(argv)+"§~",True)
 
     def preProcess(self, inputIndex, string):
         self.currentStrings[inputIndex] = str(string)

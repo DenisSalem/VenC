@@ -6,31 +6,32 @@ import codecs
 import datetime
 import subprocess
 
-import VenC.core
-import VenC.pattern
+from VenC.configuration import BlogConfiguration
+from VenC.l10n import Messages
+from VenC.helpers import Notify
+import VenC.helpers as Helpers
+import VenC.pattern as Pattern
 
-def entry(argv):
+def NewEntry(argv):
     if len(argv) < 1:
-        print("VenC: "+VenC.core.Messages.missingParams.format("--new-entry"))
-        return
-    
-    if VenC.core.blogConfiguration == None:
-        print("VenC: "+VenC.core.Messages.noBlogConfiguration)
-        return
+        Notify(Messages.missingParams.format("--new-entry"))
+        exit()
             
     content =   {"authors":	"",
 		"tags":		"",
 		"categories":	"",
                 "CSS":     ""}
+
     try:
         wd = os.listdir(os.getcwd())
+
     except OSError:
-        print(VenC.core.Messages.cannotReadIn.format(os.getcwd()))
-        return
+        Notify(Messages.cannotReadIn.format(os.getcwd()))
+        exit()
 
     date = datetime.datetime.now()
 
-    entry = VenC.core.SetNewEntryMetadata(date, argv[0])
+    entry = Helpers.SetNewEntryMetadata(date, argv[0])
 
     content["entry_name"] = argv[0]
     entryDate = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
@@ -44,41 +45,45 @@ def entry(argv):
     else:
         try:
             output = open(os.getcwd()+'/templates/'+argv[1], 'r').read()
-            patternProcessor = VenC.pattern.processor(".:",":.","::")
-            currentData = VenC.core.GetPublicDataFromBlogConf()
+            patternProcessor = Pattern.Processor(".:",":.","::")
+            currentData = Helpers.GetPublicDataFromBlogConf()
             currentData["EntryName"] = argv[0]
-            currentData["EntryDate"] = VenC.core.GetFormattedDate(entryDate)
+            currentData["EntryDate"] = Helpers.GetFormattedDate(entryDate)
             patternProcessor.SetWholeDictionnary(currentData)
             patternProcessor.ressource = '/templates/'+argv[1]
-            patternProcessor.preProcess("new",output)
+            patternProcessor.preProcess("new", output)
             output = patternProcessor.parse("new")
             stream = codecs.open(outputFilename,'w',encoding="utf-8")
             stream.write(output)
 
         except FileNotFoundError as e:
-            print("VenC: "+VenC.core.Messages.fileNotFound.format(os.getcwd()+"/templates/"+argv[1]))
-            return
+            Notify(Messages.fileNotFound.format(os.getcwd()+"/templates/"+argv[1]))
+            exit()
     stream.close()
-    try:
-        pass
-        subprocess.call([VenC.core.blogConfiguration["textEditor"], outputFilename]) 
-    except:
-        pass
 
-def blog(argv):
-    default_configuration =	{"blog_name":			VenC.core.Messages.blogName,
+    try:
+        command = BlogConfiguration["textEditor"].split(' ')
+        command.append(outputFilename)
+        subprocess.call(command) 
+
+    except FileNotFoundError:
+        Notify(Messages.unknownCommand.format(BlogConfiguration["textEditor"]))
+        exit()
+
+def NewBlog(argv):
+    default_configuration =	{"blog_name":			Messages.blogName,
                                 "textEditor":                   "nano",
                                 "date_format":                  "%A %d. %B %Y",
-				"author_name":			VenC.core.Messages.yourName,
-				"blog_description":		VenC.core.Messages.blogDescription,
-				"blog_keywords":		VenC.core.Messages.blogKeywords,
-				"author_description":		VenC.core.Messages.aboutYou,
-				"license":			VenC.core.Messages.license,
-				"blog_url":				VenC.core.Messages.blogUrl,
-                                "ftp_host":                     VenC.core.Messages.ftpHost,
-				"blog_language":		VenC.core.Messages.blogLanguage,
-				"author_email":			VenC.core.Messages.yourEmail,
-				"path":				{"ftp":                         VenC.core.Messages.ftpPath,
+				"author_name":			Messages.yourName,
+				"blog_description":		Messages.blogDescription,
+				"blog_keywords":		Messages.blogKeywords,
+				"author_description":		Messages.aboutYou,
+				"license":			Messages.license,
+				"blog_url":			Messages.blogUrl,
+                                "ftp_host":                     Messages.ftpHost,
+				"blog_language":		Messages.blogLanguage,
+				"author_email":			Messages.yourEmail,
+				"path":				{"ftp":                         Messages.ftpPath,
                                                                 "index_file_name":		"index{page_number}.html",
 								"category_directory_name":	"{category}",
 								"dates_directory_name":		"%Y-%m",
@@ -91,9 +96,11 @@ def blog(argv):
     for folder_name in argv:
         try:
             os.mkdir(folder_name)
+
         except OSError:
-            print("VenC: "+VenC.core.Messages.fileAlreadyExists.format("--new-blog",os.getcwd()+'/'+folder_name))
-            return
+            Notify(Messages.fileAlreadyExists.format("--new-blog",os.getcwd()+'/'+folder_name))
+            exit()
+
         os.mkdir(folder_name+'/'+"blog")
         os.mkdir(folder_name+'/'+"entries")
         os.mkdir(folder_name+'/'+"theme")

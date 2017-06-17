@@ -78,7 +78,9 @@ DONE	| Fix wrong parsing with semi-colon on CodeHighlight
 DONE	| Warn about possible missing code highlight CSS
 DONE	| Install theme command
 
-version 1.2.x
+version 2.0.0
 
-HIGH	| Clean GetEntry
+DONE	| Subprocess call catch exception
+DONE	| Subprocess support args
+HIGH	| Massive refactorisation and code cleaning
 HIGH    | Client-side search engine
