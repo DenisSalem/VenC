@@ -1,8 +1,9 @@
 #! /usr/bin/python3
 
-def RemoteCopy(argv):
+def RemoteCopy(argv=list()):
     try:
         ftp = ftplib.FTP(VenC.core.blogConfiguration["ftp_host"])
+
     except Exception as e:
         Die(str(e))
 
@@ -29,11 +30,13 @@ def ftpExportRecursively(origin, ftp):
                     ftp.cwd(ftp.pwd()+"/"+item)
                     ftpExportRecursively(origin+"/"+item, ftp)
                     ftp.cwd(ftp.pwd()[:-len("/"+item)])
+
                 except:
                     try:
                         ftp.cwd(ftp.pwd()+"/"+item)
                         ftpExportRecursively(origin+"/"+item, ftp)
                         ftp.cwd(ftp.pwd()[:-len("/"+item)])
+
                     except:
                         raise
 
@@ -47,9 +50,11 @@ def ftpCleanDestination(ftp):
         if item not in ['.','..']:
             try:
                 ftp.delete(item)
+
             except Exception:
                 try:
                     ftp.rmd(item)
+
                 except:
                     ftp.cwd(ftp.pwd()+"/"+item)
                     ftpCleanDestination(ftp)

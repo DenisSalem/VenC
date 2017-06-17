@@ -23,10 +23,10 @@
 
 # version 1.1.1
 
-	DONE | Fix entries skipping
+	DONE | Fix entries skipping.
 	DONE | Remove BlogCategoriesLeafs.
-	DONE | Fix wrong dates sorting
-	DONE | Implement weight exploitation for BlogCategories anf fix mess with RecursiveFor
+	DONE | Fix wrong dates sorting.
+	DONE | Implement weight exploitation for BlogCategories anf fix mess with RecursiveFor.
 	DONE | Sort entries in categories tree.
 	DONE | Add verbose when export blog
 	DONE | Notice malformed entries.
@@ -39,10 +39,10 @@
 
 # version 1.2.0
 
-	DONE | Fix CodeHighlight and markdown collision
-	DONE | Fix wrong line number with codehighlight
+	DONE | Fix CodeHighlight and markdown collision.
+	DONE | Fix wrong line number with codehighlight.
 	DONE | Add more verbose on corrupt Entry. Stop nicely.
-	DONE | Fix empty entry creation when passing wrong or none template
+	DONE | Fix empty entry creation when passing wrong or none template.
 	DONE | Add custom metadata to entries. CSS and doNotUseMarkdown.
 	DONE | Add remote copy commande.
 	DONE | Make markdown optional.
@@ -54,35 +54,36 @@
 	DONE | Fix documentation about .:PagesList:.
 	DONE | Fix Entry tags index out of range. 
 	DONE | Print ressource and current string when pattern processor fail.
-	DONE | Fix infinite scroll : opacity transition and loading image issue. Upgrade the whole plugin :)
-	DONE | Fix index_file_name issue: GetPreviousPage and GetNextPage were ignoring blog_configuration.yaml value
+	DONE | Fix infinite scroll : opacity transition and loading image issue. Upgrade the whole plugin :).
+	DONE | Fix index_file_name issue: GetPreviousPage and GetNextPage were ignoring blog_configuration.yaml value.
 	DONE | GetPrevious and GetNextPage should work outside thread.
-	DONE | Optimize I/O stream
-	DONE | Optimize pattern processor to get it twice faster
+	DONE | Optimize I/O stream.
+	DONE | Optimize pattern processor to get it twice faster.
 	DONE | Installation via pypi.
-	DONE | Add some themes
-	DONE | Choose theme to apply while export
-	DONE | Display available themes
-	DONE | Modified default blog_configuration structure, replace url by blog_url
-	DONE | Fix dummy theme
-	DONE | Fix edit-and-export NoneType error
+	DONE | Add some themes.
+	DONE | Choose theme to apply while export.
+	DONE | Display available themes.
+	DONE | Modified default blog_configuration structure, replace url by blog_url.
+	DONE | Fix dummy theme.
+	DONE | Fix edit-and-export NoneType error.
 
 # version 1.2.1
 
-	DONE | Fix wrong css style name on C++
-	DONE | Fix key errors in templates
-	DONE | Fix wrong parsing with semi-colon on CodeHighlight
-	DONE | Warn about possible missing code highlight CSS
-	DONE | Install theme command
+	DONE | Fix wrong css style name on C++.
+	DONE | Fix key errors in templates.
+	DONE | Fix wrong parsing with semi-colon on CodeHighlight.
+	DONE | Warn about possible missing code highlight CSS.
+	DONE | Install theme command.
 
 # version 2.0.0
 
-	DONE | Subprocess call catch exception
-	DONE | Subprocess support args
-	DONE | Remove extra newlines from PrintThemes
-	WIP  | No more awkward silence when something is successfully done!
+	DONE | Subprocess call catch exception.
+	DONE | Subprocess support args.
+	DONE | Remove extra newlines from PrintThemes.
+	DONE | Print nicer warnings when found unknown values in chunks.
+	WIP  | No more awkward silence when something is successfully done.
 	WIP  | Add more coloration for message!
-	WIP  | Massive refactorisation and code cleaning
-	TODO | Fix vertical scroll bar in code snippet
-	TODO | Reorganize themes dependencies
-	TODO | Client-side search engine
+	WIP  | Massive refactorisation and code cleaning.
+	TODO | Fix vertical scroll bar in code snippet.
+	TODO | Reorganize themes dependencies.
+	TODO | Client-side search engine.

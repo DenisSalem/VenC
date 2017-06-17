@@ -4,7 +4,8 @@ import cgi
 import VenC.l10n
 import VenC.helpers
 
-from VenC.constants import MsgFormat
+from VenC.helpers import GetFormattedMessage
+from VenC.l10n import Messages
 
 class Processor():
     def __init__(self, openSymbol, closeSymbol, separator):
@@ -26,14 +27,14 @@ class Processor():
 
     def handleError(self,error, default,enable=False):
         if self.strict or enable:
-            err = FAIL+"VenC: "+error+"\n"
+            err = GetFormattedMessage(error, "RED")+"\n"
             
             if self.ressource != str():
-            	err +="VenC: "+VenC.l10n.Messages.inRessource.format(self.ressource)+"\n"
+            	err += GetFormattedMessage(Messages.inRessource.format(self.ressource)+"\n", "RED")
                 
             if not err in VenC.helpers.errors:
                 VenC.helpers.errors.append(err)
-                err += self.currentString+END+"\n\n"
+                err += self.currentString
                 print(err)
         
         return default
@@ -44,6 +45,7 @@ class Processor():
     def DelFunction(self, key):
         try:
             del self.functions[key]
+
         except:
             pass
 
@@ -65,10 +67,17 @@ class Processor():
             return self.dictionnary[symbol[0]]
 
         except KeyError as e:
-            return self.handleError(VenC.l10n.Messages.getUnknownValue.format(e), "~§"+"Get§§"+"$$".join(symbol)+"§~")
+            return self.handleError(
+                Messages.getUnknownValue.format(e),
+                "~§"+"Get§§"+"$$".join(symbol)+"§~"
+            )
 
         except IndexError as e:
-            return self.handleError("Get: "+VenC.l10n.Messages.notEnoughArgs.format(e), "~§"+"Get§§"+"$$".join(symbol)+"§~",True)
+            return self.handleError(
+                "Get: "+Messages.notEnoughArgs.format(e),
+                "~§"+"Get§§"+"$$".join(symbol)+"§~",
+                True
+            )
 
     def For(self, argv):
         outputString = str()
@@ -78,10 +87,18 @@ class Processor():
 
             return outputString[:-len(argv[2])]
         except KeyError as e:
-            return self.handleError(VenC.l10n.Messages.forUnknownValue.format(e),"~§For§§"+"§§".join(argv)+"§~",True)
+            return self.handleError(
+                Messages.forUnknownValue.format(e),
+                "~§For§§"+"§§".join(argv)+"§~",
+                True
+            )
         
         except IndexError as e:
-            return self.handleError("For: "+VenC.l10n.Messages.notEnoughArgs,"~§For§§"+"§§".join(argv)+"§~",True)
+            return self.handleError(
+                "For: "+Messages.notEnoughArgs,
+                "~§For§§"+"§§".join(argv)+"§~",
+                True
+            )
 
     def _RecursiveFor(self, openString, content, separator,closeString, nodes):
         outputString = openString
@@ -97,10 +114,20 @@ class Processor():
                         outputString += content.format(variables) + separator
 
                     else:
-                        outputString += content.format(variables) + self._RecursiveFor(openString, content, separator, closeString, nodes[Key]["_nodes"])
+                        outputString += content.format(variables) + self._RecursiveFor(
+                            openString,
+                            content,
+                            separator,
+                            closeString,
+                            nodes[Key]["_nodes"]
+                        )
 
         except KeyError as e:
-            return self.handleError(VenC.l10n.Messages.forUnknownValue.format(e),"<!-- Recursive For KeyError exception, shouldn't happen -->",True)
+            return self.handleError(
+                Messages.forUnknownValue.format(e),
+                "<!-- Recursive For KeyError exception, shouldn't happen -->",
+                True
+            )
 
         return outputString + closeString
 
@@ -117,10 +144,18 @@ class Processor():
             return outputString
 
         except IndexError as e:
-            return self.handleError("RecursiveFor: "+VenC.l10n.Messages.notEnoughArgs,"~§RecursiveFor§§"+"§§".join(argv)+"§~",True)
+            return self.handleError(
+                "RecursiveFor: "+Messages.notEnoughArgs,
+                "~§RecursiveFor§§"+"§§".join(argv)+"§~",
+                True
+            )
 
         except KeyError as e:
-            return self.handleError(VenC.l10n.Messages.recursiveForUnknownValue.format(e),"~§RecursiveFor§§"+"§§".join(argv)+"§~",True)
+            return self.handleError(
+                VenC.l10n.Messages.recursiveForUnknownValue.format(e),
+                "~§RecursiveFor§§"+"§§".join(argv)+"§~",
+                True
+            )
 
     def preProcess(self, inputIndex, string):
         self.currentStrings[inputIndex] = str(string)
@@ -187,12 +222,34 @@ class Processor():
                     if fields[0] in self.functions.keys():
                         output = self.functions[fields[0]](fields[1:])
                     else:
-                        output =  self.handleError(VenC.core.Messages.unknownPattern.format(fields[0]),"~§"+"§§".join(fields)+"§~")
+                        output =  self.handleError(
+                            Messages.unknownPattern.format(fields[0]),
+                            "~§"+"§§".join(fields)+"§~"
+                        )
                     
                     if escape:
-                        return self._process(string[:openSymbolPos[-1]]+cgi.escape(output).encode('ascii', 'xmlcharrefreplace').decode(encoding='ascii')+string[closeSymbolPos[0]+len(self.closeSymbol):],escape=True)
+                        return self._process(
+                            string[
+                                :openSymbolPos[-1]]+
+                                cgi.escape(output).encode(
+                                    'ascii', 
+                                    'xmlcharrefreplace'
+                                ).decode(
+                                    encoding='ascii'
+                                )+
+                                string[closeSymbolPos[0]+
+                                len(self.closeSymbol):
+                            ],
+                            escape=True)
                     else:
-                        return self._process(string[:openSymbolPos[-1]]+str(output)+string[closeSymbolPos[0]+2:],escape=False)
+                        return self._process(
+                            string[
+                                :openSymbolPos[-1]]+
+                                str(output)+
+                                string[closeSymbolPos[0]+2:
+                            ],
+                            escape=False
+                        )
 
             i+=1
     

@@ -7,7 +7,6 @@ import datetime
 import subprocess
 
 from VenC.configuration import GetBlogConfiguration
-from VenC.configuration import GetPublicDataFromBlogConf
 from VenC.helpers import Notify
 from VenC.helpers import Die
 from VenC.l10n import Messages

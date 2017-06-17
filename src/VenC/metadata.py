@@ -1,5 +1,7 @@
 #! /usr/bin/python3
 
+import datetime
+
 class Metadata:
     def __init__(self, value, entry):
         self.count = 1
@@ -18,7 +20,7 @@ def GetMetadataByName(keys, name):
 
 
 ''' Might need refactorisation '''
-def GetDatesList(keys, relativeOrigin):
+def GetDatesList(keys, relativeOrigin, datesDirectoryName):
     output = list()
     maxWeight = 0
     for key in keys:
@@ -29,33 +31,34 @@ def GetDatesList(keys, relativeOrigin):
     for key in output:
         key["weight"] = str(int((key["count"]/maxWeight)*10))
 
-    return sorted(output, key = lambda date: datetime.datetime.strptime(date["date"], blogConfiguration["path"]["dates_directory_name"]))
+    return sorted(output, key = lambda date: datetime.datetime.strptime(date["date"], datesDirectoryName))
 
-def GetMetadataTreeMaxWeight(metadatas, maxWeight=0):
+def GetMetadataTreeMaxWeight(metadata, maxWeight=0):
     currentMaxWeight = maxWeight
-    for metadata in metadatas:
-        if metadata.count > currentMaxWeight:
-            currentMaxWeight = metadata.count
-        m = GetCategoriesTreeMaxWeight(metadata.childs, maxWeight=currentMaxWeight)
+    for current in metadata:
+        if current.count > currentMaxWeight:
+            currentMaxWeight = current.count
+        m = GetMetadataTreeMaxWeight(current.childs, maxWeight=currentMaxWeight)
         if m > currentMaxWeight:
             currentMaxWeight = m
 
     return currentMaxWeight
 
-def GetCategoriesTree(categories, relativeOrigin, root, maxWeight=None):
+def GetMetadataTree(metadata, relativeOrigin, root=dict(), maxWeight=None):
     node = root
 
-    if len(categories) != 0:
+    if len(metadata) != 0:
         node["_nodes"] = dict()
 
-    for category in categories:
-        node[category.value] = dict()
-        node[category.value]["__categoryPath"] = category.path
+    for current in metadata:
+        node[current.value] = dict()
+        node[current.value]["__categoryPath"] = current.path
         if maxWeight != None:
-            node[category.value]["__count"] = category.count
-            node[category.value]["__weight"] = int((category.count/maxWeight) * 10)
-        node[category.value]["__relativeOrigin"] = relativeOrigin
-        if len(category.childs) != 0:
-            node[category.value]["_nodes"] = dict()
-            GetCategoriesTree(category.childs, relativeOrigin, node[category.value]["_nodes"], maxWeight)
+            node[current.value]["__count"] = current.count
+            node[current.value]["__weight"] = int((current.count/maxWeight) * 10)
+        node[current.value]["__relativeOrigin"] = relativeOrigin
+        if len(current.childs) != 0:
+            node[current.value]["_nodes"] = dict()
+            GetMetadatasTree(current.childs, relativeOrigin, node[metadata.value]["_nodes"], maxWeight)
+
     return node

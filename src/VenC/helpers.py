@@ -1,11 +1,11 @@
 #! /usr/bin/python3
 
-import time
 import math
-import yaml
 import base64
 import datetime
+import os
 import pygments
+import shutil
 
 MsgFormat = {
     "END" : '\033[0m',
@@ -22,9 +22,12 @@ def Die(msg,color="RED"):
     exit()
 
 def Notify(msg, color="GREEN"):
-    print(MsgFormat[color]+"\033[1mVenC: \033[0m"+MsgFormat[color]+msg+MsgFormat["END"])
+    print(GetFormattedMessage(msg, color))
 
-def ToBase64_(argv):
+def GetFormattedMessage(msg, color="GREEN"):
+    return MsgFormat[color]+"\033[1mVenC: \033[0m"+MsgFormat[color]+msg+MsgFormat["END"]
+
+def ToBase64(argv):
     return "~§CodeHighlight§§"+argv[0]+"§§"+argv[1]+"§§"+base64.b64encode(bytes('\:\:'.join(argv[2:]),encoding='utf-8')).decode("utf-8", "strict")+"§~"
 
 def OrderableStrToInt(string):
@@ -34,12 +37,12 @@ def OrderableStrToInt(string):
     except:
         return -1
 
-def MergeDictionnary(current,public):
+def MergeDictionnaries(current,public):
     d = current.copy()
     d.update(public)
     return d 
 
-def GetFormattedDate(unformattedDate):
+def GetFormattedDate(unformattedDate, dateFormat):
     data = unformattedDate.split('-')
     return datetime.datetime(
         year=int(data[2]),
@@ -48,7 +51,7 @@ def GetFormattedDate(unformattedDate):
         hour=int(data[3]),
         minute=int(data[4])
     ).strftime(
-        blogConfiguration["date_format"]
+        dateFormat
     )
 
 def GetListOfPages(entriesPerPage,entriesCount):
@@ -71,3 +74,22 @@ def RmTreeErrorHandler(function, path, excinfo):
     Notify(path,"RED")
     Notify(excinfo[0],"RED")
     exit()
+
+def GetFilename(indexFileName, pageCounter):
+    return indexFileName.format(page_number=(str(pageCounter) if pageCounter != 0 else str()))
+
+def ExportExtraData(origin, destination=""):
+    try:
+        folder = os.listdir(origin)
+        for item in folder:
+            if os.path.isdir(origin+"/"+item):
+                try:
+                    os.mkdir(os.getcwd()+"/blog/"+destination+item)
+                    ExportExtraData(origin+'/'+item, item+'/')
+                except:
+                    raise
+            else:
+                shutil.copy(origin+"/"+item, os.getcwd()+"/blog/"+destination+item)
+    except:
+        raise
+
