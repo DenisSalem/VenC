@@ -17,6 +17,12 @@ MsgFormat = {
 # hold error messages
 errors=list()
 
+def HighlightValue(text, value, color="RED"):
+    return text.replace(
+        value,
+        MsgFormat[color]+value+MsgFormat["END"]
+    )
+
 def Die(msg,color="RED"):
     Notify(msg, color)
     exit()

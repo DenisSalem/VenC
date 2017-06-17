@@ -5,6 +5,7 @@ import VenC.l10n
 import VenC.helpers
 
 from VenC.helpers import GetFormattedMessage
+from VenC.helpers import HighlightValue
 from VenC.l10n import Messages
 
 class Processor():
@@ -25,7 +26,7 @@ class Processor():
         self.patternsIndex      = dict()
         self.errors             = list()
 
-    def handleError(self,error, default,enable=False):
+    def handleError(self, error, default,enable=False,value=""):
         if self.strict or enable:
             err = GetFormattedMessage(error, "RED")+"\n"
             
@@ -34,7 +35,7 @@ class Processor():
                 
             if not err in VenC.helpers.errors:
                 VenC.helpers.errors.append(err)
-                err += self.currentString
+                err += HighlightValue(self.currentString, value)
                 print(err)
         
         return default
@@ -69,7 +70,8 @@ class Processor():
         except KeyError as e:
             return self.handleError(
                 Messages.getUnknownValue.format(e),
-                "~§"+"Get§§"+"$$".join(symbol)+"§~"
+                "~§"+"Get§§"+"$$".join(symbol)+"§~",
+                value=str(e)[1:-1]
             )
 
         except IndexError as e:
