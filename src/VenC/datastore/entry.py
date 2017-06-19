@@ -5,6 +5,12 @@ import os
 import time
 import yaml
 
+from VenC.helpers import Die
+from VenC.helpers import Notify
+
+from VenC.l10n.auto import Messages
+from VenC.datastore.metadata import 
+
 class Entry:
     def __init__(self, filename):
         ''' Loading '''
@@ -68,40 +74,42 @@ class Entry:
         except KeyError:
             Die(Messages.missingMandatoryFieldInEntry.format("tags", self.id))
 
-def GetSortedEntriesList(inputEntries, threadOrder):
-    return sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(threadOrder.strip() == "latest first"))
-
-def GetEntriesList():
+def YieldEntriesContent():
     try:
-        files = os.listdir(os.getcwd()+"/entries")
+        entryIndex = 0
+        for filename in sorted(
+            os.listdir(os.getcwd()+"/entries"),
+            key = lambda e : int(e.split("__")[0]),
+            reverse=(threadOrder.strip() == "latest first")
+        ):
+            explodedFilename = filename.split("__")
+            try:
+                date = explodedFilename[1].split('-')
+                entryID = int(explodedFilename[0])
+                datetime.datetime(
+                    year=int(date[2]),
+                    month=int(date[0]),
+                    day=int(date[1]),
+                    hour=int(date[3]),
+                    minute=int(date[4])
+                ) 
+                if entryID > 0:
+                    yield entryIndex, filename
+                    entryIndex+=1
 
-    except FileNotFoundError as e:
-        Die(Messages.fileNotFound.format(os.getcwd()+"/entries"))
+                else:
+                    raise ValueError
+
+            except ValueError:
+                Notify(Messages.invalidEntryFilename.format(filename), "YELLOW")
+
+            except IndexError:
+                Notify(Messages.invalidEntryFilename.format(filename), "YELLOW")
     
-    entries = list()
-    for filename in files:
-        explodedFilename = filename.split("__")
-        try:
-            date = explodedFilename[1].split('-')
-            entryID = int(explodedFilename[0])
-            datetime.datetime(
-                year=int(date[2]),
-                month=int(date[0]),
-                day=int(date[1]),
-                hour=int(date[3]),
-                minute=int(date[4])
-            ) 
-            if entryID > 0:
-                entries.append(filename)
-        except ValueError:
-            Notify(Messages.invalidEntryFilename.format(filename), "YELLOW")
+    except FileNotFoundError:
+        Die(Messages.fileNotFound.format(os.getcwd()+"/entries"))
 
-        except IndexError:
-            Notify(Messages.invalidEntryFilename.format(filename), "YELLOW")
 
-    return entries
-
-''' 
 def GetLatestEntryID():
     entriesList = sorted(GetEntriesList(), key = lambda entry : int(entry.split("__")[0]))
     
@@ -109,7 +117,7 @@ def GetLatestEntryID():
         return int(entriesList[-1].split("__")[0])
     else:
         return 0
-
+'''
 def SetNewEntryMetadata(entryDate, entryName, blogConfiguration):
     entry = dict()
     entry["EntryID"] = GetLatestEntryID()+1
