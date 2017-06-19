@@ -86,9 +86,8 @@
 	WIP  | No more awkward silence when something is successfully done.
 	WIP  | Add more coloration for message!
 	WIP  | Speed up blog exportation
-	WIP  | Massive refactorisation and code cleaning.
+	WIP  | Massive refactorisation, code cleaning and optimisation.
 	TODO | Auto include CSS
-	TODO | Change nomenclature entry_name -> title. Fix doc.
 	TODO | warn about missing mandatory field in entry
 	TODO | Add GetIfExist
 	TODO | Fix vertical scroll bar in code snippet.
@@ -96,3 +95,5 @@
 	TODO | Clean up installation
 	TODO | Client-side search engine.
 	TODO | Add translation for Deutsch and Spanish
+	TODO | Change nomenclature: entry_name -> title. Fix doc.
+	TODO | Change nomenclature: thread_order must become a boolean known as reverse
