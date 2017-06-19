@@ -22,8 +22,7 @@ def NewEntry(argv):
             
     content =   {"authors":	"",
 		"tags":		"",
-		"categories":	"",
-                "CSS":     ""}
+		"categories":	""}
 
     try:
         wd = os.listdir(os.getcwd())

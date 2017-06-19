@@ -26,7 +26,7 @@ def GetEntriesList():
     except FileNotFoundError as e:
         Die(Messages.fileNotFound.format(os.getcwd()+"/entries"))
     
-    entries = list()
+    entries = dict()
     for filename in files:
         explodedFilename = filename.split("__")
         try:
@@ -40,12 +40,12 @@ def GetEntriesList():
                 minute=int(date[4])
             ) 
             if entryID > 0:
-                entries.append(filename)
+                entries[filename] = open(os.getcwd()+"/entries/"+filename,'r').read()
         except ValueError:
-            Notify(Messages.invalidEntryFilename.format(filename), "YELLOW")
 
+            pass
         except IndexError:
-            Notify(Messages.invalidEntryFilename.format(filename), "YELLOW")
+            pass
 
     return entries
 
@@ -135,14 +135,10 @@ def GetEntriesPerCategories(entries):
 
     return entriesPerCategories
 
-def GetEntry(entryFilename):
-    ''' Loading '''
-    rawData = open(os.getcwd()+"/entries/"+filename,'r').read()
-    dump = yaml.load(rawData.split("---\n")[0])
+def GetEntry(entriesList, entryFilename, dateFormat, relativeOrigin=""):
+    dump = yaml.load(entriesList[entryFilename].split("---\n")[0])
     if dump == None:
-        Die(Messages.possibleMalformedEntry.format(entryFilename))
-
-    ''' Setting up optional metadata '''
+        return None
 
     output = dict()
     for key in dump.keys():
@@ -150,19 +146,20 @@ def GetEntry(entryFilename):
             output["Entry"+key] = dump[key]
     
 
-    ''' Are we using markdown? '''
+    # Optional since 1.2.0
     if "doNotUseMarkdown" in dump.keys():
         output["doNotUseMarkdown"] = True
     else:
         output["doNotUseMarkdown"] = False
    
+    if "CSS" not in dump.keys():
+        output["EntryCSS"] = ""
+
     output["EntryID"] = entryFilename.split('__')[0]
     output["EntryDate"] = GetFormattedDate(
         entryFilename.split('__')[1],
         dateFormat
     )
-
-    ''' Setting up mandatory metadata ''' 
 
     try:
         output["EntryName"] = dump["entry_name"]
@@ -176,14 +173,20 @@ def GetEntry(entryFilename):
     except KeyError:
         Die(Messages.missingMandatoryFieldInEntry.format("authors", output["EntryID"]))
 
-    ''' Setting up the actual entry '''
-
     try:
+        toBase64 = Pattern.Processor(".:",":.","::")
+        toBase64.ressource = entryFilename
+        toBase64.strict = False
+        toBase64.SetFunction("CodeHighlight", ToBase64)
+        toBase64.preProcess(entryFilename, entriesList[entryFilename].split("---\n")[1])
+        if output["doNotUseMarkdown"]:
+            output["EntryContent"] = toBase64.parse(entryFilename)
 
-        toBase64.preProcess(entryFilename, )
-            output["EntryContent"] = rawData.split("---\n")[1]
+        else:
+            output["EntryContent"] = markdown.markdown( toBase64.parse(entryFilename) )
 
     except Exception as e:
+        raise
         Die(Messages.possibleMalformedEntry.format(output["EntryID"]))
         
     try:

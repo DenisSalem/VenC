@@ -6,6 +6,7 @@ class Messages:
     entryWritten = "La publication a bien été ajouté!"
     fileNotFound = "{0}: Ce fichier ou ce dossier n'existe pas."
     fileAlreadyExists = "{0}: {1}: Le fichier existe déjà."
+    invalidEntryFilename = "{0}: Nom de fichier invalide pour une publication"
     blogName = "Nom du blog"
     yourName = "Votre nom"
     blogDescription = "Courte description du blog"

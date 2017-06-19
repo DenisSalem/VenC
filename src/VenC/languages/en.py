@@ -6,6 +6,7 @@ class Messages:
     entryWritten = "Entry has been saved!"
     fileNotFound = "{0}: This file or directory does not exists."
     fileAlreadyExists = "{0}: {1}: File or directory already exists."
+    invalidEntryFilename = "{0}: Invalid entry filename."
     blogName = "Blog name"
     yourName = "Your name"
     blogDescription = "Short description of your blog"

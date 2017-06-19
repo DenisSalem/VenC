@@ -173,7 +173,6 @@ Une publication contient un premier partie au format [Yaml](http://yaml.org) con
 
 Finalement une publication vierge se présente de la façon suivante:
 
-	CSS: ''
 	authors: ''
 	categories: ''
 	entry_name: titre de la publication
@@ -185,7 +184,6 @@ On a donc cinq champs à compléter, ou pas.
 - __categories__ : C'est la liste des categories de la publication, séparées par une virgule. Vous pouvez également avoir des sous categories pour une publication qui définiront ensuite un arbre de categories. Pour définir une sous catégories il faut séparer la categorie parente de la categorie fille par ' > '. Ce procédé peut-être répété autant de fois que nécessaire. Par exemple _Metal > Copper, Metal > Steel > Properties, Materials_.
 - __entry_name__ : C'est le nom de votre publication tel que vous l'avez définit au moment de créer la publication avec `venc -ne <titre de la publication>`.
 - __tags__ : C'est la liste des mots clefs de la publication, séparées par une virgule. Par exemple _Libre, Open-source, Linux_.
-- __CSS__ : Optionnel et introduit depuis la version *1.2.0*. Sert à stocker un nom de classe CSS pour la publication courante.
 - __doNotUseMarkDown__ : Optionnel et introduit depuis la version *1.2.0*. Indique si le contenu de la publication doit être interprété avec [Markdown](https://daringfireball.net/projects/markdown/). Par défaut les publications sont interprété avec [Markdown](https://daringfireball.net/projects/markdown/). Ce champ n'a pas besoin de valeur particuliére.
 
 
@@ -293,7 +291,6 @@ dans le fichier de configuration, vous pourrez récupérer la valeurs de _Banner
 Une publication peut contenir les mêmes motifs qu'un template. En plus de ceux là s'ajoutent:
 
 * __.:Get::EntryUrl:.__ : Permet de récuper le permalien de la publication.
-* __.:Get::EntryCSS:.__ : Permet de récupérer le nom de classe CSS associé à la publication.
 * __.:Get::EntryContent:.__ : Permet de récuper le corps de la publication.
 * __.:Get::EntryDate:.__ : Permet de récuper la date de la publication formatée.
 * __.:Get::EntryDateUrl:.__ : Permet de récuper le chemin de la période correspondant à la date de la publication.

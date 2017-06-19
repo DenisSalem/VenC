@@ -81,9 +81,13 @@
 	DONE | Subprocess support args.
 	DONE | Remove extra newlines from PrintThemes.
 	DONE | Print nicer warnings when found unknown values in chunks.
+	DONE | Notify when found invalid entry filename in entries folder
 	WIP  | No more awkward silence when something is successfully done.
 	WIP  | Add more coloration for message!
 	WIP  | Massive refactorisation and code cleaning.
+	WIP  | Speed up blog exportation
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Reorganize themes dependencies.
+	TODO | Clean up installation
 	TODO | Client-side search engine.
+	TODO | Add translation for Deutsch and Spanish

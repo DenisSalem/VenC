@@ -1,5 +1,6 @@
 #! /usr/bin/python3
 
+import base64
 import codecs
 import markdown
 import os
@@ -9,12 +10,6 @@ import time
 
 import VenC.pattern as Pattern
 
-from VenC.configuration import GetPublicDataFromBlogConf
-from VenC.entries import GetEntriesList
-from VenC.entries import GetEntriesPerDates
-from VenC.entries import GetEntriesPerCategories
-from VenC.entries import GetEntry
-from VenC.entries import GetSortedEntriesList
 from VenC.helpers import Die
 from VenC.helpers import MergeDictionnaries
 from VenC.helpers import Notify
@@ -22,17 +17,13 @@ from VenC.helpers import GetListOfPages
 from VenC.helpers import GetFilename
 from VenC.helpers import ExportExtraData
 from VenC.l10n import Messages
-from VenC.metadata import GetDatesList
-from VenC.metadata import GetMetadataTree
-from VenC.metadata import GetMetadataTreeMaxWeight
 from VenC.theme import Theme
 
 class Blog:
     def __init__(self,themeFolder, blogConfiguration):
-        self.blogConfiguration = blogConfiguration
+        self.dataStore = DataStore() 
         self.theme = Theme(themeFolder)
         self.themeFolder = themeFolder
-        self.entriesList = GetEntriesList()
         self.entriesPerDates = GetEntriesPerDates(self.entriesList, self.blogConfiguration["path"]["dates_directory_name"])
         self.entriesPerCategories = GetEntriesPerCategories(self.entriesList)
         self.publicDataFromBlogConf = GetPublicDataFromBlogConf(self.blogConfiguration)
@@ -231,7 +222,7 @@ class Blog:
 
         for i in range(0, len(sortedEntries)):
             if trigger == True:
-                output["destinationPageUrl"] = VenC.core.blogConfiguration["path"]["entry_file_name"].format(entry_id=sortedEntries[i].split("__")[0])
+                output["destinationPageUrl"] = self.blogConfiguration["path"]["entry_file_name"].format(entry_id=sortedEntries[i].split("__")[0])
                 output["destinationPage"] = sortedEntries[i].split("__")[0]
                 output["entryName"] = self.GetEntry(sortedEntries[i])["EntryName"]
                 return pattern.format(output)

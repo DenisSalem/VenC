@@ -172,7 +172,6 @@ A publication contains a firts part in [Yaml](http://yaml.org) format contening 
 
 Finaly a blank publication looks like this:
 
-  CSS: ''
   authors: ''
   categories: ''
   entry_name: name of the entry
@@ -184,7 +183,6 @@ So we have five fields to complete, or not.
 - __categories__ : The list of the publication's categories, separated by a coma. You can also have sub-categories for a publication which will then define a categories tree. To define a sub-category one has to separate the parent category from the sub-category by ' > '. This can be repeated as many times as necessary. For example _Metal > Copper, Metal > Steel > Properties, Materials_.
 - __entry_name__ : It's your publication's name as you defined it when creating the publication using `venc -ne <title of the publication>`.
 - __tags__ : The list of the publication's keywords, separated by a coma. For example _Libre, Open-source, Linux_.
-- __CSS__ : Optionnal, since version *1.2.0*. Hold a CSS class name you can use in current entry.
 - __doNotUseMarkDown__ : Optionnal, since version *1.2.0*. Tell to VenC if content of the current entry must be parsed as [Markdown](https://daringfireball.net/projects/markdown/) or not. This field does not need any particular value. By default VenC use [Markdown](https://daringfireball.net/projects/markdown/).
 
 Both parts are separated by three dashes (the ones of the six). On the screenshot, the part containing the Markdown syntax is blank. So we are really talking about a blank publication.
@@ -285,7 +283,6 @@ You can then get the value of _Banner_ with
 A publication can contain the same patterns as the ones of a template. Also, add:
 
 * __.:Get::EntryUrl:.__ : Returns the publication's permalinks.
-* __.:Get::EntryCSS:.__ : Returns the CSS class associated with the entry.
 * __.:Get::EntryContent:.__ : Returns the publication's body.
 * __.:Get::EntryDate:.__ : Returns the formatted publication's date.
 * __.:Get::EntryDateUrl:.__ : Returns the publication's date period's path.
