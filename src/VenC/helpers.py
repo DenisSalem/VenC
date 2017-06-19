@@ -48,15 +48,10 @@ def MergeDictionnaries(current,public):
     d.update(public)
     return d 
 
+# deprecated
 def GetFormattedDate(unformattedDate, dateFormat):
     data = unformattedDate.split('-')
-    return datetime.datetime(
-        year=int(data[2]),
-        month=int(data[0]),
-        day=int(data[1]),
-        hour=int(data[3]),
-        minute=int(data[4])
-    ).strftime(
+    return .strftime(
         dateFormat
     )
 

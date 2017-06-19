@@ -82,10 +82,15 @@
 	DONE | Remove extra newlines from PrintThemes.
 	DONE | Print nicer warnings when found unknown values in chunks.
 	DONE | Notify when found invalid entry filename in entries folder
+	DONE | Remove CSS field from entry
 	WIP  | No more awkward silence when something is successfully done.
 	WIP  | Add more coloration for message!
-	WIP  | Massive refactorisation and code cleaning.
 	WIP  | Speed up blog exportation
+	WIP  | Massive refactorisation and code cleaning.
+	TODO | Auto include CSS
+	TODO | Change nomenclature entry_name -> title. Fix doc.
+	TODO | warn about missing mandatory field in entry
+	TODO | Add GetIfExist
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Reorganize themes dependencies.
 	TODO | Clean up installation

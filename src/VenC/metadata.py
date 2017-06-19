@@ -2,7 +2,7 @@
 
 import datetime
 
-class Metadata:
+class MetadataNode:
     def __init__(self, value, entry):
         self.count = 1
         self.weight = 1
@@ -44,7 +44,7 @@ def GetMetadataTreeMaxWeight(metadata, maxWeight=0):
 
     return currentMaxWeight
 
-def GetMetadataTree(metadata, relativeOrigin, root=dict(), maxWeight=None):
+def GetMetadataTree(metadata, root=dict(), maxWeight=None):
     node = root
 
     if len(metadata) != 0:
@@ -56,9 +56,8 @@ def GetMetadataTree(metadata, relativeOrigin, root=dict(), maxWeight=None):
         if maxWeight != None:
             node[current.value]["__count"] = current.count
             node[current.value]["__weight"] = int((current.count/maxWeight) * 10)
-        node[current.value]["__relativeOrigin"] = relativeOrigin
         if len(current.childs) != 0:
             node[current.value]["_nodes"] = dict()
-            GetMetadatasTree(current.childs, relativeOrigin, node[metadata.value]["_nodes"], maxWeight)
+            GetMetadatasTree(current.childs, node[metadata.value]["_nodes"], maxWeight)
 
     return node

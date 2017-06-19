@@ -22,7 +22,6 @@ class Messages:
     unknownCommand = "{0}: Commande inconnue."
     noBlogConfiguration = "Le fichier de configuration du blog n'existe pas ou vous n'avez pas les bonnes permissions."
     missingMandatoryFieldInBlogConf = "Attention, le champ \"{0}\" est manquant dans le fichier de configuration principal du blog."
-    doNotForgetToIncludeCSSFileInHeader= "N'oubliez pas d'inclure le fichier CSS {0} dans header.html."
     username="Nom d'utilisateur: "
     userPasswd="Mot de passe utilisateur: "
     ftpHost="Nom d'hôte FTP"

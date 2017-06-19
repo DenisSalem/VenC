@@ -19,6 +19,7 @@ from VenC.helpers import ExportExtraData
 from VenC.l10n import Messages
 from VenC.theme import Theme
 
+''' deprecated '''
 class Blog:
     def __init__(self,themeFolder, blogConfiguration):
         self.dataStore = DataStore() 

@@ -1,20 +1,72 @@
 #! /usr/bin/python3
 
 import datetime
-import markdown
 import os
 import time
 import yaml
 
-import VenC.pattern as Pattern
+class Entry:
+    def __init__(self, filename):
+        ''' Loading '''
+        rawData = open(os.getcwd()+"/entries/"+filename,'r').read()
+        try:
+            metadata = yaml.load(rawData.split("---\n")[0])
 
-from VenC.configuration import GetBlogConfiguration
-from VenC.configuration import GetPublicDataFromBlogConf
-from VenC.helpers import Die
-from VenC.helpers import GetFormattedDate
-from VenC.helpers import ToBase64
-from VenC.l10n import Messages
-from VenC.metadata import Metadata
+        if metadata == None:
+            Die(Messages.possibleMalformedEntry.format(entryFilename))
+
+        ''' Setting up optional metadata '''
+
+        for key in metadata.keys():
+            if not key in ["authors","tags","categories","entry_name","doNotUseMarkdown"]:
+                setattr(self, key, metadata[key])
+    
+        ''' Are we using markdown? '''
+        if "doNotUseMarkdown" in metadata.keys():
+            self.doNotUseMarkdown = True
+        else:
+            self.doNotUseMarkdown = False
+    
+        ''' Set up id '''
+        self.id = entryFilename.split('__')[0]
+        
+        ''' Set up date '''
+        rawDate = entryFilename.split('__')[1].split('-')
+        self.date = datetime.datetime(
+            year=int(rawDate[2]),
+            month=int(rawDate[0]),
+            day=int(rawDate[1]),
+            hour=int(rawDate[3]),
+            minute=int(rawDate[4])
+        )
+        
+        ''' Setting up title '''
+        try:
+            self.title = metadata["title"]
+
+        except KeyError:
+            Die(Messages.missingMandatoryFieldInEntry.format("title", self.id))
+
+        ''' Setting up authors '''
+        try:
+            self.authors = [ e for e in list(metadata["authors"].split(",") if metadata["authors"] != str() else list()) ]
+
+        except KeyError:
+            Die(Messages.missingMandatoryFieldInEntry.format("authors", self.id))
+
+        ''' Setting up the actual entry '''
+        try:
+            output["EntryContent"] = rawData.split("---\n")[1]
+
+        except
+            Die(Messages.possibleMalformedEntry.format(output["EntryID"]))
+
+        ''' Setting up tags '''
+        try:
+            self.tags = [ {"tag":e} for e in list(metadata["tags"].split(",") if metadata["tags"] != str() else list())]
+
+        except KeyError:
+            Die(Messages.missingMandatoryFieldInEntry.format("tags", self.id))
 
 def GetSortedEntriesList(inputEntries, threadOrder):
     return sorted(inputEntries, key = lambda e : int(e.split("__")[0]), reverse=(threadOrder.strip() == "latest first"))
@@ -26,7 +78,7 @@ def GetEntriesList():
     except FileNotFoundError as e:
         Die(Messages.fileNotFound.format(os.getcwd()+"/entries"))
     
-    entries = dict()
+    entries = list()
     for filename in files:
         explodedFilename = filename.split("__")
         try:
@@ -40,15 +92,16 @@ def GetEntriesList():
                 minute=int(date[4])
             ) 
             if entryID > 0:
-                entries[filename] = open(os.getcwd()+"/entries/"+filename,'r').read()
+                entries.append(filename)
         except ValueError:
+            Notify(Messages.invalidEntryFilename.format(filename), "YELLOW")
 
-            pass
         except IndexError:
-            pass
+            Notify(Messages.invalidEntryFilename.format(filename), "YELLOW")
 
     return entries
 
+''' 
 def GetLatestEntryID():
     entriesList = sorted(GetEntriesList(), key = lambda entry : int(entry.split("__")[0]))
     
@@ -135,72 +188,13 @@ def GetEntriesPerCategories(entries):
 
     return entriesPerCategories
 
-def GetEntry(entriesList, entryFilename, dateFormat, relativeOrigin=""):
-    dump = yaml.load(entriesList[entryFilename].split("---\n")[0])
-    if dump == None:
-        return None
+def GetEntry(entryFilename):
 
-    output = dict()
-    for key in dump.keys():
-        if not key in ["authors","tags","categories","entry_name","doNotUseMarkdown"]:
-            output["Entry"+key] = dump[key]
-    
 
-    # Optional since 1.2.0
-    if "doNotUseMarkdown" in dump.keys():
-        output["doNotUseMarkdown"] = True
-    else:
-        output["doNotUseMarkdown"] = False
-   
-    if "CSS" not in dump.keys():
-        output["EntryCSS"] = ""
 
-    output["EntryID"] = entryFilename.split('__')[0]
-    output["EntryDate"] = GetFormattedDate(
-        entryFilename.split('__')[1],
-        dateFormat
-    )
-
-    try:
-        output["EntryName"] = dump["entry_name"]
-
-    except KeyError:
-        Die(Messages.missingMandatoryFieldInEntry.format("entry_name", output["EntryID"]))
-
-    try:
-        output["EntryAuthors"] = [ {"author":e} for e in list(dump["authors"].split(",") if dump["authors"] != str() else list()) ]
-
-    except KeyError:
-        Die(Messages.missingMandatoryFieldInEntry.format("authors", output["EntryID"]))
-
-    try:
-        toBase64 = Pattern.Processor(".:",":.","::")
-        toBase64.ressource = entryFilename
-        toBase64.strict = False
-        toBase64.SetFunction("CodeHighlight", ToBase64)
-        toBase64.preProcess(entryFilename, entriesList[entryFilename].split("---\n")[1])
-        if output["doNotUseMarkdown"]:
-            output["EntryContent"] = toBase64.parse(entryFilename)
-
-        else:
-            output["EntryContent"] = markdown.markdown( toBase64.parse(entryFilename) )
-
-    except Exception as e:
-        raise
-        Die(Messages.possibleMalformedEntry.format(output["EntryID"]))
         
-    try:
-        output["EntryTags"] = [ {"tag":e} for e in list(dump["tags"].split(",") if dump["tags"] != str() else list())]
-
-    except KeyError:
-        Die(Messages.missingMandatoryFieldInEntry.format("tags", output["EntryID"]))
-
-    except:
-        output["EntryTags"] = list()
     
     try:
-        entryPerCategories = GetEntriesPerCategories([entryFilename])
-        output["EntryCategories"] = GetMetadataTree(entryPerCategories, relativeOrigin)
         output["EntryCategoriesLeaves"] = list()
         for category in dump["categories"].split(','):
             categoryLeaf= category.split(' > ')[-1].strip()
@@ -210,7 +204,6 @@ def GetEntry(entriesList, entryFilename, dateFormat, relativeOrigin=""):
                     categoryLeafUrl +=subCategory.strip()+'/'
                 
                 output["EntryCategoriesLeaves"].append({
-                    "relativeOrigin":relativeOrigin,
                     "categoryLeaf": categoryLeaf,
                     "categoryLeafPath":categoryLeafUrl
                 })
@@ -218,4 +211,5 @@ def GetEntry(entriesList, entryFilename, dateFormat, relativeOrigin=""):
         output["EntryCategories"] = dict()
         output["EntryCategoriesLeaves"] = list()
 
-    return output
+    return output 
+'''
