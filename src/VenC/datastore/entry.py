@@ -9,7 +9,7 @@ from VenC.helpers import Die
 from VenC.helpers import Notify
 
 from VenC.l10n.auto import Messages
-from VenC.datastore.metadata import 
+from VenC.datastore.metadata import MetadataNode
 
 class Entry:
     def __init__(self, filename):
@@ -62,7 +62,7 @@ class Entry:
 
         ''' Setting up the actual entry '''
         try:
-            output["EntryContent"] = rawData.split("---\n")[1]
+            self.content = rawData.split("---\n")[1]
 
         except
             Die(Messages.possibleMalformedEntry.format(output["EntryID"]))
@@ -74,12 +74,31 @@ class Entry:
         except KeyError:
             Die(Messages.missingMandatoryFieldInEntry.format("tags", self.id))
 
+        ''' Setting up category leaves '''
+        self.categoryLeaves = list()
+        try:
+            for category in rawData["categories"].split(','):
+                categoryLeaf = category.split(' > ')[-1].strip()
+                if len(categoryLeaf) != 0:
+                    categoryLeafUrl = str()
+                    for subCategory in category.split(' > '):
+                        categoryLeafUrl +=subCategory.strip()+'/'
+                
+                    self.entryCategoriesLeaves.append({
+                        "categoryLeaf": categoryLeaf,
+                        "categoryLeafPath":categoryLeafUrl
+                    })
+        except IndexError :
+            pass
+
+        ''' Setting up categories '''
+
+''' Iterate through entries folder '''
 def YieldEntriesContent():
     try:
-        entryIndex = 0
         for filename in sorted(
             os.listdir(os.getcwd()+"/entries"),
-            key = lambda e : int(e.split("__")[0]),
+            key = lambda entryId : int(entryId.split("__")[0]),
             reverse=(threadOrder.strip() == "latest first")
         ):
             explodedFilename = filename.split("__")
@@ -94,8 +113,7 @@ def YieldEntriesContent():
                     minute=int(date[4])
                 ) 
                 if entryID > 0:
-                    yield entryIndex, filename
-                    entryIndex+=1
+                    yield filename
 
                 else:
                     raise ValueError
@@ -110,42 +128,15 @@ def YieldEntriesContent():
         Die(Messages.fileNotFound.format(os.getcwd()+"/entries"))
 
 
+''' User for set the id of new entry '''
 def GetLatestEntryID():
-    entriesList = sorted(GetEntriesList(), key = lambda entry : int(entry.split("__")[0]))
-    
+    entriesList = sorted(EntriesContent(), key = lambda entry : int(entry.split("__")[0]))
     if len(entriesList) != 0:
         return int(entriesList[-1].split("__")[0])
     else:
         return 0
+
 '''
-def SetNewEntryMetadata(entryDate, entryName, blogConfiguration):
-    entry = dict()
-    entry["EntryID"] = GetLatestEntryID()+1
-    entry["EntryName"] = entryName
-    entry["EntryMonth"] = entryDate.month
-    entry["EntryYear"] = entryDate.year
-    entry["EntryDay"] = entryDate.day
-    entry["EntryHour"] = entryDate.hour
-    entry["EntryMinute"] = entryDate.minute
-
-    publicDataFromBlogConf = GetPublicDataFromBlogConf(blogConfiguration)
-    for key in publicDataFromBlogConf:
-        entry[key] = publicDataFromBlogConf[key]  
-
-    return entry
-
-def GetEntriesPerDates(entries, datesDirectoryName):
-    entriesPerDates = list()
-    for entry in entries.keys():
-        date = time.strftime(datesDirectoryName, time.strptime(entry.split("__")[1],"%m-%d-%Y-%M-%S"))
-        try:
-            selectedKey = GetKeyByName(entriesPerDates, date)
-            selectedKey.relatedTo.append(entry)
-            selectedKey.count+=1
-        except:
-            entriesPerDates.append(Metadata(date,entry))
-
-    return entriesPerDates
 
 def GetCategoriesList(entries):
     output = list()
@@ -196,28 +187,4 @@ def GetEntriesPerCategories(entries):
 
     return entriesPerCategories
 
-def GetEntry(entryFilename):
-
-
-
-        
-    
-    try:
-        output["EntryCategoriesLeaves"] = list()
-        for category in dump["categories"].split(','):
-            categoryLeaf= category.split(' > ')[-1].strip()
-            if len(categoryLeaf) != 0:
-                categoryLeafUrl=str()
-                for subCategory in category.split(' > '):
-                    categoryLeafUrl +=subCategory.strip()+'/'
-                
-                output["EntryCategoriesLeaves"].append({
-                    "categoryLeaf": categoryLeaf,
-                    "categoryLeafPath":categoryLeafUrl
-                })
-    except:
-        output["EntryCategories"] = dict()
-        output["EntryCategoriesLeaves"] = list()
-
-    return output 
 '''
