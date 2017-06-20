@@ -96,4 +96,4 @@
 	TODO | Client-side search engine.
 	TODO | Add translation for Deutsch and Spanish
 	TODO | Change nomenclature: entry_name -> title. Fix doc.
-	TODO | Change nomenclature: thread_order must become a boolean known as reverse
+	TODO | Change nomenclature: remove underscore from blog_configuration, using camelCase instead. Fix doc.

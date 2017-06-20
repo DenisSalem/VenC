@@ -7,35 +7,27 @@ from VenC.helpers import Die
 from VenC.helpers import Notify
 from VenC.l10n import Messages
 
-def GetPublicDataFromBlogConf(blogConfiguration):
-    data = dict()
-    for key in blogConfiguration.keys():
-        if not key in ["path","rss_thread_lenght","textEditor","thread_order","ftp_host","date_format"]:
-            formatted = "".join([ s.title() for s in  key.split("_")])
-            data[formatted] = blogConfiguration[key]
-    return data
-
 def GetBlogConfiguration():
     try:
-        blogConfiguration = yaml.load(open(os.getcwd()+"/blog_configuration.yaml",'r').read())
+        blogConfiguration = yaml.load(open(os.getcwd()+"/blogConfiguration.yaml",'r').read())
         
         mandatoryFields = [
-            "blog_name",
+            "blogName",
             "textEditor",
-            "date_format",
-	    "author_name",
-	    "blog_description",
-	    "blog_keywords",
-	    "author_description",
+            "dateFormat",
+	    "authorName",
+	    "blogDescription",
+	    "blogKeywords",
+	    "authorDescription",
 	    "license",
-	    "blog_url",
-            "ftp_host",
-	    "blog_language",
-	    "author_email",
-	    "entries_per_pages",
+	    "blogUrl",
+            "ftpHost",
+	    "blogLanguage",
+	    "authorEmail",
+	    "entriesPerPages",
             "columns",
-	    "rss_thread_lenght",
-            "thread_order"
+	    "rssThreadLenght",
+            "threadOrder"
         ]
 
         everythingIsOkay = True
@@ -45,11 +37,11 @@ def GetBlogConfiguration():
                 Notify(Messages.missingMandatoryFieldInBlogConf.format(field),"RED")
         
         mandatoryFields = [
-            "index_file_name",
-	    "category_directory_name",
-	    "dates_directory_name",
-	    "entry_file_name",
-	    "rss_file_name",
+            "indexFileName",
+	    "categoryDirectoryName",
+	    "datesDirectoryName",
+	    "entryFileName",
+	    "rssFileName",
             "ftp"
         ]
 

@@ -32,11 +32,28 @@ def NewEntry(argv):
 
     date = datetime.datetime.now()
 
+    ''' NOT IMPLEMENTED YET
     entry = Entries.SetNewEntryMetadata(date, argv[0],  blogConfiguration)
+def SetNewEntryMetadata(entryDate, entryName, blogConfiguration):
+    entry = dict()
+    entry["EntryID"] = GetLatestEntryID()+1
+    entry["EntryName"] = entryName
+    entry["EntryMonth"] = entryDate.month
+    entry["EntryYear"] = entryDate.year
+    entry["EntryDay"] = entryDate.day
+    entry["EntryHour"] = entryDate.hour
+    entry["EntryMinute"] = entryDate.minute
 
-    content["entry_name"] = argv[0]
+    publicDataFromBlogConf = GetPublicDataFromBlogConf(blogConfiguration)
+    for key in publicDataFromBlogConf:
+        entry[key] = publicDataFromBlogConf[key]  
+
+    return entry
+    '''
+
+    content["title"] = argv[0]
     entryDate = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
-    outputFilename = os.getcwd()+'/entries/'+str(entry["EntryID"])+"__"+entryDate+"__"+content["entry_name"].replace(' ','_')
+    outputFilename = os.getcwd()+'/entries/'+str(entry["id"])+"__"+entryDate+"__"+content["title"].replace(' ','_')
 
     if len(argv) == 1:
         stream = codecs.open(outputFilename,'w',encoding="utf-8")
@@ -75,28 +92,28 @@ def NewBlog(argv):
     if len(argv) < 1:
         Die(Messages.missingParams.format("--new-blog"))
 
-    default_configuration =	{"blog_name":			Messages.blogName,
+    default_configuration =	{"blogName":			Messages.blogName,
                                 "textEditor":                   "nano",
-                                "date_format":                  "%A %d. %B %Y",
-				"author_name":			Messages.yourName,
-				"blog_description":		Messages.blogDescription,
-				"blog_keywords":		Messages.blogKeywords,
-				"author_description":		Messages.aboutYou,
+                                "dateFormat":                  "%A %d. %B %Y",
+				"authorName":			Messages.yourName,
+				"blogDescription":		Messages.blogDescription,
+				"blogKeywords":		        Messages.blogKeywords,
+				"authorDescription":		Messages.aboutYou,
 				"license":			Messages.license,
-				"blog_url":			Messages.blogUrl,
-                                "ftp_host":                     Messages.ftpHost,
-				"blog_language":		Messages.blogLanguage,
-				"author_email":			Messages.yourEmail,
+				"blogUrl":			Messages.blogUrl,
+                                "ftpHost":                      Messages.ftpHost,
+				"blogLanguage":		        Messages.blogLanguage,
+				"authorEmail":			Messages.yourEmail,
 				"path":				{"ftp":                         Messages.ftpPath,
-                                                                "index_file_name":		"index{page_number}.html",
-								"category_directory_name":	"{category}",
-								"dates_directory_name":		"%Y-%m",
-								"entry_file_name":		"entry{entry_id}.html",
-								"rss_file_name":		"feed.xml"},
-				"entries_per_pages":		10,
+                                                                "indexFileName":		"index{pageNumber}.html",
+								"categoryDirectoryName":	"{category}",
+								"datesDirectoryName":		"%Y-%m",
+								"entryFileName":		"entry{id}.html",
+								"rssFileName":		"feed.xml"},
+				"entriesPerPages":		10,
 				"columns":			1,
-				"rss_thread_lenght":		5,
-				"thread_order":			"latest first"}
+				"rssThreadLenght":		5,
+				"reverseThreadOrder":		False}
     for folder_name in argv:
         try:
             os.mkdir(folder_name)
@@ -109,7 +126,7 @@ def NewBlog(argv):
         os.mkdir(folder_name+'/'+"theme")
         os.mkdir(folder_name+'/'+"extra")
         os.mkdir(folder_name+'/'+"templates")
-        stream = codecs.open(folder_name+'/'+'blog_configuration.yaml', 'w',encoding="utf-8")
+        stream = codecs.open(folder_name+'/'+'blogConfiguration.yaml', 'w',encoding="utf-8")
         yaml.dump(default_configuration, stream, default_flow_style=False, allow_unicode=True)
 
     Notify(Messages.blogCreated)
