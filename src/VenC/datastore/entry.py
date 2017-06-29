@@ -8,7 +8,7 @@ import yaml
 from VenC.helpers import Die
 from VenC.helpers import Notify
 
-from VenC.l10n.auto import Messages
+from VenC.l10n import Messages
 from VenC.datastore.metadata import MetadataNode
 
 class Entry:
@@ -17,6 +17,9 @@ class Entry:
         rawData = open(os.getcwd()+"/entries/"+filename,'r').read()
         try:
             metadata = yaml.load(rawData.split("---\n")[0])
+
+        except yaml.scanner.ScannerError:
+            Die(Messages.possibleMalformedEntry.format(entryFilename))
 
         if metadata == None:
             Die(Messages.possibleMalformedEntry.format(entryFilename))
@@ -64,7 +67,7 @@ class Entry:
         try:
             self.content = rawData.split("---\n")[1]
 
-        except
+        except:
             Die(Messages.possibleMalformedEntry.format(output["EntryID"]))
 
         ''' Setting up tags '''

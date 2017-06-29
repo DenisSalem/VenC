@@ -3,7 +3,7 @@
 import ftplib
 import socket
 
-from VenC.configuration import GetBlogConfiguration
+from VenC.datastore.configuration import GetBlogConfiguration
 from VenC.helpers import Die
 
 def RemoteCopy(argv=list()):

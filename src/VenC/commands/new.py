@@ -6,14 +6,14 @@ import codecs
 import datetime
 import subprocess
 
-from VenC.configuration import GetBlogConfiguration
+from VenC.datastore.configuration import GetBlogConfiguration
 from VenC.helpers import Notify
 from VenC.helpers import Die
 from VenC.l10n import Messages
 
-import VenC.entries as Entries
+import VenC.datastore.entry as Entry
+import VenC.datastore.pattern as Pattern
 import VenC.helpers as Helpers
-import VenC.pattern as Pattern
 
 def NewEntry(argv):
     blogConfiguration = GetBlogConfiguration()

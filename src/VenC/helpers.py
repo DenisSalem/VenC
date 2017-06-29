@@ -51,7 +51,7 @@ def MergeDictionnaries(current,public):
 # deprecated
 def GetFormattedDate(unformattedDate, dateFormat):
     data = unformattedDate.split('-')
-    return .strftime(
+    return data.strftime(
         dateFormat
     )
 

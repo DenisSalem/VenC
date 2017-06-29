@@ -1,9 +1,8 @@
 #! /usr/bin/python3
 
-
+from VenC.datastore.theme import ThemesDescriptor
 from VenC.helpers import MsgFormat
 from VenC.l10n import Messages;
-from VenC.theme import ThemesDescriptor
 
 def PrintVersion(argv):
     print("VenC 2.0.0")
