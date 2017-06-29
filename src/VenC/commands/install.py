@@ -4,7 +4,7 @@ import datetime
 import os
 import shutil
 
-from VenC.configuration import GetBlogConfiguration
+from VenC.datastore.configuration import GetBlogConfiguration
 from VenC.helpers import Notify
 from VenC.helpers import Die
 from VenC.l10n import Messages

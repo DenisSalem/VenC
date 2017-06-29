@@ -3,18 +3,18 @@
 
 import sys
 
-from VenC.export import ExportBlog
-from VenC.export import EditAndExport
-from VenC.export import ExportAndRemoteCopy
-from VenC.remote import RemoteCopy
+from VenC.commands.export import ExportBlog
+from VenC.commands.export import EditAndExport
+from VenC.commands.export import ExportAndRemoteCopy
+from VenC.commands.install import InstallTheme
+from VenC.commands.new import NewBlog
+from VenC.commands.new import NewEntry
+from VenC.commands.print import PrintVersion
+from VenC.commands.print import PrintThemes
+from VenC.commands.print import PrintHelp
+from VenC.commands.remote import RemoteCopy
 from VenC.helpers import Notify
-from VenC.install import InstallTheme
 from VenC.l10n import Messages; 
-from VenC.new import NewBlog
-from VenC.new import NewEntry
-from VenC.print import PrintVersion
-from VenC.print import PrintThemes
-from VenC.print import PrintHelp
 
 commandIndex = {"-v":                   [PrintVersion, 0],
                 "-nb":                  [NewBlog, -1],

@@ -8,12 +8,11 @@ import shutil
 import subprocess
 
 import VenC.l10n
-import VenC.pattern
+import VenC.datastore.pattern
 
-from VenC.blog import Blog
-from VenC.configuration import GetBlogConfiguration
-from VenC.configuration import GetPublicDataFromBlogConf
-from VenC.constants import ThemesDescriptor
+#from VenC.blog import Blog
+from VenC.datastore.configuration import GetBlogConfiguration
+from VenC.datastore.theme import ThemesDescriptor
 from VenC.helpers import RmTreeErrorHandler 
 from VenC.l10n import Messages
 
@@ -30,17 +29,19 @@ def ExportBlog(argv=list()):
             Die(Messages.themeDoesntExists.format(argv[0]))
         
         else:
-            themeFolder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
+            pass
+            #themeFolder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
         
         for param in ThemesDescriptor[argv[0]].keys():
             if param[0] != "_": # marker to detect field names we do not want to replace
-                blogConfiguration[param] = ThemesDescriptor[argv[0]][param]
+                print(param[0])
+                #blogConfiguration[param] = ThemesDescriptor[argv[0]][param]
 
     # cleaning direcoty
-    shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
-    os.makedirs("blog")
-    currentBlog = Blog(themeFolder, blogConfiguration)
-    currentBlog.export()
+    #shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
+    #os.makedirs("blog")
+    #currentBlog = Blog(themeFolder, blogConfiguration)
+    #currentBlog.export()
 
 def EditAndExport(argv):
     blogConfiguration = GetBlogConfiguration()

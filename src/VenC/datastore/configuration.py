@@ -56,8 +56,10 @@ def GetBlogConfiguration():
         return blogConfiguration
 
     except FileNotFoundError:
-        raise
         Die(Messages.noBlogConfiguration)
 
     except PermissionError:
         Die(Messages.noBlogConfiguration)
+    
+    except Exception as e:
+        print(e)
