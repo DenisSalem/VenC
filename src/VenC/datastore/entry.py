@@ -37,10 +37,10 @@ class Entry:
             self.doNotUseMarkdown = False
     
         ''' Set up id '''
-        self.id = entryFilename.split('__')[0]
+        self.id = filename.split('__')[0]
         
         ''' Set up date '''
-        rawDate = entryFilename.split('__')[1].split('-')
+        rawDate = filename.split('__')[1].split('-')
         self.date = datetime.datetime(
             year=int(rawDate[2]),
             month=int(rawDate[0]),
@@ -101,8 +101,7 @@ def YieldEntriesContent():
     try:
         for filename in sorted(
             os.listdir(os.getcwd()+"/entries"),
-            key = lambda entryId : int(entryId.split("__")[0]),
-            reverse=(threadOrder.strip() == "latest first")
+            key = lambda entryId : int(entryId.split("__")[0])
         ):
             explodedFilename = filename.split("__")
             try:
@@ -133,7 +132,7 @@ def YieldEntriesContent():
 
 ''' User for set the id of new entry '''
 def GetLatestEntryID():
-    entriesList = sorted(EntriesContent(), key = lambda entry : int(entry.split("__")[0]))
+    entriesList = sorted(YieldEntriesContent(), key = lambda entry : int(entry.split("__")[0]))
     if len(entriesList) != 0:
         return int(entriesList[-1].split("__")[0])
     else:
