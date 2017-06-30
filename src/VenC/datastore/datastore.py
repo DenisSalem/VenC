@@ -1,8 +1,8 @@
 #! /usr/bin/python
 
-from VenC.configuration import GetBlogConfiguration
-from VenC.entry import YieldEntriesContent
-from VenC.entry import GetEntry
+from VenC.datastore.configuration import GetBlogConfiguration
+from VenC.datastore.entry import YieldEntriesContent
+from VenC.datastore.entry import Entry
 
 class DataStore:
     def __init__(self):
@@ -15,7 +15,7 @@ class DataStore:
         ''' Entry index is different from entry id '''
         entryIndex = 0
         for filename in YieldEntriesContent():
-            self.entries.append(GetEntry(filename))
+            self.entries.append(Entry(filename))
 
             ''' Update entriesPerDates '''
 
