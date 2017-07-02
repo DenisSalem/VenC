@@ -60,6 +60,6 @@ def GetBlogConfiguration():
 
     except PermissionError:
         Die(Messages.noBlogConfiguration)
-    
-    except Exception as e:
-        print(e)
+
+    except yaml.scanner.ScannerError:
+        Die(Messages.possibleMalformedBlogConfiguration)

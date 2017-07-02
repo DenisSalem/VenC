@@ -29,6 +29,7 @@ class Messages:
     cleanFtpDirectory="Cleaning target FTP directory..."
     copyToFtpDirectory="Copying your blog to target FTP directory..."
     possibleMalformedEntry="Possible malformed entry {0}. Abort."
+    possibleMalformedBlogConfiguration="Possible malformed blog configuration. Abort."
     blogRecompilation="Recompilation of your blog locally..."
     exportArchives="Exporting local entries thread of '{0}'."
     exportMainThread="Exporting local main entries thread."
@@ -55,3 +56,4 @@ class Messages:
     themeDoesntExists = "{0}: Theme doesn't exists."
     unknownTextEditor = "{0}: unknown text editor."
     themeName = "Theme name"
+

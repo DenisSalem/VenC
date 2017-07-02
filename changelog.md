@@ -83,17 +83,19 @@
 	DONE | Print nicer warnings when found unknown values in chunks.
 	DONE | Notify when found invalid entry filename in entries folder
 	DONE | Remove CSS field from entry
+	DONE | Catch exception when Yaml canno't parse blog configuration.
 	WIP  | No more awkward silence when something is successfully done.
 	WIP  | Add more coloration for message!
 	WIP  | Speed up blog exportation
 	WIP  | Massive refactorisation, code cleaning and optimisation.
+	WIP  | Change nomenclature: entry_name -> title. Fix doc.
+	WIP  | Change nomenclature: remove underscore from blog_configuration, using camelCase instead. Fix doc.
 	TODO | Auto include CSS
-	TODO | warn about missing mandatory field in entry
-	TODO | Add GetIfExist
+	TODO | Warn about missing mandatory field in entry.
+	TODO | Add function GetIfExist.
+	TODO | Add function Include.
 	TODO | Fix vertical scroll bar in code snippet.
-	TODO | Reorganize themes dependencies.
+	TODO | Reorganize themes dependencies in setup.
 	TODO | Clean up installation
 	TODO | Client-side search engine.
 	TODO | Add translation for Deutsch and Spanish
-	TODO | Change nomenclature: entry_name -> title. Fix doc.
-	TODO | Change nomenclature: remove underscore from blog_configuration, using camelCase instead. Fix doc.
