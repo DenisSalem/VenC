@@ -1,0 +1,48 @@
+#! /usr/bin/python3
+
+import os
+import yaml
+import codecs
+
+from VenC.helpers import Die
+
+def toCamelCase(name):
+    chunks = name.split('_')
+    if len(chunks) == 1:
+        return name
+
+    output = chunks[0].lower()
+    
+    for word in chunks[1:]:
+        output += word.title()
+
+    return output
+
+''' Processing blog configuration '''
+
+try:
+    blog_configuration = yaml.load(open(os.getcwd()+"/blog_configuration.yaml",'r').read())
+
+except FileNotFoundError:
+    Die(Messages.noBlogConfiguration)
+
+except PermissionError:
+    Die(Messages.noBlogConfiguration)
+        
+except yaml.scanner.ScannerError:
+    Die(Messages.possibleMalformedBlogConfiguration)
+
+blogConfiguration = dict()
+for rootkey in blog_configuration:
+    if rootkey != "path":
+        blogConfiguration[ toCamelCase(rootkey) ] = blog_configuration[rootkey]
+    else:
+        blogConfiguration["path"] = dict()
+        for pathkey in blog_configuration["path"]:
+
+            blogConfiguration["path"][ toCamelCase(pathkey) ] = blog_configuration["path"][pathkey]
+
+stream = codecs.open('blogConfiguration.yaml', 'w',encoding="utf-8")
+yaml.dump(blogConfiguration, stream, default_flow_style=False, allow_unicode=True)
+os.remove('blog_configuration.yaml')
+
