@@ -56,3 +56,4 @@ class Messages:
     themeDoesntExists = "{0}: Ce thème n'existe pas."
     unknownTextEditor = "{0}: Éditeur de texte inconnu."
     themeName = "Nom du thème"
+    entryIsEmpty = "{0}: Le contenu de la publication est vide."
