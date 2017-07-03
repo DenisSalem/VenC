@@ -12,8 +12,9 @@ class CodeHighlight:
 
     def GetStyleSheets(self, argv=list()):
         output = str()
-        for style in self.includes:
-            output += "<link rel=\"stylesheet\" href=\"../venc_source_C.css\" type=\"text/css\" />\n" 
+        for filename in self.includes.keys():
+            output += "<link rel=\"stylesheet\" href=\".:GetRelativeOrigin:."+filename+" type=\"text/css\" />\n"
+
         return output
 
     def ExportStyleSheets(self):

@@ -4,8 +4,6 @@ import base64
 import codecs
 import markdown
 import os
-import pygments.lexers
-import pygments.formatters
 import time
 
 import VenC.pattern as Pattern
