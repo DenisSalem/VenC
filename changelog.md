@@ -99,3 +99,5 @@
 	TODO | Clean up installation
 	TODO | Client-side search engine.
 	TODO | Add translation for Deutsch and Spanish
+	TODO | Catch exception nicely in CodeHighLight
+	TODO | Add a copy of license in each source files

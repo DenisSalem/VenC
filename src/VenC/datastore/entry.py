@@ -95,6 +95,7 @@ class Entry:
             pass
 
         ''' Setting up categories '''
+        # todo
 
 ''' Iterate through entries folder '''
 def YieldEntriesContent():

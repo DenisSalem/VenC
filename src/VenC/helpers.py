@@ -33,8 +33,10 @@ def Notify(msg, color="GREEN"):
 def GetFormattedMessage(msg, color="GREEN"):
     return MsgFormat[color]+"\033[1mVenC: \033[0m"+MsgFormat[color]+msg+MsgFormat["END"]
 
+'''
 def ToBase64(argv):
     return "~§CodeHighlight§§"+argv[0]+"§§"+argv[1]+"§§"+base64.b64encode(bytes('\:\:'.join(argv[2:]),encoding='utf-8')).decode("utf-8", "strict")+"§~"
+'''
 
 def OrderableStrToInt(string):
     try:
@@ -48,12 +50,13 @@ def MergeDictionnaries(current,public):
     d.update(public)
     return d 
 
-# deprecated
+''' deprecated
 def GetFormattedDate(unformattedDate, dateFormat):
     data = unformattedDate.split('-')
     return data.strftime(
         dateFormat
     )
+'''
 
 def GetListOfPages(entriesPerPage,entriesCount):
     listOfPages = list()

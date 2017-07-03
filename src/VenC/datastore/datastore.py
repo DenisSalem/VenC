@@ -49,3 +49,55 @@ class DataStore:
     def GetEntries(reverse=False):
         for entry in (self.entries[::-1] if reverse else self.entries):
             yield entry
+    
+    def GetEntryTitle(argv=list()):
+        return self.entries[self.requestedEntriesIndex].title
+    
+    def GetEntryID(argv=list()):
+        return self.entries[self.requestedEntriesIndex].id
+
+    def GetEntryYear(argv=list()):
+        return self.entries[self.requestedEntriesIndex].date.year
+        
+    def GetEntryMonth(argv=list()):
+        return self.entries[self.requestedEntriesIndex].date.month
+        
+    def GetEntryDay(argv=list()):
+        return self.entries[self.requestedEntriesIndex].date.day
+
+    def GetEntryHour(argv=list()):
+        return self.entries[self.requestedEntriesIndex].date.hour
+    
+    def GetEntryMinute(argv=list()):
+        return self.entries[self.requestedEntriesIndex].date.minute
+
+    def GetAuthorName(argv=list()):
+        return self.blogConfiguration["authorName"]
+
+    def GetBlogName(argv=list()):
+        return self.blogConfiguration["blogName"]
+        
+    def GetBlogDescription(argv=list()):
+        return self.blogConfiguration["blogDescription"]
+        
+    def GetBlogKeywords(argv=list()):
+        return self.blogConfiguration["blogKeywords"]
+
+    def GetAuthorDescription(argv=list()):
+        return self.blogConfiguration["authorDescription"]
+        
+    def GetBlogLicense(argv=list()):
+        return self.blogConfiguration["license"]
+    
+    def GetBlogURL(argv=list()):
+        return self.blogConfiguration["blogUrl"]
+    
+    def GetBlogLanguage(argv=list()):
+        return self.blogConfiguration["blogLanguage"]
+    
+    def GetAuthorEmail(argv=list()):
+        return self.blogConfiguration["authorEmail"]
+        
+        
+
+        
