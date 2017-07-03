@@ -3,6 +3,7 @@
 from VenC.datastore.configuration import GetBlogConfiguration
 from VenC.datastore.entry import YieldEntriesContent
 from VenC.datastore.entry import Entry
+from VenC.datastore.metadata import MetadataNode
 
 class DataStore:
     def __init__(self):
@@ -19,13 +20,13 @@ class DataStore:
 
             ''' Update entriesPerDates '''
 
-            formattedDate = self.entries[-1].strftime(self.blogConfiguration["datesDirectoryName"])
+            formattedDate = self.entries[-1].date.strftime(self.blogConfiguration["path"]["datesDirectoryName"])
             entriesIndex = self.GetEntriesIndexForGivenDate(formattedDate)
             if entriesIndex != None:
                 self.entriesPerDates[entriesIndex].count +=1
                 self.entriesPerDates[entriesIndex].relatedTo.append(entryIndex)
             else:
-                self.entriesPerDates.append = MetadataNode(formattedDate, entryIndex)
+                self.entriesPerDates.append(MetadataNode(formattedDate, entryIndex))
 
             entryIndex += 1
 

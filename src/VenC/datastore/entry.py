@@ -78,16 +78,16 @@ class Entry:
             Die(Messages.missingMandatoryFieldInEntry.format("tags", self.id))
 
         ''' Setting up category leaves '''
-        self.categoryLeaves = list()
+        self.categoriesLeaves = list()
         try:
-            for category in rawData["categories"].split(','):
+            for category in metadata["categories"].split(','):
                 categoryLeaf = category.split(' > ')[-1].strip()
                 if len(categoryLeaf) != 0:
                     categoryLeafUrl = str()
                     for subCategory in category.split(' > '):
                         categoryLeafUrl +=subCategory.strip()+'/'
                 
-                    self.entryCategoriesLeaves.append({
+                    self.categoriesLeaves.append({
                         "categoryLeaf": categoryLeaf,
                         "categoryLeafPath":categoryLeafUrl
                     })

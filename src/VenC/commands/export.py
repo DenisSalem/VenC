@@ -26,6 +26,7 @@ def ExportAndRemoteCopy(argv=list()):
 def ExportBlog(argv=list()):
 
     ''' Initialisation of environment '''
+    datastore = DataStore()
 
     if len(argv) == 1:
         if not argv[0] in ThemesDescriptor.keys():
@@ -34,10 +35,9 @@ def ExportBlog(argv=list()):
         else:
             themeFolder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
     
-    datastore = DataStore()
-    for param in ThemesDescriptor[argv[0]].keys():
-        if param[0] != "_": # marker to detect field names we do not want to replace
-            datastore.blogConfiguration[param] = ThemesDescriptor[argv[0]][param]
+        for param in ThemesDescriptor[argv[0]].keys():
+            if param[0] != "_": # marker to detect field names we do not want to replace
+                datastore.blogConfiguration[param] = ThemesDescriptor[argv[0]][param]
     
         
 
