@@ -39,6 +39,8 @@ def ExportBlog(argv=list()):
             if param[0] != "_": # marker to detect field names we do not want to replace
                 datastore.blogConfiguration[param] = ThemesDescriptor[argv[0]][param]
 
+    ''' Now we want to preprocess entries'''
+
     for entry in datastore.entries:
         print(entry.title)
         print(entry.authors)
