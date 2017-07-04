@@ -17,6 +17,11 @@ MsgFormat = {
 # hold error messages
 errors=list()
 
+class VenCError(BaseException):
+    def __init__(self, msg):
+        self.msg = msg
+        
+
 def HighlightValue(text, value, color="RED"):
     return text.replace(
         value,

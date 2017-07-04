@@ -8,15 +8,15 @@ import shutil
 import subprocess
 
 import VenC.l10n
-import VenC.datastore.pattern
 
-#from VenC.blog import Blog
 from VenC.datastore.datastore import DataStore
 from VenC.datastore.configuration import GetBlogConfiguration
 from VenC.datastore.theme import ThemesDescriptor
 from VenC.helpers import Die
 from VenC.helpers import RmTreeErrorHandler 
 from VenC.l10n import Messages
+from VenC.pattern.processor import Processor
+from VenC.pattern.codeHighlight import CodeHighlight
 
 def ExportAndRemoteCopy(argv=list()):
     Notify(Messages.blogRecompilation)
@@ -40,6 +40,8 @@ def ExportBlog(argv=list()):
                 datastore.blogConfiguration[param] = ThemesDescriptor[argv[0]][param]
 
     ''' Now we want to preprocess entries'''
+
+    processor = Processor(".:",":.","::")
 
     for entry in datastore.entries:
         print(entry.title)
