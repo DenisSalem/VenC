@@ -1,5 +1,22 @@
 #! /usr/bin/python3
 
+#   Copyright 2016, 2017 Denis Salem
+
+#    This file is part of VenC.
+#
+#    VenC is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+
+#    VenC is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+#    You should have received a copy of the GNU General Public License
+#    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
+
 import cgi
 import VenC.l10n
 import VenC.helpers
@@ -7,8 +24,8 @@ import VenC.helpers
 from VenC.helpers import GetFormattedMessage
 from VenC.helpers import HighlightValue
 from VenC.l10n import Messages
-from VenC.pattern.for import For
-from VenC.pattern.for import RecursiveFor
+from VenC.pattern.iterate import For
+from VenC.pattern.iterate import RecursiveFor
 
 class Processor():
     def __init__(self, openSymbol, closeSymbol, separator):
@@ -18,8 +35,6 @@ class Processor():
         self.dictionnary        = dict()
         self.functions		= dict()
         self.functions["Get"] = self.Get
-        self.functions["For"] = For
-        self.functions["RecursiveFor"] = RecursiveFor
         self.strict             = True
         self.currentStrings     = dict()
         self.currentString      = str()
@@ -83,21 +98,33 @@ class Processor():
                 True
             )
 
-    def preProcess(self, inputIndex, string):
-        self.currentStrings[inputIndex] = str(string)
-        self.preProcessedStrings[inputIndex] = list()
-        self.patternsIndex[inputIndex] = list()
+    # ¹ Because parsing is recursive we wan't to avoid useless computation
+    # by splitting a given string and mark where exactly are the patterns 
+    # we want to process.
+    #
+    # ² Some patterns are contextual while others are constant in time.
+    # To save time we wan't to perform two-pass analysis. In the first one
+    # we're ignoring some given patterns which usualy are contextual. Once
+    # non-contextual pattern are parsed the second pass occurs each time we
+    def preProcess(self, inputKey, string, ignore=list()):
+        self.ignore = ignore
+        self.preProcessedStrings[inputKey] = list()
+        self.patternsIndex[inputKey] = list()
         closeSymbolPos	= list()
         openSymbolPos	= list()
         i		= int()
         
         while i < len(string):
-            if i + len(self.openSymbol) <= len(string) and string[i:i+len(self.openSymbol)] == self.openSymbol:
+            ''' if i + len(self.openSymbol) <= len(string) and string[i:i+len(self.openSymbol)] == self.openSymbol: '''
+            if string[i:i+len(self.openSymbol)] == self.openSymbol:
                 openSymbolPos.append(i)
 
-            elif i + len(self.closeSymbol) <= len(string) and string[i:i+len(self.closeSymbol)] == self.closeSymbol:
+            ''' elif i + len(self.closeSymbol) <= len(string) and string[i:i+len(self.closeSymbol)] == self.closeSymbol: '''
+            elif string[i:i+len(self.closeSymbol)] == self.closeSymbol:
                 closeSymbolPos.append(i)
 
+            # At some point, when we get the same opening and closing symbols, it means that we just reach the end of a pattern
+            # so we can do the real job.
             if len(closeSymbolPos) == len(openSymbolPos) and len(closeSymbolPos) != 0 and len(openSymbolPos) != 0:
                 self.preProcessedStrings[inputIndex].append(string[i-closeSymbolPos[-1]:openSymbolPos[0]])
                 self.preProcessedStrings[inputIndex].append(string[openSymbolPos[0]:closeSymbolPos[-1]+len(self.closeSymbol)])
@@ -107,33 +134,33 @@ class Processor():
                 openSymbolPos = list()
                 closeSymbolPos = list()
                 i=0
+            
             else:
                 i+=1
 
-        self.preProcessedStrings[inputIndex].append(string)
+            self.preProcessedStrings[inputKey].append(string)
 
     def parse(self, inputIndex, escape=False):
         if len(self.patternsIndex) == 0:
-            return self.currentStrings[inputIndex]
+            return self.preProcessedString[inputIndex][0]
         
         output = str()
 
         self.currentString = self.currentStrings[inputIndex]
         for index in range(0,len(self.preProcessedStrings[inputIndex])):
             if index in self.patternsIndex[inputIndex]:
-                output += self._process(self.preProcessedStrings[inputIndex][index], escape)
+                output += self.__process(self.preProcessedStrings[inputIndex][index], escape)
             else:
                 output += self.preProcessedStrings[inputIndex][index]
 
         return output
 
-    def _process(self, string, escape):
+    def __process(self, string, escape):
         closeSymbolPos	= list()
         openSymbolPos	= list()
         output		= str()
         fields		= list()
         i		= int()
-
 
         while i < len(string):
             if i + len(self.openSymbol) <= len(string) and string[i:i+len(self.openSymbol)] == self.openSymbol:
@@ -154,7 +181,7 @@ class Processor():
                         )
                     
                     if escape:
-                        return self._process(
+                        return self.__process(
                             string[
                                 :openSymbolPos[-1]]+
                                 cgi.escape(output).encode(
@@ -168,7 +195,7 @@ class Processor():
                             ],
                             escape=True)
                     else:
-                        return self._process(
+                        return self.__process(
                             string[
                                 :openSymbolPos[-1]]+
                                 str(output)+
