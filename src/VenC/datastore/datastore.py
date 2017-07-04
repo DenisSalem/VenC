@@ -4,7 +4,7 @@ from VenC.datastore.configuration import GetBlogConfiguration
 from VenC.datastore.entry import YieldEntriesContent
 from VenC.datastore.entry import Entry
 from VenC.datastore.metadata import MetadataNode
-from VenC.datastore.pattern.codeHighlight import CodeHighlight
+from VenC.pattern.codeHighlight import CodeHighlight
 
 class DataStore:
     def __init__(self):

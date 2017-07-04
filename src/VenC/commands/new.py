@@ -12,7 +12,7 @@ from VenC.helpers import Die
 from VenC.l10n import Messages
 
 import VenC.datastore.entry as Entry
-import VenC.datastore.pattern as Pattern
+import VenC.pattern as Pattern
 import VenC.helpers as Helpers
 
 def NewEntry(argv):
