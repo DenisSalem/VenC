@@ -1,19 +1,19 @@
 #! /usr/bin/python3
 
-#   Copyright 2016, 2017 Denis Salem
-
+#    Copyright 2016, 2017 Denis Salem
+#
 #    This file is part of VenC.
 #
 #    VenC is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
-
+#
 #    VenC is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
-
+#
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -27,6 +27,7 @@ from VenC.helpers import Notify
 
 from VenC.l10n import Messages
 from VenC.datastore.metadata import MetadataNode
+from VenC.pattern.processor import PreProcessor
 
 class Entry:
     def __init__(self, filename):
@@ -82,10 +83,11 @@ class Entry:
 
         ''' Setting up the actual entry '''
         try:
-            self.content = rawData.split("---\n")[1]
+            self.content = PreProcessor(rawData.split("---\n")[1])
 
         except:
-            Die(Messages.possibleMalformedEntry.format(output["EntryID"]))
+            raise
+            Die(Messages.possibleMalformedEntry.format(self.id))
 
         ''' Setting up tags '''
         try:

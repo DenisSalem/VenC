@@ -58,17 +58,10 @@ def ExportBlog(argv=list()):
 
     # Now we want to preprocess entries
 
-    processor = Processor(".:",":.","::")
+    processor = Processor()
 
     for entry in datastore.entries:
-        print(entry.title)
-        print(entry.authors)
-        print(entry.tags)
-        print(entry.categoriesLeaves)
-        print(entry.date)
-        print(entry.content)
-        print()
-        
+        pass
 
     # cleaning direcoty
     #shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
