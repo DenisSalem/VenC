@@ -56,12 +56,15 @@ def ExportBlog(argv=list()):
             if param[0] != "_": # marker to detect field names we do not want to replace
                 datastore.blogConfiguration[param] = ThemesDescriptor[argv[0]][param]
 
-    # Now we want to preprocess entries
+    # Now we want to perform first parsing pass on entries
 
     processor = Processor()
+    processor.SetFunction()
 
     for entry in datastore.entries:
-        pass
+        for chunk in entry.content.preProcessedStrings:
+            print(chunk)
+        exit()
 
     # cleaning direcoty
     #shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
