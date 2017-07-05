@@ -50,6 +50,8 @@ class DataStore:
             entryIndex += 1
 
             ''' Update entriesPerCategories '''
+
+            ''' NOT IMPLEMENTED YET '''
     
     def GetBlogMetadata(argv):
         return str(getattr(self.blogConfiguration, argv[0]))
@@ -65,56 +67,64 @@ class DataStore:
             index += 1
         return None
 
-    def GetEntries(reverse=False):
+    def GetEntries(self, reverse=False):
+        self.requestedEntryIndex = 0 if not reverse else len(self.entries) - 1
+
         for entry in (self.entries[::-1] if reverse else self.entries):
             yield entry
-    
-    def GetEntryTitle(argv=list()):
-        return self.entries[self.requestedEntriesIndex].title
-    
-    def GetEntryID(argv=list()):
-        return self.entries[self.requestedEntriesIndex].id
 
-    def GetEntryYear(argv=list()):
-        return self.entries[self.requestedEntriesIndex].date.year
+            if not reverse:
+                self.requestedEntryIndex += 1
+
+            else:
+                self.requestedEntryIndex -= 1
+    
+    def GetEntryTitle(self, argv=list()):
+        return self.entries[self.requestedEntryIndex].title
+    
+    def GetEntryID(self, argv=list()):
+        return self.entries[self.requestedEntryIndex].id
+
+    def GetEntryYear(self, argv=list()):
+        return self.entries[self.requestedEntryIndex].date.year
         
-    def GetEntryMonth(argv=list()):
-        return self.entries[self.requestedEntriesIndex].date.month
+    def GetEntryMonth(self, argv=list()):
+        return self.entries[self.requestedEntryIndex].date.month
         
-    def GetEntryDay(argv=list()):
-        return self.entries[self.requestedEntriesIndex].date.day
+    def GetEntryDay(self, argv=list()):
+        return self.entries[self.requestedEntryIndex].date.day
 
-    def GetEntryHour(argv=list()):
-        return self.entries[self.requestedEntriesIndex].date.hour
+    def GetEntryHour(self, argv=list()):
+        return self.entries[self.requestedEntryIndex].date.hour
     
-    def GetEntryMinute(argv=list()):
-        return self.entries[self.requestedEntriesIndex].date.minute
+    def GetEntryMinute(self, argv=list()):
+        return self.entries[self.requestedEntryIndex].date.minute
 
-    def GetAuthorName(argv=list()):
+    def GetAuthorName(self, argv=list()):
         return self.blogConfiguration["authorName"]
 
-    def GetBlogName(argv=list()):
+    def GetBlogName(self, argv=list()):
         return self.blogConfiguration["blogName"]
         
-    def GetBlogDescription(argv=list()):
+    def GetBlogDescription(self, argv=list()):
         return self.blogConfiguration["blogDescription"]
         
-    def GetBlogKeywords(argv=list()):
+    def GetBlogKeywords(self, argv=list()):
         return self.blogConfiguration["blogKeywords"]
 
-    def GetAuthorDescription(argv=list()):
+    def GetAuthorDescription(self, argv=list()):
         return self.blogConfiguration["authorDescription"]
         
-    def GetBlogLicense(argv=list()):
+    def GetBlogLicense(self, argv=list()):
         return self.blogConfiguration["license"]
     
-    def GetBlogURL(argv=list()):
+    def GetBlogURL(self, argv=list()):
         return self.blogConfiguration["blogUrl"]
     
-    def GetBlogLanguage(argv=list()):
+    def GetBlogLanguage(self, argv=list()):
         return self.blogConfiguration["blogLanguage"]
     
-    def GetAuthorEmail(argv=list()):
+    def GetAuthorEmail(self, argv=list()):
         return self.blogConfiguration["authorEmail"]
         
         

@@ -74,4 +74,5 @@ class Messages:
     unknownTextEditor = "{0}: unknown text editor."
     themeName = "Theme name"
     entryIsEmpty = "{0}: The content of the entry is empty."
+    missingEntryContentInclusion = "Invalid theme. Missing entry content inclusion in entry.html and/or rssEntry.html"
 

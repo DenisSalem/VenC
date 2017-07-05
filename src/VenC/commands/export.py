@@ -26,9 +26,11 @@ import subprocess
 
 import VenC.l10n
 
-from VenC.datastore.datastore import DataStore
 from VenC.datastore.configuration import GetBlogConfiguration
+from VenC.datastore.datastore import DataStore
+from VenC.datastore.entry import EntryWrapper
 from VenC.datastore.theme import ThemesDescriptor
+from VenC.datastore.theme import Theme
 from VenC.helpers import Die
 from VenC.helpers import RmTreeErrorHandler 
 from VenC.l10n import Messages
@@ -42,8 +44,13 @@ def ExportAndRemoteCopy(argv=list()):
 
 def ExportBlog(argv=list()):
 
-    # Initialisation of environment
+    ## Initialisation of environment
+
     datastore = DataStore()
+
+    # Initialisation of theme
+
+    themeFolder = "theme/"
 
     if len(argv) == 1:
         if not argv[0] in ThemesDescriptor.keys():
@@ -56,15 +63,50 @@ def ExportBlog(argv=list()):
             if param[0] != "_": # marker to detect field names we do not want to replace
                 datastore.blogConfiguration[param] = ThemesDescriptor[argv[0]][param]
 
-    # Now we want to perform first parsing pass on entries
+    theme = Theme(themeFolder)
+
+    # Set up of non-contextual patterns
 
     processor = Processor()
-    processor.SetFunction()
+    processor.SetFunction("GetEntryTitle", datastore.GetEntryTitle)
+    processor.SetFunction("GetEntryID", datastore.GetEntryID)
+    processor.SetFunction("GetEntryYear", datastore.GetEntryYear)
+    processor.SetFunction("GetEntryMonth", datastore.GetEntryMonth)
+    processor.SetFunction("GetEntryDay", datastore.GetEntryDay)
+    processor.SetFunction("GetEntryHour", datastore.GetEntryHour)
+    processor.SetFunction("GetEntryMinute", datastore.GetEntryMinute)
+    
+    processor.SetFunction("GetAuthorName", datastore.GetAuthorName)
+    processor.SetFunction("GetBlogName", datastore.GetBlogName)
+    processor.SetFunction("GetBlogDescription", datastore.GetBlogDescription)
+    processor.SetFunction("GetBlogKeywords", datastore.GetBlogKeywords)
+    processor.SetFunction("GetAuthorDescription", datastore.GetAuthorDescription)
+    processor.SetFunction("GetBlogLicense", datastore.GetBlogLicense)
+    processor.SetFunction("GetBlogURL", datastore.GetBlogURL)
+    processor.SetFunction("GetBlogLanguage", datastore.GetBlogLanguage)
+    processor.SetFunction("GetAuthorEmail", datastore.GetAuthorEmail)
 
-    for entry in datastore.entries:
-        for chunk in entry.content.preProcessedStrings:
-            print(chunk)
-        exit()
+    # Allow access to irrelevan data but we don't care
+    
+    processor.SetDictionary(datastore.blogConfiguration)
+
+    # Now we want to perform first parsing pass on entries
+    
+    htmlWrapper = EntryWrapper(theme.entry)
+    rssWrapper = EntryWrapper(theme.rssEntry)
+
+    for entry in datastore.GetEntries():
+        entry.content = processor.BatchProcess(entry.content)
+
+        entry.htmlWrapper = htmlWrapper
+        entry.htmlWrapper.above = processor.BatchProcess(entry.htmlWrapper.above)
+        entry.htmlWrapper.below = processor.BatchProcess(entry.htmlWrapper.below)
+        
+        entry.rssWrapper = rssWrapper
+        entry.rssWrapper.above = processor.BatchProcess(entry.rssWrapper.above)
+        entry.rssWrapper.below = processor.BatchProcess(entry.rssWrapper.below)
+
+        print(entry.content.SubStrings)
 
     # cleaning direcoty
     #shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)

@@ -42,13 +42,6 @@ BlackList = list()
 # by splitting a given string and mark where exactly are the patterns 
 # we want to process.
 
-def GetFinalString(processed):
-    output = str()
-    for chunk in processed.SubStrings:
-        output += chunk
-
-    return output
-
 class PreProcessor():
     def __init__(self, string):
         self.blacklist = list()
@@ -87,29 +80,42 @@ class PreProcessor():
         # append last substring
         self.SubStrings.append(string)
 
+def MergeBatches(batches):
+    merged = batches[0]
+    for batch in batches[1:]:
+        pass
+
+def GetFinalString(processed):
+    output = str()
+    for chunk in processed.SubStrings:
+        output += chunk
+
+    return output
+
 class Processor():
     def __init__(self):
-        self.dictionnary         = dict()
+        self.dictionary         = dict()
         self.functions		 = dict()
         self.functions["Get"]    = self.Get
-        self.strict              = True
         self.currentString       = str()
         self.ressource           = str()
         self.errors              = list()
 
-    def handleError(self, error, default,enable=False,value=""):
-        if self.strict or enable:
-            err = GetFormattedMessage(error, "RED")+"\n"
+    # Print out notification to user and replace erroneous
+    def handleError(self, error, defaultOutput, errorOrigin = ""):
+        err = GetFormattedMessage(error, "RED")+"\n"
             
-            if self.ressource != str():
-            	err += GetFormattedMessage(Messages.inRessource.format(self.ressource)+"\n", "RED")
+        if self.ressource != str():
+            err += GetFormattedMessage(Messages.inRessource.format(self.ressource)+"\n", "RED")
                 
-            if not err in VenC.helpers.errors:
-                VenC.helpers.errors.append(err)
-                err += HighlightValue(self.currentString, value)
-                print(err)
+        if not err in VenC.helpers.errors:
+            VenC.helpers.errors.append(err)
+            if errorOrigin != "":
+                err += HighlightValue(''.join(self.currentString), errorOrigin)
+            
+            print(err)
         
-        return default
+        return defaultOutput
 
     def SetFunction(self, key, function):
         self.functions[key] = function
@@ -123,33 +129,33 @@ class Processor():
 
     def DelValue(self, key):
         try:
-            del self.dictionnary[key]
+            del self.dictionary[key]
+
         except:
             pass
 
-    def SetWholeDictionnary(self, dictionnary):
-        for key in dictionnary:
-            self.dictionnary[key] = dictionnary[key]
+    def SetDictionary(self, dictionary):
+        for key in dictionary:
+            self.dictionary[key] = dictionary[key]
 
     def Set(self, symbol, value):
-       self.dictionnary[symbol] = value
+       self.dictionary[symbol] = value
 
     def Get(self, symbol):
         try:
-            return self.dictionnary[symbol[0]]
+            return self.dictionary[symbol[0]]
 
         except KeyError as e:
             return self.handleError(
                 Messages.getUnknownValue.format(e),
                 "~§"+"Get§§"+"$$".join(symbol)+"§~",
-                value=str(e)[1:-1]
+                errorOrigin=str(e)[1:-1]
             )
 
         except IndexError as e:
             return self.handleError(
                 "Get: "+Messages.notEnoughArgs.format(e),
                 "~§"+"Get§§"+"$$".join(symbol)+"§~",
-                True
             )
 
     # Process queue
@@ -160,9 +166,14 @@ class Processor():
             return preProcessed
         
         self.currentString = preProcessed.SubStrings
+        toRemove = list()
         for index in preProcessed.patternsIndex:
             if not preProcessed.SubStrings[index][2:-2].split('::')[0] in BlackList:
                 preProcessed.SubStrings[index] = self.Process(preProcessed.SubStrings[index], escape)
+                toRemove.append(index)
+
+        for index in toRemove:
+            preProcessed.patternsIndex = RemoveByValue(preProcessed.patternsIndex, index)
 
         return preProcessed
 
@@ -174,39 +185,41 @@ class Processor():
         i		= int()
 
         while i < len(string):
-            if string[i:i+2] == self.openSymbol:
+            if string[i:i+2] == OPEN_SYMBOL:
                 openSymbolPos.append(i)
 
-            elif string[i:i+2] == self.closeSymbol:
+            elif string[i:i+2] == CLOSE_SYMBOL:
                 closeSymbolPos.append(i)
 
             if len(closeSymbolPos) <= len(openSymbolPos) and len(closeSymbolPos) != 0 and len(openSymbolPos) != 0:
                 if openSymbolPos[-1] < closeSymbolPos[0]:
-                    fields = [field for field in string[openSymbolPos[-1]+len(self.openSymbol):closeSymbolPos[0]].split(self.separator) if field != '']
+                    fields = [field for field in string[openSymbolPos[-1]+2:closeSymbolPos[0]].split(SEPARATOR) if field != '']
                     if fields[0] in self.functions.keys():
-                        output = self.functions[fields[0]](fields[1:])
+                        output = str(self.functions[fields[0]](fields[1:]))
+
                     else:
                         output =  self.handleError(
                             Messages.unknownPattern.format(fields[0]),
-                            "~§"+"§§".join(fields)+"§~"
+                            "~§"+"§§".join(fields)+"§~",
+                            errorOrigin = fields[0]
                         )
                     
                     if escape:
-                        return self.__process(
-                            string[
-                                :openSymbolPos[-1]]+
-                                cgi.escape(output).encode(
-                                    'ascii', 
-                                    'xmlcharrefreplace'
-                                ).decode(
-                                    encoding='ascii'
-                                )+
-                                string[closeSymbolPos[0]+
-                                len(self.closeSymbol):
-                            ],
-                            escape=True)
+                        return self.Process(
+                            string[:openSymbolPos[-1]]+
+                            
+                            cgi.escape(output).encode(
+                                'ascii', 
+                                'xmlcharrefreplace'
+                            ).decode(
+                                encoding='ascii'
+                            )+
+                            
+                            string[closeSymbolPos[0]+2:],
+                            escape=True
+                        )
                     else:
-                        return self.__process(
+                        return self.Process(
                             string[
                                 :openSymbolPos[-1]]+
                                 str(output)+
