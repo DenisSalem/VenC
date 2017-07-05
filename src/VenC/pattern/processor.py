@@ -41,10 +41,18 @@ BlackList = list()
 # Because parsing is recursive we want to avoid useless computation
 # by splitting a given string and mark where exactly are the patterns 
 # we want to process.
+
+def GetFinalString(processed):
+    output = str()
+    for chunk in processed.SubStrings:
+        output += chunk
+
+    return output
+
 class PreProcessor():
     def __init__(self, string):
         self.blacklist = list()
-        self.preProcessedStrings = list()
+        self.SubStrings = list()
         self.patternsIndex = list()
         closeSymbolPos	= list()
         openSymbolPos	= list()
@@ -61,13 +69,13 @@ class PreProcessor():
             # so we can do the real job.
             if len(closeSymbolPos) == len(openSymbolPos) and len(closeSymbolPos) != 0 and len(openSymbolPos) != 0:
                 # Append non pattern substring
-                self.preProcessedStrings.append(string[i-closeSymbolPos[-1]:openSymbolPos[0]])
+                self.SubStrings.append(string[i-closeSymbolPos[-1]:openSymbolPos[0]])
 
                 # Append pattern substring
-                self.preProcessedStrings.append(string[openSymbolPos[0]:closeSymbolPos[-1]+2])
+                self.SubStrings.append(string[openSymbolPos[0]:closeSymbolPos[-1]+2])
 
                 # Push pattern substring index in queue
-                self.patternsIndex.append(len(self.preProcessedStrings)-1)
+                self.patternsIndex.append(len(self.SubStrings)-1)
                 string = string[closeSymbolPos[-1]+2:]
                 openSymbolPos = list()
                 closeSymbolPos = list()
@@ -77,8 +85,7 @@ class PreProcessor():
                 i+=1
 
         # append last substring
-        self.preProcessedStrings.append(string)
-
+        self.SubStrings.append(string)
 
 class Processor():
     def __init__(self):
@@ -86,11 +93,8 @@ class Processor():
         self.functions		 = dict()
         self.functions["Get"]    = self.Get
         self.strict              = True
-        self.currentStrings      = dict()
         self.currentString       = str()
         self.ressource           = str()
-        self.preProcessedStrings = dict()
-        self.patternsIndex       = dict()
         self.errors              = list()
 
     def handleError(self, error, default,enable=False,value=""):
@@ -149,25 +153,19 @@ class Processor():
             )
 
     # Process queue
-    def Parse(self, preProcessed, escape=False):
+    def BatchProcess(self, preProcessed, escape=False):
         global BlackList
 
-        if len(self.patternsIndex) == 0:
-            return self.preProcessedString[inputIndex][0]
+        if len(preProcessed.patternsIndex) == 0:
+            return preProcessed
         
-        output = str()
-
-        ''' Must refactor '''
-        self.currentString = preProcessed.preProcessedStrings
+        self.currentString = preProcessed.SubStrings
         for index in preProcessed.patternsIndex:
-            if index in BlackList:
-                output += self.Process(self.preProcessedStrings[inputIndex][index], escape)
-            else:
-                output += self.preProcessedStrings[inputIndex][index]
+            if not preProcessed.SubStrings[index][2:-2].split('::')[0] in BlackList:
+                preProcessed.SubStrings[index] = self.Process(preProcessed.SubStrings[index], escape)
 
-        return output
+        return preProcessed
 
-    # Do the real job. 
     def Process(self, string, escape):
         closeSymbolPos	= list()
         openSymbolPos	= list()
@@ -176,10 +174,10 @@ class Processor():
         i		= int()
 
         while i < len(string):
-            if i + len(self.openSymbol) <= len(string) and string[i:i+len(self.openSymbol)] == self.openSymbol:
+            if string[i:i+2] == self.openSymbol:
                 openSymbolPos.append(i)
 
-            elif i + len(self.closeSymbol) <= len(string) and string[i:i+len(self.closeSymbol)] == self.closeSymbol:
+            elif string[i:i+2] == self.closeSymbol:
                 closeSymbolPos.append(i)
 
             if len(closeSymbolPos) <= len(openSymbolPos) and len(closeSymbolPos) != 0 and len(openSymbolPos) != 0:
