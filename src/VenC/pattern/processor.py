@@ -27,43 +27,47 @@ from VenC.l10n import Messages
 from VenC.pattern.iterate import For
 from VenC.pattern.iterate import RecursiveFor
 
-__OPEN_SYMBOL = ".:"
-__SEPARATOR = "::"
-__CLOSE_SYMBOL = ":."
+OPEN_SYMBOL = ".:"
+SEPARATOR = "::"
+CLOSE_SYMBOL = ":."
 
-# Because parsing is recursive we wan't to avoid useless computation
+# Some patterns are contextual while others are constant in time.
+# To save time we wan't to perform two-pass analysis. In the first one
+# we're ignoring some given patterns which usualy are contextual. Once
+# non-contextual pattern are parsed the second pass occurs each time we
+# require the given string in every needed context
+BlackList = list()
+
+# Because parsing is recursive we want to avoid useless computation
 # by splitting a given string and mark where exactly are the patterns 
 # we want to process.
 class PreProcessor():
-    def __init__(self, inputKey, string):
-        self.ignore = list()
-        self.preProcessedStrings[inputKey] = list()
-        self.patternsIndex[inputKey] = list()
+    def __init__(self, string):
+        self.blacklist = list()
+        self.preProcessedStrings = list()
+        self.patternsIndex = list()
         closeSymbolPos	= list()
         openSymbolPos	= list()
         i		= int()
         
         while i < len(string):
-            if string[i:i+2] == __OPEN_SYMBOL:
+            if string[i:i+2] == OPEN_SYMBOL:
                 openSymbolPos.append(i)
 
-            elif string[i:i+2] == __CLOSE_SYMBOL:
+            elif string[i:i+2] == CLOSE_SYMBOL:
                 closeSymbolPos.append(i)
 
             # At some point, when we get the same opening and closing symbols, it means that we just reach the end of a pattern
             # so we can do the real job.
             if len(closeSymbolPos) == len(openSymbolPos) and len(closeSymbolPos) != 0 and len(openSymbolPos) != 0:
-                
                 # Append non pattern substring
-                self.preProcessedStrings[inputIndex].append(string[i-closeSymbolPos[-1]:openSymbolPos[0]])
+                self.preProcessedStrings.append(string[i-closeSymbolPos[-1]:openSymbolPos[0]])
 
                 # Append pattern substring
-                self.preProcessedStrings[inputIndex].append(string[openSymbolPos[0]:closeSymbolPos[-1]+2])
+                self.preProcessedStrings.append(string[openSymbolPos[0]:closeSymbolPos[-1]+2])
 
-                # Is pattern is in blacklist
-                
                 # Push pattern substring index in queue
-                self.patternsIndex[inputIndex].append(len(self.preProcessedStrings[inputIndex])-1)
+                self.patternsIndex.append(len(self.preProcessedStrings)-1)
                 string = string[closeSymbolPos[-1]+2:]
                 openSymbolPos = list()
                 closeSymbolPos = list()
@@ -72,14 +76,9 @@ class PreProcessor():
             else:
                 i+=1
 
-            self.preProcessedStrings[inputKey].append(string)
+        # append last substring
+        self.preProcessedStrings.append(string)
 
-    # Some patterns are contextual while others are constant in time.
-    # To save time we wan't to perform two-pass analysis. In the first one
-    # we're ignoring some given patterns which usualy are contextual. Once
-    # non-contextual pattern are parsed the second pass occurs each time we
-    # require the given string in every needed context
-    def SetBlacklist(blacklist):
 
 class Processor():
     def __init__(self):
@@ -150,15 +149,18 @@ class Processor():
             )
 
     # Process queue
-    def parse(self, inputIndex, escape=False):
+    def Parse(self, preProcessed, escape=False):
+        global BlackList
+
         if len(self.patternsIndex) == 0:
             return self.preProcessedString[inputIndex][0]
         
         output = str()
 
-        self.currentString = self.currentStrings[inputIndex]
-        for index in range(0,len(self.preProcessedStrings[inputIndex])):
-            if index in self.patternsIndex[inputIndex]:
+        ''' Must refactor '''
+        self.currentString = preProcessed.preProcessedStrings
+        for index in preProcessed.patternsIndex:
+            if index in BlackList:
                 output += self.Process(self.preProcessedStrings[inputIndex][index], escape)
             else:
                 output += self.preProcessedStrings[inputIndex][index]
