@@ -81,23 +81,27 @@
 	DONE | Subprocess support args.
 	DONE | Remove extra newlines from PrintThemes.
 	DONE | Print nicer warnings when found unknown values in chunks.
-	DONE | Notify when found invalid entry filename in entries folder
-	DONE | Remove CSS field from entry
-	DONE | Catch exception when Yaml canno't parse blog configuration.
+	DONE | Notify when found invalid entry filename in entries folder.
+	DONE | Remove CSS field from entry.
+	DONE | Catch exception when Yaml cannot parse blog configuration.
+	DONE | Hardcoded opening,closing and separator symbols in pattern processor.
+	DONE | Add a copyright notice and term of use in each source files.
+	WIP  | Moar comments in the code.
 	WIP  | No more awkward silence when something is successfully done.
 	WIP  | Add more coloration for message!
-	WIP  | Speed up blog exportation
+	WIP  | Speed up blog exportation.
 	WIP  | Massive refactorisation, code cleaning and optimisation.
 	WIP  | Change nomenclature: entry_name -> title. Fix doc.
-	WIP  | Change nomenclature: remove underscore from blog_configuration, using camelCase instead. Fix doc.
-	TODO | Auto include CSS
+	WIP  | Change nomenclature: remove underscore from blog_configuration, using camel case instead. Fix doc.
+	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc. 
+	TODO | Auto include CSS.
 	TODO | Warn about missing mandatory field in entry.
 	TODO | Add function GetIfExist.
 	TODO | Add function Include.
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Reorganize themes dependencies in setup.
-	TODO | Clean up installation
+	TODO | Clean up installation.
 	TODO | Client-side search engine.
-	TODO | Add translation for Deutsch and Spanish
-	TODO | Catch exception nicely in CodeHighLight
-	TODO | Add a copy of license in each source files
+	TODO | Add translation for Deutsch and Spanish.
+	TODO | Catch exception nicely in CodeHighLight.
+	TODO | Add relevant templates for themes.
