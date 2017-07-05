@@ -118,3 +118,5 @@ def ExportExtraData(origin, destination=""):
     except:
         raise
 
+def RemoveByValue(l, v):
+    return [x for x in filter(lambda x : x != v, l)]

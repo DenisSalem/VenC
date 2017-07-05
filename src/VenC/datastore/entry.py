@@ -29,9 +29,19 @@ from VenC.l10n import Messages
 from VenC.datastore.metadata import MetadataNode
 from VenC.pattern.processor import PreProcessor
 
+class EntryWrapper:
+    def __init__(self, wrapper):
+        try:
+            w = wrapper.split(".:GetEntryContent:.")
+            self.above = PreProcessor(w[0])
+            self.below = PreProcessor(w[1])
+
+        except IndexError:
+            Die(Messages.missingEntryContentInclusion)
+
 class Entry:
     def __init__(self, filename):
-        ''' Loading '''
+        # Loading
         rawData = open(os.getcwd()+"/entries/"+filename,'r').read()
         try:
             metadata = yaml.load(rawData.split("---\n")[0])
@@ -42,22 +52,21 @@ class Entry:
         if metadata == None:
             Die(Messages.possibleMalformedEntry.format(entryFilename))
 
-        ''' Setting up optional metadata '''
-
+        # Setting up optional metadata
         for key in metadata.keys():
             if not key in ["authors","tags","categories","entry_name","doNotUseMarkdown"]:
                 setattr(self, key, metadata[key])
     
-        ''' Are we using markdown? '''
+        # Are we using markdown?
         if "doNotUseMarkdown" in metadata.keys():
             self.doNotUseMarkdown = True
         else:
             self.doNotUseMarkdown = False
     
-        ''' Set up id '''
+        # Set up id
         self.id = filename.split('__')[0]
         
-        ''' Set up date '''
+        # Set up date
         rawDate = filename.split('__')[1].split('-')
         self.date = datetime.datetime(
             year=int(rawDate[2]),
@@ -67,21 +76,21 @@ class Entry:
             minute=int(rawDate[4])
         )
         
-        ''' Setting up title '''
+        # Setting up title
         try:
             self.title = metadata["title"]
 
         except KeyError:
             Die(Messages.missingMandatoryFieldInEntry.format("title", self.id))
 
-        ''' Setting up authors '''
+        # Setting up authors
         try:
             self.authors = [ e for e in list(metadata["authors"].split(",") if metadata["authors"] != str() else list()) ]
 
         except KeyError:
             Die(Messages.missingMandatoryFieldInEntry.format("authors", self.id))
 
-        ''' Setting up the actual entry '''
+        # Setting up content
         try:
             self.content = PreProcessor(rawData.split("---\n")[1])
 
