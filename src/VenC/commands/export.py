@@ -107,7 +107,8 @@ def ExportBlog(argv=list()):
         entry.rssWrapper.above = processor.BatchProcess(entry.rssWrapper.above)
         entry.rssWrapper.below = processor.BatchProcess(entry.rssWrapper.below)
 
-        print(entry.content.SubStrings)
+        print(entry.htmlWrapper)
+        print(entry.rssWrapper)
 
     # cleaning direcoty
     #shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
