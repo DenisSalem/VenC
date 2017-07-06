@@ -32,6 +32,7 @@ from VenC.pattern.processor import PreProcessor
 class EntryWrapper:
     def __init__(self, wrapper):
         try:
+            print(wrapper)
             w = wrapper.split(".:GetEntryContent:.")
             self.above = PreProcessor(w[0])
             self.below = PreProcessor(w[1])

@@ -23,6 +23,7 @@ import VenC.helpers
 
 from VenC.helpers import GetFormattedMessage
 from VenC.helpers import HighlightValue
+from VenC.helpers import RemoveByValue
 from VenC.l10n import Messages
 from VenC.pattern.iterate import For
 from VenC.pattern.iterate import RecursiveFor

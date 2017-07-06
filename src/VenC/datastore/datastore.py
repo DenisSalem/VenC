@@ -100,6 +100,12 @@ class DataStore:
     def GetEntryMinute(self, argv=list()):
         return self.entries[self.requestedEntryIndex].date.minute
 
+    def GetEntryDate(self, argv=list()):
+        return self.entries[self.requestedEntryIndex].date.strftime(self.blogConfiguration["dateFormat"])
+
+    def GetEntry(self, argv=list()):
+        return getattr(self.entries[self.requestedEntryIndex], argv[0])
+
     def GetAuthorName(self, argv=list()):
         return self.blogConfiguration["authorName"]
 

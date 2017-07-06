@@ -75,6 +75,7 @@ def ExportBlog(argv=list()):
     processor.SetFunction("GetEntryDay", datastore.GetEntryDay)
     processor.SetFunction("GetEntryHour", datastore.GetEntryHour)
     processor.SetFunction("GetEntryMinute", datastore.GetEntryMinute)
+    processor.SetFunction("GetEntryDate", datastore.GetEntryDate)
     
     processor.SetFunction("GetAuthorName", datastore.GetAuthorName)
     processor.SetFunction("GetBlogName", datastore.GetBlogName)
