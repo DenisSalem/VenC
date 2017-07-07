@@ -35,6 +35,7 @@ from VenC.helpers import Die
 from VenC.helpers import RmTreeErrorHandler 
 from VenC.l10n import Messages
 from VenC.pattern.processor import Processor
+from VenC.pattern.processor import BlackList
 from VenC.pattern.codeHighlight import CodeHighlight
 
 def ExportAndRemoteCopy(argv=list()):
@@ -68,6 +69,8 @@ def ExportBlog(argv=list()):
     # Set up of non-contextual patterns
 
     processor = Processor()
+
+    # General entry data
     processor.SetFunction("GetEntryTitle", datastore.GetEntryTitle)
     processor.SetFunction("GetEntryID", datastore.GetEntryID)
     processor.SetFunction("GetEntryYear", datastore.GetEntryYear)
@@ -77,6 +80,7 @@ def ExportBlog(argv=list()):
     processor.SetFunction("GetEntryMinute", datastore.GetEntryMinute)
     processor.SetFunction("GetEntryDate", datastore.GetEntryDate)
     
+    # General blog data
     processor.SetFunction("GetAuthorName", datastore.GetAuthorName)
     processor.SetFunction("GetBlogName", datastore.GetBlogName)
     processor.SetFunction("GetBlogDescription", datastore.GetBlogDescription)
@@ -87,14 +91,21 @@ def ExportBlog(argv=list()):
     processor.SetFunction("GetBlogLanguage", datastore.GetBlogLanguage)
     processor.SetFunction("GetAuthorEmail", datastore.GetAuthorEmail)
 
-    # Allow access to irrelevan data but we don't care
+    # Extra metadata getter
+    processor.SetFunction("GetEntryMetadata", datastore.GetEntryMetadata)
+    processor.SetFunction("GetEntryMetadataIfExists", datastore.GetEntryMetadata)
+    processor.SetFunction("GetBlogMetadataIfExists", datastore.GetEntryMetadata)
     
-    processor.SetDictionary(datastore.blogConfiguration)
-
     # Now we want to perform first parsing pass on entries
     
     htmlWrapper = EntryWrapper(theme.entry)
     rssWrapper = EntryWrapper(theme.rssEntry)
+
+    # Setup contextual patterns black list
+    BlackList.append("CodeHighlight")
+    BlackList.append("EntryUrl")
+    BlackList.append("GetRelativeOrigin")
+    BlackList.append("For")
 
     for entry in datastore.GetEntries():
         entry.content = processor.BatchProcess(entry.content)
@@ -107,10 +118,7 @@ def ExportBlog(argv=list()):
         entry.rssWrapper.above = processor.BatchProcess(entry.rssWrapper.above)
         entry.rssWrapper.below = processor.BatchProcess(entry.rssWrapper.below)
 
-        print(entry.htmlWrapper)
-        print(entry.rssWrapper)
-
-    # cleaning direcoty
+    # cleaning directory
     #shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
     #os.makedirs("blog")
     #currentBlog = Blog(themeFolder, blogConfiguration)

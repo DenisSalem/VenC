@@ -34,10 +34,6 @@ MsgFormat = {
 # hold error messages
 errors=list()
 
-class VenCError(BaseException):
-    def __init__(self, msg):
-        self.msg = msg
-        
 # Some data printed out may exceed few lines so
 # it's nicer to highlight specific part of the output
 def HighlightValue(text, value, color="RED"):

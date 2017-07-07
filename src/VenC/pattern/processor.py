@@ -102,6 +102,11 @@ class Processor():
         self.ressource           = str()
         self.errors              = list()
 
+    def RunPattern(pattern, argv):
+        try:
+        except:
+            self.handleError(
+
     # Print out notification to user and replace erroneous
     def handleError(self, error, defaultOutput, errorOrigin = ""):
         err = GetFormattedMessage(error, "RED")+"\n"
@@ -142,6 +147,8 @@ class Processor():
     def Set(self, symbol, value):
        self.dictionary[symbol] = value
 
+    # remains for legacy purpose only
+    '''
     def Get(self, symbol):
         try:
             return self.dictionary[symbol[0]]
@@ -158,6 +165,7 @@ class Processor():
                 "Get: "+Messages.notEnoughArgs.format(e),
                 "~§"+"Get§§"+"$$".join(symbol)+"§~",
             )
+    '''
 
     # Process queue
     def BatchProcess(self, preProcessed, escape=False):
