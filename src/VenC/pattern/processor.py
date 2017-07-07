@@ -95,17 +95,39 @@ def GetFinalString(processed):
 
 class Processor():
     def __init__(self):
-        self.dictionary         = dict()
         self.functions		 = dict()
-        self.functions["Get"]    = self.Get
         self.currentString       = str()
         self.ressource           = str()
         self.errors              = list()
 
-    def RunPattern(pattern, argv):
+    # Run any pattern and catch exception nicely
+    def RunPattern(self, pattern, argv):
         try:
-        except:
-            self.handleError(
+            output = self.functions[pattern](argv)
+
+        except KeyError as e:
+            if str(e)[1:-1] == pattern:
+                output =  self.handleError(
+                    Messages.unknownPattern.format(pattern),
+                    "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                    errorOrigin = ':'+pattern+':'
+                )
+            else:
+                output = self.handleError(
+                    Messages.unknownContextual.format(e),
+                    "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                    errorOrigin = ':'+str(e)[1:-1]+':'
+                )
+        
+        except AttributeError as e:
+                output = self.handleError(
+                    Messages.unknownContextual.format(e),
+                    "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                    errorOrigin = str(e).split("'")[-2]
+                )
+
+
+        return str(output)
 
     # Print out notification to user and replace erroneous
     def handleError(self, error, defaultOutput, errorOrigin = ""):
@@ -147,26 +169,6 @@ class Processor():
     def Set(self, symbol, value):
        self.dictionary[symbol] = value
 
-    # remains for legacy purpose only
-    '''
-    def Get(self, symbol):
-        try:
-            return self.dictionary[symbol[0]]
-
-        except KeyError as e:
-            return self.handleError(
-                Messages.getUnknownValue.format(e),
-                "~§"+"Get§§"+"$$".join(symbol)+"§~",
-                errorOrigin=str(e)[1:-1]
-            )
-
-        except IndexError as e:
-            return self.handleError(
-                "Get: "+Messages.notEnoughArgs.format(e),
-                "~§"+"Get§§"+"$$".join(symbol)+"§~",
-            )
-    '''
-
     # Process queue
     def BatchProcess(self, preProcessed, escape=False):
         global BlackList
@@ -203,15 +205,7 @@ class Processor():
             if len(closeSymbolPos) <= len(openSymbolPos) and len(closeSymbolPos) != 0 and len(openSymbolPos) != 0:
                 if openSymbolPos[-1] < closeSymbolPos[0]:
                     fields = [field for field in string[openSymbolPos[-1]+2:closeSymbolPos[0]].split(SEPARATOR) if field != '']
-                    if fields[0] in self.functions.keys():
-                        output = str(self.functions[fields[0]](fields[1:]))
-
-                    else:
-                        output =  self.handleError(
-                            Messages.unknownPattern.format(fields[0]),
-                            "~§"+"§§".join(fields)+"§~",
-                            errorOrigin = fields[0]
-                        )
+                    output = self.RunPattern(fields[0], fields[1:])
                     
                     if escape:
                         return self.Process(

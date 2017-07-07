@@ -45,12 +45,10 @@ def ExportAndRemoteCopy(argv=list()):
 
 def ExportBlog(argv=list()):
 
-    ## Initialisation of environment
-
+    # Initialisation of environment
     datastore = DataStore()
 
     # Initialisation of theme
-
     themeFolder = "theme/"
 
     if len(argv) == 1:
@@ -67,7 +65,7 @@ def ExportBlog(argv=list()):
     theme = Theme(themeFolder)
 
     # Set up of non-contextual patterns
-
+    
     processor = Processor()
 
     # General entry data
@@ -97,13 +95,12 @@ def ExportBlog(argv=list()):
     processor.SetFunction("GetBlogMetadataIfExists", datastore.GetEntryMetadata)
     
     # Now we want to perform first parsing pass on entries
-    
     htmlWrapper = EntryWrapper(theme.entry)
     rssWrapper = EntryWrapper(theme.rssEntry)
 
     # Setup contextual patterns black list
     BlackList.append("CodeHighlight")
-    BlackList.append("EntryUrl")
+    BlackList.append("GetEntryURL")
     BlackList.append("GetRelativeOrigin")
     BlackList.append("For")
 
