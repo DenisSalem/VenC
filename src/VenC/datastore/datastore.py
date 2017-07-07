@@ -53,11 +53,29 @@ class DataStore:
 
             ''' NOT IMPLEMENTED YET '''
     
-    def GetBlogMetadata(argv):
-        return str(getattr(self.blogConfiguration, argv[0]))
+    def GetBlogMetadata(self, argv):
+        # if exception is raised it will be automatically be catch by processor.
+        return self.blogConfiguration[argv[0]]
+    
+    def GetBlogMetadataIfExists(self, argv):
+        try:
+            return self.blogConfiguration[argv[0]]
             
-    def GetEntryMetadata(argv):
+        except KeyError:
+            return str()
+
+    def GetEntryMetadata(self, argv):
+        # if exception is raised it will be automatically be catch by processor.
         return str( getattr(self.entries[self.requestedEntryIndex], argv[0]))
+        
+    
+    def GetEntryMetadataIfExists(self, argv):
+        try:
+            return str( getattr(self.entries[self.requestedEntryIndex], argv[0]))
+
+        except AttributeError:
+            return str()
+            
             
     def GetEntriesIndexForGivenDate(self, value):
         index = 0
@@ -102,9 +120,6 @@ class DataStore:
 
     def GetEntryDate(self, argv=list()):
         return self.entries[self.requestedEntryIndex].date.strftime(self.blogConfiguration["dateFormat"])
-
-    def GetEntry(self, argv=list()):
-        return getattr(self.entries[self.requestedEntryIndex], argv[0])
 
     def GetAuthorName(self, argv=list()):
         return self.blogConfiguration["authorName"]

@@ -97,7 +97,7 @@
 	TODO | Optimisation of categories tree.
 	TODO | Auto include CSS.
 	TODO | Warn about missing mandatory field in entry.
-	TODO | Add function GetIfExist.
+	TODO | Add function GetBlogMetadataIfExists and GetEntryMetadataIfExists.
 	TODO | Add function Include.
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Reorganize themes dependencies in setup.
