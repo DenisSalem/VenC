@@ -1,19 +1,19 @@
 #! /usr/bin/python3
 
-#   Copyright 2016, 2017 Denis Salem
-
+#    Copyright 2016, 2017 Denis Salem
+# 
 #    This file is part of VenC.
 #
 #    VenC is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
 #    the Free Software Foundation, either version 3 of the License, or
 #    (at your option) any later version.
-
+#
 #    VenC is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
-
+#
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -54,8 +54,6 @@ class Messages:
     exportCategories="Exportation locale du fil de publications de la categorie '{0}'."
     exportCategoriesRss="Exportation locale du flux RSS du fil de publications de la categorie '{0}'."
     missingMandatoryFieldInEntry="Le champ '{0}' dans l'entrée numéro {1} est manquant."
-    getUnknownValue="Get: La valeur {0} n'existe pas."
-    forUnknownValue="For: La valeur {0} n'existe pas."
     recursiveForUnknownValue="RecursiveFor: La valeur {0} n'existe pas."
     notEnoughArgs="Paramétres manquants."
     unknownPattern="Le motif '{0}' n'existe pas."
