@@ -37,6 +37,7 @@ from VenC.l10n import Messages
 from VenC.pattern.processor import Processor
 from VenC.pattern.processor import BlackList
 from VenC.pattern.codeHighlight import CodeHighlight
+from VenC.threads.thread import Thread
 
 def ExportAndRemoteCopy(argv=list()):
     Notify(Messages.blogRecompilation)
@@ -114,6 +115,10 @@ def ExportBlog(argv=list()):
         entry.rssWrapper = rssWrapper
         entry.rssWrapper.above = processor.BatchProcess(entry.rssWrapper.above)
         entry.rssWrapper.below = processor.BatchProcess(entry.rssWrapper.below)
+
+    #testing
+    thread = Thread("Test", datastore)
+    thread.OrganizeEntries([entry for entry in datastore.GetEntries()])
 
     # cleaning directory
     #shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
