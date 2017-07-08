@@ -125,11 +125,17 @@ class Processor():
                     "~§"+pattern+"§§"+"§§".join(argv)+"§~",
                     errorOrigin = str(e).split("'")[-2]
                 )
-
+        
+        except IndexError:
+            output = self.handleError(
+                pattern+": "+Messages.notEnoughArgs,
+                "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                pattern
+            )
 
         return str(output)
 
-    # Print out notification to user and replace erroneous
+    # Print out notification to user and replace erroneous pattern
     def handleError(self, error, defaultOutput, errorOrigin = ""):
         err = GetFormattedMessage(error, "RED")+"\n"
             
