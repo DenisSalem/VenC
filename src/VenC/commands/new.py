@@ -130,7 +130,7 @@ def NewBlog(argv):
 				"entriesPerPages":		10,
 				"columns":			1,
 				"rssThreadLenght":		5,
-				"reverseThreadOrder":		False}
+				"reverseThreadOrder":		True}
     for folder_name in argv:
         try:
             os.mkdir(folder_name)

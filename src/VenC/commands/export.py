@@ -37,7 +37,7 @@ from VenC.l10n import Messages
 from VenC.pattern.processor import Processor
 from VenC.pattern.processor import BlackList
 from VenC.pattern.codeHighlight import CodeHighlight
-from VenC.threads.thread import Thread
+from VenC.threads.main import Main
 
 def ExportAndRemoteCopy(argv=list()):
     Notify(Messages.blogRecompilation)
@@ -94,6 +94,7 @@ def ExportBlog(argv=list()):
     processor.SetFunction("GetEntryMetadata", datastore.GetEntryMetadata)
     processor.SetFunction("GetEntryMetadataIfExists", datastore.GetEntryMetadata)
     processor.SetFunction("GetBlogMetadataIfExists", datastore.GetEntryMetadata)
+    processor.SetFunction("ForEntryTags", datastore.ForEntryTags)
     
     # Now we want to perform first parsing pass on entries
     htmlWrapper = EntryWrapper(theme.entry)
@@ -103,8 +104,7 @@ def ExportBlog(argv=list()):
     BlackList.append("CodeHighlight")
     BlackList.append("GetEntryURL")
     BlackList.append("GetRelativeOrigin")
-    BlackList.append("For")
-
+    
     for entry in datastore.GetEntries():
         entry.content = processor.BatchProcess(entry.content)
 
@@ -116,9 +116,10 @@ def ExportBlog(argv=list()):
         entry.rssWrapper.above = processor.BatchProcess(entry.rssWrapper.above)
         entry.rssWrapper.below = processor.BatchProcess(entry.rssWrapper.below)
 
-    #testing
-    thread = Thread("Test", datastore)
-    thread.OrganizeEntries([entry for entry in datastore.GetEntries()])
+    # We want to process the remains patterns so we reset the black list
+    Blacklist = list()
+
+    main = Main("Test", datastore)
 
     # cleaning directory
     #shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)

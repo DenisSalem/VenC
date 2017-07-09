@@ -44,7 +44,7 @@ def GetBlogConfiguration():
 	    "entriesPerPages",
             "columns",
 	    "rssThreadLenght",
-            "threadOrder"
+            "reverseThreadOrder"
         ]
 
         everythingIsOkay = True

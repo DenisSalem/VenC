@@ -20,6 +20,7 @@
 from math import ceil
 
 from VenC.helpers import Notify
+from VenC.pattern.processor import Processor
 
 class Thread:
     def __init__(self, prompt, datastore):
@@ -30,17 +31,22 @@ class Thread:
         self.datastore = datastore
         self.currentPage = 0
 
+        self.processor = Processor()
+
+    # Must be called in child class
+    def SetupProcessor(self):
+        self.processor.SetFunction("GetRelativeOrigin", self.GetRelativeOrigin)
+
+    # Must be called in child class
     def OrganizeEntries(self, entries):
         self.entries = list()
         entriesPerPage = int(self.datastore.blogConfiguration["entriesPerPages"])
-        print(entriesPerPage)
-        for i in range(0, entriesPerPage):
+        for i in range(0, ceil(len(entries)/entriesPerPage)):
             self.entries.append(
                 entries[i*entriesPerPage:(i+1)*entriesPerPage]
             )
-            print(self.entries[-1])
 
-
+    # Must be called in child class
     def WritePage(self, folderDestination, filename, content):
         try:
             os.chdir("blog/")
@@ -58,3 +64,12 @@ class Thread:
         )
         stream.write(self.outputPage)
         stream.close()
+
+    #   def GetRelativeOrigin(self):
+    #       // Do something in child class
+
+    #   def GetNextPage(self):
+    #       // Do something in child class
+
+    #   def GetPreviousPage(self):
+    #       // Do something in child class
