@@ -211,31 +211,31 @@ class Processor():
             if len(closeSymbolPos) <= len(openSymbolPos) and len(closeSymbolPos) != 0 and len(openSymbolPos) != 0:
                 if openSymbolPos[-1] < closeSymbolPos[0]:
                     fields = [field for field in string[openSymbolPos[-1]+2:closeSymbolPos[0]].split(SEPARATOR) if field != '']
-                    output = self.RunPattern(fields[0], fields[1:])
-                    
-                    if escape:
-                        return self.Process(
-                            string[:openSymbolPos[-1]]+
-                            
-                            cgi.escape(output).encode(
-                                'ascii', 
-                                'xmlcharrefreplace'
-                            ).decode(
-                                encoding='ascii'
-                            )+
-                            
-                            string[closeSymbolPos[0]+2:],
-                            escape=True
-                        )
-                    else:
-                        return self.Process(
-                            string[
-                                :openSymbolPos[-1]]+
-                                str(output)+
-                                string[closeSymbolPos[0]+2:
-                            ],
-                            escape=False
-                        )
+                    ''' Need to be tested '''
+                    if not fields[0] in BlackList:
+                        output = self.RunPattern(fields[0], fields[1:])
+                        if escape:
+                            return self.Process(
+                                string[:openSymbolPos[-1]]+
+                                cgi.escape(output).encode(
+                                    'ascii', 
+                                    'xmlcharrefreplace'
+                                ).decode(
+                                    encoding='ascii'
+                                )+
+                                string[closeSymbolPos[0]+2:],
+                                escape=True
+                            )
+
+                        else:
+                            return self.Process(
+                                string[
+                                    :openSymbolPos[-1]]+
+                                    str(output)+
+                                    string[closeSymbolPos[0]+2:
+                                ],
+                                escape=False
+                            )
 
             i+=1
     

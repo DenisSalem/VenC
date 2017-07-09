@@ -147,6 +147,15 @@ class DataStore:
     
     def GetAuthorEmail(self, argv=list()):
         return self.blogConfiguration["authorEmail"]
+
+    def ForEntryTags(self, argv):
+        return argv[1].join(
+            [
+                argv[0].format(tag) 
+                for tag in self.entries[self.requestedEntryIndex].tags
+            ]
+        )
+        
         
         
 
