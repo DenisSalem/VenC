@@ -28,6 +28,11 @@ from VenC.l10n import Messages
 from VenC.pattern.iterate import For
 from VenC.pattern.iterate import RecursiveFor
 
+# Special case of KeyError
+
+class UnknownContextual(KeyError):
+    pass
+
 OPEN_SYMBOL = ".:"
 SEPARATOR = "::"
 CLOSE_SYMBOL = ":."
@@ -105,6 +110,13 @@ class Processor():
         try:
             output = self.functions[pattern](argv)
 
+        except UnknownContextual as e:
+                output = self.handleError(
+                    Messages.unknownContextual.format(e),
+                    "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                    errorOrigin = "{0["+str(e)[1:-1]+']}'
+                )
+        
         except KeyError as e:
             if str(e)[1:-1] == pattern:
                 output =  self.handleError(
@@ -118,7 +130,7 @@ class Processor():
                     "~§"+pattern+"§§"+"§§".join(argv)+"§~",
                     errorOrigin = ':'+str(e)[1:-1]+':'
                 )
-        
+
         except AttributeError as e:
                 output = self.handleError(
                     Messages.unknownContextual.format(e),
