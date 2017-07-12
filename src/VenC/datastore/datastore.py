@@ -23,6 +23,14 @@ from VenC.datastore.entry import Entry
 from VenC.datastore.metadata import MetadataNode
 from VenC.pattern.codeHighlight import CodeHighlight
 
+# Generic method used to iterate t
+def For(iterable, argv):
+    return argv[1].join(
+        [
+            argv[0].format(something) for something in iterable
+        ]
+    )
+
 class DataStore:
     def __init__(self):
         self.blogConfiguration = GetBlogConfiguration()
@@ -121,6 +129,14 @@ class DataStore:
     def GetEntryDate(self, argv=list()):
         return self.entries[self.requestedEntryIndex].date.strftime(self.blogConfiguration["dateFormat"])
 
+    def GetEntryDateURL(self, argv=list()):
+        return ".:GetRelativeOrigin:."+self.entries[self.requestedEntryIndex].date.strftime(self.blogConfiguration["path"]["datesDirectoryName"])
+
+    def GetEntryURL(self, argv=list()):
+        return ".:GetRelativeOrigin:." + self.blogConfiguration["path"]["entryFileName"].format({
+            "id" : self.entries[self.requestedEntryIndex].id
+        })
+
     def GetAuthorName(self, argv=list()):
         return self.blogConfiguration["authorName"]
 
@@ -149,12 +165,10 @@ class DataStore:
         return self.blogConfiguration["authorEmail"]
 
     def ForEntryTags(self, argv):
-        return argv[1].join(
-            [
-                argv[0].format(tag) 
-                for tag in self.entries[self.requestedEntryIndex].tags
-            ]
-        )
+        return For(self.entries[self.requestedEntryIndex].tags, argv)
+    
+    def ForEntryAuthors(self, argv):
+        return For(self.entries[self.requestedEntryIndex].authors, argv)
         
         
         

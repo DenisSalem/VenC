@@ -65,11 +65,45 @@ class Thread:
         stream.write(self.outputPage)
         stream.close()
 
-    #   def GetRelativeOrigin(self):
-    #       // Do something in child class
+    # Must be called in child class
+    def GetRelativeOrigin(self, argv=list()):
+        return self.relativeOrigin
 
-    #   def GetNextPage(self):
-    #       // Do something in child class
 
-    #   def GetPreviousPage(self):
-    #       // Do something in child class
+    def ReturnPageAround(self, string, destinationPageNumber, indexFileName):
+        try:
+            return string.format({
+                "destinationPage":destinationPageNumber,
+                "destinationPageUrl":indexFileName,
+                "entryName" : self.entryName
+            })
+
+        except KeyError:
+            raise UnknownContextual(str(e)[1:-1])
+
+    # Must be called in child class
+    def GetNextPage(self,argv=list()):
+        if self.currentPage < len(self.organizedEntries) - 1:
+            destinationPageNumber = str(self.currentPage + 1)
+            ''' Must catch KeyError exception '''
+            indexFileName = self.indexFileName.format(page_number=destinationPageNumber)
+            return self.ReturnPageAround(argv[0], destinationPageNumber, indexFileName)
+
+        else:
+            return str()
+
+    def GetPreviousPage(self, argv=list())
+        if self.currentPage > 0:
+            destinationPageNumber = str(self.currentPage - 1)
+            if self.currentPage == 1:
+                ''' Must catch KeyError exception '''
+                indexFileName = self.indexFileName.format(page_number="")
+
+            else:
+                ''' Must catch KeyError exception '''
+                indexFileName = self.indexFileName.format(page_number=destinationPageNumber)
+            
+            return self.ReturnPageAround(argv[0], destinationPageNumber, indexFileName)
+        
+        else:
+            return str()
