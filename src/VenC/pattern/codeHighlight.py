@@ -46,8 +46,8 @@ class CodeHighlight:
             lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=True)
 
             formatter = pygments.formatters.HtmlFormatter(linenos=("inline" if argv[1]=="True" else False),cssclass=name)
-            code = base64.b64decode(bytes(argv[2],encoding='utf-8'))
-            result = pygments.highlight(code.decode("utf-8").replace("\:",":"), lexer, formatter)
+            code = argv[2]
+            result = pygments.highlight(code.replace("\:",":"), lexer, formatter)
             css  = formatter.get_style_defs(name)
 
             if not name+".css" in self.includes.keys():

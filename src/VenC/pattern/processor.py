@@ -21,6 +21,8 @@ import cgi
 import VenC.l10n
 import VenC.helpers
 
+from copy import deepcopy
+
 from VenC.helpers import GetFormattedMessage
 from VenC.helpers import HighlightValue
 from VenC.helpers import RemoveByValue
@@ -36,13 +38,6 @@ class UnknownContextual(KeyError):
 OPEN_SYMBOL = ".:"
 SEPARATOR = "::"
 CLOSE_SYMBOL = ":."
-
-# Some patterns are contextual while others are constant in time.
-# To save time we wan't to perform two-pass analysis. In the first one
-# we're ignoring some given patterns which usualy are contextual. Once
-# non-contextual pattern are parsed the second pass occurs each time we
-# require the given string in every needed context
-BlackList = list()
 
 # Because parsing is recursive we want to avoid useless computation
 # by splitting a given string and mark where exactly are the patterns 
@@ -87,9 +82,11 @@ class PreProcessor():
         self.SubStrings.append(string)
 
 def MergeBatches(batches):
-    merged = batches[0]
-    for batch in batches[1:]:
-        pass
+    merged = batches.SubStrings[0]
+    for batch in batches.SubStrings[1:]:
+        merged += batch
+
+    return merged
 
 def GetFinalString(processed):
     output = str()
@@ -104,6 +101,13 @@ class Processor():
         self.currentString       = str()
         self.ressource           = str()
         self.errors              = list()
+
+        # Some patterns are contextual while others are constant in time.
+        # To save time we wan't to perform two-pass analysis. In the first one
+        # we're ignoring some given patterns which usualy are contextual. Once
+        # non-contextual pattern are parsed the second pass occurs each time we
+        # require the given string in every needed context
+        self.blacklist = list()
 
     # Run any pattern and catch exception nicely
     def RunPattern(self, pattern, argv):
@@ -189,22 +193,20 @@ class Processor():
 
     # Process queue
     def BatchProcess(self, preProcessed, escape=False):
-        global BlackList
-
         if len(preProcessed.patternsIndex) == 0:
             return preProcessed
         
         self.currentString = preProcessed.SubStrings
         toRemove = list()
         for index in preProcessed.patternsIndex:
-            if not preProcessed.SubStrings[index][2:-2].split('::')[0] in BlackList:
+            if not preProcessed.SubStrings[index][2:-2].split('::')[0] in self.blacklist:
                 preProcessed.SubStrings[index] = self.Process(preProcessed.SubStrings[index], escape)
                 toRemove.append(index)
 
         for index in toRemove:
             preProcessed.patternsIndex = RemoveByValue(preProcessed.patternsIndex, index)
 
-        return preProcessed
+        return deepcopy(preProcessed)
 
     def Process(self, string, escape):
         closeSymbolPos	= list()
@@ -224,7 +226,7 @@ class Processor():
                 if openSymbolPos[-1] < closeSymbolPos[0]:
                     fields = [field for field in string[openSymbolPos[-1]+2:closeSymbolPos[0]].split(SEPARATOR) if field != '']
                     ''' Need to be tested '''
-                    if not fields[0] in BlackList:
+                    if not fields[0] in self.blacklist:
                         output = self.RunPattern(fields[0], fields[1:])
                         if escape:
                             return self.Process(

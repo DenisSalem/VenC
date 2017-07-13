@@ -19,6 +19,7 @@
 
 from VenC.threads.thread import Thread
 from VenC.pattern.processor import UnknownContextual
+from VenC.pattern.processor import MergeBatches
 
 class Main(Thread):
     def __init__(self, prompt, datastore):
@@ -29,10 +30,21 @@ class Main(Thread):
             )
         ])
 
-        self.SetupProcessor()
         self.currentPage = 0
         self.indexFileName = self.datastore.blogConfiguration["path"]["indexFileName"]
         self.entryName = str()
         self.relativeOrigin = str()
+        self.exportPath = str()
+
+    def Do(self):
+        for page in self.pages:
+            output = str()
+            for entry in page:
+                
+                output += MergeBatches(self.processor.BatchProcess(entry.htmlWrapper.above))
+                output += MergeBatches(self.processor.BatchProcess(entry.content))
+                output += MergeBatches(self.processor.BatchProcess(entry.htmlWrapper.below))
+                
+                
 
 

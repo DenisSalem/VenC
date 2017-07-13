@@ -83,8 +83,7 @@ class DataStore:
 
         except AttributeError:
             return str()
-            
-            
+
     def GetEntriesIndexForGivenDate(self, value):
         index = 0
         for metadata in self.entriesPerDates:

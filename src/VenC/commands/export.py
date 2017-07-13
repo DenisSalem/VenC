@@ -19,6 +19,7 @@
 
 import os
 import time
+from copy import deepcopy
 import yaml
 import base64
 import shutil
@@ -35,7 +36,6 @@ from VenC.helpers import Die
 from VenC.helpers import RmTreeErrorHandler 
 from VenC.l10n import Messages
 from VenC.pattern.processor import Processor
-from VenC.pattern.processor import BlackList
 from VenC.pattern.codeHighlight import CodeHighlight
 from VenC.threads.main import Main
 
@@ -65,6 +65,8 @@ def ExportBlog(argv=list()):
 
     theme = Theme(themeFolder)
 
+    codeHighlight = CodeHighlight()
+
     # Set up of non-contextual patterns
     
     processor = Processor()
@@ -92,34 +94,33 @@ def ExportBlog(argv=list()):
 
     # Extra metadata getter
     processor.SetFunction("GetEntryMetadata", datastore.GetEntryMetadata)
-    processor.SetFunction("GetEntryMetadataIfExists", datastore.GetEntryMetadata)
+    processor.SetFunction("GetEntryMetadataIfExists", datastore.GetEntryMetadataIfExists)
     processor.SetFunction("GetBlogMetadataIfExists", datastore.GetEntryMetadata)
     processor.SetFunction("ForEntryTags", datastore.ForEntryTags)
+    processor.SetFunction("CodeHighlight", codeHighlight.Highlight)
+    processor.SetFunction("GetStyleSheets", codeHighlight.GetStyleSheets)
     
     # Now we want to perform first parsing pass on entries
     htmlWrapper = EntryWrapper(theme.entry)
     rssWrapper = EntryWrapper(theme.rssEntry)
 
     # Setup contextual patterns black list
-    BlackList.append("CodeHighlight")
-    BlackList.append("GetEntryURL")
-    BlackList.append("GetRelativeOrigin")
+    processor.blacklist.append("GetEntryURL")
+    processor.blacklist.append("GetRelativeOrigin")
     
     for entry in datastore.GetEntries():
         entry.content = processor.BatchProcess(entry.content)
 
-        entry.htmlWrapper = htmlWrapper
+        entry.htmlWrapper = deepcopy(htmlWrapper)
         entry.htmlWrapper.above = processor.BatchProcess(entry.htmlWrapper.above)
         entry.htmlWrapper.below = processor.BatchProcess(entry.htmlWrapper.below)
         
-        entry.rssWrapper = rssWrapper
+        entry.rssWrapper = deepcopy(rssWrapper)
         entry.rssWrapper.above = processor.BatchProcess(entry.rssWrapper.above)
         entry.rssWrapper.below = processor.BatchProcess(entry.rssWrapper.below)
 
-    # We want to process the remains patterns so we reset the black list
-    Blacklist = list()
-
-    main = Main("Test", datastore)
+    main = Main(Messages.exportMainThread, datastore)
+    main.Do()
 
     # cleaning directory
     #shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
