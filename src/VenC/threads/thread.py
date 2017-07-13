@@ -28,21 +28,20 @@ class Thread:
         Notify(prompt)
         
         # Setup useful data
+        self.processor = Processor()
+        self.processor.SetFunction("GetRelativeOrigin", self.GetRelativeOrigin)
+        self.processor.SetFunction("GetNextPage", self.GetNextPage)
+        self.processor.SetFunction("GetPreviousPage", self.GetPreviousPage)
         self.datastore = datastore
         self.currentPage = 0
 
-        self.processor = Processor()
-
-    # Must be called in child class
-    def SetupProcessor(self):
-        self.processor.SetFunction("GetRelativeOrigin", self.GetRelativeOrigin)
 
     # Must be called in child class
     def OrganizeEntries(self, entries):
-        self.entries = list()
+        self.pages = list()
         entriesPerPage = int(self.datastore.blogConfiguration["entriesPerPages"])
         for i in range(0, ceil(len(entries)/entriesPerPage)):
-            self.entries.append(
+            self.pages.append(
                 entries[i*entriesPerPage:(i+1)*entriesPerPage]
             )
 
@@ -92,7 +91,7 @@ class Thread:
         else:
             return str()
 
-    def GetPreviousPage(self, argv=list())
+    def GetPreviousPage(self, argv=list()):
         if self.currentPage > 0:
             destinationPageNumber = str(self.currentPage - 1)
             if self.currentPage == 1:
