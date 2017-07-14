@@ -107,3 +107,5 @@
 	TODO | Catch exception nicely in CodeHighLight.
 	TODO | Add relevant templates for themes.
 	TODO | Catch KeyError exception due to wrong blog path configuration
+	TODO | Support de SSH
+	TODO | Adding LaTeX support

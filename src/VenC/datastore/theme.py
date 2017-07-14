@@ -17,8 +17,10 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+from VenC.datastore.entry import EntryWrapper
 from VenC.helpers import Die
 from VenC.l10n import Messages
+from VenC.pattern.processor import PreProcessor
 
 ThemesDescriptor = {
     "dummy": {"columns":1,"_themeDescription_": Messages.themeDescriptionDummy},
@@ -28,20 +30,14 @@ ThemesDescriptor = {
 
 class Theme:
     def __init__(self, themeFolder):
-        self.header = str()
-        self.footer = str()
-        self.entry = str()
-        self.rssHeader = str()
-        self.rssFooter = str()
-        self.rssEntry = str()
-
         try:
-            self.header = open(themeFolder+"chunks/header.html",'r').read()
-            self.footer = open(themeFolder+"chunks/footer.html",'r').read()
-            self.entry = open(themeFolder+"chunks/entry.html",'r').read()
-            self.rssHeader = open(themeFolder+"chunks/rssHeader.html",'r').read()
-            self.rssFooter = open(themeFolder+"chunks/rssFooter.html",'r').read()
-            self.rssEntry = open(themeFolder+"chunks/rssEntry.html",'r').read()
+            self.header = PreProcessor(open(themeFolder+"chunks/header.html",'r').read())
+            self.footer = PreProcessor(open(themeFolder+"chunks/footer.html",'r').read())
+            self.rssHeader = PreProcessor(open(themeFolder+"chunks/rssHeader.html",'r').read())
+            self.rssFooter = PreProcessor(open(themeFolder+"chunks/rssFooter.html",'r').read())
+            
+            self.entry = EntryWrapper(open(themeFolder+"chunks/entry.html",'r').read())
+            self.rssEntry = EntryWrapper(open(themeFolder+"chunks/rssEntry.html",'r').read())
 
         except FileNotFoundError as e:
             Die(Messages.fileNotFound.format(str(e.filename)))
