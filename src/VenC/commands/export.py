@@ -29,7 +29,6 @@ import VenC.l10n
 
 from VenC.datastore.configuration import GetBlogConfiguration
 from VenC.datastore.datastore import DataStore
-from VenC.datastore.entry import EntryWrapper
 from VenC.datastore.theme import ThemesDescriptor
 from VenC.datastore.theme import Theme
 from VenC.helpers import Die
@@ -100,33 +99,37 @@ def ExportBlog(argv=list()):
     processor.SetFunction("CodeHighlight", codeHighlight.Highlight)
     processor.SetFunction("GetStyleSheets", codeHighlight.GetStyleSheets)
     
-    # Now we want to perform first parsing pass on entries
-    htmlWrapper = EntryWrapper(theme.entry)
-    rssWrapper = EntryWrapper(theme.rssEntry)
-
     # Setup contextual patterns black list
     processor.blacklist.append("GetEntryURL")
     processor.blacklist.append("GetRelativeOrigin")
+    processor.blacklist.append("GetNextPage")
+    processor.blacklist.append("GetPreviousPage")
     
+    # Now we want to perform first parsing pass on entries and chunk
     for entry in datastore.GetEntries():
         entry.content = processor.BatchProcess(entry.content)
 
-        entry.htmlWrapper = deepcopy(htmlWrapper)
+        entry.htmlWrapper = deepcopy(theme.entry)
         entry.htmlWrapper.above = processor.BatchProcess(entry.htmlWrapper.above)
         entry.htmlWrapper.below = processor.BatchProcess(entry.htmlWrapper.below)
         
-        entry.rssWrapper = deepcopy(rssWrapper)
+        entry.rssWrapper = deepcopy(theme.rssEntry)
         entry.rssWrapper.above = processor.BatchProcess(entry.rssWrapper.above)
         entry.rssWrapper.below = processor.BatchProcess(entry.rssWrapper.below)
 
-    main = Main(Messages.exportMainThread, datastore)
-    main.Do()
+    theme.header = processor.BatchProcess(theme.header)
+    theme.footer = processor.BatchProcess(theme.footer)
+    theme.rssHeader = processor.BatchProcess(theme.rssHeader)
+    theme.rssFooter = processor.BatchProcess(theme.rssFooter)
 
     # cleaning directory
-    #shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
-    #os.makedirs("blog")
-    #currentBlog = Blog(themeFolder, blogConfiguration)
-    #currentBlog.export()
+    shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
+    os.makedirs("blog")
+    
+    # Starting second pass and exporting
+    main = Main(Messages.exportMainThread, datastore, theme)
+    main.Do()
+
 
 def EditAndExport(argv):
     blogConfiguration = GetBlogConfiguration()

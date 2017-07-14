@@ -23,11 +23,12 @@ from VenC.helpers import Notify
 from VenC.pattern.processor import Processor
 
 class Thread:
-    def __init__(self, prompt, datastore):
+    def __init__(self, prompt, datastore, theme):
         # Notify wich thread is processed
         Notify(prompt)
         
         # Setup useful data
+        self.theme = theme
         self.processor = Processor()
         self.processor.SetFunction("GetRelativeOrigin", self.GetRelativeOrigin)
         self.processor.SetFunction("GetNextPage", self.GetNextPage)
