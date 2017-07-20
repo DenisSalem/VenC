@@ -83,7 +83,7 @@ class Thread:
 
     # Must be called in child class
     def GetNextPage(self,argv=list()):
-        if self.currentPage < len(self.organizedEntries) - 1:
+        if self.currentPage < len(self.pages) - 1:
             destinationPageNumber = str(self.currentPage + 1)
             ''' Must catch KeyError exception '''
             indexFileName = self.indexFileName.format(page_number=destinationPageNumber)

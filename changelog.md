@@ -109,3 +109,4 @@
 	TODO | Catch KeyError exception due to wrong blog path configuration
 	TODO | Support de SSH
 	TODO | Adding LaTeX support
+	TODO | Split install and blog creation chapter in tutorial.
