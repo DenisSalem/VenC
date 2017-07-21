@@ -110,3 +110,4 @@
 	TODO | Support de SSH
 	TODO | Adding LaTeX support
 	TODO | Split install and blog creation chapter in tutorial.
+	TODO | Implement RelativeLocation

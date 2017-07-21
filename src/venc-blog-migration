@@ -1,5 +1,22 @@
 #! /usr/bin/python3
 
+#    Copyright 2016, 2017 Denis Salem
+#
+#    This file is part of VenC.
+#
+#    VenC is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    VenC is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
+
 import os
 import yaml
 import codecs
@@ -8,6 +25,37 @@ from VenC.helpers import Die
 from VenC.helpers import Notify
 from VenC.datastore.entry import YieldEntriesContent
 from VenC.l10n import Messages
+
+def ReplacePatterns(string):
+    string = string.replace(".:Get::EntryID:.",".:GetEntryID:.")
+    string = string.replace(".:Get::EntryName:.",".:GetEntryTitle:.")
+    string = string.replace(".:Get::EntryMonth:.",".:GetEntryMonth:.")
+    string = string.replace(".:Get::EntryYear:.",".:GetEntryYear:.")
+    string = string.replace(".:Get::EntryDay:.",".:GetEntryDay:.")
+    string = string.replace(".:Get::EntryHour:.",".:GetEntryHour:.")
+    string = string.replace(".:Get::EntryMinute:.",".:GetEntryMinute:.")
+    string = string.replace(".:Get::EntryCSS:",".:GetEntryMetadataIfExists::style:")
+
+    string = string.replace(".:Get::AuthorName:.",".:GetAuthorName:.")
+    string = string.replace(".:Get::BlogName:.",".:GetBlogName:.")
+    string = string.replace(".:Get::BlogDescription:.",".:GetBlogDescription:.")
+    string = string.replace(".:Get::BlogKeywords:.",".:GetBlogKeywords:.")
+    string = string.replace(".:Get::AuthorDescription:.",".:GetAuthorDescription:.")
+    string = string.replace(".:Get::License:.",".:GetBlogLicense:.")
+    string = string.replace(".:Get::BlogUrl:.",".:GetBlogURL:.")
+    string = string.replace(".:Get::BlogLanguage:.",".:GetBlogLanguage:.")
+    string = string.replace(".:Get::AuthorEmail:.",".:GetAuthorEmail:.")
+    string = string.replace(".:Get::RelativeOrigin:.",".:GetRelativeOrigin:.")
+    string = string.replace(".:Get::RelativeLocation:.",".:GetRelativeLocation:.")
+    
+    string = string.replace(".:Get::EntryUrl:.",".:GetEntryURL:.")
+    string = string.replace(".:Get::EntryContent:.",".:GetEntryContent:.")
+    string = string.replace(".:Get::EntryDate:.",".:GetEntryDate:.")
+    string = string.replace(".:Get::EntryDateUrl:.",".:GetEntryDateURL:.")
+    
+    string = string.replace(".:For::EntryTags:",".:ForEntryTags:")
+
+    return string
 
 def toCamelCase(name):
     chunks = name.split('_')
@@ -55,7 +103,6 @@ for entryFilename in YieldEntriesContent():
     try:
         metadata = yaml.load(rawData.split("---\n")[0])
         metadata["title"] = metadata.pop("entry_name")
-        output = yaml.dump(metadata, default_flow_style=False, allow_unicode=True) + "---\n"
 
     except yaml.scanner.ScannerError:
         Die(Messages.possibleMalformedEntry.format(entryFilename))
@@ -63,18 +110,31 @@ for entryFilename in YieldEntriesContent():
     except KeyError:
         if not "title" in metadata.keys():
             Die(Messages.possibleMalformedEntry.format(entryFilename))
+        else:
+            pass
+
+    output = yaml.dump(metadata, default_flow_style=False, allow_unicode=True) + "---\n"
 
     try:
-        output += rawData.split("---\n")[1]
+        output += ReplacePatterns(rawData.split("---\n")[1])
     
     except IndexError:
         Notify(Messages.emptyEntry.format(entryFilename), "YELLOW")
     
     stream = codecs.open("entries/"+entryFilename,'w',encoding="utf-8")
     stream.write(output)
-        
+
+''' Processing chunks '''
+
+for chunk in os.listdir("theme/chunks"):
+    rawData = open("theme/chunks/"+chunk,'r').read()
+    stream = codecs.open("theme/chunks/"+chunk,'w',encoding="utf-8")
+    update = ReplacePatterns(rawData)
+    stream.write(update)
+
 
 ''' Cleaning '''
+
 try:
     os.remove('blog_configuration.yaml')
 
