@@ -91,10 +91,10 @@
 	DONE | Add function GetBlogMetadataIfExists and GetEntryMetadataIfExists.
 	DONE | Catch exception nicely in CodeHighLight.
 	DONE | Catch KeyError exception due to wrong blog path configuration
-	WIP  | Moar comments in the code.
-	WIP  | No more awkward silence when something is successfully done.
-	WIP  | Add more coloration for message!
-	WIP  | Speed up blog exportation.
+	DONE | Moar comments in the code.
+	DONE | No more awkward silence when something is successfully done.
+	DONE | Add more coloration for message!
+	DONE | Speed up blog exportation.
 	WIP  | Massive refactorisation, code cleaning and optimisation.
 	WIP  | Change nomenclature: entry_name -> title. Fix doc.
 	WIP  | Change nomenclature: remove underscore from blog_configuration, using camel case instead. Fix doc.

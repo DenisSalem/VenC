@@ -32,11 +32,12 @@ from VenC.datastore.datastore import DataStore
 from VenC.datastore.theme import ThemesDescriptor
 from VenC.datastore.theme import Theme
 from VenC.helpers import Die
+from VenC.helpers import Notify
 from VenC.helpers import RmTreeErrorHandler 
 from VenC.l10n import Messages
 from VenC.pattern.processor import Processor
 from VenC.pattern.codeHighlight import CodeHighlight
-from VenC.threads.main import Main
+from VenC.threads.baseThread import BaseThread
 
 def ExportAndRemoteCopy(argv=list()):
     Notify(Messages.blogRecompilation)
@@ -111,6 +112,8 @@ def ExportBlog(argv=list()):
     processor.doNotRemoveIndexIfPresent.append("GetRelativeOrigin")
     processor.doNotRemoveIndexIfPresent.append("GetRelativeLocation")
 
+    Notify(Messages.preProcess)
+
     # Now we want to perform first parsing pass on entries and chunk
     for entry in datastore.GetEntries():
         entry.content = processor.BatchProcess(entry.content)
@@ -135,7 +138,7 @@ def ExportBlog(argv=list()):
     os.makedirs("blog")
     
     # Starting second pass and exporting
-    main = Main(Messages.exportMainThread, datastore, theme)
+    main = BaseThread(Messages.exportMainThread, datastore, theme)
     main.Do()
     
     codeHighlight.ExportStyleSheets()
