@@ -108,6 +108,7 @@ class Processor():
         # non-contextual pattern are parsed the second pass occurs each time we
         # require the given string in every needed context
         self.blacklist = list()
+        self.doNotRemoveIndexIfPresent = list()
 
     # Run any pattern and catch exception nicely
     def RunPattern(self, pattern, argv):
@@ -191,6 +192,12 @@ class Processor():
     def Set(self, symbol, value):
        self.dictionary[symbol] = value
 
+    def IfNotPresent(self, string):
+        for pattern in self.doNotRemoveIndexIfPresent:
+            if pattern in string:
+                False
+        return True
+
     # Process queue
     def BatchProcess(self, preProcessed, escape=False):
         if len(preProcessed.patternsIndex) == 0:
@@ -201,7 +208,10 @@ class Processor():
         for index in preProcessed.patternsIndex:
             if not preProcessed.SubStrings[index][2:-2].split('::')[0] in self.blacklist:
                 preProcessed.SubStrings[index] = self.Process(preProcessed.SubStrings[index], escape)
-                toRemove.append(index)
+                
+                # check if there is residual patterns
+                if self.IfNotPresent(preProcessed.SubStrings[index]):
+                    toRemove.append(index)
 
         for index in toRemove:
             preProcessed.patternsIndex = RemoveByValue(preProcessed.patternsIndex, index)
