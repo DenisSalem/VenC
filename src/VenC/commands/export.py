@@ -94,7 +94,7 @@ def ExportBlog(argv=list()):
     # Extra metadata getter
     processor.SetFunction("GetEntryMetadata", datastore.GetEntryMetadata)
     processor.SetFunction("GetEntryMetadataIfExists", datastore.GetEntryMetadataIfExists)
-    processor.SetFunction("GetBlogMetadataIfExists", datastore.GetEntryMetadata)
+    processor.SetFunction("GetBlogMetadataIfExists", datastore.GetBlogMetadataIfExists)
     processor.SetFunction("ForEntryTags", datastore.ForEntryTags)
     processor.SetFunction("CodeHighlight", codeHighlight.Highlight)
     processor.SetFunction("GetStyleSheets", codeHighlight.GetStyleSheets)
@@ -104,6 +104,7 @@ def ExportBlog(argv=list()):
     processor.blacklist.append("GetRelativeOrigin")
     processor.blacklist.append("GetNextPage")
     processor.blacklist.append("GetPreviousPage")
+    processor.blacklist.append("GetEntryDateURL")
     
     # Now we want to perform first parsing pass on entries and chunk
     for entry in datastore.GetEntries():
