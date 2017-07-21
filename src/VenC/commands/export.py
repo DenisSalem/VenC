@@ -106,6 +106,7 @@ def ExportBlog(argv=list()):
     processor.blacklist.append("GetRelativeLocation")
     processor.blacklist.append("GetNextPage")
     processor.blacklist.append("GetPreviousPage")
+    processor.blacklist.append("ForPages")
     
     processor.doNotRemoveIndexIfPresent.append("GetRelativeOrigin")
     processor.doNotRemoveIndexIfPresent.append("GetRelativeLocation")
@@ -122,6 +123,8 @@ def ExportBlog(argv=list()):
         entry.rssWrapper.above = processor.BatchProcess(entry.rssWrapper.above)
         entry.rssWrapper.below = processor.BatchProcess(entry.rssWrapper.below)
 
+    
+
     theme.header = processor.BatchProcess(theme.header)
     theme.footer = processor.BatchProcess(theme.footer)
     theme.rssHeader = processor.BatchProcess(theme.rssHeader)
@@ -134,6 +137,8 @@ def ExportBlog(argv=list()):
     # Starting second pass and exporting
     main = Main(Messages.exportMainThread, datastore, theme)
     main.Do()
+    
+    codeHighlight.ExportStyleSheets()
 
 
 def EditAndExport(argv):

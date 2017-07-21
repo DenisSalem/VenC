@@ -35,6 +35,32 @@ class Main(Thread):
         self.entryName = str()
         self.relativeOrigin = str()
         self.exportPath = str()
+        self.singleEntry = False
+
+        self.processor.SetFunction("ForPages", self.ForPages)
+
+    def ForPages(self, argv):
+        listLenght = int(argv[0])
+        string = argv[1]
+        separator = argv[2]
+            
+        if self.pagesCount == 1 or self.singleEntry:
+            return str()
+
+        output = str()
+        pageNumber = 0
+        for page in self.pages:
+            if (not pageNumber < self.currentPage - self.pagesCount) and (not pageNumber > self.currentPage + self.pagesCount):
+                output += string.format(
+                    {
+                        "pageNumber":str(pageNumber),
+                        "pageUrl": self.indexFileName.format({"pageNumber":pageNumber})
+                    }
+                ) + separator
+
+            pageNumber +=1
+        
+        return output[:-len(separator)]
 
     def Do(self):
         for page in self.pages:

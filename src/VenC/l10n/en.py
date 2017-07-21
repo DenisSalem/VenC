@@ -74,4 +74,5 @@ class Messages:
     themeName = "Theme name"
     entryIsEmpty = "{0}: The content of the entry is empty."
     missingEntryContentInclusion = "Invalid theme. Missing entry content inclusion in entry.html and/or rssEntry.html"
+    unknownLanguage="Pygments: {0}: Unknown language."
 

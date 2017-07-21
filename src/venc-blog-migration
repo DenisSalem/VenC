@@ -55,6 +55,7 @@ def ReplacePatterns(string):
     
     string = string.replace(".:For::EntryTags:",".:ForEntryTags:")
     string = string.replace(".:For::BlogDates:",".:ForBlogDates:")
+    string = string.replace(".:PagesList:",".:ForPages:")
 
     return string
 
@@ -94,6 +95,10 @@ if not "blogConfiguration.yaml" in os.listdir():
             for pathkey in blog_configuration["path"]:
                 if pathkey == "entry_file_name":
                     blogConfiguration["path"][ toCamelCase(pathkey) ] = blog_configuration["path"][pathkey].replace("{entry_id}","{0[entryId]}")
+
+                elif pathkey == "index_file_name":
+                    blogConfiguration["path"][ toCamelCase(pathkey) ] = blog_configuration["path"][pathkey].replace("{page_number}","{0[pageNumber]}")
+
                 else:
                     blogConfiguration["path"][ toCamelCase(pathkey) ] = blog_configuration["path"][pathkey]
 
