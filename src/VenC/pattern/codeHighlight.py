@@ -22,6 +22,7 @@ import pygments.lexers
 import pygments.formatters
 
 from VenC.helpers import Notify
+from VenC.l10n import Messages
 
 class CodeHighlight:
     def __init__(self):
@@ -35,9 +36,12 @@ class CodeHighlight:
         return output
 
     def ExportStyleSheets(self):
+        extra = os.listdir(os.getcwd()+"/extra/")
+        
         for key in self.includes:
-            stream = open(os.getcwd()+"/extra/"+key,'w')
-            stream.write(self.includes[key])
+            if key not in extra:    
+                stream = open(os.getcwd()+"/extra/"+key,'w')
+                stream.write(self.includes[key])
 
     def Highlight(self, argv):
         try:
@@ -55,7 +59,5 @@ class CodeHighlight:
 
             return result
     
-        except Exception as e:
-            raise
-            Notify(str(e), "YELLOW")
-            return str()
+        except pygments.util.ClassNotFound:
+            Die(Messages.unknownLanguage.format(argv[0]))

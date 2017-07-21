@@ -86,6 +86,11 @@
 	DONE | Catch exception when Yaml cannot parse blog configuration.
 	DONE | Hardcoded opening,closing and separator symbols in pattern processor.
 	DONE | Add a copyright notice and term of use in each source files.
+	DONE | Auto include CSS.
+	DONE | Warn about missing mandatory field in entry.
+	DONE | Add function GetBlogMetadataIfExists and GetEntryMetadataIfExists.
+	DONE | Catch exception nicely in CodeHighLight.
+	DONE | Catch KeyError exception due to wrong blog path configuration
 	WIP  | Moar comments in the code.
 	WIP  | No more awkward silence when something is successfully done.
 	WIP  | Add more coloration for message!
@@ -95,18 +100,13 @@
 	WIP  | Change nomenclature: remove underscore from blog_configuration, using camel case instead. Fix doc.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Optimisation of categories tree.
-	TODO | Auto include CSS.
-	TODO | Warn about missing mandatory field in entry.
-	TODO | Add function GetBlogMetadataIfExists and GetEntryMetadataIfExists.
 	TODO | Add function Include.
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Reorganize themes dependencies in setup.
 	TODO | Clean up installation.
 	TODO | Client-side search engine.
 	TODO | Add translation for Deutsch and Spanish.
-	TODO | Catch exception nicely in CodeHighLight.
 	TODO | Add relevant templates for themes.
-	TODO | Catch KeyError exception due to wrong blog path configuration
 	TODO | Support de SSH
 	TODO | Adding LaTeX support
 	TODO | Split install and blog creation chapter in tutorial.

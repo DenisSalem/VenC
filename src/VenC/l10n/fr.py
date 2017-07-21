@@ -73,3 +73,4 @@ class Messages:
     themeName = "Nom du thème"
     entryIsEmpty = "{0}: Le contenu de la publication est vide."
     missingEntryContentInclusion="Thème invalide. Il manque l'inclusion du contenu de la publication dans entry.html et/ou rssEntry.html"
+    unknownLanguage="Pygments: {0}: Langage inconnu."

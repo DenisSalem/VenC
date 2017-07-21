@@ -36,6 +36,18 @@ class Thread:
         self.datastore = datastore
         self.currentPage = 0
 
+    def ReturnPageAround(self, string, destinationPageNumber, indexFileName):
+        try:
+            return string.format({
+                "destinationPage":destinationPageNumber,
+                "destinationPageUrl":indexFileName,
+                "entryName" : self.entryName
+            })
+
+        except KeyError:
+            raise UnknownContextual(str(e)[1:-1])
+
+
 
     # Must be called in child class
     def OrganizeEntries(self, entries):
@@ -45,6 +57,8 @@ class Thread:
             self.pages.append(
                 entries[i*entriesPerPage:(i+1)*entriesPerPage]
             )
+
+        self.pagesCount = len(self.pages)
 
     # Must be called in child class
     def WritePage(self, folderDestination, filename, content):
@@ -69,24 +83,12 @@ class Thread:
     def GetRelativeOrigin(self, argv=list()):
         return self.relativeOrigin
 
-
-    def ReturnPageAround(self, string, destinationPageNumber, indexFileName):
-        try:
-            return string.format({
-                "destinationPage":destinationPageNumber,
-                "destinationPageUrl":indexFileName,
-                "entryName" : self.entryName
-            })
-
-        except KeyError:
-            raise UnknownContextual(str(e)[1:-1])
-
     # Must be called in child class
     def GetNextPage(self,argv=list()):
         if self.currentPage < len(self.pages) - 1:
             destinationPageNumber = str(self.currentPage + 1)
             ''' Must catch KeyError exception '''
-            indexFileName = self.indexFileName.format(page_number=destinationPageNumber)
+            indexFileName = self.indexFileName.format({"pageNumber":destinationPageNumber})
             return self.ReturnPageAround(argv[0], destinationPageNumber, indexFileName)
 
         else:
