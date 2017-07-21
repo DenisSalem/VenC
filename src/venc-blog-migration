@@ -54,6 +54,7 @@ def ReplacePatterns(string):
     string = string.replace(".:Get::EntryDateUrl:.",".:GetEntryDateURL:.")
     
     string = string.replace(".:For::EntryTags:",".:ForEntryTags:")
+    string = string.replace(".:For::BlogDates:",".:ForBlogDates:")
 
     return string
 
@@ -91,7 +92,13 @@ if not "blogConfiguration.yaml" in os.listdir():
         else:
             blogConfiguration["path"] = dict()
             for pathkey in blog_configuration["path"]:
-                blogConfiguration["path"][ toCamelCase(pathkey) ] = blog_configuration["path"][pathkey]
+                if pathkey == "entry_file_name":
+                    blogConfiguration["path"][ toCamelCase(pathkey) ] = blog_configuration["path"][pathkey].replace("{entry_id}","{0[entryId]}")
+                else:
+                    blogConfiguration["path"][ toCamelCase(pathkey) ] = blog_configuration["path"][pathkey]
+
+    blogConfiguration.pop("threadOrder")
+    blogConfiguration["reverseThreadOrder"] = True
 
     stream = codecs.open('blogConfiguration.yaml', 'w',encoding="utf-8")
     yaml.dump(blogConfiguration, stream, default_flow_style=False, allow_unicode=True)

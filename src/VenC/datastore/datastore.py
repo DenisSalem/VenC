@@ -61,6 +61,16 @@ class DataStore:
 
             ''' NOT IMPLEMENTED YET '''
     
+        ''' Setup BlogDates Data '''
+        self.BlogDates = list()
+        for node in self.entriesPerDates:
+            self.BlogDates.append({
+                "date":node.value,
+                "dateUrl": ".:GetRelativeOrigin:."+node.value,
+                "count": node.count,
+                "weight": node.weight
+            })
+
     def GetBlogMetadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
         return self.blogConfiguration[argv[0]]
@@ -133,7 +143,7 @@ class DataStore:
 
     def GetEntryURL(self, argv=list()):
         return ".:GetRelativeOrigin:." + self.blogConfiguration["path"]["entryFileName"].format({
-            "id" : self.entries[self.requestedEntryIndex].id
+            "entryId" : self.entries[self.requestedEntryIndex].id
         })
 
     def GetAuthorName(self, argv=list()):
@@ -162,6 +172,9 @@ class DataStore:
     
     def GetAuthorEmail(self, argv=list()):
         return self.blogConfiguration["authorEmail"]
+
+    def ForBlogDates(self, argv):
+        return For(self.BlogDates, argv)
 
     def ForEntryTags(self, argv):
         return For(self.entries[self.requestedEntryIndex].tags, argv)

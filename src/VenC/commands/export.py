@@ -79,6 +79,7 @@ def ExportBlog(argv=list()):
     processor.SetFunction("GetEntryHour", datastore.GetEntryHour)
     processor.SetFunction("GetEntryMinute", datastore.GetEntryMinute)
     processor.SetFunction("GetEntryDate", datastore.GetEntryDate)
+    processor.SetFunction("GetEntryURL", datastore.GetEntryURL)
     
     # General blog data
     processor.SetFunction("GetAuthorName", datastore.GetAuthorName)
@@ -96,16 +97,19 @@ def ExportBlog(argv=list()):
     processor.SetFunction("GetEntryMetadataIfExists", datastore.GetEntryMetadataIfExists)
     processor.SetFunction("GetBlogMetadataIfExists", datastore.GetBlogMetadataIfExists)
     processor.SetFunction("ForEntryTags", datastore.ForEntryTags)
+    processor.SetFunction("ForBlogDates", datastore.ForBlogDates)
     processor.SetFunction("CodeHighlight", codeHighlight.Highlight)
     processor.SetFunction("GetStyleSheets", codeHighlight.GetStyleSheets)
     
     # Setup contextual patterns black list
-    processor.blacklist.append("GetEntryURL")
     processor.blacklist.append("GetRelativeOrigin")
+    processor.blacklist.append("GetRelativeLocation")
     processor.blacklist.append("GetNextPage")
     processor.blacklist.append("GetPreviousPage")
-    processor.blacklist.append("GetEntryDateURL")
     
+    processor.doNotRemoveIndexIfPresent.append("GetRelativeOrigin")
+    processor.doNotRemoveIndexIfPresent.append("GetRelativeLocation")
+
     # Now we want to perform first parsing pass on entries and chunk
     for entry in datastore.GetEntries():
         entry.content = processor.BatchProcess(entry.content)
