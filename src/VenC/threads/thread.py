@@ -29,12 +29,16 @@ class Thread:
         
         # Setup useful data
         self.theme = theme
+        self.currentPage = 0
+        self.datastore = datastore
+        
+        # Setup pattern processor
         self.processor = Processor()
         self.processor.SetFunction("GetRelativeOrigin", self.GetRelativeOrigin)
         self.processor.SetFunction("GetNextPage", self.GetNextPage)
         self.processor.SetFunction("GetPreviousPage", self.GetPreviousPage)
-        self.datastore = datastore
-        self.currentPage = 0
+        self.processor.SetFunction("ForPages", self.ForPages)
+        self.processor.SetFunction("GetRelativeLocation", self.GetRelativeLocation)
 
     def ReturnPageAround(self, string, destinationPageNumber, indexFileName):
         try:
@@ -48,6 +52,10 @@ class Thread:
             raise UnknownContextual(str(e)[1:-1])
 
 
+
+    # Must be called in child class
+    def GetRelativeLocation():
+        return self.exportPath
 
     # Must be called in child class
     def OrganizeEntries(self, entries):
@@ -94,6 +102,7 @@ class Thread:
         else:
             return str()
 
+    # Must be called in child class
     def GetPreviousPage(self, argv=list()):
         if self.currentPage > 0:
             destinationPageNumber = str(self.currentPage - 1)
@@ -109,3 +118,39 @@ class Thread:
         
         else:
             return str()
+
+    # Must be called in child class
+    def ForPages(self, argv):
+        listLenght = int(argv[0])
+        string = argv[1]
+        separator = argv[2]
+            
+        if self.pagesCount == 1 or self.singleEntry:
+            return str()
+
+        output = str()
+        pageNumber = 0
+        for page in self.pages:
+            if (not pageNumber < self.currentPage - self.pagesCount) and (not pageNumber > self.currentPage + self.pagesCount):
+                output += string.format(
+                    {
+                        "pageNumber":str(pageNumber),
+                        "pageUrl": self.indexFileName.format({"pageNumber": (str() if pageNumber == 0 else pageNumber) })
+                    }
+                ) + separator
+
+            pageNumber +=1
+        
+        return output[:-len(separator)]
+
+    # Must be called in child class
+    def Do(self):
+        for page in self.pages:
+            output = MergeBatches(self.processor.BatchProcess(self.theme.header))
+
+            for entry in page:
+                output += MergeBatches(self.processor.BatchProcess(entry.htmlWrapper.above))
+                output += MergeBatches(self.processor.BatchProcess(entry.content))
+                output += MergeBatches(self.processor.BatchProcess(entry.htmlWrapper.below))
+            
+            output = MergeBatches(self.processor.BatchProcess(self.theme.footer))

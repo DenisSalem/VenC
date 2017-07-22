@@ -138,7 +138,7 @@ def ExportBlog(argv=list()):
     os.makedirs("blog")
     
     # Starting second pass and exporting
-    main = BaseThread(Messages.exportMainThread, datastore, theme)
+    main = MainThread(Messages.exportMainThread, datastore, theme)
     main.Do()
     
     codeHighlight.ExportStyleSheets()
