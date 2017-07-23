@@ -97,6 +97,8 @@
 	DONE | Speed up blog exportation.
 	WIP  | Massive refactorisation, code cleaning and optimisation.
 	WIP  | Change nomenclature: entry_name -> title. Fix doc.
+	WIP  | Change nomenclature: {entry_id} -> en {0[entryId]}. Fix doc.
+	WIP  | Change nomenclature: {page_number} -> en {0[pageNumber]}. Fix doc.
 	WIP  | Change nomenclature: remove underscore from blog_configuration, using camel case instead. Fix doc.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Optimisation of categories tree.
