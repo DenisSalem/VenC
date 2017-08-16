@@ -22,6 +22,12 @@ Dans ce cas, vous pouvez ajouter à votre _~/.bashrc_ la ligne suivante:
 
 Si le fichier n'existe pas déjà cependant, il faudra le créer.
 
+Après ça, tapez dans le terminal actif
+
+> source ~/.bashrc
+
+Et voilà, ça devrait être bon :)
+
 ## Erreurs python
 
 Normalement VenC gère toutes les erreurs et exceptions de sorte de ne pas interrompre le programme ou de vous aviser du problème de façon commode.
