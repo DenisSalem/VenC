@@ -20,6 +20,12 @@ What you can do is to add an extra path in your environment variable by writing 
 
 > export PATH=$PATH:~/.local/bin
 
+Then type in your active terminal
+
+> source ~/.bashrc
+
+That's it! :)
+
 ## Python errors
 
 It should not happen but if so that's maybe you install VenC the wrong way, because most of the time VenC handle errors and exception nicely.
