@@ -2,7 +2,7 @@
 
 # FAQ
 
-1. [Why VenC is only supported by GNU/Linux?](#why-venc-is-only-supported-by-gnu-linux)
+1. [Why VenC is only supported by GNU/Linux?](#why-venc-is-only-supported-by-gnulinux)
 2. [I Get Unknown command](#i-get-unknown-command)
 3. [Python errors](#python-errors)
 
