@@ -2,7 +2,7 @@
 
 # FAQ
 
-1. [Pourquoi VenC n'est officiellement supporté que par GNU/Linux](#pourquoi-venc-nest-officiellement-support%C3%A9-que-par-gnu-linux)
+1. [Pourquoi VenC n'est officiellement supporté que par GNU/Linux](#pourquoi-venc-nest-officiellement-support%C3%A9-que-par-gnulinux)
 2. [Commande introuvable](#commande-introuvable)
 3. [Erreurs python](#erreurs-python)
 
