@@ -2,11 +2,11 @@
 
 # FAQ
 
-1. [Why VenC is only supported by Linux?](#why-venc-is-only-supported-by-linux)
+1. [Why VenC is only supported by GNU/Linux?](#why-venc-is-only-supported-by-gnu-linux)
 2. [I Get Unknown command](#i-get-unknown-command)
 3. [Python errors](#python-errors)
 
-## Why VenC is only supported by Linux?
+## Why VenC is only supported by GNU/Linux?
 
 That's quite simple my friend, because all proprietary operating systems are crap!
 
@@ -14,7 +14,7 @@ That's quite simple my friend, because all proprietary operating systems are cra
 
 VenC should be installed with [pip](https://pypi.python.org/pypi/pip) in the user side, not in the system. This way your environment need to be aware of the paths of VenC. For instance, VenC is located in _~/.local/bin_. 
 
-On some linux distribution, like [Archlinux](https://www.archlinux.org/) or [Gentoo](https://www.gentoo.org/), _PATH_ environment variable might be incomplete so indeed, _venc_ is an unknown command.
+On some GNU/Linux distribution, like [Archlinux](https://www.archlinux.org/) or [Gentoo](https://www.gentoo.org/), _PATH_ environment variable might be incomplete so indeed, _venc_ is an unknown command.
 
 What you can do is to add an extra path in your environment variable by writing the following at the end of your _~/.bashr_. If the file doesn't exists, juste create it.
 
