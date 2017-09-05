@@ -98,10 +98,6 @@
 	DONE | Implement RelativeLocation
 	DONE | Massive refactorisation, code cleaning and optimisation.
 	DONE | Optimisation of categories tree.
-	WIP  | Change nomenclature: entry_name -> title. Fix doc.
-	WIP  | Change nomenclature: {entry_id} -> en {0[entryId]}. Fix doc.
-	WIP  | Change nomenclature: {page_number} -> en {0[pageNumber]}. Fix doc.
-	WIP  | Change nomenclature: remove underscore from blog_configuration, using camel case instead. Fix doc.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Add categories tree in entry
 	TODO | Add function Include.
@@ -113,4 +109,6 @@
 	TODO | Add relevant templates for themes.
 	TODO | Support de SSH
 	TODO | Adding LaTeX support
+	TODO | Add random number generator
 	TODO | Split install and blog creation chapter in tutorial.
+	TODO | Allow disabling exportation of specific kind of thread
