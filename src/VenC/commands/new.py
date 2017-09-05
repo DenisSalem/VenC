@@ -24,6 +24,7 @@ import datetime
 import subprocess
 
 from VenC.datastore.configuration import GetBlogConfiguration
+from VenC.datastore.entry import YieldEntriesContent
 from VenC.helpers import Notify
 from VenC.helpers import Die
 from VenC.l10n import Messages
@@ -32,6 +33,12 @@ import VenC.datastore.entry as Entry
 import VenC.pattern as Pattern
 import VenC.helpers as Helpers
 
+# Hold methods associated to patterns
+class MinimalEntry:
+    def __init__(self, data):
+        for key in data.keys():
+            setattr(self, key, data["key"])
+
 def NewEntry(argv):
     blogConfiguration = GetBlogConfiguration()
     if len(argv) < 1:
@@ -39,7 +46,8 @@ def NewEntry(argv):
             
     content =   {"authors":	"",
 		"tags":		"",
-		"categories":	""}
+		"categories":	"",
+                "title":argv[0]}
 
     try:
         wd = os.listdir(os.getcwd())
@@ -49,50 +57,38 @@ def NewEntry(argv):
 
     date = datetime.datetime.now()
 
-    ''' NOT IMPLEMENTED YET
-    entry = Entries.SetNewEntryMetadata(date, argv[0],  blogConfiguration)
-def SetNewEntryMetadata(entryDate, entryName, blogConfiguration):
     entry = dict()
-    entry["EntryID"] = GetLatestEntryID()+1
-    entry["EntryName"] = entryName
-    entry["EntryMonth"] = entryDate.month
-    entry["EntryYear"] = entryDate.year
-    entry["EntryDay"] = entryDate.day
-    entry["EntryHour"] = entryDate.hour
-    entry["EntryMinute"] = entryDate.minute
+    rawEntryDate = datetime.datetime.now()
+    try:
+        entry["ID"] = max([ int(filename.split("__")[0]) for filename in YieldEntriesContent()]) + 1
+    except ValueError:
+        entry["ID"] = 1
 
-    publicDataFromBlogConf = GetPublicDataFromBlogConf(blogConfiguration)
-    for key in publicDataFromBlogConf:
-        entry[key] = publicDataFromBlogConf[key]  
+    entry["title"] = argv[0]
+    entry["month"] = rawEntryDate.month
+    entry["year"] = rawEntryDate.year
+    entry["day"] = rawEntryDate.day
+    entry["hour"] = rawEntryDate.hour
+    entry["minute"] = rawEntryDate.minute
+    entry["date"] = rawEntryDate
 
-    return entry
-    '''
 
-    content["title"] = argv[0]
+
     entryDate = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
-    outputFilename = os.getcwd()+'/entries/'+str(entry["id"])+"__"+entryDate+"__"+content["title"].replace(' ','_')
+    outputFilename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entryDate+"__"+entry["title"].replace(' ','_')
 
+    stream = codecs.open(outputFilename,'w',encoding="utf-8")
     if len(argv) == 1:
-        stream = codecs.open(outputFilename,'w',encoding="utf-8")
         output = yaml.dump(content, default_flow_style=False, allow_unicode=True) + "---\n"
-        stream.write(output)
    
     else:
         try:
             output = open(os.getcwd()+'/templates/'+argv[1], 'r').read()
-            patternProcessor = Pattern.Processor(".:",":.","::")
-            currentData = Helpers.GetPublicDataFromBlogConf(BlogConfiguration)
-            currentData["EntryName"] = argv[0]
-            currentData["EntryDate"] = Helpers.GetFormattedDate(entryDate)
-            patternProcessor.SetWholeDictionnary(currentData)
-            patternProcessor.ressource = '/templates/'+argv[1]
-            patternProcessor.preProcess("new", output)
-            output = patternProcessor.parse("new")
-            stream = codecs.open(outputFilename,'w',encoding="utf-8")
-            stream.write(output)
 
         except FileNotFoundError as e:
             Die(Messages.fileNotFound.format(os.getcwd()+"/templates/"+argv[1]))
+
+    stream.write(output)
     stream.close()
 
     try:

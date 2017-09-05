@@ -1,0 +1,23 @@
+authorDescription: I'm a artist and software engineer
+authorEmail: denissalem 47 tuxfamily D07 org
+authorName: Denis Salem
+blogDescription: VenC official site
+blogKeywords: blog static free software generator web content python script linux
+blogLanguage: en
+blogName: VenC
+blogUrl: https://denissalem.tuxfamily.org/VenC
+columns: 1
+dateFormat: '%A %d. %B %Y'
+entriesPerPages: 5
+ftpHost: Nom d'hôte FTP
+license: CC By-SA
+path:
+  categoryDirectoryName: '{category}'
+  datesDirectoryName: ''
+  entryFileName: entry{id}.html
+  ftp: Chemin absolu de votre blog sur l'hôte FTP.
+  indexFileName: index{pageNumber}.html
+  rssFileName: feed.xml
+reverseThreadOrder: false
+rssThreadLenght: 5
+textEditor: gvim

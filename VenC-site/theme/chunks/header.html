@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta generator="VenC" />
+    <meta charset="utf-8" />
+    <meta keywords=".:Get::BlogKeywords:." />
+    <meta description=".:Get::BlogDescription:." />
+    <title>.:Get::BlogName:.</title>
+    <link rel="stylesheet" href=".:Get::RelativeOrigin:.style.css" type="text/css">
+    <link rel="alternate" type="application/rss+xml" title=".:Get::BlogName:." href="./feed.xml" />
+    .:IfInThread::<link rel="stylesheet" href="./styleThread.css" type="text/css">:: :.
+  </head>
+  <body>
+    <header>
+      <h1><a href=".:Get::RelativeOrigin:.">.:Get::BlogName:.</a></h1>
+      <h2>.:Get::License:. | .:Get::AuthorName:.</h2>
+    </header>
+    <aside>
+      <p>.:Get::BlogDescription:.</p>
+      <p>.:Get::AuthorDescription:.</p>
+      <p>.:Get::AuthorEmail:.</p>
+      .:RecursiveFor::BlogCategories::<ul>::<li><a href="{0[relativeOrigin]}{0[categoryPath]}">{0[item]}</a>::</li>::</ul>:.
+      <ul>.:For::BlogDates::<li><a href="{0[dateUrl]}">{0[date]}</a></li>:: :.</ul>
+    </aside>
