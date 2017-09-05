@@ -141,9 +141,20 @@ class DataStore:
         for metadata in self.entriesPerDates:
             if value == metadata.value:
                 return index
-            index += 1
-        return None
 
+            index += 1
+
+    def GetEntriesForGivenDate(self, value, reverse):
+        index = 0
+        for metadata in self.entriesPerDates:
+            if value == metadata.value:
+                break
+            index += 1
+
+        for entry in (self.entriesPerDates[index].relatedTo[::-1] if reverse else self.entriesPerDates[index].relatedTo):
+            self.requestedEntryIndex = entry
+            yield self.entries[entry]
+            
     def GetEntries(self, reverse=False):
         self.requestedEntryIndex = 0 if not reverse else len(self.entries) - 1
 

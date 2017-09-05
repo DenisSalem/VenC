@@ -202,7 +202,8 @@ class Processor():
         return True
 
     # Process queue
-    def BatchProcess(self, preProcessed, markdown=False, escape=False):
+    def BatchProcess(self, inputPreProcessed, markdown=False, escape=False):
+        preProcessed = deepcopy(inputPreProcessed)
         if len(preProcessed.patternsIndex) == 0:
             return preProcessed
         
@@ -233,7 +234,7 @@ class Processor():
         for index in toRemove:
             preProcessed.patternsIndex = RemoveByValue(preProcessed.patternsIndex, index)
 
-        return deepcopy(preProcessed)
+        return preProcessed
 
     def Process(self, string, escape):
         closeSymbolPos	= list()

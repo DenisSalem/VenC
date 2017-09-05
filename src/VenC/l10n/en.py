@@ -48,7 +48,7 @@ class Messages:
     possibleMalformedEntry="Possible malformed entry {0}. Abort."
     possibleMalformedBlogConfiguration="Possible malformed blog configuration. Abort."
     blogRecompilation="Recompilation of your blog locally..."
-    exportArchives="Exporting local entries thread of '{0}'."
+    exportArchives="Exporting local entries sorted by dates..."
     exportMainThread="Exporting local main entries thread."
     exportMainThreadRss="Exporting local main RSS feed entries."
     exportCategories="Exporting local categories entries thread named '{0}'."

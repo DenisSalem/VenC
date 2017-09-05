@@ -17,6 +17,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+import codecs
+
 from math import ceil
 
 from VenC.helpers import Notify
@@ -64,25 +66,6 @@ class Thread:
             )
 
         self.pagesCount = len(self.pages)
-
-    # Must be called in child class
-    def WritePage(self, folderDestination, filename, content):
-        try:
-            os.chdir("blog/")
-            os.makedirs(folderDestination)
-            os.chdir("../")
-
-        # a little bit dirty...
-        except:
-            os.chdir("../")
-
-        stream = codecs.open(
-            "blog/"+folderDestination+filename,
-            'w',
-            encoding="utf-8"
-        )
-        stream.write(self.outputPage)
-        stream.close()
 
     # Must be called in child class
     def GetRelativeOrigin(self, argv=list()):
@@ -184,5 +167,13 @@ class Thread:
                 output += '<div id="__VENC_COLUMN_'+str(columnsCounter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
             
             output += ''.join(self.processor.BatchProcess(self.theme.footer).SubStrings)
-            open(self.exportPath + self.FormatFileName(pageNumber), 'w').write(output)
+        
+            stream = codecs.open(
+                self.exportPath + self.FormatFileName(pageNumber),
+                'w',
+                encoding="utf-8"
+            )
+            stream.write(output)
+            stream.close()
+
             pageNumber += 1
