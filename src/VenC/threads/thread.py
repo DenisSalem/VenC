@@ -167,10 +167,21 @@ class Thread:
         for page in self.pages:
             output = ''.join(self.processor.BatchProcess(self.theme.header).SubStrings)
 
+            columnsNumber = self.datastore.blogConfiguration["columns"]
+            columnsCounter = 0
+            columns = [ '' for i in range(0, columnsNumber) ]
             for entry in page:
-                output += ''.join(self.processor.BatchProcess(entry.htmlWrapper.above, not entry.doNotUseMarkdown).SubStrings)
-                output += ''.join(self.processor.BatchProcess(entry.content, not entry.doNotUseMarkdown).SubStrings)
-                output += ''.join(self.processor.BatchProcess(entry.htmlWrapper.below, not entry.doNotUseMarkdown).SubStrings)
+                columns[columnsCounter] += ''.join(self.processor.BatchProcess(entry.htmlWrapper.above, not entry.doNotUseMarkdown).SubStrings)
+                columns[columnsCounter] += ''.join(self.processor.BatchProcess(entry.content, not entry.doNotUseMarkdown).SubStrings)
+                columns[columnsCounter] += ''.join(self.processor.BatchProcess(entry.htmlWrapper.below, not entry.doNotUseMarkdown).SubStrings)
+
+                columnsCounter +=1
+                if columnsCounter >= columnsNumber:
+                    columnsCounter = 0
+
+            columnsCounter = 0
+            for column in columns:
+                output += '<div id="__VENC_COLUMN_'+str(columnsCounter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
             
             output += ''.join(self.processor.BatchProcess(self.theme.footer).SubStrings)
             open(self.exportPath + self.FormatFileName(pageNumber), 'w').write(output)
