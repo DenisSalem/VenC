@@ -20,12 +20,12 @@
 import datetime
 
 class MetadataNode:
-    def __init__(self, value, entry):
+    def __init__(self, value, entryIndex):
         self.count = 1
-        self.weight = 1
+        self.weight = 1 # computed later
         self.path = str()
         self.value = value
-        self.relatedTo = [entry]
+        self.relatedTo = [entryIndex]
         self.childs = list()
 
 def GetMetadataByName(keys, name):

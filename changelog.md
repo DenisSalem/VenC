@@ -101,7 +101,7 @@
 	WIP  | Change nomenclature: {page_number} -> en {0[pageNumber]}. Fix doc.
 	WIP  | Change nomenclature: remove underscore from blog_configuration, using camel case instead. Fix doc.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
-	TODO | Optimisation of categories tree.
+	WIP  | Optimisation of categories tree.
 	TODO | Add function Include.
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Reorganize themes dependencies in setup.

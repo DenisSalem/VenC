@@ -108,7 +108,6 @@ class Processor():
         # non-contextual pattern are parsed the second pass occurs each time we
         # require the given string in every needed context
         self.blacklist = list()
-        self.doNotRemoveIndexIfPresent = list()
 
     # Run any pattern and catch exception nicely
     def RunPattern(self, pattern, argv):
@@ -127,33 +126,33 @@ class Processor():
                 output =  self.handleError(
                     Messages.unknownPattern.format(pattern),
                     "~§"+pattern+"§§"+"§§".join(argv)+"§~",
-                    errorOrigin = ':'+pattern+':'
+                    errorOrigin = [':'+pattern+':']
                 )
             else:
                 output = self.handleError(
                     Messages.unknownContextual.format(e),
                     "~§"+pattern+"§§"+"§§".join(argv)+"§~",
-                    errorOrigin = ':'+str(e)[1:-1]+':'
+                    errorOrigin = [':'+str(e)[1:-1]+':','{0['+str(e)[1:-1]+']}']
                 )
 
         except AttributeError as e:
                 output = self.handleError(
                     Messages.unknownContextual.format(e),
                     "~§"+pattern+"§§"+"§§".join(argv)+"§~",
-                    errorOrigin = str(e).split("'")[-2]
+                    errorOrigin = [str(e).split("'")[-2]]
                 )
         
         except IndexError:
             output = self.handleError(
                 pattern+": "+Messages.notEnoughArgs,
                 "~§"+pattern+"§§"+"§§".join(argv)+"§~",
-                pattern
+                [pattern]
             )
 
         return str(output)
 
     # Print out notification to user and replace erroneous pattern
-    def handleError(self, error, defaultOutput, errorOrigin = ""):
+    def handleError(self, error, defaultOutput, errorOrigin = list()):
         err = GetFormattedMessage(error, "RED")+"\n"
             
         if self.ressource != str():
@@ -161,8 +160,10 @@ class Processor():
                 
         if not err in VenC.helpers.errors:
             VenC.helpers.errors.append(err)
-            if errorOrigin != "":
-                err += HighlightValue(''.join(self.currentString), errorOrigin)
+            if errorOrigin != list():
+                err+=(''.join(self.currentString))
+                for origin in errorOrigin:
+                    err = HighlightValue(err, origin)
             
             print(err)
         
@@ -193,9 +194,10 @@ class Processor():
        self.dictionary[symbol] = value
 
     def IfNotPresent(self, string):
-        for pattern in self.doNotRemoveIndexIfPresent:
+        for pattern in self.blacklist:
             if pattern in string:
                 False
+
         return True
 
     # Process queue
@@ -235,7 +237,6 @@ class Processor():
             if len(closeSymbolPos) <= len(openSymbolPos) and len(closeSymbolPos) != 0 and len(openSymbolPos) != 0:
                 if openSymbolPos[-1] < closeSymbolPos[0]:
                     fields = [field for field in string[openSymbolPos[-1]+2:closeSymbolPos[0]].split(SEPARATOR) if field != '']
-                    ''' Need to be tested '''
                     if not fields[0] in self.blacklist:
                         output = self.RunPattern(fields[0], fields[1:])
                         if escape:

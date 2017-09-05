@@ -23,13 +23,37 @@ from VenC.datastore.entry import Entry
 from VenC.datastore.metadata import MetadataNode
 from VenC.pattern.codeHighlight import CodeHighlight
 
-# Generic method used to iterate t
+# Generic method used to iterate
 def For(iterable, argv):
     return argv[1].join(
         [
             argv[0].format(something) for something in iterable
         ]
     )
+
+def PerformRecursion(openString, content, separator, closeString, nodes):
+    outputString = openString
+    for node in sorted(nodes, key = lambda x : x.value):
+        variables = {
+            "value" : node.value,
+            "count" : node.count,
+            "weight" : node.weight,
+            "path" : node.path
+        }
+
+        if len(node.childs) == 0:
+            outputString += content.format(variables) + separator
+
+        else:
+            outputString += content.format(variables) + PerformRecursion(
+                openString,
+                content,
+                separator,
+                closeString,
+                node.childs
+            )
+
+    return outputString + closeString
 
 class DataStore:
     def __init__(self):
@@ -55,11 +79,29 @@ class DataStore:
             else:
                 self.entriesPerDates.append(MetadataNode(formattedDate, entryIndex))
 
-            entryIndex += 1
 
             ''' Update entriesPerCategories '''
 
-            ''' NOT IMPLEMENTED YET '''
+            for category in self.entries[-1].rawCategories:
+                branch = category.split(' > ')
+                path = ".:GetRelativeOrigin:."
+                root = self.entriesPerCategories
+                for nodeName in branch:
+                    path += nodeName+'/'
+
+                    if not nodeName in [metadata.value for metadata in root]:
+                        root.append(MetadataNode(nodeName, entryIndex))
+                        root[-1].path = path
+                        root = root[-1].childs
+
+                    else:
+                        for node in root:
+                            if node.value == nodeName:
+                                node.count +=1
+                                node.relatedTo.append(entryIndex)
+                                root = node.childs
+
+            entryIndex += 1
     
         ''' Setup BlogDates Data '''
         self.BlogDates = list()
@@ -181,6 +223,18 @@ class DataStore:
     
     def ForEntryAuthors(self, argv):
         return For(self.entries[self.requestedEntryIndex].authors, argv)
+
+    def ForBlogCategories(self, argv):
+        outputString = str()
+        outputString += PerformRecursion(
+            argv[0],
+            argv[1],
+            argv[2],
+            argv[3],
+            self.entriesPerCategories
+        )
+        return outputString
+
         
         
         

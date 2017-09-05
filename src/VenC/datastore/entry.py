@@ -105,10 +105,14 @@ class Entry:
         except KeyError:
             Die(Messages.missingMandatoryFieldInEntry.format("tags", self.id))
 
-        ''' Setting up category leaves '''
+
+
+        ''' Setting up categories'''
         self.categoriesLeaves = list()
+        self.categoriesNodesReference = list()
+        self.rawCategories = metadata["categories"].split(',')
         try:
-            for category in metadata["categories"].split(','):
+            for category in self.rawCategories:
                 categoryLeaf = category.split(' > ')[-1].strip()
                 if len(categoryLeaf) != 0:
                     categoryLeafUrl = str()
@@ -119,11 +123,12 @@ class Entry:
                         "categoryLeaf": categoryLeaf,
                         "categoryLeafPath":categoryLeafUrl
                     })
-        except IndexError :
+
+        except IndexError : # when list is empty
             pass
 
-        ''' Setting up categories '''
-        # todo
+    def SetupCategoriesNodesReference(self, categoriesTree):
+        pass
 
 ''' Iterate through entries folder '''
 def YieldEntriesContent():
