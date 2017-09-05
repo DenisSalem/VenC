@@ -82,11 +82,7 @@ class PreProcessor():
         self.SubStrings.append(string)
 
 def MergeBatches(batches):
-    merged = batches.SubStrings[0]
-    for batch in batches.SubStrings[1:]:
-        merged += batch
-
-    return merged
+    return ''.join(batches.SubStrings)
 
 def GetFinalString(processed):
     output = str()

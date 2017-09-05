@@ -87,6 +87,9 @@ class DataStore:
                 path = ".:GetRelativeOrigin:."
                 root = self.entriesPerCategories
                 for nodeName in branch:
+                    if nodeName == '':
+                        continue
+
                     path += nodeName+'/'
 
                     if not nodeName in [metadata.value for metadata in root]:
@@ -127,7 +130,6 @@ class DataStore:
     def GetEntryMetadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
         return str( getattr(self.entries[self.requestedEntryIndex], argv[0]))
-        
     
     def GetEntryMetadataIfExists(self, argv):
         try:
@@ -143,6 +145,7 @@ class DataStore:
                 return index
 
             index += 1
+
 
     def GetEntriesForGivenDate(self, value, reverse):
         index = 0
