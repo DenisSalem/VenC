@@ -23,6 +23,7 @@ from math import ceil
 
 from VenC.helpers import Notify
 from VenC.pattern.processor import Processor
+from VenC.pattern.processor import MergeBatches
 
 class Thread:
     def __init__(self, prompt, datastore, theme):
@@ -54,7 +55,7 @@ class Thread:
 
     # Must be called in child class
     def GetRelativeLocation():
-        return self.exportPath
+        return self.exportPath[5:]
 
     # Must be called in child class
     def OrganizeEntries(self, entries):
@@ -148,15 +149,15 @@ class Thread:
     def Do(self):
         pageNumber = 0
         for page in self.pages:
-            output = ''.join(self.processor.BatchProcess(self.theme.header).SubStrings)
+            output = MergeBatches(self.processor.BatchProcess(self.theme.header))
 
             columnsNumber = self.datastore.blogConfiguration["columns"]
             columnsCounter = 0
             columns = [ '' for i in range(0, columnsNumber) ]
             for entry in page:
-                columns[columnsCounter] += ''.join(self.processor.BatchProcess(entry.htmlWrapper.above, not entry.doNotUseMarkdown).SubStrings)
-                columns[columnsCounter] += ''.join(self.processor.BatchProcess(entry.content, not entry.doNotUseMarkdown).SubStrings)
-                columns[columnsCounter] += ''.join(self.processor.BatchProcess(entry.htmlWrapper.below, not entry.doNotUseMarkdown).SubStrings)
+                columns[columnsCounter] += MergeBatches(self.processor.BatchProcess(entry.htmlWrapper.above, not entry.doNotUseMarkdown))
+                columns[columnsCounter] += MergeBatches(self.processor.BatchProcess(entry.content, not entry.doNotUseMarkdown))
+                columns[columnsCounter] += MergeBatches(self.processor.BatchProcess(entry.htmlWrapper.below, not entry.doNotUseMarkdown))
 
                 columnsCounter +=1
                 if columnsCounter >= columnsNumber:
@@ -166,7 +167,7 @@ class Thread:
             for column in columns:
                 output += '<div id="__VENC_COLUMN_'+str(columnsCounter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
             
-            output += ''.join(self.processor.BatchProcess(self.theme.footer).SubStrings)
+            output += MergeBatches(self.processor.BatchProcess(self.theme.footer))
         
             stream = codecs.open(
                 self.exportPath + self.FormatFileName(pageNumber),

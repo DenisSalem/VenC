@@ -94,14 +94,16 @@
 	DONE | Moar comments in the code.
 	DONE | No more awkward silence when something is successfully done.
 	DONE | Add more coloration for message!
-	DONE | Speed up blog exportation.
-	WIP  | Massive refactorisation, code cleaning and optimisation.
+	DONE | Speed up blog exportation ( almost seven times faster!)
+	DONE | Implement RelativeLocation
+	DONE | Massive refactorisation, code cleaning and optimisation.
+	DONE | Optimisation of categories tree.
 	WIP  | Change nomenclature: entry_name -> title. Fix doc.
 	WIP  | Change nomenclature: {entry_id} -> en {0[entryId]}. Fix doc.
 	WIP  | Change nomenclature: {page_number} -> en {0[pageNumber]}. Fix doc.
 	WIP  | Change nomenclature: remove underscore from blog_configuration, using camel case instead. Fix doc.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
-	WIP  | Optimisation of categories tree.
+	TODO | Add categories tree in entry
 	TODO | Add function Include.
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Reorganize themes dependencies in setup.
@@ -112,4 +114,3 @@
 	TODO | Support de SSH
 	TODO | Adding LaTeX support
 	TODO | Split install and blog creation chapter in tutorial.
-	TODO | Implement RelativeLocation

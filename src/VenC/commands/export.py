@@ -36,11 +36,13 @@ from VenC.helpers import Die
 from VenC.helpers import Notify
 from VenC.helpers import RmTreeErrorHandler 
 from VenC.l10n import Messages
+from VenC.pattern.processor import MergeBatches
 from VenC.pattern.processor import Processor
 from VenC.pattern.processor import PreProcessor
 from VenC.pattern.codeHighlight import CodeHighlight
 from VenC.threads.mainThread import MainThread
 from VenC.threads.datesThread import DatesThread
+from VenC.threads.categoriesThread import CategoriesThread
 
 def ExportAndRemoteCopy(argv=list()):
     Notify(Messages.blogRecompilation)
@@ -123,20 +125,20 @@ def ExportBlog(argv=list()):
     
     for entry in datastore.GetEntries():
         # Every chunks are preprocessed again because of contextual patterns
-        entry.content = PreProcessor(''.join( processor.BatchProcess(entry.content, not entry.doNotUseMarkdown).SubStrings ))
+        entry.content = PreProcessor(MergeBatches( processor.BatchProcess(entry.content, not entry.doNotUseMarkdown)))
 
         entry.htmlWrapper = deepcopy(theme.entry)
-        entry.htmlWrapper.above = PreProcessor(''.join(processor.BatchProcess(entry.htmlWrapper.above, not entry.doNotUseMarkdown).SubStrings ))
-        entry.htmlWrapper.below = PreProcessor(''.join(processor.BatchProcess(entry.htmlWrapper.below, not entry.doNotUseMarkdown).SubStrings ))
+        entry.htmlWrapper.above = PreProcessor(MergeBatches(processor.BatchProcess(entry.htmlWrapper.above, not entry.doNotUseMarkdown)))
+        entry.htmlWrapper.below = PreProcessor(MergeBatches(processor.BatchProcess(entry.htmlWrapper.below, not entry.doNotUseMarkdown)))
         
         entry.rssWrapper = deepcopy(theme.rssEntry)
-        entry.rssWrapper.above = PreProcessor(''.join(processor.BatchProcess(entry.rssWrapper.above, not entry.doNotUseMarkdown).SubStrings ))
-        entry.rssWrapper.below = PreProcessor(''.join(processor.BatchProcess(entry.rssWrapper.below, not entry.doNotUseMarkdown).SubStrings ))
+        entry.rssWrapper.above = PreProcessor(MergeBatches(processor.BatchProcess(entry.rssWrapper.above, not entry.doNotUseMarkdown)))
+        entry.rssWrapper.below = PreProcessor(MergeBatches(processor.BatchProcess(entry.rssWrapper.below, not entry.doNotUseMarkdown)))
 
-    theme.header = PreProcessor(''.join(processor.BatchProcess(theme.header).SubStrings ))
-    theme.footer = PreProcessor(''.join( processor.BatchProcess(theme.footer).SubStrings ))
-    theme.rssHeader = PreProcessor(''.join(processor.BatchProcess(theme.rssHeader).SubStrings ))
-    theme.rssFooter = PreProcessor(''.join(processor.BatchProcess(theme.rssFooter).SubStrings ))
+    theme.header = PreProcessor(MergeBatches(processor.BatchProcess(theme.header)))
+    theme.footer = PreProcessor(MergeBatches( processor.BatchProcess(theme.footer)))
+    theme.rssHeader = PreProcessor(MergeBatches(processor.BatchProcess(theme.rssHeader)))
+    theme.rssFooter = PreProcessor(MergeBatches(processor.BatchProcess(theme.rssFooter)))
 
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
@@ -148,6 +150,9 @@ def ExportBlog(argv=list()):
     thread.Do()
     thread = DatesThread(Messages.exportArchives, datastore, theme)
     thread.Do()
+    thread = CategoriesThread(Messages.exportArchives, datastore, theme)
+    thread.Do()
+
     
 
 
