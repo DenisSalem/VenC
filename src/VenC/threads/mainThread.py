@@ -31,11 +31,11 @@ class MainThread(Thread):
             )
         ])
 
-        self.indexFileName = self.datastore.blogConfiguration["path"]["indexFileName"]
+        self.fileName = self.datastore.blogConfiguration["path"]["indexFileName"]
         self.entryName = str()
         self.relativeOrigin = str()
-        self.exportPath = str()
-        self.singleEntry = False
+        self.exportPath = "blog/"
+        self.inThread = True
 
 
 

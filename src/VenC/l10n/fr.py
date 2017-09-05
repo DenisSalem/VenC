@@ -75,3 +75,4 @@ class Messages:
     missingEntryContentInclusion="Thème invalide. Il manque l'inclusion du contenu de la publication dans entry.html et/ou rssEntry.html"
     unknownLanguage="Pygments: {0}: Langage inconnu."
     preProcess="Pré-traitement du théme et des publications..."
+    directoryNotCopied="Le dossier ne peut être copié. Erreur: %s"
