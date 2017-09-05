@@ -101,6 +101,7 @@ class Processor():
         self.currentString       = str()
         self.ressource           = str()
         self.errors              = list()
+        self.cleanAfterAndBefore = list()
 
         # Some patterns are contextual while others are constant in time.
         # To save time we wan't to perform two-pass analysis. In the first one
@@ -201,19 +202,33 @@ class Processor():
         return True
 
     # Process queue
-    def BatchProcess(self, preProcessed, escape=False):
+    def BatchProcess(self, preProcessed, markdown=False, escape=False):
         if len(preProcessed.patternsIndex) == 0:
             return preProcessed
         
         self.currentString = preProcessed.SubStrings
         toRemove = list()
         for index in preProcessed.patternsIndex:
-            if not preProcessed.SubStrings[index][2:-2].split('::')[0] in self.blacklist:
+            currentPattern = preProcessed.SubStrings[index][2:-2].split('::')[0]
+            if not currentPattern in self.blacklist:
                 preProcessed.SubStrings[index] = self.Process(preProcessed.SubStrings[index], escape)
                 
                 # check if there is residual patterns
                 if self.IfNotPresent(preProcessed.SubStrings[index]):
                     toRemove.append(index)
+
+                if currentPattern in self.cleanAfterAndBefore and markdown:
+                    try:
+                        preProcessed.SubStrings[index-1] = preProcessed.SubStrings[index-1][:-3] # remove <p>
+
+                    except IndexError:
+                        pass
+                    
+                    try:
+                        preProcessed.SubStrings[index+1] = preProcessed.SubStrings[index+1][4:] # remove </p>
+
+                    except IndexError:
+                        pass
 
         for index in toRemove:
             preProcessed.patternsIndex = RemoveByValue(preProcessed.patternsIndex, index)

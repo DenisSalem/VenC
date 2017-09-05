@@ -112,6 +112,9 @@ def ExportBlog(argv=list()):
     processor.blacklist.append("GetPreviousPage")
     processor.blacklist.append("ForPages")
 
+    # List of patterns where we want to remove <p></p> tag
+    processor.cleanAfterAndBefore.append("CodeHighlight")
+
     Notify(Messages.preProcess)
 
     # Now we want to perform first parsing pass on entries and chunk
@@ -119,15 +122,15 @@ def ExportBlog(argv=list()):
     
     for entry in datastore.GetEntries():
         # Every chunks are preprocessed again because of contextual patterns
-        entry.content = PreProcessor(''.join( processor.BatchProcess(entry.content).SubStrings ))
+        entry.content = PreProcessor(''.join( processor.BatchProcess(entry.content, not entry.doNotUseMarkdown).SubStrings ))
 
         entry.htmlWrapper = deepcopy(theme.entry)
-        entry.htmlWrapper.above = PreProcessor(''.join(processor.BatchProcess(entry.htmlWrapper.above).SubStrings ))
-        entry.htmlWrapper.below = PreProcessor(''.join(processor.BatchProcess(entry.htmlWrapper.below).SubStrings ))
+        entry.htmlWrapper.above = PreProcessor(''.join(processor.BatchProcess(entry.htmlWrapper.above, not entry.doNotUseMarkdown).SubStrings ))
+        entry.htmlWrapper.below = PreProcessor(''.join(processor.BatchProcess(entry.htmlWrapper.below, not entry.doNotUseMarkdown).SubStrings ))
         
         entry.rssWrapper = deepcopy(theme.rssEntry)
-        entry.rssWrapper.above = PreProcessor(''.join(processor.BatchProcess(entry.rssWrapper.above).SubStrings ))
-        entry.rssWrapper.below = PreProcessor(''.join(processor.BatchProcess(entry.rssWrapper.below).SubStrings ))
+        entry.rssWrapper.above = PreProcessor(''.join(processor.BatchProcess(entry.rssWrapper.above, not entry.doNotUseMarkdown).SubStrings ))
+        entry.rssWrapper.below = PreProcessor(''.join(processor.BatchProcess(entry.rssWrapper.below, not entry.doNotUseMarkdown).SubStrings ))
 
     theme.header = PreProcessor(''.join(processor.BatchProcess(theme.header).SubStrings ))
     theme.footer = PreProcessor(''.join( processor.BatchProcess(theme.footer).SubStrings ))
