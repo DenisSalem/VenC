@@ -161,7 +161,6 @@ class Thread:
                 'pageNumber':pageNumber
             })
 
-
     # Must be called in child class
     def Do(self):
         pageNumber = 0
@@ -169,9 +168,9 @@ class Thread:
             output = ''.join(self.processor.BatchProcess(self.theme.header).SubStrings)
 
             for entry in page:
-                output += ''.join(self.processor.BatchProcess(entry.htmlWrapper.above).SubStrings)
-                output += ''.join(self.processor.BatchProcess(entry.content).SubStrings)
-                output += ''.join(self.processor.BatchProcess(entry.htmlWrapper.below).SubStrings)
+                output += ''.join(self.processor.BatchProcess(entry.htmlWrapper.above, not entry.doNotUseMarkdown).SubStrings)
+                output += ''.join(self.processor.BatchProcess(entry.content, not entry.doNotUseMarkdown).SubStrings)
+                output += ''.join(self.processor.BatchProcess(entry.htmlWrapper.below, not entry.doNotUseMarkdown).SubStrings)
             
             output += ''.join(self.processor.BatchProcess(self.theme.footer).SubStrings)
             open(self.exportPath + self.FormatFileName(pageNumber), 'w').write(output)

@@ -18,6 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
+import markdown
 import os
 import time
 import yaml
@@ -43,6 +44,7 @@ class Entry:
     def __init__(self, filename):
         # Loading
         rawData = open(os.getcwd()+"/entries/"+filename,'r').read()
+        rawContent = rawData.split("---\n")[1]
         try:
             metadata = yaml.load(rawData.split("---\n")[0])
 
@@ -62,6 +64,7 @@ class Entry:
             self.doNotUseMarkdown = True
         else:
             self.doNotUseMarkdown = False
+            rawContent = markdown.markdown(rawContent)
     
         # Set up id
         self.id = filename.split('__')[0]
@@ -92,7 +95,7 @@ class Entry:
 
         # Setting up content
         try:
-            self.content = PreProcessor(rawData.split("---\n")[1])
+            self.content = PreProcessor(rawContent)
 
         except:
             raise
