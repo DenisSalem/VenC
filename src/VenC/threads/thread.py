@@ -146,11 +146,11 @@ class Thread:
     # Must be called in child class
     def Do(self):
         for page in self.pages:
-            output = MergeBatches(self.processor.BatchProcess(self.theme.header))
+            output = ''.join(self.processor.BatchProcess(self.theme.header).SubStrings)
 
             for entry in page:
-                output += MergeBatches(self.processor.BatchProcess(entry.htmlWrapper.above))
-                output += MergeBatches(self.processor.BatchProcess(entry.content))
-                output += MergeBatches(self.processor.BatchProcess(entry.htmlWrapper.below))
+                output += ''.join(self.processor.BatchProcess(entry.htmlWrapper.above).SubStrings)
+                output += ''.join(self.processor.BatchProcess(entry.content).SubStrings)
+                output += ''.join(self.processor.BatchProcess(entry.htmlWrapper.below).SubStrings)
             
-            output = MergeBatches(self.processor.BatchProcess(self.theme.footer))
+            output = ''.join(self.processor.BatchProcess(self.theme.footer).SubStrings)

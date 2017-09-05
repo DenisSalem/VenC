@@ -36,8 +36,9 @@ from VenC.helpers import Notify
 from VenC.helpers import RmTreeErrorHandler 
 from VenC.l10n import Messages
 from VenC.pattern.processor import Processor
+from VenC.pattern.processor import PreProcessor
 from VenC.pattern.codeHighlight import CodeHighlight
-from VenC.threads.baseThread import BaseThread
+from VenC.threads.mainThread import MainThread
 
 def ExportAndRemoteCopy(argv=list()):
     Notify(Messages.blogRecompilation)
@@ -99,6 +100,7 @@ def ExportBlog(argv=list()):
     processor.SetFunction("GetBlogMetadataIfExists", datastore.GetBlogMetadataIfExists)
     processor.SetFunction("ForEntryTags", datastore.ForEntryTags)
     processor.SetFunction("ForBlogDates", datastore.ForBlogDates)
+    processor.SetFunction("ForBlogCategories", datastore.ForBlogCategories)
     processor.SetFunction("CodeHighlight", codeHighlight.Highlight)
     processor.SetFunction("GetStyleSheets", codeHighlight.GetStyleSheets)
     
@@ -108,36 +110,35 @@ def ExportBlog(argv=list()):
     processor.blacklist.append("GetNextPage")
     processor.blacklist.append("GetPreviousPage")
     processor.blacklist.append("ForPages")
-    
-    processor.doNotRemoveIndexIfPresent.append("GetRelativeOrigin")
-    processor.doNotRemoveIndexIfPresent.append("GetRelativeLocation")
 
     Notify(Messages.preProcess)
 
     # Now we want to perform first parsing pass on entries and chunk
+    
+    
     for entry in datastore.GetEntries():
-        entry.content = processor.BatchProcess(entry.content)
+        # Every chunks are preprocessed again because of contextual patterns
+        entry.content = PreProcessor(''.join( processor.BatchProcess(entry.content).SubStrings ))
 
         entry.htmlWrapper = deepcopy(theme.entry)
-        entry.htmlWrapper.above = processor.BatchProcess(entry.htmlWrapper.above)
-        entry.htmlWrapper.below = processor.BatchProcess(entry.htmlWrapper.below)
+        entry.htmlWrapper.above = PreProcessor(''.join(processor.BatchProcess(entry.htmlWrapper.above).SubStrings ))
+        entry.htmlWrapper.below = PreProcessor(''.join(processor.BatchProcess(entry.htmlWrapper.below).SubStrings ))
         
         entry.rssWrapper = deepcopy(theme.rssEntry)
-        entry.rssWrapper.above = processor.BatchProcess(entry.rssWrapper.above)
-        entry.rssWrapper.below = processor.BatchProcess(entry.rssWrapper.below)
+        entry.rssWrapper.above = PreProcessor(''.join(processor.BatchProcess(entry.rssWrapper.above).SubStrings ))
+        entry.rssWrapper.below = PreProcessor(''.join(processor.BatchProcess(entry.rssWrapper.below).SubStrings ))
 
-    
-
-    theme.header = processor.BatchProcess(theme.header)
-    theme.footer = processor.BatchProcess(theme.footer)
-    theme.rssHeader = processor.BatchProcess(theme.rssHeader)
-    theme.rssFooter = processor.BatchProcess(theme.rssFooter)
+    theme.header = PreProcessor(''.join(processor.BatchProcess(theme.header).SubStrings ))
+    theme.footer = PreProcessor(''.join( processor.BatchProcess(theme.footer).SubStrings ))
+    theme.rssHeader = PreProcessor(''.join(processor.BatchProcess(theme.rssHeader).SubStrings ))
+    theme.rssFooter = PreProcessor(''.join(processor.BatchProcess(theme.rssFooter).SubStrings ))
 
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
     os.makedirs("blog")
-    
+
     # Starting second pass and exporting
+
     main = MainThread(Messages.exportMainThread, datastore, theme)
     main.Do()
     
