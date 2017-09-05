@@ -40,6 +40,7 @@ from VenC.pattern.processor import Processor
 from VenC.pattern.processor import PreProcessor
 from VenC.pattern.codeHighlight import CodeHighlight
 from VenC.threads.mainThread import MainThread
+from VenC.threads.datesThread import DatesThread
 
 def ExportAndRemoteCopy(argv=list()):
     Notify(Messages.blogRecompilation)
@@ -143,8 +144,11 @@ def ExportBlog(argv=list()):
 
     # Starting second pass and exporting
 
-    main = MainThread(Messages.exportMainThread, datastore, theme)
-    main.Do()
+    thread = MainThread(Messages.exportMainThread, datastore, theme)
+    thread.Do()
+    thread = DatesThread(Messages.exportArchives, datastore, theme)
+    thread.Do()
+    
 
 
     # Copy assets and extra files

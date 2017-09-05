@@ -48,7 +48,7 @@ class Messages:
     possibleMalformedEntry="La publication {0} est probablement mal formée... Abandon."
     possibleMalformedBlogConfiguration="Le fichier de configuration du blog est probablement mal formée... Abandon."
     blogRecompilation="Recompilation du blog locale..."
-    exportArchives="Exportation locale du fil de publications de '{0}'."
+    exportArchives="Exportation locale des publications triées par dates..."
     exportMainThread="Exportation locale du fil de publications principal."
     exportMainThreadRss="Exportation locale du flux RSS du fil de publications principal."
     exportCategories="Exportation locale du fil de publications de la categorie '{0}'."
