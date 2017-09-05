@@ -17,6 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+import errno
 import os
 import time
 from copy import deepcopy
@@ -141,8 +142,29 @@ def ExportBlog(argv=list()):
 
     main = MainThread(Messages.exportMainThread, datastore, theme)
     main.Do()
+
+
+    # Copy assets and extra files
+
+    #codeHighlight.ExportStyleSheets()
+    CopyRecursively("extra/","blog/")
+    CopyRecursively("theme/assets/","blog/")
+
+ 
+def CopyRecursively(src, dest):
+    for filename in os.listdir(src):
+        try:
+            shutil.copytree(src+filename, dest+filename)
     
-    codeHighlight.ExportStyleSheets()
+        except shutil.Error as e:
+            Notify(Messages.directoryNotCopied % e, "YELLOW")
+
+        except OSError as e:
+            if e.errno == errno.ENOTDIR:
+                shutil.copy(src+filename, dest+filename)
+
+            else:
+                Notify(Messages.directoryNotCopied % e, "YELLOW")
 
 
 def EditAndExport(argv):

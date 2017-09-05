@@ -35,22 +35,19 @@ class Thread:
         # Setup pattern processor
         self.processor = Processor()
         self.processor.SetFunction("GetRelativeOrigin", self.GetRelativeOrigin)
+        self.processor.SetFunction("GetRelativeLocation", self.GetRelativeLocation)
         self.processor.SetFunction("GetNextPage", self.GetNextPage)
         self.processor.SetFunction("GetPreviousPage", self.GetPreviousPage)
         self.processor.SetFunction("ForPages", self.ForPages)
         self.processor.SetFunction("GetRelativeLocation", self.GetRelativeLocation)
+        self.processor.SetFunction("IfInThread", self.IfInThread)
 
-    def ReturnPageAround(self, string, destinationPageNumber, indexFileName):
-        try:
-            return string.format({
-                "destinationPage":destinationPageNumber,
-                "destinationPageUrl":indexFileName,
-                "entryName" : self.entryName
-            })
-
-        except KeyError:
-            raise UnknownContextual(str(e)[1:-1])
-
+    def ReturnPageAround(self, string, destinationPageNumber, fileName):
+        return string.format({
+            "destinationPage":destinationPageNumber,
+            "destinationPageUrl":fileName,
+            "entryName" : self.entryName
+        })
 
 
     # Must be called in child class
@@ -96,8 +93,8 @@ class Thread:
         if self.currentPage < len(self.pages) - 1:
             destinationPageNumber = str(self.currentPage + 1)
             ''' Must catch KeyError exception '''
-            indexFileName = self.indexFileName.format({"pageNumber":destinationPageNumber})
-            return self.ReturnPageAround(argv[0], destinationPageNumber, indexFileName)
+            fileName = self.fileName.format({"pageNumber":destinationPageNumber})
+            return self.ReturnPageAround(argv[0], destinationPageNumber, fileName)
 
         else:
             return str()
@@ -108,13 +105,13 @@ class Thread:
             destinationPageNumber = str(self.currentPage - 1)
             if self.currentPage == 1:
                 ''' Must catch KeyError exception '''
-                indexFileName = self.indexFileName.format(page_number="")
+                fileName = self.fileName.format(page_number="")
 
             else:
                 ''' Must catch KeyError exception '''
-                indexFileName = self.indexFileName.format(page_number=destinationPageNumber)
+                fileName = self.fileName.format(page_number=destinationPageNumber)
             
-            return self.ReturnPageAround(argv[0], destinationPageNumber, indexFileName)
+            return self.ReturnPageAround(argv[0], destinationPageNumber, fileName)
         
         else:
             return str()
@@ -125,7 +122,7 @@ class Thread:
         string = argv[1]
         separator = argv[2]
             
-        if self.pagesCount == 1 or self.singleEntry:
+        if self.pagesCount == 1 or not self.inThread:
             return str()
 
         output = str()
@@ -135,7 +132,7 @@ class Thread:
                 output += string.format(
                     {
                         "pageNumber":str(pageNumber),
-                        "pageUrl": self.indexFileName.format({"pageNumber": (str() if pageNumber == 0 else pageNumber) })
+                        "pageUrl": self.fileName.format({"pageNumber": (str() if pageNumber == 0 else pageNumber) })
                     }
                 ) + separator
 
@@ -143,8 +140,31 @@ class Thread:
         
         return output[:-len(separator)]
 
+
+    def IfInThread(self, argv):
+        if self.inThread:
+            return argv[0]
+
+        else:
+            return argv[1]
+
+    def FormatFileName(self, pageNumber):
+        if pageNumber == 0:
+            return self.fileName.format({
+                'entryId':'',
+                'pageNumber':''
+            })
+        
+        else:
+            return self.fileName.format({
+                'entryId':pageNumber,
+                'pageNumber':pageNumber
+            })
+
+
     # Must be called in child class
     def Do(self):
+        pageNumber = 0
         for page in self.pages:
             output = ''.join(self.processor.BatchProcess(self.theme.header).SubStrings)
 
@@ -153,4 +173,6 @@ class Thread:
                 output += ''.join(self.processor.BatchProcess(entry.content).SubStrings)
                 output += ''.join(self.processor.BatchProcess(entry.htmlWrapper.below).SubStrings)
             
-            output = ''.join(self.processor.BatchProcess(self.theme.footer).SubStrings)
+            output += ''.join(self.processor.BatchProcess(self.theme.footer).SubStrings)
+            open(self.exportPath + self.FormatFileName(pageNumber), 'w').write(output)
+            pageNumber += 1

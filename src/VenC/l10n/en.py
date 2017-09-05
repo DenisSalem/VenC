@@ -76,4 +76,4 @@ class Messages:
     missingEntryContentInclusion = "Invalid theme. Missing entry content inclusion in entry.html and/or rssEntry.html"
     unknownLanguage="Pygments: {0}: Unknown language."
     preProcess="Pre-processing theme and entries..."
-
+    directoryNotCopied="Directory not copied. Error: %s"
