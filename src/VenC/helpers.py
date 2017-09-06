@@ -24,6 +24,8 @@ import os
 import pygments
 import shutil
 
+from VenC.l10n import Messages
+
 MsgFormat = {
     "END" : '\033[0m',
     "GREEN" : '\033[92m',
@@ -89,11 +91,12 @@ def GetListOfPages(entriesPerPage,entriesCount):
 
 def RmTreeErrorHandler(function, path, excinfo):
     if path == "blog" and excinfo[0] == FileNotFoundError:
-        Die(Messages.blogFolderDoesntExists)
+        Notify(Messages.blogFolderDoesntExists,"YELLOW")
+        return
 
-    Notify(function,"RED")
-    Notify(path,"RED")
-    Notify(excinfo[0],"RED")
+    Notify(str(function),"RED")
+    Notify(str(path),"RED")
+    Notify(str(excinfo[0]),"RED")
     exit()
 
 def GetFilename(indexFileName, pageCounter):

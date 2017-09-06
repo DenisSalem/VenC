@@ -1,10 +1,11 @@
 body
 	{font-family: sans;
-	background-image: url('concrete.png');
 	font-weight: lighter;}
 header
 	{text-align: center;
-	position: absolute;
+	background-image: url('concrete.png');
+	background-attachment: fixed;
+	position: fixed;
 	top: 0px;
 	left: 0px;
 	width: 100%;
@@ -14,12 +15,20 @@ header
 header h1, header h2
 	{color: white;}
 
-header img
+header h1 img
 	{width: 33%;}
 	
+#char0
+	{position: fixed;
+	bottom: 0px;}
 
 #__VENC_THREAD__
 	{position: absolute;
 	top: 100%;
 	left: 0px;
+	background-image: url('concrete.png');
+	box-shadow: 0px 0px 32px black;
+	border-top: 1px solid rgba(255,255,255,0.3);
+	z-index: 2;
+	width: 100%;
 	display: block;}
