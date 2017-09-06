@@ -88,7 +88,7 @@ class Entry:
 
         # Setting up authors
         try:
-            self.authors = [ e for e in list(metadata["authors"].split(",") if metadata["authors"] != str() else list()) ]
+            self.authors = [ {"author":e} for e in list(metadata["authors"].split(",") if metadata["authors"] != str() else list()) ]
 
         except KeyError:
             Die(Messages.missingMandatoryFieldInEntry.format("authors", self.id))
