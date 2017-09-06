@@ -51,7 +51,7 @@ class Messages:
     exportArchives="Exportation locale des publications triées par dates..."
     exportMainThread="Exportation locale du fil de publications principal."
     exportMainThreadRss="Exportation locale du flux RSS du fil de publications principal."
-    exportCategories="Exportation locale du fil de publications de la categorie '{0}'."
+    exportCategories="Exportation locale des publications triées par categories..."
     exportCategoriesRss="Exportation locale du flux RSS du fil de publications de la categorie '{0}'."
     missingMandatoryFieldInEntry="Le champ '{0}' dans l'entrée numéro {1} est manquant."
     recursiveForUnknownValue="RecursiveFor: La valeur {0} n'existe pas."

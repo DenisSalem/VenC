@@ -150,7 +150,7 @@ def ExportBlog(argv=list()):
     thread.Do()
     thread = DatesThread(Messages.exportArchives, datastore, theme)
     thread.Do()
-    thread = CategoriesThread(Messages.exportArchives, datastore, theme)
+    thread = CategoriesThread(Messages.exportCategories, datastore, theme)
     thread.Do()
 
     

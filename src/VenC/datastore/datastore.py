@@ -70,14 +70,14 @@ class DataStore:
             self.entries.append(Entry(filename))
 
             ''' Update entriesPerDates '''
-
-            formattedDate = self.entries[-1].date.strftime(self.blogConfiguration["path"]["datesDirectoryName"])
-            entriesIndex = self.GetEntriesIndexForGivenDate(formattedDate)
-            if entriesIndex != None:
-                self.entriesPerDates[entriesIndex].count +=1
-                self.entriesPerDates[entriesIndex].relatedTo.append(entryIndex)
-            else:
-                self.entriesPerDates.append(MetadataNode(formattedDate, entryIndex))
+            if self.blogConfiguration["path"]["datesDirectoryName"] != '':
+                formattedDate = self.entries[-1].date.strftime(self.blogConfiguration["path"]["datesDirectoryName"])
+                entriesIndex = self.GetEntriesIndexForGivenDate(formattedDate)
+                if entriesIndex != None:
+                    self.entriesPerDates[entriesIndex].count +=1
+                    self.entriesPerDates[entriesIndex].relatedTo.append(entryIndex)
+                else:
+                    self.entriesPerDates.append(MetadataNode(formattedDate, entryIndex))
 
 
             ''' Update entriesPerCategories '''
