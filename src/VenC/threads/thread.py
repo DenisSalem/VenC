@@ -22,6 +22,8 @@ import codecs
 from math import ceil
 
 from VenC.helpers import Notify
+from VenC.helpers import Die
+from VenC.l10n import Messages
 from VenC.pattern.processor import Processor
 from VenC.pattern.processor import MergeBatches
 
@@ -133,17 +135,21 @@ class Thread:
             return argv[1]
 
     def FormatFileName(self, pageNumber):
-        if pageNumber == 0:
-            return self.fileName.format({
-                'entryId':'',
-                'pageNumber':''
-            })
+        try:
+            if pageNumber == 0:
+                return self.fileName.format({
+                    'entryId':'',
+                    'pageNumber':''
+                })
         
-        else:
-            return self.fileName.format({
-                'entryId':pageNumber,
-                'pageNumber':pageNumber
-            })
+            else:
+                return self.fileName.format({
+                    'entryId':pageNumber,
+                    'pageNumber':pageNumber
+                })
+
+        except KeyError as e:
+            Die(Messages.variableErrorInFileName.format(str(e)))
 
     # Must be called in child class
     def Do(self):
