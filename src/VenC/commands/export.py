@@ -102,6 +102,7 @@ def ExportBlog(argv=list()):
     processor.SetFunction("GetEntryMetadata", datastore.GetEntryMetadata)
     processor.SetFunction("GetEntryMetadataIfExists", datastore.GetEntryMetadataIfExists)
     processor.SetFunction("GetBlogMetadataIfExists", datastore.GetBlogMetadataIfExists)
+    processor.SetFunction("ForEntryAuthors", datastore.ForEntryAuthors)
     processor.SetFunction("ForEntryTags", datastore.ForEntryTags)
     processor.SetFunction("ForBlogDates", datastore.ForBlogDates)
     processor.SetFunction("ForBlogCategories", datastore.ForBlogCategories)
@@ -110,6 +111,7 @@ def ExportBlog(argv=list()):
     
     # Setup contextual patterns black list
     processor.blacklist.append("GetRelativeOrigin")
+    processor.blacklist.append("IfInThread")
     processor.blacklist.append("GetRelativeLocation")
     processor.blacklist.append("GetNextPage")
     processor.blacklist.append("GetPreviousPage")
