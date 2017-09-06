@@ -171,7 +171,8 @@ class DataStore:
                 self.requestedEntryIndex -= 1
     
     def GetEntryTitle(self, argv=list()):
-        return self.entries[self.requestedEntryIndex].title
+        title = self.entries[self.requestedEntryIndex].title
+        return title if title != None else str()
     
     def GetEntryID(self, argv=list()):
         return self.entries[self.requestedEntryIndex].id
