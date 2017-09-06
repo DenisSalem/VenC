@@ -51,7 +51,7 @@ class Messages:
     exportArchives="Exporting local entries sorted by dates..."
     exportMainThread="Exporting local main entries thread."
     exportMainThreadRss="Exporting local main RSS feed entries."
-    exportCategories="Exporting local categories entries thread named '{0}'."
+    exportCategories="Exporting local entries sorted by categories..."
     exportCategoriesRss="Exporting local entries RSS feed thread from category '{0}'."
     missingMandatoryFieldInEntry="Field '{0}' in entry number {1} is missing."
     forUnknownValue="For: Value {0} isn't defined."
