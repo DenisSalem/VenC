@@ -85,6 +85,7 @@ def ExportBlog(argv=list()):
     processor.SetFunction("GetEntryHour", datastore.GetEntryHour)
     processor.SetFunction("GetEntryMinute", datastore.GetEntryMinute)
     processor.SetFunction("GetEntryDate", datastore.GetEntryDate)
+    processor.SetFunction("GetEntryDateURL", datastore.GetEntryDateURL)
     processor.SetFunction("GetEntryURL", datastore.GetEntryURL)
     
     # General blog data

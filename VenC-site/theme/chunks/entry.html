@@ -1,6 +1,6 @@
       <div class="entry" id="entry.:GetEntryID:." data-venc-keywords=".:ForEntryTags::{0[tag]}::,:." data-venc-authors=".:ForEntryAuthors::{0[author]}::,:.">
-        <h3>#<a href=".:GetEntryURL:.">.:GetEntryID:.</a> .:GetEntryTitle:.</h3>
-        <h4>.:ForEntryAuthors::{0[author]}::, :. - <a href=".:GetEntryDateURL:.">.:GetEntryDate:.</a></h4>
+        <h3>#<a href=".:GetRelativeOrigin:..:GetEntryURL:.">.:GetEntryID:.</a> .:GetEntryTitle:.</h3>
+        <h4>.:ForEntryAuthors::{0[author]}::, :. - <a href=".:GetRelativeOrigin:..:GetEntryDateURL:.">.:GetEntryDate:.</a></h4>
         .:GetEntryContent:.
-        <ul>.:For::EntryCategoriesLeaves::<li><a href="{0[relativeOrigin]}{0[categoryLeafPath]}">{0[categoryLeaf]}</a></li>:: :.</ul>
+        <ul>.:ForEntryCategoriesLeaves::<li><a href="{0[relativeOrigin]}{0[categoryLeafPath]}">{0[categoryLeaf]}</a></li>:: :.</ul>
       </div>
