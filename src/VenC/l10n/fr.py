@@ -76,3 +76,4 @@ class Messages:
     unknownLanguage="Pygments: {0}: Langage inconnu."
     preProcess="Pré-traitement du théme et des publications..."
     directoryNotCopied="Le dossier ne peut être copié. Erreur: %s"
+    variableErrorInFileName="Erreur de variable dans le fichier de configuration principal où les chemins et noms de fichier sont définis: {0} n'existe pas."

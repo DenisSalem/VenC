@@ -112,3 +112,4 @@
 	TODO | Add random number generator
 	TODO | Split install and blog creation chapter in tutorial.
 	TODO | Allow disabling exportation of specific kind of thread
+	TODO | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage)

@@ -1,7 +1,7 @@
 authorDescription: I'm a artist and software engineer
 authorEmail: denissalem 47 tuxfamily D07 org
 authorName: Denis Salem
-blogDescription: VenC official site
+blogDescription: A fancy static blog generator for hackers!
 blogKeywords: blog static free software generator web content python script linux
 blogLanguage: en
 blogName: VenC
@@ -14,9 +14,9 @@ license: CC By-SA
 path:
   categoryDirectoryName: '{category}'
   datesDirectoryName: ''
-  entryFileName: entry{id}.html
+  entryFileName: entry{0[entryId]}.html
   ftp: Chemin absolu de votre blog sur l'hôte FTP.
-  indexFileName: index{pageNumber}.html
+  indexFileName: index{0[pageNumber]}.html
   rssFileName: feed.xml
 reverseThreadOrder: false
 rssThreadLenght: 5

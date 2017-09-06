@@ -77,3 +77,4 @@ class Messages:
     unknownLanguage="Pygments: {0}: Unknown language."
     preProcess="Pre-processing theme and entries..."
     directoryNotCopied="Directory not copied. Error: %s"
+    variableErrorInFileName="Variable error in main configuration file where paths and filenames are defined: {0} n'existe pas."
