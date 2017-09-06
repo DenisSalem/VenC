@@ -196,10 +196,10 @@ class DataStore:
         return self.entries[self.requestedEntryIndex].date.strftime(self.blogConfiguration["dateFormat"])
 
     def GetEntryDateURL(self, argv=list()):
-        return ".:GetRelativeOrigin:."+self.entries[self.requestedEntryIndex].date.strftime(self.blogConfiguration["path"]["datesDirectoryName"])
+        return self.entries[self.requestedEntryIndex].date.strftime(self.blogConfiguration["path"]["datesDirectoryName"])
 
     def GetEntryURL(self, argv=list()):
-        return ".:GetRelativeOrigin:." + self.blogConfiguration["path"]["entryFileName"].format({
+        return self.blogConfiguration["path"]["entryFileName"].format({
             "entryId" : self.entries[self.requestedEntryIndex].id
         })
 
