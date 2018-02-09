@@ -99,7 +99,8 @@
 	DONE | Massive refactorisation, code cleaning and optimisation.
 	DONE | Optimisation of categories tree.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
-	TODO | Add categories tree in entry
+	WIP  | Make code PEP compliant.
+	TODO | Add categories tree in entry.
 	TODO | Add function Include.
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Reorganize themes dependencies in setup.
@@ -107,10 +108,11 @@
 	TODO | Client-side search engine.
 	TODO | Add translation for Deutsch and Spanish.
 	TODO | Add relevant templates for themes.
-	TODO | Support de SSH
-	TODO | Adding LaTeX support
-	TODO | Add random number generator
+	TODO | SSH SUPPORT.
+	TODO | Adding LaTeX support.
+	TODO | Add random number generator.
 	TODO | Split install and blog creation chapter in tutorial.
-	TODO | Allow disabling exportation of specific kind of thread
-	TODO | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage)
-	TODO | Export empty blog
+	TODO | Allow disabling exportation of specific kind of thread.
+	TODO | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage).
+	TODO | Export empty blog.
+	TODO | Serv page
