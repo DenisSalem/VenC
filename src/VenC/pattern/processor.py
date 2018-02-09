@@ -23,9 +23,9 @@ import VenC.helpers
 
 from copy import deepcopy
 
-from VenC.helpers import GetFormattedMessage
-from VenC.helpers import HighlightValue
-from VenC.helpers import RemoveByValue
+from VenC.helpers import get_formatted_message
+from VenC.helpers import highlight_value
+from VenC.helpers import remove_by_value
 from VenC.l10n import Messages
 
 # Special case of KeyError

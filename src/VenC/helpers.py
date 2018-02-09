@@ -26,7 +26,7 @@ import shutil
 
 from VenC.l10n import Messages
 
-MsgFormat = {
+msg_format = {
     "END" : '\033[0m',
     "GREEN" : '\033[92m',
     "RED" : '\033[91m',
@@ -38,33 +38,33 @@ errors=list()
 
 # Some data printed out may exceed few lines so
 # it's nicer to highlight specific part of the output
-def HighlightValue(text, value, color="RED"):
+def highlight_value(text, value, color="RED"):
     return text.replace(
         value,
         MsgFormat[color]+value+MsgFormat["END"]
     )
 
 # Terminate nicely with notification
-def Die(msg,color="RED"):
+def die(msg,color="RED"):
     Notify(msg, color)
     exit()
 
 # Being verborse is nice, with colours it's better
-def Notify(msg, color="GREEN"):
+def notify(msg, color="GREEN"):
     print(GetFormattedMessage(msg, color))
 
 # Take care of setting up colours in printed out message
-def GetFormattedMessage(msg, color="GREEN"):
-    return MsgFormat[color]+"\033[1mVenC: \033[0m"+MsgFormat[color]+msg+MsgFormat["END"]
+def get_formatted_message(msg, color="GREEN"):
+    return msg_format[color]+"\033[1mVenC: \033[0m"+msg_format[color]+msg+msg_format["END"]
 
-def OrderableStrToInt(string):
+def orderable_str_to_int(string):
     try:
         return int(string)
 
     except:
         return -1
 
-def MergeDictionnaries(current,public):
+def merge_dictionnaries(current, public):
     d = current.copy()
     d.update(public)
     return d 
@@ -77,39 +77,39 @@ def GetFormattedDate(unformattedDate, dateFormat):
     )
 '''
 
-def GetListOfPages(entriesPerPage,entriesCount):
-    listOfPages = list()
-    pagesCount = math.ceil(entriesCount/entriesPerPage)
-    for pageNumber in range(0,pagesCount):
-        listOfPages.append(
+def get_list_of_pages(entries_per_page, entries_count):
+    list_of_pages = list()
+    pages_count = math.ceil(entries_count/entries_per_page)
+    for page_number in range(0,pages_count):
+        list_of_pages.append(
             {
-                "pageNumber": pageNumber,
-                "pageUrl": "index"+str(pageNumber)+".html" if pageNumber != 0 else "index.html" 
+                "pageNumber": page_number,
+                "pageUrl": "index"+str(page_number)+".html" if page_number != 0 else "index.html" 
             }
         )
-    return listOfPages
+    return list_of_pages
 
-def RmTreeErrorHandler(function, path, excinfo):
+def rm_tree_error_handler(function, path, excinfo):
     if path == "blog" and excinfo[0] == FileNotFoundError:
-        Notify(Messages.blogFolderDoesntExists,"YELLOW")
+        notify(Messages.blog_folder_doesnt_exists,"YELLOW")
         return
 
-    Notify(str(function),"RED")
-    Notify(str(path),"RED")
-    Notify(str(excinfo[0]),"RED")
+    notify(str(function),"RED")
+    notify(str(path),"RED")
+    notify(str(excinfo[0]),"RED")
     exit()
 
-def GetFilename(indexFileName, pageCounter):
-    return indexFileName.format(page_number=(str(pageCounter) if pageCounter != 0 else str()))
+def get_filename(index_filename, page_counter):
+    return index_filename.format(page_number=(str(page_counter) if page_counter != 0 else str()))
 
-def ExportExtraData(origin, destination=""):
+def export_extra_data(origin, destination=""):
     try:
         folder = os.listdir(origin)
         for item in folder:
             if os.path.isdir(origin+"/"+item):
                 try:
                     os.mkdir(os.getcwd()+"/blog/"+destination+item)
-                    ExportExtraData(origin+'/'+item, item+'/')
+                    export_extra_data(origin+'/'+item, item+'/')
                 except:
                     raise
             else:
@@ -117,5 +117,5 @@ def ExportExtraData(origin, destination=""):
     except:
         raise
 
-def RemoveByValue(l, v):
+def remove_by_value(l, v):
     return [x for x in filter(lambda x : x != v, l)]

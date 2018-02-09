@@ -34,15 +34,15 @@ from VenC.datastore.theme import themes_descriptor
 from VenC.datastore.theme import Theme
 from VenC.helpers import die
 from VenC.helpers import notify
-from VenC.helpers import RmTreeErrorHandler 
+from VenC.helpers import rm_tree_error_handler 
 from VenC.l10n import Messages
-from VenC.pattern.processor import MergeBatches
+from VenC.pattern.processor import merge_batches
 from VenC.pattern.processor import Processor
 from VenC.pattern.processor import PreProcessor
-from VenC.pattern.codeHighlight import CodeHighlight
-from VenC.threads.mainThread import MainThread
-from VenC.threads.datesThread import DatesThread
-from VenC.threads.categoriesThread import CategoriesThread
+from VenC.pattern.code_highlight import CodeHighlight
+from VenC.threads.main_thread import MainThread
+from VenC.threads.dates_thread import DatesThread
+from VenC.threads.categories_thread import CategoriesThread
 
 non_contextual_patterns_name_datastore = [
     # General entry data
@@ -112,7 +112,7 @@ def export_blog(argv=list()):
         else:
             theme_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
     
-        for param in rhemes_descriptor[argv[0]].keys():
+        for param in themes_descriptor[argv[0]].keys():
             if param[0] != "_": # marker to detect field names we do not want to replace
                 datastore.blog_configuration[param] = themes_descriptor[argv[0]][param]
 
@@ -135,79 +135,79 @@ def export_blog(argv=list()):
         processor.blacklist.append(pattern_name)
 
     # List of patterns where we want to remove <p></p> tag
-    processor.cleanAfterAndBefore.append("CodeHighlight")
+    processor.clean_after_and_before.append("CodeHighlight")
 
     notify(messages.pre_process)
 
     # Now we want to perform first parsing pass on entries and chunk
     for entry in datastore.get_entries():
         # Every chunks are preprocessed again because of contextual patterns
-        entry.content = PreProcessor(MergeBatches(processor.BatchProcess(entry.content, not entry.doNotUseMarkdown)))
+        entry.content = PreProcessor(merge_batches(processor.batch_process(entry.content, not entry.do_not_use_markdown)))
 
-        entry.htmlWrapper = deepcopy(theme.entry)
-        entry.htmlWrapper.above = PreProcessor(MergeBatches(processor.BatchProcess(entry.htmlWrapper.above, not entry.doNotUseMarkdown)))
-        entry.htmlWrapper.below = PreProcessor(MergeBatches(processor.BatchProcess(entry.htmlWrapper.below, not entry.doNotUseMarkdown)))
+        entry.html_wrapper = deepcopy(theme.entry)
+        entry.html_wrapper.above = PreProcessor(mergeBatches(processor.batch_process(entry.html_wrapper.above, not entry.do_not_use_markdown)))
+        entry.html_wrapper.below = PreProcessor(mergeBatches(processor.batch_process(entry.html_wrapper.below, not entry.do_not_use_markdown)))
         
-        entry.rssWrapper = deepcopy(theme.rssEntry)
-        entry.rssWrapper.above = PreProcessor(MergeBatches(processor.BatchProcess(entry.rssWrapper.above, not entry.doNotUseMarkdown)))
-        entry.rssWrapper.below = PreProcessor(MergeBatches(processor.BatchProcess(entry.rssWrapper.below, not entry.doNotUseMarkdown)))
+        entry.rss_wrapper = deepcopy(theme.rssEntry)
+        entry.rss_wrapper.above = PreProcessor(merge_batches(processor.batch_process(entry.rss_wrapper.above, not entry.do_not_use_markdown)))
+        entry.rss_wrapper.below = PreProcessor(merge_batches(processor.batch_process(entry.rss_wrapper.below, not entry.do_not_use_markdown)))
 
-    theme.header = PreProcessor(MergeBatches(processor.BatchProcess(theme.header)))
-    theme.footer = PreProcessor(MergeBatches( processor.BatchProcess(theme.footer)))
-    theme.rssHeader = PreProcessor(MergeBatches(processor.BatchProcess(theme.rssHeader)))
-    theme.rssFooter = PreProcessor(MergeBatches(processor.BatchProcess(theme.rssFooter)))
+    theme.header = PreProcessor(merge_batches(processor.batch_process(theme.header)))
+    theme.footer = PreProcessor(merge_batches(processor.batch_process(theme.footer)))
+    theme.rssHeader = PreProcessor(merge_batches(processor.batch_process(theme.rss_header)))
+    theme.rssFooter = PreProcessor(merge_batches(processor.batch_process(theme.rss_footer)))
 
     # cleaning directory
-    shutil.rmtree("blog", ignore_errors=False, onerror=RmTreeErrorHandler)
+    shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
 
     # Starting second pass and exporting
 
-    thread = MainThread(Messages.exportMainThread, datastore, theme)
+    thread = MainThread(Messages.export_main_thread, datastore, theme)
     thread.Do()
-    thread = DatesThread(Messages.exportArchives, datastore, theme)
+    thread = DatesThread(Messages.export_archives, datastore, theme)
     thread.Do()
-    thread = CategoriesThread(Messages.exportCategories, datastore, theme)
+    thread = CategoriesThread(Messages.export_categories, datastore, theme)
     thread.Do()
 
     # Copy assets and extra files
 
     #codeHighlight.ExportStyleSheets()
-    CopyRecursively("extra/","blog/")
-    CopyRecursively("theme/assets/","blog/")
+    copy_recursively("extra/","blog/")
+    copy_recursively("theme/assets/","blog/")
 
  
-def CopyRecursively(src, dest):
+def copy_recursively(src, dest):
     for filename in os.listdir(src):
         try:
             shutil.copytree(src+filename, dest+filename)
     
         except shutil.Error as e:
-            Notify(Messages.directoryNotCopied % e, "YELLOW")
+            notify(Messages.directory_not_copied % e, "YELLOW")
 
         except OSError as e:
             if e.errno == errno.ENOTDIR:
                 shutil.copy(src+filename, dest+filename)
 
             else:
-                Notify(Messages.directoryNotCopied % e, "YELLOW")
+                notify(Messages.directory_not_copied % e, "YELLOW")
 
 
-def EditAndExport(argv):
-    blogConfiguration = GetBlogConfiguration()
+def edit_and_export(argv):
+    blog_configuration = get_blog_configuration()
 
     if len(argv) != 1:
-        Die(Messages.missingParams.format("--edit-and-export"))
+        die(Messages.missing_params.format("--edit-and-export"))
     
     try:
-        proc = subprocess.Popen([blogConfiguration["textEditor"], argv[0]])
+        proc = subprocess.Popen([blog_configuration["textEditor"], argv[0]])
         while proc.poll() == None:
             pass
 
     except TypeError:
-        Die(Messages.unknownTextEditor.format(blogConfiguration["textEditor"]))
+        die(Messages.unknown_text_editor.format(blog_configuration["textEditor"]))
     
     except:
         raise
     
-    ExportBlog()
+    export_blog()
