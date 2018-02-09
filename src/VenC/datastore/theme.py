@@ -22,7 +22,7 @@ from VenC.helpers import Die
 from VenC.l10n import Messages
 from VenC.pattern.processor import PreProcessor
 
-ThemesDescriptor = {
+themes_descriptor = {
     "dummy": {"columns":1,"_themeDescription_": Messages.themeDescriptionDummy},
     "gentle": {"columns":1,"_themeDescription_": Messages.themeDescriptionGentle},
     "tessellation": {"columns":3,"_themeDescription_": Messages.themeDescriptionTessellation},

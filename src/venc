@@ -19,66 +19,66 @@
 
 import sys
 
-from VenC.commands.export import ExportBlog
-from VenC.commands.export import EditAndExport
-from VenC.commands.export import ExportAndRemoteCopy
-from VenC.commands.install import InstallTheme
-from VenC.commands.new import NewBlog
-from VenC.commands.new import NewEntry
-from VenC.commands.print import PrintVersion
-from VenC.commands.print import PrintThemes
-from VenC.commands.print import PrintHelp
-from VenC.commands.remote import RemoteCopy
-from VenC.helpers import Notify
+from VenC.commands.export import export_blog
+from VenC.commands.export import edit_and_export
+from VenC.commands.export import export_and_remote_copy
+from VenC.commands.install import install_theme
+from VenC.commands.new import new_blog
+from VenC.commands.new import new_entry
+from VenC.commands.print import print_version
+from VenC.commands.print import print_themes
+from VenC.commands.print import print_help
+from VenC.commands.remote import remote_copy
+from VenC.helpers import notify
 from VenC.l10n import Messages; 
 
-commandIndex = {"-v":                   [PrintVersion, 0],
-                "-nb":                  [NewBlog, -1],
-                "-ne":                  [NewEntry, 2],
-                "-xb":                  [ExportBlog, 1],
-                "-ex":                  [EditAndExport, 1],
-                "-xftp":                [ExportAndRemoteCopy, 1],
-                "-rc":                  [RemoteCopy, 0],
-                "-it":                  [InstallTheme, 1],
-                "-h":                   [PrintHelp, 0],
-                "-t":                   [PrintThemes, 0],
-                "--themes":             [PrintThemes, 0],
-                "--help":               [PrintHelp, 0],
-                "--remote-copy":        [RemoteCopy, 0],
-                "--export-via-ftp":     [ExportAndRemoteCopy, 1],
-                "--edit-and-export":    [EditAndExport, 1],
-                "--install-theme":      [InstallTheme, 1],
-                "--export-blog":        [ExportBlog, 1],
-                "--new-entry":          [NewEntry, 2],
-                "--new-blog":           [NewBlog, -1],
-                "--version":            [PrintVersion, 0]}
+command_index = {"-v":                  [print_version, 0],
+                "-nb":                  [new_blog, -1],
+                "-ne":                  [new_entry, 2],
+                "-xb":                  [export_blog, 1],
+                "-ex":                  [edit_and_export, 1],
+                "-xftp":                [export_and_remote_copy, 1],
+                "-rc":                  [remote_copy, 0],
+                "-it":                  [install_theme, 1],
+                "-h":                   [print_help, 0],
+                "-t":                   [print_themes, 0],
+                "--themes":             [print_themes, 0],
+                "--help":               [print_help, 0],
+                "--remote-copy":        [remote_copy, 0],
+                "--export-via-ftp":     [export_and_remote_copy, 1],
+                "--edit-and-export":    [edit_and_export, 1],
+                "--install-theme":      [install_theme, 1],
+                "--export-blog":        [export_llog, 1],
+                "--new-entry":          [new_entry, 2],
+                "--new-blog":           [new_blog, -1],
+                "--version":            [print_version, 0]}
 
 def argv_handler(argv=None):
     argv = argv if argv != None else sys.argv[1:]
     if argv != []: 
-       if argv[0] in commandIndex:
-           if commandIndex[argv[0]][1] != -1: 
-               arguments = argv[1:commandIndex[argv[0]][1]+1]
+       if argv[0] in command_index:
+           if command_index[argv[0]][1] != -1: 
+               arguments = argv[1:command_index[argv[0]][1]+1]
            
            else:
                arguments = list()
                for argument in argv[1:]:
-                   if argument not in commandIndex.keys():
+                   if argument not in command_index.keys():
                        arguments.append(argument)
 
                    else:
                        break
 
-           commandIndex[argv[0]][0](arguments)
+           command_index[argv[0]][0](arguments)
            argv_handler(argv[len(arguments)+1:])
 
        else:
-           Notify(Messages.unknownCommand.format(argv[0]),"RED")
+           notify(Messages.unknownCommand.format(argv[0]),"RED")
            argv_handler(argv[1:])
 
 if sys.argv[1:] != []: 
     argv_handler()
 
 else:
-    Notify(Messages.nothingToDo,"YELLOW")
+    notify(Messages.nothing_to_do,"YELLOW")
 

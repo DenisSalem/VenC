@@ -28,12 +28,12 @@ import subprocess
 
 import VenC.l10n
 
-from VenC.datastore.configuration import GetBlogConfiguration
+from VenC.datastore.configuration import get_blog_configuration
 from VenC.datastore.datastore import DataStore
-from VenC.datastore.theme import ThemesDescriptor
+from VenC.datastore.theme import themes_descriptor
 from VenC.datastore.theme import Theme
-from VenC.helpers import Die
-from VenC.helpers import Notify
+from VenC.helpers import die
+from VenC.helpers import notify
 from VenC.helpers import RmTreeErrorHandler 
 from VenC.l10n import Messages
 from VenC.pattern.processor import MergeBatches
@@ -44,91 +44,105 @@ from VenC.threads.mainThread import MainThread
 from VenC.threads.datesThread import DatesThread
 from VenC.threads.categoriesThread import CategoriesThread
 
-def ExportAndRemoteCopy(argv=list()):
-    Notify(Messages.blogRecompilation)
-    ExportBlog(argv)
-    RemoteCopy()
+non_contextual_patterns_name_datastore = [
+    # General entry data
+    "GetEntryTitle",
+    "GetEntryID",
+    "GetEntryYear",
+    "GetEntryMonth",
+    "GetEntryDay", 
+    "GetEntryHour",
+    "GetEntryMinute",
+    "GetEntryDate", 
+    "GetEntryDateURL",
+    "GetEntryURL",
+    
+    # General blog data
+    "GetAuthorName", 
+    "GetBlogName", 
+    "GetBlogDescription", 
+    "GetBlogKeywords", 
+    "GetAuthorDescription", 
+    "GetBlogLicense", 
+    "GetBlogURL", 
+    "GetBlogLanguage",
+    "GetAuthorEmail", 
 
-def ExportBlog(argv=list()):
+    # Extra metadata getter
+    "GetEntryMetadata", 
+    "GetEntryMetadataIfExists", 
+    "GetBlogMetadataIfExists", 
+    "ForEntryAuthors", 
+    "ForEntryTags", 
+    "ForBlogDates", 
+    "ForBlogCategories",
+]
+
+non_contextual_patterns_name_code_highlight = [
+    "CodeHighlight",
+    "GetStyleSheets"
+]
+
+contextual_patterns_blacklist = [
+    "GetRelativeOrigin",
+    "IfInThread",
+    "GetRelativeLocation",
+    "GetNextPage",
+    "GetPreviousPage",
+    "ForPages"
+]
+
+def export_and_remote_copy(argv=list()):
+    notify(Messages.blog_recompilation)
+    export_blog(argv)
+    remote_copy()
+
+def export_blog(argv=list()):
 
     # Initialisation of environment
     datastore = DataStore()
 
     # Initialisation of theme
-    themeFolder = "theme/"
+    theme_folder = "theme/"
 
     if len(argv) == 1:
-        if not argv[0] in ThemesDescriptor.keys():
-            Die(Messages.themeDoesntExists.format(argv[0]))
+        if not argv[0] in themes_descriptor.keys():
+            die(Messages.theme_doesnt_exists.format(argv[0]))
         
         else:
-            themeFolder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
+            theme_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
     
-        for param in ThemesDescriptor[argv[0]].keys():
+        for param in rhemes_descriptor[argv[0]].keys():
             if param[0] != "_": # marker to detect field names we do not want to replace
-                datastore.blogConfiguration[param] = ThemesDescriptor[argv[0]][param]
+                datastore.blog_configuration[param] = themes_descriptor[argv[0]][param]
 
-    theme = Theme(themeFolder)
+    theme = Theme(theme_folder)
 
-    codeHighlight = CodeHighlight()
+    code_highlight = CodeHighlight()
 
     # Set up of non-contextual patterns
     
     processor = Processor()
 
-    # General entry data
-    processor.SetFunction("GetEntryTitle", datastore.GetEntryTitle)
-    processor.SetFunction("GetEntryID", datastore.GetEntryID)
-    processor.SetFunction("GetEntryYear", datastore.GetEntryYear)
-    processor.SetFunction("GetEntryMonth", datastore.GetEntryMonth)
-    processor.SetFunction("GetEntryDay", datastore.GetEntryDay)
-    processor.SetFunction("GetEntryHour", datastore.GetEntryHour)
-    processor.SetFunction("GetEntryMinute", datastore.GetEntryMinute)
-    processor.SetFunction("GetEntryDate", datastore.GetEntryDate)
-    processor.SetFunction("GetEntryDateURL", datastore.GetEntryDateURL)
-    processor.SetFunction("GetEntryURL", datastore.GetEntryURL)
+    for pattern_name in non_contextual_patterns_name_datastore:
+        processor.set_function(pattern_name, getattr(datastore, pattern_name)
     
-    # General blog data
-    processor.SetFunction("GetAuthorName", datastore.GetAuthorName)
-    processor.SetFunction("GetBlogName", datastore.GetBlogName)
-    processor.SetFunction("GetBlogDescription", datastore.GetBlogDescription)
-    processor.SetFunction("GetBlogKeywords", datastore.GetBlogKeywords)
-    processor.SetFunction("GetAuthorDescription", datastore.GetAuthorDescription)
-    processor.SetFunction("GetBlogLicense", datastore.GetBlogLicense)
-    processor.SetFunction("GetBlogURL", datastore.GetBlogURL)
-    processor.SetFunction("GetBlogLanguage", datastore.GetBlogLanguage)
-    processor.SetFunction("GetAuthorEmail", datastore.GetAuthorEmail)
-
-    # Extra metadata getter
-    processor.SetFunction("GetEntryMetadata", datastore.GetEntryMetadata)
-    processor.SetFunction("GetEntryMetadataIfExists", datastore.GetEntryMetadataIfExists)
-    processor.SetFunction("GetBlogMetadataIfExists", datastore.GetBlogMetadataIfExists)
-    processor.SetFunction("ForEntryAuthors", datastore.ForEntryAuthors)
-    processor.SetFunction("ForEntryTags", datastore.ForEntryTags)
-    processor.SetFunction("ForBlogDates", datastore.ForBlogDates)
-    processor.SetFunction("ForBlogCategories", datastore.ForBlogCategories)
-    processor.SetFunction("CodeHighlight", codeHighlight.Highlight)
-    processor.SetFunction("GetStyleSheets", codeHighlight.GetStyleSheets)
+    for pattern_name in non_contextual_patterns_name_code_highlight:
+        processor.set_function(pattern_name, getattr(code_highligth, pattern_name)
     
     # Setup contextual patterns black list
-    processor.blacklist.append("GetRelativeOrigin")
-    processor.blacklist.append("IfInThread")
-    processor.blacklist.append("GetRelativeLocation")
-    processor.blacklist.append("GetNextPage")
-    processor.blacklist.append("GetPreviousPage")
-    processor.blacklist.append("ForPages")
+    for pattern_name in contextual_patterns_blacklist:
+        processor.blacklist.append(pattern_name)
 
     # List of patterns where we want to remove <p></p> tag
     processor.cleanAfterAndBefore.append("CodeHighlight")
 
-    Notify(Messages.preProcess)
+    notify(messages.pre_process)
 
     # Now we want to perform first parsing pass on entries and chunk
-    
-    
-    for entry in datastore.GetEntries():
+    for entry in datastore.get_entries():
         # Every chunks are preprocessed again because of contextual patterns
-        entry.content = PreProcessor(MergeBatches( processor.BatchProcess(entry.content, not entry.doNotUseMarkdown)))
+        entry.content = PreProcessor(MergeBatches(processor.BatchProcess(entry.content, not entry.doNotUseMarkdown)))
 
         entry.htmlWrapper = deepcopy(theme.entry)
         entry.htmlWrapper.above = PreProcessor(MergeBatches(processor.BatchProcess(entry.htmlWrapper.above, not entry.doNotUseMarkdown)))
@@ -155,9 +169,6 @@ def ExportBlog(argv=list()):
     thread.Do()
     thread = CategoriesThread(Messages.exportCategories, datastore, theme)
     thread.Do()
-
-    
-
 
     # Copy assets and extra files
 
