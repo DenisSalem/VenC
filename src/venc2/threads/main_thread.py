@@ -17,9 +17,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from VenC.threads.thread import Thread
-from VenC.pattern.processor import UnknownContextual
-from VenC.pattern.processor import MergeBatches
+from venc2.threads.thread import Thread
+from venc2.pattern.processor import UnknownContextual
+from venc2.pattern.processor import MergeBatches
 
 class MainThread(Thread):
     def __init__(self, prompt, datastore, theme):

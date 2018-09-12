@@ -21,9 +21,9 @@ import locale
 
 currentLocale = locale.getlocale()[0].split('_')[0]
 if currentLocale == 'fr':
-    from VenC.l10n import fr as language
+    from venc2.l10n import fr as language
 
 else:
-    from VenC.l10n import en as language
+    from venc2.l10n import en as language
 
-Messages = language.Messages()
+messages = language.Messages()

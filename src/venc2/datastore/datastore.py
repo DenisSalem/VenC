@@ -1,6 +1,6 @@
 #! /usr/bin/python
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -17,11 +17,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from VenC.datastore.configuration import GetBlogConfiguration
-from VenC.datastore.entry import YieldEntriesContent
-from VenC.datastore.entry import Entry
-from VenC.datastore.metadata import MetadataNode
-from VenC.pattern.codeHighlight import CodeHighlight
+from venc2.datastore.configuration import get_blog_configuration
+from venc2.datastore.entry import yield_entries_content
+from venc2.datastore.entry import Entry
+from venc2.datastore.metadata import MetadataNode
+from venc2.pattern.codeHighlight import CodeHighlight
 
 # Generic method used to iterate
 def For(iterable, argv):

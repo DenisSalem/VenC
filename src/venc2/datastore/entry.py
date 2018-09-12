@@ -23,12 +23,12 @@ import os
 import time
 import yaml
 
-from VenC.helpers import Die
-from VenC.helpers import Notify
+from venc2.helpers import die
+from venc2.helpers import notify
 
-from VenC.l10n import Messages
-from VenC.datastore.metadata import MetadataNode
-from VenC.pattern.processor import PreProcessor
+from venc2.l10n import messages
+from venc2.datastore.metadata import MetadataNode
+from venc2.pattern.processor import PreProcessor
 
 class EntryWrapper:
     def __init__(self, wrapper):
@@ -38,21 +38,21 @@ class EntryWrapper:
             self.below = PreProcessor(w[1])
 
         except IndexError:
-            Die(Messages.missingEntryContentInclusion)
+            die(messages.missing_entry_content_inclusion)
 
 class Entry:
     def __init__(self, filename):
         # Loading
-        rawData = open(os.getcwd()+"/entries/"+filename,'r').read()
-        rawContent = rawData.split("---\n")[1]
+        raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()
+        raw_content = raw_data.split("---\n")[1]
         try:
             metadata = yaml.load(rawData.split("---\n")[0])
 
         except yaml.scanner.ScannerError:
-            Die(Messages.possibleMalformedEntry.format(entryFilename))
+            die(messages.possible_malformed_entry.format(entry_filename))
 
         if metadata == None:
-            Die(Messages.possibleMalformedEntry.format(entryFilename))
+            die(messages.possible_malformed_entry.format(entry_filename))
 
         # Setting up optional metadata
         for key in metadata.keys():
@@ -70,7 +70,7 @@ class Entry:
         self.id = filename.split('__')[0]
         
         # Set up date
-        rawDate = filename.split('__')[1].split('-')
+        raw_date = filename.split('__')[1].split('-')
         self.date = datetime.datetime(
             year=int(rawDate[2]),
             month=int(rawDate[0]),
@@ -84,14 +84,14 @@ class Entry:
             self.title = metadata["title"]
 
         except KeyError:
-            Die(Messages.missingMandatoryFieldInEntry.format("title", self.id))
+            die(messages.missing_mandatory_field_in_entry.format("title", self.id))
 
         # Setting up authors
         try:
             self.authors = [ {"author":e} for e in list(metadata["authors"].split(",") if metadata["authors"] != str() else list()) ]
 
         except KeyError:
-            Die(Messages.missingMandatoryFieldInEntry.format("authors", self.id))
+            die(messages.missing_mandatory_field_in_entry.format("authors", self.id))
 
         # Setting up content
         try:
@@ -99,32 +99,30 @@ class Entry:
 
         except:
             raise
-            Die(Messages.possibleMalformedEntry.format(self.id))
+            die(messages.possible_malformed_entry.format(self.id))
 
         ''' Setting up tags '''
         try:
             self.tags = [ {"tag":e} for e in list(metadata["tags"].split(",") if metadata["tags"] != str() else list())]
 
         except KeyError:
-            Die(Messages.missingMandatoryFieldInEntry.format("tags", self.id))
-
-
+            die(messages.missing_mandatory_field_in_entry.format("tags", self.id))
 
         ''' Setting up categories'''
-        self.categoriesLeaves = list()
-        self.categoriesNodesReference = list()
-        self.rawCategories = metadata["categories"].split(',')
+        self.categories_leaves = list()
+        self.categories_nodes_reference = list()
+        self.raw_categories = metadata["categories"].split(',')
         try:
-            for category in self.rawCategories:
-                categoryLeaf = category.split(' > ')[-1].strip()
-                if len(categoryLeaf) != 0:
-                    categoryLeafUrl = str()
-                    for subCategory in category.split(' > '):
-                        categoryLeafUrl +=subCategory.strip()+'/'
+            for category in self.raw_categories:
+                category_leaf = category.split(' > ')[-1].strip()
+                if len(category_leaf) != 0:
+                    category_leaf_url = str()
+                    for sub_category in category.split(' > '):
+                        category_leaf_url +=sub_category.strip()+'/'
                 
-                    self.categoriesLeaves.append({
-                        "categoryLeaf": categoryLeaf,
-                        "categoryLeafPath":categoryLeafUrl
+                    self.categories_leaves.append({
+                        "categoryLeaf": category_leaf,
+                        "categoryLeafPath":category_leaf_url
                     })
 
         except IndexError : # when list is empty
@@ -134,16 +132,16 @@ class Entry:
         pass
 
 ''' Iterate through entries folder '''
-def YieldEntriesContent():
+def yield_entries_content():
     try:
         for filename in sorted(
             os.listdir(os.getcwd()+"/entries"),
-            key = lambda entryId : int(entryId.split("__")[0])
+            key = lambda entry_id : int(entry_id.split("__")[0])
         ):
-            explodedFilename = filename.split("__")
+            exploded_filename = filename.split("__")
             try:
-                date = explodedFilename[1].split('-')
-                entryID = int(explodedFilename[0])
+                date = exploded_filename[1].split('-')
+                entry_id = int(exploded_filename[0])
                 datetime.datetime(
                     year=int(date[2]),
                     month=int(date[0]),
@@ -151,27 +149,27 @@ def YieldEntriesContent():
                     hour=int(date[3]),
                     minute=int(date[4])
                 ) 
-                if entryID > 0:
+                if entry_id > 0:
                     yield filename
 
                 else:
                     raise ValueError
 
             except ValueError:
-                Notify(Messages.invalidEntryFilename.format(filename), "YELLOW")
+                notify(messages.invalid_entry_filename.format(filename), "YELLOW")
 
             except IndexError:
-                Notify(Messages.invalidEntryFilename.format(filename), "YELLOW")
+                notify(messages.invalid_entry_filename.format(filename), "YELLOW")
     
     except FileNotFoundError:
-        Die(Messages.fileNotFound.format(os.getcwd()+"/entries"))
+        die(messages.file_not_found.format(os.getcwd()+"/entries"))
 
 
 ''' User for set the id of new entry '''
-def GetLatestEntryID():
-    entriesList = sorted(YieldEntriesContent(), key = lambda entry : int(entry.split("__")[0]))
-    if len(entriesList) != 0:
-        return int(entriesList[-1].split("__")[0])
+def get_latest_entryID():
+    entries_list = sorted(yield_entries_content(), key = lambda entry : int(entry.split("__")[0]))
+    if len(entries_list) != 0:
+        return int(entries_list[-1].split("__")[0])
     else:
         return 0
 
