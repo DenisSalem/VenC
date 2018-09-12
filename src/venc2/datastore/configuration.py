@@ -20,15 +20,15 @@
 import os
 import yaml
 
-from VenC.helpers import Die
-from VenC.helpers import Notify
-from VenC.l10n import Messages
+from venc2.helpers import die
+from venc2.helpers import notify
+from venc2.l10n import messages
 
-def GetBlogConfiguration():
+def get_blog_configuration():
     try:
-        blogConfiguration = yaml.load(open(os.getcwd()+"/blogConfiguration.yaml",'r').read())
+        blog_configuration = yaml.load(open(os.getcwd()+"/blogConfiguration.yaml",'r').read())
         
-        mandatoryFields = [
+        mandatory_fields = [
             "blogName",
             "textEditor",
             "dateFormat",
@@ -47,13 +47,13 @@ def GetBlogConfiguration():
             "reverseThreadOrder"
         ]
 
-        everythingIsOkay = True
-        for field in mandatoryFields:
-            if not field in blogConfiguration.keys():
-                everythingIsOkay = False
-                Notify(Messages.missingMandatoryFieldInBlogConf.format(field),"RED")
+        everything_is_okay = True
+        for field in mandatory_fields:
+            if not field in blog_configuration.keys():
+                everything_is_okay = False
+                notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
         
-        mandatoryFields = [
+        mandatory_fields = [
             "indexFileName",
 	    "categoryDirectoryName",
 	    "datesDirectoryName",
@@ -62,21 +62,21 @@ def GetBlogConfiguration():
             "ftp"
         ]
 
-        for field in mandatoryFields:
-            if not field in blogConfiguration["path"].keys():
-                everythingIsOkay = False
-                Notify(Messages.missingMandatoryFieldInBlogConf.format(field),"RED")
+        for field in mandatory_fields:
+            if not field in blog_configuration["path"].keys():
+                everything_is_okay = False
+                notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
 
-        if not everythingIsOkay:
+        if not everything_is_okay:
             exit()
 
-        return blogConfiguration
+        return blog_configuration
 
     except FileNotFoundError:
-        Die(Messages.noBlogConfiguration)
+        die(messages.no_blog_configuration)
 
     except PermissionError:
-        Die(Messages.noBlogConfiguration)
+        die(messages.no_blog_configuration)
 
     except yaml.scanner.ScannerError:
-        Die(Messages.possibleMalformedBlogConfiguration)
+        die(messages.possible_malformed_blogC_configuration)

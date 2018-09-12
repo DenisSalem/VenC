@@ -21,10 +21,10 @@ import datetime
 import os
 import shutil
 
-from VenC.datastore.configuration import GetBlogConfiguration
-from VenC.helpers import Notify
-from VenC.helpers import Die
-from VenC.l10n import Messages
+from venc2.datastore.configuration import GetBlogConfiguration
+from venc2.helpers import Notify
+from venc2.helpers import Die
+from venc2.l10n import Messages
 
 def InstallTheme(argv):
     blogConfiguration = GetBlogConfiguration()

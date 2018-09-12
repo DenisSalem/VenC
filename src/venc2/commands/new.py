@@ -23,15 +23,15 @@ import codecs
 import datetime
 import subprocess
 
-from VenC.datastore.configuration import GetBlogConfiguration
-from VenC.datastore.entry import YieldEntriesContent
-from VenC.helpers import Notify
-from VenC.helpers import Die
-from VenC.l10n import Messages
+from venc2.datastore.configuration import get_blog_configuration
+from venc2.datastore.entry import yield_entries_content
+from venc2.helpers import Notify
+from venc2.helpers import Die
+from venc2.l10n import messages
 
-import VenC.datastore.entry as Entry
-import VenC.pattern as Pattern
-import VenC.helpers as Helpers
+import venc2.datastore.entry as Entry
+import venc2.pattern as Pattern
+import venc2.helpers as Helpers
 
 # Hold methods associated to patterns
 class MinimalEntry:
@@ -39,10 +39,10 @@ class MinimalEntry:
         for key in data.keys():
             setattr(self, key, data["key"])
 
-def NewEntry(argv):
-    blogConfiguration = GetBlogConfiguration()
+def new_entry(argv):
+    blog_configuration = get_blog_configuration()
     if len(argv) < 1:
-        Die(Messages.missingParams.format("--new-entry"))
+        die(messages.missing_params.format("--new-entry"))
             
     content =   {"authors":	"",
 		"tags":		"",
@@ -53,29 +53,30 @@ def NewEntry(argv):
         wd = os.listdir(os.getcwd())
 
     except OSError:
-        Die(Messages.cannotReadIn.format(os.getcwd()))
+        die(messages.cannot_rRead_in.format(os.getcwd()))
 
     date = datetime.datetime.now()
 
     entry = dict()
-    rawEntryDate = datetime.datetime.now()
+    raw_entry_date = datetime.datetime.now()
     try:
-        entry["ID"] = max([ int(filename.split("__")[0]) for filename in YieldEntriesContent()]) + 1
+        entry["ID"] = max([ int(filename.split("__")[0]) for filename in yield_entries_content()]) + 1
+
     except ValueError:
         entry["ID"] = 1
 
     entry["title"] = argv[0]
-    entry["month"] = rawEntryDate.month
-    entry["year"] = rawEntryDate.year
-    entry["day"] = rawEntryDate.day
-    entry["hour"] = rawEntryDate.hour
-    entry["minute"] = rawEntryDate.minute
-    entry["date"] = rawEntryDate
+    entry["month"] = raw_entry_date.month
+    entry["year"] = raw_entry_date.year
+    entry["day"] = raw_entry_date.day
+    entry["hour"] = raw_entry_date.hour
+    entry["minute"] = raw_entry_date.minute
+    entry["date"] = raw_entry_date
 
 
 
-    entryDate = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
-    outputFilename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entryDate+"__"+entry["title"].replace(' ','_')
+    entry_date = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
+    output_filename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entry_date+"__"+entry["title"].replace(' ','_')
 
     stream = codecs.open(outputFilename,'w',encoding="utf-8")
     if len(argv) == 1:
@@ -86,38 +87,38 @@ def NewEntry(argv):
             output = open(os.getcwd()+'/templates/'+argv[1], 'r').read()
 
         except FileNotFoundError as e:
-            Die(Messages.fileNotFound.format(os.getcwd()+"/templates/"+argv[1]))
+            die(messages.file_not_found.format(os.getcwd()+"/templates/"+argv[1]))
 
     stream.write(output)
     stream.close()
 
     try:
-        command = blogConfiguration["textEditor"].split(' ')
-        command.append(outputFilename)
+        command = blog_configuration["textEditor"].split(' ')
+        command.append(output_filename)
         subprocess.call(command) 
 
     except FileNotFoundError:
-        Die(Messages.unknownCommand.format(blogConfiguration["textEditor"]))
+        die(messages.unknown_command.format(blog_configuration["textEditor"]))
 
-    Notify(Messages.entryWritten)
+    notify(messages.entry_written)
 
-def NewBlog(argv):
+def new_blog(argv):
     if len(argv) < 1:
-        Die(Messages.missingParams.format("--new-blog"))
+        die(Messages.missingParams.format("--new-blog"))
 
-    default_configuration =	{"blogName":			Messages.blogName,
+    default_configuration =	{"blogName":			messages.blog_name,
                                 "textEditor":                   "nano",
                                 "dateFormat":                  "%A %d. %B %Y",
-				"authorName":			Messages.yourName,
-				"blogDescription":		Messages.blogDescription,
-				"blogKeywords":		        Messages.blogKeywords,
-				"authorDescription":		Messages.aboutYou,
-				"license":			Messages.license,
-				"blogUrl":			Messages.blogUrl,
-                                "ftpHost":                      Messages.ftpHost,
-				"blogLanguage":		        Messages.blogLanguage,
-				"authorEmail":			Messages.yourEmail,
-				"path":				{"ftp":                         Messages.ftpPath,
+				"authorName":			messages.your_name,
+				"blogDescription":		messages.blog_description,
+				"blogKeywords":		        messages.blog_keywords,
+				"authorDescription":		messages.about_you,
+				"license":			messages.license,
+				"blogUrl":			messages.blog_url,
+                                "ftpHost":                      messages.ftp_host,
+				"blogLanguage":		        messages.blog_language,
+				"authorEmail":			messages.your_email,
+				"path":				{"ftp":                         messages.ftp_path,
                                                                 "indexFileName":		"index{0[pageNumber]}.html",
 								"categoryDirectoryName":	"{category}",
 								"datesDirectoryName":		"%Y-%m",
@@ -132,7 +133,7 @@ def NewBlog(argv):
             os.mkdir(folder_name)
 
         except OSError:
-            Die(Messages.fileAlreadyExists.format("--new-blog",os.getcwd()+'/'+folder_name))
+            die(messages.file_already_exists.format("--new-blog",os.getcwd()+'/'+folder_name))
 
         os.mkdir(folder_name+'/'+"blog")
         os.mkdir(folder_name+'/'+"entries")
@@ -142,4 +143,4 @@ def NewBlog(argv):
         stream = codecs.open(folder_name+'/'+'blogConfiguration.yaml', 'w',encoding="utf-8")
         yaml.dump(default_configuration, stream, default_flow_style=False, allow_unicode=True)
 
-    Notify(Messages.blogCreated)
+    notify(messages.blog_created)

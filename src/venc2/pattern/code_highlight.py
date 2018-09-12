@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -21,21 +21,21 @@ import os
 import pygments.lexers
 import pygments.formatters
 
-from VenC.helpers import Notify
-from VenC.l10n import Messages
+from venc2.helpers import notify
+from venc2.l10n import messages
 
 class CodeHighlight:
     def __init__(self):
         self.includes = dict()
 
-    def GetStyleSheets(self, argv=list()):
+    def get_style_sheets(self, argv=list()):
         output = str()
         for filename in self.includes.keys():
             output += "<link rel=\"stylesheet\" href=\".:GetRelativeOrigin:."+filename+" type=\"text/css\" />\n"
 
         return output
 
-    def ExportStyleSheets(self):
+    def export_style_sheets(self):
         extra = os.listdir(os.getcwd()+"/extra/")
         
         for key in self.includes:
@@ -43,7 +43,7 @@ class CodeHighlight:
                 stream = open(os.getcwd()+"/extra/"+key,'w')
                 stream.write(self.includes[key])
 
-    def Highlight(self, argv):
+    def highlight(self, argv):
         try:
             name = "venc_source_"+argv[0].replace('+','Plus')
 
@@ -60,4 +60,4 @@ class CodeHighlight:
             return result
     
         except pygments.util.ClassNotFound:
-            Die(Messages.unknownLanguage.format(argv[0]))
+            die(messages.unknown_language.format(argv[0]))

@@ -27,12 +27,12 @@ setup(name='VenC',
     author_email='denissalem@tuxfamily.org',
     url='https://github.com/DenisSalem/VenC',
     packages=[
-        'VenC',
-        'VenC.commands',
-        'VenC.datastore',
-        'VenC.l10n',
-        'VenC.pattern',
-        'VenC.threads'
+        'venc2',
+        'venc2.commands',
+        'venc2.datastore',
+        'venc2.l10n',
+        'venc2.pattern',
+        'venc2.threads'
     ],
     license="GNU/GPLv3",
     platforms="Linux",

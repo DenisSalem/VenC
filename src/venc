@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -19,18 +19,18 @@
 
 import sys
 
-from VenC.commands.export import export_blog
-from VenC.commands.export import edit_and_export
-from VenC.commands.export import export_and_remote_copy
-from VenC.commands.install import install_theme
-from VenC.commands.new import new_blog
-from VenC.commands.new import new_entry
-from VenC.commands.print import print_version
-from VenC.commands.print import print_themes
-from VenC.commands.print import print_help
-from VenC.commands.remote import remote_copy
-from VenC.helpers import notify
-from VenC.l10n import Messages; 
+from venc2.commands.export import export_blog
+from venc2.commands.export import edit_and_export
+from venc2.commands.export import export_and_remote_copy
+from venc2.commands.install import install_theme
+from venc2.commands.new import new_blog
+from venc2.commands.new import new_entry
+from venc2.commands.print import print_version
+from venc2.commands.print import print_themes
+from venc2.commands.print import print_help
+from venc2.commands.remote import remote_copy
+from venc2.helpers import notify
+from venc2.l10n import Messages; 
 
 command_index = {"-v":                  [print_version, 0],
                 "-nb":                  [new_blog, -1],

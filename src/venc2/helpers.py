@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -24,7 +24,7 @@ import os
 import pygments
 import shutil
 
-from VenC.l10n import Messages
+from venc2.l10n import messages
 
 msg_format = {
     "END" : '\033[0m',
@@ -41,17 +41,17 @@ errors=list()
 def highlight_value(text, value, color="RED"):
     return text.replace(
         value,
-        MsgFormat[color]+value+MsgFormat["END"]
+        msg_format[color]+value+msg_format["END"]
     )
 
 # Terminate nicely with notification
-def die(msg,color="RED"):
-    Notify(msg, color)
+def die(msg, color="RED"):
+    notify(msg, color)
     exit()
 
 # Being verborse is nice, with colours it's better
 def notify(msg, color="GREEN"):
-    print(GetFormattedMessage(msg, color))
+    print(get_formatted_message(msg, color))
 
 # Take care of setting up colours in printed out message
 def get_formatted_message(msg, color="GREEN"):

@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -26,23 +26,21 @@ import base64
 import shutil
 import subprocess
 
-import VenC.l10n
-
-from VenC.datastore.configuration import get_blog_configuration
-from VenC.datastore.datastore import DataStore
-from VenC.datastore.theme import themes_descriptor
-from VenC.datastore.theme import Theme
-from VenC.helpers import die
-from VenC.helpers import notify
-from VenC.helpers import rm_tree_error_handler 
-from VenC.l10n import Messages
-from VenC.pattern.processor import merge_batches
-from VenC.pattern.processor import Processor
-from VenC.pattern.processor import PreProcessor
-from VenC.pattern.code_highlight import CodeHighlight
-from VenC.threads.main_thread import MainThread
-from VenC.threads.dates_thread import DatesThread
-from VenC.threads.categories_thread import CategoriesThread
+from venc2.datastore.configuration import get_blog_configuration
+from venc2.datastore.datastore import DataStore
+from venc2.datastore.theme import themes_descriptor
+from venc2.datastore.theme import Theme
+from venc2.helpers import die
+from venc2.helpers import notify
+from venc2.helpers import rm_tree_error_handler 
+from venc2.l10n import messages
+from venc2.pattern.processor import merge_batches
+from venc2.pattern.processor import Processor
+from venc2.pattern.processor import PreProcessor
+from venc2.pattern.code_highlight import CodeHighlight
+from venc2.threads.main_thread import MainThread
+from venc2.threads.dates_thread import DatesThread
+from venc2.threads.categories_thread import CategoriesThread
 
 non_contextual_patterns_name_datastore = [
     # General entry data
@@ -83,7 +81,7 @@ non_contextual_patterns_name_code_highlight = [
     "GetStyleSheets"
 ]
 
-contextual_patterns_blacklist = [
+contextual_patterns = [
     "GetRelativeOrigin",
     "IfInThread",
     "GetRelativeLocation",
@@ -125,13 +123,13 @@ def export_blog(argv=list()):
     processor = Processor()
 
     for pattern_name in non_contextual_patterns_name_datastore:
-        processor.set_function(pattern_name, getattr(datastore, pattern_name)
+        processor.set_function(pattern_name, getattr(datastore, pattern_name))
     
     for pattern_name in non_contextual_patterns_name_code_highlight:
-        processor.set_function(pattern_name, getattr(code_highligth, pattern_name)
+        processor.set_function(pattern_name, getattr(code_highligth, pattern_name))
     
-    # Setup contextual patterns black list
-    for pattern_name in contextual_patterns_blacklist:
+    # Setup contextual patterns
+    for pattern_name in contextual_patterns:
         processor.blacklist.append(pattern_name)
 
     # List of patterns where we want to remove <p></p> tag
