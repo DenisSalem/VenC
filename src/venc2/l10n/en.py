@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -18,6 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 class Messages:
+    cannot_get_current_locale = "Cannot get current locale. Language set to english."
     blog_created = "Your blog has been created!"
     theme_installed = "Theme has been installed!"
     entry_written = "Entry has been saved!"

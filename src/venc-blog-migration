@@ -21,10 +21,10 @@ import os
 import yaml
 import codecs
 
-from VenC.helpers import Die
-from VenC.helpers import Notify
-from VenC.datastore.entry import YieldEntriesContent
-from VenC.l10n import Messages
+from venc2.helpers import die
+from venc2.helpers import notify
+from venc2.datastore.entry import yield_entries_content
+from venc2.l10n import messages
 
 def ReplacePatterns(string):
     string = string.replace(".:Get::EntryID:.",".:GetEntryID:.")
@@ -59,7 +59,7 @@ def ReplacePatterns(string):
 
     return string
 
-def toCamelCase(name):
+def to_camel_case(name):
     chunks = name.split('_')
     if len(chunks) == 1:
         return name
@@ -78,70 +78,71 @@ if not "blogConfiguration.yaml" in os.listdir():
         blog_configuration = yaml.load(open(os.getcwd()+"/blog_configuration.yaml",'r').read())
 
     except FileNotFoundError:
-        Die(Messages.noBlogConfiguration)
+        die(messages.no_blog_configuration)
 
     except PermissionError:
-        Die(Messages.noBlogConfiguration)
+        die(messages.no_blog_configuration)
         
     except yaml.scanner.ScannerError:
-        Die(Messages.possibleMalformedBlogConfiguration)
+        die(messages.possible_malformed_blog_configuration)
 
-    blogConfiguration = dict()
+    blog_configuration = dict()
     for rootkey in blog_configuration:
         if rootkey != "path":
-            blogConfiguration[ toCamelCase(rootkey) ] = blog_configuration[rootkey]
+            blog_configuration[ to_camel_case(rootkey) ] = blog_configuration[rootkey]
+
         else:
-            blogConfiguration["path"] = dict()
+            blog_configuration["path"] = dict()
             for pathkey in blog_configuration["path"]:
                 if pathkey == "entry_file_name":
-                    blogConfiguration["path"][ toCamelCase(pathkey) ] = blog_configuration["path"][pathkey].replace("{entry_id}","{0[entryId]}")
+                    blog_configuration["path"][ to_camel_case(pathkey) ] = blog_configuration["path"][pathkey].replace("{entry_id}","{0[entryId]}")
 
                 elif pathkey == "index_file_name":
-                    blogConfiguration["path"][ toCamelCase(pathkey) ] = blog_configuration["path"][pathkey].replace("{page_number}","{0[pageNumber]}")
+                    blog_configuration["path"][ to_camel_case(pathkey) ] = blog_configuration["path"][pathkey].replace("{page_number}","{0[pageNumber]}")
 
                 else:
-                    blogConfiguration["path"][ toCamelCase(pathkey) ] = blog_configuration["path"][pathkey]
+                    blog_configuration["path"][ to_camel_case(pathkey) ] = blog_configuration["path"][pathkey]
 
-    blogConfiguration.pop("threadOrder")
-    blogConfiguration["reverseThreadOrder"] = True
+    blog_configuration.pop("threadOrder")
+    blog_configuration["reverseThreadOrder"] = True
 
     stream = codecs.open('blogConfiguration.yaml', 'w',encoding="utf-8")
-    yaml.dump(blogConfiguration, stream, default_flow_style=False, allow_unicode=True)
+    yaml.dump(blog_configuration, stream, default_flow_style=False, allow_unicode=True)
 
 ''' Processing entries '''
 
-for entryFilename in YieldEntriesContent():
-    rawData = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
+for entry_filename in yield_entries_content():
+    raw_data = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
     try:
-        metadata = yaml.load(rawData.split("---\n")[0])
+        metadata = yaml.load(raw_data.split("---\n")[0])
         metadata["title"] = metadata.pop("entry_name")
 
     except yaml.scanner.ScannerError:
-        Die(Messages.possibleMalformedEntry.format(entryFilename))
+        die(messages.possible_malformed_entry.format(entry_filename))
 
     except KeyError:
         if not "title" in metadata.keys():
-            Die(Messages.possibleMalformedEntry.format(entryFilename))
+            die(messages.possible_malformed_entry.format(entry_filename))
         else:
             pass
 
     output = yaml.dump(metadata, default_flow_style=False, allow_unicode=True) + "---\n"
 
     try:
-        output += ReplacePatterns(rawData.split("---\n")[1])
+        output += replace_patterns(rawData.split("---\n")[1])
     
     except IndexError:
-        Notify(Messages.emptyEntry.format(entryFilename), "YELLOW")
+        notify(messages.empty_entry.format(entry_filename), "YELLOW")
     
-    stream = codecs.open("entries/"+entryFilename,'w',encoding="utf-8")
+    stream = codecs.open("entries/"+entry_filename,'w',encoding="utf-8")
     stream.write(output)
 
 ''' Processing chunks '''
 
 for chunk in os.listdir("theme/chunks"):
-    rawData = open("theme/chunks/"+chunk,'r').read()
+    raw_data = open("theme/chunks/"+chunk,'r').read()
     stream = codecs.open("theme/chunks/"+chunk,'w',encoding="utf-8")
-    update = ReplacePatterns(rawData)
+    update = replace_patterns(raw_data)
     stream.write(update)
 
 

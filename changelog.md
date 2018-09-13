@@ -98,24 +98,27 @@
 	DONE | Implement RelativeLocation
 	DONE | Massive refactorisation, code cleaning and optimisation.
 	DONE | Optimisation of categories tree.
+	DONE | Code should be PEP 8 compliant.
+	DONE | Handle currentLocale = locale.getlocale()[0].split('_')[0] AttributeError: 'NoneType'
+	DONE | Clean up installation.
+	TODO | Add random number generator.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
-	WIP  | Make code PEP compliant.
 	TODO | Add categories tree in entry.
 	TODO | Add function Include.
+	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include)
+	TODO | Add relevant templates for themes.
 	TODO | Fix vertical scroll bar in code snippet.
-	TODO | Reorganize themes dependencies in setup.
-	TODO | Clean up installation.
 	TODO | Client-side search engine.
 	TODO | Add translation for Deutsch and Spanish.
-	TODO | Add relevant templates for themes.
 	TODO | SSH SUPPORT.
+	TODO | Add backup command
 	TODO | Adding LaTeX support.
-	TODO | Add random number generator.
 	TODO | Split install and blog creation chapter in tutorial.
 	TODO | Allow disabling exportation of specific kind of thread.
 	TODO | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage).
 	TODO | Export empty blog.
 	TODO | Serv page
-	TODO | Investigate : currentLocale = locale.getlocale()[0].split('_')[0] AttributeError: 'NoneType'
-	https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting
-	TODO | Investigate : possible duplicate contextual pattern usage in export.py, line 84 and thread.py, line 42
+	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting
+	TODO | add entry preview / full content
+	TODO | Remove illegal character from path.
+	TODO | Fix unit test

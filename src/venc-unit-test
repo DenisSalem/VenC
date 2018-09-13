@@ -1,7 +1,7 @@
 #! /usr/bin/python
 # -*- coding: utf-8 -*-
 
-import VenC.pattern
+import venc2.pattern
 
 print("""#############################
 # Testing Pattern Processor #
@@ -29,7 +29,7 @@ def functionC(argv):
     else:
         return ""
 
-patternProcessor = VenC.pattern.processor(".:",":.","::")
+patternProcessor = venc2.pattern.processor(".:",":.","::")
 
 patternProcessor.SetFunction("FunctionA", functionA)
 patternProcessor.SetFunction("FunctionB", functionB)
