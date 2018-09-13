@@ -42,53 +42,53 @@ from venc2.threads.main_thread import MainThread
 from venc2.threads.dates_thread import DatesThread
 from venc2.threads.categories_thread import CategoriesThread
 
-non_contextual_patterns_name_datastore = [
+non_contextual_patterns_name_datastore = {
     # General entry data
-    "GetEntryTitle",
-    "GetEntryID",
-    "GetEntryYear",
-    "GetEntryMonth",
-    "GetEntryDay", 
-    "GetEntryHour",
-    "GetEntryMinute",
-    "GetEntryDate", 
-    "GetEntryDateURL",
-    "GetEntryURL",
+    "GetEntryTitle" : "get_entry_title",
+    "GetEntryID" : "get_entry_id",
+    "GetEntryYear" : "get_entry_year",
+    "GetEntryMonth" : "get_entry_month",
+    "GetEntryDay" : "get_entry_day",
+    "GetEntryHour" : "get_entry_hour", 
+    "GetEntryMinute" : "get_entry_minute",
+    "GetEntryDate" : "get_entry_date",
+    "GetEntryDateURL" : "get_entry_date_url",
+    "GetEntryURL" : "get_entry_url",
     
     # General blog data
-    "GetAuthorName", 
-    "GetBlogName", 
-    "GetBlogDescription", 
-    "GetBlogKeywords", 
-    "GetAuthorDescription", 
-    "GetBlogLicense", 
-    "GetBlogURL", 
-    "GetBlogLanguage",
-    "GetAuthorEmail", 
+    "GetAuthorName" : "get_author_name",
+    "GetBlogName" : "get_blog_name",
+    "GetBlogDescription" : "get_blog_description",
+    "GetBlogKeywords" : "get_blog_keywords",
+    "GetAuthorDescription" : "get_author_description",
+    "GetBlogLicense" : "get_blog_license",
+    "GetBlogURL" : "get_blog_url",
+    "GetBlogLanguage" : "get_blog_language",
+    "GetAuthorEmail" : "get_author_email",
 
     # Extra metadata getter
-    "GetEntryMetadata", 
-    "GetEntryMetadataIfExists", 
-    "GetBlogMetadataIfExists", 
-    "ForEntryAuthors", 
-    "ForEntryTags", 
-    "ForBlogDates", 
-    "ForBlogCategories",
-]
+    "GetEntryMetadata" : "get_entry_metadata",
+    "GetEntryMetadataIfExists" : "get_entry_metadata_if_exists",
+    "GetBlogMetadataIfExists" : "get_blog_metadata_if_exists", 
+    "ForEntryAuthors" : "for_entry_authors", 
+    "ForEntryTags" : "for_entry_tags",
+    "ForBlogDates" : "for_blog_dates",
+    "ForBlogCategories" : "for_blog_categories"
+}
 
-non_contextual_patterns_name_code_highlight = [
-    "CodeHighlight",
-    "GetStyleSheets"
-]
+non_contextual_patterns_name_code_highlight = {
+    "CodeHighlight" : "highlight",
+    "GetStyleSheets" : "get_style_sheets"
+}
 
-contextual_patterns = [
-    "GetRelativeOrigin",
-    "IfInThread",
-    "GetRelativeLocation",
-    "GetNextPage",
-    "GetPreviousPage",
-    "ForPages"
-]
+contextual_patterns = {
+    "GetRelativeOrigin" : "get_relative_origin",
+    "IfInThread" : "if_in_thread",
+    "GetRelativeLocation" : "get_relative_location",
+    "GetNextPage" : "get_next_page",
+    "GetPreviousPage" : "get_previous_page",
+    "ForPages" : "for_pages"
+}
 
 def export_and_remote_copy(argv=list()):
     notify(Messages.blog_recompilation)
@@ -122,16 +122,17 @@ def export_blog(argv=list()):
     
     processor = Processor()
 
-    for pattern_name in non_contextual_patterns_name_datastore:
-        processor.set_function(pattern_name, getattr(datastore, pattern_name))
+    for pattern_name in non_contextual_patterns_name_datastore.keys():
+        processor.set_function(pattern_name, getattr(datastore, non_contextual_patterns_name_datastore[pattern_name]))
     
-    for pattern_name in non_contextual_patterns_name_code_highlight:
-        processor.set_function(pattern_name, getattr(code_highligth, pattern_name))
+    for pattern_name in non_contextual_patterns_name_code_highlight.keys():
+        processor.set_function(pattern_name, getattr(datastore.code_highlight, non_contextual_patterns_name_code_highlight[pattern_name]))
     
     # Setup contextual patterns
-    for pattern_name in contextual_patterns:
+    for pattern_name in contextual_patterns.keys():
         processor.blacklist.append(pattern_name)
 
+    """ Ugly piece of code """
     # List of patterns where we want to remove <p></p> tag
     processor.clean_after_and_before.append("CodeHighlight")
 
@@ -143,10 +144,10 @@ def export_blog(argv=list()):
         entry.content = PreProcessor(merge_batches(processor.batch_process(entry.content, not entry.do_not_use_markdown)))
 
         entry.html_wrapper = deepcopy(theme.entry)
-        entry.html_wrapper.above = PreProcessor(mergeBatches(processor.batch_process(entry.html_wrapper.above, not entry.do_not_use_markdown)))
-        entry.html_wrapper.below = PreProcessor(mergeBatches(processor.batch_process(entry.html_wrapper.below, not entry.do_not_use_markdown)))
+        entry.html_wrapper.above = PreProcessor(merge_batches(processor.batch_process(entry.html_wrapper.above, not entry.do_not_use_markdown)))
+        entry.html_wrapper.below = PreProcessor(merge_batches(processor.batch_process(entry.html_wrapper.below, not entry.do_not_use_markdown)))
         
-        entry.rss_wrapper = deepcopy(theme.rssEntry)
+        entry.rss_wrapper = deepcopy(theme.rss_entry)
         entry.rss_wrapper.above = PreProcessor(merge_batches(processor.batch_process(entry.rss_wrapper.above, not entry.do_not_use_markdown)))
         entry.rss_wrapper.below = PreProcessor(merge_batches(processor.batch_process(entry.rss_wrapper.below, not entry.do_not_use_markdown)))
 
@@ -161,12 +162,12 @@ def export_blog(argv=list()):
 
     # Starting second pass and exporting
 
-    thread = MainThread(Messages.export_main_thread, datastore, theme)
-    thread.Do()
-    thread = DatesThread(Messages.export_archives, datastore, theme)
-    thread.Do()
-    thread = CategoriesThread(Messages.export_categories, datastore, theme)
-    thread.Do()
+    thread = MainThread(messages.export_main_thread, datastore, theme, contextual_patterns)
+    thread.do()
+    thread = DatesThread(messages.export_archives, datastore, theme, contextual_patterns)
+    thread.do()
+    thread = CategoriesThread(messages.export_categories, datastore, theme, contextual_patterns)
+    thread.do()
 
     # Copy assets and extra files
 

@@ -118,3 +118,4 @@
 	TODO | Serv page
 	TODO | Investigate : currentLocale = locale.getlocale()[0].split('_')[0] AttributeError: 'NoneType'
 	https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting
+	TODO | Investigate : possible duplicate contextual pattern usage in export.py, line 84 and thread.py, line 42
