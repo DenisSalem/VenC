@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -19,51 +19,51 @@
 
 import os
 
-from VenC.helpers import Notify
-from VenC.threads.thread import Thread
-from VenC.pattern.processor import UnknownContextual
-from VenC.pattern.processor import MergeBatches
+from venc2.helpers import notify
+from venc2.threads.thread import Thread
+from venc2.pattern.processor import UnknownContextual
+from venc2.pattern.processor import merge_batches
 
 class CategoriesThread(Thread):
     def __init__(self, prompt, datastore, theme):
         super().__init__(prompt, datastore, theme)
         
-        self.fileName = self.datastore.blogConfiguration["path"]["indexFileName"]
-        self.entryName = str()
-        self.relativeOrigin = "../"
-        self.inThread = True
-        self.exportPath = "blog/"
+        self.filename = self.datastore.blog_configuration["path"]["indexFileName"]
+        self.entryname = str()
+        self.relative_origin = "../"
+        self.in_thread = True
+        self.export_path = "blog/"
 
-    def Do(self, root=None):
+    def do(self, root=None):
 
         if root == None:
-            root = self.datastore.entriesPerCategories
+            root = self.datastore.entries_per_categories
 
         for node in root:
             if node.value == '':
-                print(node.relatedTo)
+                print(node.related_to)
 
-            Notify("\t"+node.value+"...")
+            notify("\t"+node.value+"...")
 
-            exportPath = self.exportPath
-            self.exportPath += node.value+'/'
+            export_path = self.export_path
+            self.export_path += node.value+'/'
 
             # Get entries
             try:
-                os.makedirs(self.exportPath)
+                os.makedirs(self.export_path)
 
             except FileExistsError:
                 pass
 
-            entries = [self.datastore.entries[entryIndex] for entryIndex in node.relatedTo]
-            self.OrganizeEntries( entries[::-1] if self.datastore.blogConfiguration["reverseThreadOrder"] else entries )
+            entries = [self.datastore.entries[entryIndex] for entry_index in node.related_to]
+            self.organizeo_entries( entries[::-1] if self.datastore.blog_configuration["reverseThreadOrder"] else entries )
             
-            super().Do()
+            super().do()
             
-            self.Do(root=node.childs)
+            self.do(root=node.childs)
 
             # Restore path
-            self.exportPath = exportPath
+            self.export_path = export_path
 
 
 

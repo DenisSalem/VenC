@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -21,24 +21,24 @@ import datetime
 import os
 import shutil
 
-from venc2.datastore.configuration import GetBlogConfiguration
-from venc2.helpers import Notify
-from venc2.helpers import Die
-from venc2.l10n import Messages
+from venc2.datastore.configuration import get_blog_configuration
+from venc2.helpers import notify
+from venc2.helpers import die
+from venc2.l10n import messages
 
-def InstallTheme(argv):
-    blogConfiguration = GetBlogConfiguration()
-    if blogConfiguration == None:
-        Notify(Messages.noBlogConfiguration)
+def install_theme(argv):
+    blog_configuration = get_blog_configuration()
+    if blog_configuration == None:
+        notify(messages.no_blog_configuration)
         return
 
-    newFolderName = "theme "+str(datetime.datetime.now()).replace(':','-')
+    new_folder_name = "theme "+str(datetime.datetime.now()).replace(':','-')
 
     try:
-        shutil.move("theme", newFolderName)
+        shutil.move("theme", new_folder_name)
     
     except FileNotFoundError:
-        Die(Messages.fileNotFound.format("'theme'"))
+        die(messages.file_not_found.format("'theme'"))
 
     try:
         shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0], "theme")
@@ -46,10 +46,10 @@ def InstallTheme(argv):
     except FileNotFoundError as e:
         ''' Restore previous states '''
         try:
-            shutil.move(newFolderName, "theme")
-            Die(Messages.themeDoesntExists.format("'"+argv[0]+"'"))
+            shutil.move(new_folder_name, "theme")
+            die(messages.theme_doesnt_exists.format("'"+argv[0]+"'"))
 
         except Exception as e:
-            Die(str(e))
+            die(str(e))
 
-    Notify(Messages.themeInstalled)
+    notify(messages.theme_installed)

@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#   Copyright 2016, 2017 Denis Salem
+#   Copyright 2016, 2018 Denis Salem
 
 #    This file is part of VenC.
 #
@@ -20,57 +20,57 @@
 import datetime
 
 class MetadataNode:
-    def __init__(self, value, entryIndex):
+    def __init__(self, value, entry_index):
         self.count = 1
         self.weight = 1 # computed later
         self.path = str()
         self.value = value
-        self.relatedTo = [entryIndex]
+        self.related_to = [entry_index]
         self.childs = list()
 
-def GetMetadataByName(keys, name):
+def get_metadata_by_name(keys, name):
     for key in keys:
         if key.value == name:
             return key
     return None
 
 ''' Need refactorisation '''
-def GetDatesList(keys):
+def get_dates_list(keys):
     output = list()
-    maxWeight = 0
+    max_weight = 0
     for key in keys:
-        if maxWeight < key.count:
-            maxWeight = key.count
+        if max_weight < key.count:
+            max_weight = key.count
         output.append({"date": key.value, "count":key.count,"dateUrl":key.value})
 
     for key in output:
-        key["weight"] = str(int((key["count"]/maxWeight)*10))
+        key["weight"] = str(int((key["count"]/max_weight)*10))
 
-    return sorted(output, key = lambda date: datetime.datetime.strptime(date["date"], datesDirectoryName))
+    return sorted(output, key = lambda date: datetime.datetime.strptime(date["date"], dates_directory_name))
 
-def GetMetadataTreeMaxWeight(metadata, maxWeight=0):
-    currentMaxWeight = maxWeight
+def get_metadata_tree_max_weight(metadata, maxWeight=0):
+    current_max_weight = max_weight
     for current in metadata:
-        if current.count > currentMaxWeight:
-            currentMaxWeight = current.count
-        m = GetMetadataTreeMaxWeight(current.childs, maxWeight=currentMaxWeight)
-        if m > currentMaxWeight:
-            currentMaxWeight = m
+        if current.count > current_max_weight:
+            current_max_weight = current.count
+        m = get_metadata_tree_max_weight(current.childs, max_weight=current_max_weight)
+        if m > current_max_weight:
+            current_max_weight = m
 
-    return currentMaxWeight
+    return current_max_weight
 
-def GetMetadataTree(metadata, root=list(), maxWeight=None):
+def get_metadata_tree(metadata, root=list(), max_weight=None):
     nodes = root
 
     for current in metadata:
         nodes.append()
         nodes[current.value] = dict()
         nodes[current.value]["__categoryPath"] = current.path
-        if maxWeight != None:
+        if max_weight != None:
             node[current.value]["__count"] = current.count
-            node[current.value]["__weight"] = int((current.count/maxWeight) * 10)
+            node[current.value]["__weight"] = int((current.count/max_weight) * 10)
         if len(current.childs) != 0:
             node[current.value]["_nodes"] = dict()
-            GetMetadatasTree(current.childs, node[metadata.value]["_nodes"], maxWeight)
+            get_metadatas_tree(current.childs, node[metadata.value]["_nodes"], max_weight)
 
     return node

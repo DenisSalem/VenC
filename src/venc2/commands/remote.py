@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -20,45 +20,46 @@
 import ftplib
 import socket
 
-from VenC.datastore.configuration import GetBlogConfiguration
-from VenC.helpers import Die
+from venc2.datastore.configuration import get_blog_configuration
+from venc2.helpers import die
+from venc2.l10n import messages
 
-def RemoteCopy(argv=list()):
-    blogConfiguration = GetBlogConfiguration()
+def remote_copy(argv=list()):
+    blog_configuration = get_blog_configuration()
     try:
-        ftp = ftplib.FTP(blogConfiguration["ftp_host"])
+        ftp = ftplib.FTP(blog_configuration["ftp_host"])
 
     except socket.gaierror as e:
-        Die(str(e))
+        die(str(e))
 
-    username = input("VenC: "+Messages.username)
-    userPasswd = getpass.getpass(prompt="VenC: "+Messages.userPasswd)
+    username = input("VenC: "+messages.username)
+    user_passwd = getpass.getpass(prompt="VenC: "+messages.user_passwd)
     
     try:
-        ftp.login(user=username,passwd=userPasswd)
-        ftp.cwd(VenC.core.blogConfiguration["path"]["ftp"])
-        Notify(VenC.core.Messages.cleanFtpDirectory)
-        ftpCleanDestination(ftp)
-        Notify(Messages.copyToFtpDirectory)
-        ftpExportRecursively(os.getcwd()+"/blog", ftp)
+        ftp.login(user=username,passwd=user_passwd)
+        ftp.cwd(blog_configuration["path"]["ftp"])
+        notify(messages.clean_ftp_directory)
+        ftp_clean_destination(ftp)
+        notify(messages.copy_to_ftp_directory)
+        ftp_export_recursively(os.getcwd()+"/blog", ftp)
     
     except ftplib.error_perm as e:
-        Die(str(e))
+        die(str(e))
 
-def ftpExportRecursively(origin, ftp):
+def ftp_export_recursively(origin, ftp):
         folder = os.listdir(origin)
         for item in folder:
             if os.path.isdir(origin+"/"+item):
                 try:
                     ftp.mkd(item)
                     ftp.cwd(ftp.pwd()+"/"+item)
-                    ftpExportRecursively(origin+"/"+item, ftp)
+                    ftp_export_recursively(origin+"/"+item, ftp)
                     ftp.cwd(ftp.pwd()[:-len("/"+item)])
 
                 except:
                     try:
                         ftp.cwd(ftp.pwd()+"/"+item)
-                        ftpExportRecursively(origin+"/"+item, ftp)
+                        ftp_export_recursively(origin+"/"+item, ftp)
                         ftp.cwd(ftp.pwd()[:-len("/"+item)])
 
                     except:
@@ -67,7 +68,7 @@ def ftpExportRecursively(origin, ftp):
             else:
                 ftp.storbinary("STOR "+ftp.pwd()+"/"+item, open(origin+"/"+item, 'rb'))
 
-def ftpCleanDestination(ftp):
+def ftp_clean_destination(ftp):
     listing = list()
     listing = ftp.nlst()
     for item in listing:
@@ -81,5 +82,5 @@ def ftpCleanDestination(ftp):
 
                 except:
                     ftp.cwd(ftp.pwd()+"/"+item)
-                    ftpCleanDestination(ftp)
+                    ftp_clean_destination(ftp)
                     ftp.cwd(ftp.pwd()[:-len("/"+item)])

@@ -116,3 +116,5 @@
 	TODO | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage).
 	TODO | Export empty blog.
 	TODO | Serv page
+	TODO | Investigate : currentLocale = locale.getlocale()[0].split('_')[0] AttributeError: 'NoneType'
+	https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting

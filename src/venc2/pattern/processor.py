@@ -77,7 +77,7 @@ class PreProcessor():
                 i+=1
 
         # append last substring
-        self._sub_strings.append(string)
+        self.sub_strings.append(string)
 
 def merge_batches(batches):
     return ''.join(batches.sub_strings)

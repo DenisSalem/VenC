@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -17,25 +17,25 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from VenC.datastore.theme import ThemesDescriptor
-from VenC.helpers import MsgFormat
-from VenC.l10n import Messages;
+from venc2.datastore.theme import themes_descriptor
+from venc2.helpers import msg_format
+from venc2.l10n import messages;
 
-def PrintVersion(argv):
+def print_version(argv):
     print("VenC 2.0.0")
 
-def PrintHelp(argv=None):
+def print_help(argv=None):
     print("-v\t--version")
-    print("-nb\t--new-blog <\""+Messages.argBlogName.format("1")+"\"> [\""+Messages.argBlogName.format("2")+"\" ... ]")
-    print("-ne\t--new-entry <\""+Messages.argEntryName+"\"> [\""+Messages.argTemplateName+"\"]")
-    print("-xb\t--export-blog ["+Messages.themeName+"]")
-    print("-ex\t--edit-and-xport <\""+Messages.argInputFilename+"\">")
+    print("-nb\t--new-blog <\""+messages.arg_blog_name.format("1")+"\"> [\""+Messages.argBlogName.format("2")+"\" ... ]")
+    print("-ne\t--new-entry <\""+messages.arg_entry_name+"\"> [\""+messages.arg_template_name+"\"]")
+    print("-xb\t--export-blog ["+messages.theme_name+"]")
+    print("-ex\t--edit-and-xport <\""+messages.arg_input_filename+"\">")
     print("-xftp\t--export-via-ftp")
     print("-rc\t--remote-copy")
     print("-h\t--help")
     print("-t\t--themes")
-    print("-it\t--install-themes <"+Messages.themeName+">")
+    print("-it\t--install-themes <"+messages.theme_name+">")
 
-def PrintThemes(argv=None):
-    for theme in ThemesDescriptor.keys():
-        print ("- "+MsgFormat["GREEN"]+theme+MsgFormat["END"]+":", ThemesDescriptor[theme]["_themeDescription_"])
+def print_themes(argv=None):
+    for theme in themes_descriptor.keys():
+        print ("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", themes_descriptor[theme]["_themeDescription_"])

@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -19,34 +19,34 @@
 
 import os
 
-from VenC.helpers import Notify
-from VenC.threads.thread import Thread
-from VenC.pattern.processor import UnknownContextual
-from VenC.pattern.processor import MergeBatches
+from venc2.helpers import notify
+from venc2.threads.thread import Thread
+from venc2.pattern.processor import UnknownContextual
+from venc2.pattern.processor import merge_batches
 
 class DatesThread(Thread):
     def __init__(self, prompt, datastore, theme):
         super().__init__(prompt, datastore, theme)
         
-        self.fileName = self.datastore.blogConfiguration["path"]["indexFileName"]
-        self.entryName = str()
-        self.relativeOrigin = "../"
-        self.inThread = True
+        self.filename = self.datastore.blog_configuration["path"]["indexFileName"]
+        self.entry_name = str()
+        self.relative_origin = "../"
+        self.in_thread = True
 
-    def Do(self):
+    def do(self):
         
-        for thread in self.datastore.entriesPerDates:
+        for thread in self.datastore.entries_per_dates:
             Notify("\t"+thread.value+"...")
-            self.exportPath = "blog/"+thread.value+'/'
-            os.makedirs(self.exportPath)
-            self.OrganizeEntries([
-                entry for entry in self.datastore.GetEntriesForGivenDate(
+            self.export_path = "blog/"+thread.value+'/'
+            os.makedirs(self.export_path)
+            self.organize_entries([
+                entry for entry in self.datastore.get_entries_gor_given_date(
                     thread.value,
-                    self.datastore.blogConfiguration["reverseThreadOrder"]
+                    self.datastore.blog_configuration["reverseThreadOrder"]
                 )
             ])
 
-            super().Do()
+            super().do()
 
 
 

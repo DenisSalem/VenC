@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -21,46 +21,46 @@ import codecs
 
 from math import ceil
 
-from VenC.helpers import Notify
-from VenC.helpers import Die
-from VenC.l10n import Messages
-from VenC.pattern.processor import Processor
-from VenC.pattern.processor import MergeBatches
+from venc2.helpers import notify
+from venc2.helpers import die
+from venc2.l10n import messages
+from venc2.pattern.processor import Processor
+from venc2.pattern.processor import merge_batches
 
 class Thread:
     def __init__(self, prompt, datastore, theme):
         # Notify wich thread is processed
-        Notify(prompt)
+        notify(prompt)
         
         # Setup useful data
         self.theme = theme
-        self.currentPage = 0
+        self.current_page = 0
         self.datastore = datastore
         
         # Setup pattern processor
         self.processor = Processor()
-        self.processor.SetFunction("GetRelativeOrigin", self.GetRelativeOrigin)
-        self.processor.SetFunction("GetRelativeLocation", self.GetRelativeLocation)
-        self.processor.SetFunction("GetNextPage", self.GetNextPage)
-        self.processor.SetFunction("GetPreviousPage", self.GetPreviousPage)
-        self.processor.SetFunction("ForPages", self.ForPages)
-        self.processor.SetFunction("GetRelativeLocation", self.GetRelativeLocation)
-        self.processor.SetFunction("IfInThread", self.IfInThread)
+        self.processor.set_function("GetRelativeOrigin", self.GetRelativeOrigin)
+        self.processor.set_function("GetRelativeLocation", self.GetRelativeLocation)
+        self.processor.set_function("GetNextPage", self.GetNextPage)
+        self.processor.set_function("GetPreviousPage", self.GetPreviousPage)
+        self.processor.set_function("ForPages", self.ForPages)
+        self.processor.set_function("GetRelativeLocation", self.GetRelativeLocation)
+        self.processor.set_function("IfInThread", self.IfInThread)
 
-    def ReturnPageAround(self, string, destinationPageNumber, fileName):
+    def return_page_around(self, string, destination_page_pumber, filename):
         return string.format({
-            "destinationPage":destinationPageNumber,
-            "destinationPageUrl":fileName,
-            "entryName" : self.entryName
+            "destinationPage":destination_page_number,
+            "destinationPageUrl":filename,
+            "entryName" : self.entry_name
         })
 
 
     # Must be called in child class
-    def GetRelativeLocation():
-        return self.exportPath[5:]
+    def get_relative_location():
+        return self.export_path[5:]
 
     # Must be called in child class
-    def OrganizeEntries(self, entries):
+    def organize_entries(self, entries):
         self.pages = list()
         entriesPerPage = int(self.datastore.blogConfiguration["entriesPerPages"])
         for i in range(0, ceil(len(entries)/entriesPerPage)):
