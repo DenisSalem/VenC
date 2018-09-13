@@ -206,7 +206,7 @@ class DataStore:
         return self.blog_configuration["authorName"]
 
     def get_blog_name(self, argv=list()):
-        return self.blogConfiguration["blogName"]
+        return self.blog_configuration["blogName"]
         
     def get_blog_description(self, argv=list()):
         return self.blog_configuration["blogDescription"]
