@@ -31,6 +31,12 @@ from venc2.commands.print import print_help
 from venc2.commands.remote import remote_copy
 from venc2.helpers import notify
 from venc2.l10n import messages; 
+from venc2.l10n import locale_err;
+
+if locale_err:
+    notify(messages.cannot_get_current_locale, color="YELLOW")
+
+
 
 command_index = {"-v":                  [print_version, 0],
                 "-nb":                  [new_blog, -1],
@@ -73,12 +79,12 @@ def argv_handler(argv=None):
            argv_handler(argv[len(arguments)+1:])
 
        else:
-           notify(Messages.unknownCommand.format(argv[0]),"RED")
+           notify(messages.unknown_command.format(argv[0]),"RED")
            argv_handler(argv[1:])
 
 if sys.argv[1:] != []: 
     argv_handler()
 
 else:
-    notify(Messages.nothing_to_do,"YELLOW")
+    notify(messages.nothing_to_do,"YELLOW")
 
