@@ -22,8 +22,8 @@ from venc2.pattern.processor import UnknownContextual
 from venc2.pattern.processor import merge_batches
 
 class MainThread(Thread):
-    def __init__(self, prompt, datastore, theme):
-        super().__init__(prompt, datastore, theme)
+    def __init__(self, prompt, datastore, theme, patterns):
+        super().__init__(prompt, datastore, theme, patterns)
         
         self.organize_entries([
             entry for entry in datastore.get_entries(

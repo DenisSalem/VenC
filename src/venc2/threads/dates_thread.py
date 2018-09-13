@@ -25,8 +25,8 @@ from venc2.pattern.processor import UnknownContextual
 from venc2.pattern.processor import merge_batches
 
 class DatesThread(Thread):
-    def __init__(self, prompt, datastore, theme):
-        super().__init__(prompt, datastore, theme)
+    def __init__(self, prompt, datastore, theme, patterns):
+        super().__init__(prompt, datastore, theme, patterns)
         
         self.filename = self.datastore.blog_configuration["path"]["indexFileName"]
         self.entry_name = str()
@@ -36,11 +36,11 @@ class DatesThread(Thread):
     def do(self):
         
         for thread in self.datastore.entries_per_dates:
-            Notify("\t"+thread.value+"...")
+            notify("\t"+thread.value+"...")
             self.export_path = "blog/"+thread.value+'/'
             os.makedirs(self.export_path)
             self.organize_entries([
-                entry for entry in self.datastore.get_entries_gor_given_date(
+                entry for entry in self.datastore.get_entries_for_given_date(
                     thread.value,
                     self.datastore.blog_configuration["reverseThreadOrder"]
                 )

@@ -230,7 +230,7 @@ class DataStore:
         return self.blog_configuration["authorEmail"]
 
     def for_blog_dates(self, argv):
-        return For(self.blog_dates, argv)
+        return merge(self.blog_dates, argv)
 
     def for_entry_tags(self, argv):
         return merge(self.entries[self.requested_entry_index].tags, argv)

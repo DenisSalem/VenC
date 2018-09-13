@@ -25,8 +25,8 @@ from venc2.pattern.processor import UnknownContextual
 from venc2.pattern.processor import merge_batches
 
 class CategoriesThread(Thread):
-    def __init__(self, prompt, datastore, theme):
-        super().__init__(prompt, datastore, theme)
+    def __init__(self, prompt, datastore, theme, patterns):
+        super().__init__(prompt, datastore, theme, patterns)
         
         self.filename = self.datastore.blog_configuration["path"]["indexFileName"]
         self.entryname = str()
@@ -55,8 +55,8 @@ class CategoriesThread(Thread):
             except FileExistsError:
                 pass
 
-            entries = [self.datastore.entries[entryIndex] for entry_index in node.related_to]
-            self.organizeo_entries( entries[::-1] if self.datastore.blog_configuration["reverseThreadOrder"] else entries )
+            entries = [self.datastore.entries[entry_index] for entry_index in node.related_to]
+            self.organize_entries( entries[::-1] if self.datastore.blog_configuration["reverseThreadOrder"] else entries )
             
             super().do()
             

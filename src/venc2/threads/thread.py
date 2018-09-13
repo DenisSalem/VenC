@@ -28,7 +28,7 @@ from venc2.pattern.processor import Processor
 from venc2.pattern.processor import merge_batches
 
 class Thread:
-    def __init__(self, prompt, datastore, theme):
+    def __init__(self, prompt, datastore, theme, patterns):
         # Notify wich thread is processed
         notify(prompt)
         
@@ -39,15 +39,10 @@ class Thread:
         
         # Setup pattern processor
         self.processor = Processor()
-        self.processor.set_function("GetRelativeOrigin", self.GetRelativeOrigin)
-        self.processor.set_function("GetRelativeLocation", self.GetRelativeLocation)
-        self.processor.set_function("GetNextPage", self.GetNextPage)
-        self.processor.set_function("GetPreviousPage", self.GetPreviousPage)
-        self.processor.set_function("ForPages", self.ForPages)
-        self.processor.set_function("GetRelativeLocation", self.GetRelativeLocation)
-        self.processor.set_function("IfInThread", self.IfInThread)
+        for pattern_name in patterns.keys():
+            self.processor.set_function(pattern_name, getattr(self, patterns[pattern_name]))
 
-    def return_page_around(self, string, destination_page_pumber, filename):
+    def return_page_around(self, string, destination_page_number, filename):
         return string.format({
             "destinationPage":destination_page_number,
             "destinationPageUrl":filename,
@@ -62,125 +57,125 @@ class Thread:
     # Must be called in child class
     def organize_entries(self, entries):
         self.pages = list()
-        entriesPerPage = int(self.datastore.blogConfiguration["entriesPerPages"])
-        for i in range(0, ceil(len(entries)/entriesPerPage)):
+        entries_per_page = int(self.datastore.blog_configuration["entriesPerPages"])
+        for i in range(0, ceil(len(entries)/entries_per_page)):
             self.pages.append(
-                entries[i*entriesPerPage:(i+1)*entriesPerPage]
+                entries[i*entries_per_page:(i+1)*entries_per_page]
             )
 
-        self.pagesCount = len(self.pages)
+        self.pages_count = len(self.pages)
 
     # Must be called in child class
-    def GetRelativeOrigin(self, argv=list()):
-        return self.relativeOrigin
+    def get_relative_origin(self, argv=list()):
+        return self.relative_origin
 
     # Must be called in child class
-    def GetNextPage(self,argv=list()):
-        if self.currentPage < len(self.pages) - 1:
-            destinationPageNumber = str(self.currentPage + 1)
+    def get_next_page(self,argv=list()):
+        if self.current_page < len(self.pages) - 1:
+            destination_page_number = str(self.current_page + 1)
             ''' Must catch KeyError exception '''
-            fileName = self.fileName.format({"pageNumber":destinationPageNumber})
-            return self.ReturnPageAround(argv[0], destinationPageNumber, fileName)
+            filename = self.filename.format({"pageNumber":destination_page_number})
+            return self.return_page_around(argv[0], destination_page_number, filename)
 
         else:
             return str()
 
     # Must be called in child class
-    def GetPreviousPage(self, argv=list()):
-        if self.currentPage > 0:
-            destinationPageNumber = str(self.currentPage - 1)
-            if self.currentPage == 1:
+    def get_previous_page(self, argv=list()):
+        if self.current_page > 0:
+            destination_page_number = str(self.current_page - 1)
+            if self.current_page == 1:
                 ''' Must catch KeyError exception '''
-                fileName = self.fileName.format(page_number="")
+                filename = self.filename.format(page_number="")
 
             else:
                 ''' Must catch KeyError exception '''
-                fileName = self.fileName.format(page_number=destinationPageNumber)
+                filename = self.filename.format(page_number=destination_page_number)
             
-            return self.ReturnPageAround(argv[0], destinationPageNumber, fileName)
+            return self.return_page_around(argv[0], destination_page_number, filename)
         
         else:
             return str()
 
     # Must be called in child class
-    def ForPages(self, argv):
-        listLenght = int(argv[0])
+    def for_pages(self, argv):
+        list_lenght = int(argv[0])
         string = argv[1]
         separator = argv[2]
             
-        if self.pagesCount == 1 or not self.inThread:
+        if self.pages_count == 1 or not self.in_thread:
             return str()
 
         output = str()
-        pageNumber = 0
+        page_number = 0
         for page in self.pages:
-            if (not pageNumber < self.currentPage - self.pagesCount) and (not pageNumber > self.currentPage + self.pagesCount):
+            if (not page_number < self.current_page - self.pages_count) and (not page_number > self.current_page + self.pages_count):
                 output += string.format(
                     {
-                        "pageNumber":str(pageNumber),
-                        "pageUrl": self.fileName.format({"pageNumber": (str() if pageNumber == 0 else pageNumber) })
+                        "pageNumber":str(page_number),
+                        "pageUrl": self.filename.format({"pageNumber": (str() if page_number == 0 else page_number) })
                     }
                 ) + separator
 
-            pageNumber +=1
+            page_number +=1
         
         return output[:-len(separator)]
 
 
-    def IfInThread(self, argv):
-        if self.inThread:
+    def if_in_thread(self, argv):
+        if self.in_thread:
             return argv[0]
 
         else:
             return argv[1]
 
-    def FormatFileName(self, pageNumber):
+    def format_filename(self, page_number):
         try:
-            if pageNumber == 0:
-                return self.fileName.format({
+            if page_number == 0:
+                return self.filename.format({
                     'entryId':'',
                     'pageNumber':''
                 })
         
             else:
-                return self.fileName.format({
-                    'entryId':pageNumber,
-                    'pageNumber':pageNumber
+                return self.filename.format({
+                    'entryId':page_number,
+                    'pageNumber':page_number
                 })
 
         except KeyError as e:
-            Die(Messages.variableErrorInFileName.format(str(e)))
+            die(messages.variable_error_in_filename.format(str(e)))
 
     # Must be called in child class
-    def Do(self):
-        pageNumber = 0
+    def do(self):
+        page_number = 0
         for page in self.pages:
-            output = MergeBatches(self.processor.BatchProcess(self.theme.header))
+            output = merge_batches(self.processor.batch_process(self.theme.header))
 
-            columnsNumber = self.datastore.blogConfiguration["columns"]
-            columnsCounter = 0
-            columns = [ '' for i in range(0, columnsNumber) ]
+            columns_number = self.datastore.blog_configuration["columns"]
+            columns_counter = 0
+            columns = [ '' for i in range(0, columns_number) ]
             for entry in page:
-                columns[columnsCounter] += MergeBatches(self.processor.BatchProcess(entry.htmlWrapper.above, not entry.doNotUseMarkdown))
-                columns[columnsCounter] += MergeBatches(self.processor.BatchProcess(entry.content, not entry.doNotUseMarkdown))
-                columns[columnsCounter] += MergeBatches(self.processor.BatchProcess(entry.htmlWrapper.below, not entry.doNotUseMarkdown))
+                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.html_wrapper.above, not entry.do_not_use_markdown))
+                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.content, not entry.do_not_use_markdown))
+                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.html_wrapper.below, not entry.do_not_use_markdown))
 
-                columnsCounter +=1
-                if columnsCounter >= columnsNumber:
-                    columnsCounter = 0
+                columns_counter +=1
+                if columns_counter >= columns_number:
+                    columns_counter = 0
 
-            columnsCounter = 0
+            columns_counter = 0
             for column in columns:
-                output += '<div id="__VENC_COLUMN_'+str(columnsCounter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
+                output += '<div id="__VENC_COLUMN_'+str(columns_counter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
             
-            output += MergeBatches(self.processor.BatchProcess(self.theme.footer))
+            output += merge_batches(self.processor.batch_process(self.theme.footer))
         
             stream = codecs.open(
-                self.exportPath + self.FormatFileName(pageNumber),
+                self.export_path + self.format_filename(page_number),
                 'w',
                 encoding="utf-8"
             )
             stream.write(output)
             stream.close()
 
-            pageNumber += 1
+            page_number += 1
