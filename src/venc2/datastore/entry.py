@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -46,7 +46,7 @@ class Entry:
         raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()
         raw_content = raw_data.split("---\n")[1]
         try:
-            metadata = yaml.load(rawData.split("---\n")[0])
+            metadata = yaml.load(raw_data.split("---\n")[0])
 
         except yaml.scanner.ScannerError:
             die(messages.possible_malformed_entry.format(entry_filename))
@@ -61,10 +61,10 @@ class Entry:
     
         # Are we using markdown?
         if "doNotUseMarkdown" in metadata.keys():
-            self.doNotUseMarkdown = True
+            self.do_not_use_markdown = True
         else:
-            self.doNotUseMarkdown = False
-            rawContent = markdown.markdown(rawContent)
+            self.do_not_use_markdown = False
+            raw_content = markdown.markdown(raw_content)
     
         # Set up id
         self.id = filename.split('__')[0]
@@ -72,11 +72,11 @@ class Entry:
         # Set up date
         raw_date = filename.split('__')[1].split('-')
         self.date = datetime.datetime(
-            year=int(rawDate[2]),
-            month=int(rawDate[0]),
-            day=int(rawDate[1]),
-            hour=int(rawDate[3]),
-            minute=int(rawDate[4])
+            year=int(raw_date[2]),
+            month=int(raw_date[0]),
+            day=int(raw_date[1]),
+            hour=int(raw_date[3]),
+            minute=int(raw_date[4])
         )
         
         # Setting up title
@@ -95,7 +95,7 @@ class Entry:
 
         # Setting up content
         try:
-            self.content = PreProcessor(rawContent)
+            self.content = PreProcessor(raw_content)
 
         except:
             raise

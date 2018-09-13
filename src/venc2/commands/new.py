@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -25,8 +25,8 @@ import subprocess
 
 from venc2.datastore.configuration import get_blog_configuration
 from venc2.datastore.entry import yield_entries_content
-from venc2.helpers import Notify
-from venc2.helpers import Die
+from venc2.helpers import notify
+from venc2.helpers import die
 from venc2.l10n import messages
 
 import venc2.datastore.entry as Entry
@@ -53,7 +53,7 @@ def new_entry(argv):
         wd = os.listdir(os.getcwd())
 
     except OSError:
-        die(messages.cannot_rRead_in.format(os.getcwd()))
+        die(messages.cannot_read_in.format(os.getcwd()))
 
     date = datetime.datetime.now()
 

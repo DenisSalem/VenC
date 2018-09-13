@@ -30,7 +30,7 @@ from venc2.commands.print import print_themes
 from venc2.commands.print import print_help
 from venc2.commands.remote import remote_copy
 from venc2.helpers import notify
-from venc2.l10n import Messages; 
+from venc2.l10n import messages; 
 
 command_index = {"-v":                  [print_version, 0],
                 "-nb":                  [new_blog, -1],
@@ -48,7 +48,7 @@ command_index = {"-v":                  [print_version, 0],
                 "--export-via-ftp":     [export_and_remote_copy, 1],
                 "--edit-and-export":    [edit_and_export, 1],
                 "--install-theme":      [install_theme, 1],
-                "--export-blog":        [export_llog, 1],
+                "--export-blog":        [export_blog, 1],
                 "--new-entry":          [new_entry, 2],
                 "--new-blog":           [new_blog, -1],
                 "--version":            [print_version, 0]}

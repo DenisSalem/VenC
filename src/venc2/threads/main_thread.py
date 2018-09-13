@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2017 Denis Salem
+#    Copyright 2016, 2018 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -19,23 +19,23 @@
 
 from venc2.threads.thread import Thread
 from venc2.pattern.processor import UnknownContextual
-from venc2.pattern.processor import MergeBatches
+from venc2.pattern.processor import merge_batches
 
 class MainThread(Thread):
     def __init__(self, prompt, datastore, theme):
         super().__init__(prompt, datastore, theme)
         
-        self.OrganizeEntries([
-            entry for entry in datastore.GetEntries(
-                datastore.blogConfiguration["reverseThreadOrder"]
+        self.organize_entries([
+            entry for entry in datastore.get_entries(
+                datastore.blog_configuration["reverseThreadOrder"]
             )
         ])
 
-        self.fileName = self.datastore.blogConfiguration["path"]["indexFileName"]
-        self.entryName = str()
-        self.relativeOrigin = str()
-        self.exportPath = "blog/"
-        self.inThread = True
+        self.filename = self.datastore.blog_configuration["path"]["indexFileName"]
+        self.entry_name = str()
+        self.relative_origin = str()
+        self.export_path = "blog/"
+        self.in_thread = True
 
 
 
