@@ -110,7 +110,7 @@ class Processor():
     def run_pattern(self, pattern, argv):
         try:
             output = self.functions[pattern](argv)
-
+        
         except UnknownContextual as e:
                 output = self.handle_error(
                     messages.unknown_contextual.format(e),
@@ -158,11 +158,11 @@ class Processor():
         if not err in venc2.helpers.errors:
             venc2.helpers.errors.append(err)
             if error_origin != list():
-                err+=(''.join(self.current_string))
+                err+=(''.join(self.current_string).strip())
                 for origin in error_origin:
                     err = highlight_value(err, origin)
             
-            print(err)
+            print(err+"\n")
         
         return default_output
 
@@ -198,7 +198,8 @@ class Processor():
         return True
 
     # Process queue
-    def batch_process(self, input_pre_processed, markdown=False, escape=False):
+    def batch_process(self, input_pre_processed, ressource, markdown=False, escape=False):
+        self.ressource = ressource
         pre_processed = deepcopy(input_pre_processed)
         if len(pre_processed.patterns_index) == 0:
             return pre_processed

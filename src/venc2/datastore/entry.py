@@ -66,10 +66,9 @@ class Entry:
             self.do_not_use_markdown = False
             raw_content = markdown.markdown(raw_content)
     
-        # Set up id
+        self.filename = filename
         self.id = filename.split('__')[0]
         
-        # Set up date
         raw_date = filename.split('__')[1].split('-')
         self.date = datetime.datetime(
             year=int(raw_date[2]),
@@ -79,21 +78,18 @@ class Entry:
             minute=int(raw_date[4])
         )
         
-        # Setting up title
         try:
             self.title = metadata["title"]
 
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("title", self.id))
 
-        # Setting up authors
         try:
             self.authors = [ {"author":e} for e in list(metadata["authors"].split(",") if metadata["authors"] != str() else list()) ]
 
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("authors", self.id))
 
-        # Setting up content
         try:
             self.content = PreProcessor(raw_content)
 
@@ -101,14 +97,12 @@ class Entry:
             raise
             die(messages.possible_malformed_entry.format(self.id))
 
-        ''' Setting up tags '''
         try:
             self.tags = [ {"tag":e} for e in list(metadata["tags"].split(",") if metadata["tags"] != str() else list())]
 
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("tags", self.id))
 
-        ''' Setting up categories'''
         self.categories_leaves = list()
         self.categories_nodes_reference = list()
         self.raw_categories = metadata["categories"].split(',')
