@@ -101,7 +101,7 @@
 	DONE | Code should be PEP 8 compliant.
 	DONE | Handle currentLocale = locale.getlocale()[0].split('_')[0] AttributeError: 'NoneType'
 	DONE | Clean up installation.
-	TODO | Add random number generator.
+	WIP  | Add random number generator.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Add categories tree in entry.
 	TODO | Add function Include.

@@ -17,4 +17,15 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-venc_version = "2.0.0"
+from venc2 import venc_version
+
+def get_random_number(argv):
+    return ""
+
+def get_venc_version(argv):
+    return venc_version
+
+non_contextual_pattern_names = {
+    "GetRandomNumber" : get_random_number,
+    "GetVenCVersion" : get_venc_version
+}
