@@ -94,6 +94,8 @@
 	DONE | Moar comments in the code.
 	DONE | No more awkward silence when something is successfully done.
 	DONE | Add more coloration for message!
+	DONE | Specify where error occurs when parsing patterns.
+	DONE | Clear white spaces in error messages
 	DONE | Speed up blog exportation ( almost seven times faster!)
 	DONE | Implement RelativeLocation
 	DONE | Massive refactorisation, code cleaning and optimisation.
@@ -122,3 +124,4 @@
 	TODO | add entry preview / full content
 	TODO | Remove illegal character from path.
 	TODO | Fix unit test
+	TODO | Open with navigator manual

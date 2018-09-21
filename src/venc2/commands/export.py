@@ -129,7 +129,7 @@ def export_blog(argv=list()):
     for pattern_name in non_contextual_pattern_names_code_highlight.keys():
         processor.set_function(pattern_name, getattr(datastore.code_highlight, non_contextual_pattern_names_code_highlight[pattern_name]))
     
-    for pattern_name in non_contextual_patterns_names.keys():
+    for pattern_name in non_contextual_pattern_names.keys():
         processor.set_function(pattern_name, non_contextual_pattern_names[pattern_name])
     
     # Setup contextual patterns
@@ -145,20 +145,20 @@ def export_blog(argv=list()):
     # Now we want to perform first parsing pass on entries and chunk
     for entry in datastore.get_entries():
         # Every chunks are preprocessed again because of contextual patterns
-        entry.content = PreProcessor(merge_batches(processor.batch_process(entry.content, not entry.do_not_use_markdown)))
+        entry.content = PreProcessor(merge_batches(processor.batch_process(entry.content, entry.filename, not entry.do_not_use_markdown)))
 
         entry.html_wrapper = deepcopy(theme.entry)
-        entry.html_wrapper.above = PreProcessor(merge_batches(processor.batch_process(entry.html_wrapper.above, not entry.do_not_use_markdown)))
-        entry.html_wrapper.below = PreProcessor(merge_batches(processor.batch_process(entry.html_wrapper.below, not entry.do_not_use_markdown)))
+        entry.html_wrapper.above = PreProcessor(merge_batches(processor.batch_process(entry.html_wrapper.above, "entry.html", not entry.do_not_use_markdown)))
+        entry.html_wrapper.below = PreProcessor(merge_batches(processor.batch_process(entry.html_wrapper.below, "entry.html",not entry.do_not_use_markdown)))
         
         entry.rss_wrapper = deepcopy(theme.rss_entry)
-        entry.rss_wrapper.above = PreProcessor(merge_batches(processor.batch_process(entry.rss_wrapper.above, not entry.do_not_use_markdown)))
-        entry.rss_wrapper.below = PreProcessor(merge_batches(processor.batch_process(entry.rss_wrapper.below, not entry.do_not_use_markdown)))
+        entry.rss_wrapper.above = PreProcessor(merge_batches(processor.batch_process(entry.rss_wrapper.above, "rssEntry.html", not entry.do_not_use_markdown)))
+        entry.rss_wrapper.below = PreProcessor(merge_batches(processor.batch_process(entry.rss_wrapper.below, "rssEntry.html", not entry.do_not_use_markdown)))
 
-    theme.header = PreProcessor(merge_batches(processor.batch_process(theme.header)))
-    theme.footer = PreProcessor(merge_batches(processor.batch_process(theme.footer)))
-    theme.rssHeader = PreProcessor(merge_batches(processor.batch_process(theme.rss_header)))
-    theme.rssFooter = PreProcessor(merge_batches(processor.batch_process(theme.rss_footer)))
+    theme.header = PreProcessor(merge_batches(processor.batch_process(theme.header, "header.html")))
+    theme.footer = PreProcessor(merge_batches(processor.batch_process(theme.footer, "footer.html")))
+    theme.rssHeader = PreProcessor(merge_batches(processor.batch_process(theme.rss_header, "rssHeader.html")))
+    theme.rssFooter = PreProcessor(merge_batches(processor.batch_process(theme.rss_footer, "rssFooter.html")))
 
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)

@@ -150,15 +150,15 @@ class Thread:
     def do(self):
         page_number = 0
         for page in self.pages:
-            output = merge_batches(self.processor.batch_process(self.theme.header))
+            output = merge_batches(self.processor.batch_process(self.theme.header, "header.html"))
 
             columns_number = self.datastore.blog_configuration["columns"]
             columns_counter = 0
             columns = [ '' for i in range(0, columns_number) ]
             for entry in page:
-                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.html_wrapper.above, not entry.do_not_use_markdown))
-                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.content, not entry.do_not_use_markdown))
-                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.html_wrapper.below, not entry.do_not_use_markdown))
+                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.html_wrapper.above, entry.filename, not entry.do_not_use_markdown))
+                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.content, entry.filename, not entry.do_not_use_markdown))
+                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.html_wrapper.below, entry.filename, not entry.do_not_use_markdown))
 
                 columns_counter +=1
                 if columns_counter >= columns_number:
@@ -168,7 +168,7 @@ class Thread:
             for column in columns:
                 output += '<div id="__VENC_COLUMN_'+str(columns_counter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
             
-            output += merge_batches(self.processor.batch_process(self.theme.footer))
+            output += merge_batches(self.processor.batch_process(self.theme.footer, "footer.html"))
         
             stream = codecs.open(
                 self.export_path + self.format_filename(page_number),

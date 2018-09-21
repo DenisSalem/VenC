@@ -21,7 +21,7 @@ from venc2.datastore.configuration import get_blog_configuration
 from venc2.datastore.entry import yield_entries_content
 from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import MetadataNode
-from venc2.pattern.codeHighlight import CodeHighlight
+from venc2.pattern.code_highlight import CodeHighlight
 
 def merge(iterable, argv):
     return argv[1].join(

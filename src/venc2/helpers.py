@@ -91,7 +91,7 @@ def get_list_of_pages(entries_per_page, entries_count):
 
 def rm_tree_error_handler(function, path, excinfo):
     if path == "blog" and excinfo[0] == FileNotFoundError:
-        notify(Messages.blog_folder_doesnt_exists,"YELLOW")
+        notify(messages.blog_folder_doesnt_exists,"YELLOW")
         return
 
     notify(str(function),"RED")

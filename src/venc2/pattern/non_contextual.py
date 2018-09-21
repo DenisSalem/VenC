@@ -20,6 +20,13 @@
 from venc2 import venc_version
 
 def get_random_number(argv):
+    try:
+        mn = int(argv[0])
+        mx = int(argv[1])
+        dec = int(argv[2])
+    except:
+        pass
+
     return ""
 
 def get_venc_version(argv):
