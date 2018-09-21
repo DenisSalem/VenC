@@ -41,8 +41,9 @@ from venc2.pattern.code_highlight import CodeHighlight
 from venc2.threads.main_thread import MainThread
 from venc2.threads.dates_thread import DatesThread
 from venc2.threads.categories_thread import CategoriesThread
+from venc2.pattern.non_contextual import non_contextual_pattern_names
 
-non_contextual_patterns_name_datastore = {
+non_contextual_pattern_names_datastore = {
     # General entry data
     "GetEntryTitle" : "get_entry_title",
     "GetEntryID" : "get_entry_id",
@@ -76,7 +77,7 @@ non_contextual_patterns_name_datastore = {
     "ForBlogCategories" : "for_blog_categories"
 }
 
-non_contextual_patterns_name_code_highlight = {
+non_contextual_pattern_names_code_highlight = {
     "CodeHighlight" : "highlight",
     "GetStyleSheets" : "get_style_sheets"
 }
@@ -122,11 +123,14 @@ def export_blog(argv=list()):
     
     processor = Processor()
 
-    for pattern_name in non_contextual_patterns_name_datastore.keys():
-        processor.set_function(pattern_name, getattr(datastore, non_contextual_patterns_name_datastore[pattern_name]))
+    for pattern_name in non_contextual_pattern_names_datastore.keys():
+        processor.set_function(pattern_name, getattr(datastore, non_contextual_pattern_names_datastore[pattern_name]))
     
-    for pattern_name in non_contextual_patterns_name_code_highlight.keys():
-        processor.set_function(pattern_name, getattr(datastore.code_highlight, non_contextual_patterns_name_code_highlight[pattern_name]))
+    for pattern_name in non_contextual_pattern_names_code_highlight.keys():
+        processor.set_function(pattern_name, getattr(datastore.code_highlight, non_contextual_pattern_names_code_highlight[pattern_name]))
+    
+    for pattern_name in non_contextual_patterns_names.keys():
+        processor.set_function(pattern_name, non_contextual_pattern_names[pattern_name])
     
     # Setup contextual patterns
     for pattern_name in contextual_patterns.keys():
