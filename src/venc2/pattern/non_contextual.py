@@ -32,7 +32,8 @@ def get_random_number(in_argv):
         except ValueError:
             raise PatternInvalidArgument(arg_names[i],in_argv[i], messages.pattern_argument_must_be_integer)
 
-    return str(int(random.random() * (argv[1] + 1))) if argv[2] == 0 else str(round(random.random() * (argv[1] + 1), argv[2]))
+    v = argv[0] + random.random() * (argv[1] - argv[0] + 1)
+    return str(int(v)) if argv[2] == 0 else str(round(v, argv[2]))
 
 def get_venc_version(argv):
     return venc_version
