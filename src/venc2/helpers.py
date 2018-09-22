@@ -26,6 +26,12 @@ import shutil
 
 from venc2.l10n import messages
 
+class PatternInvalidArgument(Exception):
+    def __init__(self, name, value, message):
+        self.name = name
+        self.value = value
+        self.message = message
+
 msg_format = {
     "END" : '\033[0m',
     "GREEN" : '\033[92m',
