@@ -18,16 +18,21 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc2 import venc_version
+from venc2.helpers import PatternInvalidArgument
+from venc2.l10n import messages
+import random
 
-def get_random_number(argv):
-    try:
-        mn = int(argv[0])
-        mx = int(argv[1])
-        dec = int(argv[2])
-    except:
-        pass
+def get_random_number(in_argv):
+    arg_names=["min","max","decimal_number"]
+    argv = []
+    for i in range(0,3):
+        try:
+            argv.append(int(in_argv[i]))
 
-    return ""
+        except ValueError:
+            raise PatternInvalidArgument(arg_names[i],in_argv[i], messages.pattern_argument_must_be_integer)
+
+    return str(int(random.random() * (argv[1] + 1))) if argv[2] == 0 else str(round(random.random() * (argv[1] + 1), argv[2]))
 
 def get_venc_version(argv):
     return venc_version

@@ -26,6 +26,7 @@ from copy import deepcopy
 from venc2.helpers import get_formatted_message
 from venc2.helpers import highlight_value
 from venc2.helpers import remove_by_value
+from venc2.helpers import PatternInvalidArgument
 from venc2.l10n import messages
 
 # Special case of KeyError
@@ -146,6 +147,13 @@ class Processor():
                 [pattern]
             )
 
+        except PatternInvalidArgument as e:
+            output = self.handle_error(
+                messages.wrong_pattern_argument.format(e.name, e.value, pattern)+' '+e.message,
+                "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
+            )
+
         return str(output)
 
     # Print out notification to user and replace erroneous pattern
@@ -157,6 +165,7 @@ class Processor():
                 
         if not err in venc2.helpers.errors:
             venc2.helpers.errors.append(err)
+            # error_origin is a array of substring value to replace in faulty string.
             if error_origin != list():
                 err+=(''.join(self.current_string).strip())
                 for origin in error_origin:

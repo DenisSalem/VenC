@@ -77,3 +77,6 @@ class Messages:
     pre_process="Pré-traitement du théme et des publications..."
     directory_not_copied="Le dossier ne peut être copié. Erreur: %s"
     variable_error_in_filename="Erreur de variable dans le fichier de configuration principal où les chemins et noms de fichier sont définis: {0} n'existe pas."
+    wrong_pattern_argument="L'argument '{0}' = '{1}' du motif '{2}' n'est pas correct."
+    pattern_argument_must_be_integer="L'argument doit être un entier positif."
+

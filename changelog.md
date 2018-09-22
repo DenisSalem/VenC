@@ -90,38 +90,39 @@
 	DONE | Warn about missing mandatory field in entry.
 	DONE | Add function GetBlogMetadataIfExists and GetEntryMetadataIfExists.
 	DONE | Catch exception nicely in CodeHighLight.
-	DONE | Catch KeyError exception due to wrong blog path configuration
+	DONE | Catch KeyError exception due to wrong blog path configuration.
 	DONE | Moar comments in the code.
 	DONE | No more awkward silence when something is successfully done.
 	DONE | Add more coloration for message!
 	DONE | Specify where error occurs when parsing patterns.
-	DONE | Clear white spaces in error messages
-	DONE | Speed up blog exportation ( almost seven times faster!)
-	DONE | Implement RelativeLocation
+	WIP  | More verbosity about wrong pattern arguments.
+	DONE | Clear white spaces in error messages.
+	DONE | Speed up blog exportation ( almost seven times faster!).
+	DONE | Implement RelativeLocation.
 	DONE | Massive refactorisation, code cleaning and optimisation.
 	DONE | Optimisation of categories tree.
-	DONE | Code should be PEP 8 compliant.
-	DONE | Handle currentLocale = locale.getlocale()[0].split('_')[0] AttributeError: 'NoneType'
+	DONE | Code should be a little bit more PEP 8 compliant.
+	DONE | Handle currentLocale = locale.getlocale()[0].split('_')[0] AttributeError: 'NoneType'.
 	DONE | Clean up installation.
 	WIP  | Add random number generator.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Add categories tree in entry.
 	TODO | Add function Include.
-	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include)
+	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
 	TODO | Add relevant templates for themes.
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Client-side search engine.
 	TODO | Add translation for Deutsch and Spanish.
 	TODO | SSH SUPPORT.
-	TODO | Add backup command
+	TODO | Add backup command.
 	TODO | Adding LaTeX support.
 	TODO | Split install and blog creation chapter in tutorial.
 	TODO | Allow disabling exportation of specific kind of thread.
 	TODO | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage).
 	TODO | Export empty blog.
-	TODO | Serv page
+	TODO | Serv page.
 	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting
-	TODO | add entry preview / full content
+	TODO | add entry preview / full content.
 	TODO | Remove illegal character from path.
-	TODO | Fix unit test
-	TODO | Open with navigator manual
+	TODO | Fix unit test.
+	TODO | Open with navigator manual.
