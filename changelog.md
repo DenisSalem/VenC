@@ -95,7 +95,7 @@
 	DONE | No more awkward silence when something is successfully done.
 	DONE | Add more coloration for message!
 	DONE | Specify where error occurs when parsing patterns.
-	WIP  | More verbosity about wrong pattern arguments.
+	DONE  | More verbosity about wrong pattern arguments.
 	DONE | Clear white spaces in error messages.
 	DONE | Speed up blog exportation ( almost seven times faster!).
 	DONE | Implement RelativeLocation.
@@ -104,7 +104,7 @@
 	DONE | Code should be a little bit more PEP 8 compliant.
 	DONE | Handle currentLocale = locale.getlocale()[0].split('_')[0] AttributeError: 'NoneType'.
 	DONE | Clean up installation.
-	WIP  | Add random number generator.
+	DONE  | Add random number generator.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Add categories tree in entry.
 	TODO | Add function Include.
