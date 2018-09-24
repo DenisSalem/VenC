@@ -42,6 +42,7 @@ from venc2.threads.main_thread import MainThread
 from venc2.threads.dates_thread import DatesThread
 from venc2.threads.categories_thread import CategoriesThread
 from venc2.pattern.non_contextual import non_contextual_pattern_names
+from venc2.pattern.contextual import contextual_pattern_names
 
 non_contextual_pattern_names_datastore = {
     # General entry data
@@ -82,7 +83,7 @@ non_contextual_pattern_names_code_highlight = {
     "GetStyleSheets" : "get_style_sheets"
 }
 
-contextual_patterns = {
+contextual_patterns_location_names = {
     "GetRelativeOrigin" : "get_relative_origin",
     "IfInThread" : "if_in_thread",
     "GetRelativeLocation" : "get_relative_location",
@@ -132,8 +133,11 @@ def export_blog(argv=list()):
     for pattern_name in non_contextual_pattern_names.keys():
         processor.set_function(pattern_name, non_contextual_pattern_names[pattern_name])
     
-    # Setup contextual patterns
-    for pattern_name in contextual_patterns.keys():
+    # Blacklist contextual patterns
+    for pattern_name in contextual_patterns_location_names.keys():
+        processor.blacklist.append(pattern_name)
+
+    for pattern_name in contextual_patterns_names.keys():
         processor.blacklist.append(pattern_name)
 
     """ Ugly piece of code """

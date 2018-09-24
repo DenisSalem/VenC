@@ -99,20 +99,18 @@
 	DONE | Clear white spaces in error messages.
 	DONE | Speed up blog exportation ( almost seven times faster!).
 	DONE | Implement RelativeLocation.
-	DONE | Massive refactorisation, code cleaning and optimisation.
+	WIP  | Massive refactorisation, code cleaning and optimisation. (Fix pattern dictionary, must be more organized)
 	DONE | Optimisation of categories tree.
 	DONE | Code should be a little bit more PEP 8 compliant.
 	DONE | Handle currentLocale = locale.getlocale()[0].split('_')[0] AttributeError: 'NoneType'.
 	DONE | Clean up installation.
 	DONE | Add random number generator.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
-	TODO | Add categories tree in entry.
-	TODO | Add function Include.
-	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
-	TODO | Add relevant templates for themes.
 	TODO | Fix vertical scroll bar in code snippet.
-	TODO | Client-side search engine.
-	TODO | Add translation for Deutsch and Spanish.
+	TODO | Add relevant templates for themes.
+	TODO | Add function Include.
+	TODO | Add categories tree in entry.
+	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
 	TODO | SSH SUPPORT.
 	TODO | Add backup command.
 	TODO | Adding LaTeX support.
@@ -124,5 +122,7 @@
 	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting
 	TODO | add entry preview / full content.
 	TODO | Remove illegal character from path.
-	TODO | Fix unit test.
 	TODO | Open with navigator manual.
+	TODO | Add translation for Deutsch and Spanish.
+	TODO | Client-side search engine.
+	TODO | Fix unit test.
