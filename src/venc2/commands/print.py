@@ -26,7 +26,7 @@ def print_version(argv):
 
 def print_help(argv=None):
     print("-v\t--version")
-    print("-nb\t--new-blog <\""+messages.arg_blog_name.format("1")+"\"> [\""+Messages.argBlogName.format("2")+"\" ... ]")
+    print("-nb\t--new-blog <\""+messages.arg_blog_name.format("1")+"\"> [\""+messages.arg_blog_name.format("2")+"\" ... ]")
     print("-ne\t--new-entry <\""+messages.arg_entry_name+"\"> [\""+messages.arg_template_name+"\"]")
     print("-xb\t--export-blog ["+messages.theme_name+"]")
     print("-ex\t--edit-and-xport <\""+messages.arg_input_filename+"\">")

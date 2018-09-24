@@ -17,11 +17,24 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc2 import venc_version
+import random
 
-def get_venc_version(argv):
-    return venc_version
+from venc2.helpers import PatternInvalidArgument
+from venc2.l10n import messages
 
-non_contextual_pattern_names = {
-    "GetVenCVersion" : get_venc_version
-}
+def get_random_number(in_argv):
+    arg_names=["min","max","decimal_number"]
+    argv = []
+    for i in range(0,3):
+        try:
+            argv.append(int(in_argv[i]))
+
+        except ValueError:
+            raise PatternInvalidArgument(arg_names[i],in_argv[i], messages.pattern_argument_must_be_integer)
+
+    v = argv[0] + random.random() * (argv[1] - argv[0] + 1)
+    return str(int(v)) if argv[2] == 0 else str(round(v, argv[2]))
+
+contextual_pattern_names = [
+    "GetRandomNumber" : get_random_number
+]
