@@ -35,6 +35,6 @@ def get_random_number(in_argv):
     v = argv[0] + random.random() * (argv[1] - argv[0] + 1)
     return str(int(v)) if argv[2] == 0 else str(round(v, argv[2]))
 
-contextual_pattern_names = [
+extra_contextual_pattern_names = {
     "GetRandomNumber" : get_random_number
-]
+}

@@ -44,15 +44,20 @@ class Entry:
     def __init__(self, filename):
         # Loading
         raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()
-        raw_content = raw_data.split("---\n")[1]
+        try:
+            raw_content = raw_data.split("---\n")[1]
+
+        except: #empty entry
+            raw_content = ''
+
         try:
             metadata = yaml.load(raw_data.split("---\n")[0])
 
         except yaml.scanner.ScannerError:
-            die(messages.possible_malformed_entry.format(entry_filename))
+            die(messages.possible_malformed_entry.format(filename))
 
         if metadata == None:
-            die(messages.possible_malformed_entry.format(entry_filename))
+            die(messages.possible_malformed_entry.format(filename))
 
         # Setting up optional metadata
         for key in metadata.keys():
