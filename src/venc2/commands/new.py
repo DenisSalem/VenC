@@ -138,6 +138,7 @@ def new_blog(argv):
         os.mkdir(folder_name+'/'+"blog")
         os.mkdir(folder_name+'/'+"entries")
         os.mkdir(folder_name+'/'+"theme")
+        os.mkdir(folder_name+'/'+"includes")
         os.mkdir(folder_name+'/'+"extra")
         os.mkdir(folder_name+'/'+"templates")
         stream = codecs.open(folder_name+'/'+'blogConfiguration.yaml', 'w',encoding="utf-8")

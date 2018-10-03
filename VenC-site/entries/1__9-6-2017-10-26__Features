@@ -1,10 +1,10 @@
 authors: 'Denis Salem'
-categories: ''
+categories: 'test1,test2'
 tags: ''
 title:
 style: features
 ---
 
 ## V __en__ C is super easy to use and learn!
-Here's a random number .:GetRandomNumber::5::10::0:.
+Here's a random number .:GetRandomNumber::0::100::0:.
 .:DoesntExists:.

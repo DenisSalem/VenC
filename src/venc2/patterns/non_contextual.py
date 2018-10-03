@@ -18,10 +18,23 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc2 import venc_version
+from venc2.l10n import messages
+import venc2.helpers.PatternInvalidArgument
 
 def get_venc_version(argv):
-    return venc_version
+    try:
+        include_string = open("includes/"+argv[0], 'r').read()
+        return include_string
+    
+    except PermissionError:
+        raise PatternInvalidArgument("path", argv[0], )
+    
+    except FileNotFoundError:
+        raise PatternInvalidArgument("path", argv[0], )
 
-non_contextual_pattern_names = {
+non_contextual_pattern_name = {
     "GetVenCVersion" : get_venc_version
+    "Include" : include
 }
+
+

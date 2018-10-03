@@ -99,16 +99,16 @@
 	DONE | Clear white spaces in error messages.
 	DONE | Speed up blog exportation ( almost seven times faster!).
 	DONE | Implement RelativeLocation.
-	WIP  | Massive refactorisation, code cleaning and optimisation. (Fix pattern dictionary, must be more organized)
 	DONE | Optimisation of categories tree.
 	DONE | Code should be a little bit more PEP 8 compliant.
 	DONE | Handle currentLocale = locale.getlocale()[0].split('_')[0] AttributeError: 'NoneType'.
 	DONE | Clean up installation.
 	DONE | Add random number generator.
+	WIP  | Massive refactorisation, code cleaning and optimisation.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
+	WIP  | Add function Include. (Add a directory force included ressources)
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Add relevant templates for themes.
-	TODO | Add function Include.
 	TODO | Add categories tree in entry.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
 	TODO | SSH SUPPORT.
