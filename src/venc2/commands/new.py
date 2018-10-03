@@ -78,7 +78,7 @@ def new_entry(argv):
     entry_date = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
     output_filename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entry_date+"__"+entry["title"].replace(' ','_')
 
-    stream = codecs.open(outputFilename,'w',encoding="utf-8")
+    stream = codecs.open(output_filename, 'w', encoding="utf-8")
     if len(argv) == 1:
         output = yaml.dump(content, default_flow_style=False, allow_unicode=True) + "---\n"
    

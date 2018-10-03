@@ -24,8 +24,8 @@ from math import ceil
 from venc2.helpers import notify
 from venc2.helpers import die
 from venc2.l10n import messages
-from venc2.pattern.processor import Processor
-from venc2.pattern.processor import merge_batches
+from venc2.patterns.processor import Processor
+from venc2.patterns.processor import merge_batches
 
 class Thread:
     def __init__(self, prompt, datastore, theme, patterns):
@@ -40,7 +40,11 @@ class Thread:
         # Setup pattern processor
         self.processor = Processor()
         for pattern_name in patterns.keys():
-            self.processor.set_function(pattern_name, getattr(self, patterns[pattern_name]))
+            try:
+                self.processor.set_function(pattern_name, getattr(self, patterns[pattern_name]))
+
+            except TypeError: # if value isn't string but function reference
+                self.processor.set_function(pattern_name, patterns[pattern_name])
 
     def return_page_around(self, string, destination_page_number, filename):
         return string.format({

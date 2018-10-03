@@ -45,7 +45,7 @@ setup(name='VenC',
         'venc2.commands',
         'venc2.datastore',
         'venc2.l10n',
-        'venc2.pattern',
+        'venc2.patterns',
         'venc2.threads'
     ],
     license="GNU/GPLv3",

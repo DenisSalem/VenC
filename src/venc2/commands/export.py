@@ -34,15 +34,15 @@ from venc2.helpers import die
 from venc2.helpers import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
-from venc2.pattern.processor import merge_batches
-from venc2.pattern.processor import Processor
-from venc2.pattern.processor import PreProcessor
-from venc2.pattern.code_highlight import CodeHighlight
-from venc2.threads.main_thread import MainThread
-from venc2.threads.dates_thread import DatesThread
+from venc2.patterns.code_highlight import CodeHighlight
+from venc2.patterns.contextual import extra_contextual_pattern_names
+from venc2.patterns.non_contextual import non_contextual_pattern_names
+from venc2.patterns.processor import merge_batches
+from venc2.patterns.processor import Processor
+from venc2.patterns.processor import PreProcessor
 from venc2.threads.categories_thread import CategoriesThread
-from venc2.pattern.non_contextual import non_contextual_pattern_names
-from venc2.pattern.contextual import contextual_pattern_names
+from venc2.threads.dates_thread import DatesThread
+from venc2.threads.main_thread import MainThread
 
 non_contextual_pattern_names_datastore = {
     # General entry data
@@ -83,13 +83,14 @@ non_contextual_pattern_names_code_highlight = {
     "GetStyleSheets" : "get_style_sheets"
 }
 
-contextual_patterns_location_names = {
+contextual_pattern_names = {
     "GetRelativeOrigin" : "get_relative_origin",
     "IfInThread" : "if_in_thread",
     "GetRelativeLocation" : "get_relative_location",
     "GetNextPage" : "get_next_page",
     "GetPreviousPage" : "get_previous_page",
-    "ForPages" : "for_pages"
+    "ForPages" : "for_pages",
+    **extra_contextual_pattern_names
 }
 
 def export_and_remote_copy(argv=list()):
@@ -134,10 +135,10 @@ def export_blog(argv=list()):
         processor.set_function(pattern_name, non_contextual_pattern_names[pattern_name])
     
     # Blacklist contextual patterns
-    for pattern_name in contextual_patterns_location_names.keys():
+    for pattern_name in contextual_pattern_names.keys():
         processor.blacklist.append(pattern_name)
 
-    for pattern_name in contextual_patterns_names.keys():
+    for pattern_name in contextual_pattern_names.keys():
         processor.blacklist.append(pattern_name)
 
     """ Ugly piece of code """
@@ -170,11 +171,11 @@ def export_blog(argv=list()):
 
     # Starting second pass and exporting
 
-    thread = MainThread(messages.export_main_thread, datastore, theme, contextual_patterns)
+    thread = MainThread(messages.export_main_thread, datastore, theme, contextual_pattern_names)
     thread.do()
-    thread = DatesThread(messages.export_archives, datastore, theme, contextual_patterns)
+    thread = DatesThread(messages.export_archives, datastore, theme, contextual_pattern_names)
     thread.do()
-    thread = CategoriesThread(messages.export_categories, datastore, theme, contextual_patterns)
+    thread = CategoriesThread(messages.export_categories, datastore, theme, contextual_pattern_names)
     thread.do()
 
     # Copy assets and extra files
