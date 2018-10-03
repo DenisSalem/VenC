@@ -30,7 +30,6 @@ from venc2.helpers import PatternInvalidArgument
 from venc2.l10n import messages
 
 # Special case of KeyError
-
 class UnknownContextual(KeyError):
     pass
 
