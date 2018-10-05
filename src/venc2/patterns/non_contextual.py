@@ -19,22 +19,26 @@
 
 from venc2 import venc_version
 from venc2.l10n import messages
-import venc2.helpers.PatternInvalidArgument
+from venc2.helpers import PatternInvalidArgument
 
 def get_venc_version(argv):
+    return venc_version
+
+def include_html(argv):
     try:
-        include_string = open("includes/"+argv[0], 'r').read()
+        filename = argv[0]
+        include_string = open("includes/"+filename, 'r').read()
         return include_string
     
     except PermissionError:
-        raise PatternInvalidArgument("path", argv[0], )
+        raise PatternInvalidArgument("path", filename, messages.wrong_permissions.format(argv[0]))
     
     except FileNotFoundError:
-        raise PatternInvalidArgument("path", argv[0], )
+        raise PatternInvalidArgument("path", filename, messages.file_not_found.format(filename))
 
-non_contextual_pattern_name = {
-    "GetVenCVersion" : get_venc_version
-    "Include" : include
+non_contextual_pattern_names = {
+    "GetVenCVersion" : get_venc_version,
+    "IncludeHTML" : include_html
 }
 
 

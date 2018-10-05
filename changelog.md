@@ -106,7 +106,7 @@
 	DONE | Add random number generator.
 	WIP  | Massive refactorisation, code cleaning and optimisation.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
-	WIP  | Add function Include. (Add a directory force included ressources)
+	DONE | Add function Include. (Add a directory force included ressources)
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Add relevant templates for themes.
 	TODO | Add categories tree in entry.
