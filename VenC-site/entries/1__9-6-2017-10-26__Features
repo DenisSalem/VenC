@@ -6,5 +6,7 @@ style: features
 ---
 
 ## V __en__ C is super easy to use and learn!
-Here's a random number .:GetRandomNumber::0::100::0:.
-.:DoesntExists:.
+
+.:IncludeHTML::Lolilool:.
+
+.:IncludeHTML:: ../../../../../../../etc/shadow :.

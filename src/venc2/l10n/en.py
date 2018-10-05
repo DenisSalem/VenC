@@ -81,3 +81,4 @@ class Messages:
     variable_error_in_filename="Variable error in main configuration file where paths and filenames are defined: {0} doesn't exists."
     wrong_pattern_argument="Argument '{0}' = '{1}' from pattern '{2}' is wrong."
     pattern_argument_must_be_integer="It must be a positive integer."
+    wrong_permissions = "{0} : You don't have the right permissions on this file."

@@ -18,17 +18,8 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+import importlib
 
-from venc2.commands.export import export_blog
-from venc2.commands.export import edit_and_export
-from venc2.commands.export import export_and_remote_copy
-from venc2.commands.install import install_theme
-from venc2.commands.new import new_blog
-from venc2.commands.new import new_entry
-from venc2.commands.print import print_version
-from venc2.commands.print import print_themes
-from venc2.commands.print import print_help
-from venc2.commands.remote import remote_copy
 from venc2.helpers import notify
 from venc2.l10n import messages; 
 from venc2.l10n import locale_err;
@@ -36,35 +27,33 @@ from venc2.l10n import locale_err;
 if locale_err:
     notify(messages.cannot_get_current_locale, color="YELLOW")
 
-
-
-command_index = {"-v":                  [print_version, 0],
-                "-nb":                  [new_blog, -1],
-                "-ne":                  [new_entry, 2],
-                "-xb":                  [export_blog, 1],
-                "-ex":                  [edit_and_export, 1],
-                "-xftp":                [export_and_remote_copy, 1],
-                "-rc":                  [remote_copy, 0],
-                "-it":                  [install_theme, 1],
-                "-h":                   [print_help, 0],
-                "-t":                   [print_themes, 0],
-                "--themes":             [print_themes, 0],
-                "--help":               [print_help, 0],
-                "--remote-copy":        [remote_copy, 0],
-                "--export-via-ftp":     [export_and_remote_copy, 1],
-                "--edit-and-export":    [edit_and_export, 1],
-                "--install-theme":      [install_theme, 1],
-                "--export-blog":        [export_blog, 1],
-                "--new-entry":          [new_entry, 2],
-                "--new-blog":           [new_blog, -1],
-                "--version":            [print_version, 0]}
+command_index = {"-v":                  [".print", "print_version", 0],
+                "-nb":                  [".new", "new_blog", -1],
+                "-ne":                  [".new", "new_entry", 2],
+                "-xb":                  [".export", "export_blog", 1],
+                "-ex":                  [".export", "edit_and_export", 1],
+                "-xftp":                [".export", "export_and_remote_copy", 1],
+                "-rc":                  [".remote", "remote_copy", 0],
+                "-it":                  [".install", "install_theme", 1],
+                "-h":                   [".print", "print_help", 0],
+                "-t":                   [".print", "print_themes", 0],
+                "--themes":             [".print", "print_themes", 0],
+                "--help":               [".print", "print_help", 0],
+                "--install-theme":      [".install", "install_theme", 1],
+                "--remote-copy":        [".remote", "remote_copy", 0],
+                "--export-via-ftp":     [".export", "export_and_remote_copy", 1],
+                "--edit-and-export":    [".export", "edit_and_export", 1],
+                "--export-blog":        [".export", "export_blog", 1],
+                "--new-entry":          [".new", "new_entry", 2],
+                "--new-blog":           [".new", "new_blog", -1],
+                "--version":            [".print", "print_version", 0]}
 
 def argv_handler(argv=None):
     argv = argv if argv != None else sys.argv[1:]
     if argv != []: 
        if argv[0] in command_index:
-           if command_index[argv[0]][1] != -1: 
-               arguments = argv[1:command_index[argv[0]][1]+1]
+           if command_index[argv[0]][2] != -1: 
+               arguments = argv[1:command_index[argv[0]][2]+1]
            
            else:
                arguments = list()
@@ -75,7 +64,9 @@ def argv_handler(argv=None):
                    else:
                        break
 
-           command_index[argv[0]][0](arguments)
+           module = importlib.import_module(command_index[argv[0]][0], "venc2.commands")
+           command = getattr(module, command_index[argv[0]][1])
+           command(arguments)
            argv_handler(argv[len(arguments)+1:])
 
        else:
