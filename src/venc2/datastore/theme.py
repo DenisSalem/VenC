@@ -20,7 +20,7 @@
 from venc2.datastore.entry import EntryWrapper
 from venc2.helpers import die
 from venc2.l10n import messages
-from venc2.pattern.processor import PreProcessor
+from venc2.patterns.processor import PreProcessor
 
 themes_descriptor = {
     "dummy": {"columns":1,"_themeDescription_": messages.theme_description_dummy},
