@@ -99,7 +99,6 @@ def export_and_remote_copy(argv=list()):
     remote_copy()
 
 def export_blog(argv=list()):
-
     # Initialisation of environment
     datastore = DataStore()
 
@@ -180,7 +179,7 @@ def export_blog(argv=list()):
 
     # Copy assets and extra files
 
-    #codeHighlight.ExportStyleSheets()
+    code_highlight.export_style_sheets()
     copy_recursively("extra/","blog/")
     copy_recursively("theme/assets/","blog/")
 

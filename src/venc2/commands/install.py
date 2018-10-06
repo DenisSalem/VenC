@@ -37,8 +37,8 @@ def install_theme(argv):
     try:
         shutil.move("theme", new_folder_name)
     
-    except FileNotFoundError:
-        die(messages.file_not_found.format("'theme'"))
+    except:
+        pass
 
     try:
         shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0], "theme")

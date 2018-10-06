@@ -1,6 +1,7 @@
-      <div class="entry" id="entry.:GetEntryID:." data-venc-keywords=".:ForEntryTags::{0[tag]}::,:." data-venc-authors=".:ForEntryAuthors::{0[author]}::,:.">
-        <h3>#<a href=".:GetRelativeOrigin:..:GetEntryURL:.">.:GetEntryID:.</a> .:GetEntryTitle:.</h3>
-        <h4>.:ForEntryAuthors::{0[author]}::, :. - <a href=".:GetRelativeOrigin:..:GetEntryDateURL:.">.:GetEntryDate:.</a></h4>
-        .:GetEntryContent:.
-        <ul>.:ForEntryCategoriesLeaves::<li><a href="{0[relativeOrigin]}{0[categoryLeafPath]}">{0[categoryLeaf]}</a></li>:: :.</ul>
-      </div>
+<div class="entry .:GetEntryMetadataIfExists::CSS:." id="entry.:GetEntryID:." data-venc-tags=".:ForEntryTags::{0[tag]}:: :.">
+  <div class="permalink">
+    <h1><a href=".:GetRelativeOrigin:.entry.:GetEntryID:..html">.:GetEntryTitle:.</a></h1>
+    <p>.:GetEntryDate:.</p>
+  </div>
+  .:GetEntryContent:.
+</div>

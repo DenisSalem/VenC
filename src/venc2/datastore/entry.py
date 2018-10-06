@@ -28,7 +28,7 @@ from venc2.helpers import notify
 
 from venc2.l10n import messages
 from venc2.datastore.metadata import MetadataNode
-from venc2.pattern.processor import PreProcessor
+from venc2.patterns.processor import PreProcessor
 
 class EntryWrapper:
     def __init__(self, wrapper):

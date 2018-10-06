@@ -21,8 +21,8 @@ import os
 
 from venc2.helpers import notify
 from venc2.threads.thread import Thread
-from venc2.pattern.processor import UnknownContextual
-from venc2.pattern.processor import merge_batches
+from venc2.patterns.processor import UnknownContextual
+from venc2.patterns.processor import merge_batches
 
 class CategoriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns):

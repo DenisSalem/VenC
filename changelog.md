@@ -86,7 +86,6 @@
 	DONE | Catch exception when Yaml cannot parse blog configuration.
 	DONE | Hardcoded opening,closing and separator symbols in pattern processor.
 	DONE | Add a copyright notice and term of use in each source files.
-	DONE | Auto include CSS.
 	DONE | Warn about missing mandatory field in entry.
 	DONE | Add function GetBlogMetadataIfExists and GetEntryMetadataIfExists.
 	DONE | Catch exception nicely in CodeHighLight.
@@ -104,9 +103,11 @@
 	DONE | Handle currentLocale = locale.getlocale()[0].split('_')[0] AttributeError: 'NoneType'.
 	DONE | Clean up installation.
 	DONE | Add random number generator.
+	DONE | Add function Include. (Add a directory force included ressources)
+	DONE | Create theme folder if missing while setup new theme.
 	WIP  | Massive refactorisation, code cleaning and optimisation.
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
-	DONE | Add function Include. (Add a directory force included ressources)
+	WIP  | Auto include CodeHighlight CSS.
 	TODO | Fix vertical scroll bar in code snippet.
 	TODO | Add relevant templates for themes.
 	TODO | Add categories tree in entry.
