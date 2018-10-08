@@ -21,7 +21,6 @@ from venc2.datastore.configuration import get_blog_configuration
 from venc2.datastore.entry import yield_entries_content
 from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import MetadataNode
-from venc2.patterns.code_highlight import CodeHighlight
 
 def merge(iterable, argv):
     return argv[1].join(
@@ -61,7 +60,6 @@ class DataStore:
         self.entries_per_dates = list()
         self.entries_per_categories = list()
         self.requested_entry_index = 0
-        self.code_highlight = CodeHighlight()
         
         ''' Entry index is different from entry id '''
         entry_index = 0

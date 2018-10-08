@@ -27,21 +27,21 @@ from venc2.l10n import messages
 
 class CodeHighlight:
     def __init__(self):
-        self.includes = dict()
+        self._includes = dict()
 
     def get_style_sheets(self, argv=list()):
         output = str()
-        for filename in self.includes.keys():
+        for filename in self._includes.keys():
             output += "<link rel=\"stylesheet\" href=\".:GetRelativeOrigin:."+filename+" type=\"text/css\" />\n"
 
         return output
 
     def export_style_sheets(self):
         extra = os.listdir(os.getcwd()+"/extra/")
-        for key in self.includes:
+        for key in self._includes:
             if key not in extra:    
                 stream = open(os.getcwd()+"/extra/"+key,'w')
-                stream.write(self.includes[key])
+                stream.write(self._includes[key])
 
     def highlight(self, argv):
         try:
@@ -54,8 +54,8 @@ class CodeHighlight:
             result = pygments.highlight(code.replace("\:",":"), lexer, formatter)
             css  = formatter.get_style_defs(name)
 
-            if not name+".css" in self.includes.keys():
-                self.includes[name+".css"] = css
+            if not name+".css" in self._includes.keys():
+                self._includes[name+".css"] = css
 
             return result
     

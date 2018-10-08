@@ -128,7 +128,7 @@ def export_blog(argv=list()):
         processor.set_function(pattern_name, getattr(datastore, non_contextual_pattern_names_datastore[pattern_name]))
     
     for pattern_name in non_contextual_pattern_names_code_highlight.keys():
-        processor.set_function(pattern_name, getattr(datastore.code_highlight, non_contextual_pattern_names_code_highlight[pattern_name]))
+        processor.set_function(pattern_name, getattr(code_highlight, non_contextual_pattern_names_code_highlight[pattern_name]))
     
     for pattern_name in non_contextual_pattern_names.keys():
         processor.set_function(pattern_name, non_contextual_pattern_names[pattern_name])
@@ -158,7 +158,7 @@ def export_blog(argv=list()):
         entry.rss_wrapper = deepcopy(theme.rss_entry)
         entry.rss_wrapper.above = PreProcessor(merge_batches(processor.batch_process(entry.rss_wrapper.above, "rssEntry.html", not entry.do_not_use_markdown)))
         entry.rss_wrapper.below = PreProcessor(merge_batches(processor.batch_process(entry.rss_wrapper.below, "rssEntry.html", not entry.do_not_use_markdown)))
-
+    
     theme.header = PreProcessor(merge_batches(processor.batch_process(theme.header, "header.html")))
     theme.footer = PreProcessor(merge_batches(processor.batch_process(theme.footer, "footer.html")))
     theme.rssHeader = PreProcessor(merge_batches(processor.batch_process(theme.rss_header, "rssHeader.html")))
