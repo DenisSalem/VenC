@@ -118,6 +118,7 @@ def new_blog(argv):
                                 "ftpHost":                      messages.ftp_host,
 				"blogLanguage":		        messages.blog_language,
 				"authorEmail":			messages.your_email,
+                                "codeHighlightCssOverride":     False,
 				"path":				{"ftp":                         messages.ftp_path,
                                                                 "indexFileName":		"index{0[pageNumber]}.html",
 								"categoryDirectoryName":	"{category}",
@@ -127,7 +128,8 @@ def new_blog(argv):
 				"entriesPerPages":		10,
 				"columns":			1,
 				"rssThreadLenght":		5,
-				"reverseThreadOrder":		True}
+				"reverseThreadOrder":		True,
+                                "markup_language": "markdown"}
     for folder_name in argv:
         try:
             os.mkdir(folder_name)

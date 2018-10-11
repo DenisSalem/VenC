@@ -25,7 +25,6 @@ from venc2.helpers import notify
 from venc2.helpers import die
 from venc2.l10n import messages
 from venc2.patterns.processor import Processor
-from venc2.patterns.processor import merge_batches
 
 class Thread:
     def __init__(self, prompt, datastore, theme, patterns):
@@ -100,7 +99,6 @@ class Thread:
         
         else:
             return str()
-
     # Must be called in child class
     def for_pages(self, argv):
         list_lenght = int(argv[0])
@@ -154,15 +152,15 @@ class Thread:
     def do(self):
         page_number = 0
         for page in self.pages:
-            output = merge_batches(self.processor.batch_process(self.theme.header, "header.html"))
+            output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
 
             columns_number = self.datastore.blog_configuration["columns"]
             columns_counter = 0
             columns = [ '' for i in range(0, columns_number) ]
             for entry in page:
-                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.html_wrapper.above, entry.filename, not entry.do_not_use_markdown))
-                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.content, entry.filename, not entry.do_not_use_markdown))
-                columns[columns_counter] += merge_batches(self.processor.batch_process(entry.html_wrapper.below, entry.filename, not entry.do_not_use_markdown))
+                columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.above, entry.filename).sub_strings)
+                columns[columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename,).sub_strings)
+                columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.below, entry.filename).sub_strings)
 
                 columns_counter +=1
                 if columns_counter >= columns_number:
@@ -172,7 +170,7 @@ class Thread:
             for column in columns:
                 output += '<div id="__VENC_COLUMN_'+str(columns_counter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
             
-            output += merge_batches(self.processor.batch_process(self.theme.footer, "footer.html"))
+            output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
         
             stream = codecs.open(
                 self.export_path + self.format_filename(page_number),

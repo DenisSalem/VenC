@@ -22,7 +22,6 @@ import os
 from venc2.helpers import notify
 from venc2.threads.thread import Thread
 from venc2.patterns.processor import UnknownContextual
-from venc2.patterns.processor import merge_batches
 
 class CategoriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns):
@@ -35,7 +34,6 @@ class CategoriesThread(Thread):
         self.export_path = "blog/"
 
     def do(self, root=None):
-
         if root == None:
             root = self.datastore.entries_per_categories
 

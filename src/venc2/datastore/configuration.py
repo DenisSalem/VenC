@@ -44,7 +44,8 @@ def get_blog_configuration():
 	    "entriesPerPages",
             "columns",
 	    "rssThreadLenght",
-            "reverseThreadOrder"
+            "reverseThreadOrder",
+            "markup_language"
         ]
 
         everything_is_okay = True
@@ -66,6 +67,10 @@ def get_blog_configuration():
             if not field in blog_configuration["path"].keys():
                 everything_is_okay = False
                 notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
+
+        if not blog_configuration["markup_language"] in ["none", "Markdown"]:
+                everything_is_okay = False
+                notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blogConfiguration.yaml"),"RED")
 
         if not everything_is_okay:
             exit()

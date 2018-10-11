@@ -80,4 +80,5 @@ class Messages:
     wrong_pattern_argument="L'argument '{0}' = '{1}' du motif '{2}' n'est pas correct."
     pattern_argument_must_be_integer="L'argument doit être un entier positif."
     wrong_permissions = "{0} : Vous n'avez pas les bonnes permissions d'accès sur ce fichier."
+    unknown_markup_language = "{0}: Langage de balisage non supporté dans {1}."
 

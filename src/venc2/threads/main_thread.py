@@ -19,7 +19,6 @@
 
 from venc2.threads.thread import Thread
 from venc2.patterns.processor import UnknownContextual
-from venc2.patterns.processor import merge_batches
 
 class MainThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns):
