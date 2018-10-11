@@ -11,6 +11,8 @@ dateFormat: '%A %d. %B %Y'
 entriesPerPages: 5
 ftpHost: Nom d'hôte FTP
 license: CC By-SA
+codeHighlightCssOverride: true
+markup_language: 'Markdown'
 path:
   categoryDirectoryName: '{category}'
   datesDirectoryName: ''

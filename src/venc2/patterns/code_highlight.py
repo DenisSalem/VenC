@@ -26,20 +26,21 @@ from venc2.helpers import notify
 from venc2.l10n import messages
 
 class CodeHighlight:
-    def __init__(self):
+    def __init__(self, override):
+        self._override = override
         self._includes = dict()
 
     def get_style_sheets(self, argv=list()):
         output = str()
         for filename in self._includes.keys():
-            output += "<link rel=\"stylesheet\" href=\".:GetRelativeOrigin:."+filename+" type=\"text/css\" />\n"
+            output += "<link rel=\"stylesheet\" href=\".:GetRelativeOrigin:."+filename+"\" type=\"text/css\" />\n"
 
         return output
 
     def export_style_sheets(self):
         extra = os.listdir(os.getcwd()+"/extra/")
         for key in self._includes:
-            if key not in extra:    
+            if key not in extra or self._override:    
                 stream = open(os.getcwd()+"/extra/"+key,'w')
                 stream.write(self._includes[key])
 
@@ -49,10 +50,19 @@ class CodeHighlight:
 
             lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=True)
 
-            formatter = pygments.formatters.HtmlFormatter(linenos=("inline" if argv[1]=="True" else False),cssclass=name)
+            formatter = pygments.formatters.HtmlFormatter(linenos=("table" if argv[1]=="True" else False), cssclass=name)
             code = argv[2]
-            result = pygments.highlight(code.replace("\:",":"), lexer, formatter)
-            css  = formatter.get_style_defs(name)
+            result = pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:")
+            css  = formatter.get_style_defs()
+            if argv[1]=="True":
+                css += "\n."+name+"table {width: 100%; display: block;}"
+                css += "\n."+name+"table tr {width: 100%; display: block;}"
+                css += "\n."+name+"table tbody {width: 100%; display: block;}"
+                css += "\n."+name+"table .linenos {width: 4%; display: inline-block;vertical-align: top;}"
+                css += "\n."+name+"table .code {width: 95%; display: inline-block;vertical-align: top;}"
+                css += "\n."+name+"table td pre {vertical-align: top; overflow: hidden; overflow-x: scroll;}"
+            else:
+                css += "\n."+name+" pre {overflow: hidden; overflow-x: scroll;}"
 
             if not name+".css" in self._includes.keys():
                 self._includes[name+".css"] = css
@@ -61,3 +71,6 @@ class CodeHighlight:
     
         except pygments.util.ClassNotFound:
             die(messages.unknown_language.format(argv[0]))
+
+        except Exception as e:
+            print(e)

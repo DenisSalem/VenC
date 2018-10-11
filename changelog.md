@@ -105,10 +105,15 @@
 	DONE | Add random number generator.
 	DONE | Add function Include. (Add a directory force included ressources)
 	DONE | Create theme folder if missing while setup new theme.
-	WIP  | Massive refactorisation, code cleaning and optimisation.
-	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
-	WIP  | Auto include CodeHighlight CSS.
-	TODO | Fix vertical scroll bar in code snippet.
+	DONE | Auto include CodeHighlight CSS.
+	DONE | Add CodeHighlight css override option in blog configuration.
+	DONE | Raise error if unknown markup language required.
+	DONE | Fix markup language collision AGAIN...
+	DONE | Massive refactorisation, code cleaning and optimisation.
+	DONE | Fix pattern recursion issue (CodeHighlight).
+	DONE | Fix vertical scroll bar in code snippet.
+	WIP  | Add reStructuredText support, remove do_not_use_markdown option.
+	TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Add relevant templates for themes.
 	TODO | Add categories tree in entry.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).

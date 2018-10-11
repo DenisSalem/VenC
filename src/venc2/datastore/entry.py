@@ -18,7 +18,6 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
-import markdown
 import os
 import time
 import yaml
@@ -61,15 +60,8 @@ class Entry:
 
         # Setting up optional metadata
         for key in metadata.keys():
-            if not key in ["authors","tags","categories","entry_name","doNotUseMarkdown"]:
+            if not key in ["authors","tags","categories","entry_name"]:
                 setattr(self, key, metadata[key])
-    
-        # Are we using markdown?
-        if "doNotUseMarkdown" in metadata.keys():
-            self.do_not_use_markdown = True
-        else:
-            self.do_not_use_markdown = False
-            raw_content = markdown.markdown(raw_content)
     
         self.filename = filename
         self.id = filename.split('__')[0]

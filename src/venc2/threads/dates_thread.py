@@ -22,7 +22,6 @@ import os
 from venc2.helpers import notify
 from venc2.threads.thread import Thread
 from venc2.patterns.processor import UnknownContextual
-from venc2.patterns.processor import merge_batches
 
 class DatesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns):
@@ -34,7 +33,6 @@ class DatesThread(Thread):
         self.in_thread = True
 
     def do(self):
-        
         for thread in self.datastore.entries_per_dates:
             notify("\t"+thread.value+"...")
             self.export_path = "blog/"+thread.value+'/'

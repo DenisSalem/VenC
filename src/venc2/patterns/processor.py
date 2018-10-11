@@ -18,6 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import cgi
+import markdown
 import venc2.l10n
 import venc2.helpers
 
@@ -25,6 +26,7 @@ from copy import deepcopy
 
 from venc2.helpers import get_formatted_message
 from venc2.helpers import highlight_value
+from venc2.helpers import notify
 from venc2.helpers import remove_by_value
 from venc2.helpers import PatternInvalidArgument
 from venc2.l10n import messages
@@ -37,9 +39,12 @@ OPEN_SYMBOL = ".:"
 SEPARATOR = "::"
 CLOSE_SYMBOL = ":."
 
+markup_language_errors = []
+
 # Because parsing is recursive we want to avoid useless computation
 # by splitting a given string and mark where exactly are the patterns 
 # we want to process.
+
 
 class PreProcessor():
     def __init__(self, string):
@@ -78,18 +83,36 @@ class PreProcessor():
 
         # append last substring
         self.sub_strings.append(string)
+        
+        # To avoid markup language collision we split appart Code snippet from the rest of the entry content
+        self.keep_appart_from_markup_index = list()
 
-def merge_batches(batches):
-    return ''.join(batches.sub_strings)
+    def process_markup_language(self, markup_language, source):
+        new_sub_strings = [""]
+        for index in range(0, len(self.sub_strings)):
+            if not index in self.keep_appart_from_markup_index:
+                new_sub_strings[-1] += self.sub_strings[index]
+                if index == len(self.sub_strings) - 1:
+                    new_sub_strings[-1] = parse_markup_language(new_sub_strings[-1], markup_language, source)        
+            
+            else:
+                new_sub_strings[-1] = parse_markup_language(new_sub_strings[-1], markup_language, source)        
+                new_sub_strings.append(self.sub_strings[index])
+                new_sub_strings.append("")
 
-""" should be replaced by ''.join(sub_string) 
-def get_final_string(processed):
-    output = str()
-    for chunk in processed.sub_strings:
-        output += chunk
+        return ''.join(new_sub_strings)
 
-    return output
-"""
+def parse_markup_language(string, markup_language, source):
+    if markup_language == "Markdown":
+        string = markdown.markdown(string)
+    
+    elif markup_language != "none":
+            err = messages.unknown_markup_language.format(markup_language, source)
+            if not err in markup_language_errors:
+                notify(messages.unknown_markup_language.format(markup_language, source), "RED")
+                markup_language_errors.append(err)
+
+    return string
 
 class Processor():
     def __init__(self):
@@ -114,7 +137,7 @@ class Processor():
         except UnknownContextual as e:
                 output = self.handle_error(
                     messages.unknown_contextual.format(e),
-                    "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                    ",;"+pattern+";;"+";;".join(argv)+";,",
                     error_origin = "{0["+str(e)[1:-1]+']}'
                 )
         
@@ -122,34 +145,34 @@ class Processor():
             if str(e)[1:-1] == pattern:
                 output =  self.handle_error(
                     messages.unknown_pattern.format(pattern),
-                    "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                    ",;"+pattern+";;"+";;".join(argv)+";,",
                     error_origin = [':'+pattern+':']
                 )
             else:
                 output = self.handle_error(
                     messages.unknown_contextual.format(e),
-                    "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                    ",;"+pattern+";;"+";;".join(argv)+";,",
                     error_origin = [':'+str(e)[1:-1]+':','{0['+str(e)[1:-1]+']}']
                 )
 
         except AttributeError as e:
                 output = self.handle_error(
                     messages.unknown_contextual.format(e),
-                    "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                    ",;"+pattern+";;"+";;".join(argv)+";,",
                     error_origin = [str(e).split("'")[-2]]
                 )
         
         except IndexError:
             output = self.handle_error(
                 pattern+": "+messages.not_enough_args,
-                "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                ",;"+pattern+";;"+";;".join(argv)+";,",
                 [pattern]
             )
 
         except PatternInvalidArgument as e:
             output = self.handle_error(
                 messages.wrong_pattern_argument.format(e.name, e.value, pattern)+' '+e.message,
-                "~§"+pattern+"§§"+"§§".join(argv)+"§~",
+                ",;"+pattern+";;"+";;".join(argv)+";,",
                 error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
             )
 
@@ -206,7 +229,7 @@ class Processor():
         return True
 
     # Process queue
-    def batch_process(self, input_pre_processed, ressource, markdown=False, escape=False):
+    def batch_process(self, input_pre_processed, ressource, escape=False):
         self.ressource = ressource
         pre_processed = deepcopy(input_pre_processed)
         if len(pre_processed.patterns_index) == 0:
@@ -216,25 +239,15 @@ class Processor():
         to_remove = list()
         for index in pre_processed.patterns_index:
             current_pattern = pre_processed.sub_strings[index][2:-2].split('::')[0]
+            if current_pattern == "CodeHighlight":
+                pre_processed.keep_appart_from_markup_index.append(index)
+
             if not current_pattern in self.blacklist:
                 pre_processed.sub_strings[index] = self.process(pre_processed.sub_strings[index], escape)
                 
                 # check if there is residual patterns
                 if self.if_not_present(pre_processed.sub_strings[index]):
                     to_remove.append(index)
-
-                if current_pattern in self.clean_after_and_before and markdown:
-                    try:
-                        pre_processed.sub_strings[index-1] = pre_processed.sub_strings[index-1][:-3] # remove <p>
-
-                    except IndexError:
-                        pass
-                    
-                    try:
-                        pre_processed.sub_strings[index+1] = pre_processed.sub_strings[index+1][4:] # remove </p>
-
-                    except IndexError:
-                        pass
 
         for index in to_remove:
             pre_processed.patterns_index = remove_by_value(pre_processed.patterns_index, index)
@@ -255,32 +268,30 @@ class Processor():
             elif string[i:i+2] == CLOSE_SYMBOL:
                 close_symbol_pos.append(i)
 
-            if len(close_symbol_pos) <= len(open_symbol_pos) and len(close_symbol_pos) != 0 and len(open_symbol_pos) != 0:
-                if open_symbol_pos[-1] < close_symbol_pos[0]:
-                    fields = [field for field in string[open_symbol_pos[-1]+2:close_symbol_pos[0]].split(SEPARATOR) if field != '']
+            if len(close_symbol_pos) == len(open_symbol_pos) and len(close_symbol_pos) != 0 and len(open_symbol_pos) != 0:
+                if open_symbol_pos[0] < close_symbol_pos[-1]:
+                    fields = [field for field in string[open_symbol_pos[0]+2:close_symbol_pos[-1]].split(SEPARATOR) if field != '']
                     if not fields[0] in self.blacklist:
                         output = self.run_pattern(fields[0], fields[1:])
                         if escape:
                             return self.process(
-                                string[:open_symbol_pos[-1]]+
+                                string[:open_symbol_pos[0]]+
                                 cgi.escape(output).encode(
                                     'ascii', 
                                     'xmlcharrefreplace'
                                 ).decode(
                                     encoding='ascii'
                                 )+
-                                string[close_symbol_pos[0]+2:],
-                                escape=True
+                                string[close_symbol_pos[-1]+2:],
+                                escape
                             )
 
                         else:
                             return self.process(
-                                string[
-                                    :open_symbol_pos[-1]]+
-                                    str(output)+
-                                    string[close_symbol_pos[0]+2:
-                                ],
-                                escape=False
+                                string[:open_symbol_pos[0]]+
+                                str(output)+
+                                string[close_symbol_pos[-1]+2:],
+                                escape
                             )
             i+=1
     
