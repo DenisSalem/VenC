@@ -34,6 +34,7 @@ from venc2.helpers import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
 from venc2.patterns.code_highlight import CodeHighlight
+from venc2.patterns.latex2mathml import Latex2MathML
 from venc2.patterns.contextual import extra_contextual_pattern_names
 from venc2.patterns.non_contextual import non_contextual_pattern_names
 from venc2.patterns.processor import Processor
@@ -80,8 +81,9 @@ non_contextual_pattern_names_datastore = {
     "ForBlogCategories" : "for_blog_categories"
 }
 
-non_contextual_pattern_names_code_highlight = {
-    "CodeHighlight" : code_highlight.highlight
+non_contextual_pattern_names_ml = {
+    "CodeHighlight" : code_highlight.highlight,
+    "Latex2MathML" : Latex2MathML
 }
 
 contextual_pattern_names = {
@@ -125,8 +127,8 @@ def export_blog(argv=list()):
     for pattern_name in non_contextual_pattern_names_datastore.keys():
         processor.set_function(pattern_name, getattr(datastore, non_contextual_pattern_names_datastore[pattern_name]))
     
-    for pattern_name in non_contextual_pattern_names_code_highlight.keys():
-        processor.set_function(pattern_name, non_contextual_pattern_names_code_highlight[pattern_name])
+    for pattern_name in non_contextual_pattern_names_ml.keys():
+        processor.set_function(pattern_name, non_contextual_pattern_names_ml[pattern_name])
     
     for pattern_name in non_contextual_pattern_names.keys():
         processor.set_function(pattern_name, non_contextual_pattern_names[pattern_name])

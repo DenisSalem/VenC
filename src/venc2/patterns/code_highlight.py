@@ -54,15 +54,13 @@ class CodeHighlight:
             code = argv[2]
             result = pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:")
             css  = formatter.get_style_defs()
-            if argv[1]=="True":
-                css += "\n."+name+"table {width: 100%; display: block;}"
-                css += "\n."+name+"table tr {width: 100%; display: block;}"
-                css += "\n."+name+"table tbody {width: 100%; display: block;}"
-                css += "\n."+name+"table .linenos {width: 4%; display: inline-block;vertical-align: top;}"
-                css += "\n."+name+"table .code {width: 95%; display: inline-block;vertical-align: top;}"
-                css += "\n."+name+"table td pre {vertical-align: top; overflow: hidden; overflow-x: scroll;}"
-            else:
-                css += "\n."+name+" pre {overflow: hidden; overflow-x: scroll;}"
+            css += "\n."+name+"table {width: 100%; display: block;}"
+            css += "\n."+name+"table tr {width: 100%; display: block;}"
+            css += "\n."+name+"table tbody {width: 100%; display: block;}"
+            css += "\n."+name+"table .linenos {width: 4%; display: inline-block;vertical-align: top;}"
+            css += "\n."+name+"table .code {width: 95%; display: inline-block;vertical-align: top;}"
+            css += "\n."+name+"table td pre {vertical-align: top; overflow: hidden; overflow-x: scroll;}"
+            css += "\n."+name+" pre {overflow: hidden; overflow-x: scroll;}"
 
             if not name+".css" in self._includes.keys():
                 self._includes[name+".css"] = css
