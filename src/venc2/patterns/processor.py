@@ -239,7 +239,7 @@ class Processor():
         to_remove = list()
         for index in pre_processed.patterns_index:
             current_pattern = pre_processed.sub_strings[index][2:-2].split('::')[0]
-            if current_pattern == "CodeHighlight":
+            if current_pattern in ["CodeHighlight", "Latex2MathML"]:
                 pre_processed.keep_appart_from_markup_index.append(index)
 
             if not current_pattern in self.blacklist:

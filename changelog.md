@@ -113,13 +113,12 @@
 	DONE | Fix pattern recursion issue (CodeHighlight).
 	DONE | Fix vertical scroll bar in code snippet.
 	WIP  | Add reStructuredText support, remove do_not_use_markdown option.
-	TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
+	WIP  | Adding LaTeX2mathml support.
+	TODO | Support for video.
 	TODO | Add relevant templates for themes.
 	TODO | Add categories tree in entry.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
 	TODO | SSH SUPPORT.
-	TODO | Add backup command.
-	TODO | Adding LaTeX support.
 	TODO | Split install and blog creation chapter in tutorial.
 	TODO | Allow disabling exportation of specific kind of thread.
 	TODO | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage).
@@ -129,6 +128,7 @@
 	TODO | add entry preview / full content.
 	TODO | Remove illegal character from path.
 	TODO | Open with navigator manual.
+	TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Add translation for Deutsch and Spanish.
 	TODO | Client-side search engine.
 	TODO | Fix unit test.
