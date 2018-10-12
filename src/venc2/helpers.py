@@ -51,8 +51,10 @@ def highlight_value(text, value, color="RED"):
     )
 
 # Terminate nicely with notification
-def die(msg, color="RED"):
+def die(msg, color="RED", extra=""):
     notify(msg, color)
+    if extra != "":
+        print(extra)
     exit()
 
 # Being verborse is nice, with colours it's better

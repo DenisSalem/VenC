@@ -95,6 +95,7 @@
 	DONE | Add more coloration for message!
 	DONE | Specify where error occurs when parsing patterns.
 	DONE | More verbosity about wrong pattern arguments.
+	DONE | More verbosity about malformed entry.
 	DONE | Clear white spaces in error messages.
 	DONE | Speed up blog exportation ( almost seven times faster!).
 	DONE | Implement RelativeLocation.
@@ -115,8 +116,8 @@
 	DONE | Adding Tex math to mathml support (depend on latex2mathml)
 	DONE | Add reStructuredText support, remove do_not_use_markdown option.
 	DONE | Improve reStructuredText integration with VenC.
-	TODO | add entry preview / full content.
-	TODO | Fix broken -xb theme
+	DONE | Quit gracefully when ftp timeout error.
+	WIP  | add entry preview / full content.
 	TODO | Support for video.
 	TODO | Add relevant templates for themes.
 	TODO | Add categories tree in entry.

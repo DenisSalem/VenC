@@ -80,7 +80,7 @@ def new_entry(argv):
 
     stream = codecs.open(output_filename, 'w', encoding="utf-8")
     if len(argv) == 1:
-        output = yaml.dump(content, default_flow_style=False, allow_unicode=True) + "---\n"
+        output = yaml.dump(content, default_flow_style=False, allow_unicode=True) + "---VENC-BEGIN-PREVIEW---\n---VENC-END-PREVIEW---\n"
    
     else:
         try:

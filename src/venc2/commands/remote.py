@@ -46,6 +46,9 @@ def remote_copy(argv=list()):
     except ftplib.error_perm as e:
         die(str(e))
 
+    except TimeoutError as e:
+        die(str(e))
+
 def ftp_export_recursively(origin, ftp):
         folder = os.listdir(origin)
         for item in folder:

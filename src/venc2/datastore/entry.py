@@ -43,21 +43,26 @@ class Entry:
     def __init__(self, filename):
         # Loading
         raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()
-        try:
-            raw_content = raw_data.split("\n---\n")[1]
 
-        except: #empty entry
-            raw_content = ''
+        entry_parted = raw_data.split("---VENC-BEGIN-PREVIEW---\n")
+        if len(entry_parted) == 2:
+            entry_parted = [entry_parted[0]] + entry_parted[1].split("---VENC-END-PREVIEW---\n")
+            if len(entry_parted) == 3:
+                self.preview = PreProcessor(entry_parted[1])
+                self.content = PreProcessor(entry_parted[2])
+                try:
+                    metadata = yaml.load(entry_parted[0])
 
-        try:
-            metadata = yaml.load(raw_data.split("---\n")[0])
+                except yaml.scanner.ScannerError as e:
+                    die(messages.possible_malformed_entry.format(filename, ''), extra=str(e))
 
-        except yaml.scanner.ScannerError:
-            die(messages.possible_malformed_entry.format(filename))
-
-        if metadata == None:
-            die(messages.possible_malformed_entry.format(filename))
-
+            else:
+                cause = messages.missing_separator_in_entry.format("---VENC-END-PREVIEW---")
+                die(messages.possible_malformed_entry.format(filename, cause))
+        else:
+            cause = messages.missing_separator_in_entry.format("---VENC-BEGIN-PREVIEW---")
+            die(messages.possible_malformed_entry.format(filename, cause))
+        
         # Setting up optional metadata
         for key in metadata.keys():
             if not key in ["authors","tags","categories","entry_name"]:
@@ -86,13 +91,6 @@ class Entry:
 
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("authors", self.id))
-
-        try:
-            self.content = PreProcessor(raw_content)
-
-        except:
-            raise
-            die(messages.possible_malformed_entry.format(self.id))
 
         try:
             self.tags = [ {"tag":e} for e in list(metadata["tags"].split(",") if metadata["tags"] != str() else list())]
