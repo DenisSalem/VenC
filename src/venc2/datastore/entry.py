@@ -44,7 +44,7 @@ class Entry:
         # Loading
         raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()
         try:
-            raw_content = raw_data.split("---\n")[1]
+            raw_content = raw_data.split("\n---\n")[1]
 
         except: #empty entry
             raw_content = ''

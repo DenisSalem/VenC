@@ -112,8 +112,11 @@
 	DONE | Massive refactorisation, code cleaning and optimisation.
 	DONE | Fix pattern recursion issue (CodeHighlight).
 	DONE | Fix vertical scroll bar in code snippet.
-	WIP  | Add reStructuredText support, remove do_not_use_markdown option.
-	WIP  | Adding LaTeX2mathml support.
+	DONE | Adding Tex math to mathml support (depend on latex2mathml)
+	DONE | Add reStructuredText support, remove do_not_use_markdown option.
+	DONE | Improve reStructuredText integration with VenC.
+	TODO | add entry preview / full content.
+	TODO | Fix broken -xb theme
 	TODO | Support for video.
 	TODO | Add relevant templates for themes.
 	TODO | Add categories tree in entry.
@@ -125,10 +128,14 @@
 	TODO | Export empty blog.
 	TODO | Serv page.
 	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting
-	TODO | add entry preview / full content.
+	TODO | fix FAQ latex2mathml is incomplete
 	TODO | Remove illegal character from path.
 	TODO | Open with navigator manual.
 	TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Add translation for Deutsch and Spanish.
 	TODO | Client-side search engine.
 	TODO | Fix unit test.
+
+# version 2.x.x
+	TODO | Add docutils reStructuredText parser settings override.
+	TODO | Decrease halt_level to render reStructuredText even if errors occurs.
