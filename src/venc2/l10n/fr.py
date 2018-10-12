@@ -45,7 +45,7 @@ class Messages:
     ftp_path="Chemin absolu de votre blog sur l'hôte FTP."
     clean_ftp_directory="Nettoyage du repertoire FTP de destination..."
     copy_to_ftp_directory="Copie du blog vers le repertoire FTP de destination..."
-    possible_malformed_entry="La publication {0} est probablement mal formée... Abandon."
+    possible_malformed_entry="La publication {0} est probablement mal formée... {1} Abandon."
     possible_malformed_blog_configuration="Le fichier de configuration du blog est probablement mal formée... Abandon."
     blog_recompilation="Recompilation du blog locale..."
     export_archives="Exportation locale des publications triées par dates..."
@@ -82,4 +82,5 @@ class Messages:
     wrong_permissions = "{0} : Vous n'avez pas les bonnes permissions d'accès sur ce fichier."
     unknown_markup_language = "{0}: Langage de balisage non supporté dans {1}."
     tex_math_error = "Chaine mal formé ou balise non supporté par latex2mathml."
+    missing_separator_in_entry = "Il manque le séparateur {0}."
 

@@ -46,7 +46,7 @@ class Messages:
     ftp_path="Absolute path of your blog on FTP server."
     clean_ftp_directory="Cleaning target FTP directory..."
     copy_to_ftp_directory="Copying your blog to target FTP directory..."
-    possible_malformed_entry="Possible malformed entry {0}. Abort."
+    possible_malformed_entry="Possible malformed entry {0}. {1} Abort."
     possible_malformed_blog_configuration="Possible malformed blog configuration. Abort."
     blog_recompilation="Recompilation of your blog locally..."
     export_archives="Exporting local entries sorted by dates..."
@@ -84,3 +84,4 @@ class Messages:
     wrong_permissions = "{0} : You don't have the right permissions on this file in {1}."
     unknown_markup_language = "{0}: Unsupported markup language."
     tex_math_error = "Malformed input string or unsupported markup from latex2mathml."
+    missing_separator_in_entry = "Missing separator {0}."

@@ -108,7 +108,7 @@ def export_blog(argv=list()):
 
     if len(argv) == 1:
         if not argv[0] in themes_descriptor.keys():
-            die(Messages.theme_doesnt_exists.format(argv[0]))
+            die(messages.theme_doesnt_exists.format(argv[0]))
         
         else:
             theme_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
