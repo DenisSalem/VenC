@@ -68,7 +68,7 @@ def get_blog_configuration():
                 everything_is_okay = False
                 notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
 
-        if not blog_configuration["markup_language"] in ["none", "Markdown"]:
+        if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
                 everything_is_okay = False
                 notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blogConfiguration.yaml"),"RED")
 

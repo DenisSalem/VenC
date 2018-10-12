@@ -187,19 +187,19 @@ def copy_recursively(src, dest):
             shutil.copytree(src+filename, dest+filename)
     
         except shutil.Error as e:
-            notify(Messages.directory_not_copied % e, "YELLOW")
+            notify(messages.directory_not_copied % e, "YELLOW")
 
         except OSError as e:
             if e.errno == errno.ENOTDIR:
                 shutil.copy(src+filename, dest+filename)
 
             else:
-                notify(Messages.directory_not_copied % e, "YELLOW")
+                notify(messages.directory_not_copied % e, "YELLOW")
 
 
 def edit_and_export(argv):
     if len(argv) != 1:
-        die(Messages.missing_params.format("--edit-and-export"))
+        die(messages.missing_params.format("--edit-and-export"))
     
     try:
         proc = subprocess.Popen([datastore.blog_configuration["textEditor"], argv[0]])
@@ -207,7 +207,7 @@ def edit_and_export(argv):
             pass
 
     except TypeError:
-        die(Messages.unknown_text_editor.format(datastore.blog_configuration["textEditor"]))
+        die(messages.unknown_text_editor.format(datastore.blog_configuration["textEditor"]))
     
     except:
         raise

@@ -74,4 +74,11 @@ class CodeHighlight:
 
 some paragraphe
 
-### sub title
+### some mathml
+
+.:Latex2MathML::\begin{matrix*}[r]a & b \\ c & d \end{matrix*}:.
+
+### another mathml
+.:Latex2MathML::\left\{ \begin{array} { l } { 3x - 5y + 4z = 0} \\ { x - y + 8z = 0} \\ { 2x - 6y + z = 0} \end{array} \right. :.
+
+

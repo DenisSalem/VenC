@@ -23,6 +23,8 @@ import venc2.l10n
 import venc2.helpers
 
 from copy import deepcopy
+from docutils.core import publish_parts
+from docutils.utils import SystemMessage
 
 from venc2.helpers import get_formatted_message
 from venc2.helpers import highlight_value
@@ -41,11 +43,21 @@ CLOSE_SYMBOL = ":."
 
 markup_language_errors = []
 
+def handle_markup_language_error(message, line=None, string=None):
+    if not message in markup_language_errors:
+        notify(message, "RED")
+        markup_language_errors.append(message)
+        if line != None and string != None:
+            lines = string.split('\n')
+            for lineno in range(0,len(lines)):
+                if line - 1 == lineno:
+                    print('\033[91m'+lines[lineno]+'\033[0m')
+                else:
+                    print(lines[lineno])
+
 # Because parsing is recursive we want to avoid useless computation
 # by splitting a given string and mark where exactly are the patterns 
 # we want to process.
-
-
 class PreProcessor():
     def __init__(self, string):
         self.blacklist = list()
@@ -88,29 +100,45 @@ class PreProcessor():
         self.keep_appart_from_markup_index = list()
 
     def process_markup_language(self, markup_language, source):
-        new_sub_strings = [""]
+        string = ""
         for index in range(0, len(self.sub_strings)):
             if not index in self.keep_appart_from_markup_index:
-                new_sub_strings[-1] += self.sub_strings[index]
-                if index == len(self.sub_strings) - 1:
-                    new_sub_strings[-1] = parse_markup_language(new_sub_strings[-1], markup_language, source)        
+                string += self.sub_strings[index]
             
             else:
-                new_sub_strings[-1] = parse_markup_language(new_sub_strings[-1], markup_language, source)        
-                new_sub_strings.append(self.sub_strings[index])
-                new_sub_strings.append("")
+                string += "VENC_TEMPORARY_REPLACEMENT_"+str(index)
+        try:
+            string = parse_markup_language(string, markup_language, source)
+        
+        # catch error from reStructuredText
+        except SystemMessage as e:
+            try:
+                line = int(str(e).split(':')[1])
+                msg = str(e).split(':')[2].strip()
+                handle_markup_language_error(source+": "+msg, line=line, string=string)
 
-        return ''.join(new_sub_strings)
+            except Exception as ee: 
+                print(ee, len(string.split('\n')))
+                handle_markup_language_error(source+", "+str(e))
+        
+        for index in self.keep_appart_from_markup_index:
+            string = string.replace(
+                "<p>VENC_TEMPORARY_REPLACEMENT_"+str(index)+"</p>",
+                self.sub_strings[index]
+            )
+
+        return string
 
 def parse_markup_language(string, markup_language, source):
     if markup_language == "Markdown":
         string = markdown.markdown(string)
-    
+        
+    elif markup_language == "reStructuredText":
+        string = publish_parts(string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
+
     elif markup_language != "none":
             err = messages.unknown_markup_language.format(markup_language, source)
-            if not err in markup_language_errors:
-                notify(messages.unknown_markup_language.format(markup_language, source), "RED")
-                markup_language_errors.append(err)
+            handle_markup_language_error(err)
 
     return string
 
@@ -239,7 +267,7 @@ class Processor():
         to_remove = list()
         for index in pre_processed.patterns_index:
             current_pattern = pre_processed.sub_strings[index][2:-2].split('::')[0]
-            if current_pattern in ["CodeHighlight", "Latex2MathML"]:
+            if current_pattern in ["CodeHighlight", "Latex2MathML","IncludeFile"]:
                 pre_processed.keep_appart_from_markup_index.append(index)
 
             if not current_pattern in self.blacklist:

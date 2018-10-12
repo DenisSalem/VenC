@@ -19,10 +19,18 @@
 
 import latex2mathml.converter
 
+from venc2.l10n import messages
+from venc2.helpers import PatternInvalidArgument
+
 def Latex2MathML(argv):
-    latex = argv[0]
+    tex_math_string = argv[0]
     try:
-        return latex2mathml.converter.convert(latex)
+        return latex2mathml.converter.convert(tex_math_string)
 
     except Exception as e:
-        print(argv[0], e)
+        print(e)
+        raise PatternInvalidArgument(
+            "Tex math string",
+            tex_math_string,
+            messages.tex_math_error
+        )

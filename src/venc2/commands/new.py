@@ -30,7 +30,7 @@ from venc2.helpers import die
 from venc2.l10n import messages
 
 import venc2.datastore.entry as Entry
-import venc2.pattern as Pattern
+import venc2.patterns as Pattern
 import venc2.helpers as Helpers
 
 # Hold methods associated to patterns

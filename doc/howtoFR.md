@@ -76,7 +76,7 @@ Si vous souhaitez faire votre propre thème HTML/CSS vous pouvez vous aider du t
 
 Pour compiler le blog avec ce thème bien à vous:
 
-	venc -export-blog
+	venc --export-blog
 
 VenC utilise par défaut le thème local quand aucun nom de thème ne lui est précisé.
 

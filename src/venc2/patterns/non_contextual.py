@@ -24,7 +24,7 @@ from venc2.helpers import PatternInvalidArgument
 def get_venc_version(argv):
     return venc_version
 
-def include_html(argv):
+def include_file(argv):
     try:
         filename = argv[0]
         include_string = open("includes/"+filename, 'r').read()
@@ -38,7 +38,7 @@ def include_html(argv):
 
 non_contextual_pattern_names = {
     "GetVenCVersion" : get_venc_version,
-    "IncludeHTML" : include_html
+    "IncludeFile" : include_file
 }
 
 
