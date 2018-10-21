@@ -100,7 +100,7 @@ class DataStore:
                                 node.count +=1
                                 node.related_to.append(entry_index)
                                 root = node.childs
-
+            
             entry_index += 1
     
         ''' Setup BlogDates Data '''

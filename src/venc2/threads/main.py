@@ -18,7 +18,6 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc2.threads import Thread
-from venc2.patterns.processor import UnknownContextual
 
 class MainThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns):

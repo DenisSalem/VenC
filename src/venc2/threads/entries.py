@@ -21,35 +21,20 @@ import os
 
 from venc2.helpers import notify
 from venc2.threads import Thread
-from venc2.patterns.processor import UnknownContextual
 
-class DatesThread(Thread):
+class EntriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns):
         super().__init__(prompt, datastore, theme, patterns)
         
-        self.filename = self.datastore.blog_configuration["path"]["indexFileName"]
+        self.organize_entries([
+            entry for entry in datastore.get_entries(
+                datastore.blog_configuration["reverseThreadOrder"]
+            )
+        ])
+
+        self.filename = self.datastore.blog_configuration["path"]["entryFileName"]
         self.entry_name = str()
-        self.relative_origin = "../"
-        self.in_thread = True
-
-    def do(self):
-        for thread in self.datastore.entries_per_dates:
-            notify("\t"+thread.value+"...")
-            self.export_path = "blog/"+thread.value+'/'
-            os.makedirs(self.export_path)
-            self.organize_entries([
-                entry for entry in self.datastore.get_entries_for_given_date(
-                    thread.value,
-                    self.datastore.blog_configuration["reverseThreadOrder"]
-                )
-            ])
-
-            super().do()
-
-
-
-
-                
-                
-
-
+        self.relative_origin = str()
+        self.export_path = "blog/"
+        self.in_thread = False
+        self.entries_per_page = 1 #override value
