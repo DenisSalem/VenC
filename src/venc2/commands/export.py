@@ -39,9 +39,10 @@ from venc2.patterns.contextual import extra_contextual_pattern_names
 from venc2.patterns.non_contextual import non_contextual_pattern_names
 from venc2.patterns.processor import Processor
 from venc2.patterns.processor import PreProcessor
-from venc2.threads.categories_thread import CategoriesThread
-from venc2.threads.dates_thread import DatesThread
-from venc2.threads.main_thread import MainThread
+from venc2.threads.categories import CategoriesThread
+from venc2.threads.dates import DatesThread
+from venc2.threads.main import MainThread
+from venc2.threads.entries import EntriesThread
 
 # Initialisation of environment
 datastore = DataStore()
@@ -172,6 +173,8 @@ def export_blog(argv=list()):
     thread = DatesThread(messages.export_archives, datastore, theme, contextual_pattern_names)
     thread.do()
     thread = CategoriesThread(messages.export_categories, datastore, theme, contextual_pattern_names)
+    thread.do()
+    thread = EntriesThread("EXPORTATION des publications individuel, message à remplacer.", datastore, theme, contextual_pattern_names)
     thread.do()
 
     # Copy assets and extra files

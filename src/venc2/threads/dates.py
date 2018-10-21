@@ -21,48 +21,29 @@ import os
 
 from venc2.helpers import notify
 from venc2.threads import Thread
-from venc2.patterns.processor import UnknownContextual
 
-class CategoriesThread(Thread):
+class DatesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns):
         super().__init__(prompt, datastore, theme, patterns)
         
         self.filename = self.datastore.blog_configuration["path"]["indexFileName"]
-        self.entryname = str()
+        self.entry_name = str()
         self.relative_origin = "../"
         self.in_thread = True
-        self.export_path = "blog/"
 
-    def do(self, root=None):
-        if root == None:
-            root = self.datastore.entries_per_categories
+    def do(self):
+        for thread in self.datastore.entries_per_dates:
+            notify("\t"+thread.value+"...")
+            self.export_path = "blog/"+thread.value+'/'
+            os.makedirs(self.export_path)
+            self.organize_entries([
+                entry for entry in self.datastore.get_entries_for_given_date(
+                    thread.value,
+                    self.datastore.blog_configuration["reverseThreadOrder"]
+                )
+            ])
 
-        for node in root:
-            if node.value == '':
-                print(node.related_to)
-
-            notify("\t"+node.value+"...")
-
-            export_path = self.export_path
-            self.export_path += node.value+'/'
-
-            # Get entries
-            try:
-                os.makedirs(self.export_path)
-
-            except FileExistsError:
-                pass
-
-            entries = [self.datastore.entries[entry_index] for entry_index in node.related_to]
-            self.organize_entries( entries[::-1] if self.datastore.blog_configuration["reverseThreadOrder"] else entries )
-            
             super().do()
-            
-            self.do(root=node.childs)
-
-            # Restore path
-            self.export_path = export_path
-
 
 
 

@@ -15,7 +15,7 @@ codeHighlightCssOverride: true
 markup_language: 'Markdown'
 path:
   categoryDirectoryName: '{category}'
-  datesDirectoryName: ''
+  datesDirectoryName: '%m-%Y'
   entryFileName: entry{0[entryId]}.html
   ftp: Chemin absolu de votre blog sur l'hôte FTP.
   indexFileName: index{0[pageNumber]}.html

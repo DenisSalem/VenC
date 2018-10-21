@@ -30,6 +30,7 @@ class Thread:
     def __init__(self, prompt, datastore, theme, patterns):
         # Notify wich thread is processed
         notify(prompt)
+        self.entries_per_page = int(datastore.blog_configuration["entriesPerPages"])
         
         # Setup useful data
         self.theme = theme
@@ -60,10 +61,9 @@ class Thread:
     # Must be called in child class
     def organize_entries(self, entries):
         self.pages = list()
-        entries_per_page = int(self.datastore.blog_configuration["entriesPerPages"])
-        for i in range(0, ceil(len(entries)/entries_per_page)):
+        for i in range(0, ceil(len(entries)/self.entries_per_page)):
             self.pages.append(
-                entries[i*entries_per_page:(i+1)*entries_per_page]
+                entries[i*self.entries_per_page:(i+1)*self.entries_per_page]
             )
 
         self.pages_count = len(self.pages)
@@ -131,18 +131,18 @@ class Thread:
         else:
             return argv[1]
 
-    def format_filename(self, page_number):
+    def format_filename(self, value):
         try:
-            if page_number == 0:
+            if value == 0:
                 return self.filename.format({
-                    'entryId':'',
+                    'entryId':value,
                     'pageNumber':''
                 })
         
             else:
                 return self.filename.format({
-                    'entryId':page_number,
-                    'pageNumber':page_number
+                    'entryId':value,
+                    'pageNumber':value
                 })
 
         except KeyError as e:
@@ -172,6 +172,12 @@ class Thread:
             
             output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
         
+            if self.in_thread:
+                format_value = page_number
+
+            else:
+                format_value = page[0].id
+
             stream = codecs.open(
                 self.export_path + self.format_filename(page_number),
                 'w',
