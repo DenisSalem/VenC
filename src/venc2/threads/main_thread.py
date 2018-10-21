@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc2.threads.thread import Thread
+from venc2.threads import Thread
 from venc2.patterns.processor import UnknownContextual
 
 class MainThread(Thread):

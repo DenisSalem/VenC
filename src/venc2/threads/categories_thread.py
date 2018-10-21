@@ -20,7 +20,7 @@
 import os
 
 from venc2.helpers import notify
-from venc2.threads.thread import Thread
+from venc2.threads import Thread
 from venc2.patterns.processor import UnknownContextual
 
 class CategoriesThread(Thread):
