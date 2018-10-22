@@ -100,7 +100,7 @@ class DataStore:
                                 node.count +=1
                                 node.related_to.append(entry_index)
                                 root = node.childs
-            
+
             entry_index += 1
     
         ''' Setup BlogDates Data '''
@@ -140,9 +140,7 @@ class DataStore:
         for metadata in self.entries_per_dates:
             if value == metadata.value:
                 return index
-
             index += 1
-
 
     def get_entries_for_given_date(self, value, reverse):
         index = 0
@@ -176,6 +174,7 @@ class DataStore:
 
     def get_entry_year(self, argv=list()):
         return self.entries[self.requested_entry_index].date.year
+
         
     def get_entry_month(self, argv=list()):
         return self.entries[self.requested_entry_index].date.month

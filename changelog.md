@@ -117,7 +117,7 @@
 	DONE | Add reStructuredText support, remove do_not_use_markdown option.
 	DONE | Improve reStructuredText integration with VenC.
 	DONE | Quit gracefully when ftp timeout error.
-	WIP  | add entry preview / full content.
+	DONE | add entry preview / full content.
 	TODO | Support for video.
 	TODO | Add relevant templates for themes.
 	TODO | Add categories tree in entry.
