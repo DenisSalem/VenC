@@ -42,7 +42,6 @@ from venc2.patterns.processor import PreProcessor
 from venc2.threads.categories import CategoriesThread
 from venc2.threads.dates import DatesThread
 from venc2.threads.main import MainThread
-from venc2.threads.entries import EntriesThread
 
 # Initialisation of environment
 datastore = DataStore()
@@ -120,7 +119,6 @@ def export_blog(argv=list()):
 
     theme = Theme(theme_folder)
 
-
     # Set up of non-contextual patterns
     
     processor = Processor()
@@ -147,8 +145,9 @@ def export_blog(argv=list()):
         except AttributeError:
             markup_language = datastore.blog_configuration["markup_language"]
         
+        entry.preview = PreProcessor(processor.batch_process(entry.preview, entry.filename).process_markup_language(markup_language, entry.filename))
         entry.content = PreProcessor(processor.batch_process(entry.content, entry.filename).process_markup_language(markup_language, entry.filename))
-
+        print("THERE 2", entry.preview.sub_strings)
         entry.html_wrapper = deepcopy(theme.entry)
         entry.html_wrapper.above = PreProcessor(''.join(processor.batch_process(entry.html_wrapper.above, "entry.html", False).sub_strings))
         entry.html_wrapper.below = PreProcessor(''.join(processor.batch_process(entry.html_wrapper.below, "entry.html", False).sub_strings))
@@ -173,8 +172,6 @@ def export_blog(argv=list()):
     thread = DatesThread(messages.export_archives, datastore, theme, contextual_pattern_names)
     thread.do()
     thread = CategoriesThread(messages.export_categories, datastore, theme, contextual_pattern_names)
-    thread.do()
-    thread = EntriesThread("EXPORTATION des publications individuel, message à remplacer.", datastore, theme, contextual_pattern_names)
     thread.do()
 
     # Copy assets and extra files
