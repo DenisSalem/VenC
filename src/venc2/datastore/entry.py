@@ -30,14 +30,29 @@ from venc2.datastore.metadata import MetadataNode
 from venc2.patterns.processor import PreProcessor
 
 class EntryWrapper:
-    def __init__(self, wrapper):
-        try:
-            w = wrapper.split(".:GetEntryContent:.")
-            self.above = PreProcessor(w[0])
-            self.below = PreProcessor(w[1])
+    def __init__(self, wrapper, filename):
+        self.patterns = [".:GetEntryContent:.", ".:GetEntryPreview:.", ".:PreviewIfInThreadElseContent:."]
+        for pattern in self.patterns:
+            try:
+                print("THERE -1", pattern)
+                w = wrapper.split(pattern)
+                if len(w) > 2:
+                    die(messages.too_much_call_of_content.format(filename))
+                
+                for p in self.patterns:
+                    if p in w[0] or p in w[1]:
+                        die(messages.too_much_call_of_content.format(filename))
 
-        except IndexError:
-            die(messages.missing_entry_content_inclusion)
+                self.above = PreProcessor(w[0])
+                self.below = PreProcessor(w[1])
+                print("THERE 0", pattern)
+                self.required_content_pattern = pattern
+                return
+
+            except IndexError:
+                pass
+        
+        die(messages.missing_entry_content_inclusion)
 
 class Entry:
     def __init__(self, filename):
@@ -214,3 +229,4 @@ def GetEntriesPerCategories(entries):
     return entriesPerCategories
 
 '''
+
