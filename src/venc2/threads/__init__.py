@@ -159,7 +159,15 @@ class Thread:
             columns = [ '' for i in range(0, columns_number) ]
             for entry in page:
                 columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.above, entry.filename).sub_strings)
-                columns[columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename,).sub_strings)
+                if entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.":
+                    columns[columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
+                
+                elif entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread:
+                    columns[columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
+                
+                else: 
+                    columns[columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename,).sub_strings)
+
                 columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.below, entry.filename).sub_strings)
 
                 columns_counter +=1
@@ -179,7 +187,7 @@ class Thread:
                 format_value = page[0].id
 
             stream = codecs.open(
-                self.export_path + self.format_filename(page_number),
+                self.export_path + self.format_filename(format_value),
                 'w',
                 encoding="utf-8"
             )

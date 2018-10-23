@@ -34,7 +34,6 @@ class EntryWrapper:
         self.patterns = [".:GetEntryContent:.", ".:GetEntryPreview:.", ".:PreviewIfInThreadElseContent:."]
         for pattern in self.patterns:
             try:
-                print("THERE -1", pattern)
                 w = wrapper.split(pattern)
                 if len(w) > 2:
                     die(messages.too_much_call_of_content.format(filename))
@@ -45,7 +44,6 @@ class EntryWrapper:
 
                 self.above = PreProcessor(w[0])
                 self.below = PreProcessor(w[1])
-                print("THERE 0", pattern)
                 self.required_content_pattern = pattern
                 return
 

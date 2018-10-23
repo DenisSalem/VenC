@@ -36,8 +36,8 @@ class Theme:
             self.rss_header = PreProcessor(open(theme_folder+"chunks/rssHeader.html",'r').read())
             self.rss_footer = PreProcessor(open(theme_folder+"chunks/rssFooter.html",'r').read())
             
-            self.entry = EntryWrapper(open(theme_folder+"chunks/entry.html",'r').read())
-            self.rss_entry = EntryWrapper(open(theme_folder+"chunks/rssEntry.html",'r').read())
+            self.entry = EntryWrapper(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
+            self.rss_entry = EntryWrapper(open(theme_folder+"chunks/rssEntry.html",'r').read(),"rssEntry.html")
 
         except FileNotFoundError as e:
             die(messages.file_not_found.format(str(e.filename)))
