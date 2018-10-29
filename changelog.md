@@ -118,7 +118,8 @@
 	DONE | Improve reStructuredText integration with VenC.
 	DONE | Quit gracefully when ftp timeout error.
 	DONE | add entry preview / full content.
-	TODO | Support for video.
+	DONE | Support for video.
+	TODO | Support for audio.
 	TODO | Add relevant templates for themes.
 	TODO | Add categories tree in entry.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
