@@ -204,6 +204,12 @@ class Processor():
                 error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
             )
 
+        except FileNotFoundError as e:
+            output = self.handle_error(
+                messages.file_not_found.format(e.filename),
+                ",;"+pattern+";;"+";;".join(argv)+";,",
+                error_origin = e.filename
+            )
         return str(output)
 
     # Print out notification to user and replace erroneous pattern
@@ -296,14 +302,14 @@ class Processor():
             elif string[i:i+2] == CLOSE_SYMBOL:
                 close_symbol_pos.append(i)
 
-            if len(close_symbol_pos) == len(open_symbol_pos) and len(close_symbol_pos) != 0 and len(open_symbol_pos) != 0:
-                if open_symbol_pos[0] < close_symbol_pos[-1]:
-                    fields = [field for field in string[open_symbol_pos[0]+2:close_symbol_pos[-1]].split(SEPARATOR) if field != '']
+            if len(close_symbol_pos) <= len(open_symbol_pos) and len(close_symbol_pos) != 0 and len(open_symbol_pos) != 0:
+                if open_symbol_pos[-1] < close_symbol_pos[-1]:
+                    fields = [field for field in string[open_symbol_pos[-1]+2:close_symbol_pos[-1]].split(SEPARATOR) if field != '']
                     if not fields[0] in self.blacklist:
                         output = self.run_pattern(fields[0], fields[1:])
                         if escape:
                             return self.process(
-                                string[:open_symbol_pos[0]]+
+                                string[:open_symbol_pos[-1]]+
                                 cgi.escape(output).encode(
                                     'ascii', 
                                     'xmlcharrefreplace'
@@ -316,7 +322,7 @@ class Processor():
 
                         else:
                             return self.process(
-                                string[:open_symbol_pos[0]]+
+                                string[:open_symbol_pos[-1]]+
                                 str(output)+
                                 string[close_symbol_pos[-1]+2:],
                                 escape
