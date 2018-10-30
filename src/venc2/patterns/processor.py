@@ -208,7 +208,7 @@ class Processor():
             output = self.handle_error(
                 messages.file_not_found.format(e.filename),
                 ",;"+pattern+";;"+";;".join(argv)+";,",
-                error_origin = e.filename
+                error_origin = [e.filename ]
             )
         return str(output)
 
@@ -273,7 +273,7 @@ class Processor():
         to_remove = list()
         for index in pre_processed.patterns_index:
             current_pattern = pre_processed.sub_strings[index][2:-2].split('::')[0]
-            if current_pattern in ["CodeHighlight", "Latex2MathML","IncludeFile"]:
+            if current_pattern in ["CodeHighlight", "Latex2MathML","IncludeFile","audio","video"]:
                 pre_processed.keep_appart_from_markup_index.append(index)
 
             if not current_pattern in self.blacklist:
