@@ -29,7 +29,10 @@ themes_descriptor = {
 }
 
 class Theme:
-    def __init__(self, theme_folder):
+    def __init__(self, theme_folder, non_contextual_pattern_names):
+        non_contextual_pattern_names["video"] = self.get_video
+        non_contextual_pattern_names["audio"] = self.get_audio
+
         try:
             self.header = PreProcessor(open(theme_folder+"chunks/header.html",'r').read())
             self.footer = PreProcessor(open(theme_folder+"chunks/footer.html",'r').read())
@@ -38,6 +41,30 @@ class Theme:
             
             self.entry = EntryWrapper(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
             self.rss_entry = EntryWrapper(open(theme_folder+"chunks/rssEntry.html",'r').read(),"rssEntry.html")
+            
+            self.audio = open(theme_folder+"chunks/audio.html",'r').read()
+            self.video = open(theme_folder+"chunks/video.html",'r').read()
 
         except FileNotFoundError as e:
             die(messages.file_not_found.format(str(e.filename)))
+
+    def get_media(self, media_type, argv):
+        source = ""
+        for ext in argv[1].split(','):
+            # Set media once, and get complete path later.
+            source += str("<source src=\".:GetRelativeOrigin:.{0}.{1}\" type=\""+media_type+"/{1}\">\n").format(argv[0].strip(), ext.strip())
+        
+        f = {}
+        f["source"] = source
+        f["poster"] = ""
+        if media_type == "video":
+            f["poster"] = argv[2].strip()
+
+        return getattr(self, media_type).format(**f)
+
+    def get_audio(self, argv):
+        return self.get_media("audio", argv)
+
+    def get_video(self, argv):
+        return self.get_media("video", argv)
+

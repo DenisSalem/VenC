@@ -118,7 +118,7 @@ def export_blog(argv=list()):
             if param[0] != "_": # marker to detect field names we do not want to replace
                 datastore.blog_configuration[param] = themes_descriptor[argv[0]][param]
 
-    theme = Theme(theme_folder)
+    theme = Theme(theme_folder, non_contextual_pattern_names)
 
     # Set up of non-contextual patterns
     
