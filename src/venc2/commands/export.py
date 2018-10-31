@@ -46,7 +46,7 @@ from venc2.threads.main import MainThread
 
 # Initialisation of environment
 datastore = DataStore()
-code_highlight = CodeHighlight(datastore.blog_configuration["codeHighlightCssOverride"])
+code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
 
 non_contextual_pattern_names_datastore = {
     # General entry data
@@ -143,6 +143,7 @@ def export_blog(argv=list()):
     for entry in datastore.get_entries():
         try:
             markup_language = getattr(entry, "markup_language")
+
         except AttributeError:
             markup_language = datastore.blog_configuration["markup_language"]
         
@@ -204,12 +205,12 @@ def edit_and_export(argv):
         die(messages.missing_params.format("--edit-and-export"))
     
     try:
-        proc = subprocess.Popen([datastore.blog_configuration["textEditor"], argv[0]])
+        proc = subprocess.Popen([datastore.blog_configuration["text_editor"], argv[0]])
         while proc.poll() == None:
             pass
 
     except TypeError:
-        die(messages.unknown_text_editor.format(datastore.blog_configuration["textEditor"]))
+        die(messages.unknown_text_editor.format(datastore.blog_configuration["text_editor"]))
     
     except:
         raise

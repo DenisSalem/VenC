@@ -26,25 +26,25 @@ from venc2.l10n import messages
 
 def get_blog_configuration():
     try:
-        blog_configuration = yaml.load(open(os.getcwd()+"/blogConfiguration.yaml",'r').read())
+        blog_configuration = yaml.load(open(os.getcwd()+"/blog_configuration.yaml",'r').read())
         
         mandatory_fields = [
-            "blogName",
-            "textEditor",
-            "dateFormat",
-	    "authorName",
-	    "blogDescription",
-	    "blogKeywords",
-	    "authorDescription",
+            "blog_name",
+            "text_editor",
+            "date_format",
+	    "author_name",
+	    "blog_description",
+	    "blog_keywords",
+	    "author_description",
 	    "license",
-	    "blogUrl",
-            "ftpHost",
-	    "blogLanguage",
-	    "authorEmail",
-	    "entriesPerPages",
+	    "blog_url",
+            "ftp_host",
+	    "blog_language",
+	    "author_email",
+	    "entries_per_pages",
             "columns",
-	    "rssThreadLenght",
-            "reverseThreadOrder",
+	    "rss_thread_lenght",
+            "reverse_thread_order",
             "markup_language"
         ]
 
@@ -55,11 +55,11 @@ def get_blog_configuration():
                 notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
         
         mandatory_fields = [
-            "indexFileName",
-	    "categoryDirectoryName",
-	    "datesDirectoryName",
-	    "entryFileName",
-	    "rssFileName",
+            "index_file_name",
+	    "category_directory_name",
+	    "dates_directory_name",
+	    "entry_file_name",
+	    "rss_file_name",
             "ftp"
         ]
 
@@ -70,7 +70,7 @@ def get_blog_configuration():
 
         if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
                 everything_is_okay = False
-                notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blogConfiguration.yaml"),"RED")
+                notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blog_configuration.yaml"),"RED")
 
         if not everything_is_okay:
             exit()

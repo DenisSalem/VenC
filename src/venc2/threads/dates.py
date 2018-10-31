@@ -26,7 +26,7 @@ class DatesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns):
         super().__init__(prompt, datastore, theme, patterns)
         
-        self.filename = self.datastore.blog_configuration["path"]["indexFileName"]
+        self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.entry_name = str()
         self.relative_origin = "../"
         self.in_thread = True
@@ -39,7 +39,7 @@ class DatesThread(Thread):
             self.organize_entries([
                 entry for entry in self.datastore.get_entries_for_given_date(
                     thread.value,
-                    self.datastore.blog_configuration["reverseThreadOrder"]
+                    self.datastore.blog_configuration["reverse_thread_order"]
                 )
             ])
 

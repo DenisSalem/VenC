@@ -120,19 +120,19 @@
 	DONE | add entry preview / full content.
 	DONE | Support for video.
 	DONE | Support for audio.
-	TODO | Add relevant templates for themes.
-	TODO | Add categories tree in entry.
-	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
-	TODO | SSH SUPPORT.
-	TODO | Split install and blog creation chapter in tutorial.
+	TODO | Fix: Import asset from external theme if necessary.
 	TODO | Allow disabling exportation of specific kind of thread.
 	TODO | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage).
+	TODO | Remove illegal character from path.
 	TODO | Export empty blog.
+	TODO | Open with navigator manual.
+	TODO | Add relevant templates for themes.
+	TODO | Add categories tree in entry.
 	TODO | Serv page.
+	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
+	TODO | Split install and blog creation chapter in tutorial.
 	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting
 	TODO | fix FAQ latex2mathml is incomplete
-	TODO | Remove illegal character from path.
-	TODO | Open with navigator manual.
 	TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Add translation for Deutsch and Spanish.
 	TODO | Client-side search engine.
