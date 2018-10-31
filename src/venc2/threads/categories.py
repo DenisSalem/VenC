@@ -26,7 +26,7 @@ class CategoriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns):
         super().__init__(prompt, datastore, theme, patterns)
         
-        self.filename = self.datastore.blog_configuration["path"]["indexFileName"]
+        self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.entryname = str()
         self.relative_origin = "../"
         self.in_thread = True
@@ -53,7 +53,7 @@ class CategoriesThread(Thread):
                 pass
 
             entries = [self.datastore.entries[entry_index] for entry_index in node.related_to]
-            self.organize_entries( entries[::-1] if self.datastore.blog_configuration["reverseThreadOrder"] else entries )
+            self.organize_entries( entries[::-1] if self.datastore.blog_configuration["reverse_thread_order"] else entries )
             
             super().do()
             

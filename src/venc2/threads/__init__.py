@@ -30,13 +30,12 @@ class Thread:
     def __init__(self, prompt, datastore, theme, patterns):
         # Notify wich thread is processed
         notify(prompt)
-        self.entries_per_page = int(datastore.blog_configuration["entriesPerPages"])
+        self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])
         
         # Setup useful data
         self.theme = theme
         self.current_page = 0
         self.datastore = datastore
-        
         # Setup pattern processor
         self.processor = Processor()
         for pattern_name in patterns.keys():
@@ -47,10 +46,11 @@ class Thread:
                 self.processor.set_function(pattern_name, patterns[pattern_name])
 
     def return_page_around(self, string, destination_page_number, filename):
-        return string.format({
-            "destinationPage":destination_page_number,
-            "destinationPageUrl":filename,
-            "entryName" : self.entry_name
+        return string.format(**{
+            "destination_page":destination_page_number,
+            "destination_page_url":filename,
+            "entry_name" : self.entry_name,
+            "entry_id": self.entry_id
         })
 
 
@@ -76,8 +76,7 @@ class Thread:
     def get_next_page(self,argv=list()):
         if self.current_page < len(self.pages) - 1:
             destination_page_number = str(self.current_page + 1)
-            ''' Must catch KeyError exception '''
-            filename = self.filename.format({"pageNumber":destination_page_number})
+            filename = self.filename.format(**{"page_number":destination_page_number,"entry_id":self.datastore.get_next_entry_id(self.entry_id)})
             return self.return_page_around(argv[0], destination_page_number, filename)
 
         else:
@@ -88,12 +87,10 @@ class Thread:
         if self.current_page > 0:
             destination_page_number = str(self.current_page - 1)
             if self.current_page == 1:
-                ''' Must catch KeyError exception '''
-                filename = self.filename.format(page_number="")
+                filename = self.filename.format(**{"page_number":"","entry_id": self.datastore.get_previous_entry_id(self.entry_id)})
 
             else:
-                ''' Must catch KeyError exception '''
-                filename = self.filename.format(page_number=destination_page_number)
+                filename = self.filename.format(**{"page_number":destination_page_number,"entry_id":self.datastore.get_previous_entry_id(self.entry_id)})
             
             return self.return_page_around(argv[0], destination_page_number, filename)
         
@@ -113,9 +110,9 @@ class Thread:
         for page in self.pages:
             if (not page_number < self.current_page - self.pages_count) and (not page_number > self.current_page + self.pages_count):
                 output += string.format(
-                    {
-                        "pageNumber":str(page_number),
-                        "pageUrl": self.filename.format({"pageNumber": (str() if page_number == 0 else page_number) })
+                    **{
+                        "page_number":str(page_number),
+                        "page_url": self.filename.format(**{"page_number": (str() if page_number == 0 else page_number) })
                     }
                 ) + separator
 
@@ -134,15 +131,15 @@ class Thread:
     def format_filename(self, value):
         try:
             if value == 0:
-                return self.filename.format({
-                    'entryId':value,
-                    'pageNumber':''
+                return self.filename.format(**{
+                    'entry_id':value,
+                    'page_number':''
                 })
         
             else:
-                return self.filename.format({
-                    'entryId':value,
-                    'pageNumber':value
+                return self.filename.format(**{
+                    'entry_id':value,
+                    'page_number':value
                 })
 
         except KeyError as e:
@@ -158,6 +155,8 @@ class Thread:
             columns_counter = 0
             columns = [ '' for i in range(0, columns_number) ]
             for entry in page:
+                self.entry_name = entry.title
+                self.entry_id = entry.id
                 columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.above, entry.filename).sub_strings)
                 if entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.":
                     columns[columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
@@ -195,3 +194,4 @@ class Thread:
             stream.close()
 
             page_number += 1
+            self.current_page = page_number

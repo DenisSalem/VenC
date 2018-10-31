@@ -67,8 +67,8 @@ class DataStore:
             self.entries.append(Entry(filename))
 
             ''' Update entriesPerDates '''
-            if self.blog_configuration["path"]["datesDirectoryName"] != '':
-                formatted_date = self.entries[-1].date.strftime(self.blog_configuration["path"]["datesDirectoryName"])
+            if self.blog_configuration["path"]["dates_directory_name"] != '':
+                formatted_date = self.entries[-1].date.strftime(self.blog_configuration["path"]["dates_directory_name"])
                 entries_index = self.get_entries_index_for_given_date(formatted_date)
                 if entries_index != None:
                     self.entries_per_dates[entries_index].count +=1
@@ -153,6 +153,15 @@ class DataStore:
             self.requested_entry_index = entry
             yield self.entries[entry]
             
+    def get_next_entry_id(self, entry_id):
+        index = [e.id for e in self.entries].index(entry_id) + 1
+        return self.entries[index].id
+
+
+    def get_previous_entry_id(self, entry_id):
+        index = [e.id for e in self.entries].index(entry_id) - 1
+        return self.entries[index].id
+
     def get_entries(self, reverse=False):
         self.requested_entry_index = 0 if not reverse else len(self.entries) - 1
 
@@ -189,42 +198,42 @@ class DataStore:
         return self.entries[self.requested_entry_index].date.minute
 
     def get_entry_date(self, argv=list()):
-        return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["dateFormat"])
+        return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["date_format"])
 
     def get_entry_date_url(self, argv=list()):
-        return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["path"]["datesDirectoryName"])
+        return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["path"]["dates_directory_name"])
 
     def get_entry_url(self, argv=list()):
-        return self.blog_configuration["path"]["entryFileName"].format({
-            "entryId" : self.entries[self.requested_entry_index].id
+        return self.blog_configuration["path"]["entry_file_name"].format(**{
+            "entry_id" : self.entries[self.requested_entry_index].id
         })
 
     def get_author_name(self, argv=list()):
-        return self.blog_configuration["authorName"]
+        return self.blog_configuration["author_name"]
 
     def get_blog_name(self, argv=list()):
-        return self.blog_configuration["blogName"]
+        return self.blog_configuration["blog_name"]
         
     def get_blog_description(self, argv=list()):
-        return self.blog_configuration["blogDescription"]
+        return self.blog_configuration["blog_description"]
         
     def get_blog_keywords(self, argv=list()):
-        return self.blog_configuration["blogKeywords"]
+        return self.blog_configuration["blog_keywords"]
 
     def get_author_description(self, argv=list()):
-        return self.blog_configuration["authorDescription"]
+        return self.blog_configuration["author_description"]
         
     def get_blog_license(self, argv=list()):
         return self.blog_configuration["license"]
     
     def get_blog_url(self, argv=list()):
-        return self.blog_configuration["blogUrl"]
+        return self.blog_configuration["blog_url"]
     
     def get_blog_language(self, argv=list()):
-        return self.blog_configuration["blogLanguage"]
+        return self.blog_configuration["blog_language"]
     
     def get_author_email(self, argv=list()):
-        return self.blog_configuration["authorEmail"]
+        return self.blog_configuration["author_email"]
 
     def for_blog_dates(self, argv):
         return merge(self.blog_dates, argv)

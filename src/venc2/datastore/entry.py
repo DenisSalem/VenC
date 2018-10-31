@@ -113,7 +113,7 @@ class Entry:
 
         self.categories_leaves = list()
         self.categories_nodes_reference = list()
-        self.raw_categories = metadata["categories"].split(',')
+        self.raw_categories = [ c.strip() for c in metadata["categories"].split(',')]
         try:
             for category in self.raw_categories:
                 category_leaf = category.split(' > ')[-1].strip()

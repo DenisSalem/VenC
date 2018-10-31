@@ -93,12 +93,12 @@ def new_entry(argv):
     stream.close()
 
     try:
-        command = blog_configuration["textEditor"].split(' ')
+        command = blog_configuration["text_editor"].split(' ')
         command.append(output_filename)
         subprocess.call(command) 
 
     except FileNotFoundError:
-        die(messages.unknown_command.format(blog_configuration["textEditor"]))
+        die(messages.unknown_command.format(blog_configuration["text_editor"]))
 
     notify(messages.entry_written)
 
@@ -106,30 +106,30 @@ def new_blog(argv):
     if len(argv) < 1:
         die(Messages.missingParams.format("--new-blog"))
 
-    default_configuration =	{"blogName":			messages.blog_name,
-                                "textEditor":                   "nano",
-                                "dateFormat":                  "%A %d. %B %Y",
-				"authorName":			messages.your_name,
-				"blogDescription":		messages.blog_description,
-				"blogKeywords":		        messages.blog_keywords,
-				"authorDescription":		messages.about_you,
+    default_configuration =	{"blog_name":			messages.blog_name,
+                                "text_editor":                   "nano",
+                                "date_format":                  "%A %d. %B %Y",
+				"author_name":			messages.your_name,
+				"blog_description":		messages.blog_description,
+				"blog_keywords":	        messages.blog_keywords,
+				"author_description":		messages.about_you,
 				"license":			messages.license,
-				"blogUrl":			messages.blog_url,
-                                "ftpHost":                      messages.ftp_host,
-				"blogLanguage":		        messages.blog_language,
-				"authorEmail":			messages.your_email,
-                                "codeHighlightCssOverride":     False,
+				"blog_url":			messages.blog_url,
+                                "ftp_host":                     messages.ftp_host,
+				"blog_language":	        messages.blog_language,
+				"author_email":			messages.your_email,
+                                "code_highlight_css_override":  False,
 				"path":				{"ftp":                         messages.ftp_path,
-                                                                "indexFileName":		"index{0[pageNumber]}.html",
-								"categoryDirectoryName":	"{category}",
-								"datesDirectoryName":		"%Y-%m",
-								"entryFileName":		"entry{0[entryId]}.html",
-								"rssFileName":		"feed.xml"},
-				"entriesPerPages":		10,
+                                                                "index_file_name":		"index{page_number}.html",
+								"category_directory_name":	"{category}",
+								"dates_directory_name":		"%Y-%m",
+								"entry_file_name":		"entry{entry_id}.html",
+								"rss_file_name":		"feed.xml"},
+				"entries_per_pages":		10,
 				"columns":			1,
-				"rssThreadLenght":		5,
-				"reverseThreadOrder":		True,
-                                "markup_language": "markdown"}
+				"rss_thread_lenght":		5,
+				"reverse_thread_order":		True,
+                                "markup_language": "Markdown"}
     for folder_name in argv:
         try:
             os.mkdir(folder_name)
@@ -143,7 +143,7 @@ def new_blog(argv):
         os.mkdir(folder_name+'/'+"includes")
         os.mkdir(folder_name+'/'+"extra")
         os.mkdir(folder_name+'/'+"templates")
-        stream = codecs.open(folder_name+'/'+'blogConfiguration.yaml', 'w',encoding="utf-8")
+        stream = codecs.open(folder_name+'/'+'blog_configuration.yaml', 'w',encoding="utf-8")
         yaml.dump(default_configuration, stream, default_flow_style=False, allow_unicode=True)
 
     notify(messages.blog_created)
