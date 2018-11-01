@@ -45,7 +45,11 @@ def get_blog_configuration():
             "columns",
 	    "rss_thread_lenght",
             "reverse_thread_order",
-            "markup_language"
+            "markup_language",
+            "disable_threads",
+            "disable_archives",
+            "disable_categories",
+            "disable_single_entries"
         ]
 
         everything_is_okay = True

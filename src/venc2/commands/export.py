@@ -90,6 +90,11 @@ non_contextual_pattern_names_ml = {
 contextual_pattern_names = {
     "GetRelativeOrigin" : "get_relative_origin",
     "IfInThread" : "if_in_thread",
+    "IfInArchives" : "if_in_archives",
+    "IfInCategories" : "if_in_categories",
+    "IfInFirstPage" : "if_in_first_page",
+    "IfInLastPage" : "if_in_last_page",
+    "IfInEntryID" : "if_in_entry_id",
     "GetRelativeLocation" : "get_relative_location",
     "GetNextPage" : "get_next_page",
     "GetPreviousPage" : "get_previous_page",
@@ -170,18 +175,24 @@ def export_blog(argv=list()):
 
     thread = MainThread(messages.export_main_thread, datastore, theme, contextual_pattern_names)
     thread.do()
-    thread = DatesThread(messages.export_archives, datastore, theme, contextual_pattern_names)
-    thread.do()
-    thread = CategoriesThread(messages.export_categories, datastore, theme, contextual_pattern_names)
-    thread.do() 
-    thread = EntriesThread(messages.export_categories, datastore, theme, contextual_pattern_names)
-    thread.do() 
+
+    if not datastore.blog_configuration["disable_archives"]:
+        thread = DatesThread(messages.export_archives, datastore, theme, contextual_pattern_names)
+        thread.do()
+
+    if not datastore.blog_configuration["disable_categories"]:
+        thread = CategoriesThread(messages.export_categories, datastore, theme, contextual_pattern_names)
+        thread.do()
+
+    if not datastore.blog_configuration["disable_single_entries"]:
+        thread = EntriesThread(messages.export_single_entries, datastore, theme, contextual_pattern_names)
+        thread.do() 
 
     # Copy assets and extra files
 
     code_highlight.export_style_sheets()
     copy_recursively("extra/","blog/")
-    copy_recursively("theme/assets/","blog/")
+    copy_recursively(theme_folder+"assets/","blog/")
 
  
 def copy_recursively(src, dest):

@@ -107,6 +107,10 @@ def new_blog(argv):
         die(Messages.missingParams.format("--new-blog"))
 
     default_configuration =	{"blog_name":			messages.blog_name,
+                                "disable_threads":              "",
+                                "disable_archives":             False,
+                                "disable_categories":           False,
+                                "disable_single_entries":       False,
                                 "text_editor":                   "nano",
                                 "date_format":                  "%A %d. %B %Y",
 				"author_name":			messages.your_name,

@@ -121,11 +121,11 @@
 	DONE | Support for video.
 	DONE | Support for audio.
 	DONE | Optimise entries access with linked list.
-	TODO | Fix: Import asset from external theme if necessary.
-	TODO | Allow disabling exportation of specific kind of thread.
-	TODO | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage).
+	DONE | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage, etc).
+	DONE | Fix: Import asset from external theme if necessary.
+	DONE | Export empty blog.
+	WIP  | Allow disabling exportation of specific kind of thread.
 	TODO | Remove illegal character from path.
-	TODO | Export empty blog.
 	TODO | Open with navigator manual.
 	TODO | Add relevant templates for themes.
 	TODO | Add categories tree in entry.
@@ -140,5 +140,6 @@
 	TODO | Fix unit test.
 
 # version 2.x.x
+
 	TODO | Add docutils reStructuredText parser settings override.
 	TODO | Decrease halt_level to render reStructuredText even if errors occurs.

@@ -37,3 +37,26 @@ class EntriesThread(Thread):
         self.export_path = "blog/"
         self.in_thread = False
         self.entries_per_page = 1 #override value
+    
+    def if_in_first_page(self, argv):
+        return argv[1]
+    
+    def if_in_last_page(self, argv):
+        return argv[1]
+    
+    def if_in_entry_id(self, argv):
+        try:
+            if argv[0] == str(self.current_entry.id):
+                return argv[1]
+        
+            else:
+                return argv[2]
+
+        except AttributeError:
+            return argv[2]
+
+    def do(self):
+        if len(self.pages):
+            super().do()
+
+
