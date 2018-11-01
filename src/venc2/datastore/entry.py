@@ -53,7 +53,10 @@ class EntryWrapper:
         die(messages.missing_entry_content_inclusion)
 
 class Entry:
-    def __init__(self, filename):
+    def __init__(self, filename, previous_entry = None):
+        self.previous_entry = previous_entry
+        self.next_entry = None
+
         # Loading
         raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()
 

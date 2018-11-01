@@ -64,8 +64,12 @@ class DataStore:
         ''' Entry index is different from entry id '''
         entry_index = 0
         for filename in yield_entries_content():
-            self.entries.append(Entry(filename))
+            if len(self.entries):
+                self.entries.append(Entry(filename, previous_entry=self.entries[-1]))
+                self.entries[-2].next_entry = self.entries[-1]
 
+            else:
+                self.entries.append(Entry(filename))
             ''' Update entriesPerDates '''
             if self.blog_configuration["path"]["dates_directory_name"] != '':
                 formatted_date = self.entries[-1].date.strftime(self.blog_configuration["path"]["dates_directory_name"])
