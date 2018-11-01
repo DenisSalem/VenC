@@ -30,6 +30,9 @@ class CategoriesThread(Thread):
         self.relative_origin = "../"
         self.in_thread = True
         self.export_path = "blog/"
+ 
+    def if_in_categories(self, argv):
+        return argv[0]
 
     def do(self, root=None):
         if root == None:

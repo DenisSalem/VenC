@@ -48,6 +48,7 @@ class Messages:
     possible_malformed_entry="La publication {0} est probablement mal formée... {1} Abandon."
     possible_malformed_blog_configuration="Le fichier de configuration du blog est probablement mal formée... Abandon."
     blog_recompilation="Recompilation du blog locale..."
+    export_single_entries="Exportation locale des publications individuelles..."
     export_archives="Exportation locale des publications triées par dates..."
     export_main_thread="Exportation locale du fil de publications principal."
     export_main_rhread_rss="Exportation locale du flux RSS du fil de publications principal."
@@ -83,4 +84,5 @@ class Messages:
     unknown_markup_language = "{0}: Langage de balisage non supporté dans {1}."
     tex_math_error = "Chaine mal formé ou balise non supporté par latex2mathml."
     missing_separator_in_entry = "Il manque le séparateur {0}."
+
 

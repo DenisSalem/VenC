@@ -126,7 +126,29 @@ class Thread:
         
         return output[:-len(separator)]
 
+    def if_in_first_page(self, argv):
+        if self.current_page == 0:
+            return argv[0]
+        
+        else:
+            return argv[1]
 
+    def if_in_last_page(self, argv):
+        if self.current_page == len(self.pages) -1:
+            return argv[0]
+        
+        else:
+            return argv[1]
+
+    def if_in_entry_id(self, argv):
+        return argv[2]
+
+    def if_in_categories(self, argv):
+        return argv[1]
+
+    def if_in_archives(self, argv):
+        return argv[1]
+        
     def if_in_thread(self, argv):
         if self.in_thread:
             return argv[0]
@@ -154,49 +176,61 @@ class Thread:
     # Must be called in child class
     def do(self):
         page_number = 0
-        for page in self.pages:
+        if len(self.pages) == 0:
             output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
-
-            columns_number = self.datastore.blog_configuration["columns"]
-            columns_counter = 0
-            columns = [ '' for i in range(0, columns_number) ]
-            for entry in page:
-                self.current_entry = entry
-                columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.above, entry.filename).sub_strings)
-                if entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.":
-                    columns[columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
-                
-                elif entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread:
-                    columns[columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
-                
-                else: 
-                    columns[columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename,).sub_strings)
-
-                columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.below, entry.filename).sub_strings)
-
-                columns_counter +=1
-                if columns_counter >= columns_number:
-                    columns_counter = 0
-
-            columns_counter = 0
-            for column in columns:
-                output += '<div id="__VENC_COLUMN_'+str(columns_counter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
-            
             output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
-        
-            if self.in_thread:
-                format_value = page_number
-
-            else:
-                format_value = page[0].id
-
             stream = codecs.open(
-                self.export_path + self.format_filename(format_value),
+                self.export_path + self.format_filename(0),
                 'w',
                 encoding="utf-8"
             )
             stream.write(output)
             stream.close()
+            
+        else:
+            for page in self.pages:
+                output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
 
-            page_number += 1
-            self.current_page = page_number
+                columns_number = self.datastore.blog_configuration["columns"]
+                columns_counter = 0
+                columns = [ '' for i in range(0, columns_number) ]
+                for entry in page:
+                    self.current_entry = entry
+                    columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.above, entry.filename).sub_strings)
+                    if entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.":
+                        columns[columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
+                
+                    elif entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread:
+                        columns[columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
+                
+                    else: 
+                        columns[columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename,).sub_strings)
+
+                    columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.below, entry.filename).sub_strings)
+
+                    columns_counter +=1
+                    if columns_counter >= columns_number:
+                        columns_counter = 0
+
+                columns_counter = 0
+                for column in columns:
+                    output += '<div id="__VENC_COLUMN_'+str(columns_counter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
+            
+                output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
+        
+                if self.in_thread:
+                    format_value = page_number
+
+                else:
+                    format_value = page[0].id
+
+                stream = codecs.open(
+                    self.export_path + self.format_filename(format_value),
+                    'w',
+                    encoding="utf-8"
+                )
+                stream.write(output)
+                stream.close()
+
+                page_number += 1
+                self.current_page = page_number
