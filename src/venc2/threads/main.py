@@ -30,7 +30,6 @@ class MainThread(Thread):
         ])
 
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
-        self.entry_name = str()
         self.relative_origin = str()
         self.export_path = "blog/"
         self.in_thread = True

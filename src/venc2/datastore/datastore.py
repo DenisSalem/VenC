@@ -65,7 +65,7 @@ class DataStore:
         entry_index = 0
         for filename in yield_entries_content():
             if len(self.entries):
-                self.entries.append(Entry(filename, previous_entry=self.entries[-1]))
+                self.entries.append(Entry(filename, previous_entry = self.entries[-1]))
                 self.entries[-2].next_entry = self.entries[-1]
 
             else:
@@ -157,15 +157,6 @@ class DataStore:
             self.requested_entry_index = entry
             yield self.entries[entry]
             
-    def get_next_entry_id(self, entry_id):
-        index = [e.id for e in self.entries].index(entry_id) + 1
-        return self.entries[index].id
-
-
-    def get_previous_entry_id(self, entry_id):
-        index = [e.id for e in self.entries].index(entry_id) - 1
-        return self.entries[index].id
-
     def get_entries(self, reverse=False):
         self.requested_entry_index = 0 if not reverse else len(self.entries) - 1
 

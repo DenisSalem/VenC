@@ -27,7 +27,6 @@ class DatesThread(Thread):
         super().__init__(prompt, datastore, theme, patterns)
         
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
-        self.entry_name = str()
         self.relative_origin = "../"
         self.in_thread = True
 

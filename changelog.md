@@ -120,7 +120,7 @@
 	DONE | add entry preview / full content.
 	DONE | Support for video.
 	DONE | Support for audio.
-	WIP  | Optimise entries set with linked list.
+	DONE | Optimise entries access with linked list.
 	TODO | Fix: Import asset from external theme if necessary.
 	TODO | Allow disabling exportation of specific kind of thread.
 	TODO | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage).

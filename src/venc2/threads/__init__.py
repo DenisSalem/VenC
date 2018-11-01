@@ -49,8 +49,8 @@ class Thread:
         return string.format(**{
             "destination_page":destination_page_number,
             "destination_page_url":filename,
-            "entry_name" : self.entry_name,
-            "entry_id": self.entry_id
+            "entry_name" : self.current_entry.title,
+            "entry_id": self.current_entry.id
         })
 
 
@@ -76,7 +76,8 @@ class Thread:
     def get_next_page(self,argv=list()):
         if self.current_page < len(self.pages) - 1:
             destination_page_number = str(self.current_page + 1)
-            filename = self.filename.format(**{"page_number":destination_page_number,"entry_id":self.datastore.get_next_entry_id(self.entry_id)})
+            next_entry_id = self.current_entry.next_entry.id
+            filename = self.filename.format(**{"page_number":destination_page_number,"entry_id":next_entry_id})
             return self.return_page_around(argv[0], destination_page_number, filename)
 
         else:
@@ -86,11 +87,16 @@ class Thread:
     def get_previous_page(self, argv=list()):
         if self.current_page > 0:
             destination_page_number = str(self.current_page - 1)
+            try:
+                previous_entry_id = self.current_entry.previous_entry.id
+            except:
+                previous_entry_id = -1
+
             if self.current_page == 1:
-                filename = self.filename.format(**{"page_number":"","entry_id": self.datastore.get_previous_entry_id(self.entry_id)})
+                filename = self.filename.format(**{"page_number" : "", "entry_id" : previous_entry_id})
 
             else:
-                filename = self.filename.format(**{"page_number":destination_page_number,"entry_id":self.datastore.get_previous_entry_id(self.entry_id)})
+                filename = self.filename.format(**{"page_number" : destination_page_number, "entry_id" : previous_entry_id})
             
             return self.return_page_around(argv[0], destination_page_number, filename)
         
@@ -155,8 +161,7 @@ class Thread:
             columns_counter = 0
             columns = [ '' for i in range(0, columns_number) ]
             for entry in page:
-                self.entry_name = entry.title
-                self.entry_id = entry.id
+                self.current_entry = entry
                 columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.above, entry.filename).sub_strings)
                 if entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.":
                     columns[columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
