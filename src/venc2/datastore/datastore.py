@@ -25,7 +25,7 @@ from venc2.datastore.metadata import MetadataNode
 def merge(iterable, argv):
     return argv[1].join(
         [
-            argv[0].format(something) for something in iterable
+            argv[0].format(**something) for something in iterable
         ]
     )
 
@@ -56,6 +56,7 @@ def perform_recursion(open_string, content, separator, close_string, nodes):
 class DataStore:
     def __init__(self):
         self.blog_configuration = get_blog_configuration()
+        self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
         self.entries = list()
         self.entries_per_dates = list()
         self.entries_per_categories = list()
@@ -231,7 +232,8 @@ class DataStore:
         return self.blog_configuration["author_email"]
 
     def for_blog_dates(self, argv):
-        return merge(self.blog_dates, argv)
+        dates = [o for o in self.blog_dates if o["date"] not in self.disable_threads]
+        return merge(dates, argv)
 
     def for_entry_tags(self, argv):
         return merge(self.entries[self.requested_entry_index].tags, argv)

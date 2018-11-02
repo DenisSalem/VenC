@@ -35,6 +35,9 @@ class DatesThread(Thread):
         
     def do(self):
         for thread in self.datastore.entries_per_dates:
+            if thread.value in self.disable_threads:
+                continue
+
             notify("\t"+thread.value+"...")
             self.export_path = "blog/"+thread.value+'/'
             os.makedirs(self.export_path)
@@ -44,7 +47,6 @@ class DatesThread(Thread):
                     self.datastore.blog_configuration["reverse_thread_order"]
                 )
             ])
-
             super().do()
 
 

@@ -25,10 +25,10 @@ from venc2.threads import Thread
 class EntriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns):
         super().__init__(prompt, datastore, theme, patterns)
-        
+        self.entries_per_page = 1 #override value
         self.organize_entries([
             entry for entry in datastore.get_entries(
-                datastore.blog_configuration["reverse_thread_order"]
+                False
             )
         ])
 
@@ -36,7 +36,6 @@ class EntriesThread(Thread):
         self.relative_origin = str()
         self.export_path = "blog/"
         self.in_thread = False
-        self.entries_per_page = 1 #override value
     
     def if_in_first_page(self, argv):
         return argv[1]

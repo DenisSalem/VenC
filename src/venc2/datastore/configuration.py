@@ -47,6 +47,7 @@ def get_blog_configuration():
             "reverse_thread_order",
             "markup_language",
             "disable_threads",
+            "disable_main_thread",
             "disable_archives",
             "disable_categories",
             "disable_single_entries"

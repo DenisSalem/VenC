@@ -23,17 +23,20 @@ class MainThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns):
         super().__init__(prompt, datastore, theme, patterns)
         
-        self.organize_entries([
-            entry for entry in datastore.get_entries(
-                datastore.blog_configuration["reverse_thread_order"]
-            )
-        ])
+        if datastore.blog_configuration["disable_main_thread"]:
+            self.pages_count == 0
+
+        else:
+            self.organize_entries([
+                entry for entry in datastore.get_entries(
+                    datastore.blog_configuration["reverse_thread_order"]
+                )
+            ])
 
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.relative_origin = str()
         self.export_path = "blog/"
         self.in_thread = True
-
 
 
 
