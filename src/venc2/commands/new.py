@@ -111,6 +111,7 @@ def new_blog(argv):
                                 "disable_archives":             False,
                                 "disable_categories":           False,
                                 "disable_single_entries":       False,
+                                "disable_main_thread":          False,
                                 "text_editor":                   "nano",
                                 "date_format":                  "%A %d. %B %Y",
 				"author_name":			messages.your_name,

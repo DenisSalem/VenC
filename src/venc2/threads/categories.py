@@ -39,8 +39,8 @@ class CategoriesThread(Thread):
             root = self.datastore.entries_per_categories
 
         for node in root:
-            if node.value == '':
-                print(node.related_to)
+            if node.value in self.disable_threads:
+                continue
 
             notify("\t"+node.value+"...")
 

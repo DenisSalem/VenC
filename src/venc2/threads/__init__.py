@@ -31,7 +31,8 @@ class Thread:
         # Notify wich thread is processed
         notify(prompt)
         self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])
-        
+        self.disable_threads = datastore.disable_threads
+
         # Setup useful data
         self.theme = theme
         self.current_page = 0
@@ -87,10 +88,7 @@ class Thread:
     def get_previous_page(self, argv=list()):
         if self.current_page > 0:
             destination_page_number = str(self.current_page - 1)
-            try:
-                previous_entry_id = self.current_entry.previous_entry.id
-            except:
-                previous_entry_id = -1
+            previous_entry_id = self.current_entry.previous_entry.id
 
             if self.current_page == 1:
                 filename = self.filename.format(**{"page_number" : "", "entry_id" : previous_entry_id})
@@ -102,6 +100,7 @@ class Thread:
         
         else:
             return str()
+
     # Must be called in child class
     def for_pages(self, argv):
         list_lenght = int(argv[0])
@@ -176,7 +175,7 @@ class Thread:
     # Must be called in child class
     def do(self):
         page_number = 0
-        if len(self.pages) == 0:
+        if self.pages_count == 0:
             output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
             output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
             stream = codecs.open(
