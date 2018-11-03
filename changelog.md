@@ -125,19 +125,21 @@
 	DONE | Fix: Import asset from external theme if necessary.
 	DONE | Export empty blog.
 	WIP  | Allow disabling exportation of specific kind of thread.
-	TODO | Remove illegal character from path.
-	TODO | Open with navigator manual.
-	TODO | Add relevant templates for themes.
+	TODO | Add support for embed content (peertube, youtube, soundcloud, etc)
+	TODO | Export entry in nicely named folder instead of permalink
 	TODO | Add categories tree in entry.
+	TODO | Client-side search engine.
+	TODO | Fix unit test.
+	TODO | Remove illegal character from path.
 	TODO | Serv page.
+	TODO | Open with navigator manual.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
+	TODO | Add relevant templates for themes.
 	TODO | Split install and blog creation chapter in tutorial.
 	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
 	TODO | fix FAQ latex2mathml is incomplete.
 	TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Add translation for Deutsch and Spanish.
-	TODO | Client-side search engine.
-	TODO | Fix unit test.
 
 # version 2.x.x
 

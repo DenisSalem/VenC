@@ -26,6 +26,7 @@ from venc2.helpers import die
 from venc2.helpers import notify
 
 from venc2.l10n import messages
+from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 from venc2.patterns.processor import PreProcessor
 
@@ -115,7 +116,6 @@ class Entry:
             die(messages.missing_mandatory_field_in_entry.format("tags", self.id))
 
         self.categories_leaves = list()
-        self.categories_nodes_reference = list()
         self.raw_categories = [ c.strip() for c in metadata["categories"].split(',')]
         try:
             for category in self.raw_categories:
@@ -133,8 +133,8 @@ class Entry:
         except IndexError : # when list is empty
             pass
 
-    def SetupCategoriesNodesReference(self, categoriesTree):
-        pass
+        self.categories_tree = []
+        build_categories_tree(-1, self.raw_categories, self.categories_tree, -1)
 
 ''' Iterate through entries folder '''
 def yield_entries_content():
@@ -179,19 +179,6 @@ def get_latest_entryID():
         return 0
 
 '''
-
-def GetCategoriesList(entries):
-    output = list()
-    for entry in entries.keys():
-        stream = entries[entry].split("---\n")[0]
-        data = yaml.load(stream)
-        if data != None:
-            for category in data["categories"].split(","):
-                if (not category in output) and category != '':
-                    output.append(category)
-
-    return output
-
 def GetEntriesPerCategories(entries):
     entriesPerCategories = list()
     for entry in entries.keys():

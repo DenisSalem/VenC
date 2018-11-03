@@ -182,8 +182,6 @@ class Processor():
                     ",;"+pattern+";;"+";;".join(argv)+";,",
                     error_origin = [':'+str(e)[1:-1]+':','{0['+str(e)[1:-1]+']}']
                 )
-            if pattern != "RecursiveFor":
-                raise e
 
         except AttributeError as e:
                 output = self.handle_error(

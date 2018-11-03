@@ -77,14 +77,6 @@ def merge_dictionnaries(current, public):
     d.update(public)
     return d 
 
-''' deprecated
-def GetFormattedDate(unformattedDate, dateFormat):
-    data = unformattedDate.split('-')
-    return data.strftime(
-        dateFormat
-    )
-'''
-
 def get_list_of_pages(entries_per_page, entries_count):
     list_of_pages = list()
     pages_count = math.ceil(entries_count/entries_per_page)

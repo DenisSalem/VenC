@@ -20,6 +20,7 @@
 from venc2.datastore.configuration import get_blog_configuration
 from venc2.datastore.entry import yield_entries_content
 from venc2.datastore.entry import Entry
+from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 
 def merge(iterable, argv):
@@ -29,30 +30,6 @@ def merge(iterable, argv):
         ]
     )
 
-def perform_recursion(open_string, content, separator, close_string, nodes):
-    output_string = open_string
-    for node in sorted(nodes, key = lambda x : x.value):
-        variables = {
-            "value" : node.value,
-            "count" : node.count,
-            "weight" : node.weight,
-            "path" : node.path
-        }
-
-        if len(node.childs) == 0:
-            output_string += content.format(variables) + separator
-
-        else:
-            output_string += content.format(variables) + perform_recursion(
-                open_string,
-                content,
-                separator,
-                close_string,
-                node.childs
-            )
-
-    return output_string + close_string
-
 class DataStore:
     def __init__(self):
         self.blog_configuration = get_blog_configuration()
@@ -61,7 +38,9 @@ class DataStore:
         self.entries_per_dates = list()
         self.entries_per_categories = list()
         self.requested_entry_index = 0
-        
+        self.max_category_weight = 1
+        self.html_categories_tree = None
+
         ''' Entry index is different from entry id '''
         entry_index = 0
         for filename in yield_entries_content():
@@ -83,29 +62,7 @@ class DataStore:
 
 
             ''' Update entriesPerCategories '''
-
-            for category in self.entries[-1].raw_categories:
-                branch = category.split(' > ')
-                path = ".:GetRelativeOrigin:."
-                root = self.entries_per_categories
-                for node_name in branch:
-                    if node_name == '':
-                        continue
-
-                    path += node_name+'/'
-
-                    if not node_name in [metadata.value for metadata in root]:
-                        root.append(MetadataNode(node_name, entry_index))
-                        root[-1].path = path
-                        root = root[-1].childs
-
-                    else:
-                        for node in root:
-                            if node.value == node_name:
-                                node.count +=1
-                                node.related_to.append(entry_index)
-                                root = node.childs
-
+            build_categories_tree(entry_index, self.entries[-1].raw_categories, self.entries_per_categories, self.max_category_weight, self.set_max_category_weight)
             entry_index += 1
     
         ''' Setup BlogDates Data '''
@@ -117,6 +74,10 @@ class DataStore:
                 "count": node.count,
                 "weight": node.weight
             })
+
+    def set_max_category_weight(self, value):
+        self.max_category_weight = value
+        return value
 
     def get_blog_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
@@ -235,22 +196,58 @@ class DataStore:
         dates = [o for o in self.blog_dates if o["date"] not in self.disable_threads]
         return merge(dates, argv)
 
+    def perform_recursion(self, opening_node, opening_branch, closing_branch, closing_node, tree):
+        output_string = opening_node
+        for node in sorted(tree, key = lambda x : x.value):
+            if node.value in self.disable_threads:
+                continue
+            variables = {
+                "item" : node.value,
+                "count" : node.count,
+                "weight" : round(node.weight / self.max_category_weight,2),
+                "path" : node.path
+            }
+
+            if len(node.childs) == 0:
+                output_string += opening_branch.format(**variables) + closing_branch.format(**variables)
+
+            else:
+                output_string += opening_branch.format(**variables) + self.perform_recursion(
+                    opening_node,
+                    opening_branch,
+                    closing_branch,
+                    closing_node,
+                    node.childs
+                ) + closing_branch.format(**variables)
+
+        if output_string == opening_node+closing_node:
+            return ""
+
+        return output_string + closing_node
+
+    def tree_for_blog_categories(self, argv):
+        # compute once categories tree and deliver baked html
+        if self.html_categories_tree == None:
+            self.html_categories_tree = self.perform_recursion(
+                argv[0], #opening_node
+                argv[1], #opening_branch
+                argv[2], #closing_branch
+                argv[3], #closing_node
+                self.entries_per_categories
+            )
+
+        return self.html_categories_tree
+
     def for_entry_tags(self, argv):
         return merge(self.entries[self.requested_entry_index].tags, argv)
     
     def for_entry_authors(self, argv):
         return merge(self.entries[self.requested_entry_index].authors, argv)
 
-    def for_blog_categories(self, argv):
+    def leaf_for_blog_categories(self, argv):
         output_string = str()
-        output_string += perform_recursion(
-            argv[0],
-            argv[1],
-            argv[2],
-            argv[3],
-            self.entries_per_categories
-        )
         return output_string
+        
 
         
         
