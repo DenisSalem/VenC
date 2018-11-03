@@ -27,7 +27,7 @@ class CategoriesThread(Thread):
         super().__init__(prompt, datastore, theme, patterns)
         
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
-        self.relative_origin = "../"
+        self.relative_origin = ""
         self.in_thread = True
         self.export_path = "blog/"
  
@@ -46,6 +46,7 @@ class CategoriesThread(Thread):
 
             export_path = self.export_path
             self.export_path += node.value+'/'
+            self.relative_origin = ''.join([ '../' for a in self.export_path.split("/")[1:-1] ])
 
             # Get entries
             try:

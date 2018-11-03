@@ -28,49 +28,28 @@ class MetadataNode:
         self.related_to = [entry_index]
         self.childs = list()
 
-def get_metadata_by_name(keys, name):
-    for key in keys:
-        if key.value == name:
-            return key
-    return None
+def build_categories_tree(entry_index, input_list, output_tree, max_weight, set_max_weight=None):
+    for category in input_list:
+        branch = category.split(' > ')
+        path = ".:GetRelativeOrigin:."
+        root = output_tree
+        for node_name in branch:
+            if node_name == '':
+                continue
 
-''' Need refactorisation '''
-def get_dates_list(keys):
-    output = list()
-    max_weight = 0
-    for key in keys:
-        if max_weight < key.count:
-            max_weight = key.count
-        output.append({"date": key.value, "count":key.count,"dateUrl":key.value})
+            path += node_name+'/'
 
-    for key in output:
-        key["weight"] = str(int((key["count"]/max_weight)*10))
+            if not node_name in [metadata.value for metadata in root]:
+                root.append(MetadataNode(node_name, entry_index))
+                root[-1].path = path
+                root = root[-1].childs
 
-    return sorted(output, key = lambda date: datetime.datetime.strptime(date["date"], dates_directory_name))
+            else:
+                for node in root:
+                    if node.value == node_name:
+                        node.count +=1
+                        if set_max_weight != None and node.count > max_weight:
+                            max_weight = set_max_weight(node.count)
 
-def get_metadata_tree_max_weight(metadata, maxWeight=0):
-    current_max_weight = max_weight
-    for current in metadata:
-        if current.count > current_max_weight:
-            current_max_weight = current.count
-        m = get_metadata_tree_max_weight(current.childs, max_weight=current_max_weight)
-        if m > current_max_weight:
-            current_max_weight = m
-
-    return current_max_weight
-
-def get_metadata_tree(metadata, root=list(), max_weight=None):
-    nodes = root
-
-    for current in metadata:
-        nodes.append()
-        nodes[current.value] = dict()
-        nodes[current.value]["__categoryPath"] = current.path
-        if max_weight != None:
-            node[current.value]["__count"] = current.count
-            node[current.value]["__weight"] = int((current.count/max_weight) * 10)
-        if len(current.childs) != 0:
-            node[current.value]["_nodes"] = dict()
-            get_metadatas_tree(current.childs, node[metadata.value]["_nodes"], max_weight)
-
-    return node
+                        node.related_to.append(entry_index)
+                        root = node.childs

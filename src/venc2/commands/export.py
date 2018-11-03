@@ -79,7 +79,8 @@ non_contextual_pattern_names_datastore = {
     "ForEntryAuthors" : "for_entry_authors", 
     "ForEntryTags" : "for_entry_tags",
     "ForBlogDates" : "for_blog_dates",
-    "ForBlogCategories" : "for_blog_categories"
+    "LeafForBlogCategories" : "leaf_for_blog_categories",
+    "TreeForBlogCategories" : "tree_for_blog_categories"
 }
 
 non_contextual_pattern_names_ml = {
