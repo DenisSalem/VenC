@@ -86,6 +86,7 @@ non_contextual_pattern_names_blog = {
     # Extra metadata getter
     "GetBlogMetadataIfExists" : "get_blog_metadata_if_exists", 
     "ForBlogDates" : "for_blog_dates",
+    "LeavesForBlogCategories" : "leaves_for_blog_categories",
     "TreeForBlogCategories" : "tree_for_blog_categories"
 }
 

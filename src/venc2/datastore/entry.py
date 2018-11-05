@@ -134,7 +134,7 @@ class Entry:
             pass
 
         self.categories_tree = []
-        build_categories_tree(-1, self.raw_categories, self.categories_tree, -1)
+        build_categories_tree(-1, self.raw_categories, self.categories_tree, None, -1)
         self.html_categories_tree = None
 
 ''' Iterate through entries folder '''

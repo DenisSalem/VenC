@@ -138,6 +138,7 @@
 	TODO | Split install and blog creation chapter in tutorial.
 	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
 	TODO | fix FAQ latex2mathml is incomplete.
+	TODO | fix FAQ categories separator is ' > ', not '>'
 	TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Add translation for Deutsch and Spanish.
 
@@ -145,3 +146,4 @@
 
 	TODO | Add docutils reStructuredText parser settings override.
 	TODO | Decrease halt_level to render reStructuredText even if errors occurs.
+	TODO | Access {count} and {weight} from LeavesForEntrycategories.

@@ -28,26 +28,13 @@ class MetadataNode:
         self.related_to = [entry_index]
         self.childs = list()
 
-def build_categories_leaves():
-    try:
-        for category in self.raw_categories:
-            category_leaf = category.split(' > ')[-1].strip()
-            if len(category_leaf) != 0:
-                category_leaf_url = str()
-                for sub_category in category.split(' > '):
-                    category_leaf_url +=sub_category.strip()+'/'
-                
-                self.categories_leaves.append({
-                    "categoryLeaf": category_leaf,
-                    "categoryLeafPath":category_leaf_url
-                })
-
-    except IndexError : # when list is empty
-        pass
-
-def build_categories_tree(entry_index, input_list, output_tree, max_weight, set_max_weight=None):
+def build_categories_tree(entry_index, input_list, output_tree, output_leaves, max_weight, set_max_weight=None):
     for category in input_list:
         branch = category.split(' > ')
+        if not len(branch):
+            continue
+
+        leave = branch[-1]
         path = ".:GetRelativeOrigin:."
         root = output_tree
         for node_name in branch:
@@ -58,6 +45,9 @@ def build_categories_tree(entry_index, input_list, output_tree, max_weight, set_
 
             if not node_name in [metadata.value for metadata in root]:
                 root.append(MetadataNode(node_name, entry_index))
+                if output_leaves != None and node_name == leave:
+                    output_leaves.append(root[-1])
+
                 root[-1].path = path
                 root = root[-1].childs
 
