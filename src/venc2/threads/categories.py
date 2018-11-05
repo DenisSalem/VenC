@@ -23,8 +23,8 @@ from venc2.helpers import notify
 from venc2.threads import Thread
 
 class CategoriesThread(Thread):
-    def __init__(self, prompt, datastore, theme, patterns):
-        super().__init__(prompt, datastore, theme, patterns)
+    def __init__(self, prompt, datastore, theme, patterns, forbidden):
+        super().__init__(prompt, datastore, theme, patterns, forbidden)
         
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.relative_origin = ""

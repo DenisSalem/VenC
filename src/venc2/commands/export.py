@@ -48,7 +48,7 @@ from venc2.threads.main import MainThread
 datastore = DataStore()
 code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
 
-non_contextual_pattern_names_datastore = {
+non_contextual_pattern_names_entry = {
     # General entry data
     "GetEntryTitle" : "get_entry_title",
     "GetEntryID" : "get_entry_id",
@@ -60,8 +60,19 @@ non_contextual_pattern_names_datastore = {
     "GetEntryDate" : "get_entry_date",
     "GetEntryDateURL" : "get_entry_date_url",
     "GetEntryURL" : "get_entry_url",
+    "ForEntryAuthors" : "for_entry_authors", 
+    "ForEntryTags" : "for_entry_tags",
     
-    # General blog data
+    # Extra metadata getter
+    "LeavesForEntryCategories" : "leaves_for_entry_categories",
+    "TreeForEntryCategories" : "tree_for_entry_categories",
+    "GetEntryMetadata" : "get_entry_metadata",
+    "GetEntryMetadataIfExists" : "get_entry_metadata_if_exists"
+}
+
+non_contextual_pattern_names_entry_keys = non_contextual_pattern_names_entry.keys()
+
+non_contextual_pattern_names_blog = {
     "GetAuthorName" : "get_author_name",
     "GetBlogName" : "get_blog_name",
     "GetBlogDescription" : "get_blog_description",
@@ -73,14 +84,14 @@ non_contextual_pattern_names_datastore = {
     "GetAuthorEmail" : "get_author_email",
 
     # Extra metadata getter
-    "GetEntryMetadata" : "get_entry_metadata",
-    "GetEntryMetadataIfExists" : "get_entry_metadata_if_exists",
     "GetBlogMetadataIfExists" : "get_blog_metadata_if_exists", 
-    "ForEntryAuthors" : "for_entry_authors", 
-    "ForEntryTags" : "for_entry_tags",
     "ForBlogDates" : "for_blog_dates",
-    "LeafForBlogCategories" : "leaf_for_blog_categories",
     "TreeForBlogCategories" : "tree_for_blog_categories"
+}
+
+non_contextual_pattern_names_datastore = {
+    **non_contextual_pattern_names_blog,
+    **non_contextual_pattern_names_entry
 }
 
 non_contextual_pattern_names_ml = {
@@ -163,6 +174,7 @@ def export_blog(argv=list()):
         entry.rss_wrapper.above = PreProcessor(''.join(processor.batch_process(entry.rss_wrapper.above, "rssEntry.html", False).sub_strings))
         entry.rss_wrapper.below = PreProcessor(''.join(processor.batch_process(entry.rss_wrapper.below, "rssEntry.html", False).sub_strings))
     
+    processor.forbidden = non_contextual_pattern_names_entry_keys
     theme.header = PreProcessor(''.join(processor.batch_process(theme.header, "header.html").sub_strings))
     theme.footer = PreProcessor(''.join(processor.batch_process(theme.footer, "footer.html").sub_strings))
     theme.rssHeader = PreProcessor(''.join(processor.batch_process(theme.rss_header, "rssHeader.html").sub_strings))
@@ -174,19 +186,19 @@ def export_blog(argv=list()):
 
     # Starting second pass and exporting
 
-    thread = MainThread(messages.export_main_thread, datastore, theme, contextual_pattern_names)
+    thread = MainThread(messages.export_main_thread, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
     thread.do()
 
     if not datastore.blog_configuration["disable_archives"]:
-        thread = DatesThread(messages.export_archives, datastore, theme, contextual_pattern_names)
+        thread = DatesThread(messages.export_archives, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
         thread.do()
 
     if not datastore.blog_configuration["disable_categories"]:
-        thread = CategoriesThread(messages.export_categories, datastore, theme, contextual_pattern_names)
+        thread = CategoriesThread(messages.export_categories, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
         thread.do()
 
     if not datastore.blog_configuration["disable_single_entries"]:
-        thread = EntriesThread(messages.export_single_entries, datastore, theme, contextual_pattern_names)
+        thread = EntriesThread(messages.export_single_entries, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
         thread.do() 
 
     # Copy assets and extra files

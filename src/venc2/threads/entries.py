@@ -23,8 +23,8 @@ from venc2.helpers import notify
 from venc2.threads import Thread
 
 class EntriesThread(Thread):
-    def __init__(self, prompt, datastore, theme, patterns):
-        super().__init__(prompt, datastore, theme, patterns)
+    def __init__(self, prompt, datastore, theme, patterns, forbidden):
+        super().__init__(prompt, datastore, theme, patterns, forbidden)
         self.entries_per_page = 1 #override value
         self.organize_entries([
             entry for entry in datastore.get_entries(

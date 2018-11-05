@@ -84,5 +84,6 @@ class Messages:
     unknown_markup_language = "{0}: Langage de balisage non supporté dans {1}."
     tex_math_error = "Chaine mal formé ou balise non supporté par latex2mathml."
     missing_separator_in_entry = "Il manque le séparateur {0}."
+    pattern_is_forbidden_here = "Le motif '{0}' n'est pas autorisé ici."
 
 

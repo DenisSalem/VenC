@@ -124,10 +124,10 @@
 	DONE | Add more specific pattern to detect location (IfInCategories,IfInArchives,IfInFirstPage, etc).
 	DONE | Fix: Import asset from external theme if necessary.
 	DONE | Export empty blog.
-	WIP  | Allow disabling exportation of specific kind of thread.
+	DONE | Allow disabling exportation of specific kind of thread.
+	DONE | Add categories tree in entry.
 	TODO | Add support for embed content (peertube, youtube, soundcloud, etc)
 	TODO | Export entry in nicely named folder instead of permalink
-	TODO | Add categories tree in entry.
 	TODO | Client-side search engine.
 	TODO | Fix unit test.
 	TODO | Remove illegal character from path.

@@ -50,6 +50,7 @@ class DataStore:
 
             else:
                 self.entries.append(Entry(filename))
+                
             ''' Update entriesPerDates '''
             if self.blog_configuration["path"]["dates_directory_name"] != '':
                 formatted_date = self.entries[-1].date.strftime(self.blog_configuration["path"]["dates_directory_name"])
@@ -196,11 +197,12 @@ class DataStore:
         dates = [o for o in self.blog_dates if o["date"] not in self.disable_threads]
         return merge(dates, argv)
 
-    def perform_recursion(self, opening_node, opening_branch, closing_branch, closing_node, tree):
+    def build_html_categories_tree(self, opening_node, opening_branch, closing_branch, closing_node, tree):
         output_string = opening_node
         for node in sorted(tree, key = lambda x : x.value):
             if node.value in self.disable_threads:
                 continue
+
             variables = {
                 "item" : node.value,
                 "count" : node.count,
@@ -212,7 +214,7 @@ class DataStore:
                 output_string += opening_branch.format(**variables) + closing_branch.format(**variables)
 
             else:
-                output_string += opening_branch.format(**variables) + self.perform_recursion(
+                output_string += opening_branch.format(**variables) + self.build_html_categories_tree(
                     opening_node,
                     opening_branch,
                     closing_branch,
@@ -225,10 +227,23 @@ class DataStore:
 
         return output_string + closing_node
 
+    def tree_for_entry_categories(self, argv):
+        # compute once categories tree and deliver baked html
+        if self.entries[self.requested_entry_index].html_categories_tree == None:
+            self.entries[self.requested_entry_index].html_categories_tree = self.build_html_categories_tree(
+                argv[0], #opening_node
+                argv[1], #opening_branch
+                argv[2], #closing_branch
+                argv[3], #closing_node
+                self.entries[self.requested_entry_index].categories_tree
+            )
+        
+        return self.entries[self.requested_entry_index].html_categories_tree
+
     def tree_for_blog_categories(self, argv):
         # compute once categories tree and deliver baked html
         if self.html_categories_tree == None:
-            self.html_categories_tree = self.perform_recursion(
+            self.html_categories_tree = self.build_html_categories_tree(
                 argv[0], #opening_node
                 argv[1], #opening_branch
                 argv[2], #closing_branch
@@ -244,9 +259,8 @@ class DataStore:
     def for_entry_authors(self, argv):
         return merge(self.entries[self.requested_entry_index].authors, argv)
 
-    def leaf_for_blog_categories(self, argv):
-        output_string = str()
-        return output_string
+    def leaves_for_entry_categories(self, argv):
+        return merge(self.entries[self.requested_entry_index].categories_leaves, argv)
         
 
         

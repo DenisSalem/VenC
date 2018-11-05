@@ -121,13 +121,13 @@ class Entry:
             for category in self.raw_categories:
                 category_leaf = category.split(' > ')[-1].strip()
                 if len(category_leaf) != 0:
-                    category_leaf_url = str()
+                    category_leaf_url = ".:GetRelativeOrigin:."
                     for sub_category in category.split(' > '):
                         category_leaf_url +=sub_category.strip()+'/'
                 
                     self.categories_leaves.append({
-                        "categoryLeaf": category_leaf,
-                        "categoryLeafPath":category_leaf_url
+                        "item": category_leaf,
+                        "path":category_leaf_url
                     })
 
         except IndexError : # when list is empty
@@ -135,6 +135,7 @@ class Entry:
 
         self.categories_tree = []
         build_categories_tree(-1, self.raw_categories, self.categories_tree, -1)
+        self.html_categories_tree = None
 
 ''' Iterate through entries folder '''
 def yield_entries_content():
@@ -169,52 +170,9 @@ def yield_entries_content():
     except FileNotFoundError:
         die(messages.file_not_found.format(os.getcwd()+"/entries"))
 
-
-''' User for set the id of new entry '''
 def get_latest_entryID():
     entries_list = sorted(yield_entries_content(), key = lambda entry : int(entry.split("__")[0]))
     if len(entries_list) != 0:
         return int(entries_list[-1].split("__")[0])
     else:
         return 0
-
-'''
-def GetEntriesPerCategories(entries):
-    entriesPerCategories = list()
-    for entry in entries.keys():
-        stream = entries[entry].split("---\n")[0]
-        try:
-            data = yaml.load(stream)
-        except yaml.scanner.ScannerError:
-            Die(Messages.possibleMalformedEntry.format(entry))
-
-        except yaml.parser.ParserError:
-            Die(Messages.possibleMalformedEntry.format(entry))
-
-        if data != None:
-            try:
-                for category in data["categories"].split(","):
-                    if category != '':
-                        nodes = entriesPerCategories
-                        path = str()
-                        for subCategory in category.split(" > "):
-                            path += subCategory+'/'
-                            try:
-                                selectedKey = GetKeyByName(nodes, subCategory.strip())
-                                selectedKey.relatedTo.append(entry)
-                                selectedKey.count += 1
-                                selectedKey.relatedTo = list(set(selectedKey.relatedTo))
-                            except Exception as e:
-                                selectedKey = Metadata(subCategory.strip(), entry)
-                                selectedKey.path = path
-                                nodes.append(selectedKey)
-                            
-                            nodes = selectedKey.childs
-                
-            except TypeError:
-                Die(Messages.possibleMalformedEntry.format(entry))
-
-    return entriesPerCategories
-
-'''
-
