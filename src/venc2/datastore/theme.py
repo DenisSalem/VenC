@@ -52,7 +52,7 @@ class Theme:
         source = ""
         for ext in argv[1].split(','):
             # Set media once, and get complete path later.
-            source += str("<source src=\".:GetRelativeOrigin:.{0}.{1}\" type=\""+media_type+"/{1}\">\n").format(argv[0].strip(), ext.strip())
+            source += str("<source src=\"{0}.{1}\" type=\""+media_type+"/{1}\">\n").format(argv[0].strip(), ext.strip())
         
         f = {}
         f["source"] = source

@@ -86,3 +86,4 @@ class Messages:
     unknown_markup_language = "{0}: Unsupported markup language."
     tex_math_error = "Malformed input string or unsupported markup from latex2mathml."
     missing_separator_in_entry = "Missing separator {0}."
+    pattern_is_forbidden_here = "The pattern '{0}' is forbidden here."

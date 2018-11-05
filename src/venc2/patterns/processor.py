@@ -144,6 +144,7 @@ def parse_markup_language(string, markup_language, source):
 
 class Processor():
     def __init__(self):
+        self.forbidden = []
         self.functions		 = dict()
         self.currentString       = str()
         self.ressource           = str()
@@ -273,10 +274,18 @@ class Processor():
         to_remove = list()
         for index in pre_processed.patterns_index:
             current_pattern = pre_processed.sub_strings[index][2:-2].split('::')[0]
-            if current_pattern in ["CodeHighlight", "Latex2MathML","IncludeFile","audio","video"]:
+            if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video"]:
                 pre_processed.keep_appart_from_markup_index.append(index)
 
-            if not current_pattern in self.blacklist:
+            """ this is tested twice??? """
+            if current_pattern in self.forbidden:
+                self.handle_error(
+                    messages.pattern_is_forbidden_here.format(current_pattern),
+                    ",;"+current_pattern+";;"+";;".join(pre_processed.sub_strings[index][2:-2])+";,",
+                    error_origin = [current_pattern]
+                )
+
+            if (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden) :
                 pre_processed.sub_strings[index] = self.process(pre_processed.sub_strings[index], escape)
                 
                 # check if there is residual patterns
@@ -305,7 +314,8 @@ class Processor():
             if len(close_symbol_pos) <= len(open_symbol_pos) and len(close_symbol_pos) != 0 and len(open_symbol_pos) != 0:
                 if open_symbol_pos[-1] < close_symbol_pos[-1]:
                     fields = [field for field in string[open_symbol_pos[-1]+2:close_symbol_pos[-1]].split(SEPARATOR) if field != '']
-                    if not fields[0] in self.blacklist:
+                    """ this is tested twice??? """
+                    if not fields[0] in self.blacklist and (not fields[0] in self.forbidden):
                         output = self.run_pattern(fields[0], fields[1:])
                         if escape:
                             return self.process(

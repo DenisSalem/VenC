@@ -28,6 +28,23 @@ class MetadataNode:
         self.related_to = [entry_index]
         self.childs = list()
 
+def build_categories_leaves():
+    try:
+        for category in self.raw_categories:
+            category_leaf = category.split(' > ')[-1].strip()
+            if len(category_leaf) != 0:
+                category_leaf_url = str()
+                for sub_category in category.split(' > '):
+                    category_leaf_url +=sub_category.strip()+'/'
+                
+                self.categories_leaves.append({
+                    "categoryLeaf": category_leaf,
+                    "categoryLeafPath":category_leaf_url
+                })
+
+    except IndexError : # when list is empty
+        pass
+
 def build_categories_tree(entry_index, input_list, output_tree, max_weight, set_max_weight=None):
     for category in input_list:
         branch = category.split(' > ')

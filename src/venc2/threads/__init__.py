@@ -27,9 +27,10 @@ from venc2.l10n import messages
 from venc2.patterns.processor import Processor
 
 class Thread:
-    def __init__(self, prompt, datastore, theme, patterns):
+    def __init__(self, prompt, datastore, theme, patterns, forbidden):
         # Notify wich thread is processed
         notify(prompt)
+        self.forbidden = forbidden
         self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])
         self.disable_threads = datastore.disable_threads
 
@@ -88,7 +89,11 @@ class Thread:
     def get_previous_page(self, argv=list()):
         if self.current_page > 0:
             destination_page_number = str(self.current_page - 1)
-            previous_entry_id = self.current_entry.previous_entry.id
+            try:
+                previous_entry_id = self.current_entry.previous_entry.id
+
+            except AttributeError:
+                previous_entry_id = -1
 
             if self.current_page == 1:
                 filename = self.filename.format(**{"page_number" : "", "entry_id" : previous_entry_id})
@@ -188,7 +193,9 @@ class Thread:
             
         else:
             for page in self.pages:
+                self.processor.forbidden = self.forbidden
                 output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
+                self.processor.forbidden = []
 
                 columns_number = self.datastore.blog_configuration["columns"]
                 columns_counter = 0
@@ -215,6 +222,7 @@ class Thread:
                 for column in columns:
                     output += '<div id="__VENC_COLUMN_'+str(columns_counter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
             
+                self.processor.forbidden = self.forbidden
                 output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
         
                 if self.in_thread:
