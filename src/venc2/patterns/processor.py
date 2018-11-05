@@ -181,14 +181,14 @@ class Processor():
                 output = self.handle_error(
                     messages.unknown_contextual.format(e),
                     ",;"+pattern+";;"+";;".join(argv)+";,",
-                    error_origin = [':'+str(e)[1:-1]+':','{0['+str(e)[1:-1]+']}']
+                    error_origin = [':'+str(e)[1:-1]+':','{0['+str(e)[1:-1]+']}', ':'+pattern+':'] # first item might be useless ???
                 )
 
         except AttributeError as e:
                 output = self.handle_error(
                     messages.unknown_contextual.format(e),
                     ",;"+pattern+";;"+";;".join(argv)+";,",
-                    error_origin = [str(e).split("'")[-2]]
+                    error_origin = [str(e).split("'")[-2], ':'+pattern+':']
                 )
         
         except IndexError:

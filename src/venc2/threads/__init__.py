@@ -47,12 +47,13 @@ class Thread:
             except TypeError: # if value isn't string but function reference
                 self.processor.set_function(pattern_name, patterns[pattern_name])
 
-    def return_page_around(self, string, destination_page_number, filename):
+    def return_page_around(self, string, destination_page_number, filename, destination_entry_title):
         return string.format(**{
             "destination_page":destination_page_number,
             "destination_page_url":filename,
             "entry_name" : self.current_entry.title,
-            "entry_id": self.current_entry.id
+            "entry_id": self.current_entry.id,
+            "destination_entry_title":destination_entry_title
         })
 
 
@@ -78,9 +79,16 @@ class Thread:
     def get_next_page(self,argv=list()):
         if self.current_page < len(self.pages) - 1:
             destination_page_number = str(self.current_page + 1)
-            next_entry_id = self.current_entry.next_entry.id
-            filename = self.filename.format(**{"page_number":destination_page_number,"entry_id":next_entry_id})
-            return self.return_page_around(argv[0], destination_page_number, filename)
+            try:
+                next_entry_id = self.current_entry.next_entry.id
+                destination_entry_title = "" if self.in_thread else self.current_entry.next_entry.title
+
+            except AttributeError:
+                next_entry_id = -1
+                destination_entry_title = ""
+
+            filename = self.filename.format(**{"page_number":destination_page_number,"entry_id":next_entry_id, "destination_entry_title" : destination_entry_title })
+            return self.return_page_around(argv[0], destination_page_number, filename, destination_entry_title)
 
         else:
             return str()
@@ -91,17 +99,20 @@ class Thread:
             destination_page_number = str(self.current_page - 1)
             try:
                 previous_entry_id = self.current_entry.previous_entry.id
+                destination_entry_title = "" if self.in_thread else self.current_entry.previous_entry.title
 
             except AttributeError:
                 previous_entry_id = -1
+                destination_entry_title = ""
 
+            # Works, but what a shitty way to code that... May be shortened
             if self.current_page == 1:
-                filename = self.filename.format(**{"page_number" : "", "entry_id" : previous_entry_id})
+                filename = self.filename.format(**{"page_number" : "", "entry_id" : previous_entry_id, "destination_entry_title": "" if self.in_thread else self.current_entry.title})
 
             else:
-                filename = self.filename.format(**{"page_number" : destination_page_number, "entry_id" : previous_entry_id})
+                filename = self.filename.format(**{"page_number" : destination_page_number, "entry_id" : previous_entry_id, "destination_entry_title" : destination_entry_title})
             
-            return self.return_page_around(argv[0], destination_page_number, filename)
+            return self.return_page_around(argv[0], destination_page_number, filename, destination_entry_title)
         
         else:
             return str()

@@ -24,7 +24,7 @@ from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 
 def merge(iterable, argv):
-    return argv[1].join(
+    return ''.join(
         [
             argv[0].format(**something) for something in iterable
         ]
@@ -39,6 +39,7 @@ class DataStore:
         self.entries_per_categories = list()
         self.requested_entry_index = 0
         self.max_category_weight = 1
+        self.categories_leaves = []
         self.html_categories_tree = None
 
         ''' Entry index is different from entry id '''
@@ -63,7 +64,7 @@ class DataStore:
 
 
             ''' Update entriesPerCategories '''
-            build_categories_tree(entry_index, self.entries[-1].raw_categories, self.entries_per_categories, self.max_category_weight, self.set_max_category_weight)
+            build_categories_tree(entry_index, self.entries[-1].raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight)
             entry_index += 1
     
         ''' Setup BlogDates Data '''
@@ -197,6 +198,7 @@ class DataStore:
         dates = [o for o in self.blog_dates if o["date"] not in self.disable_threads]
         return merge(dates, argv)
 
+
     def build_html_categories_tree(self, opening_node, opening_branch, closing_branch, closing_node, tree):
         output_string = opening_node
         for node in sorted(tree, key = lambda x : x.value):
@@ -259,8 +261,22 @@ class DataStore:
     def for_entry_authors(self, argv):
         return merge(self.entries[self.requested_entry_index].authors, argv)
 
+
+    """ TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing. """
     def leaves_for_entry_categories(self, argv):
         return merge(self.entries[self.requested_entry_index].categories_leaves, argv)
+
+    def leaves_for_blog_categories(self, argv):
+        items = []
+        for node in self.categories_leaves:
+            items.append({
+                "item" : node.value,
+                "count" : node.count,
+                "weight" : round(node.weight / self.max_category_weight,2),
+                "path" : node.path
+            })
+    
+        return merge(items, argv)
         
 
         
