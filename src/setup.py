@@ -60,7 +60,8 @@ setup(name='VenC',
           "latex2mathml",
           'markdown',
           'pyyaml',
-          'Pygments'
+          'Pygments',
+          'python-oembed'
     ],
     scripts=['venc','venc-unit-test','venc-blog-migration'],
     data_files = extra_files

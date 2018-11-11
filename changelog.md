@@ -126,7 +126,7 @@
 	DONE | Export empty blog.
 	DONE | Allow disabling exportation of specific kind of thread.
 	DONE | Add categories tree in entry.
-	TODO | Add support for embed content (peertube, youtube, soundcloud, etc)
+	WIP  | Add support for embed content (oEmbed, OGP)
 	TODO | Export entry in nicely named folder instead of permalink
 	TODO | Client-side search engine.
 	TODO | Fix unit test.
