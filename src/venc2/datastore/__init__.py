@@ -51,7 +51,7 @@ class DataStore:
         entry_index = 0
         for filename in yield_entries_content():
             if len(self.entries):
-                self.entries.append(Entry(filename, previous_entry = self.entries[-1]))
+                self.entries.append(Entry(filename, previous_entry = self.entries[-1], encoding=self.blog_configuration["path_encoding"]))
                 self.entries[-2].next_entry = self.entries[-1]
 
             else:
@@ -69,7 +69,7 @@ class DataStore:
 
 
             ''' Update entriesPerCategories '''
-            build_categories_tree(entry_index, self.entries[-1].raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight)
+            build_categories_tree(entry_index, self.entries[-1].raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.blog_configuration["path_encoding"])
             entry_index += 1
     
         ''' Setup BlogDates Data '''

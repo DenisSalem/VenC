@@ -126,11 +126,11 @@
 	DONE | Export empty blog.
 	DONE | Allow disabling exportation of specific kind of thread.
 	DONE | Add categories tree in entry.
+	DONE | Remove illegal character from path.
 	WIP  | Add support for embed content (oEmbed, OGP)
 	TODO | Export entry in nicely named folder instead of permalink
 	TODO | Client-side search engine.
 	TODO | Fix unit test.
-	TODO | Remove illegal character from path.
 	TODO | Serv page.
 	TODO | Open with navigator manual.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
