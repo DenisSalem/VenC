@@ -18,6 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
+import urllib.parse
 
 class MetadataNode:
     def __init__(self, value, entry_index):
@@ -28,14 +29,14 @@ class MetadataNode:
         self.related_to = [entry_index]
         self.childs = list()
 
-def build_categories_tree(entry_index, input_list, output_tree, output_leaves, max_weight, set_max_weight=None):
+def build_categories_tree(entry_index, input_list, output_tree, output_leaves, max_weight, set_max_weight=None, encoding="utf-8"):
     for category in input_list:
         branch = category.split(' > ')
         if not len(branch):
             continue
 
         leave = branch[-1]
-        path = ".:GetRelativeOrigin:."
+        path = ""
         root = output_tree
         for node_name in branch:
             if node_name == '':
@@ -48,7 +49,7 @@ def build_categories_tree(entry_index, input_list, output_tree, output_leaves, m
                 if output_leaves != None and node_name == leave:
                     output_leaves.append(root[-1])
 
-                root[-1].path = path
+                root[-1].path = ".:GetRelativeOrigin:."+urllib.parse.quote(path, encoding=encoding)
                 root = root[-1].childs
 
             else:

@@ -50,7 +50,8 @@ def get_blog_configuration():
             "disable_main_thread",
             "disable_archives",
             "disable_categories",
-            "disable_single_entries"
+            "disable_single_entries",
+            "path_encoding"
         ]
 
         everything_is_okay = True
