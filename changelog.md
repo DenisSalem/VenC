@@ -147,3 +147,5 @@
 	TODO | Add docutils reStructuredText parser settings override.
 	TODO | Decrease halt_level to render reStructuredText even if errors occurs.
 	TODO | Access {count} and {weight} from LeavesForEntrycategories.
+	TODO | Split unit-test and themes from main branch
+	TODO | Add Yaml comments in blog configuration
