@@ -17,10 +17,12 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
 from venc2 import venc_version
 from venc2.l10n import messages
 from venc2.helpers import PatternInvalidArgument
+
+def embed_content(providers, argv):
+    print(providers, argv)  
 
 def get_venc_version(argv):
     return venc_version
