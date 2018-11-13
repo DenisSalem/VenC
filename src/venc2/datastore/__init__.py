@@ -294,7 +294,12 @@ class DataStore:
         else:
             if self.embed_providers == dict():
                 f = open(os.path.expanduser("~")+"/.local/share/VenC/embed_providers/oembed.json")
-                self.embed_providers["oembed"] = json.load(f)
+                self.embed_providers["oembed"] = {}
+                j =json.load(f)
+                for p in j:
+                    self.embed_providers["oembed"][p["provider_url"]] = []
+                    for e in p["endpoints"]:
+                        self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
 
         embed_content(self.embed_providers, argv)
         

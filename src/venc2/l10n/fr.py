@@ -85,5 +85,6 @@ class Messages:
     tex_math_error = "Chaine mal formé ou balise non supporté par latex2mathml."
     missing_separator_in_entry = "Il manque le séparateur {0}."
     pattern_is_forbidden_here = "Le motif '{0}' n'est pas autorisé ici."
+    unknown_provider = "{0} est un fournisseur oembed inconnu."
 
 
