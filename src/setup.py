@@ -34,6 +34,8 @@ for theme in themes:
             src_files
         ))
 
+extra_files.append((os.path.expanduser('~')+"/.local/share/VenC/embed_providers/",["share/embed_providers/oembed.json"]))
+
 setup(name='VenC',
     version='2.0.0',
     description='A static blog generator.',

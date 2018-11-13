@@ -26,7 +26,7 @@ import base64
 import shutil
 import subprocess
 
-from venc2.datastore.datastore import DataStore
+from venc2.datastore import DataStore
 from venc2.datastore.theme import themes_descriptor
 from venc2.datastore.theme import Theme
 from venc2.helpers import die
@@ -92,7 +92,8 @@ non_contextual_pattern_names_blog = {
 
 non_contextual_pattern_names_datastore = {
     **non_contextual_pattern_names_blog,
-    **non_contextual_pattern_names_entry
+    **non_contextual_pattern_names_entry,
+    "EmbedContent": "wrapper_embed_content"
 }
 
 non_contextual_pattern_names_ml = {
