@@ -20,9 +20,21 @@
 from venc2 import venc_version
 from venc2.l10n import messages
 from venc2.helpers import PatternInvalidArgument
+from urllib.parse import urlparse
+
+def try_oembed(providers, url):
+    try:
+        key = [ key for key in providers["oembed"].keys() if url.netloc in key][0]
+
+    except IndexError:
+        raise PatternInvalidArgument("url", url.netloc, messages.unknown_provider.format(url.netloc))
+
+    print(providers["oembed"][key])
+    return ""
 
 def embed_content(providers, argv):
-    print(providers, argv)  
+    url = urlparse(argv[0])
+    return try_oembed(providers, url)
 
 def get_venc_version(argv):
     return venc_version

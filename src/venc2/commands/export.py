@@ -186,6 +186,8 @@ def export_blog(argv=list()):
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
 
+    datastore.embed_providers = {}
+
     # Starting second pass and exporting
 
     thread = MainThread(messages.export_main_thread, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
