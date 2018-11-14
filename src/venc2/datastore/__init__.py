@@ -266,7 +266,6 @@ class DataStore:
     def for_entry_authors(self, argv):
         return merge(self.entries[self.requested_entry_index].authors, argv)
 
-
     """ TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing. """
     def leaves_for_entry_categories(self, argv):
         return merge(self.entries[self.requested_entry_index].categories_leaves, argv)
@@ -301,7 +300,7 @@ class DataStore:
                     for e in p["endpoints"]:
                         self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
 
-        embed_content(self.embed_providers, argv)
+        return embed_content(self.embed_providers, argv)
         
         
         

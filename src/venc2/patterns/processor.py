@@ -31,6 +31,7 @@ from venc2.helpers import highlight_value
 from venc2.helpers import notify
 from venc2.helpers import remove_by_value
 from venc2.helpers import PatternInvalidArgument
+from venc2.helpers import GenericMessage
 from venc2.l10n import messages
 
 # Special case of KeyError
@@ -205,6 +206,13 @@ class Processor():
                 error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
             )
 
+        except GenericMessage as e: 
+            output = self.handle_error(
+                e.message,
+                ",;"+pattern+";;"+";;".join(argv)+";,",
+                error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
+            )
+
         except FileNotFoundError as e:
             output = self.handle_error(
                 messages.file_not_found.format(e.filename),
@@ -274,7 +282,7 @@ class Processor():
         to_remove = list()
         for index in pre_processed.patterns_index:
             current_pattern = pre_processed.sub_strings[index][2:-2].split('::')[0]
-            if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video"]:
+            if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]:
                 pre_processed.keep_appart_from_markup_index.append(index)
 
             """ this is tested twice??? """

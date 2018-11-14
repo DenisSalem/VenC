@@ -32,6 +32,10 @@ class PatternInvalidArgument(Exception):
         self.value = value
         self.message = message
 
+class GenericMessage(Exception):
+    def __init__(self, message):
+        self.message = message
+
 msg_format = {
     "END" : '\033[0m',
     "GREEN" : '\033[92m',
