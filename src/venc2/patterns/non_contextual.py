@@ -17,12 +17,15 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+import hashlib
 import json
+import os
 import requests
 from venc2 import venc_version
 from venc2.l10n import messages
 from venc2.helpers import PatternInvalidArgument
 from venc2.helpers import GenericMessage
+from venc2.helpers import notify
 from urllib.parse import urlparse
 
 def try_oembed(providers, url):
@@ -45,9 +48,18 @@ def try_oembed(providers, url):
 
     try:
         html = json.loads(r.text)["html"]
-        
     except Exception as e:
         raise GenericMessage(messages.response_is_not_json.format(url.geturl()))
+        
+    try:
+        cache_filename = hashlib.md5(url.geturl().encode('utf-8')).hexdigest()
+        os.makedirs("caches/embed", exist_ok=True)
+        f = open("caches/embed/"+cache_filename, "w")
+        f.write(html)
+        f.close()
+
+    except PermissionError:
+        notify(messages.wrong_permissions.format("caches/embed/"+cache_filename), color="YELLOW")
 
     return html
 

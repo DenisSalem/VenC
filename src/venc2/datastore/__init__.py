@@ -17,6 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+import hashlib
 import json
 import os
 
@@ -283,7 +284,12 @@ class DataStore:
         return merge(items, argv)
         
     def cache_embed_exists(self, link):
-        return ""
+        cache_filename = hashlib.md5(link.encode('utf-8')).hexdigest()
+        try:
+            return open("caches/embed/"+cache_filename,"r").read()
+
+        except FileNotFoundError:
+            return ""
 
     def wrapper_embed_content(self, argv):
         cache = self.cache_embed_exists(argv[0])
