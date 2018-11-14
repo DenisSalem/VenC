@@ -86,5 +86,8 @@ class Messages:
     missing_separator_in_entry = "Il manque le séparateur {0}."
     pattern_is_forbidden_here = "Le motif '{0}' n'est pas autorisé ici."
     unknown_provider = "{0} est un fournisseur oembed inconnu."
+    connectivity_issue = "Une erreur de connexion est survenue:"
+    ressource_unavailable = "{0}: Ressource non disponible."
+    response_is_not_json = "{0}: La reponse HTTP n'est pas du JSON."
 
 
