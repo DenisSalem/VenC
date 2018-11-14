@@ -127,7 +127,7 @@
 	DONE | Allow disabling exportation of specific kind of thread.
 	DONE | Add categories tree in entry.
 	DONE | Remove illegal character from path.
-	WIP  | Add support for embed content (oEmbed, OGP)
+	DONE | Add support for embed content (oEmbed)
 	TODO | Export entry in nicely named folder instead of permalink
 	TODO | Client-side search engine.
 	TODO | Fix unit test.
