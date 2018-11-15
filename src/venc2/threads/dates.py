@@ -18,6 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import urllib.parse
 
 from venc2.helpers import notify
 from venc2.threads import Thread
@@ -27,7 +28,8 @@ class DatesThread(Thread):
         super().__init__(prompt, datastore, theme, patterns, forbidden)
         
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
-        self.relative_origin = "../"
+        self.sub_folders = self.datastore.blog_configuration["path"]["dates_sub_folders"]
+        self.relative_origin = str("../"+''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = True
 
     def if_in_archives(self, argv):
@@ -39,7 +41,7 @@ class DatesThread(Thread):
                 continue
 
             notify("\t"+thread.value+"...")
-            self.export_path = "blog/"+thread.value+'/'
+            self.export_path = "blog/"+self.sub_folders+'/'+thread.value+'/'
             os.makedirs(self.export_path)
             self.organize_entries([
                 entry for entry in self.datastore.get_entries_for_given_date(

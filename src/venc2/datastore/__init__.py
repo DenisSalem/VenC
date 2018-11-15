@@ -20,6 +20,7 @@
 import hashlib
 import json
 import os
+import urllib.parse
 
 from venc2.datastore.configuration import get_blog_configuration
 from venc2.datastore.entry import yield_entries_content
@@ -52,11 +53,11 @@ class DataStore:
         entry_index = 0
         for filename in yield_entries_content():
             if len(self.entries):
-                self.entries.append(Entry(filename, previous_entry = self.entries[-1], encoding=self.blog_configuration["path_encoding"]))
+                self.entries.append(Entry(filename, self.blog_configuration["path"], previous_entry = self.entries[-1], encoding=self.blog_configuration["path_encoding"]))
                 self.entries[-2].next_entry = self.entries[-1]
 
             else:
-                self.entries.append(Entry(filename))
+                self.entries.append(Entry(filename, self.blog_configuration["path"], encoding=self.blog_configuration["path_encoding"]))
                 
             ''' Update entriesPerDates '''
             if self.blog_configuration["path"]["dates_directory_name"] != '':
@@ -70,15 +71,20 @@ class DataStore:
 
 
             ''' Update entriesPerCategories '''
-            build_categories_tree(entry_index, self.entries[-1].raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.blog_configuration["path_encoding"])
+            sub_folders = urllib.parse.quote(self.blog_configuration["path"]["categories_sub_folders"]+'/', encoding=self.blog_configuration["path_encoding"])
+            sub_folders = sub_folders if sub_folders != '/' else ''
+            build_categories_tree(entry_index, self.entries[-1].raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.blog_configuration["path_encoding"], sub_folders=sub_folders)
             entry_index += 1
     
         ''' Setup BlogDates Data '''
         self.blog_dates = list()
         for node in self.entries_per_dates:
+            sub_folders = urllib.parse.quote(self.blog_configuration["path"]["dates_sub_folders"]+'/', encoding=self.blog_configuration["path_encoding"])
+            sub_folders = sub_folders if sub_folders != '/' else ''
+
             self.blog_dates.append({
                 "date":node.value,
-                "dateUrl": ".:GetRelativeOrigin:."+node.value,
+                "dateUrl": ".:GetRelativeOrigin:."+sub_folders+node.value,
                 "count": node.count,
                 "weight": node.weight
             })
@@ -169,9 +175,16 @@ class DataStore:
         return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["path"]["dates_directory_name"])
 
     def get_entry_url(self, argv=list()):
-        return self.blog_configuration["path"]["entry_file_name"].format(**{
-            "entry_id" : self.entries[self.requested_entry_index].id
+        sub_folders = self.blog_configuration["path"]["entries_sub_folders"].format(**{
+            "entry_id" : self.entries[self.requested_entry_index].id,
+            "entry_title" : self.entries[self.requested_entry_index].title
         })
+        sub_folders = sub_folders+'/' if sub_folders != '' else ''
+        filename = self.blog_configuration["path"]["entry_file_name"].format(**{
+            "entry_id" : self.entries[self.requested_entry_index].id,
+            "entry_title" : self.entries[self.requested_entry_index].title
+        })
+        return urllib.parse.quote(sub_folders+filename, encoding=self.blog_configuration["path_encoding"])
 
     def get_author_name(self, argv=list()):
         return self.blog_configuration["author_name"]

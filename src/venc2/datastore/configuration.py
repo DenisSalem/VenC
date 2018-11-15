@@ -66,7 +66,10 @@ def get_blog_configuration():
 	    "dates_directory_name",
 	    "entry_file_name",
 	    "rss_file_name",
-            "ftp"
+            "ftp",
+            "entries_sub_folders",
+            "categories_sub_folders",
+            "dates_sub_folders"
         ]
 
         for field in mandatory_fields:
