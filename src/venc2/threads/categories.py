@@ -18,6 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import urllib.parse
 
 from venc2.helpers import notify
 from venc2.threads import Thread
@@ -27,9 +28,9 @@ class CategoriesThread(Thread):
         super().__init__(prompt, datastore, theme, patterns, forbidden)
         
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
+        self.export_path = "blog/"+self.datastore.blog_configuration["path"]["categories_sub_folders"]+'/'
         self.relative_origin = ""
         self.in_thread = True
-        self.export_path = "blog/"
  
     def if_in_categories(self, argv):
         return argv[0]
@@ -46,7 +47,7 @@ class CategoriesThread(Thread):
 
             export_path = self.export_path
             self.export_path += node.value+'/'
-            self.relative_origin = ''.join([ '../' for a in self.export_path.split("/")[1:-1] ])
+            self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
 
             # Get entries
             try:

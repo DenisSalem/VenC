@@ -126,9 +126,9 @@
 	DONE | Export empty blog.
 	DONE | Allow disabling exportation of specific kind of thread.
 	DONE | Add categories tree in entry.
-	DONE | Remove illegal character from path.
+	DONE | Remove illegal character from paths.
 	DONE | Add support for embed content (oEmbed)
-	TODO | Export entry in nicely named folder instead of permalink
+	WIP  | Add custom subfolders
 	TODO | Client-side search engine.
 	TODO | Fix unit test.
 	TODO | Serv page.
@@ -139,6 +139,7 @@
 	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
 	TODO | fix FAQ latex2mathml is incomplete.
 	TODO | fix FAQ categories separator is ' > ', not '>'
+	TODO | fix FAQ subfolders must not start with '/'
 	TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 	TODO | Add translation for Deutsch and Spanish.
 
@@ -149,3 +150,4 @@
 	TODO | Access {count} and {weight} from LeavesForEntrycategories.
 	TODO | Split unit-test and themes from main branch
 	TODO | Add Yaml comments in blog configuration
+	TODO | Catch invalid encoding at startup

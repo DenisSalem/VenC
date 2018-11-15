@@ -29,21 +29,20 @@ class MetadataNode:
         self.related_to = [entry_index]
         self.childs = list()
 
-def build_categories_tree(entry_index, input_list, output_tree, output_leaves, max_weight, set_max_weight=None, encoding="utf-8"):
+def build_categories_tree(entry_index, input_list, output_tree, output_leaves, max_weight, set_max_weight=None, encoding="utf-8", sub_folders=''):
     for category in input_list:
         branch = category.split(' > ')
         if not len(branch):
             continue
 
         leave = branch[-1]
-        path = ""
+        path = sub_folders
         root = output_tree
         for node_name in branch:
             if node_name == '':
                 continue
 
             path += node_name+'/'
-
             if not node_name in [metadata.value for metadata in root]:
                 root.append(MetadataNode(node_name, entry_index))
                 if output_leaves != None and node_name == leave:

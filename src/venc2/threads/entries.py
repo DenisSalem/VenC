@@ -17,6 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+import codecs
 import os
 
 from venc2.helpers import notify
@@ -33,8 +34,9 @@ class EntriesThread(Thread):
         ])
 
         self.filename = self.datastore.blog_configuration["path"]["entry_file_name"]
-        self.relative_origin = str()
-        self.export_path = "blog/"
+        self.sub_folders = self.datastore.blog_configuration["path"]["entries_sub_folders"]
+        self.export_path = "blog/"+self.sub_folders
+        self.relative_origin = str(''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = False
     
     def if_in_first_page(self, argv):
@@ -42,6 +44,17 @@ class EntriesThread(Thread):
     
     def if_in_last_page(self, argv):
         return argv[1]
+    
+    def format_filename(self, value=None): #value ignored
+        try:
+            return self.filename.format(**{
+                'entry_id': self.current_entry.id,
+                'entry_title': self.current_entry.title
+            })
+        
+        except KeyError as e:
+            die(messages.variable_error_in_filename.format(str(e)))
+
     
     def if_in_entry_id(self, argv):
         try:
@@ -53,6 +66,28 @@ class EntriesThread(Thread):
 
         except AttributeError:
             return argv[2]
+
+    def setup_sub_folders(self):
+        export_path = self.export_path.format(**{
+                'entry_id': self.current_entry.id,
+                'entry_title': self.current_entry.title
+        })
+        self.relative_origin = str(''.join([ "../" for p in export_path.split('/')[1:] if p != ''])).replace("//",'/')
+        print(export_path, self.relative_origin, export_path.split('/')[1:])
+        os.makedirs(export_path, exist_ok=True)
+
+    def write_file(self, output, file_id):
+        export_path = self.export_path.format(**{
+            'entry_id': self.current_entry.id,
+            'entry_title': self.current_entry.title
+        })
+        stream = codecs.open(
+            export_path+'/'+self.format_filename(),
+            'w',
+            encoding="utf-8"
+        )
+        stream.write(output)
+        stream.close()
 
     def do(self):
         if len(self.pages):

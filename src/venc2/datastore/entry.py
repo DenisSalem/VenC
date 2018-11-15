@@ -54,7 +54,7 @@ class EntryWrapper:
         die(messages.missing_entry_content_inclusion)
 
 class Entry:
-    def __init__(self, filename, previous_entry = None, encoding="utf-8"):
+    def __init__(self, filename, sub_folders, previous_entry = None, encoding="utf-8"):
         self.previous_entry = previous_entry
         self.next_entry = None
 
@@ -134,7 +134,7 @@ class Entry:
             pass
 
         self.categories_tree = []
-        build_categories_tree(-1, self.raw_categories, self.categories_tree, None, -1, encoding=encoding)
+        build_categories_tree(-1, self.raw_categories, self.categories_tree, None, -1, encoding=encoding, sub_folders=sub_folders["categories_sub_folders"])
         self.html_categories_tree = None
 
 ''' Iterate through entries folder '''

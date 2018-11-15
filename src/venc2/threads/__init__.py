@@ -175,18 +175,44 @@ class Thread:
         try:
             if value == 0:
                 return self.filename.format(**{
-                    'entry_id':value,
                     'page_number':''
                 })
         
             else:
                 return self.filename.format(**{
-                    'entry_id':value,
                     'page_number':value
                 })
 
         except KeyError as e:
             die(messages.variable_error_in_filename.format(str(e)))
+
+    # Overridden in child class (EntriesThread)
+    def setup_sub_folders(self):
+        pass
+
+    def write_file(self, output, file_id):
+        if self.in_thread:
+            format_value = file_id
+
+        else:
+            format_value = page[0].id
+                
+        stream = codecs.open(
+            self.export_path+'/'+self.format_filename(format_value),
+            'w',
+            encoding="utf-8"
+        )
+        stream.write(output)
+        stream.close()
+
+    def process_header(self):
+        self.processor.forbidden = self.forbidden
+        self.output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
+        self.processor.forbidden = []
+
+        self.columns_number = self.datastore.blog_configuration["columns"]
+        self.columns_counter = 0
+        self.columns = [ '' for i in range(0, self.columns_number) ]
 
     # Must be called in child class
     def do(self):
@@ -194,8 +220,12 @@ class Thread:
         if self.pages_count == 0:
             output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
             output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
+            self.export_path.format(**{
+                "entry_id": '',
+                "entry_title":''
+            })
             stream = codecs.open(
-                self.export_path + self.format_filename(0),
+                self.export_path +'/'+ self.format_filename(0),
                 'w',
                 encoding="utf-8"
             )
@@ -204,51 +234,34 @@ class Thread:
             
         else:
             for page in self.pages:
-                self.processor.forbidden = self.forbidden
-                output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
-                self.processor.forbidden = []
-
-                columns_number = self.datastore.blog_configuration["columns"]
-                columns_counter = 0
-                columns = [ '' for i in range(0, columns_number) ]
+                self.process_header()
                 for entry in page:
                     self.current_entry = entry
-                    columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.above, entry.filename).sub_strings)
+                    self.setup_sub_folders() #setup relative origin as well
+                    self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.above, entry.filename).sub_strings)
                     if entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.":
-                        columns[columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
+                        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
                 
                     elif entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread:
-                        columns[columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
+                        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
                 
                     else: 
-                        columns[columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename,).sub_strings)
+                        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename,).sub_strings)
 
-                    columns[columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.below, entry.filename).sub_strings)
+                    self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.below, entry.filename).sub_strings)
 
-                    columns_counter +=1
-                    if columns_counter >= columns_number:
-                        columns_counter = 0
+                    self.columns_counter +=1
+                    if self.columns_counter >= self.columns_number:
+                        self.columns_counter = 0
 
-                columns_counter = 0
-                for column in columns:
-                    output += '<div id="__VENC_COLUMN_'+str(columns_counter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
+                self.columns_counter = 0
+                for column in self.columns:
+                    self.output += '<div id="__VENC_COLUMN_'+str(self.columns_counter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
             
                 self.processor.forbidden = self.forbidden
-                output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
+                self.output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
         
-                if self.in_thread:
-                    format_value = page_number
-
-                else:
-                    format_value = page[0].id
-
-                stream = codecs.open(
-                    self.export_path + self.format_filename(format_value),
-                    'w',
-                    encoding="utf-8"
-                )
-                stream.write(output)
-                stream.close()
+                self.write_file(self.output, page_number)
 
                 page_number += 1
                 self.current_page = page_number
