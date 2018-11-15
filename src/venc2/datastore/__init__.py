@@ -175,16 +175,7 @@ class DataStore:
         return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["path"]["dates_directory_name"])
 
     def get_entry_url(self, argv=list()):
-        sub_folders = self.blog_configuration["path"]["entries_sub_folders"].format(**{
-            "entry_id" : self.entries[self.requested_entry_index].id,
-            "entry_title" : self.entries[self.requested_entry_index].title
-        })
-        sub_folders = sub_folders+'/' if sub_folders != '' else ''
-        filename = self.blog_configuration["path"]["entry_file_name"].format(**{
-            "entry_id" : self.entries[self.requested_entry_index].id,
-            "entry_title" : self.entries[self.requested_entry_index].title
-        })
-        return urllib.parse.quote(sub_folders+filename, encoding=self.blog_configuration["path_encoding"])
+        return self.entries[self.requested_entry_index].url
 
     def get_author_name(self, argv=list()):
         return self.blog_configuration["author_name"]

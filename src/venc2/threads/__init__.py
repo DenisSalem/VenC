@@ -123,7 +123,7 @@ class Thread:
         string = argv[1]
         separator = argv[2]
             
-        if self.pages_count == 1 or not self.in_thread:
+        if self.pages_count == 1:
             return str()
 
         output = str()
@@ -143,33 +143,33 @@ class Thread:
 
     def if_in_first_page(self, argv):
         if self.current_page == 0:
-            return argv[0]
+            return argv[0].strip()
         
         else:
-            return argv[1]
+            return argv[1].strip()
 
     def if_in_last_page(self, argv):
         if self.current_page == len(self.pages) -1:
-            return argv[0]
+            return argv[0].strip()
         
         else:
-            return argv[1]
+            return argv[1].strip()
 
     def if_in_entry_id(self, argv):
-        return argv[2]
+        return argv[2].strip()
 
     def if_in_categories(self, argv):
-        return argv[1]
+        return argv[1].strip()
 
     def if_in_archives(self, argv):
-        return argv[1]
+        return argv[1].strip()
         
     def if_in_thread(self, argv):
         if self.in_thread:
-            return argv[0]
+            return argv[0].strip()
 
         else:
-            return argv[1]
+            return argv[1].strip()
 
     def format_filename(self, value):
         try:
@@ -187,8 +187,8 @@ class Thread:
             die(messages.variable_error_in_filename.format(str(e)))
 
     # Overridden in child class (EntriesThread)
-    def setup_sub_folders(self):
-        pass
+    def setup_context(self, entry):
+        self.current_entry = entry
 
     def write_file(self, output, file_id):
         if self.in_thread:
@@ -205,7 +205,7 @@ class Thread:
         stream.write(output)
         stream.close()
 
-    def process_header(self):
+    def pre_iteration(self):
         self.processor.forbidden = self.forbidden
         self.output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
         self.processor.forbidden = []
@@ -213,17 +213,43 @@ class Thread:
         self.columns_number = self.datastore.blog_configuration["columns"]
         self.columns_counter = 0
         self.columns = [ '' for i in range(0, self.columns_number) ]
+    
+    def post_iteration(self):
+        self.columns_counter = 0
+        for column in self.columns:
+            self.output += '<div id="__VENC_COLUMN_'+str(self.columns_counter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
+            
+        self.processor.forbidden = self.forbidden
+        self.output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
+        
+        self.write_file(self.output, self.page_number)
+
+        self.page_number += 1
+        self.current_page = self.page_number
+
+    def do_iteration(self, entry):
+        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.above, entry.filename).sub_strings)
+        if entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.":
+            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
+                
+        elif entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread:
+            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
+                
+        else: 
+            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename,).sub_strings)
+
+        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.below, entry.filename).sub_strings)
+
+        self.columns_counter +=1
+        if self.columns_counter >= self.columns_number:
+            self.columns_counter = 0
 
     # Must be called in child class
     def do(self):
-        page_number = 0
+        self.page_number = 0
         if self.pages_count == 0:
             output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
             output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
-            self.export_path.format(**{
-                "entry_id": '',
-                "entry_title":''
-            })
             stream = codecs.open(
                 self.export_path +'/'+ self.format_filename(0),
                 'w',
@@ -234,34 +260,9 @@ class Thread:
             
         else:
             for page in self.pages:
-                self.process_header()
+                self.pre_iteration()
                 for entry in page:
-                    self.current_entry = entry
-                    self.setup_sub_folders() #setup relative origin as well
-                    self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.above, entry.filename).sub_strings)
-                    if entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.":
-                        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
-                
-                    elif entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread:
-                        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
-                
-                    else: 
-                        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename,).sub_strings)
+                    self.setup_context(entry)
+                    self.do_iteration(entry)
 
-                    self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.below, entry.filename).sub_strings)
-
-                    self.columns_counter +=1
-                    if self.columns_counter >= self.columns_number:
-                        self.columns_counter = 0
-
-                self.columns_counter = 0
-                for column in self.columns:
-                    self.output += '<div id="__VENC_COLUMN_'+str(self.columns_counter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
-            
-                self.processor.forbidden = self.forbidden
-                self.output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
-        
-                self.write_file(self.output, page_number)
-
-                page_number += 1
-                self.current_page = page_number
+                self.post_iteration()

@@ -33,7 +33,7 @@ class DatesThread(Thread):
         self.in_thread = True
 
     def if_in_archives(self, argv):
-        return argv[0]
+        return argv[0].strip()
         
     def do(self):
         for thread in self.datastore.entries_per_dates:

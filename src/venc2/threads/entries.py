@@ -40,10 +40,10 @@ class EntriesThread(Thread):
         self.in_thread = False
     
     def if_in_first_page(self, argv):
-        return argv[1]
+        return argv[1].strip()
     
     def if_in_last_page(self, argv):
-        return argv[1]
+        return argv[1].strip()
     
     def format_filename(self, value=None): #value ignored
         try:
@@ -59,21 +59,27 @@ class EntriesThread(Thread):
     def if_in_entry_id(self, argv):
         try:
             if argv[0] == str(self.current_entry.id):
-                return argv[1]
+                return argv[1].strip()
         
             else:
-                return argv[2]
+                return argv[2].strip()
 
         except AttributeError:
-            return argv[2]
+            return argv[2].strip()
 
-    def setup_sub_folders(self):
+    def for_pages(self, argv):
+        list_lenght = int(argv[0])
+        string = argv[1]
+        separator = argv[2]
+        return ""
+
+    def setup_context(self, entry):
+        super().setup_context(entry)
         export_path = self.export_path.format(**{
                 'entry_id': self.current_entry.id,
                 'entry_title': self.current_entry.title
         })
         self.relative_origin = str(''.join([ "../" for p in export_path.split('/')[1:] if p != ''])).replace("//",'/')
-        print(export_path, self.relative_origin, export_path.split('/')[1:])
         os.makedirs(export_path, exist_ok=True)
 
     def write_file(self, output, file_id):
@@ -89,8 +95,15 @@ class EntriesThread(Thread):
         stream.write(output)
         stream.close()
 
+    
     def do(self):
+        self.page_number = 0
         if len(self.pages):
-            super().do()
+            for page in self.pages:
+                for entry in page:
+                    self.setup_context(entry)
+                    self.pre_iteration()
+                    self.do_iteration(entry)
+                    self.post_iteration()
 
 
