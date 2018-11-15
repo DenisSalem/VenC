@@ -151,3 +151,4 @@
 	TODO | Split unit-test and themes from main branch
 	TODO | Add Yaml comments in blog configuration
 	TODO | Catch invalid encoding at startup
+	TODO | Get formatted link to specified page/entry

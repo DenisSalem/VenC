@@ -20,7 +20,9 @@
 import datetime
 import os
 import time
+import urllib.parse
 import yaml
+
 
 from venc2.helpers import die
 from venc2.helpers import notify
@@ -54,7 +56,7 @@ class EntryWrapper:
         die(messages.missing_entry_content_inclusion)
 
 class Entry:
-    def __init__(self, filename, sub_folders, previous_entry = None, encoding="utf-8"):
+    def __init__(self, filename, paths, previous_entry = None, encoding="utf-8"):
         self.previous_entry = previous_entry
         self.next_entry = None
 
@@ -115,6 +117,18 @@ class Entry:
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("tags", self.id))
 
+        params = {
+            "entry_id": self.id,
+            "entry_title": self.title
+        }
+        sf = paths["entries_sub_folders"].format(**params)
+        sf = sf+'/' if sf != '' else ''
+        self.url = ".:GetRelativeOrigin:."+urllib.parse.quote(
+            sf+paths["entry_file_name"].format(**params),
+            encoding=encoding
+        )
+        print(self.url)
+
         self.categories_leaves = list()
         self.raw_categories = [ c.strip() for c in metadata["categories"].split(',')]
         try:
@@ -134,7 +148,7 @@ class Entry:
             pass
 
         self.categories_tree = []
-        build_categories_tree(-1, self.raw_categories, self.categories_tree, None, -1, encoding=encoding, sub_folders=sub_folders["categories_sub_folders"])
+        build_categories_tree(-1, self.raw_categories, self.categories_tree, None, -1, encoding=encoding, sub_folders=paths["categories_sub_folders"])
         self.html_categories_tree = None
 
 ''' Iterate through entries folder '''

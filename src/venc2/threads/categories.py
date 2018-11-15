@@ -33,7 +33,7 @@ class CategoriesThread(Thread):
         self.in_thread = True
  
     def if_in_categories(self, argv):
-        return argv[0]
+        return argv[0].strip()
 
     def do(self, root=None):
         if root == None:
