@@ -70,6 +70,9 @@ def embed_content(providers, argv):
 def get_venc_version(argv):
     return venc_version
 
+def set_color(argv):
+    return "<span style=\"color: "+argv[1]+";\">"+argv[0]+"</span>"
+
 def include_file(argv):
     try:
         filename = argv[0]
@@ -84,7 +87,8 @@ def include_file(argv):
 
 non_contextual_pattern_names = {
     "GetVenCVersion" : get_venc_version,
-    "IncludeFile" : include_file
+    "IncludeFile" : include_file,
+    "SetColor" : set_color
 }
 
 

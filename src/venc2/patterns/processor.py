@@ -122,11 +122,18 @@ class PreProcessor():
                 print(ee, len(string.split('\n')))
                 handle_markup_language_error(source+", "+str(e))
         
-        for index in self.keep_appart_from_markup_index:
-            string = string.replace(
-                "<p>VENC_TEMPORARY_REPLACEMENT_"+str(index)+"</p>",
-                self.sub_strings[index]
-            )
+        for pair in self.keep_appart_from_markup_index:
+            index, paragraphe = pair
+            if paragraphe:
+                string = string.replace(
+                    "<p>VENC_TEMPORARY_REPLACEMENT_"+str(index)+"</p>",
+                    self.sub_strings[index]
+                )
+            else:
+                string = string.replace(
+                    "VENC_TEMPORARY_REPLACEMENT_"+str(index),
+                    self.sub_strings[index]
+                )
 
         return string
 
@@ -283,7 +290,10 @@ class Processor():
         for index in pre_processed.patterns_index:
             current_pattern = pre_processed.sub_strings[index][2:-2].split('::')[0]
             if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]:
-                pre_processed.keep_appart_from_markup_index.append(index)
+                pre_processed.keep_appart_from_markup_index.append((index,True))
+            
+            elif current_pattern in ["SetColor"]:
+                pre_processed.keep_appart_from_markup_index.append((index,False))
 
             """ this is tested twice??? """
             if current_pattern in self.forbidden:
