@@ -130,8 +130,9 @@
 	DONE | Add support for embed content (oEmbed).
 	DONE | Add custom subfolders.
 	DONE | Add GetRootPage.
+	DONE | Add SetColor.
+	DONE | Split install and blog creation chapter in tutorial.
 	TODO | Support ForPage in entries thread.
-	TODO | Add SetColor.
 	TODO | Blacklist user defined patterns from entry.
 	TODO | Add support For Atom feed.
 	TODO | Serv page.
@@ -140,7 +141,6 @@
 	TODO | Fix unit test.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
 	TODO | Add relevant templates for themes.
-	WIP | Split install and blog creation chapter in tutorial.
 	WIP | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
 	WIP | fix FAQ latex2mathml is incomplete.
 	WIP | fix FAQ categories separator is ' > ', not '>'
