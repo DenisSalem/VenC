@@ -127,8 +127,6 @@ class Entry:
             sf+paths["entry_file_name"].format(**params),
             encoding=encoding
         )
-        print(self.url)
-
         self.categories_leaves = list()
         self.raw_categories = [ c.strip() for c in metadata["categories"].split(',')]
         try:

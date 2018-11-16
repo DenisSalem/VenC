@@ -29,7 +29,8 @@ from venc2.patterns.processor import Processor
 class Thread:
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
         # Notify wich thread is processed
-        notify(prompt)
+        if prompt != "":
+            notify(prompt)
         self.forbidden = forbidden
         self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])
         self.disable_threads = datastore.disable_threads
@@ -47,14 +48,8 @@ class Thread:
             except TypeError: # if value isn't string but function reference
                 self.processor.set_function(pattern_name, patterns[pattern_name])
 
-    def return_page_around(self, string, destination_page_number, filename, destination_entry_title):
-        return string.format(**{
-            "destination_page":destination_page_number,
-            "destination_page_url":filename,
-            "entry_name" : self.current_entry.title,
-            "entry_id": self.current_entry.id,
-            "destination_entry_title":destination_entry_title
-        })
+    def return_page_around(self, string, params):
+        return string.format(**params)
 
 
     # Must be called in child class
@@ -77,18 +72,27 @@ class Thread:
 
     # Must be called in child class
     def get_next_page(self,argv=list()):
-        if self.current_page < len(self.pages) - 1:
-            destination_page_number = str(self.current_page + 1)
-            try:
-                next_entry_id = self.current_entry.next_entry.id
-                destination_entry_title = "" if self.in_thread else self.current_entry.next_entry.title
+        if self.current_page < self.pages_count - 1:
+            params = {
+                "page_number" : str(self.current_page + 1),
+                "entry_id" : '',
+                "entry_title": '',
+                "path" : ''
+            }
 
-            except AttributeError:
-                next_entry_id = -1
-                destination_entry_title = ""
+            if self.in_thread:
+                params["path"] = self.filename.format(**params)
 
-            filename = self.filename.format(**{"page_number":destination_page_number,"entry_id":next_entry_id, "destination_entry_title" : destination_entry_title })
-            return self.return_page_around(argv[0], destination_page_number, filename, destination_entry_title)
+            else:
+                try:
+                    params["path"] = self.current_entry.next_entry.url
+                    params["entry_id"] = self.current_entry.next_entry.id
+                    params["entry_title"] = self.current_entry.next_entry.title
+
+                except AttributeError:
+                    pass
+
+            return argv[0].format(**params)
 
         else:
             return str()
@@ -96,23 +100,25 @@ class Thread:
     # Must be called in child class
     def get_previous_page(self, argv=list()):
         if self.current_page > 0:
-            destination_page_number = str(self.current_page - 1)
-            try:
-                previous_entry_id = self.current_entry.previous_entry.id
-                destination_entry_title = "" if self.in_thread else self.current_entry.previous_entry.title
+            params = {
+                "page_number" : str(self.current_page - 1) if self.current_page - 1 != 0 else '',
+                "entry_id" : '',
+                "entry_title": '',
+                "path" : ''
+            }
 
-            except AttributeError:
-                previous_entry_id = -1
-                destination_entry_title = ""
-
-            # Works, but what a shitty way to code that... May be shortened
-            if self.current_page == 1:
-                filename = self.filename.format(**{"page_number" : "", "entry_id" : previous_entry_id, "destination_entry_title": "" if self.in_thread else self.current_entry.title})
+            if self.in_thread:
+                params["path"] = self.filename.format(**params)
 
             else:
-                filename = self.filename.format(**{"page_number" : destination_page_number, "entry_id" : previous_entry_id, "destination_entry_title" : destination_entry_title})
-            
-            return self.return_page_around(argv[0], destination_page_number, filename, destination_entry_title)
+                try:
+                    params["entry_id"] = self.current_entry.previous_entry.id
+                    params["entry_title"] = self.current_entry.previous_entry.title
+                    params["path"] = self.current_entry.previous_entry.url
+                except AttributeError:
+                    pass
+
+            return argv[0].format(**params)
         
         else:
             return str()
@@ -123,7 +129,7 @@ class Thread:
         string = argv[1]
         separator = argv[2]
             
-        if self.pages_count == 1:
+        if self.pages_count <= 1:
             return str()
 
         output = str()

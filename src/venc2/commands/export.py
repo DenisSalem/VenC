@@ -82,6 +82,7 @@ non_contextual_pattern_names_blog = {
     "GetBlogURL" : "get_blog_url",
     "GetBlogLanguage" : "get_blog_language",
     "GetAuthorEmail" : "get_author_email",
+    "GetRootPage" : "get_root_page",
 
     # Extra metadata getter
     "GetBlogMetadataIfExists" : "get_blog_metadata_if_exists", 
