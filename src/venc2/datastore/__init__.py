@@ -208,6 +208,8 @@ class DataStore:
         dates = [o for o in self.blog_dates if o["date"] not in self.disable_threads]
         return merge(dates, argv)
 
+    def get_root_page(self, argv):
+        return ".:GetRelativeOrigin:."+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
 
     def build_html_categories_tree(self, opening_node, opening_branch, closing_branch, closing_node, tree):
         output_string = opening_node

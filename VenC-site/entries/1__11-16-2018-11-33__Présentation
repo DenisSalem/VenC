@@ -1,0 +1,33 @@
+authors: 'Denis Salem'
+categories: '1. Présentation'
+tags: ''
+title: '1. Présentation'
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+VenC est une application python conçue pour linux et similaire à [Octopress](http://octopress.org)/[Jekyll](http://jekyllrb.com) ou [Pelican]() pour gérer et créer vos blogs statiques via la console. Avec VenC, tout est fichier texte, pas de base de données. La configuration de chaque blog repose sur un unique et petit fichier Yaml, les thèmes consistent en une poignée de templates HTML à modifier ou créer soi même, les publications quant à elles, se présentent sous la forme d'une partie [YAML]() et d'une autre [Markdown]() ou [reStructuredText]().
+
+Les blogs statiques sont tout à fait adaptés aux réseaux type Deepweb ou ceux qui veulent un contrôle total sur leur site sans s'embarrasser de CMS lourds et potentiellement vulnérables en terme de sécurité. Par ailleurs, l'extrême simplicité de l'organisation des sources des blogs issues de VenC garantit une prise en main rapide et efficace.
+
+En outre, voilà ce que VenC propose:
+
+  - Création de blog statique.
+  - Mise en page simple à personnaliser directement en HTML/CSS.
+  - Possibilité de créer un agencement en nombre arbitraire de colonne.
+  - Module de défilement infinie.
+  - Les publications peuvent être organisées par catégories et sous catégories.
+  - Les publications peuvent être organisées par période de dates.
+  - Possibilité de désactiver des fils de publications spécifique.
+  - Possibilité de définir des sous répertoires par type de fils de publications.
+  - Publication chronologique ascendante ou descendante.
+  - Flux ATOM et/ou RSS pour chaque fils de publications.
+  - Permaliens.
+  - La gestion et l'édition du blog peut-être faite entièrement en ligne de commande.
+  - Rédaction des publications en [Markdown](), [reStructuredText](), ou HTML.
+  - Exportation en ligne du blog via FTP.
+  - Coloration Syntaxique.
+  - Balises VenC permettant une mise en page et intégration de contenu avancés.
+  - Support du protocol oembed.
+  - Support de contenu audio et video. 
+  - Installation via [pip]().
+  - VenC est conçu pour GNU/Linux spécifiquement.
+  - VenC est un logiciel libre sous licence [GNU/GPLv3].

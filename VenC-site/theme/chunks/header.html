@@ -11,14 +11,10 @@
     .:IfInThread::<link rel="stylesheet" href="./styleThread.css" type="text/css">:: :.
   </head>
   <body>
-    <header>
-      <h1><a href=".:GetRootPage:.">.:GetBlogName:.</a></h1>
-      <h2>.:GetBlogLicense:. | .:GetAuthorName:.</h2>
-    </header>
     <aside>
-      <p>.:GetBlogDescription:.</p>
-      <p>.:GetAuthorDescription:.</p>
-      <p>.:GetAuthorEmail:.</p>
-      .:TreeForBlogCategories::<ul>::<li><a href="{0[relativeOrigin]}{0[categoryPath]}">{0[item]}</a>::</li>::</ul>:.
-      <ul>.:ForBlogDates::<li><a href="{0[dateUrl]}">{0[date]}</a></li>:: :.</ul>
+      <header>
+        <h1><a href=".:GetRootPage:."><img src=".:GetRelativeOrigin:.logo.png" alt=".:GetBlogName:." title=".:GetBlogName:." /></a></h1>
+      </header>
+      .:TreeForBlogCategories::<ul>::<li><a href="{path}#entry-content">{item}</a>::</li>::</ul>:.
     </aside>
+    <div id="content">

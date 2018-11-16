@@ -1,0 +1,35 @@
+author_description: I'm a artist and software engineer
+author_email: denissalem 47 tuxfamily D07 org
+author_name: Denis Salem
+blog_description: A fancy static blog generator for everyone!
+blog_keywords: blog static foss open-source denissalem free software generator web content python script linux
+blog_language: fr
+blog_name: VenC
+blog_url: https://denissalem.tuxfamily.org/VenC
+columns: 1
+date_format: '%A %d. %B %Y'
+entries_per_pages: 1
+ftp_host: Nom d'hôte FTP
+license: CC By-SA
+code_highlight_css_override: true
+markup_language: 'Markdown'
+path:
+  category_directory_name: '{category}'
+  dates_directory_name: '%m-%Y'
+  entry_file_name: index.html
+  ftp: Chemin absolu de votre blog sur l'hôte FTP.
+  index_file_name: index{page_number}.html
+  rss_file_name: feed.xml
+  dates_sub_folders: ""
+  categories_sub_folders: ""
+  entries_sub_folders: "{entry_title}"
+reverse_thread_order: false
+rss_thread_lenght: 5
+text_editor: gvim
+disable_main_thread: True
+disable_threads: ""
+disable_archives: True
+disable_categories: false
+disable_single_entries: false
+banner: 'https://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg'
+path_encoding: 'utf-8'

@@ -127,24 +127,27 @@
 	DONE | Allow disabling exportation of specific kind of thread.
 	DONE | Add categories tree in entry.
 	DONE | Remove illegal character from paths.
-	DONE | Add support for embed content (oEmbed)
-	WIP  | Add custom subfolders
-	TODO | Client-side search engine.
-	TODO | Fix unit test.
+	DONE | Add support for embed content (oEmbed).
+	DONE | Add custom subfolders.
+	DONE | Add GetRootPage.
+	TODO | Support ForPage in entries thread.
+	TODO | Add support For Atom feed.
 	TODO | Serv page.
 	TODO | Open with navigator manual.
+	TODO | Client-side search engine.
+	TODO | Fix unit test.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
 	TODO | Add relevant templates for themes.
-	TODO | Split install and blog creation chapter in tutorial.
-	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
-	TODO | fix FAQ latex2mathml is incomplete.
-	TODO | fix FAQ categories separator is ' > ', not '>'
-	TODO | fix FAQ subfolders must not start with '/'
-	TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
-	TODO | Add translation for Deutsch and Spanish.
+	WIP | Split install and blog creation chapter in tutorial.
+	WIP | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
+	WIP | fix FAQ latex2mathml is incomplete.
+	WIP | fix FAQ categories separator is ' > ', not '>'
+	WIP | fix FAQ subfolders must not start with '/'
+	WIP | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.x.x
 
+	TODO | Add translation for Deutsch and Spanish.
 	TODO | Add docutils reStructuredText parser settings override.
 	TODO | Decrease halt_level to render reStructuredText even if errors occurs.
 	TODO | Access {count} and {weight} from LeavesForEntrycategories.
