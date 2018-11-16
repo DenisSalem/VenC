@@ -13,14 +13,17 @@ En outre, voilà ce que VenC propose:
   - Création de blog statique.
   - Mise en page simple à personnaliser directement en HTML/CSS.
   - Possibilité de créer un agencement en nombre arbitraire de colonne.
-  - Module de défilement infinie.
+  - Module javascript de défilement infinie.
+  - Module javascript de moteur de recherche décentralisé.
   - Les publications peuvent être organisées par catégories et sous catégories.
   - Les publications peuvent être organisées par période de dates.
   - Possibilité de désactiver des fils de publications spécifique.
   - Possibilité de définir des sous répertoires par type de fils de publications.
+  - Possibilité d'ajouter des métadonnés au blog et aux publications.
   - Publication chronologique ascendante ou descendante.
   - Flux ATOM et/ou RSS pour chaque fils de publications.
   - Permaliens.
+  - Serveur HTTP simple.
   - La gestion et l'édition du blog peut-être faite entièrement en ligne de commande.
   - Rédaction des publications en [Markdown](), [reStructuredText](), ou HTML.
   - Exportation en ligne du blog via FTP.
@@ -28,6 +31,7 @@ En outre, voilà ce que VenC propose:
   - Balises VenC permettant une mise en page et intégration de contenu avancés.
   - Support du protocol oembed.
   - Support de contenu audio et video. 
-  - Installation via [pip]().
+  - Installation via [pip](https://pypi.python.org/pypi/pip).
+  - Des thémes par défaut.
   - VenC est conçu pour GNU/Linux spécifiquement.
-  - VenC est un logiciel libre sous licence [GNU/GPLv3].
+  - VenC est un logiciel libre sous licence [GNU/GPLv3]().
