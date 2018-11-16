@@ -131,6 +131,8 @@
 	DONE | Add custom subfolders.
 	DONE | Add GetRootPage.
 	TODO | Support ForPage in entries thread.
+	TODO | Add SetColor.
+	TODO | Blacklist user defined patterns from entry.
 	TODO | Add support For Atom feed.
 	TODO | Serv page.
 	TODO | Open with navigator manual.

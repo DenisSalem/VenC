@@ -81,7 +81,7 @@ En outre, voilà ce que VenC propose:
 # Installation
 
 Depuis la version 1.2.0 VenC s'installe avec [pip](https://pypi.python.org/pypi/pip) ce qui rend le processus substantiellement plus simple!
-Attention cependant, VenC utilise python 3, assurez vous donc d'utiliser la version correspondante de pip. Sur les systèmes basé sur debian il s'agit de pip3.
+Attention cependant, VenC utilise python 3, assurez vous donc d'utiliser la version correspondante de pip. Sur les systèmes basés sur debian il s'agit de pip3.
 
 > pip install venc --user
 

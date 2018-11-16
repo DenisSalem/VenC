@@ -27,6 +27,14 @@ a
 aside ul
 	{list-style-type: none;}
 
+blockquote
+	{background-color: #000;
+	color: #FFF;
+	font-size: 0.8em;
+	padding:5px;
+	border-bottom: 1px solid rgba(255,255,255,0.25);
+	border-radius: 5px;}
+
 #content
 	{display: block;
 	background-image: url('bg.png');
@@ -42,6 +50,7 @@ aside ul
 #content h1,
 #content h2,
 #content h3,
+#content blockquote,
 #content p
 	{margin-left: 15px;
 	margin-right: 15px;}
