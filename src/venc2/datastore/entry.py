@@ -112,7 +112,7 @@ class Entry:
             die(messages.missing_mandatory_field_in_entry.format("authors", self.id))
 
         try:
-            self.tags = [ {"tag":e} for e in list(metadata["tags"].split(",") if metadata["tags"] != str() else list())]
+            self.tags = [ {"value":e} for e in list(metadata["tags"].split(",") if metadata["tags"] != str() else list())]
 
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("tags", self.id))
@@ -123,10 +123,12 @@ class Entry:
         }
         sf = paths["entries_sub_folders"].format(**params)
         sf = sf+'/' if sf != '' else ''
-        self.url = ".:GetRelativeOrigin:."+urllib.parse.quote(
-            sf+paths["entry_file_name"].format(**params),
-            encoding=encoding
-        )
+        try:
+            self.url = ".:GetRelativeOrigin:."+urllib.parse.quote(sf+paths["entry_file_name"].format(**params), encoding=encoding)
+        except UnicodeEncodeError as e:
+            self.url = ".:GetRelativeOrigin:."+sf+paths["entry_file_name"].format(**params)
+            notify("\"{0}\": ".format(sf+paths["entry_file_name"].format(**params))+str(e), color="YELLOW")
+
         self.categories_leaves = list()
         self.raw_categories = [ c.strip() for c in metadata["categories"].split(',')]
         try:
@@ -147,14 +149,24 @@ class Entry:
 
         self.categories_tree = []
         build_categories_tree(-1, self.raw_categories, self.categories_tree, None, -1, encoding=encoding, sub_folders=paths["categories_sub_folders"])
-        self.html_categories_tree = None
+        self.html_categories_tree = {}
+        self.html_tags = {}
+        self.html_authors = {}
+        self.html_categories_leaves = {}
+
+def sort_entry(entry_id):
+    try:
+        return int(entry_id)
+
+    except ValueError:
+        return False
 
 ''' Iterate through entries folder '''
 def yield_entries_content():
     try:
         for filename in sorted(
             os.listdir(os.getcwd()+"/entries"),
-            key = lambda entry_id : int(entry_id.split("__")[0])
+            key = lambda entry_id : sort_entry(entry_id.split("__")[0])
         ):
             exploded_filename = filename.split("__")
             try:

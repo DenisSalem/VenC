@@ -97,7 +97,7 @@
 	DONE | More verbosity about wrong pattern arguments.
 	DONE | More verbosity about malformed entry.
 	DONE | Clear white spaces in error messages.
-	DONE | Speed up blog exportation ( almost seven times faster!).
+	DONE | Speed up blog exportation (almost four times faster!).
 	DONE | Implement RelativeLocation.
 	DONE | Optimisation of categories tree.
 	DONE | Code should be a little bit more PEP 8 compliant.
@@ -132,20 +132,23 @@
 	DONE | Add GetRootPage.
 	DONE | Add SetColor.
 	DONE | Split install and blog creation chapter in tutorial.
+	DONE | Fix prevent crash from invalid entry id.
+	DONE | Support for migration.
+	DONE | Catch UnicodeEncodeError.
+	WIP  | Serv page.
 	TODO | Support ForPage in entries thread.
 	TODO | Blacklist user defined patterns from entry.
 	TODO | Add support For Atom feed.
-	TODO | Serv page.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
 	TODO | Fix unit test.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
 	TODO | Add relevant templates for themes.
-	WIP | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
-	WIP | fix FAQ latex2mathml is incomplete.
-	WIP | fix FAQ categories separator is ' > ', not '>'
-	WIP | fix FAQ subfolders must not start with '/'
-	WIP | Change nomenclature: Most of the usual patterns are changed. Fix doc.
+	WIP  | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
+	WIP  | fix FAQ latex2mathml is incomplete.
+	WIP  | fix FAQ categories separator is ' > ', not '>'
+	WIP  | fix FAQ subfolders must not start with '/'
+	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.x.x
 
