@@ -138,7 +138,8 @@ def new_blog(argv):
 				"rss_thread_lenght":		5,
 				"reverse_thread_order":		True,
                                 "markup_language": "Markdown",
-                                "path_encoding": "utf-8"}
+                                "path_encoding": "utf-8",
+                                "server_port": 8888}
     for folder_name in argv:
         try:
             os.mkdir(folder_name)
