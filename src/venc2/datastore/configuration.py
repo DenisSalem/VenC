@@ -51,7 +51,8 @@ def get_blog_configuration():
             "disable_archives",
             "disable_categories",
             "disable_single_entries",
-            "path_encoding"
+            "path_encoding",
+            "code_highlight_css_override"
         ]
 
         everything_is_okay = True
@@ -77,9 +78,12 @@ def get_blog_configuration():
                 everything_is_okay = False
                 notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
 
-        if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
+        try:
+            if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
                 everything_is_okay = False
                 notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blog_configuration.yaml"),"RED")
+        except KeyError:
+            pass
 
         if not everything_is_okay:
             exit()

@@ -139,7 +139,7 @@ class Thread:
                 output += string.format(
                     **{
                         "page_number":str(page_number),
-                        "page_url": self.filename.format(**{"page_number": (str() if page_number == 0 else page_number) })
+                        "path": self.filename.format(**{"page_number": (str() if page_number == 0 else page_number) })
                     }
                 ) + separator
 

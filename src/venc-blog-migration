@@ -20,13 +20,14 @@
 import os
 import yaml
 import codecs
+import shutil
 
 from venc2.helpers import die
 from venc2.helpers import notify
 from venc2.datastore.entry import yield_entries_content
 from venc2.l10n import messages
 
-def ReplacePatterns(string):
+def replace_patterns(string):
     string = string.replace(".:Get::EntryID:.",".:GetEntryID:.")
     string = string.replace(".:Get::EntryName:.",".:GetEntryTitle:.")
     string = string.replace(".:Get::EntryMonth:.",".:GetEntryMonth:.")
@@ -47,6 +48,7 @@ def ReplacePatterns(string):
     string = string.replace(".:Get::AuthorEmail:.",".:GetAuthorEmail:.")
     string = string.replace(".:Get::RelativeOrigin:.",".:GetRelativeOrigin:.")
     string = string.replace(".:Get::RelativeLocation:.",".:GetRelativeLocation:.")
+    string = string.replace(".:RecursiveFor::BlogCategories::",".:TreeForBlogCategories::")
     
     string = string.replace(".:Get::EntryUrl:.",".:GetEntryURL:.")
     string = string.replace(".:Get::EntryContent:.",".:GetEntryContent:.")
@@ -56,6 +58,18 @@ def ReplacePatterns(string):
     string = string.replace(".:For::EntryTags:",".:ForEntryTags:")
     string = string.replace(".:For::BlogDates:",".:ForBlogDates:")
     string = string.replace(".:PagesList:",".:ForPages:")
+    string = string.replace("{0[tag]}", "{value}")
+    string = string.replace("{0[categoryPath]}", "{path}")
+    string = string.replace("{0[relativeOrigin]}", '')
+    string = string.replace("{0[date]}", "{value}")
+    string = string.replace("{0[item]}", "{value}")
+    string = string.replace("{0[pageUrl]}", "{path}")
+    string = string.replace("{0[dateUrl]}", "{path}")
+    string = string.replace("{0[count]}", "{count}")
+    string = string.replace("{0[weight]}", "{weight}")
+    string = string.replace("{0[destinationPageUrl]}", "{path}")
+    string = string.replace("{0[pageNumber]}", "{page_number}")
+
 
     return string
 
@@ -72,47 +86,63 @@ def to_camel_case(name):
     return output
 
 ''' Processing blog configuration '''
+try:
+    blog_configuration = yaml.load(open(os.getcwd()+"/blog_configuration.yaml",'r').read())
 
-if not "blogConfiguration.yaml" in os.listdir():
-    try:
-        blog_configuration = yaml.load(open(os.getcwd()+"/blog_configuration.yaml",'r').read())
+except FileNotFoundError:
+    die(messages.no_blog_configuration)
 
-    except FileNotFoundError:
-        die(messages.no_blog_configuration)
-
-    except PermissionError:
-        die(messages.no_blog_configuration)
+except PermissionError:
+    die(messages.no_blog_configuration)
         
-    except yaml.scanner.ScannerError:
+except yaml.scanner.ScannerError:
         die(messages.possible_malformed_blog_configuration)
 
-    blog_configuration = dict()
-    for rootkey in blog_configuration:
-        if rootkey != "path":
-            blog_configuration[ to_camel_case(rootkey) ] = blog_configuration[rootkey]
+for key in ["thread_order", "textEditor"]:
+    try:
+        blog_configuration.pop(key)
 
-        else:
-            blog_configuration["path"] = dict()
-            for pathkey in blog_configuration["path"]:
-                if pathkey == "entry_file_name":
-                    blog_configuration["path"][ to_camel_case(pathkey) ] = blog_configuration["path"][pathkey].replace("{entry_id}","{0[entryId]}")
+    except KeyError:
+        pass
 
-                elif pathkey == "index_file_name":
-                    blog_configuration["path"][ to_camel_case(pathkey) ] = blog_configuration["path"][pathkey].replace("{page_number}","{0[pageNumber]}")
 
-                else:
-                    blog_configuration["path"][ to_camel_case(pathkey) ] = blog_configuration["path"][pathkey]
+new_keys = {
+    "text_editor":"nano",
+    "reverse_thread_order" : True,
+    "markup_language": "Markdown",
+    "disable_threads": "",
+    "disable_main_thread": False,
+    "disable_archives": False,
+    "disable_categories": False,
+    "disable_single_entries": False,
+    "path_encoding":"utf-8",
+    "code_highlight_css_override":False
+}
 
-    blog_configuration.pop("threadOrder")
-    blog_configuration["reverseThreadOrder"] = True
+new_path_keys = {
+    "entries_sub_folders":"",
+    "categories_sub_folders":"",
+    "dates_sub_folders":""
+}
 
-    stream = codecs.open('blogConfiguration.yaml', 'w',encoding="utf-8")
-    yaml.dump(blog_configuration, stream, default_flow_style=False, allow_unicode=True)
+for key in new_keys.keys():
+    if not key in blog_configuration.keys():
+        blog_configuration[key] = new_keys[key]
+
+if not "path" in blog_configuration.keys():
+    blog_configuration["path"] = {}
+
+for key in new_path_keys.keys():
+    if not key in blog_configuration["path"].keys():
+        blog_configuration["path"][key] = new_path_keys[key]
+
+stream = codecs.open('blog_configuration.yaml', 'w',encoding="utf-8")
+yaml.dump(blog_configuration, stream, default_flow_style=False, allow_unicode=True)
 
 ''' Processing entries '''
 
 for entry_filename in yield_entries_content():
-    raw_data = open(os.getcwd()+"/entries/"+entryFilename,'r').read()
+    raw_data = open(os.getcwd()+"/entries/"+entry_filename,'r').read()
     try:
         metadata = yaml.load(raw_data.split("---\n")[0])
         metadata["title"] = metadata.pop("entry_name")
@@ -126,10 +156,10 @@ for entry_filename in yield_entries_content():
         else:
             pass
 
-    output = yaml.dump(metadata, default_flow_style=False, allow_unicode=True) + "---\n"
+    output = yaml.dump(metadata, default_flow_style=False, allow_unicode=True) + "\n---VENC-BEGIN-PREVIEW---\n---VENC-END-PREVIEW---\n"
 
     try:
-        output += replace_patterns(rawData.split("---\n")[1])
+        output += replace_patterns(raw_data.split("---\n")[1])
     
     except IndexError:
         notify(messages.empty_entry.format(entry_filename), "YELLOW")
@@ -145,11 +175,7 @@ for chunk in os.listdir("theme/chunks"):
     update = replace_patterns(raw_data)
     stream.write(update)
 
+for chunk in ["audio.html","video.html"]:
+    shutil.copy(os.path.expanduser("~/.local/share/VenC/themes/dummy/chunks/"+chunk), "theme/chunks/"+chunk)
 
-''' Cleaning '''
-
-try:
-    os.remove('blog_configuration.yaml')
-
-except:
-    pass
+print("Done.")

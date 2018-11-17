@@ -20,6 +20,8 @@
 import datetime
 import urllib.parse
 
+from venc2.helpers import notify
+
 class MetadataNode:
     def __init__(self, value, entry_index):
         self.count = 1
@@ -47,8 +49,12 @@ def build_categories_tree(entry_index, input_list, output_tree, output_leaves, m
                 root.append(MetadataNode(node_name, entry_index))
                 if output_leaves != None and node_name == leave:
                     output_leaves.append(root[-1])
-
-                root[-1].path = ".:GetRelativeOrigin:."+urllib.parse.quote(path, encoding=encoding)
+                
+                try:
+                    root[-1].path = ".:GetRelativeOrigin:."+urllib.parse.quote(path, encoding=encoding)
+                except UnicodeEncodeError as e:
+                    root[-1].path = ".:GetRelativeOrigin:."+path
+                    notify("\"{0}\": ".format(root[-1].path)+str(e), color="YELLOW")
                 root = root[-1].childs
 
             else:

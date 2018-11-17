@@ -27,6 +27,7 @@ from venc2.datastore.entry import yield_entries_content
 from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
+from venc2.helpers import notify
 from venc2.patterns.non_contextual import embed_content
 
 def merge(iterable, argv):
@@ -47,7 +48,9 @@ class DataStore:
         self.max_category_weight = 1
         self.categories_leaves = []
         self.embed_providers = {}
-        self.html_categories_tree = None
+        self.html_categories_tree = {}
+        self.html_categories_leaves = {}
+        self.html_blog_dates = {}
 
         ''' Entry index is different from entry id '''
         entry_index = 0
@@ -71,7 +74,12 @@ class DataStore:
 
 
             ''' Update entriesPerCategories '''
-            sub_folders = urllib.parse.quote(self.blog_configuration["path"]["categories_sub_folders"]+'/', encoding=self.blog_configuration["path_encoding"])
+            try:
+                sub_folders = urllib.parse.quote(self.blog_configuration["path"]["categories_sub_folders"]+'/', encoding=self.blog_configuration["path_encoding"])
+            except UnicodeEncodeError as e:
+                sub_folders = self.blog_configuration["path"]["categories_sub_folders"]+'/'
+                notify("\"{0}\": ".format(sub_folders)+str(e), color="YELLOW")
+            
             sub_folders = sub_folders if sub_folders != '/' else ''
             build_categories_tree(entry_index, self.entries[-1].raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.blog_configuration["path_encoding"], sub_folders=sub_folders)
             entry_index += 1
@@ -79,12 +87,17 @@ class DataStore:
         ''' Setup BlogDates Data '''
         self.blog_dates = list()
         for node in self.entries_per_dates:
-            sub_folders = urllib.parse.quote(self.blog_configuration["path"]["dates_sub_folders"]+'/', encoding=self.blog_configuration["path_encoding"])
+            try:
+                sub_folders = urllib.parse.quote(self.blog_configuration["path"]["dates_sub_folders"]+'/', encoding=self.blog_configuration["path_encoding"])
+            except UnicodeEncodeError as e:
+                sub_folders = self.blog_configuration["path"]["dates_sub_folders"]+'/'
+                notify("\"{0}\": ".format(sub_folders)+str(e), color="YELLOW")
+
             sub_folders = sub_folders if sub_folders != '/' else ''
 
             self.blog_dates.append({
-                "date":node.value,
-                "dateUrl": ".:GetRelativeOrigin:."+sub_folders+node.value,
+                "value":node.value,
+                "path": ".:GetRelativeOrigin:."+sub_folders+node.value,
                 "count": node.count,
                 "weight": node.weight
             })
@@ -155,7 +168,6 @@ class DataStore:
     def get_entry_year(self, argv=list()):
         return self.entries[self.requested_entry_index].date.year
 
-        
     def get_entry_month(self, argv=list()):
         return self.entries[self.requested_entry_index].date.month
         
@@ -205,8 +217,12 @@ class DataStore:
         return self.blog_configuration["author_email"]
 
     def for_blog_dates(self, argv):
-        dates = [o for o in self.blog_dates if o["date"] not in self.disable_threads]
-        return merge(dates, argv)
+        key = ''.join(argv)
+        if not key in self.html_blog_dates.keys():
+            dates = [o for o in self.blog_dates if o["value"] not in self.disable_threads]
+            self.html_blog_dates[key] = merge(dates, argv)
+
+        return self.html_blog_dates[key]
 
     def get_root_page(self, argv):
         return ".:GetRelativeOrigin:."+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
@@ -218,7 +234,7 @@ class DataStore:
                 continue
 
             variables = {
-                "item" : node.value,
+                "value" : node.value,
                 "count" : node.count,
                 "weight" : round(node.weight / self.max_category_weight,2),
                 "path" : node.path
@@ -242,9 +258,9 @@ class DataStore:
         return output_string + closing_node
 
     def tree_for_entry_categories(self, argv):
-        # compute once categories tree and deliver baked html
-        if self.entries[self.requested_entry_index].html_categories_tree == None:
-            self.entries[self.requested_entry_index].html_categories_tree = self.build_html_categories_tree(
+        key = ''.join(argv)
+        if not key in self.entries[self.requested_entry_index].html_categories_tree.keys():
+            self.entries[self.requested_entry_index].html_categories_tree[key] = self.build_html_categories_tree(
                 argv[0], #opening_node
                 argv[1], #opening_branch
                 argv[2], #closing_branch
@@ -252,12 +268,13 @@ class DataStore:
                 self.entries[self.requested_entry_index].categories_tree
             )
         
-        return self.entries[self.requested_entry_index].html_categories_tree
+        return self.entries[self.requested_entry_index].html_categories_tree[key]
 
     def tree_for_blog_categories(self, argv):
+        key = ''.join(argv)
         # compute once categories tree and deliver baked html
-        if self.html_categories_tree == None:
-            self.html_categories_tree = self.build_html_categories_tree(
+        if not key in self.html_categories_tree.keys():
+            self.html_categories_tree[key] = self.build_html_categories_tree(
                 argv[0], #opening_node
                 argv[1], #opening_branch
                 argv[2], #closing_branch
@@ -265,29 +282,45 @@ class DataStore:
                 self.entries_per_categories
             )
 
-        return self.html_categories_tree
+        return self.html_categories_tree[key]
 
     def for_entry_tags(self, argv):
-        return merge(self.entries[self.requested_entry_index].tags, argv)
+        key = ''.join(argv)
+        if not key in self.entries[self.requested_entry_index].html_tags.keys():
+            self.entries[self.requested_entry_index].html_tags[key] = merge(self.entries[self.requested_entry_index].tags, argv)
+
+        return self.entries[self.requested_entry_index].html_tags[key]
     
     def for_entry_authors(self, argv):
-        return merge(self.entries[self.requested_entry_index].authors, argv)
+        key = ''.join(argv)
+        if not key in self.entries[self.requested_entry_index].html_authors.keys():
+            self.entries[self.requested_entry_index].html_authors[key] = merge(self.entries[self.requested_entry_index].authors, argv)
+
+        return self.entries[self.requested_entry_index].html_authors[key]
 
     """ TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing. """
     def leaves_for_entry_categories(self, argv):
-        return merge(self.entries[self.requested_entry_index].categories_leaves, argv)
+        key = ''.join(argv)
+        if not key in self.entries[self.requested_entry_index].html_categories_leaves.keys():
+            self.entries[self.requested_entry_index].html_categories_leaves[key] = merge(self.entries[self.requested_entry_index].categories_leaves, argv)
+        
+        return self.entries[self.requested_entry_index].html_categories_leaves[key]
 
     def leaves_for_blog_categories(self, argv):
-        items = []
-        for node in self.categories_leaves:
-            items.append({
-                "item" : node.value,
-                "count" : node.count,
-                "weight" : round(node.weight / self.max_category_weight,2),
-                "path" : node.path
-            })
+        key = ''.join(argv)
+        if not key in self.html_categories_leaves.keys():
+            items = []
+            for node in self.categories_leaves:
+                items.append({
+                    "value" : node.value,
+                    "count" : node.count,
+                    "weight" : round(node.weight / self.max_category_weight,2),
+                    "path" : node.path
+                })
     
-        return merge(items, argv)
+            self.html_categories_leaves[key] = merge(items, argv)
+        
+        return self.html_categories_leaves[key]
         
     def cache_embed_exists(self, link):
         cache_filename = hashlib.md5(link.encode('utf-8')).hexdigest()
