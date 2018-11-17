@@ -92,3 +92,4 @@ class Messages:
     ressource_unavailable = "{0}: Ressource is unavailable."
     response_is_not_json = "{0}: HTTP response is not JSON."
     server_port_is_invalid = "\"{0}\": is not a valid port number."
+    serving_blog = "Server is now running on port : {0}."

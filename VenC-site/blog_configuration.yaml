@@ -24,8 +24,10 @@ path:
   categories_sub_folders: ""
   entries_sub_folders: "{entry_title}"
 reverse_thread_order: false
-rss_thread_lenght: 5
+feed_lenght: 5
 text_editor: gvim
+disable_rss_feed: False
+disable_atom_feed: False
 disable_main_thread: true
 disable_threads: ""
 disable_archives: true

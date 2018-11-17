@@ -89,6 +89,7 @@ class Messages:
     connectivity_issue = "Une erreur de connexion est survenue:"
     ressource_unavailable = "{0}: Ressource non disponible."
     response_is_not_json = "{0}: La reponse HTTP n'est pas du JSON."
-    server_port_is_invalid = "\"{0}\" n'est pas un numéro de port valide." 
+    server_port_is_invalid = "\"{0}\" n'est pas un numéro de port valide."
+    serving_blog = "Serveur actif sur le port : {0}."
 
 

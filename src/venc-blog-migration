@@ -97,7 +97,7 @@ except PermissionError:
 except yaml.scanner.ScannerError:
         die(messages.possible_malformed_blog_configuration)
 
-for key in ["thread_order", "textEditor"]:
+for key in ["thread_order", "textEditor","rss_thread_lenght"]:
     try:
         blog_configuration.pop(key)
 
@@ -116,7 +116,10 @@ new_keys = {
     "disable_single_entries": False,
     "path_encoding":"utf-8",
     "code_highlight_css_override":False,
-    "server_port":False
+    "server_port":False,
+    "disable_rss_feed":False,
+    "disable_atom_feed":False,
+    "feed_lenght"
 }
 
 new_path_keys = {

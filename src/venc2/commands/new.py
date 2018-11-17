@@ -135,7 +135,7 @@ def new_blog(argv):
 								"rss_file_name":		"feed.xml"},
 				"entries_per_pages":		10,
 				"columns":			1,
-				"rss_thread_lenght":		5,
+				"feed_lenght":	        	5,
 				"reverse_thread_order":		True,
                                 "markup_language": "Markdown",
                                 "path_encoding": "utf-8",

@@ -138,7 +138,7 @@
 	DONE | Serv page.
 	TODO | Support ForPage in entries thread.
 	TODO | Blacklist user defined patterns from entry.
-	TODO | Add support For Atom feed.
+	WIP  | Add support for Atom feed.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
 	TODO | Fix unit test.
