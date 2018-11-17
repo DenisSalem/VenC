@@ -1,0 +1,76 @@
+.venc_source_Yaml .hll { background-color: #ffffcc }
+.venc_source_Yaml  { background: #f8f8f8; }
+.venc_source_Yaml .c { color: #408080; font-style: italic } /* Comment */
+.venc_source_Yaml .err { border: 1px solid #FF0000 } /* Error */
+.venc_source_Yaml .k { color: #008000; font-weight: bold } /* Keyword */
+.venc_source_Yaml .o { color: #666666 } /* Operator */
+.venc_source_Yaml .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.venc_source_Yaml .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.venc_source_Yaml .cp { color: #BC7A00 } /* Comment.Preproc */
+.venc_source_Yaml .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.venc_source_Yaml .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.venc_source_Yaml .cs { color: #408080; font-style: italic } /* Comment.Special */
+.venc_source_Yaml .gd { color: #A00000 } /* Generic.Deleted */
+.venc_source_Yaml .ge { font-style: italic } /* Generic.Emph */
+.venc_source_Yaml .gr { color: #FF0000 } /* Generic.Error */
+.venc_source_Yaml .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.venc_source_Yaml .gi { color: #00A000 } /* Generic.Inserted */
+.venc_source_Yaml .go { color: #888888 } /* Generic.Output */
+.venc_source_Yaml .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.venc_source_Yaml .gs { font-weight: bold } /* Generic.Strong */
+.venc_source_Yaml .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.venc_source_Yaml .gt { color: #0044DD } /* Generic.Traceback */
+.venc_source_Yaml .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.venc_source_Yaml .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.venc_source_Yaml .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.venc_source_Yaml .kp { color: #008000 } /* Keyword.Pseudo */
+.venc_source_Yaml .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.venc_source_Yaml .kt { color: #B00040 } /* Keyword.Type */
+.venc_source_Yaml .m { color: #666666 } /* Literal.Number */
+.venc_source_Yaml .s { color: #BA2121 } /* Literal.String */
+.venc_source_Yaml .na { color: #7D9029 } /* Name.Attribute */
+.venc_source_Yaml .nb { color: #008000 } /* Name.Builtin */
+.venc_source_Yaml .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.venc_source_Yaml .no { color: #880000 } /* Name.Constant */
+.venc_source_Yaml .nd { color: #AA22FF } /* Name.Decorator */
+.venc_source_Yaml .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.venc_source_Yaml .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.venc_source_Yaml .nf { color: #0000FF } /* Name.Function */
+.venc_source_Yaml .nl { color: #A0A000 } /* Name.Label */
+.venc_source_Yaml .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.venc_source_Yaml .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.venc_source_Yaml .nv { color: #19177C } /* Name.Variable */
+.venc_source_Yaml .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.venc_source_Yaml .w { color: #bbbbbb } /* Text.Whitespace */
+.venc_source_Yaml .mb { color: #666666 } /* Literal.Number.Bin */
+.venc_source_Yaml .mf { color: #666666 } /* Literal.Number.Float */
+.venc_source_Yaml .mh { color: #666666 } /* Literal.Number.Hex */
+.venc_source_Yaml .mi { color: #666666 } /* Literal.Number.Integer */
+.venc_source_Yaml .mo { color: #666666 } /* Literal.Number.Oct */
+.venc_source_Yaml .sa { color: #BA2121 } /* Literal.String.Affix */
+.venc_source_Yaml .sb { color: #BA2121 } /* Literal.String.Backtick */
+.venc_source_Yaml .sc { color: #BA2121 } /* Literal.String.Char */
+.venc_source_Yaml .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.venc_source_Yaml .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.venc_source_Yaml .s2 { color: #BA2121 } /* Literal.String.Double */
+.venc_source_Yaml .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.venc_source_Yaml .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.venc_source_Yaml .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.venc_source_Yaml .sx { color: #008000 } /* Literal.String.Other */
+.venc_source_Yaml .sr { color: #BB6688 } /* Literal.String.Regex */
+.venc_source_Yaml .s1 { color: #BA2121 } /* Literal.String.Single */
+.venc_source_Yaml .ss { color: #19177C } /* Literal.String.Symbol */
+.venc_source_Yaml .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.venc_source_Yaml .fm { color: #0000FF } /* Name.Function.Magic */
+.venc_source_Yaml .vc { color: #19177C } /* Name.Variable.Class */
+.venc_source_Yaml .vg { color: #19177C } /* Name.Variable.Global */
+.venc_source_Yaml .vi { color: #19177C } /* Name.Variable.Instance */
+.venc_source_Yaml .vm { color: #19177C } /* Name.Variable.Magic */
+.venc_source_Yaml .il { color: #666666 } /* Literal.Number.Integer.Long */
+.venc_source_Yamltable {width: 100%; display: block;}
+.venc_source_Yamltable tr {width: 100%; display: block;}
+.venc_source_Yamltable tbody {width: 100%; display: block;}
+.venc_source_Yamltable .linenos {width: 4%; display: inline-block;vertical-align: top;}
+.venc_source_Yamltable .code {width: 95%; display: inline-block;vertical-align: top;}
+.venc_source_Yamltable td pre {vertical-align: top; overflow: hidden; overflow-x: scroll;}
+.venc_source_Yaml pre {overflow: hidden; overflow-x: scroll;}
