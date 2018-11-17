@@ -4,6 +4,7 @@ import urllib.parse
 
 from venc2.datastore.configuration import get_blog_configuration
 from venc2.helpers import die
+from venc2.helpers import notify
 from venc2.l10n import messages
 
 blog_configuration = get_blog_configuration()
@@ -18,9 +19,7 @@ def serv_blog(argv=list()):
         os.chdir("blog/")
         PORT = int(blog_configuration["server_port"]) 
         server_address = ("", PORT)
-
-        print("Serveur actif sur le port :", PORT)
-
+        notify(messages.serving_blog.format(PORT))
         httpd = http.server.HTTPServer(server_address, VenCServer)
         httpd.serve_forever()
 

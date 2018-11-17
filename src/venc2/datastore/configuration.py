@@ -43,7 +43,7 @@ def get_blog_configuration():
 	    "author_email",
 	    "entries_per_pages",
             "columns",
-	    "rss_thread_lenght",
+	    "feed_lenght",
             "reverse_thread_order",
             "markup_language",
             "disable_threads",
@@ -53,7 +53,9 @@ def get_blog_configuration():
             "disable_single_entries",
             "path_encoding",
             "code_highlight_css_override",
-            "server_port"
+            "server_port",
+            "disable_rss_feed",
+            "disable_atom_feed"
         ]
 
         everything_is_okay = True
