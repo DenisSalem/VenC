@@ -135,7 +135,7 @@
 	DONE | Fix prevent crash from invalid entry id.
 	DONE | Support for migration.
 	DONE | Catch UnicodeEncodeError.
-	WIP  | Serv page.
+	DONE | Serv page.
 	TODO | Support ForPage in entries thread.
 	TODO | Blacklist user defined patterns from entry.
 	TODO | Add support For Atom feed.

@@ -52,7 +52,8 @@ def get_blog_configuration():
             "disable_categories",
             "disable_single_entries",
             "path_encoding",
-            "code_highlight_css_override"
+            "code_highlight_css_override",
+            "server_port"
         ]
 
         everything_is_okay = True

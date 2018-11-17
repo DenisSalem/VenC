@@ -70,7 +70,6 @@ def replace_patterns(string):
     string = string.replace("{0[destinationPageUrl]}", "{path}")
     string = string.replace("{0[pageNumber]}", "{page_number}")
 
-
     return string
 
 def to_camel_case(name):
@@ -116,7 +115,8 @@ new_keys = {
     "disable_categories": False,
     "disable_single_entries": False,
     "path_encoding":"utf-8",
-    "code_highlight_css_override":False
+    "code_highlight_css_override":False,
+    "server_port":False
 }
 
 new_path_keys = {
