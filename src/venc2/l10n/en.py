@@ -93,3 +93,4 @@ class Messages:
     response_is_not_json = "{0}: HTTP response is not JSON."
     server_port_is_invalid = "\"{0}\": is not a valid port number."
     serving_blog = "Server is now running on port : {0}."
+    invalid_or_missing_metadata = "\"{0}\": Invalid value or missing metadata in entry \"{1}\"."
