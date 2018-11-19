@@ -136,9 +136,11 @@
 	DONE | Support for migration.
 	DONE | Catch UnicodeEncodeError.
 	DONE | Serv page.
+	DONE | Replace python-markdown by markdown2
+	WIP  | Add support for Atom feed.
 	TODO | Support ForPage in entries thread.
 	TODO | Blacklist user defined patterns from entry.
-	WIP  | Add support for Atom feed.
+	TODO | Update command help with.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
 	TODO | Fix unit test.

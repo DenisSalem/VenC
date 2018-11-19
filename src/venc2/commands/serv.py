@@ -26,5 +26,9 @@ def serv_blog(argv=list()):
     except ValueError:
         die(messages.server_port_is_invalid.format(blog_configuration["server_port"]))
 
+
     except KeyboardInterrupt:
+        httpd.server_close()
+
+    except FileNotFoundError:
         httpd.server_close()
