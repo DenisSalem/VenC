@@ -63,7 +63,7 @@ def try_oembed(providers, url):
 
     return html
 
-def embed_content(providers, argv):
+def get_embed_content(providers, argv):
     url = urlparse(argv[0])
     return try_oembed(providers, url)
 

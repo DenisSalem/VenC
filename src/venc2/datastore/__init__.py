@@ -28,7 +28,7 @@ from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 from venc2.helpers import notify
-from venc2.patterns.non_contextual import embed_content
+from venc2.patterns.non_contextual import get_embed_content
 
 def merge(iterable, argv):
     return ''.join(
@@ -345,7 +345,7 @@ class DataStore:
                     for e in p["endpoints"]:
                         self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
 
-        return embed_content(self.embed_providers, argv)
+        return get_embed_content(self.embed_providers, argv)
         
         
         
