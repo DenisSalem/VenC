@@ -118,10 +118,10 @@ new_keys = {
     "disable_single_entries": False,
     "path_encoding":"utf-8",
     "code_highlight_css_override":False,
-    "server_port":False,
+    "server_port": 8888,
     "disable_rss_feed":False,
     "disable_atom_feed":False,
-    "feed_lenght":5
+    "feed_lenght": 5
 }
 
 new_path_keys = {

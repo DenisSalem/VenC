@@ -60,7 +60,7 @@ setup(name='VenC',
     install_requires=[
           "docutils",
           "latex2mathml",
-          'markdown',
+          'markdown2',
           'pyyaml',
           'Pygments'
     ],

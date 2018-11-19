@@ -18,7 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import cgi
-import markdown
+import markdown2 as markdown
 import venc2.l10n
 import venc2.helpers
 
