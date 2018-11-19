@@ -43,6 +43,7 @@ from venc2.threads.categories import CategoriesThread
 from venc2.threads.dates import DatesThread
 from venc2.threads.entries import EntriesThread
 from venc2.threads.main import MainThread
+from venc2.commands.remote import remote_copy
 
 # Initialisation of environment
 datastore = DataStore()

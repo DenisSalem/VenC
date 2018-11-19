@@ -19,6 +19,7 @@
 
 import ftplib
 import socket
+import getpass
 
 from venc2.datastore.configuration import get_blog_configuration
 from venc2.helpers import die
