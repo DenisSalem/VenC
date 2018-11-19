@@ -17,6 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
 import ftplib
 import socket
 import getpass
