@@ -84,8 +84,19 @@ class Entry:
         
         # Setting up optional metadata
         for key in metadata.keys():
-            if not key in ["authors","tags","categories","entry_name"]:
-                setattr(self, key, metadata[key])
+            if not key in ["authors", "tags", "categories", "title"]:
+                if metadata[key] != None:
+                    setattr(self, key, metadata[key])
+
+                else:
+                    notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")
+                    setattr(self, key, '')
+
+        # Fix missing or incorrect metadata
+        for key in ["authors", "tags", "categories", "title"]:
+            if key not in metadata.keys() or metadata[key] == None:
+                notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")
+                metadata[key] = ''
     
         self.filename = filename
         self.id = filename.split('__')[0]
@@ -106,7 +117,7 @@ class Entry:
             die(messages.missing_mandatory_field_in_entry.format("title", self.id))
 
         try:
-            self.authors = [ {"author":e} for e in list(metadata["authors"].split(",") if metadata["authors"] != str() else list()) ]
+            self.authors = [ {"value":e} for e in list(metadata["authors"].split(",") if metadata["authors"] != str() else list()) ]
 
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("authors", self.id))
@@ -116,6 +127,10 @@ class Entry:
 
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("tags", self.id))
+
+        except Exception as e:
+            print(self.id, metadata)
+            raise e
 
         params = {
             "entry_id": self.id,

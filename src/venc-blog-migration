@@ -56,12 +56,14 @@ def replace_patterns(string):
     string = string.replace(".:Get::EntryDateUrl:.",".:GetEntryDateURL:.")
     
     string = string.replace(".:For::EntryTags:",".:ForEntryTags:")
+    string = string.replace(".:For::EntryAuthors:",".:ForEntryAuthors:")
     string = string.replace(".:For::BlogDates:",".:ForBlogDates:")
     string = string.replace(".:PagesList:",".:ForPages:")
     string = string.replace("{0[tag]}", "{value}")
     string = string.replace("{0[categoryPath]}", "{path}")
     string = string.replace("{0[relativeOrigin]}", '')
     string = string.replace("{0[date]}", "{value}")
+    string = string.replace("{0[author]}", "{value}")
     string = string.replace("{0[item]}", "{value}")
     string = string.replace("{0[pageUrl]}", "{path}")
     string = string.replace("{0[dateUrl]}", "{path}")
@@ -119,7 +121,7 @@ new_keys = {
     "server_port":False,
     "disable_rss_feed":False,
     "disable_atom_feed":False,
-    "feed_lenght"
+    "feed_lenght":5
 }
 
 new_path_keys = {
