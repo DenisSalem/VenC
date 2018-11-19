@@ -94,7 +94,7 @@ non_contextual_pattern_names_blog = {
 non_contextual_pattern_names_datastore = {
     **non_contextual_pattern_names_blog,
     **non_contextual_pattern_names_entry,
-    "EmbedContent": "wrapper_embed_content"
+    "GetEmbedContent": "wrapper_embed_content"
 }
 
 non_contextual_pattern_names_ml = {
@@ -119,7 +119,7 @@ contextual_pattern_names = {
 }
 
 def export_and_remote_copy(argv=list()):
-    notify(Messages.blog_recompilation)
+    notify(messages.blog_recompilation)
     export_blog(argv)
     remote_copy()
 
