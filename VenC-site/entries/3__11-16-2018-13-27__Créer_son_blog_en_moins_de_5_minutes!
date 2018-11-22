@@ -20,42 +20,16 @@ Après cette commande, VenC a créer un répertoire appelé "MonSuperBlog" à l'
 
 > .:SetColor::blog::blue:.  blog_configuration.yaml  .:SetColor::entries::blue:.  .:SetColor::extra::blue:.  .:SetColor::includes::blue:.  .:SetColor::templates::blue:.  .:SetColor::theme::blue:.
 
-La prochaine étape consiste à paramétrer un peu le blog. Pour ça il suffit d'éditer le fichier *blog_configuration.yaml* à la racine de ce repertoire. Vous pourrez notamment y définir le nom de votre blog, sa langue, ses mots clef, etc.
+La prochaine étape consiste à paramétrer un peu le blog. Pour ça il suffit d'éditer le fichier *blog_configuration.yaml* à la racine de ce repertoire. Vous pourrez notamment y définir le nom de votre blog, sa langue, ses mots clef, entre autre choses parmis les nombreux paramétres à configurer, ou laisser par défaut.
 
-.:CodeHighlight::Yaml::False::author_description: À propos de vous
-author_email: Votre adresse email
-author_name: Votre nom
-blog_description: Courte description du blog
-blog_keywords: Quelques mots clefs qui définissent votre blog
-blog_language: La langue du blog
-blog_name: Nom du blog
-blog_url: L'url du blog
-code_highlight_css_override: false
-columns: 1
-date_format: '%A %d. %B %Y'
-disable_archives: false
-disable_categories: false
-disable_main_thread: false
-disable_single_entries: false
-disable_threads: ''
-entries_per_pages: 10
-ftp_host: Nom d'hôte FTP
-license: La licence appliquée à votre contenu
-markup_language: Markdown
-path:
-  categories_sub_folders: ''
-  category_directory_name: '{category}'
-  dates_directory_name: '%Y-%m'
-  dates_sub_folders: ''
-  entries_sub_folders: ''
-  entry_file_name: entry{entry_id}.html
-  ftp: Chemin absolu de votre blog sur l'hôte FTP.
-  index_file_name: index{page_number}.html
-  rss_file_name: feed.xml
-path_encoding: utf-8
-reverse_thread_order: true
-rss_thread_lenght: 5
-text_editor: nano:.
+.:CodeHighlight::Yaml::False::author_description: 'Je suis Jean Rochefort et je suis mort, mais je reviendrais.'
+author_name: 'Jean Fucking Rochefort'
+blog_description: 'Les tribulations du roy de France Jean Rochefort en direct du paradis.'
+blog_keywords: 'cinema,moustache,punchline,boloss'
+blog_language: 'fr'
+blog_name: 'Le blog de Jean Rochefort, élu roy de France par les internets.'
+license: 'License royale':.
+
 Pour plus d'informations sur la configuration du blog, rendez-vous [ici](https://framagit.org/denissalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal)
 
 Et voilà, c'est terminé! Votre blog est prêt à l'emploi!

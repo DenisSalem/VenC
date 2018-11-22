@@ -46,7 +46,7 @@ class CategoriesThread(Thread):
             notify("\t"+node.value+"...")
 
             export_path = self.export_path
-            self.export_path += node.value+'/'
+            self.export_path += str(node.value+'/').replace(' ','-')
             self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
 
             # Get entries

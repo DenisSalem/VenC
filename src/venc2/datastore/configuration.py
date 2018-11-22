@@ -70,6 +70,7 @@ def get_blog_configuration():
 	    "dates_directory_name",
 	    "entry_file_name",
 	    "rss_file_name",
+	    "atom_file_name",
             "ftp",
             "entries_sub_folders",
             "categories_sub_folders",

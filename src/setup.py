@@ -64,6 +64,6 @@ setup(name='VenC',
           'pyyaml',
           'Pygments'
     ],
-    scripts=['venc','venc-unit-test','venc-blog-migration'],
+    scripts=['venc','venc-blog-migration'],
     data_files = extra_files
 )

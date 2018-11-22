@@ -36,11 +36,14 @@ class Theme:
         try:
             self.header = PreProcessor(open(theme_folder+"chunks/header.html",'r').read())
             self.footer = PreProcessor(open(theme_folder+"chunks/footer.html",'r').read())
-            self.rss_header = PreProcessor(open(theme_folder+"chunks/rssHeader.html",'r').read())
-            self.rss_footer = PreProcessor(open(theme_folder+"chunks/rssFooter.html",'r').read())
+            self.rss_header = PreProcessor(open(theme_folder+"chunks/rssHeader.xml",'r').read())
+            self.rss_footer = PreProcessor(open(theme_folder+"chunks/rssFooter.xml",'r').read())
+            self.atom_header = PreProcessor(open(theme_folder+"chunks/atomHeader.xml",'r').read())
+            self.atom_footer = PreProcessor(open(theme_folder+"chunks/atomFooter.xml",'r').read())
             
             self.entry = EntryWrapper(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
-            self.rss_entry = EntryWrapper(open(theme_folder+"chunks/rssEntry.html",'r').read(),"rssEntry.html")
+            self.rss_entry = EntryWrapper(open(theme_folder+"chunks/rssEntry.xml",'r').read(),"rssEntry.xxml")
+            self.atom_entry = EntryWrapper(open(theme_folder+"chunks/atomEntry.xml",'r').read(),"atomEntry.xml")
             
             self.audio = open(theme_folder+"chunks/audio.html",'r').read()
             self.video = open(theme_folder+"chunks/video.html",'r').read()

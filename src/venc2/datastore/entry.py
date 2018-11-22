@@ -136,10 +136,11 @@ class Entry:
             "entry_id": self.id,
             "entry_title": self.title
         }
-        sf = paths["entries_sub_folders"].format(**params)
+        sf = paths["entries_sub_folders"].format(**params).replace(' ','-')
         sf = sf+'/' if sf != '' else ''
         try:
             self.url = ".:GetRelativeOrigin:."+urllib.parse.quote(sf+paths["entry_file_name"].format(**params), encoding=encoding)
+
         except UnicodeEncodeError as e:
             self.url = ".:GetRelativeOrigin:."+sf+paths["entry_file_name"].format(**params)
             notify("\"{0}\": ".format(sf+paths["entry_file_name"].format(**params))+str(e), color="YELLOW")

@@ -37,6 +37,15 @@ class Thread:
 
         # Setup useful data
         self.theme = theme
+        self.footer = self.theme.footer
+        self.header = self.theme.header
+        self.entry = self.theme.entry
+        self.context_header = "header.html"
+        self.context_footer = "footer.html"
+        self.content_type = "html"
+        self.column_opening = '<div id="__VENC_COLUMN_{0}__" class="__VENC_COLUMN__">'
+        self.column_closing = "</div>"
+        
         self.current_page = 0
         self.datastore = datastore
         # Setup pattern processor
@@ -213,7 +222,7 @@ class Thread:
 
     def pre_iteration(self):
         self.processor.forbidden = self.forbidden
-        self.output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
+        self.output = ''.join(self.processor.batch_process(self.header, self.context_header).sub_strings)
         self.processor.forbidden = []
 
         self.columns_number = self.datastore.blog_configuration["columns"]
@@ -223,10 +232,10 @@ class Thread:
     def post_iteration(self):
         self.columns_counter = 0
         for column in self.columns:
-            self.output += '<div id="__VENC_COLUMN_'+str(self.columns_counter)+'__" class="__VENC_COLUMN__">'+column+'</div>'
+            self.output += self.column_opening.format(self.columns_counter)+column+self.column_closing
             
         self.processor.forbidden = self.forbidden
-        self.output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
+        self.output += ''.join(self.processor.batch_process(self.footer, self.context_footer).sub_strings)
         
         self.write_file(self.output, self.page_number)
 
@@ -234,17 +243,17 @@ class Thread:
         self.current_page = self.page_number
 
     def do_iteration(self, entry):
-        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.above, entry.filename).sub_strings)
+        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(getattr(entry,self.content_type+"_wrapper").above, entry.filename).sub_strings)
         if entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.":
-            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
+            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename).sub_strings)
                 
         elif entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread:
-            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename,).sub_strings)
+            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename).sub_strings)
                 
         else: 
-            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename,).sub_strings)
+            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename).sub_strings)
 
-        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.html_wrapper.below, entry.filename).sub_strings)
+        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(getattr(entry,self.content_type+"_wrapper").below, entry.filename).sub_strings)
 
         self.columns_counter +=1
         if self.columns_counter >= self.columns_number:
@@ -254,8 +263,8 @@ class Thread:
     def do(self):
         self.page_number = 0
         if self.pages_count == 0:
-            output = ''.join(self.processor.batch_process(self.theme.header, "header.html").sub_strings)
-            output += ''.join(self.processor.batch_process(self.theme.footer, "footer.html").sub_strings)
+            output = ''.join(self.processor.batch_process(self.header, self.context_header).sub_strings)
+            output += ''.join(self.processor.batch_process(self.footer, self.context_footer).sub_strings)
             stream = codecs.open(
                 self.export_path +'/'+ self.format_filename(0),
                 'w',
