@@ -44,7 +44,7 @@ def build_categories_tree(entry_index, input_list, output_tree, output_leaves, m
             if node_name == '':
                 continue
 
-            path += node_name+'/'
+            path += str(node_name+'/').replace(' ','-')
             if not node_name in [metadata.value for metadata in root]:
                 root.append(MetadataNode(node_name, entry_index))
                 if output_leaves != None and node_name == leave:

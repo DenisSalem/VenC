@@ -187,6 +187,9 @@ class DataStore:
         return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["path"]["dates_directory_name"])
 
     def get_entry_url(self, argv=list()):
+        if self.blog_configuration["disable_single_entries"]:
+            return ''
+
         return self.entries[self.requested_entry_index].url
 
     def get_author_name(self, argv=list()):
@@ -219,8 +222,12 @@ class DataStore:
     def for_blog_dates(self, argv):
         key = ''.join(argv)
         if not key in self.html_blog_dates.keys():
-            dates = [o for o in self.blog_dates if o["value"] not in self.disable_threads]
-            self.html_blog_dates[key] = merge(dates, argv)
+            if self.blog_configuration["disable_archives"]:
+                self.html_blog_dates[key] = ''
+
+            else:
+                dates = [o for o in self.blog_dates if o["value"] not in self.disable_threads]
+                self.html_blog_dates[key] = merge(dates, argv)
 
         return self.html_blog_dates[key]
 
@@ -260,13 +267,17 @@ class DataStore:
     def tree_for_entry_categories(self, argv):
         key = ''.join(argv)
         if not key in self.entries[self.requested_entry_index].html_categories_tree.keys():
-            self.entries[self.requested_entry_index].html_categories_tree[key] = self.build_html_categories_tree(
-                argv[0], #opening_node
-                argv[1], #opening_branch
-                argv[2], #closing_branch
-                argv[3], #closing_node
-                self.entries[self.requested_entry_index].categories_tree
-            )
+            if self.blog_configuration["disable_categories"]:
+                self.entries[self.requested_entry_index].html_categories_tree[key] = ''
+
+            else:
+                self.entries[self.requested_entry_index].html_categories_tree[key] = self.build_html_categories_tree(
+                    argv[0], #opening_node
+                    argv[1], #opening_branch
+                    argv[2], #closing_branch
+                    argv[3], #closing_node
+                    self.entries[self.requested_entry_index].categories_tree
+                )
         
         return self.entries[self.requested_entry_index].html_categories_tree[key]
 
@@ -274,13 +285,17 @@ class DataStore:
         key = ''.join(argv)
         # compute once categories tree and deliver baked html
         if not key in self.html_categories_tree.keys():
-            self.html_categories_tree[key] = self.build_html_categories_tree(
-                argv[0], #opening_node
-                argv[1], #opening_branch
-                argv[2], #closing_branch
-                argv[3], #closing_node
-                self.entries_per_categories
-            )
+            if self.blog_configuration["disable_categories"]:
+                self.html_categories_tree[key] = ''
+
+            else:
+                self.html_categories_tree[key] = self.build_html_categories_tree(
+                    argv[0], #opening_node
+                    argv[1], #opening_branch
+                    argv[2], #closing_branch
+                    argv[3], #closing_node
+                    self.entries_per_categories
+                )
 
         return self.html_categories_tree[key]
 
@@ -302,23 +317,31 @@ class DataStore:
     def leaves_for_entry_categories(self, argv):
         key = ''.join(argv)
         if not key in self.entries[self.requested_entry_index].html_categories_leaves.keys():
-            self.entries[self.requested_entry_index].html_categories_leaves[key] = merge(self.entries[self.requested_entry_index].categories_leaves, argv)
+            if self.blog_configuration["disable_categories"]:
+                self.entries[self.requested_entry_index].html_categories_leaves[key] = ''
+
+            else:
+                self.entries[self.requested_entry_index].html_categories_leaves[key] = merge(self.entries[self.requested_entry_index].categories_leaves, argv)
         
         return self.entries[self.requested_entry_index].html_categories_leaves[key]
 
     def leaves_for_blog_categories(self, argv):
         key = ''.join(argv)
         if not key in self.html_categories_leaves.keys():
-            items = []
-            for node in self.categories_leaves:
-                items.append({
-                    "value" : node.value,
-                    "count" : node.count,
-                    "weight" : round(node.weight / self.max_category_weight,2),
-                    "path" : node.path
-                })
+            if self.blog_configuration["disable_categories"]:
+                self.html_categories_leaves[key] = ''
+
+            else:
+                items = []
+                for node in self.categories_leaves:
+                    items.append({
+                        "value" : node.value,
+                        "count" : node.count,
+                        "weight" : round(node.weight / self.max_category_weight,2),
+                        "path" : node.path
+                    })
     
-            self.html_categories_leaves[key] = merge(items, argv)
+                self.html_categories_leaves[key] = merge(items, argv)
         
         return self.html_categories_leaves[key]
         

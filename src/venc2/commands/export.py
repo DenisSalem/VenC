@@ -42,6 +42,7 @@ from venc2.patterns.processor import PreProcessor
 from venc2.threads.categories import CategoriesThread
 from venc2.threads.dates import DatesThread
 from venc2.threads.entries import EntriesThread
+from venc2.threads.feed import FeedThread
 from venc2.threads.main import MainThread
 from venc2.commands.remote import remote_copy
 
@@ -175,14 +176,20 @@ def export_blog(argv=list()):
         entry.html_wrapper.below = PreProcessor(''.join(processor.batch_process(entry.html_wrapper.below, "entry.html", False).sub_strings))
         
         entry.rss_wrapper = deepcopy(theme.rss_entry)
-        entry.rss_wrapper.above = PreProcessor(''.join(processor.batch_process(entry.rss_wrapper.above, "rssEntry.html", False).sub_strings))
-        entry.rss_wrapper.below = PreProcessor(''.join(processor.batch_process(entry.rss_wrapper.below, "rssEntry.html", False).sub_strings))
+        entry.rss_wrapper.above = PreProcessor(''.join(processor.batch_process(entry.rss_wrapper.above, "rssEntry.xml", False).sub_strings))
+        entry.rss_wrapper.below = PreProcessor(''.join(processor.batch_process(entry.rss_wrapper.below, "rssEntry.xml", False).sub_strings))
+        
+        entry.atom_wrapper = deepcopy(theme.atom_entry)
+        entry.atom_wrapper.above = PreProcessor(''.join(processor.batch_process(entry.atom_wrapper.above, "atomEntry.xml", False).sub_strings))
+        entry.atom_wrapper.below = PreProcessor(''.join(processor.batch_process(entry.atom_wrapper.below, "atomEntry.xml", False).sub_strings))
     
     processor.forbidden = non_contextual_pattern_names_entry_keys
     theme.header = PreProcessor(''.join(processor.batch_process(theme.header, "header.html").sub_strings))
     theme.footer = PreProcessor(''.join(processor.batch_process(theme.footer, "footer.html").sub_strings))
-    theme.rssHeader = PreProcessor(''.join(processor.batch_process(theme.rss_header, "rssHeader.html").sub_strings))
-    theme.rssFooter = PreProcessor(''.join(processor.batch_process(theme.rss_footer, "rssFooter.html").sub_strings))
+    theme.rss_header = PreProcessor(''.join(processor.batch_process(theme.rss_header, "rssHeader.xml").sub_strings))
+    theme.rss_footer = PreProcessor(''.join(processor.batch_process(theme.rss_footer, "rssFooter.xml").sub_strings))
+    theme.atom_header = PreProcessor(''.join(processor.batch_process(theme.atom_header, "atomHeader.xml").sub_strings))
+    theme.atom_footer = PreProcessor(''.join(processor.batch_process(theme.atom_footer, "atomFooter.xml").sub_strings))
 
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
@@ -191,7 +198,6 @@ def export_blog(argv=list()):
     datastore.embed_providers = {}
 
     # Starting second pass and exporting
-
     thread = MainThread(messages.export_main_thread, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
     thread.do()
 
@@ -205,7 +211,10 @@ def export_blog(argv=list()):
 
     if not datastore.blog_configuration["disable_single_entries"]:
         thread = EntriesThread(messages.export_single_entries, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
-        thread.do() 
+        thread.do()
+    if not datastore.blog_configuration["disable_rss_feed"]:
+        thread = FeedThread("RSS", datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys, "rss")
+        thread.do()
 
     # Copy assets and extra files
 

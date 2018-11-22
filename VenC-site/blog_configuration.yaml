@@ -16,10 +16,11 @@ markup_language: 'Markdown'
 path:
   category_directory_name: '{category}'
   dates_directory_name: '%m-%Y'
-  entry_file_name: indexé.html
+  entry_file_name: index.html
   ftp: Chemin absolu de votre blog sur l'hôte FTP.
   index_file_name: index{page_number}.html
-  rss_file_name: feedé.xml
+  rss_file_name: rss_feed.xml
+  atom_file_name: atom_feed.xml
   dates_sub_folders: ""
   categories_sub_folders: ""
   entries_sub_folders: "{entry_title}"
@@ -32,7 +33,7 @@ disable_main_thread: true
 disable_threads: ""
 disable_archives: true
 disable_categories: false
-disable_single_entries: false
+disable_single_entries: true
 banner: 'https://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg'
 path_encoding: 'windows-1252'
 server_port: 8888

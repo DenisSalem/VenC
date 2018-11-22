@@ -18,7 +18,6 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import urllib.parse
 
 from venc2.helpers import notify
 from venc2.threads import Thread
@@ -41,7 +40,7 @@ class DatesThread(Thread):
                 continue
 
             notify("\t"+thread.value+"...")
-            self.export_path = "blog/"+self.sub_folders+'/'+thread.value+'/'
+            self.export_path = str("blog/"+self.sub_folders+'/'+thread.value+'/').replace(' ','-')
             os.makedirs(self.export_path)
             self.organize_entries([
                 entry for entry in self.datastore.get_entries_for_given_date(

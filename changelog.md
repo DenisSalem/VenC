@@ -136,8 +136,10 @@
 	DONE | Support for migration.
 	DONE | Catch UnicodeEncodeError.
 	DONE | Serv page.
-	DONE | Replace python-markdown by markdown2
+	DONE | Replace python-markdown by markdown2.
+	DONE | Replace white spaces in url by dashes.
 	WIP  | Add support for Atom feed.
+	TODO | Split unit-test and themes from main branch
 	TODO | Support ForPage in entries thread.
 	TODO | Blacklist user defined patterns from entry.
 	TODO | Update command help with.
@@ -158,7 +160,6 @@
 	TODO | Add docutils reStructuredText parser settings override.
 	TODO | Decrease halt_level to render reStructuredText even if errors occurs.
 	TODO | Access {count} and {weight} from LeavesForEntrycategories.
-	TODO | Split unit-test and themes from main branch
 	TODO | Add Yaml comments in blog configuration
 	TODO | Catch invalid encoding at startup
 	TODO | Get formatted link to specified page/entry
