@@ -92,5 +92,7 @@ class Messages:
     server_port_is_invalid = "\"{0}\" n'est pas un numéro de port valide."
     serving_blog = "Serveur actif sur le port : {0}."
     invalid_or_missing_metadata = "\"{0}\": Valeur de meta-donnée invalide ou abstente dans la publication \"{1}\"."
+    generating_rss = "Génération du flux RSS..."
+    generating_atom = "Génération du flux Atom..."
 
 

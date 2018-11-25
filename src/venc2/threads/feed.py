@@ -18,26 +18,32 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc2.threads import Thread
+from venc2.helpers import notify
+from venc2.l10n import messages
 
 class FeedThread(Thread):
-    def __init__(self, prompt, datastore, theme, patterns, forbidden, feed_type):
-        super().__init__(prompt, datastore, theme, patterns, forbidden)
+    def __init__(self, datastore, theme, patterns, forbidden, feed_type):
+        super().__init__('', datastore, theme, patterns, forbidden)
         self.footer = getattr(self.theme, feed_type+"_footer")
         self.header = getattr(self.theme, feed_type+"_header")
         self.entry = getattr(self.theme, feed_type+"_entry")
         self.context_header = feed_type+"Header.xml"
         self.context_footer = feed_type+"Footer.xml"
-        self.column_opening =''
-        self.column_closing =''
+        self.column_opening = ''
+        self.column_closing = ''
+        self.columns_number = 1
         
         self.filename = self.datastore.blog_configuration["path"][feed_type+"_file_name"]
         self.entries_per_page = self.datastore.blog_configuration["feed_lenght"]
-        self.export_path = "blog/"
-        self.relative_origin = ""
         self.in_thread = True
         self.content_type = feed_type
 
-    def do(self):
-        self.organize_entries([entry for entry in self.datastore.get_entries(True)][0:self.entries_per_page])
+    def do(self, entries, export_path, relative_origin):
+        notify(getattr(messages, "generating_"+self.content_type))
+        self.export_path = export_path
+        self.relative_origin = relative_origin
+        self.organize_entries(entries)
         super().do()
+        
+
  

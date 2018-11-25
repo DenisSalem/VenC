@@ -96,7 +96,8 @@ non_contextual_pattern_names_blog = {
 non_contextual_pattern_names_datastore = {
     **non_contextual_pattern_names_blog,
     **non_contextual_pattern_names_entry,
-    "GetEmbedContent": "wrapper_embed_content"
+    "GetEmbedContent": "wrapper_embed_content",
+    "GetGenerationTimestamp":"get_generation_timestamp"
 }
 
 non_contextual_pattern_names_ml = {
@@ -211,9 +212,6 @@ def export_blog(argv=list()):
 
     if not datastore.blog_configuration["disable_single_entries"]:
         thread = EntriesThread(messages.export_single_entries, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
-        thread.do()
-    if not datastore.blog_configuration["disable_rss_feed"]:
-        thread = FeedThread("RSS", datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys, "rss")
         thread.do()
 
     # Copy assets and extra files

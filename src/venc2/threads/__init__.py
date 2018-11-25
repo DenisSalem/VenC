@@ -28,6 +28,7 @@ from venc2.patterns.processor import Processor
 
 class Thread:
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
+        self.datastore = datastore
         # Notify wich thread is processed
         if prompt != "":
             notify(prompt)
@@ -45,9 +46,9 @@ class Thread:
         self.content_type = "html"
         self.column_opening = '<div id="__VENC_COLUMN_{0}__" class="__VENC_COLUMN__">'
         self.column_closing = "</div>"
+        self.columns_number = self.datastore.blog_configuration["columns"]
         
         self.current_page = 0
-        self.datastore = datastore
         # Setup pattern processor
         self.processor = Processor()
         for pattern_name in patterns.keys():
@@ -224,8 +225,6 @@ class Thread:
         self.processor.forbidden = self.forbidden
         self.output = ''.join(self.processor.batch_process(self.header, self.context_header).sub_strings)
         self.processor.forbidden = []
-
-        self.columns_number = self.datastore.blog_configuration["columns"]
         self.columns_counter = 0
         self.columns = [ '' for i in range(0, self.columns_number) ]
     

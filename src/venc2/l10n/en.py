@@ -94,3 +94,5 @@ class Messages:
     server_port_is_invalid = "\"{0}\": is not a valid port number."
     serving_blog = "Server is now running on port : {0}."
     invalid_or_missing_metadata = "\"{0}\": Invalid value or missing metadata in entry \"{1}\"."
+    generating_rss = "Generating RSS feed..."
+    generating_atom = "Generating Atom feed..."

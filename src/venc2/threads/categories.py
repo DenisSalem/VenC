@@ -22,6 +22,7 @@ import urllib.parse
 
 from venc2.helpers import notify
 from venc2.threads import Thread
+from venc2.threads.feed import FeedThread
 
 class CategoriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
@@ -31,6 +32,11 @@ class CategoriesThread(Thread):
         self.export_path = "blog/"+self.datastore.blog_configuration["path"]["categories_sub_folders"]+'/'
         self.relative_origin = ""
         self.in_thread = True
+        if not self.datastore.blog_configuration["disable_rss_feed"]:
+            self.rss_feed = FeedThread(datastore, theme, patterns, forbidden, "rss")
+        
+        if not self.datastore.blog_configuration["disable_atom_feed"]:
+            self.atom_feed = FeedThread(datastore, theme, patterns, forbidden, "atom")
  
     def if_in_categories(self, argv):
         return argv[0].strip()
@@ -49,17 +55,23 @@ class CategoriesThread(Thread):
             self.export_path += str(node.value+'/').replace(' ','-')
             self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
 
-            # Get entries
             try:
                 os.makedirs(self.export_path)
 
             except FileExistsError:
                 pass
 
+            # Get entries
             entries = [self.datastore.entries[entry_index] for entry_index in node.related_to]
             self.organize_entries( entries[::-1] if self.datastore.blog_configuration["reverse_thread_order"] else entries )
             
             super().do()
+            entries = sorted(entries, key = lambda entry : entry.id, reverse=True)[0:self.datastore.blog_configuration["feed_lenght"]]
+            if not self.datastore.blog_configuration["disable_rss_feed"]:
+                self.rss_feed.do(entries, self.export_path, self.relative_origin)
+    
+            if not self.datastore.blog_configuration["disable_atom_feed"]:
+                self.atom_feed.do(entries, self.export_path, self.relative_origin)
             
             self.do(root=node.childs)
 
