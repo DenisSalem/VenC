@@ -138,9 +138,10 @@
 	DONE | Serv page.
 	DONE | Replace python-markdown by markdown2.
 	DONE | Replace white spaces in url by dashes.
-	WIP  | Add support for Atom feed.
-	TODO | Split unit-test and themes from main branch
+	DONE | Add support for Atom feed.
+	DONE | Add blog generation timestamp.
 	TODO | Support ForPage in entries thread.
+	TODO | Split unit-test and themes from main branch
 	TODO | Blacklist user defined patterns from entry.
 	TODO | Update command help with.
 	TODO | Open with navigator manual.
@@ -148,7 +149,7 @@
 	TODO | Fix unit test.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
 	TODO | Add relevant templates for themes.
-	WIP  | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
+	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
 	WIP  | fix FAQ latex2mathml is incomplete.
 	WIP  | fix FAQ categories separator is ' > ', not '>'
 	WIP  | fix FAQ subfolders must not start with '/'
@@ -160,6 +161,8 @@
 	TODO | Add docutils reStructuredText parser settings override.
 	TODO | Decrease halt_level to render reStructuredText even if errors occurs.
 	TODO | Access {count} and {weight} from LeavesForEntrycategories.
-	TODO | Add Yaml comments in blog configuration
-	TODO | Catch invalid encoding at startup
-	TODO | Get formatted link to specified page/entry
+	TODO | Add Yaml comments in blog configuration.
+	TODO | Catch invalid encoding at startup.
+	TODO | Add nice 404 errors page.
+	TODO | Improve Feed.
+	TODO | Print out what's going on while FTP transfert.

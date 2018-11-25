@@ -20,6 +20,7 @@
 import hashlib
 import json
 import os
+import datetime
 import urllib.parse
 
 from venc2.datastore.configuration import get_blog_configuration
@@ -51,6 +52,7 @@ class DataStore:
         self.html_categories_tree = {}
         self.html_categories_leaves = {}
         self.html_blog_dates = {}
+        self.generation_timestamp = datetime.datetime.now()
 
         ''' Entry index is different from entry id '''
         entry_index = 0
@@ -105,6 +107,9 @@ class DataStore:
     def set_max_category_weight(self, value):
         self.max_category_weight = value
         return value
+
+    def get_generation_timestamp(self, argv):
+        return datetime.datetime.strftime(self.generation_timestamp, argv[0])
 
     def get_blog_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.

@@ -18,6 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc2.threads import Thread
+from venc2.threads.feed import FeedThread
 
 class MainThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
@@ -40,8 +41,28 @@ class MainThread(Thread):
         self.relative_origin = str()
         self.export_path = "blog/"
         self.in_thread = True
+        
+        if not self.datastore.blog_configuration["disable_rss_feed"]:
+            self.rss_feed = FeedThread(datastore, theme, patterns, forbidden, "rss")
+        
+        if not self.datastore.blog_configuration["disable_atom_feed"]:
+            self.atom_feed = FeedThread(datastore, theme, patterns, forbidden, "atom")
 
+    def do(self):
+        super().do()
+        i = 0
+        entries = []
+        for entry in self.datastore.get_entries(True):
+            entries.append(entry)
+            i+=1
+            if i == self.datastore.blog_configuration["feed_lenght"]:
+                break
 
+        if not self.datastore.blog_configuration["disable_rss_feed"]:
+            self.rss_feed.do(entries, self.export_path, self.relative_origin)
+    
+        if not self.datastore.blog_configuration["disable_atom_feed"]:
+            self.atom_feed.do(entries, self.export_path, self.relative_origin)
 
                 
                 
