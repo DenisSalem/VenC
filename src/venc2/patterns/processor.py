@@ -289,6 +289,7 @@ class Processor():
         to_remove = list()
         for index in pre_processed.patterns_index:
             current_pattern = pre_processed.sub_strings[index][2:-2].split('::')[0]
+
             if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]:
                 pre_processed.keep_appart_from_markup_index.append((index,True))
             
@@ -304,6 +305,11 @@ class Processor():
                 )
 
             if (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden) :
+                if current_pattern == "Escape":
+                    pre_processed.sub_strings[index] = ''.join(pre_processed.sub_strings[index][2:-2].split('::')[1:])
+                    to_remove.append(index)
+                    continue
+                    
                 pre_processed.sub_strings[index] = self.process(pre_processed.sub_strings[index], escape)
                 
                 # check if there is residual patterns
