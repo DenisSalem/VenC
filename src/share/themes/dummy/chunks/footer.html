@@ -1,7 +1,7 @@
     <footer>
-      .:GetPreviousPage::<a href="{destination_page_url}">Précédent</a>:.
-      <ul>.:ForPages::5::<li><a href="{page_url}">{page_number}</a></li>:: :.</ul>
-      .:GetNextPage::<a href="{destination_page_url}">Suivant</a>:.
+      .:GetPreviousPage::<a href="{path}">Précédent</a>:.
+      <ul>.:ForPages::5::<li><a href="{path}">.:IfInThread::{page_number}::{entry_id} {entry_title}:.</a></li>:: :.</ul>
+      .:GetNextPage::<a href="{path}">Suivant</a>:.
     </footer>
   </body>
 </html>

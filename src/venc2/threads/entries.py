@@ -71,7 +71,33 @@ class EntriesThread(Thread):
         list_lenght = int(argv[0])
         string = argv[1]
         separator = argv[2]
-        return ""
+        output = ""
+        params = {
+            "entry_id":str(self.current_entry.id),
+            "entry_title":str(self.current_entry.title),
+            "page_number":'',
+            "path": self.current_entry.url
+        }
+        output += string.format(**params) + separator
+
+        next_entry = self.current_entry.next_entry
+        previous_entry = self.current_entry.previous_entry
+        for i in range(0, list_lenght):
+            if entry_next != None:
+                params["entry_id"] = next_entry.id
+                params["entry_title"] = next_entry.title
+                params["path"] = next_entry.url
+                output += string.format(**params) + separator
+                next_entry = entry_next.next_entry
+            
+            if entry_previous != None:
+                params["entry_id"] = entry_previous.id
+                params["entry_title"] = entry_previous.title
+                params["path"] = entry_previous.url
+                output = string.format(**params) + separator + output
+                entry_previous = entry_previous.previous_entry
+
+        return output[:-len(separator)]
 
     def setup_context(self, entry):
         super().setup_context(entry)
