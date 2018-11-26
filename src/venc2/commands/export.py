@@ -159,6 +159,7 @@ def export_blog(argv=list()):
     # Blacklist contextual patterns
     for pattern_name in contextual_pattern_names.keys():
         processor.blacklist.append(pattern_name)
+    processor.blacklist.append("Escape")
 
     notify(messages.pre_process)
 

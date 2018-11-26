@@ -141,8 +141,9 @@
 	DONE | Add support for Atom feed.
 	DONE | Add blog generation timestamp.
 	DONE | Split unit-test from main branch
-	DONE | Support ForPage in entries thread.
-	TODO | Blacklist user defined patterns from entry.
+      	DONE | Support ForPage in entries thread.
+	DONE | Escape patterns
+	TODO | Sort by metadata.
 	TODO | Update command help with.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
