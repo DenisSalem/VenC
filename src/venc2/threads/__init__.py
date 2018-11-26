@@ -145,9 +145,11 @@ class Thread:
         output = str()
         page_number = 0
         for page in self.pages:
-            if (not page_number < self.current_page - self.pages_count) and (not page_number > self.current_page + self.pages_count):
+            if (not page_number < self.current_page - list_lenght) and (not page_number > self.current_page + list_lenght):
                 output += string.format(
                     **{
+                        "entry_id":'',
+                        "entry_title":'',
                         "page_number":str(page_number),
                         "path": self.filename.format(**{"page_number": (str() if page_number == 0 else page_number) })
                     }

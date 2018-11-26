@@ -156,7 +156,7 @@ class Entry:
                         category_leaf_url +=sub_category.strip()+'/'
                 
                     self.categories_leaves.append({
-                        "item": category_leaf,
+                        "value": category_leaf,
                         "path":category_leaf_url
                     })
 

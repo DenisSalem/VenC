@@ -140,8 +140,8 @@
 	DONE | Replace white spaces in url by dashes.
 	DONE | Add support for Atom feed.
 	DONE | Add blog generation timestamp.
-	TODO | Support ForPage in entries thread.
-	TODO | Split unit-test and themes from main branch
+	DONE | Split unit-test from main branch
+	DONE | Support ForPage in entries thread.
 	TODO | Blacklist user defined patterns from entry.
 	TODO | Update command help with.
 	TODO | Open with navigator manual.
@@ -157,6 +157,7 @@
 
 # version 2.x.x
 
+	TODO | Split themes from main branch
 	TODO | Add translation for Deutsch and Spanish.
 	TODO | Add docutils reStructuredText parser settings override.
 	TODO | Decrease halt_level to render reStructuredText even if errors occurs.
