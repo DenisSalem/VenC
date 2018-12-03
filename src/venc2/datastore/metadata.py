@@ -22,6 +22,14 @@ import urllib.parse
 
 from venc2.helpers import notify
 
+class Chapter:
+    def __init__(self, chapter, entry):
+        self.sub_chapters = []
+        self.chapter = chapter
+        self.url = entry.url
+        self.title = entry.title
+
+
 class MetadataNode:
     def __init__(self, value, entry_index):
         self.count = 1

@@ -84,7 +84,6 @@ non_contextual_pattern_names_blog = {
     "GetBlogURL" : "get_blog_url",
     "GetBlogLanguage" : "get_blog_language",
     "GetAuthorEmail" : "get_author_email",
-    "GetRootPage" : "get_root_page",
 
     # Extra metadata getter
     "GetBlogMetadataIfExists" : "get_blog_metadata_if_exists", 
@@ -118,6 +117,7 @@ contextual_pattern_names = {
     "GetPreviousPage" : "get_previous_page",
     "ForPages" : "for_pages",
     "GetStyleSheets" : code_highlight.get_style_sheets,
+    "GetRootPage" : datastore.get_root_page,
     **extra_contextual_pattern_names
 }
 
@@ -159,6 +159,7 @@ def export_blog(argv=list()):
     # Blacklist contextual patterns
     for pattern_name in contextual_pattern_names.keys():
         processor.blacklist.append(pattern_name)
+
     processor.blacklist.append("Escape")
 
     notify(messages.pre_process)

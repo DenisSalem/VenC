@@ -56,8 +56,8 @@ class EntryWrapper:
         die(messages.missing_entry_content_inclusion)
 
 class Entry:
-    def __init__(self, filename, paths, previous_entry = None, encoding="utf-8"):
-        self.previous_entry = previous_entry
+    def __init__(self, filename, paths, encoding="utf-8"):
+        self.previous_entry = None
         self.next_entry = None
 
         # Loading
@@ -99,7 +99,7 @@ class Entry:
                 metadata[key] = ''
     
         self.filename = filename
-        self.id = filename.split('__')[0]
+        self.id = int(filename.split('__')[0])
         
         raw_date = filename.split('__')[1].split('-')
         self.date = datetime.datetime(
@@ -170,20 +170,10 @@ class Entry:
         self.html_authors = {}
         self.html_categories_leaves = {}
 
-def sort_entry(entry_id):
-    try:
-        return int(entry_id)
-
-    except ValueError:
-        return False
-
 ''' Iterate through entries folder '''
 def yield_entries_content():
     try:
-        for filename in sorted(
-            os.listdir(os.getcwd()+"/entries"),
-            key = lambda entry_id : sort_entry(entry_id.split("__")[0])
-        ):
+        for filename in os.listdir(os.getcwd()+"/entries"):
             exploded_filename = filename.split("__")
             try:
                 date = exploded_filename[1].split('-')

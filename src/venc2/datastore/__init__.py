@@ -28,6 +28,7 @@ from venc2.datastore.entry import yield_entries_content
 from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
+from venc2.datastore.metadata import Chapter
 from venc2.helpers import notify
 from venc2.patterns.non_contextual import get_embed_content
 
@@ -53,40 +54,47 @@ class DataStore:
         self.html_categories_leaves = {}
         self.html_blog_dates = {}
         self.generation_timestamp = datetime.datetime.now()
+        self.chapters = {}
 
-        ''' Entry index is different from entry id '''
-        entry_index = 0
+        # Build entries
         for filename in yield_entries_content():
-            if len(self.entries):
-                self.entries.append(Entry(filename, self.blog_configuration["path"], previous_entry = self.entries[-1], encoding=self.blog_configuration["path_encoding"]))
-                self.entries[-2].next_entry = self.entries[-1]
+            self.entries.append(Entry(filename, self.blog_configuration["path"], encoding=self.blog_configuration["path_encoding"]))
+        
+        self.entries = sorted(self.entries, key = lambda entry : self.sort_by(entry))
 
-            else:
-                self.entries.append(Entry(filename, self.blog_configuration["path"], encoding=self.blog_configuration["path_encoding"]))
-                
-            ''' Update entriesPerDates '''
+        for entry_index in range(0, len(self.entries)):
+            if entry_index > 0:
+                self.entries[entry_index-1].next_entry = self.entries[entry_index]
+                self.entries[entry_index].previous_entry = self.entries[entry_index-1]
+
+            # Update entriesPerDates
             if self.blog_configuration["path"]["dates_directory_name"] != '':
-                formatted_date = self.entries[-1].date.strftime(self.blog_configuration["path"]["dates_directory_name"])
-                entries_index = self.get_entries_index_for_given_date(formatted_date)
-                if entries_index != None:
-                    self.entries_per_dates[entries_index].count +=1
-                    self.entries_per_dates[entries_index].related_to.append(entry_index)
+                formatted_date = self.entries[entry_index].date.strftime(self.blog_configuration["path"]["dates_directory_name"])
+                entries_indexes = self.get_entries_index_for_given_date(formatted_date)
+                if entries_indexes != None:
+                    self.entries_per_dates[entries_indexes].count +=1
+                    self.entries_per_dates[entries_indexes].related_to.append(entry_index)
                 else:
                     self.entries_per_dates.append(MetadataNode(formatted_date, entry_index))
 
+            try:
+                self.update_chapters(self.entries[entry_index].chapter, entry_index)
 
-            ''' Update entriesPerCategories '''
+            except AttributeError:
+                pass
+
+            # Update entriesPerCategories
             try:
                 sub_folders = urllib.parse.quote(self.blog_configuration["path"]["categories_sub_folders"]+'/', encoding=self.blog_configuration["path_encoding"])
+
             except UnicodeEncodeError as e:
                 sub_folders = self.blog_configuration["path"]["categories_sub_folders"]+'/'
                 notify("\"{0}\": ".format(sub_folders)+str(e), color="YELLOW")
             
             sub_folders = sub_folders if sub_folders != '/' else ''
-            build_categories_tree(entry_index, self.entries[-1].raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.blog_configuration["path_encoding"], sub_folders=sub_folders)
-            entry_index += 1
+            build_categories_tree(entry_index, self.entries[entry_index].raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.blog_configuration["path_encoding"], sub_folders=sub_folders)
     
-        ''' Setup BlogDates Data '''
+        # Setup BlogDates Data
         self.blog_dates = list()
         for node in self.entries_per_dates:
             try:
@@ -103,6 +111,17 @@ class DataStore:
                 "count": node.count,
                 "weight": node.weight
             })
+
+    def update_chapters(self, chapter, entry_index):
+        pass
+        
+    def sort_by(self, entry):
+        try:
+            return getattr(entry, self.blog_configuration["sort_by"])
+
+        except AttributeError:
+            print("FAILED")
+            return ''
 
     def set_max_category_weight(self, value):
         self.max_category_weight = value

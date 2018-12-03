@@ -97,7 +97,6 @@
 	DONE | More verbosity about wrong pattern arguments.
 	DONE | More verbosity about malformed entry.
 	DONE | Clear white spaces in error messages.
-	DONE | Speed up blog exportation (almost four times faster!).
 	DONE | Implement RelativeLocation.
 	DONE | Optimisation of categories tree.
 	DONE | Code should be a little bit more PEP 8 compliant.
@@ -143,8 +142,11 @@
 	DONE | Split unit-test from main branch
       	DONE | Support ForPage in entries thread.
 	DONE | Escape patterns
-	TODO | Sort by metadata.
-	TODO | Update command help with.
+	DONE | Update command help with.
+	DONE | Handle ftp encoding error.
+	DONE | Sort by metadata.
+	WIP  | Speed up blog exportation (almost four times faster!).
+	WIP  | Chapters engine.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
 	TODO | Fix unit test.
@@ -157,7 +159,8 @@
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.x.x
-
+	OPT  | Speed up pattern processing.
+	TODO | Make some dependencies optional.
 	TODO | Split themes from main branch
 	TODO | Add translation for Deutsch and Spanish.
 	TODO | Add docutils reStructuredText parser settings override.
@@ -168,3 +171,4 @@
 	TODO | Add nice 404 errors page.
 	TODO | Improve Feed.
 	TODO | Print out what's going on while FTP transfert.
+	TODO | Fix gvim / -ex
