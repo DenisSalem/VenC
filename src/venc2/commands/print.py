@@ -30,6 +30,7 @@ def print_help(argv=None):
     print("-ne\t--new-entry <\""+messages.arg_entry_name+"\"> [\""+messages.arg_template_name+"\"]")
     print("-xb\t--export-blog ["+messages.theme_name+"]")
     print("-ex\t--edit-and-xport <\""+messages.arg_input_filename+"\">")
+    print("-s\t--serv")
     print("-xftp\t--export-via-ftp")
     print("-rc\t--remote-copy")
     print("-h\t--help")

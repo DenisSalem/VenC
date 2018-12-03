@@ -60,7 +60,7 @@ def new_entry(argv):
     entry = dict()
     raw_entry_date = datetime.datetime.now()
     try:
-        entry["ID"] = max([ int(filename.split("__")[0]) for filename in yield_entries_content()]) + 1
+        entry["ID"] = max([ int(filename.split("__")[0]) for filename in yield_entries_content('id')]) + 1
 
     except ValueError:
         entry["ID"] = 1
@@ -140,7 +140,8 @@ def new_blog(argv):
 				"reverse_thread_order":		True,
                                 "markup_language": "Markdown",
                                 "path_encoding": "utf-8",
-                                "server_port": 8888}
+                                "server_port": 8888,
+                                "sort_by":"id"}
     for folder_name in argv:
         try:
             os.mkdir(folder_name)

@@ -83,19 +83,19 @@ class EntriesThread(Thread):
         next_entry = self.current_entry.next_entry
         previous_entry = self.current_entry.previous_entry
         for i in range(0, list_lenght):
-            if entry_next != None:
+            if next_entry != None:
                 params["entry_id"] = next_entry.id
                 params["entry_title"] = next_entry.title
                 params["path"] = next_entry.url
                 output += string.format(**params) + separator
-                next_entry = entry_next.next_entry
+                next_entry = next_entry.next_entry
             
-            if entry_previous != None:
-                params["entry_id"] = entry_previous.id
-                params["entry_title"] = entry_previous.title
-                params["path"] = entry_previous.url
+            if previous_entry != None:
+                params["entry_id"] = previous_entry.id
+                params["entry_title"] = previous_entry.title
+                params["path"] = previous_entry.url
                 output = string.format(**params) + separator + output
-                entry_previous = entry_previous.previous_entry
+                previous_entry = previous_entry.previous_entry
 
         return output[:-len(separator)]
 

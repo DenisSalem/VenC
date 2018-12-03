@@ -37,3 +37,4 @@ disable_single_entries: true
 banner: 'https://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg'
 path_encoding: 'windows-1252'
 server_port: 8888
+sort_by: 'title'

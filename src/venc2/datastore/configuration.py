@@ -55,7 +55,8 @@ def get_blog_configuration():
             "code_highlight_css_override",
             "server_port",
             "disable_rss_feed",
-            "disable_atom_feed"
+            "disable_atom_feed",
+            "sort_by"
         ]
 
         everything_is_okay = True
@@ -86,6 +87,10 @@ def get_blog_configuration():
             if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
                 everything_is_okay = False
                 notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blog_configuration.yaml"),"RED")
+
+            if blog_configuration["sort_by"] in ['', None]:
+                blog_configuration["sort_by"] = "id"
+
         except KeyError:
             pass
 

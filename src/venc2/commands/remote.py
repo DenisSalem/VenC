@@ -31,6 +31,7 @@ def remote_copy(argv=list()):
     blog_configuration = get_blog_configuration()
     try:
         ftp = ftplib.FTP(blog_configuration["ftp_host"])
+        ftp.encoding='latin-1'
 
     except socket.gaierror as e:
         die(str(e))
@@ -46,30 +47,30 @@ def remote_copy(argv=list()):
         notify(messages.copy_to_ftp_directory)
         ftp_export_recursively(os.getcwd()+"/blog", ftp)
     
-    except ftplib.error_perm as e:
-        die(str(e))
-
     except TimeoutError as e:
         die(str(e))
+    
+    except ftplib.error_perm as e:
+        die(str(e), color="YELLOW")
 
 def ftp_export_recursively(origin, ftp):
         folder = os.listdir(origin)
         for item in folder:
             if os.path.isdir(origin+"/"+item):
                 try:
-                    ftp.mkd(item)
+                    try:
+                        ftp.mkd(item)
+
+                    except ftplib.error_perm as e:
+                        if not ": File exists" in str(e.args):
+                            raise
+                    
                     ftp.cwd(ftp.pwd()+"/"+item)
                     ftp_export_recursively(origin+"/"+item, ftp)
                     ftp.cwd(ftp.pwd()[:-len("/"+item)])
 
-                except:
-                    try:
-                        ftp.cwd(ftp.pwd()+"/"+item)
-                        ftp_export_recursively(origin+"/"+item, ftp)
-                        ftp.cwd(ftp.pwd()[:-len("/"+item)])
-
-                    except:
-                        raise
+                except Exception as e:
+                    notify(item+": "+str(e), color="YELLOW")
 
             else:
                 ftp.storbinary("STOR "+ftp.pwd()+"/"+item, open(origin+"/"+item, 'rb'))
@@ -77,6 +78,7 @@ def ftp_export_recursively(origin, ftp):
 def ftp_clean_destination(ftp):
     listing = list()
     listing = ftp.nlst()
+
     for item in listing:
         if item not in ['.','..']:
             try:
