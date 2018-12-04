@@ -32,7 +32,6 @@ def algo1():
     l = len(op)
     while l:
         for i in range(0, l):
-            print(output, i, l)
             try:
                 cmpr = cp[i] < op[i+1]
 
@@ -40,19 +39,27 @@ def algo1():
                 if len(cp) != l:
                     raise e
 
+                cmpr = True
+
             if cmpr:
                 vop, vcp = op[i], cp[i]
+                print(output[vop+2:vcp])
                 fields = [field.strip() for field in output[vop+2:vcp].split("::") if field != '']
                 new_string = "["+'---'.join(fields)+"]"
                 output = output[0:vop] + new_string + output[vcp+2:]
                 offset = len(new_string) - (vcp + 2 - vop)
+                print(output)
                 for j in range(i+1,l):
                     op[j]+=offset
                     cp[j]+=offset
+                print(op)
+                print(cp)
+                print()
                 op.pop(i)
                 cp.pop(i)
                 l = len(op)
                 break
+
                 
                 
     return output
