@@ -1,10 +1,9 @@
 #! /usr/bin/python
 import time
 
-iteration = 1
+iteration = 10000
 
 string = ".:foo::bar:. .:IfInThread:: .:boo:: .:foo::bar:. :. :: lolilol :. .:END:. .:TEST AGAIN:: .:WITHIN:. :."
-print('>', string)
 
 def algo1():
     op = []
@@ -30,37 +29,35 @@ def algo1():
         i+=2
 
     l = len(op)
+    lc = len(cp)
+    if l != lc:
+        raise Exception
+
     while l:
         for i in range(0, l):
             try:
                 cmpr = cp[i] < op[i+1]
 
-            except Exception as e:
-                if len(cp) != l:
-                    raise e
-
+            except IndexError as e:
                 cmpr = True
 
             if cmpr:
-                vop, vcp = op[i], cp[i]
-                print(output[vop+2:vcp])
+                vop, vcp = op[i], cp[0]
                 fields = [field.strip() for field in output[vop+2:vcp].split("::") if field != '']
                 new_string = "["+'---'.join(fields)+"]"
+                # d0 shit there
+
                 output = output[0:vop] + new_string + output[vcp+2:]
                 offset = len(new_string) - (vcp + 2 - vop)
-                print(output)
-                for j in range(i+1,l):
-                    op[j]+=offset
+                for j in range(1,l):
+                    if j >= i+1:
+                        op[j]+=offset
+
                     cp[j]+=offset
-                print(op)
-                print(cp)
-                print()
                 op.pop(i)
-                cp.pop(i)
+                cp.pop(0)
                 l = len(op)
                 break
-
-                
                 
     return output
 
