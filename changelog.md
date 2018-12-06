@@ -159,7 +159,6 @@
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.x.x
-	OPT  | Speed up pattern processing.
 	TODO | Make some dependencies optional.
 	TODO | Split themes from main branch
 	TODO | Add translation for Deutsch and Spanish.
@@ -172,3 +171,4 @@
 	TODO | Improve Feed.
 	TODO | Print out what's going on while FTP transfert.
 	TODO | Fix gvim / -ex
+	TODO | Warn about entry title duplicates

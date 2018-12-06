@@ -24,10 +24,11 @@ from venc2.helpers import notify
 from venc2.l10n import messages; 
 from venc2.l10n import locale_err;
 
-import cProfile, pstats, io
-pr = cProfile.Profile()
-pr.enable()
-# ... do something ...
+
+#import cProfile, pstats, io
+#pr = cProfile.Profile()
+#pr.enable()
+## ... do something ...
 
 if locale_err:
     notify(messages.cannot_get_current_locale, color="YELLOW")
@@ -86,10 +87,9 @@ if sys.argv[1:] != []:
 else:
     notify(messages.nothing_to_do,"YELLOW")
 
-pr.disable()
-s = io.StringIO()
-sortby = 'cumulative'
-ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-ps.print_stats()
-print(s.getvalue())
-
+#pr.disable()
+#s = io.StringIO()
+#sortby = 'cumulative'
+#ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+#ps.print_stats()
+#print(s.getvalue())

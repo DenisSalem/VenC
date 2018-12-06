@@ -4,7 +4,7 @@ import time
 iteration = 10000
 
 string = ".:foo::bar:. .:IfInThread:: .:boo:: .:foo::bar:. :. :: lolilol :. .:END:. .:TEST AGAIN:: .:WITHIN:. :."
-
+string = ".:IfInThread::<link rel=\"stylesheet\" href=\".:GetRelativeOrigin:.styleThread.css\" type=\"text/css\" />::<link rel=\"stylesheet\" href=\".:GetRelativeOrigin:.styleEntry.css\" type=\"text/css\" />:."
 def algo1():
     op = []
     cp = []
@@ -28,36 +28,39 @@ def algo1():
         cp.append(i)
         i+=2
 
-    l = len(op)
+    lo = len(op)
     lc = len(cp)
-    if l != lc:
+    if lo != lc:
         raise Exception
+    while lo:
+        diff = 18446744073709551616
+        i = 0
+        j = 0
+        for io in range(0, lo):
+            for ic in range(0, lc):
+                d = cp[ic] - op[io]
+                if d > 0 and d < diff:
+                    diff = d
+                    i = io
+                    j = ic
 
-    while l:
-        for i in range(0, l):
-            try:
-                cmpr = cp[i] < op[i+1]
+        vop, vcp = op[i], cp[j]
+        fields = [field.strip() for field in output[vop+2:vcp].split("::") if field != '']
+        new_string = "["+'---'.join(fields)+"]"
+        # d0 shit there
 
-            except IndexError as e:
-                cmpr = True
+        output = output[0:vop] + new_string + output[vcp+2:]
+        offset = len(new_string) - (vcp + 2 - vop)
+        for k in range(1,lo):
+            if k >= i+1:
+                op[k]+=offset
 
-            if cmpr:
-                vop, vcp = op[i], cp[0]
-                fields = [field.strip() for field in output[vop+2:vcp].split("::") if field != '']
-                new_string = "["+'---'.join(fields)+"]"
-                # d0 shit there
+            cp[k]+=offset
 
-                output = output[0:vop] + new_string + output[vcp+2:]
-                offset = len(new_string) - (vcp + 2 - vop)
-                for j in range(1,l):
-                    if j >= i+1:
-                        op[j]+=offset
-
-                    cp[j]+=offset
-                op.pop(i)
-                cp.pop(0)
-                l = len(op)
-                break
+        op.pop(i)
+        cp.pop(j)
+        lo -= 1
+        lc -= 1
                 
     return output
 
