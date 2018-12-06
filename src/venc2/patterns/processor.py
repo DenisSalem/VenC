@@ -322,22 +322,44 @@ class Processor():
         return pre_processed
 
     def process(self, string, escape):
-        close_symbol_pos = list()
-        open_symbol_pos	 = list()
-        output		 = str()
-        fields		 = list()
-        i		 = int()
+        op = []
+        cp = []
+        i = 0
+        l = len(string)
+        output = string
+        offset=0
+        while i < l:
+            i = output.find(".:", i)
+            if i == -1:
+                i=0
+                break
+            op.append(i)
+            i+=2
+    
+        while i < l:
+            i = output.find(":.", i)
+            if i == -1:
+                i=0
+                break
+            cp.append(i)
+            i+=2
 
-        while i < len(string):
-            if string[i:i+2] == OPEN_SYMBOL:
-                open_symbol_pos.append(i)
+        l = len(op)
+        lc = len(cp)
+        if l != lc:
+            raise Exception
 
-            elif string[i:i+2] == CLOSE_SYMBOL:
-                close_symbol_pos.append(i)
+        while l:
+            for i in range(0, l):
+                try:
+                    cmpr = cp[i] < op[i+1]
 
-            if len(close_symbol_pos) <= len(open_symbol_pos) and len(close_symbol_pos) != 0 and len(open_symbol_pos) != 0:
-                if open_symbol_pos[-1] < close_symbol_pos[-1]:
-                    fields = [field for field in string[open_symbol_pos[-1]+2:close_symbol_pos[-1]].split(SEPARATOR) if field != '']
+                except IndexError as e:
+                    cmpr = True
+
+                if cmpr:
+                    vop, vcp = op[i], cp[0]
+                    fields = [field.strip() for field in output[vop+2:vcp].split("::") if field != '']
                     """ this is tested twice??? """
                     if not fields[0] in self.blacklist and (not fields[0] in self.forbidden):
                         output = self.run_pattern(fields[0], fields[1:])
@@ -361,6 +383,42 @@ class Processor():
                                 string[close_symbol_pos[-1]+2:],
                                 escape
                             )
+
+                    output = output[0:vop] + new_string + output[vcp+2:]
+                    offset = len(new_string) - (vcp + 2 - vop)
+                    for j in range(1,l):
+                        if j >= i+1:
+                            op[j] += offset
+
+                        cp[j] += offset
+
+                    op.pop(i)
+                    cp.pop(0)
+                    l = len(op)
+                    break
+                
+        return output
+
+
+        
+
+    def process_old(self, string, escape):
+        close_symbol_pos = list()
+        open_symbol_pos	 = list()
+        output		 = str()
+        fields		 = list()
+        i		 = int()
+
+        while i < len(string):
+            if string[i:i+2] == OPEN_SYMBOL:
+                open_symbol_pos.append(i)
+
+            elif string[i:i+2] == CLOSE_SYMBOL:
+                close_symbol_pos.append(i)
+
+            if len(close_symbol_pos) <= len(open_symbol_pos) and len(close_symbol_pos) != 0 and len(open_symbol_pos) != 0:
+                if open_symbol_pos[-1] < close_symbol_pos[-1]:
+                    
             i+=1
     
         return string
