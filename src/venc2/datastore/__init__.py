@@ -33,11 +33,7 @@ from venc2.helpers import notify
 from venc2.patterns.non_contextual import get_embed_content
 
 def merge(iterable, argv):
-    return ''.join(
-        [
-            argv[0].format(**something) for something in iterable
-        ]
-    )
+    return argv[1].join([argv[0].format(**something) for something in iterable])
 
 class DataStore:
     def __init__(self):

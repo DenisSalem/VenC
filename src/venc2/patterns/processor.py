@@ -38,11 +38,30 @@ from venc2.l10n import messages
 class UnknownContextual(KeyError):
     pass
 
-OPEN_SYMBOL = ".:"
-SEPARATOR = "::"
-CLOSE_SYMBOL = ":."
-
 markup_language_errors = []
+def get_markers_indexes(string):
+    op = []
+    cp = []
+    i = 0
+    l = len(string)
+    offset=0
+    while i < l:
+        i = string.find(".:", i)
+        if i == -1:
+            i=0
+            break
+        op.append(i)
+        i+=2
+    
+    while i < l:
+        i = string.find(":.", i)
+        if i == -1:
+            i=0
+            break
+        cp.append(i)
+        i+=2
+
+    return (op, cp)
 
 def handle_markup_language_error(message, line=None, string=None):
     if not message in markup_language_errors:
@@ -69,10 +88,10 @@ class PreProcessor():
         i		 = int()
         
         while i < len(string):
-            if string[i:i+2] == OPEN_SYMBOL:
+            if string[i:i+2] == ".:":
                 open_symbol_pos.append(i)
 
-            elif string[i:i+2] == CLOSE_SYMBOL:
+            elif string[i:i+2] == ":.":
                 close_symbol_pos.append(i)
 
             # At some point, when we get the same opening and closing symbols, it means that we just reach the end of a pattern
@@ -296,7 +315,7 @@ class Processor():
             elif current_pattern in ["SetColor"]:
                 pre_processed.keep_appart_from_markup_index.append((index,False))
 
-            """ this is tested twice??? """
+            # this is tested twice???
             if current_pattern in self.forbidden:
                 self.handle_error(
                     messages.pattern_is_forbidden_here.format(current_pattern),
@@ -322,103 +341,59 @@ class Processor():
         return pre_processed
 
     def process(self, string, escape):
-        op = []
-        cp = []
-        i = 0
-        l = len(string)
-        output = string
-        offset=0
-        while i < l:
-            i = output.find(".:", i)
-            if i == -1:
-                i=0
-                break
-            op.append(i)
-            i+=2
-    
-        while i < l:
-            i = output.find(":.", i)
-            if i == -1:
-                i=0
-                break
-            cp.append(i)
-            i+=2
-
-        l = len(op)
+        op, cp = get_markers_indexes(string)
+        lo = len(op)
         lc = len(cp)
-        if l != lc:
+        if lo != lc:
             raise Exception
 
-        while l:
-            for i in range(0, l):
-                try:
-                    cmpr = cp[i] < op[i+1]
+        elif lo == 0 and lc == 0:
+            return string
 
-                except IndexError as e:
-                    cmpr = True
+        while lo:
+            diff = 18446744073709551616
+            i = 0
+            j = 0
+            for io in range(0, lo):
+                for ic in range(0, lc):
+                    d = cp[ic] - op[io]
+                    if d > 0 and d < diff:
+                        diff = d
+                        i = io
+                        j = ic
 
-                if cmpr:
-                    vop, vcp = op[i], cp[0]
-                    fields = [field.strip() for field in output[vop+2:vcp].split("::") if field != '']
-                    """ this is tested twice??? """
-                    if not fields[0] in self.blacklist and (not fields[0] in self.forbidden):
-                        output = self.run_pattern(fields[0], fields[1:])
-                        if escape:
-                            return self.process(
-                                string[:open_symbol_pos[-1]]+
-                                cgi.escape(output).encode(
-                                    'ascii', 
-                                    'xmlcharrefreplace'
-                                ).decode(
-                                    encoding='ascii'
-                                )+
-                                string[close_symbol_pos[-1]+2:],
-                                escape
-                            )
+            vop, vcp = op[i], cp[j]
 
-                        else:
-                            return self.process(
-                                string[:open_symbol_pos[-1]]+
-                                str(output)+
-                                string[close_symbol_pos[-1]+2:],
-                                escape
-                            )
+            fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
+            # this is tested twice???
+            if not fields[0] in self.blacklist and (not fields[0] in self.forbidden):
+                new_chunk = self.run_pattern(fields[0], fields[1:])
+                if escape:
+                    new_chunk = cgi.escape(new_string).encode(
+                        'ascii', 
+                        'xmlcharrefreplace'
+                    ).decode(
+                        encoding='ascii'
+                    )
 
-                    output = output[0:vop] + new_string + output[vcp+2:]
-                    offset = len(new_string) - (vcp + 2 - vop)
-                    for j in range(1,l):
-                        if j >= i+1:
-                            op[j] += offset
+                string = string[0:vop] + new_chunk + string[vcp+2:]
+                        
+                offset = len(new_chunk) - (vcp + 2 - vop)
+                for k in range(1,lo):
+                    if k >= i+1:
+                        op[k] += offset
 
-                        cp[j] += offset
+                    cp[k] += offset
 
-                    op.pop(i)
-                    cp.pop(0)
-                    l = len(op)
-                    break
-                
-        return output
+                op.pop(i)
+                cp.pop(j)
+                lo -= 1
+                lc -= 1
+                continue
 
+            bl +=1
 
-        
+        if len(self.blacklist):
+            return string
 
-    def process_old(self, string, escape):
-        close_symbol_pos = list()
-        open_symbol_pos	 = list()
-        output		 = str()
-        fields		 = list()
-        i		 = int()
-
-        while i < len(string):
-            if string[i:i+2] == OPEN_SYMBOL:
-                open_symbol_pos.append(i)
-
-            elif string[i:i+2] == CLOSE_SYMBOL:
-                close_symbol_pos.append(i)
-
-            if len(close_symbol_pos) <= len(open_symbol_pos) and len(close_symbol_pos) != 0 and len(open_symbol_pos) != 0:
-                if open_symbol_pos[-1] < close_symbol_pos[-1]:
-                    
-            i+=1
-    
-        return string
+        return self.process(string, escape)
