@@ -145,7 +145,7 @@
 	DONE | Update command help with.
 	DONE | Handle ftp encoding error.
 	DONE | Sort by metadata.
-	WIP  | Speed up blog exportation (almost four times faster!).
+	DONE | Speed up blog exportation (almost five times faster!).
 	WIP  | Chapters engine.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
