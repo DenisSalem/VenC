@@ -75,10 +75,22 @@ def handle_markup_language_error(message, line=None, string=None):
                 else:
                     print(lines[lineno])
 
-# Because parsing is recursive we want to avoid useless computation
-# by splitting a given string and mark where exactly are the patterns 
-# we want to process.
 class PreProcessor():
+    def __init__(self, string):
+        self.open_pattern_pos, self.close_pattern_pos = get_markers_indexes(string)
+        self.len_open_pattern_pos = len(self.open_pattern_pos)
+        self.len_close_pattern_pos = len(self.close_pattern_pos)
+        if self.len_open_pattern_pos != self.len_close_pattern_pos:
+            raise Exception
+        self.string = string
+        self.keep_appart_from_markup_indexes = list()
+        self.keep_appart_from_markup_inc = 0
+
+    def keep_appart_from_markup_indexes_append(paragraphe):
+        self.keep_appart_from_markup_indexes.append((self.keep_appart_from_markup_inc, paragraphe))
+        self.keep_appart_from_markup_inc +=1
+
+class PreProcessor0ld():
     def __init__(self, string):
         self.blacklist = list()
         self.sub_strings = list()
@@ -172,10 +184,10 @@ def parse_markup_language(string, markup_language, source):
 class Processor():
     def __init__(self):
         self.forbidden = []
-        self.functions		 = dict()
-        self.currentString       = str()
-        self.ressource           = str()
-        self.errors              = list()
+        self.functions		    = dict()
+        self.current_input_string   = str()
+        self.ressource              = str()
+        self.errors                 = list()
         self.clean_after_and_before = list()
 
         # Some patterns are contextual while others are constant in time.
@@ -297,8 +309,9 @@ class Processor():
 
         return True
 
+    """
     # Process queue
-    def batch_process(self, input_pre_processed, ressource, escape=False):
+    def old_process(self, input_pre_processed, ressource, escape=False):
         self.ressource = ressource
         pre_processed = deepcopy(input_pre_processed)
         if len(pre_processed.patterns_index) == 0:
@@ -324,7 +337,7 @@ class Processor():
                 )
 
             if (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden) :
-                if current_pattern == "Escape":
+               if current_pattern == "Escape":
                     pre_processed.sub_strings[index] = ''.join(pre_processed.sub_strings[index][2:-2].split('::')[1:])
                     to_remove.append(index)
                     continue
@@ -339,17 +352,15 @@ class Processor():
             pre_processed.patterns_index = remove_by_value(pre_processed.patterns_index, index)
 
         return pre_processed
+    """
 
-    def process(self, string, escape):
-        op, cp = get_markers_indexes(string)
-        lo = len(op)
-        lc = len(cp)
-        if lo != lc:
-            raise Exception
+    def process(self, pre_processed, ressource, escape=False):
+        op, cp, string, lo, lc = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.string, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos
+        if lo == 0 and lc == 0:
+            return pre_processed
+        
 
-        elif lo == 0 and lc == 0:
-            return string
-
+        self.ressource = ressource
         while lo:
             diff = 18446744073709551616
             i = 0
@@ -365,9 +376,25 @@ class Processor():
             vop, vcp = op[i], cp[j]
 
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
-            # this is tested twice???
-            if not fields[0] in self.blacklist and (not fields[0] in self.forbidden):
-                new_chunk = self.run_pattern(fields[0], fields[1:])
+            current_pattern = fields[0]
+            
+            if current_pattern in self.forbidden:
+                self.handle_error(
+                    messages.pattern_is_forbidden_here.format(current_pattern),
+                    ",;"+current_pattern+";;"+";;".join(pre_processed.sub_strings[index][2:-2])+";,",
+                    error_origin = [current_pattern]
+                )
+
+            """ réintégrer l'exclusi0n de certain pattern, réintégrer Escape N0Escape """
+            if (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden) :
+                if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]:
+                    pre_processed.keep_appart_from_markup_index_append(True)
+            
+                elif current_pattern in ["SetColor"]:
+                    pre_processed.keep_appart_from_markup_index_append(False))
+            
+                else:
+                new_chunk = self.run_pattern(current_pattern, fields[1:])
                 if escape:
                     new_chunk = cgi.escape(new_string).encode(
                         'ascii', 
@@ -391,9 +418,8 @@ class Processor():
                 lc -= 1
                 continue
 
-            bl +=1
-
         if len(self.blacklist):
-            return string
+            pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos = lo, lc
+            return pre_processed
 
-        return self.process(string, escape)
+        return self.process(pre_processed, escape)
