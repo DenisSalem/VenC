@@ -96,3 +96,6 @@ class Messages:
     invalid_or_missing_metadata = "\"{0}\": Invalid value or missing metadata in entry \"{1}\"."
     generating_rss = "Generating RSS feed..."
     generating_atom = "Generating Atom feed..."
+    malformed_patterns_missing_closing_symbols = "Malformed patterns in \"{0}\": One or more closing symbols are missing."
+    malformed_patterns_missing_opening_symbols = "Malformed patterns in \"{0}\": One or more closing symbols are missing."
+    loading_data = "Loading data..."

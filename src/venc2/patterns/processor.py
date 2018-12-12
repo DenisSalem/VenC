@@ -29,16 +29,22 @@ from docutils.utils import SystemMessage
 from venc2.helpers import get_formatted_message
 from venc2.helpers import highlight_value
 from venc2.helpers import notify
+from venc2.helpers import die
 from venc2.helpers import remove_by_value
 from venc2.helpers import PatternInvalidArgument
 from venc2.helpers import GenericMessage
 from venc2.l10n import messages
 
-# Special case of KeyError
-class UnknownContextual(KeyError):
-    pass
-
 markup_language_errors = []
+
+def cgi_escape(string):
+    return cgi.escape(string).encode(
+        'ascii', 
+        'xmlcharrefreplace'
+    ).decode(
+        encoding='ascii'
+    )
+
 def get_markers_indexes(string):
     op = []
     cp = []
@@ -75,21 +81,80 @@ def handle_markup_language_error(message, line=None, string=None):
                 else:
                     print(lines[lineno])
 
-class PreProcessor():
-    def __init__(self, string):
+def parse_markup_language(string, markup_language, ressource):
+    if markup_language == "Markdown":
+        string = markdown.markdown(string)
+        
+    elif markup_language == "reStructuredText":
+        string = publish_parts(string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
+
+    elif markup_language != "none":
+            err = messages.unknown_markup_language.format(markup_language, ressource)
+            handle_markup_language_error(err)
+
+    return string
+
+# Special case of KeyError
+class UnknownContextual(KeyError):
+    pass
+
+class ProcessedString():
+    def __init__(self, string, ressource):
         self.open_pattern_pos, self.close_pattern_pos = get_markers_indexes(string)
         self.len_open_pattern_pos = len(self.open_pattern_pos)
         self.len_close_pattern_pos = len(self.close_pattern_pos)
-        if self.len_open_pattern_pos != self.len_close_pattern_pos:
-            raise Exception
+        if self.len_open_pattern_pos > self.len_close_pattern_pos:
+            l = self.open_pattern_pos +  self.close_pattern_pos
+            mn, mx = min(l), max(l)
+            die(messages.malformed_patterns_missing_closing_symbols.format(source))
+            
+        elif self.len_open_pattern_pos > self.len_close_pattern_pos:
+            l = self.open_pattern_pos +  self.close_pattern_pos
+            mn, mx = min(l), max(l)
+            die(messages.malformed_patterns_missing_closing_symbols.format(source))
+
         self.string = string
+        self.ressource = ressource
         self.keep_appart_from_markup_indexes = list()
         self.keep_appart_from_markup_inc = 0
 
-    def keep_appart_from_markup_indexes_append(paragraphe):
-        self.keep_appart_from_markup_indexes.append((self.keep_appart_from_markup_inc, paragraphe))
-        self.keep_appart_from_markup_inc +=1
+    def keep_appart_from_markup_indexes_append(paragraphe, new_chunk, escape):
+        if escape:
+            new_chunk = cgi_escape(new_chunk)
 
+        self.keep_appart_from_markup_indexes.append((self.keep_appart_from_markup_inc, paragraphe, new_chunk))
+        output = "VENC_TEMPORARY_REPLACEMENT_"+str(self.keep_appart_from_markup_inc)
+        self.keep_appart_from_markup_inc +=1
+        return output
+
+    def process_markup_language(self, markup_language, source):
+        try:
+            self.string = parse_markup_language(self.string, markup_language, source)
+        
+        # catch error from reStructuredText
+        except SystemMessage as e:
+            try:
+                line = int(str(e).split(':')[1])
+                msg = str(e).split(':')[2].strip()
+                handle_markup_language_error(source+": "+msg, line=line, string=string)
+
+            except Exception as ee: 
+                print(ee, len(string.split('\n')))
+                handle_markup_language_error(source+", "+str(e))
+        
+        for triplet in self.keep_appart_from_markup_indexes:
+            index, paragraphe, new_chunk = triplet
+            if paragraphe:
+                self.string = self.string.replace(
+                    "<p>VENC_TEMPORARY_REPLACEMENT_"+str(index)+"</p>",
+                    new_chunk
+                )
+            else:
+                self.string = self.string.replace(
+                    "VENC_TEMPORARY_REPLACEMENT_"+str(index),
+                    new_chunk
+                )
+"""
 class PreProcessor0ld():
     def __init__(self, string):
         self.blacklist = list()
@@ -167,19 +232,7 @@ class PreProcessor0ld():
                 )
 
         return string
-
-def parse_markup_language(string, markup_language, source):
-    if markup_language == "Markdown":
-        string = markdown.markdown(string)
-        
-    elif markup_language == "reStructuredText":
-        string = publish_parts(string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
-
-    elif markup_language != "none":
-            err = messages.unknown_markup_language.format(markup_language, source)
-            handle_markup_language_error(err)
-
-    return string
+"""
 
 class Processor():
     def __init__(self):
@@ -188,7 +241,6 @@ class Processor():
         self.current_input_string   = str()
         self.ressource              = str()
         self.errors                 = list()
-        self.clean_after_and_before = list()
 
         # Some patterns are contextual while others are constant in time.
         # To save time we wan't to perform two-pass analysis. In the first one
@@ -354,13 +406,13 @@ class Processor():
         return pre_processed
     """
 
-    def process(self, pre_processed, ressource, escape=False):
+    def process(self, pre_processed, escape=False):
         op, cp, string, lo, lc = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.string, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos
         if lo == 0 and lc == 0:
             return pre_processed
         
 
-        self.ressource = ressource
+        self.ressource = pre_processed.ressource
         while lo:
             diff = 18446744073709551616
             i = 0
@@ -388,20 +440,23 @@ class Processor():
             """ réintégrer l'exclusi0n de certain pattern, réintégrer Escape N0Escape """
             if (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden) :
                 if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]:
-                    pre_processed.keep_appart_from_markup_index_append(True)
+                    new_chunk = pre_processed.keep_appart_from_markup_index_append(
+                        True,
+                        self.run_pattern(current_pattern, fields[1:]),
+                        escape
+                    )
             
                 elif current_pattern in ["SetColor"]:
-                    pre_processed.keep_appart_from_markup_index_append(False))
+                    new_chunk = pre_processed.keep_appart_from_markup_index_append(
+                        False,
+                        self.run_pattern(current_pattern, fields[1:]),
+                        escape,
+                    )
             
                 else:
-                new_chunk = self.run_pattern(current_pattern, fields[1:])
-                if escape:
-                    new_chunk = cgi.escape(new_string).encode(
-                        'ascii', 
-                        'xmlcharrefreplace'
-                    ).decode(
-                        encoding='ascii'
-                    )
+                    new_chunk = self.run_pattern(current_pattern, fields[1:])
+                    if escape:
+                        new_chunk = cgi_escape(new_string)
 
                 string = string[0:vop] + new_chunk + string[vcp+2:]
                         
