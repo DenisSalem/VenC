@@ -94,5 +94,8 @@ class Messages:
     invalid_or_missing_metadata = "\"{0}\": Valeur de meta-donnée invalide ou abstente dans la publication \"{1}\"."
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."
+    malformed_patterns_missing_closing_symbols = "Motifs mal formés dans \"{0}\": Il manque un ou plusieurs symboles de fermeture."
+    malformed_patterns_missing_opening_symbols = "Motifs mal formés dans \"{0}\": Il manque un ou plusieurs symboles d'ouverture."
+    loading_data = "Chargement des données..."
 
 

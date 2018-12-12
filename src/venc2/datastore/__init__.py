@@ -30,6 +30,7 @@ from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 from venc2.datastore.metadata import Chapter
 from venc2.helpers import notify
+from venc2.l10n import messages
 from venc2.patterns.non_contextual import get_embed_content
 
 def merge(iterable, argv):
@@ -37,6 +38,7 @@ def merge(iterable, argv):
 
 class DataStore:
     def __init__(self):
+        notify(messages.loading_data)
         self.blog_configuration = get_blog_configuration()
         self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
         self.entries = list()
@@ -116,7 +118,6 @@ class DataStore:
             return getattr(entry, self.blog_configuration["sort_by"])
 
         except AttributeError:
-            print("FAILED")
             return ''
 
     def set_max_category_weight(self, value):

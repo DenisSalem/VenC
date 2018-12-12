@@ -20,7 +20,7 @@
 from venc2.datastore.entry import EntryWrapper
 from venc2.helpers import die
 from venc2.l10n import messages
-from venc2.patterns.processor import PreProcessor
+from venc2.patterns.processor import ProcessedString
 
 themes_descriptor = {
     "dummy": {"columns":1,"_themeDescription_": messages.theme_description_dummy},
@@ -34,12 +34,12 @@ class Theme:
         non_contextual_pattern_names["audio"] = self.get_audio
 
         try:
-            self.header = PreProcessor(open(theme_folder+"chunks/header.html",'r').read())
-            self.footer = PreProcessor(open(theme_folder+"chunks/footer.html",'r').read())
-            self.rss_header = PreProcessor(open(theme_folder+"chunks/rssHeader.xml",'r').read())
-            self.rss_footer = PreProcessor(open(theme_folder+"chunks/rssFooter.xml",'r').read())
-            self.atom_header = PreProcessor(open(theme_folder+"chunks/atomHeader.xml",'r').read())
-            self.atom_footer = PreProcessor(open(theme_folder+"chunks/atomFooter.xml",'r').read())
+            self.header = ProcessedString(open(theme_folder+"chunks/header.html",'r').read(), "header.html")
+            self.footer = ProcessedString(open(theme_folder+"chunks/footer.html",'r').read(), "footer.html")
+            self.rss_header = ProcessedString(open(theme_folder+"chunks/rssHeader.xml",'r').read(), "rssHeader.html")
+            self.rss_footer = ProcessedString(open(theme_folder+"chunks/rssFooter.xml",'r').read(), "rssFooter.html")
+            self.atom_header = ProcessedString(open(theme_folder+"chunks/atomHeader.xml",'r').read(), "atomHeader.html")
+            self.atom_footer = ProcessedString(open(theme_folder+"chunks/atomFooter.xml",'r').read(), "atomFooter.html")
             
             self.entry = EntryWrapper(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
             self.rss_entry = EntryWrapper(open(theme_folder+"chunks/rssEntry.xml",'r').read(),"rssEntry.xxml")

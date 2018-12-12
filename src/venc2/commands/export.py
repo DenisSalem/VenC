@@ -38,7 +38,7 @@ from venc2.patterns.latex2mathml import Latex2MathML
 from venc2.patterns.contextual import extra_contextual_pattern_names
 from venc2.patterns.non_contextual import non_contextual_pattern_names
 from venc2.patterns.processor import Processor
-from venc2.patterns.processor import PreProcessor
+from venc2.patterns.processor import ProcessedString
 from venc2.threads.categories import CategoriesThread
 from venc2.threads.dates import DatesThread
 from venc2.threads.entries import EntriesThread
@@ -172,11 +172,19 @@ def export_blog(argv=list()):
         except AttributeError:
             markup_language = datastore.blog_configuration["markup_language"]
         
-        entry.preview = PreProcessor(processor.batch_process(entry.preview, entry.filename).process_markup_language(markup_language, entry.filename))
-        entry.content = PreProcessor(processor.batch_process(entry.content, entry.filename).process_markup_language(markup_language, entry.filename))
+        processor.process(entry.preview)
+        entry.preview.process_markup_language(markup_language, entry.filename)
+        
+        processor.process(entry.content, entry.filename)
+        entry.content.process_markup_language(markup_language, entry.filename)
+        
+        print(entry.content.string, entry.preview.string)
+        die("end of test")
+
+        
         entry.html_wrapper = deepcopy(theme.entry)
-        entry.html_wrapper.above = PreProcessor(''.join(processor.batch_process(entry.html_wrapper.above, "entry.html", False).sub_strings))
-        entry.html_wrapper.below = PreProcessor(''.join(processor.batch_process(entry.html_wrapper.below, "entry.html", False).sub_strings))
+        entry.html_wrapper.above = ProcessedString(''.join(processor.batch_process(entry.html_wrapper.above, "entry.html", False).sub_strings))
+        entry.html_wrapper.below = ProcessedString(''.join(processor.batch_process(entry.html_wrapper.below, "entry.html", False).sub_strings))
         
         entry.rss_wrapper = deepcopy(theme.rss_entry)
         entry.rss_wrapper.above = PreProcessor(''.join(processor.batch_process(entry.rss_wrapper.above, "rssEntry.xml", False).sub_strings))
