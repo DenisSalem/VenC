@@ -141,11 +141,11 @@
 	DONE | Add blog generation timestamp.
 	DONE | Split unit-test from main branch
       	DONE | Support ForPage in entries thread.
-	DONE | Escape patterns
 	DONE | Update command help with.
 	DONE | Handle ftp encoding error.
 	DONE | Sort by metadata.
-	WIP  | Speed up blog exportation (almost five times faster!).
+	DONE | Speed up blog exportation (nine times faster!).
+	WIP  | Escape patterns
 	WIP  | Chapters engine.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.

@@ -119,12 +119,12 @@ class ProcessedString():
         self.keep_appart_from_markup_inc = 0
         self.bop, self.bcp = [], []
 
-    def keep_appart_from_markup_indexes_append(paragraphe, new_chunk, escape):
+    def keep_appart_from_markup_indexes_append(self, paragraphe, new_chunk, escape):
         if escape:
             new_chunk = cgi_escape(new_chunk)
 
         self.keep_appart_from_markup_indexes.append((self.keep_appart_from_markup_inc, paragraphe, new_chunk))
-        output = "VENC_TEMPORARY_REPLACEMENT_"+str(self.keep_appart_from_markup_inc)
+        output = "---VENC-TEMPORARY-REPLACEMENT-"+str(self.keep_appart_from_markup_inc)+'---'
         self.keep_appart_from_markup_inc +=1
         return output
 
@@ -145,14 +145,15 @@ class ProcessedString():
         
         for triplet in self.keep_appart_from_markup_indexes:
             index, paragraphe, new_chunk = triplet
+            print(index, new_chunk)
             if paragraphe:
                 self.string = self.string.replace(
-                    "<p>VENC_TEMPORARY_REPLACEMENT_"+str(index)+"</p>",
+                    "<p>---VENC-TEMPORARY-REPLACEMENT-"+str(index)+"---</p>",
                     new_chunk
                 )
             else:
                 self.string = self.string.replace(
-                    "VENC_TEMPORARY_REPLACEMENT_"+str(index),
+                    "---VENC-TEMPORARY-REPLACEMENT-"+str(index)+'---',
                     new_chunk
                 )
 
@@ -313,17 +314,17 @@ class Processor():
             """ réintégrer l'exclusi0n de certain pattern, réintégrer Escape N0Escape """
             if (current_pattern != "GetRelativeOrigin") and (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden) :
                 if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]:
-                    new_chunk = pre_processed.keep_appart_from_markup_index_append(
+                    new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
                         self.run_pattern(current_pattern, fields[1:]),
                         escape
                     )
             
                 elif current_pattern in ["SetColor"]:
-                    new_chunk = pre_processed.keep_appart_from_markup_index_append(
+                    new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         False,
                         self.run_pattern(current_pattern, fields[1:]),
-                        escape,
+                        escape
                     )
             
                 else:
