@@ -173,35 +173,33 @@ def export_blog(argv=list()):
             markup_language = datastore.blog_configuration["markup_language"]
         
         processor.process(entry.preview)
-        entry.preview.process_markup_language(markup_language, entry.filename)
+        entry.preview.process_markup_language(markup_language)
         
-        processor.process(entry.content, entry.filename)
-        entry.content.process_markup_language(markup_language, entry.filename)
-        
-        print(entry.content.string, entry.preview.string)
-        die("end of test")
-
+        processor.process(entry.content)
+        entry.content.process_markup_language(markup_language)
         
         entry.html_wrapper = deepcopy(theme.entry)
-        entry.html_wrapper.above = ProcessedString(''.join(processor.batch_process(entry.html_wrapper.above, "entry.html", False).sub_strings))
-        entry.html_wrapper.below = ProcessedString(''.join(processor.batch_process(entry.html_wrapper.below, "entry.html", False).sub_strings))
+        processor.process(entry.html_wrapper.above)
+        processor.process(entry.html_wrapper.below)
+        
         
         entry.rss_wrapper = deepcopy(theme.rss_entry)
-        entry.rss_wrapper.above = PreProcessor(''.join(processor.batch_process(entry.rss_wrapper.above, "rssEntry.xml", False).sub_strings))
-        entry.rss_wrapper.below = PreProcessor(''.join(processor.batch_process(entry.rss_wrapper.below, "rssEntry.xml", False).sub_strings))
+        processor.process(entry.rss_wrapper.above)
+        processor.process(entry.rss_wrapper.below)
         
         entry.atom_wrapper = deepcopy(theme.atom_entry)
-        entry.atom_wrapper.above = PreProcessor(''.join(processor.batch_process(entry.atom_wrapper.above, "atomEntry.xml", False).sub_strings))
-        entry.atom_wrapper.below = PreProcessor(''.join(processor.batch_process(entry.atom_wrapper.below, "atomEntry.xml", False).sub_strings))
-    
+        processor.process(entry.atom_wrapper.above)
+        processor.process(entry.atom_wrapper.below)
+        
     processor.forbidden = non_contextual_pattern_names_entry_keys
-    theme.header = PreProcessor(''.join(processor.batch_process(theme.header, "header.html").sub_strings))
-    theme.footer = PreProcessor(''.join(processor.batch_process(theme.footer, "footer.html").sub_strings))
-    theme.rss_header = PreProcessor(''.join(processor.batch_process(theme.rss_header, "rssHeader.xml").sub_strings))
-    theme.rss_footer = PreProcessor(''.join(processor.batch_process(theme.rss_footer, "rssFooter.xml").sub_strings))
-    theme.atom_header = PreProcessor(''.join(processor.batch_process(theme.atom_header, "atomHeader.xml").sub_strings))
-    theme.atom_footer = PreProcessor(''.join(processor.batch_process(theme.atom_footer, "atomFooter.xml").sub_strings))
 
+    processor.process(theme.header) 
+    processor.process(theme.footer) 
+    processor.process(theme.rss_header) 
+    processor.process(theme.rss_footer) 
+    processor.process(theme.atom_header)
+    processor.process(theme.atom_footer) 
+    
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
@@ -211,7 +209,6 @@ def export_blog(argv=list()):
     # Starting second pass and exporting
     thread = MainThread(messages.export_main_thread, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
     thread.do()
-
     if not datastore.blog_configuration["disable_archives"]:
         thread = DatesThread(messages.export_archives, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
         thread.do()

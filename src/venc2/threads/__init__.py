@@ -19,6 +19,7 @@
 
 import codecs
 
+from copy import deepcopy
 from math import ceil
 
 from venc2.helpers import notify
@@ -38,9 +39,9 @@ class Thread:
 
         # Setup useful data
         self.theme = theme
-        self.footer = self.theme.footer
-        self.header = self.theme.header
-        self.entry = self.theme.entry
+        self.footer = deepcopy(self.theme.footer)
+        self.header = deepcopy(self.theme.header)
+        self.entry = deepcopy(self.theme.entry)
         self.context_header = "header.html"
         self.context_footer = "footer.html"
         self.content_type = "html"
@@ -225,7 +226,8 @@ class Thread:
 
     def pre_iteration(self):
         self.processor.forbidden = self.forbidden
-        self.output = ''.join(self.processor.batch_process(self.header, self.context_header).sub_strings)
+        self.processor.process(self.header)
+        self.output = self.header.string
         self.processor.forbidden = []
         self.columns_counter = 0
         self.columns = [ '' for i in range(0, self.columns_number) ]
@@ -236,25 +238,30 @@ class Thread:
             self.output += self.column_opening.format(self.columns_counter)+column+self.column_closing
             
         self.processor.forbidden = self.forbidden
-        self.output += ''.join(self.processor.batch_process(self.footer, self.context_footer).sub_strings)
+        self.processor.process(self.footer)
+        self.output += self.footer.string
         
-        self.write_file(self.output, self.page_number)
+        self.write_file(self.output.replace(".:GetRelativeOrigin:.", self.relative_origin), self.page_number)
 
         self.page_number += 1
         self.current_page = self.page_number
 
     def do_iteration(self, entry):
-        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(getattr(entry,self.content_type+"_wrapper").above, entry.filename).sub_strings)
-        if entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.":
-            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename).sub_strings)
-                
-        elif entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread:
-            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.preview, entry.filename).sub_strings)
+        content_header = getattr(entry,self.content_type+"_wrapper").above
+        self.processor.process(content_header)
+        self.columns[self.columns_counter] += content_header.string
+        
+        if (entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.") or (entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread):
+            self.processor.process(entry.preview)
+            self.columns[self.columns_counter] += entry.preview.string
                 
         else: 
-            self.columns[self.columns_counter] += ''.join(self.processor.batch_process(entry.content, entry.filename).sub_strings)
+            self.processor.process(entry.content)
+            self.columns[self.columns_counter] += entry.content.string
 
-        self.columns[self.columns_counter] += ''.join(self.processor.batch_process(getattr(entry,self.content_type+"_wrapper").below, entry.filename).sub_strings)
+        content_footer = getattr(entry,self.content_type+"_wrapper").below
+        self.processor.process(content_footer)
+        self.columns[self.columns_counter] += content_footer.string
 
         self.columns_counter +=1
         if self.columns_counter >= self.columns_number:
@@ -264,14 +271,17 @@ class Thread:
     def do(self):
         self.page_number = 0
         if self.pages_count == 0:
-            output = ''.join(self.processor.batch_process(self.header, self.context_header).sub_strings)
-            output += ''.join(self.processor.batch_process(self.footer, self.context_footer).sub_strings)
+            self.processor.process(self.header)
+            output = self.header.string
+
+            self.processor.process(self.footer)
+            output += self.footer.string
             stream = codecs.open(
                 self.export_path +'/'+ self.format_filename(0),
                 'w',
                 encoding="utf-8"
             )
-            stream.write(output)
+            stream.write(output.replace(".:GetRelativeOrigin:.", self.relative_origin))
             stream.close()
             
         else:
