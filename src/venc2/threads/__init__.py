@@ -78,10 +78,6 @@ class Thread:
         self.pages_count = len(self.pages)
 
     # Must be called in child class
-    def get_relative_origin(self, argv=list()):
-        return self.relative_origin
-
-    # Must be called in child class
     def get_next_page(self,argv=list()):
         if self.current_page < self.pages_count - 1:
             params = {

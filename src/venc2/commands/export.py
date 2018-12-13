@@ -105,7 +105,6 @@ non_contextual_pattern_names_ml = {
 }
 
 contextual_pattern_names = {
-    "GetRelativeOrigin" : "get_relative_origin",
     "IfInThread" : "if_in_thread",
     "IfInArchives" : "if_in_archives",
     "IfInCategories" : "if_in_categories",
