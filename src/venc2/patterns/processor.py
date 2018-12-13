@@ -311,7 +311,7 @@ class Processor():
                 )
 
             """ réintégrer l'exclusi0n de certain pattern, réintégrer Escape N0Escape """
-            if (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden):
+            if (current_pattern != "GetRelativeOrigin") and (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden) :
                 if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]:
                     new_chunk = pre_processed.keep_appart_from_markup_index_append(
                         True,
