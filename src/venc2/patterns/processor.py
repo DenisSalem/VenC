@@ -140,12 +140,10 @@ class ProcessedString():
                 handle_markup_language_error(self.ressource+": "+msg, line=line, string=string)
 
             except Exception as ee: 
-                print(ee, len(string.split('\n')))
                 handle_markup_language_error(self.ressource+", "+str(e))
         
         for triplet in self.keep_appart_from_markup_indexes:
             index, paragraphe, new_chunk = triplet
-            print(index, new_chunk)
             if paragraphe:
                 self.string = self.string.replace(
                     "<p>---VENC-TEMPORARY-REPLACEMENT-"+str(index)+"---</p>",
