@@ -64,7 +64,7 @@ class Thread:
 
 
     # Must be called in child class
-    def get_relative_location():
+    def get_relative_location(self, argv):
         return self.export_path[5:]
 
     # Must be called in child class

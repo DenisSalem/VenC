@@ -45,14 +45,14 @@ def cgi_escape(string):
         encoding='ascii'
     )
 
-def get_markers_indexes(string):
+def get_markers_indexes(string, begin=".:", end=":."):
     op = []
     cp = []
     i = 0
     l = len(string)
     offset=0
     while i < l:
-        i = string.find(".:", i)
+        i = string.find(begin, i)
         if i == -1:
             i=0
             break
@@ -60,7 +60,7 @@ def get_markers_indexes(string):
         i+=2
     
     while i < l:
-        i = string.find(":.", i)
+        i = string.find(end, i)
         if i == -1:
             i=0
             break
@@ -98,20 +98,70 @@ def parse_markup_language(string, markup_language, ressource):
 class UnknownContextual(KeyError):
     pass
 
+def index_in_range(index, ranges):
+    for b, e in ranges:
+        if index >= b and index <= e:
+            return True
+
+    return False
+
 class ProcessedString():
     def __init__(self, string, ressource):
         self.open_pattern_pos, self.close_pattern_pos = get_markers_indexes(string)
+
+        #Process escape
+        self.escapes_o, self.escapes_c = get_markers_indexes(string, begin=".:Escape::", end="::EndEscape:.")
+        escapes = []
+        # Get ranges
+        while len(self.escapes_o):
+            if len(self.escapes_o) > 1:
+                for i in range(1, len(self.escapes_o)):
+                    if self.escapes_o[i] > self.escapes_c[i-1]:
+                        o = self.escapes_o[0]
+                        c = self.escapes_c[i-1]
+                        escapes.append((o,c))
+                        self.escapes_o = self.escapes_o[i:]
+                        self.escapes_c = self.escapes_c[i:]
+                        break
+                    
+            else:
+                escapes.append((
+                    self.escapes_o[0],
+                    self.escapes_c[0]
+                ))
+                break
+
+        if len(escapes):
+            # Remove Escape and EndEscapes, update indexes
+            for i in range(0, len(escapes)):
+                o,c = escapes[i]
+                string = string[:o]+string[o+10:]
+                string = string[:c-10]+string[c+3:]
+                escapes[i] = (o, c-10)
+                self.open_pattern_pos = [(v-23 if v > o+23 else v) for v in self.open_pattern_pos]
+                self.close_pattern_pos = [(v-23 if v > o+23 else v) for v in self.close_pattern_pos]
+                if i == 0:
+                    escapes = escapes[:1]+[ (p[0]-23, p[1]-23) for p in escapes[i+1:] ]
+
+                else:
+                    escapes = escapes[:i+1]+[ (p[0]-23, p[1]-23) for p in escapes[i+1:] ]
+        
+            # finally escapes indexes
+            self.open_pattern_pos = [v for v in self.open_pattern_pos if not index_in_range(v, escapes)]
+            self.close_pattern_pos = [v for v in self.close_pattern_pos if not index_in_range(v, escapes)]
+        
         self.len_open_pattern_pos = len(self.open_pattern_pos)
         self.len_close_pattern_pos = len(self.close_pattern_pos)
+            
         if self.len_open_pattern_pos > self.len_close_pattern_pos:
             l = self.open_pattern_pos +  self.close_pattern_pos
             mn, mx = min(l), max(l)
-            die(messages.malformed_patterns_missing_closing_symbols.format(source))
+            die(messages.malformed_patterns_missing_closing_symbols.format(ressource))
             
-        elif self.len_open_pattern_pos > self.len_close_pattern_pos:
+        elif self.len_open_pattern_pos < self.len_close_pattern_pos:
             l = self.open_pattern_pos +  self.close_pattern_pos
             mn, mx = min(l), max(l)
-            die(messages.malformed_patterns_missing_closing_symbols.format(source))
+            die(messages.malformed_patterns_missing_opening_symbols.format(ressource))
 
         self.string = string
         self.ressource = ressource
@@ -155,6 +205,8 @@ class ProcessedString():
                     new_chunk
                 )
 
+        self.__init__(self.string, self.ressource)
+
 class Processor():
     def __init__(self):
         self.forbidden = []
@@ -188,7 +240,6 @@ class Processor():
                     ",;"+pattern+";;"+";;".join(argv)+";,",
                     error_origin = [':'+pattern+':']
                 )
-                print("THERE")
             else:
                 output = self.handle_error(
                     messages.unknown_contextual.format(e),
@@ -309,7 +360,6 @@ class Processor():
                     error_origin = [current_pattern]
                 )
 
-            """ réintégrer l'exclusi0n de certain pattern, réintégrer Escape N0Escape """
             if (current_pattern != "GetRelativeOrigin") and (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden) :
                 if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
@@ -318,18 +368,18 @@ class Processor():
                         escape
                     )
             
-                elif current_pattern in ["SetColor"]:
+                elif current_pattern == "SetColor":
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         False,
                         self.run_pattern(current_pattern, fields[1:]),
                         escape
                     )
-            
+                
                 else:
                     new_chunk = self.run_pattern(current_pattern, fields[1:])
                     if escape:
                         new_chunk = cgi_escape(new_string)
-                    
+                
                 string = string[0:vop] + new_chunk + string[vcp+2:]
                         
                 offset = len(new_chunk) - (vcp + 2 - vop)
