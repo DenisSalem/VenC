@@ -165,6 +165,7 @@ class ProcessedString():
 
         self.string = string
         self.ressource = ressource
+
         self.keep_appart_from_markup_indexes = list()
         self.keep_appart_from_markup_inc = 0
         self.bop, self.bcp = [], []
@@ -204,7 +205,6 @@ class ProcessedString():
                     "---VENC-TEMPORARY-REPLACEMENT-"+str(index)+'---',
                     new_chunk
                 )
-
         self.__init__(self.string, self.ressource)
 
 class Processor():
@@ -293,7 +293,6 @@ class Processor():
             err+=(''.join(self.current_input_string).strip())
             for origin in error_origin:
                 err = highlight_value(err, origin)
-            
         die(err, "RED")
 
     def set_function(self, key, function):
