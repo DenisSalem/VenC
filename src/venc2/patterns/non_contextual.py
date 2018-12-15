@@ -71,7 +71,7 @@ def get_venc_version(argv):
     return venc_version
 
 def set_color(argv):
-    return "<span style=\"color: "+argv[1]+";\">"+argv[0]+"</span>"
+    return "<span style=\"color: "+('::'.join(argv[1:]))+";\">"+argv[0]+"</span>"
 
 def include_file(argv):
     try:
