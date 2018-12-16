@@ -98,15 +98,15 @@ def parse_markup_language(string, markup_language, ressource):
 class UnknownContextual(KeyError):
     pass
 
-def index_in_range(index, ranges):
+def index_in_range(index, ranges, process_escapes):
     for b, e in ranges:
-        if index >= b and index <= e:
+        if index >= b and index <= (e if process_escapes else e+13):
             return True
 
     return False
 
 class ProcessedString():
-    def __init__(self, string, ressource):
+    def __init__(self, string, ressource, process_escapes=False):
         self.open_pattern_pos, self.close_pattern_pos = get_markers_indexes(string)
 
         #Process escape
@@ -131,7 +131,7 @@ class ProcessedString():
                 ))
                 break
 
-        if len(escapes):
+        if len(escapes) and process_escapes:
             # Remove Escape and EndEscapes, update indexes
             for i in range(0, len(escapes)):
                 o,c = escapes[i]
@@ -146,9 +146,9 @@ class ProcessedString():
                 else:
                     escapes = escapes[:i+1]+[ (p[0]-23, p[1]-23) for p in escapes[i+1:] ]
         
-            # finally escapes indexes
-            self.open_pattern_pos = [v for v in self.open_pattern_pos if not index_in_range(v, escapes)]
-            self.close_pattern_pos = [v for v in self.close_pattern_pos if not index_in_range(v, escapes)]
+        if len(escapes):
+            self.open_pattern_pos = [v for v in self.open_pattern_pos if not index_in_range(v, escapes, process_escapes)]
+            self.close_pattern_pos = [v for v in self.close_pattern_pos if not index_in_range(v, escapes, process_escapes)]
         
         self.len_open_pattern_pos = len(self.open_pattern_pos)
         self.len_close_pattern_pos = len(self.close_pattern_pos)
@@ -161,6 +161,9 @@ class ProcessedString():
         elif self.len_open_pattern_pos < self.len_close_pattern_pos:
             l = self.open_pattern_pos +  self.close_pattern_pos
             mn, mx = min(l), max(l)
+            if ressource == "4__12-14-2018-23-58__escape":
+                print(string, escapes, self.open_pattern_pos, self.close_pattern_pos)
+        
             die(messages.malformed_patterns_missing_opening_symbols.format(ressource))
 
         self.string = string
@@ -205,7 +208,10 @@ class ProcessedString():
                     "---VENC-TEMPORARY-REPLACEMENT-"+str(index)+'---',
                     new_chunk
                 )
-        self.__init__(self.string, self.ressource)
+    
+        if self.ressource == "4__12-14-2018-23-58__escape":
+            print(self.string)
+        self.__init__(self.string, self.ressource, process_escapes=True)
 
 class Processor():
     def __init__(self):
@@ -359,7 +365,7 @@ class Processor():
                     error_origin = [current_pattern]
                 )
 
-            if (current_pattern != "GetRelativeOrigin") and (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden) :
+            if (not current_pattern in ["GetRelativeOrigin","Escape"]) and (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden) :
                 if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
@@ -390,7 +396,7 @@ class Processor():
                 op.pop(i)
                 cp.pop(j)
 
-            elif current_pattern == "GetRelativeOrigin":
+            elif current_pattern in ["GetRelativeOrigin", "Escape"]:
                 op.pop(i)
                 cp.pop(j)
 

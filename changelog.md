@@ -145,7 +145,7 @@
 	DONE | Handle ftp encoding error.
 	DONE | Sort by metadata.
 	DONE | Speed up blog exportation (nine times faster!).
-	WIP  | Escape patterns
+	DONE | Escape patterns
 	WIP  | Chapters engine.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
