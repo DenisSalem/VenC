@@ -111,7 +111,7 @@ class Entry:
         )
         
         try:
-            self.title = metadata["title"]
+            self.title = metadata["title"].replace(".:GetEntryTitle:.",'')
 
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("title", self.id))
