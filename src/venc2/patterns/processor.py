@@ -161,9 +161,6 @@ class ProcessedString():
         elif self.len_open_pattern_pos < self.len_close_pattern_pos:
             l = self.open_pattern_pos +  self.close_pattern_pos
             mn, mx = min(l), max(l)
-            if ressource == "4__12-14-2018-23-58__escape":
-                print(string, escapes, self.open_pattern_pos, self.close_pattern_pos)
-        
             die(messages.malformed_patterns_missing_opening_symbols.format(ressource))
 
         self.string = string

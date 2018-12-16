@@ -99,3 +99,4 @@ class Messages:
     malformed_patterns_missing_closing_symbols = "Malformed patterns in \"{0}\": One or more closing symbols are missing."
     malformed_patterns_missing_opening_symbols = "Malformed patterns in \"{0}\": One or more closing symbols are missing."
     loading_data = "Loading data..."
+    chapter_already_exists = "Chapters \"{0}\" (id = {1}) and \"{2}\" (id = {3}) have the same index \"{4}\"."

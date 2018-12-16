@@ -52,7 +52,9 @@ class DataStore:
         self.html_categories_leaves = {}
         self.html_blog_dates = {}
         self.generation_timestamp = datetime.datetime.now()
-        self.chapters = {}
+        self.raw_chapters = {}
+        self.chapters_index = []
+        self.html_chapters = {}
 
         # Build entries
         for filename in yield_entries_content():
@@ -61,25 +63,21 @@ class DataStore:
         self.entries = sorted(self.entries, key = lambda entry : self.sort_by(entry))
 
         for entry_index in range(0, len(self.entries)):
+            current_entry = self.entries[entry_index]
             if entry_index > 0:
-                self.entries[entry_index-1].next_entry = self.entries[entry_index]
-                self.entries[entry_index].previous_entry = self.entries[entry_index-1]
+                self.entries[entry_index-1].next_entry = current_entry
+                current_entry.previous_entry = self.entries[entry_index-1]
 
             # Update entriesPerDates
             if self.blog_configuration["path"]["dates_directory_name"] != '':
-                formatted_date = self.entries[entry_index].date.strftime(self.blog_configuration["path"]["dates_directory_name"])
+                formatted_date = current_entry.date.strftime(self.blog_configuration["path"]["dates_directory_name"])
                 entries_indexes = self.get_entries_index_for_given_date(formatted_date)
                 if entries_indexes != None:
                     self.entries_per_dates[entries_indexes].count +=1
                     self.entries_per_dates[entries_indexes].related_to.append(entry_index)
+
                 else:
                     self.entries_per_dates.append(MetadataNode(formatted_date, entry_index))
-
-            try:
-                self.update_chapters(self.entries[entry_index].chapter, entry_index)
-
-            except AttributeError:
-                pass
 
             # Update entriesPerCategories
             try:
@@ -90,13 +88,45 @@ class DataStore:
                 notify("\"{0}\": ".format(sub_folders)+str(e), color="YELLOW")
             
             sub_folders = sub_folders if sub_folders != '/' else ''
-            build_categories_tree(entry_index, self.entries[entry_index].raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.blog_configuration["path_encoding"], sub_folders=sub_folders)
+            build_categories_tree(entry_index, current_entry.raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.blog_configuration["path_encoding"], sub_folders=sub_folders)
+            self.update_chapters(current_entry)
     
+        # build chapters index
+        for chapter in sorted(self.raw_chapters.keys()):
+            top = self.chapters_index
+            index = ''
+            levels = [str(level) for level in chapter.split('.') if str(level) != '']
+            len_levels = len(levels)
+            for i in range(0, len_levels):
+                l = levels[i]
+                if index == '':
+                    index = l
+
+                else:
+                    index += '.'+l
+
+                f = filter(lambda c : c.index == index, top)
+                try:
+                    top = next(f).sub_chapters
+                
+                except StopIteration:
+                    try:
+                        top.append(
+                            Chapter(index, self.raw_chapters[index][1], self.raw_chapters[index][2])
+                        )
+                    except KeyError:
+                        top.append(
+                            Chapter(index, '', '')
+                        )
+                        top = top[-1].sub_chapters
+
+
         # Setup BlogDates Data
         self.blog_dates = list()
         for node in self.entries_per_dates:
             try:
                 sub_folders = urllib.parse.quote(self.blog_configuration["path"]["dates_sub_folders"]+'/', encoding=self.blog_configuration["path_encoding"])
+
             except UnicodeEncodeError as e:
                 sub_folders = self.blog_configuration["path"]["dates_sub_folders"]+'/'
                 notify("\"{0}\": ".format(sub_folders)+str(e), color="YELLOW")
@@ -110,9 +140,55 @@ class DataStore:
                 "weight": node.weight
             })
 
-    def update_chapters(self, chapter, entry_index):
-        pass
-        
+    def get_chapters(self, argv):
+        key = ''.join(argv)
+        if not key in self.html_chapters.keys():
+            self.html_chapters[key] = self.build_html_chapters(argv, self.chapters_index, 0)
+
+        return self.html_chapters[key]
+
+    def build_html_chapters(self, argv, top, level):
+        lo, io, ic, lc = argv
+        if top == []:
+            return ''
+
+        output = lo.format(**{"level" :level})
+        for sub_chapters in top:
+            output += io.format(**{
+                "index": sub_chapters.index,
+                "title": sub_chapters.title,
+                "path": sub_chapters.path,
+                "level": level
+            })
+            output += self.build_html_chapters(argv, sub_chapters.sub_chapters, level+1)
+            output += ic
+            
+        output += lc
+        return output
+
+    def update_chapters(self, entry):
+        try:
+            chapter = str(entry.chapter)
+            [ int(level) for level in chapter.split('.') if level != '']
+
+        except ValueError as e: # weak test to check attribute conformity
+            return
+
+        except AttributeError as e: # does entry has chapter?
+            return
+
+        if chapter in self.raw_chapters.keys():
+            from venc2.helpers import die
+            die(messages.chapter_already_exists.format(
+                entry.title,
+                entry.id,
+                self.raw_chapters[chapter][1],
+                self.raw_chapters[chapter][0],
+                chapter
+            ))
+        else:
+            self.raw_chapters[chapter] = (entry.id, entry.title, entry.url)
+
     def sort_by(self, entry):
         try:
             return getattr(entry, self.blog_configuration["sort_by"])

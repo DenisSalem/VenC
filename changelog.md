@@ -144,12 +144,13 @@
 	DONE | Update command help with.
 	DONE | Handle ftp encoding error.
 	DONE | Sort by metadata.
-	DONE | Speed up blog exportation (nine times faster!).
-	DONE | Escape patterns
-	WIP  | Chapters engine.
+	DONE | Speed up blog exportation (almost nine times faster!).
+	DONE | Escape patterns.
+	DONE | Chapters engine.
+	TODO | Fix unit test.
+	TODO | Fix pattern (i.e .:GetEntryTitle:.) access in template's metadata.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
-	TODO | Fix unit test.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
 	TODO | Add relevant templates for themes.
 	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
@@ -162,6 +163,7 @@
 	TODO | Make some dependencies optional.
 	TODO | Split themes from main branch
 	TODO | Add translation for Deutsch and Spanish.
+	TODO | Add ForMetadata, ForMetadataIfExists
 	TODO | Add docutils reStructuredText parser settings override.
 	TODO | Decrease halt_level to render reStructuredText even if errors occurs.
 	TODO | Access {count} and {weight} from LeavesForEntrycategories.
