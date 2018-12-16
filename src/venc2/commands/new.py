@@ -73,8 +73,6 @@ def new_entry(argv):
     entry["minute"] = raw_entry_date.minute
     entry["date"] = raw_entry_date
 
-
-
     entry_date = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
     output_filename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entry_date+"__"+entry["title"].replace(' ','_')
 
@@ -84,7 +82,7 @@ def new_entry(argv):
    
     else:
         try:
-            output = open(os.getcwd()+'/templates/'+argv[1], 'r').read()
+            output = open(os.getcwd()+'/templates/'+argv[1], 'r').read().replace(".:GetEntryTitle:.", argv[0])
 
         except FileNotFoundError as e:
             die(messages.file_not_found.format(os.getcwd()+"/templates/"+argv[1]))
