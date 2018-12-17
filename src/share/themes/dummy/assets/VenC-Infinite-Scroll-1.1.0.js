@@ -40,7 +40,7 @@ var VENC_INFINITE_SCROLL = {
 			console.log("VenC: There is more than one infinite scroll hook in DOM. Aborting...")
 
 		}
-		console.log("getPageHook", this.pageHook);
+		console.log("VenC: Hook", this.pageHook);
 	},
 	getContent : function() {
 		if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -50,7 +50,7 @@ var VENC_INFINITE_SCROLL = {
 			this.xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 		}
 		this.xmlhttp.onreadystatechange = this.domUpdate;
-		this.xmlhttp.open("GET",this.pageHook,true);
+		this.xmlhttp.open("GET", this.pageHook, true);
 		this.xmlhttp.send();
 	},
 	dontWait: false,
@@ -81,6 +81,9 @@ function VENC_INFINITE_SCROLL_UPDATE_DOM() {
 						VENC_INFINITE_SCROLL.queue++;
 						VENC_INFINITE_SCROLL.imageDefaultSetup(images[k]);
 						images[k].loaded = false;
+						images[k].onerror = function(e) {
+							this.onload(e);
+						}
 						images[k].onload = function(e) {
 					  		this.loaded = true;
 							VENC_INFINITE_SCROLL.queue--;

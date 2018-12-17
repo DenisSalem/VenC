@@ -149,8 +149,8 @@
 	DONE | Chapters engine.
 	DONE | Fix pattern (i.e .:GetEntryTitle:.) access in template's metadata.
 	DONE | Infinite scroll use html anchor instead of harcoded indexing.
-	WIP  | Prevent Infinite scroll to block when ressource isn't available.
-	TODO | Fix unit test.
+	DONE | Prevent Infinite scroll to block when ressource isn't available.
+	TODO | rewrite unit tests.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
@@ -175,5 +175,4 @@
 	TODO | Improve Feed.
 	TODO | Print out what's going on while FTP transfert.
 	TODO | Fix gvim / -ex.
-	TODO | run local server as daemon.
 	TODO | Warn about entry title duplicates.
