@@ -148,6 +148,9 @@
 	DONE | Escape patterns.
 	DONE | Chapters engine.
 	DONE | Fix pattern (i.e .:GetEntryTitle:.) access in template's metadata.
+	WIP  | Infinite scroll use html anchor instead of harcoded indexing.
+	WIP  | Prevent Infinite scroll to block when ressource isn't available.
+	WIP  | Code improvement on Infinite Scroll
 	TODO | Fix unit test.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.

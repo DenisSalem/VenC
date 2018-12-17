@@ -33,6 +33,7 @@ class Thread:
         # Notify wich thread is processed
         if prompt != "":
             notify(prompt)
+
         self.forbidden = forbidden
         self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])
         self.disable_threads = datastore.disable_threads
@@ -78,7 +79,7 @@ class Thread:
         self.pages_count = len(self.pages)
 
     # Must be called in child class
-    def get_next_page(self,argv=list()):
+    def get_next_page(self, argv):
         if self.current_page < self.pages_count - 1:
             params = {
                 "page_number" : str(self.current_page + 1),
@@ -105,7 +106,7 @@ class Thread:
             return str()
 
     # Must be called in child class
-    def get_previous_page(self, argv=list()):
+    def get_previous_page(self, argv):
         if self.current_page > 0:
             params = {
                 "page_number" : str(self.current_page - 1) if self.current_page - 1 != 0 else '',
@@ -222,8 +223,9 @@ class Thread:
 
     def pre_iteration(self):
         self.processor.forbidden = self.forbidden
-        self.processor.process(self.header)
+        self.processor.process(self.header, safe_process = True)
         self.output = self.header.string
+        self.header.restore()
         self.processor.forbidden = []
         self.columns_counter = 0
         self.columns = [ '' for i in range(0, self.columns_number) ]
@@ -234,8 +236,9 @@ class Thread:
             self.output += self.column_opening.format(self.columns_counter)+column+self.column_closing
             
         self.processor.forbidden = self.forbidden
-        self.processor.process(self.footer)
+        self.processor.process(self.footer, safe_process = True)
         self.output += self.footer.string
+        self.footer.restore()
         
         self.write_file(self.output.replace(".:GetRelativeOrigin:.", self.relative_origin), self.page_number)
 
@@ -244,20 +247,24 @@ class Thread:
 
     def do_iteration(self, entry):
         content_header = getattr(entry,self.content_type+"_wrapper").above
-        self.processor.process(content_header)
+        self.processor.process(content_header, safe_process = True)
         self.columns[self.columns_counter] += content_header.string
+        content_header.restore()
         
         if (entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.") or (entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread):
-            self.processor.process(entry.preview)
+            self.processor.process(entry.preview, safe_process = True)
             self.columns[self.columns_counter] += entry.preview.string
+            entry.preview.restore()
                 
         else: 
-            self.processor.process(entry.content)
+            self.processor.process(entry.content, safe_process = True)
             self.columns[self.columns_counter] += entry.content.string
+            entry.content.restore()
 
         content_footer = getattr(entry,self.content_type+"_wrapper").below
-        self.processor.process(content_footer)
+        self.processor.process(content_footer, safe_process = True)
         self.columns[self.columns_counter] += content_footer.string
+        content_footer.restore()
 
         self.columns_counter +=1
         if self.columns_counter >= self.columns_number:
