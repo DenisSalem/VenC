@@ -169,6 +169,12 @@ class ProcessedString():
         self.keep_appart_from_markup_indexes = list()
         self.keep_appart_from_markup_inc = 0
         self.bop, self.bcp = [], []
+        self.backup = None
+
+    def restore(self):
+        self.open_pattern_pos, self.close_pattern_pos, self.len_open_pattern_pos, self.len_close_pattern_pos, self.string = self.backup
+        self.backup = None
+
 
     def keep_appart_from_markup_indexes_append(self, paragraphe, new_chunk, escape):
         if escape:
@@ -329,8 +335,15 @@ class Processor():
 
         return True
 
-    def process(self, pre_processed, escape=False):
-        op, cp, string, lo, lc = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.string, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos
+    def process(self, pre_processed, escape=False, safe_process=False):
+        op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
+        if safe_process and pre_processed.backup == None:
+            try:
+                pre_processed.backup = (list(op), list(cp), lo, lc, str(pre_processed.string))
+            
+            except Exception as e:
+                print(op, cp, lo, lc, string)
+
         if lo == 0 and lc == 0:
             op, cp = sorted(op+pre_processed.bop), sorted(cp+pre_processed.bcp)
             pre_processed.bop, pre_processed.bcp = [], []
@@ -354,11 +367,12 @@ class Processor():
             vop, vcp = op[i], cp[j]
 
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
+            
             current_pattern = fields[0]
             if current_pattern in self.forbidden:
                 self.handle_error(
                     messages.pattern_is_forbidden_here.format(current_pattern),
-                    ",;"+current_pattern+";;"+";;".join(pre_processed.sub_strings[index][2:-2])+";,",
+                    ",;"+current_pattern+";;"+";;".join(string[vop+2:vcp].split("::"))+";,",
                     error_origin = [current_pattern]
                 )
 
@@ -403,5 +417,7 @@ class Processor():
 
             lo -= 1
             lc -= 1
-        pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.string = lo, lc, op, cp, string
-        self.process(pre_processed, escape)
+
+        pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.open_pattern_pos, pre_processed.close_pattern_pos = lo, lc, op, cp
+        pre_processed.string = string
+        self.process(pre_processed, escape, safe_process)
