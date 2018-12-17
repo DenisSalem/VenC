@@ -175,4 +175,5 @@
 	TODO | Improve Feed.
 	TODO | Print out what's going on while FTP transfert.
 	TODO | Fix gvim / -ex.
+	TODO | run local server as daemon.
 	TODO | Warn about entry title duplicates.
