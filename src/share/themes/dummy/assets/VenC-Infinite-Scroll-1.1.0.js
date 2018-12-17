@@ -1,7 +1,8 @@
 var VENC_INFINITE_SCROLL = {
 	queue: 0,
+	end: false,
 	hideVenCNavigation: true,
-	pageOffset : 0,
+	pageHook : "",
 	interval : 250,
 	xmlhttp : Object,
 	timer: Object,
@@ -30,33 +31,34 @@ var VENC_INFINITE_SCROLL = {
 			console.log("VenC: There is no __VENC_LOADING__ element.");
 		}
 	},
-	initPageOffset : function() {
-		currentFilename = this.currentLocation;
-		if (currentFilename == '' | currentFilename == "index.html")
-			currentFilename = '0';
-		else if (currentFilename.replace( /[.html0123456789]+/g, '') != "index") {
-			return;
+	getPageHook : function() {
+		v = document.querySelectorAll('[data-venc-api-infinite-scroll-hook]')
+		if (v.length == 1) {
+			this.pageHook = v[0].dataset.vencApiInfiniteScrollHook;
 		}
-        	this.pageOffset = parseInt(currentFilename.replace( /^\D+/g, '').replace( /[.html]+/g,''))+1;
+		else if (v.length > 1) {
+			console.log("VenC: There is more than one infinite scroll hook in DOM. Aborting...")
+
+		}
+		console.log("getPageHook", this.pageHook);
 	},
-	pushColumns : function() {
+	getContent : function() {
 		if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
 			this.xmlhttp = new XMLHttpRequest();
 		}
 		else { // code for IE6, IE5
 			this.xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 		}
-		this.xmlhttp.onreadystatechange = this.ajax;
-		this.xmlhttp.open("GET","index"+this.pageOffset+".html",true);
-		this.pageOffset++;
+		this.xmlhttp.onreadystatechange = this.domUpdate;
+		this.xmlhttp.open("GET",this.pageHook,true);
 		this.xmlhttp.send();
 	},
 	dontWait: false,
 	currentLocation : Object,
-	ajax : Object
+	domUpdate : Object
 };
 
-function VENC_INFINITE_SCROLL_AJAX() {
+function VENC_INFINITE_SCROLL_UPDATE_DOM() {
 	if (VENC_INFINITE_SCROLL.xmlhttp.readyState == 4 && VENC_INFINITE_SCROLL.xmlhttp.status == 200) {
 		xmlDoc = document.implementation.createHTMLDocument('');
 		xmlDoc.body.innerHTML = VENC_INFINITE_SCROLL.xmlhttp.responseText;
@@ -99,10 +101,30 @@ function VENC_INFINITE_SCROLL_AJAX() {
 				currentColumns[i].appendChild(entriesClones[j]);
 			}
 		}
+		// Update Hook
+		new_hook = xmlDoc.querySelectorAll('[data-venc-api-infinite-scroll-hook]')
+		old_hook = document.querySelectorAll('[data-venc-api-infinite-scroll-hook]')
+		if (new_hook.length == 1) {
+			// There is no verificaton because hook exists at this point of code.
+			oh = old_hook[0];
+			old_hook_parent = oh.parentNode;
+			old_hook_parent.replaceChild(new_hook[0], oh);
+			VENC_INFINITE_SCROLL.getPageHook();
+		}
+		else {
+			console.log("VenC: Infinite Scroll hook not found. Exiting...");
+			VENC_INFINITE_SCROLL.end = true;
+		}
+
 	}
 };
 
 function VENC_INFINITE_SCROLL_RUN() {
+  	if (VENC_INFINITE_SCROLL.end) {
+		clearInterval(VENC_INFINITE_SCROLL.timer);
+		console.log("VenC: Done.")
+		return;
+	}
 	if (VENC_INFINITE_SCROLL.queue == 0) {
 		VENC_INFINITE_SCROLL.idle();
 	}
@@ -113,8 +135,8 @@ function VENC_INFINITE_SCROLL_RUN() {
 	viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 	for (i=0; i < currentColumns.length; i++) {
 		if (currentColumns[i].clientHeight <= viewPortHeight + window.pageYOffset) {
-			if ((VENC_INFINITE_SCROLL.queue == 0 || VENC_INFINITE_SCROLL.dontWait) && (VENC_INFINITE_SCROLL.currentLocation.replace( /[.html0123456789]+/g, '') == "index" || VENC_INFINITE_SCROLL.currentLocation == "")) {
-				VENC_INFINITE_SCROLL.pushColumns();
+			if ((VENC_INFINITE_SCROLL.queue == 0 || VENC_INFINITE_SCROLL.dontWait) && !VENC_INFINITE_SCROLL.end) {
+				VENC_INFINITE_SCROLL.getContent();
 				return 1;
 			}
 		}
@@ -124,7 +146,7 @@ function VENC_INFINITE_SCROLL_RUN() {
 
 function VENC_INFINITE_SCROLL_ON_LOAD() {
 	VENC_INFINITE_SCROLL.currentLocation = window.location.pathname.split('/')[window.location.pathname.split('/').length-1]
-	VENC_INFINITE_SCROLL.initPageOffset()
+	VENC_INFINITE_SCROLL.getPageHook()
 	if (VENC_INFINITE_SCROLL.hideVenCNavigation && (VENC_INFINITE_SCROLL.currentLocation.replace( /[.html0123456789]+/g, '') == "index" || VENC_INFINITE_SCROLL.currentLocation == "")) {
        		try {
 	 	 	document.getElementById("__VENC_NAVIGATION__").setAttribute("style","display: none;");
@@ -133,7 +155,7 @@ function VENC_INFINITE_SCROLL_ON_LOAD() {
        			console.log("VenC: There is no __VENC_NAVIGATION__ element.");
        		}
 	}
-	VENC_INFINITE_SCROLL.ajax = VENC_INFINITE_SCROLL_AJAX;
+	VENC_INFINITE_SCROLL.domUpdate = VENC_INFINITE_SCROLL_UPDATE_DOM;
 	VENC_INFINITE_SCROLL.timer = setInterval(VENC_INFINITE_SCROLL_RUN, VENC_INFINITE_SCROLL.interval);
 };
 
