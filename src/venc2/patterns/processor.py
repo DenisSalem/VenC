@@ -108,7 +108,7 @@ def index_in_range(index, ranges, process_escapes):
 class ProcessedString():
     def __init__(self, string, ressource, process_escapes=False):
         self.open_pattern_pos, self.close_pattern_pos = get_markers_indexes(string)
-
+        
         #Process escape
         self.escapes_o, self.escapes_c = get_markers_indexes(string, begin=".:Escape::", end="::EndEscape:.")
         escapes = []
@@ -218,16 +218,10 @@ class ProcessedString():
 
 class Processor():
     def __init__(self):
-        self.forbidden = []
+        self.debug = False
         self.functions		    = dict()
         self.current_input_string   = str()
         self.ressource              = str()
-
-        # Some patterns are contextual while others are constant in time.
-        # To save time we wan't to perform two-pass analysis. In the first one
-        # we're ignoring some given patterns which usualy are contextual. Once
-        # non-contextual pattern are parsed the second pass occurs each time we
-        # require the given string in every needed context
         self.blacklist = list()
 
     # Run any pattern and catch exception nicely
@@ -237,6 +231,7 @@ class Processor():
         
         except UnknownContextual as e:
                 output = self.handle_error(
+                    e,
                     messages.unknown_contextual.format(e),
                     ",;"+pattern+";;"+";;".join(argv)+";,",
                     error_origin = "{0["+str(e)[1:-1]+']}'
@@ -245,12 +240,14 @@ class Processor():
         except KeyError as e:
             if str(e)[1:-1] == pattern:
                 output =  self.handle_error(
+                    e,
                     messages.unknown_pattern.format(pattern),
                     ",;"+pattern+";;"+";;".join(argv)+";,",
                     error_origin = [':'+pattern+':']
                 )
             else:
                 output = self.handle_error(
+                    e,
                     messages.unknown_contextual.format(e),
                     ",;"+pattern+";;"+";;".join(argv)+";,",
                     error_origin = [':'+str(e)[1:-1]+':','{0['+str(e)[1:-1]+']}', ':'+pattern+':'] # first item might be useless ???
@@ -258,13 +255,15 @@ class Processor():
 
         except AttributeError as e:
                 output = self.handle_error(
+                    e,
                     messages.unknown_contextual.format(e),
                     ",;"+pattern+";;"+";;".join(argv)+";,",
                     error_origin = [str(e).split("'")[-2], ':'+pattern+':']
                 )
         
-        except IndexError:
+        except ValueError:
             output = self.handle_error(
+                e,
                 pattern+": "+messages.not_enough_args,
                 ",;"+pattern+";;"+";;".join(argv)+";,",
                 [pattern]
@@ -272,6 +271,7 @@ class Processor():
 
         except PatternInvalidArgument as e:
             output = self.handle_error(
+                e,
                 messages.wrong_pattern_argument.format(e.name, e.value, pattern)+' '+e.message,
                 ",;"+pattern+";;"+";;".join(argv)+";,",
                 error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
@@ -279,6 +279,7 @@ class Processor():
 
         except GenericMessage as e: 
             output = self.handle_error(
+                e,
                 e.message,
                 ",;"+pattern+";;"+";;".join(argv)+";,",
                 error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
@@ -286,14 +287,19 @@ class Processor():
 
         except FileNotFoundError as e:
             output = self.handle_error(
+                e,
                 messages.file_not_found.format(e.filename),
                 ",;"+pattern+";;"+";;".join(argv)+";,",
                 error_origin = [e.filename ]
             )
+
         return str(output)
 
     # Print out notification to user and replace erroneous pattern
-    def handle_error(self, error, default_output, error_origin = list()):
+    def handle_error(self, exception, error, default_output, error_origin = list()):
+        if self.debug:
+            raise exception
+
         err = get_formatted_message(error, "RED")+"\n"
         if self.ressource != str():
             err = messages.in_ressource.format(self.ressource)+'\n'+err
@@ -369,14 +375,7 @@ class Processor():
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
             
             current_pattern = fields[0]
-            if current_pattern in self.forbidden:
-                self.handle_error(
-                    messages.pattern_is_forbidden_here.format(current_pattern),
-                    ",;"+current_pattern+";;"+";;".join(string[vop+2:vcp].split("::"))+";,",
-                    error_origin = [current_pattern]
-                )
-
-            if (not current_pattern in ["GetRelativeOrigin","Escape"]) and (not current_pattern in self.blacklist) and (not current_pattern in self.forbidden) :
+            if (not current_pattern in ["GetRelativeOrigin","Escape"]) and (not current_pattern in self.blacklist):
                 if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
