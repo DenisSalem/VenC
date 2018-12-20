@@ -191,8 +191,6 @@ def export_blog(argv=list()):
         processor.process(entry.atom_wrapper.above)
         processor.process(entry.atom_wrapper.below)
         
-    processor.forbidden = non_contextual_pattern_names_entry_keys
-
     processor.process(theme.header) 
     processor.process(theme.footer) 
     processor.process(theme.rss_header) 

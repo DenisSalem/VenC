@@ -222,11 +222,11 @@ class Thread:
         stream.close()
 
     def pre_iteration(self):
-        self.processor.forbidden = self.forbidden
+        self.processor.blacklist = self.forbidden
         self.processor.process(self.header, safe_process = True)
         self.output = self.header.string
         self.header.restore()
-        self.processor.forbidden = []
+        self.processor.blacklist = []
         self.columns_counter = 0
         self.columns = [ '' for i in range(0, self.columns_number) ]
     
@@ -235,7 +235,7 @@ class Thread:
         for column in self.columns:
             self.output += self.column_opening.format(self.columns_counter)+column+self.column_closing
             
-        self.processor.forbidden = self.forbidden
+        self.processor.blacklist = self.forbidden
         self.processor.process(self.footer, safe_process = True)
         self.output += self.footer.string
         self.footer.restore()

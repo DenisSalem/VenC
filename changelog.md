@@ -150,7 +150,7 @@
 	DONE | Fix pattern (i.e .:GetEntryTitle:.) access in template's metadata.
 	DONE | Infinite scroll use html anchor instead of harcoded indexing.
 	DONE | Prevent Infinite scroll to block when ressource isn't available.
-	TODO | rewrite unit tests.
+	WIP  | rewrite unit tests.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
