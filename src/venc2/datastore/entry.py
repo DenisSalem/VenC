@@ -69,6 +69,7 @@ class Entry:
             if len(entry_parted) == 3:
                 self.preview = ProcessedString(entry_parted[1], filename)
                 self.content = ProcessedString(entry_parted[2], filename)
+
                 try:
                     metadata = yaml.load(entry_parted[0])
 

@@ -20,7 +20,7 @@
 import latex2mathml.converter
 
 from venc2.l10n import messages
-from venc2.helpers import PatternInvalidArgument
+from venc2.patterns.exceptions import PatternInvalidArgument
 
 def Latex2MathML(argv):
     tex_math_string = argv[0]

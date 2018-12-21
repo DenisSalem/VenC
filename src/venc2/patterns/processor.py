@@ -19,8 +19,6 @@
 
 import cgi
 import markdown2 as markdown
-import venc2.l10n
-import venc2.helpers
 
 from copy import deepcopy
 from docutils.core import publish_parts
@@ -31,8 +29,6 @@ from venc2.helpers import highlight_value
 from venc2.helpers import notify
 from venc2.helpers import die
 from venc2.helpers import remove_by_value
-from venc2.helpers import PatternInvalidArgument
-from venc2.helpers import GenericMessage
 from venc2.l10n import messages
 
 markup_language_errors = []
@@ -94,10 +90,6 @@ def parse_markup_language(string, markup_language, ressource):
 
     return string
 
-# Special case of KeyError
-class UnknownContextual(KeyError):
-    pass
-
 def index_in_range(index, ranges, process_escapes):
     for b, e in ranges:
         if index >= b and index <= (e if process_escapes else e+13):
@@ -111,6 +103,10 @@ class ProcessedString():
         
         #Process escape
         self.escapes_o, self.escapes_c = get_markers_indexes(string, begin=".:Escape::", end="::EndEscape:.")
+        leo, lec = len(self.escapes_o), len(self.escapes_c)
+        if leo != lec:
+            raise MalformedPatterns(leo > lec, True, ressource)
+        
         escapes = []
         # Get ranges
         while len(self.escapes_o):
@@ -149,17 +145,14 @@ class ProcessedString():
         if len(escapes):
             self.open_pattern_pos = [v for v in self.open_pattern_pos if not index_in_range(v, escapes, process_escapes)]
             self.close_pattern_pos = [v for v in self.close_pattern_pos if not index_in_range(v, escapes, process_escapes)]
+
         self.len_open_pattern_pos = len(self.open_pattern_pos)
         self.len_close_pattern_pos = len(self.close_pattern_pos)
             
         if self.len_open_pattern_pos > self.len_close_pattern_pos:
-            l = self.open_pattern_pos +  self.close_pattern_pos
-            mn, mx = min(l), max(l)
             die(messages.malformed_patterns_missing_closing_symbols.format(ressource))
             
         elif self.len_open_pattern_pos < self.len_close_pattern_pos:
-            l = self.open_pattern_pos +  self.close_pattern_pos
-            mn, mx = min(l), max(l)
             die(messages.malformed_patterns_missing_opening_symbols.format(ressource))
 
         self.string = string

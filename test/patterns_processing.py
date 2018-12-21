@@ -55,8 +55,8 @@ testname_input_output = [
     ),
     (
         "Escaping surrounded by Escape patterns.",
-        "moo .:Escape:: .:NoRage:. ::EndScape:. foo .:Escape:: .:mul::1::1:. ::EndEscape:. boo .:Escape:: .:NoPattern:. What could possibly go wrong here? ::EndEscape:. bar",
-        "moo 2 foo  .:mul::1::1:.  boo 4 bar",
+        "moo .:Escape:: .:NoRage:. ::EndEscape:. foo .:Escape:: .:mul::1::1:. ::EndEscape:. boo .:Escape:: .:NoPattern:. What could possibly go wrong here? ::EndEscape:. bar",
+        "moo  .:NoRage:.  foo  .:mul::1::1:.  boo  .:NoPattern:. What could possibly go wrong here?  bar",
         True
     )
 ]

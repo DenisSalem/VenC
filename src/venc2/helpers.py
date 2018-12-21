@@ -26,11 +26,6 @@ import shutil
 
 from venc2.l10n import messages
 
-class PatternInvalidArgument(Exception):
-    def __init__(self, name, value, message):
-        self.name = name
-        self.value = value
-        self.message = message
 
 class GenericMessage(Exception):
     def __init__(self, message):
@@ -45,6 +40,16 @@ msg_format = {
 
 # hold error messages
 errors=list()
+
+def handle_malformed_patterns(e):
+    if e.escape:
+        if e.too_many_openings_symbols:
+            die(messages.malformed_escape_patterns_missing_closing_symbols.format(e.ressource))
+        die(messages.malformed_escape_patterns_missing_opening_symbols.format(e.ressource))
+    
+    if e.too_many_openings_symbols:
+        die(messages.malformed_patterns_missing_closing_symbols.format(e.ressource))
+    die(messages.malformed_patterns_missing_opening_symbols.format(e.ressource))
 
 # Some data printed out may exceed few lines so
 # it's nicer to highlight specific part of the output

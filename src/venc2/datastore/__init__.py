@@ -32,6 +32,7 @@ from venc2.datastore.metadata import Chapter
 from venc2.helpers import notify
 from venc2.l10n import messages
 from venc2.patterns.non_contextual import get_embed_content
+from venc2.patterns.exceptions import MalformedPatterns
 
 def merge(iterable, argv):
     return argv[1].join([argv[0].format(**something) for something in iterable])
@@ -57,9 +58,14 @@ class DataStore:
         self.html_chapters = {}
 
         # Build entries
-        for filename in yield_entries_content():
-            self.entries.append(Entry(filename, self.blog_configuration["path"], encoding=self.blog_configuration["path_encoding"]))
-        
+        try:
+            for filename in yield_entries_content():
+                self.entries.append(Entry(filename, self.blog_configuration["path"], encoding=self.blog_configuration["path_encoding"]))
+
+        except MalformedPatterns as e:
+            from venc2.helpers import handle_malformed_patterns
+            handle_malformed_patterns(e)
+
         self.entries = sorted(self.entries, key = lambda entry : self.sort_by(entry))
 
         for entry_index in range(0, len(self.entries)):
