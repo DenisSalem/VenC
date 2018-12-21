@@ -35,12 +35,19 @@ var VENC_INFINITE_SCROLL = {
 		v = document.querySelectorAll('[data-venc-api-infinite-scroll-hook]')
 		if (v.length == 1) {
 			this.pageHook = v[0].dataset.vencApiInfiniteScrollHook;
+			console.log("VenC: Hook", this.pageHook);
 		}
 		else if (v.length > 1) {
 			console.log("VenC: There is more than one infinite scroll hook in DOM. Aborting...")
+		  	this.end = true;
+			return
 
 		}
-		console.log("VenC: Hook", this.pageHook);
+		else {
+		  	console.log("VenC: Infinite Scroll hook not found. Exiting...");
+		  	this.end = true;
+			return;
+		}
 	},
 	getContent : function() {
 		if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -150,7 +157,7 @@ function VENC_INFINITE_SCROLL_RUN() {
 function VENC_INFINITE_SCROLL_ON_LOAD() {
 	VENC_INFINITE_SCROLL.currentLocation = window.location.pathname.split('/')[window.location.pathname.split('/').length-1]
 	VENC_INFINITE_SCROLL.getPageHook()
-	if (VENC_INFINITE_SCROLL.hideVenCNavigation && (VENC_INFINITE_SCROLL.currentLocation.replace( /[.html0123456789]+/g, '') == "index" || VENC_INFINITE_SCROLL.currentLocation == "")) {
+	if (VENC_INFINITE_SCROLL.hideVenCNavigation) {
        		try {
 	 	 	document.getElementById("__VENC_NAVIGATION__").setAttribute("style","display: none;");
 		}
@@ -158,7 +165,10 @@ function VENC_INFINITE_SCROLL_ON_LOAD() {
        			console.log("VenC: There is no __VENC_NAVIGATION__ element.");
        		}
 	}
-	VENC_INFINITE_SCROLL.domUpdate = VENC_INFINITE_SCROLL_UPDATE_DOM;
-	VENC_INFINITE_SCROLL.timer = setInterval(VENC_INFINITE_SCROLL_RUN, VENC_INFINITE_SCROLL.interval);
+	if (VENC_INFINITE_SCROLL.end == false) {
+	  	console.log("there")
+		VENC_INFINITE_SCROLL.domUpdate = VENC_INFINITE_SCROLL_UPDATE_DOM;
+		VENC_INFINITE_SCROLL.timer = setInterval(VENC_INFINITE_SCROLL_RUN, VENC_INFINITE_SCROLL.interval);
+	}
 };
 

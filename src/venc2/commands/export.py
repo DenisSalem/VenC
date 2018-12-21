@@ -207,6 +207,7 @@ def export_blog(argv=list()):
     # Starting second pass and exporting
     thread = MainThread(messages.export_main_thread, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
     thread.do()
+
     if not datastore.blog_configuration["disable_archives"]:
         thread = DatesThread(messages.export_archives, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
         thread.do()
