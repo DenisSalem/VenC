@@ -23,7 +23,7 @@ import os
 import requests
 from venc2 import venc_version
 from venc2.l10n import messages
-from venc2.helpers import PatternInvalidArgument
+from venc2.patterns.exceptions import PatternInvalidArgument
 from venc2.helpers import GenericMessage
 from venc2.helpers import notify
 from urllib.parse import urlparse

@@ -17,19 +17,14 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import errno
 import os
 import time
 from copy import deepcopy
-import yaml
-import base64
-import shutil
 import subprocess
 
 from venc2.datastore import DataStore
 from venc2.datastore.theme import themes_descriptor
 from venc2.datastore.theme import Theme
-from venc2.helpers import die
 from venc2.helpers import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
@@ -132,6 +127,7 @@ def export_blog(argv=list()):
 
     if len(argv) == 1:
         if not argv[0] in themes_descriptor.keys():
+            from venc2.helpers import die
             die(messages.theme_doesnt_exists.format(argv[0]))
         
         else:
@@ -141,7 +137,12 @@ def export_blog(argv=list()):
             if param[0] != "_": # marker to detect field names we do not want to replace
                 datastore.blog_configuration[param] = themes_descriptor[argv[0]][param]
 
-    theme = Theme(theme_folder, non_contextual_pattern_names)
+    try:
+        theme = Theme(theme_folder, non_contextual_pattern_names)
+    
+    except MalformedPatterns as e:
+        from venc2.helpers import handle_malformed_patterns
+        handle_malformed_patterns(e)
 
     # Set up of non-contextual patterns
     
@@ -177,7 +178,7 @@ def export_blog(argv=list()):
         
         processor.process(entry.content)
         entry.content.process_markup_language(markup_language)
-        
+
         entry.html_wrapper = deepcopy(theme.entry)
         processor.process(entry.html_wrapper.above)
         processor.process(entry.html_wrapper.below)
@@ -199,6 +200,7 @@ def export_blog(argv=list()):
     processor.process(theme.atom_footer) 
     
     # cleaning directory
+    import shutil
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
 
@@ -228,6 +230,8 @@ def export_blog(argv=list()):
 
  
 def copy_recursively(src, dest):
+    import errno
+    import shutil
     for filename in os.listdir(src):
         try:
             shutil.copytree(src+filename, dest+filename)
@@ -245,6 +249,7 @@ def copy_recursively(src, dest):
 
 def edit_and_export(argv):
     if len(argv) != 1:
+        from venc2.helpers import die
         die(messages.missing_params.format("--edit-and-export"))
     
     try:
@@ -253,6 +258,7 @@ def edit_and_export(argv):
             pass
 
     except TypeError:
+        from venc2.helpers import die
         die(messages.unknown_text_editor.format(datastore.blog_configuration["text_editor"]))
     
     except:
