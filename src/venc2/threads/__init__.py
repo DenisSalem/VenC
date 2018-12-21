@@ -49,8 +49,6 @@ class Thread:
         self.column_opening = '<div id="__VENC_COLUMN_{0}__" class="__VENC_COLUMN__">'
         self.column_closing = "</div>"
         self.columns_number = self.datastore.blog_configuration["columns"]
-        
-        self.current_page = 0
         # Setup pattern processor
         self.processor = Processor()
         for pattern_name in patterns.keys():
@@ -62,7 +60,6 @@ class Thread:
 
     def return_page_around(self, string, params):
         return string.format(**params)
-
 
     # Must be called in child class
     def get_relative_location(self, argv):
@@ -272,6 +269,7 @@ class Thread:
 
     # Must be called in child class
     def do(self):
+        self.current_page = 0
         self.page_number = 0
         if self.pages_count == 0:
             self.processor.process(self.header)

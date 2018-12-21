@@ -120,10 +120,10 @@ class EntriesThread(Thread):
         )
         stream.write(output)
         stream.close()
-
     
     def do(self):
         self.page_number = 0
+        self.current_page = 0
         if len(self.pages):
             for page in self.pages:
                 for entry in page:

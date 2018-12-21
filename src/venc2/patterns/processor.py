@@ -138,8 +138,8 @@ class ProcessedString():
                 string = string[:o]+string[o+10:]
                 string = string[:c-10]+string[c+3:]
                 escapes[i] = (o, c-10)
-                self.open_pattern_pos = [(v-23 if v > o+23 else v) for v in self.open_pattern_pos]
-                self.close_pattern_pos = [(v-23 if v > o+23 else v) for v in self.close_pattern_pos]
+                self.open_pattern_pos = [(v-10 if v > o+10 and v <= o+23 else (v-23 if v > o+23 else v)) for v in self.open_pattern_pos]
+                self.close_pattern_pos = [(v-10 if v > o+10 and v <= o+23 else (v-23 if v > o+23 else v)) for v in self.close_pattern_pos]
                 if i == 0:
                     escapes = escapes[:1]+[ (p[0]-23, p[1]-23) for p in escapes[i+1:] ]
 
@@ -149,7 +149,6 @@ class ProcessedString():
         if len(escapes):
             self.open_pattern_pos = [v for v in self.open_pattern_pos if not index_in_range(v, escapes, process_escapes)]
             self.close_pattern_pos = [v for v in self.close_pattern_pos if not index_in_range(v, escapes, process_escapes)]
-        
         self.len_open_pattern_pos = len(self.open_pattern_pos)
         self.len_close_pattern_pos = len(self.close_pattern_pos)
             
@@ -212,8 +211,6 @@ class ProcessedString():
                     new_chunk
                 )
     
-        if self.ressource == "4__12-14-2018-23-58__escape":
-            print(self.string)
         self.__init__(self.string, self.ressource, process_escapes=True)
 
 class Processor():
@@ -344,11 +341,7 @@ class Processor():
     def process(self, pre_processed, escape=False, safe_process=False):
         op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
         if safe_process and pre_processed.backup == None:
-            try:
-                pre_processed.backup = (list(op), list(cp), lo, lc, str(pre_processed.string))
-            
-            except Exception as e:
-                print(op, cp, lo, lc, string)
+            pre_processed.backup = (list(op), list(cp), lo, lc, str(pre_processed.string))
 
         if lo == 0 and lc == 0:
             op, cp = sorted(op+pre_processed.bop), sorted(cp+pre_processed.bcp)
