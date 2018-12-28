@@ -3,40 +3,40 @@
 print("Testing Patterns processing...")
 from venc2.patterns.processor import ProcessedString    # The object holding the string and its states
 from venc2.patterns.processor import Processor          # The actual string processor, holding binded methods.
-
+from venc2.patterns.exceptions import MalformedPatterns
 testname_input_output = [
     (
-        "Simple pattern detection", 
+        "Simple pattern detection.", 
         "moo .:add::1::1:. foo",
         "moo 2 foo",
         False
     ),
     (
-        "Match two patterns",
+        "Match two patterns.",
         "moo .:add::1::1:. foo .:mul::2::2:. bar",
         "moo 2 foo 4 bar",
         False
     ),
     (
-        "Recursive Patterns",
+        "Recursive Patterns.",
         "moo .:greater:: .:add::1::1:. :: .:mul::2::2:. :. bar",
         "moo 4 bar",
         False
     ),
     (
-        "Recursive Patterns plus extra trailing pattern",
+        "Recursive Patterns plus extra trailing pattern.",
         "moo .:mul::3::3:. .:greater:: .:add::1::1:. :: .:mul::2::2:. :. foo .:greater::1::2:. bar",
         "moo 9 4 foo 2 bar",
         False
     ),
     (
-        "Recursive Patterns (same call)",
+        "Recursive Patterns (same call).",
         "moo .:greater:: .:greater::1::2:. :: 0 :. bar",
         "moo 2 bar",
         False
     ),
     (
-        "Test against blacklisted pattern",
+        "Test against blacklisted pattern.",
         "moo .:blacklisted:. foo .:greater::3::5:. bar",
         "moo .:blacklisted:. foo 5 bar",
         False
@@ -57,6 +57,22 @@ testname_input_output = [
         "Escaping surrounded by Escape patterns.",
         "moo .:Escape:: .:NoRage:. ::EndEscape:. foo .:Escape:: .:mul::1::1:. ::EndEscape:. boo .:Escape:: .:NoPattern:. What could possibly go wrong here? ::EndEscape:. bar",
         "moo  .:NoRage:.  foo  .:mul::1::1:.  boo  .:NoPattern:. What could possibly go wrong here?  bar",
+        True
+    ),
+    (
+        "Escaping surrounded by Escape patterns.",
+        "moo .:Escape:: .:NoRage:. ::EndEscape:. foo .:Escape:: .:mul::1::1:. ::EndEscape:. boo .:Escape:: .:NoPattern:. What could possibly go wrong here? ::EndEscape:. bar",
+        "moo  .:NoRage:.  foo  .:mul::1::1:.  boo  .:NoPattern:. What could possibly go wrong here?  bar",
+        True
+    )
+]
+
+
+testname_input_exception = [
+    (
+        "Raise MalformedPatterns: Missing closing escapes.",
+        "moo .:Escape:: ::endescape:. bar",
+        MalformedPatterns,
         True
     )
 ]
@@ -83,7 +99,13 @@ for test in testname_input_output:
     test_name, i, o, process_escapes = test
     ps = ProcessedString(i, test_name, process_escapes)
     processor.process(ps)
-    assert o == ps.string, test_name
-    print("\t", test_name, "pass")
+    try:
+        assert o == ps.string, test_name
+   
+    except AssertionError as e:
+        print("\t", test_name, e)
+        continue
+
+    print("\t", test_name, "Pass.")
 
 print("Done.")
