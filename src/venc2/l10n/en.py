@@ -58,7 +58,7 @@ class Messages:
     missing_mandatory_field_in_entry="Field '{0}' in entry number {1} is missing."
     for_unknown_value="For: Value {0} isn't defined."
     recursive_for_unknown_value="RecursiveFor: Value {0} isn't defined."
-    not_enough_args="Missing parameters."
+    not_enough_args="Missing arguments (expected {0}, got {1})."
     unknown_pattern="The pattern '{0}'doesn't exists."
     unknown_contextual="Contextual variable {0} doesn't exists."
     in_ressource="In ressource '{0}'."

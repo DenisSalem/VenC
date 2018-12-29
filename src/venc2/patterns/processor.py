@@ -31,6 +31,7 @@ from venc2.helpers import die
 from venc2.helpers import remove_by_value
 from venc2.l10n import messages
 from venc2.patterns.exceptions import MalformedPatterns
+from venc2.patterns.exceptions import UnknownContextual
 
 markup_language_errors = []
 
@@ -249,10 +250,10 @@ class Processor():
                     error_origin = [str(e).split("'")[-2], ':'+pattern+':']
                 )
         
-        except ValueError:
+        except PatternMissingArguments as e:
             output = self.handle_error(
                 e,
-                pattern+": "+messages.not_enough_args,
+                pattern+": "+e.info,
                 ",;"+pattern+";;"+";;".join(argv)+";,",
                 [pattern]
             )
@@ -321,13 +322,6 @@ class Processor():
 
     def set(self, symbol, value):
        self.dictionary[symbol] = value
-
-    def if_not_present(self, string):
-        for pattern in self.blacklist:
-            if pattern in string:
-                False
-
-        return True
 
     def process(self, pre_processed, escape=False, safe_process=False):
         op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
