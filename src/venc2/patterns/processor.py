@@ -30,6 +30,7 @@ from venc2.helpers import notify
 from venc2.helpers import die
 from venc2.helpers import remove_by_value
 from venc2.l10n import messages
+from venc2.patterns.exceptions import MalformedPatterns
 
 markup_language_errors = []
 
@@ -149,12 +150,9 @@ class ProcessedString():
         self.len_open_pattern_pos = len(self.open_pattern_pos)
         self.len_close_pattern_pos = len(self.close_pattern_pos)
             
-        if self.len_open_pattern_pos > self.len_close_pattern_pos:
-            die(messages.malformed_patterns_missing_closing_symbols.format(ressource))
+        if self.len_open_pattern_pos != self.len_close_pattern_pos:
+            raise MalformedPatterns(self.len_open_pattern_pos > self.len_close_pattern_pos, False, ressource)
             
-        elif self.len_open_pattern_pos < self.len_close_pattern_pos:
-            die(messages.malformed_patterns_missing_opening_symbols.format(ressource))
-
         self.string = string
         self.ressource = ressource
 
