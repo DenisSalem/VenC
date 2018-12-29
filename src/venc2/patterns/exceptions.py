@@ -23,7 +23,7 @@ class UnknownContextual(KeyError):
 
 class MalformedPatterns(Exception):
     def __init__(self, too_many_opening_symbols, escape, ressource):
-        self.too_many_openings_symbols = too_many_opening_symbols
+        self.too_many_opening_symbols = too_many_opening_symbols
         self.escape = escape
         self.ressource = ressource
 
