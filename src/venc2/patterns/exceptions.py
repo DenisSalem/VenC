@@ -17,6 +17,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+from venc2.l10n import messages
+
 # Special case of KeyError
 class UnknownContextual(KeyError):
     pass
@@ -33,3 +35,12 @@ class PatternInvalidArgument(Exception):
         self.value = value
         self.message = message
 
+class PatternMissingArguments(Exception):
+    def __init__(self, e=messages.not_enough_args.format(1,0)):
+        if type(e) != str():
+            v = e.args[0].replace(',',' ').replace(')',' ').split()
+            l = [int(s) for s in v if s.isdigit()]
+            self.info = messages.not_enough_args.format(l[0],l[1])
+
+        else: 
+            self.info = e

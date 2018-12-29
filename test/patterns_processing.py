@@ -19,6 +19,7 @@ def greater(argv):
     return a if float(a) > float(b) else b
 
 processor = Processor()
+processor.debug = True
 processor.set_function("add", add)
 processor.set_function("mul", mul)
 processor.set_function("greater", greater)
@@ -29,6 +30,14 @@ def test_pattern_processor(args, test_name):
     ps = ProcessedString(input_value, test_name, process_escapes)
     processor.process(ps)
     return ps.string
+
+def test_pattern_processor_restore(args, test_name):
+    input_value, process_escapes = args
+    ps = ProcessedString(input_value, test_name, process_escapes)
+    states = ( list(ps.open_pattern_pos), list(ps.close_pattern_pos), int(ps.len_open_pattern_pos), int(ps.len_close_pattern_pos), str(ps.string))
+    processor.process(ps, safe_process=True)
+    ps.restore()
+    return states == (ps.open_pattern_pos, ps.close_pattern_pos, ps.len_open_pattern_pos, ps.len_close_pattern_pos, ps.string)
 
 tests = [
     (
@@ -121,6 +130,25 @@ tests = [
         "moo 6 foo 6 bar  .:mul::3::3  boo",
         test_pattern_processor
     ),
+    (
+        "Restore states.",
+        ("moo .:mul::2::3:. foo .:add::3::3:. bar boo", False),
+        True,
+        test_pattern_processor_restore
+    ),
+    (
+        "Restore states (with escapes).",
+        ("moo .:mul::2::3:. foo .:add::3::3:. bar .:Escape:: .:mul::3::3:. ::EndEscape:. boo", True),
+        True,
+        test_pattern_processor_restore
+    ),
+    (
+        "Missing pattern args.",
+        ("moo .:mul::2:. foo .:add::3::3:.", True),
+        True,
+        test_pattern_processor
+    ),
+
 ]
 
 run_tests("Testing patterns processor...", tests)

@@ -56,7 +56,7 @@ class Messages:
     export_categories_rss="Exportation locale du flux RSS du fil de publications de la categorie '{0}'."
     missing_mandatory_field_in_entry="Le champ '{0}' dans l'entrée numéro {1} est manquant."
     recursive_for_unknown_value="RecursiveFor: La valeur {0} n'existe pas."
-    not_enough_args="Paramétres manquants."
+    not_enough_args="Paramétres manquants (attendus {0}, reçus {1})."
     unknown_pattern="Le motif '{0}' n'existe pas."
     unknown_contextual="La variable contextuel {0} n'existe pas."
     in_ressource="Dans la ressource '{0}'."
