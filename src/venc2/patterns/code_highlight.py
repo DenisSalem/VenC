@@ -25,6 +25,7 @@ from venc2.helpers import die
 from venc2.helpers import notify
 from venc2.l10n import messages
 
+""" Need to handle missing args in case of unknown number of args """
 class CodeHighlight:
     def __init__(self, override):
         self._override = override

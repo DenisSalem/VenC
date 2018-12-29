@@ -24,6 +24,7 @@ import requests
 from venc2 import venc_version
 from venc2.l10n import messages
 from venc2.patterns.exceptions import PatternInvalidArgument
+from venc2.patterns.exceptions import PatternMissingArguments
 from venc2.helpers import GenericMessage
 from venc2.helpers import notify
 from urllib.parse import urlparse
@@ -64,12 +65,18 @@ def try_oembed(providers, url):
     return html
 
 def get_embed_content(providers, argv):
-    url = urlparse(argv[0])
+    try:
+        url = urlparse(argv[0])
+
+    except IndexError:
+        raise PatternMissingArguments()
+        
     return try_oembed(providers, url)
 
 def get_venc_version(argv):
     return venc_version
 
+""" Need to handle missing args in case of unknown number of args """
 def set_color(argv):
     return "<span style=\"color: "+('::'.join(argv[1:]))+";\">"+argv[0]+"</span>"
 
@@ -78,7 +85,10 @@ def include_file(argv):
         filename = argv[0]
         include_string = open("includes/"+filename, 'r').read()
         return include_string
-    
+
+    except IndexError:
+        raise PatternMissingArguments()
+
     except PermissionError:
         raise PatternInvalidArgument("path", filename, messages.wrong_permissions.format(argv[0]))
     

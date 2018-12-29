@@ -20,11 +20,20 @@
 import random
 
 from venc2.patterns.exceptions import PatternInvalidArgument
+from venc2.patterns.exceptions import PatternMissingArguments
 from venc2.l10n import messages
 
+arg_names=["min","max","decimal_number"]
+
 def get_random_number(in_argv):
-    arg_names=["min","max","decimal_number"]
+    try:
+        mn, mx, precision = in_argv
+    
+    except ValueError as e:
+        raise PatternMissingArguments(e)
+    
     argv = []
+
     for i in range(0,3):
         try:
             argv.append(int(in_argv[i]))
@@ -32,8 +41,8 @@ def get_random_number(in_argv):
         except ValueError:
             raise PatternInvalidArgument(arg_names[i],in_argv[i], messages.pattern_argument_must_be_integer)
 
-    v = argv[0] + random.random() * (argv[1] - argv[0] + 1)
-    return str(int(v)) if argv[2] == 0 else str(round(v, argv[2]))
+    v = mn + random.random() * (mx - mn + 1)
+    return str(int(v)) if precision == 0 else str(round(v, precision))
 
 extra_contextual_pattern_names = {
     "GetRandomNumber" : get_random_number

@@ -21,11 +21,15 @@ import latex2mathml.converter
 
 from venc2.l10n import messages
 from venc2.patterns.exceptions import PatternInvalidArgument
+from venc2.patterns.exceptions import PatternMissingArguments
 
 def Latex2MathML(argv):
-    tex_math_string = argv[0]
     try:
+        tex_math_string = argv[0]
         return latex2mathml.converter.convert(tex_math_string)
+
+    except IndexError:
+        raise PatternMissingArguments()
 
     except Exception as e:
         print(e)

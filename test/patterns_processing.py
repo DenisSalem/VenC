@@ -3,26 +3,62 @@
 from venc2.patterns.processor import ProcessedString    # The object holding the string and its states
 from venc2.patterns.processor import Processor          # The actual string processor, holding binded methods.
 from venc2.patterns.exceptions import MalformedPatterns
+from venc2.patterns.exceptions import PatternMissingArguments
+from venc2.patterns.exceptions import PatternInvalidArgument
+from venc2.helpers import GenericMessage
 
 from test_engine import run_tests
 
 def add(argv):
-    a, b = tuple(argv)
+    try:
+        a, b = tuple(argv)
+
+    except Exception as e:
+        raise PatternMissingArguments(e)
+
     return str( int(a) + int(b) )
 
 def mul(argv):
-    a, b = tuple(argv)
+    try:
+        a, b = tuple(argv)
+    
+    except Exception as e:
+        raise PatternMissingArguments(e)
+    
     return str( int(a) * int(b) )
 
 def greater(argv):
-    a, b = tuple(argv)
+    try:
+        a, b = tuple(argv)
+    
+    except Exception as e:
+        raise PatternMissingArguments(e)
+    
     return a if float(a) > float(b) else b
+
+def upper(argv):
+    try:
+        a = argv[0]
+
+    except:
+        raise PatternMissingArguments()
+
+    return a.upper()
+
+def trigger_generic_message_exception(argv):
+    raise GenericMessage("lol il will never work")
+
+def trigger_pattern_invalid_argument_exception(argv):
+    raise PatternInvalidArgument("some field", "some value", "some message")
 
 processor = Processor()
 processor.debug = True
 processor.set_function("add", add)
 processor.set_function("mul", mul)
 processor.set_function("greater", greater)
+processor.set_function("upper", upper)
+processor.set_function("trigger_generic_message_exception", trigger_generic_message_exception)
+processor.set_function("trigger_pattern_invalid_argument_exception", trigger_pattern_invalid_argument_exception)
 processor.blacklist.append("blacklisted")
 
 def test_pattern_processor(args, test_name):
@@ -60,8 +96,8 @@ tests = [
     ),
     (
         "Recursive Patterns plus extra trailing pattern.",
-        ("moo .:mul::3::3:. .:greater:: .:add::1::1:. :: .:mul::2::2:. :. foo .:greater::1::2:. bar", False),
-        "moo 9 4 foo 2 bar",
+        ("moo .:mul::3::3:. .:greater:: .:add::1::1:. :: .:mul::2::2:. :. foo .:upper::lower:. bar", False),
+        "moo 9 4 foo LOWER bar",
         test_pattern_processor
     ),
     (
@@ -145,10 +181,27 @@ tests = [
     (
         "Missing pattern args.",
         ("moo .:mul::2:. foo .:add::3::3:.", True),
-        True,
+        (PatternMissingArguments, [("expected",2), ("got",1)]),
         test_pattern_processor
     ),
-
+    (
+        "Missing unique and single pattern arg.",
+        ("moo .:upper:. foo", True),
+        (PatternMissingArguments, [("expected",1), ("got",0)]),
+        test_pattern_processor
+    ),
+    (
+        "Trigger GenericMessage.",
+        ("moo .:trigger_generic_message_exception:. foo", True),
+        (GenericMessage, [("message","lol il will never work")]),
+        test_pattern_processor
+    ),
+    (
+        "Trigger PatternInvalidArgument.",
+        ("moo .:trigger_pattern_invalid_argument_exception:. foo", True),
+        (PatternInvalidArgument, [("message","some message"), ("name", "some field"), ("value", "some value")]),
+        test_pattern_processor
+    ),
 ]
 
 run_tests("Testing patterns processor...", tests)

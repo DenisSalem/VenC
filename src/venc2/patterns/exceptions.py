@@ -37,10 +37,12 @@ class PatternInvalidArgument(Exception):
 
 class PatternMissingArguments(Exception):
     def __init__(self, e=messages.not_enough_args.format(1,0)):
-        if type(e) != str():
+        if type(e) != str:
             v = e.args[0].replace(',',' ').replace(')',' ').split()
-            l = [int(s) for s in v if s.isdigit()]
-            self.info = messages.not_enough_args.format(l[0],l[1])
+            self.expected, self.got = tuple([int(s) for s in v if s.isdigit()])
+            self.info = messages.not_enough_args.format(self.expected, self.got)
 
-        else: 
+        else:
+            self.expected = 1
+            self.got = 0
             self.info = e
