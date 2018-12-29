@@ -150,7 +150,7 @@
 	DONE | Fix pattern (i.e .:GetEntryTitle:.) access in template's metadata.
 	DONE | Infinite scroll use html anchor instead of harcoded indexing.
 	DONE | Prevent Infinite scroll to block when ressource isn't available.
-	WIP  | Rewrite unit tests.
+	WIP  | Rewrite pattern processor unit tests.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
@@ -176,3 +176,4 @@
 	TODO | Print out what's going on while FTP transfert.
 	TODO | Fix gvim / -ex.
 	TODO | Warn about entry title duplicates.
+	TODO | Handle missing args in case of unknown number of args

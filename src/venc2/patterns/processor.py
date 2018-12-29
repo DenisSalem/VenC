@@ -32,6 +32,9 @@ from venc2.helpers import remove_by_value
 from venc2.l10n import messages
 from venc2.patterns.exceptions import MalformedPatterns
 from venc2.patterns.exceptions import UnknownContextual
+from venc2.patterns.exceptions import PatternMissingArguments
+from venc2.patterns.exceptions import PatternInvalidArgument
+from venc2.helpers import GenericMessage
 
 markup_language_errors = []
 
@@ -274,6 +277,7 @@ class Processor():
                 error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
             )
 
+        # might be removed
         except FileNotFoundError as e:
             output = self.handle_error(
                 e,
