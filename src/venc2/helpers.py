@@ -31,6 +31,8 @@ class GenericMessage(Exception):
     def __init__(self, message):
         self.message = message
 
+keep_appart_from_markup = ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]
+
 msg_format = {
     "END" : '\033[0m',
     "GREEN" : '\033[92m',
