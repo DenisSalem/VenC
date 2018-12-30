@@ -1,13 +1,18 @@
 #! /usr/bin/python3
 
-from venc2.patterns.processor import ProcessedString    # The object holding the string and its states
+from venc2.patterns.processor import ProcessedString    # The object holding the string and its states.
 from venc2.patterns.processor import Processor          # The actual string processor, holding binded methods.
+
 from venc2.patterns.exceptions import MalformedPatterns
 from venc2.patterns.exceptions import PatternMissingArguments
 from venc2.patterns.exceptions import PatternInvalidArgument
+from venc2.patterns.exceptions import UnknownContextual
+
 from venc2.helpers import GenericMessage
 
 from test_engine import run_tests
+
+from copy import deepcopy
 
 def add(argv):
     try:
@@ -46,10 +51,13 @@ def upper(argv):
     return a.upper()
 
 def trigger_generic_message_exception(argv):
-    raise GenericMessage("lol il will never work")
+    raise GenericMessage("lol it will never work")
 
 def trigger_pattern_invalid_argument_exception(argv):
     raise PatternInvalidArgument("some field", "some value", "some message")
+
+def trigger_unknown_contextual_exception(argv):
+    raise UnknownContextual()
 
 processor = Processor()
 processor.debug = True
@@ -59,6 +67,7 @@ processor.set_function("greater", greater)
 processor.set_function("upper", upper)
 processor.set_function("trigger_generic_message_exception", trigger_generic_message_exception)
 processor.set_function("trigger_pattern_invalid_argument_exception", trigger_pattern_invalid_argument_exception)
+processor.set_function("trigger_unknown_contextual_exception", trigger_unknown_contextual_exception)
 processor.blacklist.append("blacklisted")
 
 def test_pattern_processor(args, test_name):
@@ -74,6 +83,17 @@ def test_pattern_processor_restore(args, test_name):
     processor.process(ps, safe_process=True)
     ps.restore()
     return states == (ps.open_pattern_pos, ps.close_pattern_pos, ps.len_open_pattern_pos, ps.len_close_pattern_pos, ps.string)
+
+
+def test_markup_language(args, test_name):
+    input_value, markup_language, preserved = args
+    ps = ProcessedString(input_value, test_name, False)
+    p = deepcopy(processor)
+    p.keep_appart_from_markup = preserved
+    p.process(ps)
+    ps.process_markup_language(markup_language)
+    return ps.string.replace('\n', '')
+
 
 tests = [
     (
@@ -193,7 +213,7 @@ tests = [
     (
         "Trigger GenericMessage.",
         ("moo .:trigger_generic_message_exception:. foo", True),
-        (GenericMessage, [("message","lol il will never work")]),
+        (GenericMessage, [("message","lol it will never work")]),
         test_pattern_processor
     ),
     (
@@ -201,6 +221,42 @@ tests = [
         ("moo .:trigger_pattern_invalid_argument_exception:. foo", True),
         (PatternInvalidArgument, [("message","some message"), ("name", "some field"), ("value", "some value")]),
         test_pattern_processor
+    ),
+    (
+        "Trigger KeyError when unknown pattern is met.",
+        ("moo .:UnknownPattern:. foo", True),
+        (KeyError, []),
+        test_pattern_processor
+    ),
+    (
+        "Trigger UnknownContextual when unknown pattern is met.",
+        ("moo .:trigger_unknown_contextual_exception:. foo", True),
+        (UnknownContextual, []),
+        test_pattern_processor
+    ),
+    (
+        "Markdown integration.",
+        ("# Main title\n.:add::1::1:.", "Markdown", []),
+        "<h1>Main title</h1><p>2</p>",
+        test_markup_language
+    ),
+    (
+        "Markdown integration when pattern produce html.",
+        ("# Main title\n.:add::1::1:.", "Markdown", ["add"]),
+        "<h1>Main title</h1>2",
+        test_markup_language
+    ),
+    (
+        "reStructuredText integration.",
+        ("Main title\n==========\n.:add::1::1:.", "reStructuredText", []),
+        "<div class=\"document\"><div class=\"section\" id=\"main-title\"><h1>Main title</h1><p>2</p></div></div>",
+        test_markup_language
+    ),
+    (
+        "reStructuredText integration.",
+        ("Main title\n==========\n.:add::1::1:.", "reStructuredText", ["add"]),
+        "<div class=\"document\"><div class=\"section\" id=\"main-title\"><h1>Main title</h1>2</div></div>",
+        test_markup_language
     ),
 ]
 

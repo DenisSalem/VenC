@@ -169,7 +169,6 @@ class ProcessedString():
         self.open_pattern_pos, self.close_pattern_pos, self.len_open_pattern_pos, self.len_close_pattern_pos, self.string = self.backup
         self.backup = None
 
-
     def keep_appart_from_markup_indexes_append(self, paragraphe, new_chunk, escape):
         if escape:
             new_chunk = cgi_escape(new_chunk)
@@ -211,46 +210,31 @@ class ProcessedString():
 class Processor():
     def __init__(self):
         self.debug = False
-        self.functions		    = dict()
-        self.current_input_string   = str()
-        self.ressource              = str()
-        self.blacklist = list()
+        self.functions		    = {}
+        self.current_input_string   = ''
+        self.ressource              = ''
+        self.blacklist = []
+        self.keep_appart_from_markup = []
 
     # Run any pattern and catch exception nicely
     def run_pattern(self, pattern, argv):
-        try:
+        try: # Should be refactored, Create a base PatternException
             output = self.functions[pattern](argv)
         
+        except KeyError as e:
+            output = self.handle_error(
+                e,
+                messages.unknown_pattern.format(pattern),
+                ",;"+pattern+";;"+";;".join(argv)+";,",
+                error_origin = [':'+pattern+':']
+            )
+
         except UnknownContextual as e:
                 output = self.handle_error(
                     e,
                     messages.unknown_contextual.format(e),
                     ",;"+pattern+";;"+";;".join(argv)+";,",
                     error_origin = "{0["+str(e)[1:-1]+']}'
-                )
-        
-        except KeyError as e:
-            if str(e)[1:-1] == pattern:
-                output =  self.handle_error(
-                    e,
-                    messages.unknown_pattern.format(pattern),
-                    ",;"+pattern+";;"+";;".join(argv)+";,",
-                    error_origin = [':'+pattern+':']
-                )
-            else:
-                output = self.handle_error(
-                    e,
-                    messages.unknown_contextual.format(e),
-                    ",;"+pattern+";;"+";;".join(argv)+";,",
-                    error_origin = [':'+str(e)[1:-1]+':','{0['+str(e)[1:-1]+']}', ':'+pattern+':'] # first item might be useless ???
-                )
-
-        except AttributeError as e:
-                output = self.handle_error(
-                    e,
-                    messages.unknown_contextual.format(e),
-                    ",;"+pattern+";;"+";;".join(argv)+";,",
-                    error_origin = [str(e).split("'")[-2], ':'+pattern+':']
                 )
         
         except PatternMissingArguments as e:
@@ -358,7 +342,7 @@ class Processor():
             
             current_pattern = fields[0]
             if (not current_pattern in ["GetRelativeOrigin","Escape"]) and (not current_pattern in self.blacklist):
-                if current_pattern in ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]:
+                if current_pattern in self.keep_appart_from_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
                         self.run_pattern(current_pattern, fields[1:]),

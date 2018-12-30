@@ -27,6 +27,7 @@ from venc2.datastore.theme import themes_descriptor
 from venc2.datastore.theme import Theme
 from venc2.helpers import notify
 from venc2.helpers import rm_tree_error_handler 
+from venc2.helpers import keep_appart_from_markup
 from venc2.l10n import messages
 from venc2.patterns.code_highlight import CodeHighlight
 from venc2.patterns.latex2mathml import Latex2MathML
@@ -147,6 +148,7 @@ def export_blog(argv=list()):
     # Set up of non-contextual patterns
     
     processor = Processor()
+    
 
     for pattern_name in non_contextual_pattern_names_datastore.keys():
         processor.set_function(pattern_name, getattr(datastore, non_contextual_pattern_names_datastore[pattern_name]))
@@ -160,6 +162,9 @@ def export_blog(argv=list()):
     # Blacklist contextual patterns
     for pattern_name in contextual_pattern_names.keys():
         processor.blacklist.append(pattern_name)
+
+    for pattern_name in keep_appart_from_markup:
+        processor.keep_appart_from_markup.append(pattern_name)
 
     processor.blacklist.append("Escape")
 
