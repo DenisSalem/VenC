@@ -78,3 +78,18 @@ path:
   entries_sub_folders: '{entry_title}' # Correct
 :.
 
+
+## Unsupported locale setting
+
+Si l'environnement système est mal configuré vous pourriez avoir quelque chose comme ça:
+
+> .:SetColor::denissalem@nonagon::green:. .:SetColor::~/hd_storage/works/VenC/VenC-site $::cyan:. venc -xb;
+
+> .:SetColor::VenC: unsupported locale setting::yellow:.
+
+Cela signifie que vos locales ne sont pas correctement configurées, la résolution de ce probléme est spécifique à chaque distribution GNU/Linux.
+
+
+
+
+
