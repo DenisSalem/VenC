@@ -154,7 +154,7 @@
 	DONE | fix FAQ latex2mathml is incomplete.
 	DONE | fix FAQ categories separator is ' > ', not '>'
 	DONE | fix FAQ subfolders must not start with '/'
-	WIP  | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
+	DONE | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).

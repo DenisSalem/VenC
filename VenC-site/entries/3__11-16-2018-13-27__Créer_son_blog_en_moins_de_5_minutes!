@@ -13,13 +13,13 @@ Dans un terminal, tapez la commande suivante
 
 Après cette commande, VenC a créer un répertoire appelé "MonSuperBlog" à l'endroit où vous avez lancé la commande. Ce repertoire contient toutes les informations de votre blog. Il faut donc le garder préciseument, et même en faire des sauvegardes de temps à autres!
 
-> .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::blue:. venc --new-blog "MonSuperBlog"
+> .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --new-blog "MonSuperBlog"
 
 > .:SetColor::VenC: Votre blog a été crée!::green:.
 
-> .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::blue:. ls MonSuperBlog/
+> .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. ls MonSuperBlog/
 
-> .:SetColor::blog::blue:.  blog_configuration.yaml  .:SetColor::entries::blue:.  .:SetColor::extra::blue:.  .:SetColor::includes::blue:.  .:SetColor::templates::blue:.  .:SetColor::theme::blue:.
+> .:SetColor::blog::cyan:.  blog_configuration.yaml  .:SetColor::entries::cyan:.  .:SetColor::extra::cyan:.  .:SetColor::includes::cyan:.  .:SetColor::templates::cyan:.  .:SetColor::theme::cyan:.
 
 La prochaine étape consiste à paramétrer un peu le blog. Pour ça il suffit d'éditer le fichier *blog_configuration.yaml* à la racine de ce repertoire. Vous pourrez notamment y définir le nom de votre blog, sa langue, ses mots clef, entre autre choses parmis les nombreux paramétres à configurer, ou laisser par défaut.
 
