@@ -18,9 +18,10 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc2.datastore.theme import themes_descriptor
-from venc2.helpers import msg_format
+from venc2.prompt import msg_format
 from venc2.l10n import messages;
 from venc2 import venc_version
+
 def print_version(argv):
     print("VenC", venc_version)
 

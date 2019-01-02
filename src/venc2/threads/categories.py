@@ -20,7 +20,7 @@
 import os
 import urllib.parse
 
-from venc2.helpers import notify
+from venc2.prompt import notify
 from venc2.threads import Thread
 from venc2.threads.feed import FeedThread
 

@@ -20,7 +20,7 @@
 import codecs
 import os
 
-from venc2.helpers import notify
+from venc2.prompt import notify
 from venc2.threads import Thread
 
 class EntriesThread(Thread):

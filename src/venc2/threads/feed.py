@@ -18,7 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc2.threads import Thread
-from venc2.helpers import notify
+from venc2.prompt import notify
 from venc2.l10n import messages
 
 class FeedThread(Thread):

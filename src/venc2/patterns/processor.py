@@ -24,10 +24,10 @@ from copy import deepcopy
 from docutils.core import publish_parts
 from docutils.utils import SystemMessage
 
-from venc2.helpers import get_formatted_message
-from venc2.helpers import highlight_value
-from venc2.helpers import notify
-from venc2.helpers import die
+from venc2.prompt import get_formatted_message
+from venc2.prompt import highlight_value
+from venc2.prompt import notify
+from venc2.prompt import die
 from venc2.helpers import remove_by_value
 from venc2.l10n import messages
 from venc2.patterns.exceptions import MalformedPatterns

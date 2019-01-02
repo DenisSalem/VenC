@@ -29,7 +29,7 @@ from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 from venc2.datastore.metadata import Chapter
-from venc2.helpers import notify
+from venc2.prompt import notify
 from venc2.l10n import messages
 from venc2.patterns.non_contextual import get_embed_content
 from venc2.patterns.exceptions import MalformedPatterns

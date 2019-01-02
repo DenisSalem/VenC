@@ -18,7 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc2.datastore.entry import EntryWrapper
-from venc2.helpers import die
+from venc2.prompt import die
 from venc2.l10n import messages
 from venc2.patterns.processor import ProcessedString
 

@@ -26,7 +26,7 @@ from venc2.l10n import messages
 from venc2.patterns.exceptions import PatternInvalidArgument
 from venc2.patterns.exceptions import PatternMissingArguments
 from venc2.helpers import GenericMessage
-from venc2.helpers import notify
+from venc2.prompt import notify
 from urllib.parse import urlparse
 
 def try_oembed(providers, url):

@@ -25,6 +25,8 @@ import pygments
 import shutil
 
 from venc2.l10n import messages
+from venc2.prompt import die
+from venc2.prompt import notify
 
 
 class GenericMessage(Exception):
@@ -32,13 +34,6 @@ class GenericMessage(Exception):
         self.message = message
 
 keep_appart_from_markup = ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]
-
-msg_format = {
-    "END" : '\033[0m',
-    "GREEN" : '\033[92m',
-    "RED" : '\033[91m',
-    "YELLOW" : '\033[33m'
-}
 
 # hold error messages
 errors=list()
@@ -52,29 +47,6 @@ def handle_malformed_patterns(e):
     if e.too_many_openings_symbols:
         die(messages.malformed_patterns_missing_closing_symbols.format(e.ressource))
     die(messages.malformed_patterns_missing_opening_symbols.format(e.ressource))
-
-# Some data printed out may exceed few lines so
-# it's nicer to highlight specific part of the output
-def highlight_value(text, value, color="RED"):
-    return text.replace(
-        value,
-        msg_format[color]+value+msg_format["END"]
-    )
-
-# Terminate nicely with notification
-def die(msg, color="RED", extra=""):
-    notify(msg, color)
-    if extra != "":
-        print(extra)
-    exit()
-
-# Being verborse is nice, with colours it's better
-def notify(msg, color="GREEN"):
-    print(get_formatted_message(msg, color))
-
-# Take care of setting up colours in printed out message
-def get_formatted_message(msg, color="GREEN", prompt="VenC: "):
-    return msg_format[color]+"\033[1m"+prompt+"\033[0m"+msg_format[color]+msg+msg_format["END"]
 
 def orderable_str_to_int(string):
     try:
