@@ -20,7 +20,7 @@
 import datetime
 import urllib.parse
 
-from venc2.helpers import notify
+from venc2.prompt import notify
 
 class Chapter:
     def __init__(self, index, title, path):

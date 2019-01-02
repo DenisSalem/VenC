@@ -151,14 +151,14 @@
 	DONE | Infinite scroll use html anchor instead of harcoded indexing.
 	DONE | Prevent Infinite scroll to block when ressource isn't available.
 	DONE | Rewrite pattern processor unit tests.
+	DONE | fix FAQ latex2mathml is incomplete.
+	DONE | fix FAQ categories separator is ' > ', not '>'
+	DONE | fix FAQ subfolders must not start with '/'
+	WIP  | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
 	TODO | Add relevant templates for themes.
-	TODO | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
-	WIP  | fix FAQ latex2mathml is incomplete.
-	WIP  | fix FAQ categories separator is ' > ', not '>'
-	WIP  | fix FAQ subfolders must not start with '/'
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.x.x

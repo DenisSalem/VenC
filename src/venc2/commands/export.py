@@ -25,7 +25,7 @@ import subprocess
 from venc2.datastore import DataStore
 from venc2.datastore.theme import themes_descriptor
 from venc2.datastore.theme import Theme
-from venc2.helpers import notify
+from venc2.prompt import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.helpers import keep_appart_from_markup
 from venc2.l10n import messages

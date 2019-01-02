@@ -25,13 +25,11 @@ import subprocess
 
 from venc2.datastore.configuration import get_blog_configuration
 from venc2.datastore.entry import yield_entries_content
-from venc2.helpers import notify
-from venc2.helpers import die
+from venc2.prompt import notify
+from venc2.prompt import die
 from venc2.l10n import messages
 
 import venc2.datastore.entry as Entry
-import venc2.patterns as Pattern
-import venc2.helpers as Helpers
 
 # Hold methods associated to patterns
 class MinimalEntry:

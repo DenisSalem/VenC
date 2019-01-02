@@ -3,8 +3,8 @@ import http.server
 import urllib.parse 
 
 from venc2.datastore.configuration import get_blog_configuration
-from venc2.helpers import die
-from venc2.helpers import notify
+from venc2.prompt import die
+from venc2.prompt import notify
 from venc2.l10n import messages
 
 blog_configuration = get_blog_configuration()

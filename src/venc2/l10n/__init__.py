@@ -18,12 +18,14 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import locale
+from venc2.prompt import notify
 
 try:
     current_locale = locale.getlocale()[0].split('_')[0]
     locale_err = False
 
-except:
+except locale.Error as e:
+    notify(e.args, color="YELLOW")
     current_locale = 'en'
     locale_err = True
 

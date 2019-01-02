@@ -20,8 +20,8 @@
 import os
 import yaml
 
-from venc2.helpers import die
-from venc2.helpers import notify
+from venc2.prompt import die
+from venc2.prompt import notify
 from venc2.l10n import messages
 
 def get_blog_configuration():

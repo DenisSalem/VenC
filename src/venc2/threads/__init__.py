@@ -22,8 +22,8 @@ import codecs
 from copy import deepcopy
 from math import ceil
 
-from venc2.helpers import notify
-from venc2.helpers import die
+from venc2.prompt import notify
+from venc2.prompt import die
 from venc2.l10n import messages
 from venc2.patterns.processor import Processor
 
