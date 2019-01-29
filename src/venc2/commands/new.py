@@ -137,7 +137,8 @@ def new_blog(argv):
                                 "markup_language": "Markdown",
                                 "path_encoding": "utf-8",
                                 "server_port": 8888,
-                                "sort_by":"id"}
+                                "sort_by":"id",
+                                "enable_rdf":True}
     for folder_name in argv:
         try:
             os.mkdir(folder_name)

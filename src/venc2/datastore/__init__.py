@@ -41,6 +41,8 @@ class DataStore:
     def __init__(self):
         notify(messages.loading_data)
         self.blog_configuration = get_blog_configuration()
+        self.sort_by = self.blog_configuration["sort_by"]
+        self.enable_rdf = self.blog_configuration["enable_rdf"]
         self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
         self.entries = list()
         self.entries_per_dates = list()
@@ -146,6 +148,9 @@ class DataStore:
                 "weight": node.weight
             })
 
+    def dseeker_get_metadata_from_entry_callback(self, metadata):
+        if self.
+        
     def get_chapters(self, argv):
         key = ''.join(argv)
         if not key in self.html_chapters.keys():
@@ -197,7 +202,7 @@ class DataStore:
 
     def sort_by(self, entry):
         try:
-            return getattr(entry, self.blog_configuration["sort_by"])
+            return getattr(entry, self.sort_by)
 
         except AttributeError:
             return ''
