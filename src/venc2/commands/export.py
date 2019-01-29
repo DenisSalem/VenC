@@ -148,7 +148,6 @@ def export_blog(argv=list()):
     # Set up of non-contextual patterns
     
     processor = Processor()
-    
 
     for pattern_name in non_contextual_pattern_names_datastore.keys():
         processor.set_function(pattern_name, getattr(datastore, non_contextual_pattern_names_datastore[pattern_name]))

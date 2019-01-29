@@ -176,4 +176,6 @@
 	TODO | Print out what's going on while FTP transfert.
 	TODO | Fix gvim / -ex.
 	TODO | Warn about entry title duplicates.
-	TODO | Handle missing args in case of unknown number of args
+	TODO | Handle missing args in case of unknown number of args (Pattern).
+	TODO | Add configuration field type check.
+	TODO | Optimize modules importation.

@@ -56,7 +56,8 @@ def get_blog_configuration():
             "server_port",
             "disable_rss_feed",
             "disable_atom_feed",
-            "sort_by"
+            "sort_by",
+            "enable_dseeker"
         ]
 
         everything_is_okay = True
