@@ -154,6 +154,9 @@ class Thread:
         
         return output[:-len(separator)]
 
+    def JSONLD(self, argv):
+        return ''
+
     def if_in_first_page(self, argv):
         if self.current_page == 0:
             return argv[0].strip()

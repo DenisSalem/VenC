@@ -18,7 +18,6 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import hashlib
-import json
 import os
 import datetime
 import urllib.parse
@@ -42,7 +41,7 @@ class DataStore:
         notify(messages.loading_data)
         self.blog_configuration = get_blog_configuration()
         self.sort_by = self.blog_configuration["sort_by"]
-        self.enable_rdf = self.blog_configuration["enable_rdf"]
+        self.enable_jsonld = self.blog_configuration["enable_jsonld"]
         self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
         self.entries = list()
         self.entries_per_dates = list()
@@ -58,17 +57,19 @@ class DataStore:
         self.raw_chapters = {}
         self.chapters_index = []
         self.html_chapters = {}
+        self.entries_as_jsonld = {}
 
         # Build entries
         try:
+            jsonld_callback = self.entry_to_jsonld_callback if self.enable_jsonld else None
             for filename in yield_entries_content():
-                self.entries.append(Entry(filename, self.blog_configuration["path"], encoding=self.blog_configuration["path_encoding"]))
+                self.entries.append(Entry(filename, self.blog_configuration["path"], jsonld_callback=jsonld_callback, encoding=self.blog_configuration["path_encoding"]))
 
         except MalformedPatterns as e:
             from venc2.helpers import handle_malformed_patterns
             handle_malformed_patterns(e)
 
-        self.entries = sorted(self.entries, key = lambda entry : self.sort_by(entry))
+        self.entries = sorted(self.entries, key = lambda entry : self.sort(entry))
 
         for entry_index in range(0, len(self.entries)):
             current_entry = self.entries[entry_index]
@@ -148,8 +149,66 @@ class DataStore:
                 "weight": node.weight
             })
 
-    def dseeker_get_metadata_from_entry_callback(self, metadata):
-        if self.
+        # Build JSON-LD doc if any
+        if self.enable_jsonld:
+            self.root_site_to_jsonld()
+
+    def root_site_to_jsonld(self):
+        if "https://schema.org" in self.blog_configuration.keys():
+            optionals = self.blog_configuration["https://schema.org"]
+                
+        else:
+            optionals = {}
+
+        self.blog_as_jsonld = {
+            "@context": "http://schema.org",
+            "@type": ["Blog","WebPage"],
+            "name": self.blog_configuration["blog_name"],
+            "url": self.blog_configuration["blog_url"],
+            "description": self.blog_configuration["blog_description"],
+            "author": {
+                "@type" : "Person",
+                "email" : self.blog_configuration["author_email"],
+                "description" : self.blog_configuration["author_description"],
+                "name" : self.blog_configuration["author_name"]
+            },
+            "keywords" : self.blog_configuration["blog_keywords"],
+            "inLanguage" : self.blog_configuration["blog_language"],
+            "license" : {
+                "@type": "CreativeWork",
+                "name": self.blog_configuration["license"]
+            },
+            "breadcrumb" : [],
+            "blogPost" : [],
+            **optionals
+        }
+
+    def entry_to_jsonld_callback(self, entry):
+        if hasattr(entry, "schemadotorg"):
+            optionals = entry.schemadotorg
+                
+        else:
+            optionals = {}:
+        
+        doc = {
+            "@context": "http://schema.org",
+            "@type" : ["BlogPosting","WebPage"],
+            "@id" : self.blog_configuration["blog_url"]+"/entry"+str(entry.id)+".jsonld",
+            "keywords" : entry.raw_metadata["tags"],
+            "headline" : entry.title,
+            "name" : entry.title,
+            "date" : entry.date.isoformat(),
+            "inLanguage" : self.blog_configuration["blog_language"],
+            "author" : [{"name":author["value"], "@type": "Person"} for author in entry.authors],
+            "url" : entry.url.replace(".:GetRelativeOrigin:.", self.blog_configuration["blog_url"]+"/"),
+            "breadcrumb" : self.blog_as_jsonld["breadcrumb"],
+            "relatedLink" : [ {
+                "@type":"Url"
+            } for c in]
+            **optionals
+        }
+
+        self.entries_as_jsonld[entry.id] = doc
         
     def get_chapters(self, argv):
         key = ''.join(argv)
@@ -200,7 +259,7 @@ class DataStore:
         else:
             self.raw_chapters[chapter] = (entry.id, entry.title, entry.url)
 
-    def sort_by(self, entry):
+    def sort(self, entry):
         try:
             return getattr(entry, self.sort_by)
 
@@ -477,8 +536,3 @@ class DataStore:
                         self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
 
         return get_embed_content(self.embed_providers, argv)
-        
-        
-        
-
-        

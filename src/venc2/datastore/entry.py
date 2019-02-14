@@ -56,7 +56,7 @@ class EntryWrapper:
         die(messages.missing_entry_content_inclusion)
 
 class Entry:
-    def __init__(self, filename, paths, encoding="utf-8"):
+    def __init__(self, filename, paths, jsonld_callback, encoding="utf-8", ):
         self.previous_entry = None
         self.next_entry = None
 
@@ -88,7 +88,10 @@ class Entry:
             if not key in ["authors", "tags", "categories", "title"]:
                 if metadata[key] != None:
                     setattr(self, key, metadata[key])
-
+                    
+                elif key == "https://schema.org" and metadata[key] != None:
+                    setattr(self, "schemadotorg", metadata[key]
+                    
                 else:
                     notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")
                     setattr(self, key, '')
@@ -99,6 +102,7 @@ class Entry:
                 notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")
                 metadata[key] = ''
     
+        self.raw_metadata = metadata
         self.filename = filename
         self.id = int(filename.split('__')[0])
         
@@ -129,10 +133,6 @@ class Entry:
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("tags", self.id))
 
-        except Exception as e:
-            print(self.id, metadata)
-            raise e
-
         params = {
             "entry_id": self.id,
             "entry_title": self.title
@@ -158,7 +158,8 @@ class Entry:
                 
                     self.categories_leaves.append({
                         "value": category_leaf,
-                        "path":category_leaf_url
+                        "path":category_leaf_url,
+                        "raw" : category
                     })
 
         except IndexError : # when list is empty
@@ -170,6 +171,8 @@ class Entry:
         self.html_tags = {}
         self.html_authors = {}
         self.html_categories_leaves = {}
+        if jsonld_callback != None:
+            jsonld_callback(self)
 
 ''' Iterate through entries folder '''
 def yield_entries_content():

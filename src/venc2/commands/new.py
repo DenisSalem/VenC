@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2019 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -138,7 +138,7 @@ def new_blog(argv):
                                 "path_encoding": "utf-8",
                                 "server_port": 8888,
                                 "sort_by":"id",
-                                "enable_rdf":True}
+                                "enable_jsonld":True}
     for folder_name in argv:
         try:
             os.mkdir(folder_name)

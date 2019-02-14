@@ -98,10 +98,11 @@ non_contextual_pattern_names_datastore = {
 
 non_contextual_pattern_names_ml = {
     "CodeHighlight" : code_highlight.highlight,
-    "Latex2MathML" : Latex2MathML
+    "Latex2MathML" : Latex2MathML,
 }
 
 contextual_pattern_names = {
+    "JSON-LD" : "JSONLD",
     "IfInThread" : "if_in_thread",
     "IfInArchives" : "if_in_archives",
     "IfInCategories" : "if_in_categories",
@@ -231,6 +232,13 @@ def export_blog(argv=list()):
     code_highlight.export_style_sheets()
     copy_recursively("extra/","blog/")
     copy_recursively(theme_folder+"assets/","blog/")
+    
+    if datastore.enable_jsonld: 
+        import json
+        dump = json.dumps(datastore.blog_as_jsonld)
+        f = open("blog/blog.jsonld", 'w')
+        f.write(dump)
+
 
  
 def copy_recursively(src, dest):

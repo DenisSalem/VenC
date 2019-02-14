@@ -64,6 +64,11 @@ class MainThread(Thread):
         if not self.datastore.blog_configuration["disable_atom_feed"]:
             self.atom_feed.do(entries, self.export_path, self.relative_origin)
 
+    def JSONLD(self, argv):
+        if self.current_page == 0:
+            return '<script type="application/ld+json" src="blog.jsonld"></script>'
+        
+        return ''
                 
                 
 
