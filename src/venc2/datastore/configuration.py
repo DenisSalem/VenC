@@ -57,7 +57,7 @@ def get_blog_configuration():
             "disable_rss_feed",
             "disable_atom_feed",
             "sort_by",
-            "enable_dseeker"
+            "enable_jsonld"
         ]
 
         everything_is_okay = True
@@ -84,16 +84,15 @@ def get_blog_configuration():
                 everything_is_okay = False
                 notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
 
-        try:
-            if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
-                everything_is_okay = False
-                notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blog_configuration.yaml"),"RED")
+        if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
+            everything_is_okay = False
+            notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blog_configuration.yaml"),"RED")
 
-            if blog_configuration["sort_by"] in ['', None]:
-                blog_configuration["sort_by"] = "id"
+        if blog_configuration["sort_by"] in ['', None]:
+            blog_configuration["sort_by"] = "id"
 
-        except KeyError:
-            pass
+        if blog_configuration["blog_url"][-1:] == '/':
+            blog_configuration["blog_url"] = blog_configuration["blog_url"][:-1]
 
         if not everything_is_okay:
             exit()

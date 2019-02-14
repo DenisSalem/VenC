@@ -140,7 +140,7 @@
 	DONE | Add support for Atom feed.
 	DONE | Add blog generation timestamp.
 	DONE | Split unit-test from main branch
-      	DONE | Support ForPage in entries thread.
+    	DONE | Support ForPage in entries thread.
 	DONE | Update command help with.
 	DONE | Handle ftp encoding error.
 	DONE | Sort by metadata.
@@ -155,6 +155,7 @@
 	DONE | fix FAQ categories separator is ' > ', not '>'
 	DONE | fix FAQ subfolders must not start with '/'
 	DONE | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
+	TODO | Add definition for optional fields in blog configuration .
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
 	TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
@@ -162,6 +163,7 @@
 	WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.x.x
+    TODO | Add support for access metadata by key.
 	TODO | Make some dependencies optional.
 	TODO | Split themes from main branch
 	TODO | Add translation for Deutsch and Spanish.
@@ -179,3 +181,11 @@
 	TODO | Handle missing args in case of unknown number of args (Pattern).
 	TODO | Add configuration field type check.
 	TODO | Optimize modules importation.
+	TODO | Concatenate user defined blog keywords with entries keywords.
+	TODO | Add more informations into JSON-LD document.
+	TODO | Optimize JSON-LD processing.
+	TODO | Embed as much as possible microdata/JSON-LD into blog.
+
+# version 3.x.x
+	TODO | Add support for plugin.
+	TODO | Add Incremental blog update.
