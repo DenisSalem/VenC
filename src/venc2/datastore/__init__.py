@@ -57,8 +57,12 @@ class DataStore:
         self.raw_chapters = {}
         self.chapters_index = []
         self.html_chapters = {}
-        self.entries_as_jsonld = {}
-
+        
+        # Build JSON-LD doc if any
+        if self.enable_jsonld:
+            self.entries_as_jsonld = {}
+            self.root_site_to_jsonld()
+            
         # Build entries
         try:
             jsonld_callback = self.entry_to_jsonld_callback if self.enable_jsonld else None
@@ -149,10 +153,6 @@ class DataStore:
                 "weight": node.weight
             })
 
-        # Build JSON-LD doc if any
-        if self.enable_jsonld:
-            self.root_site_to_jsonld()
-
     def root_site_to_jsonld(self):
         if "https://schema.org" in self.blog_configuration.keys():
             optionals = self.blog_configuration["https://schema.org"]
@@ -160,9 +160,10 @@ class DataStore:
         else:
             optionals = {}
 
-        self.blog_as_jsonld = {
+        self.root_as_jsonld = {
             "@context": "http://schema.org",
             "@type": ["Blog","WebPage"],
+            "@id" : self.blog_configuration["blog_url"]+"/root.jsonld",
             "name": self.blog_configuration["blog_name"],
             "url": self.blog_configuration["blog_url"],
             "description": self.blog_configuration["blog_description"],
@@ -178,7 +179,6 @@ class DataStore:
                 "@type": "CreativeWork",
                 "name": self.blog_configuration["license"]
             },
-            "breadcrumb" : [],
             "blogPost" : [],
             **optionals
         }
@@ -188,11 +188,11 @@ class DataStore:
             optionals = entry.schemadotorg
                 
         else:
-            optionals = {}:
+            optionals = {}
         
         doc = {
             "@context": "http://schema.org",
-            "@type" : ["BlogPosting","WebPage"],
+            "@type" : ["BlogPosting", "WebPage"],
             "@id" : self.blog_configuration["blog_url"]+"/entry"+str(entry.id)+".jsonld",
             "keywords" : entry.raw_metadata["tags"],
             "headline" : entry.title,
@@ -201,10 +201,11 @@ class DataStore:
             "inLanguage" : self.blog_configuration["blog_language"],
             "author" : [{"name":author["value"], "@type": "Person"} for author in entry.authors],
             "url" : entry.url.replace(".:GetRelativeOrigin:.", self.blog_configuration["blog_url"]+"/"),
-            "breadcrumb" : self.blog_as_jsonld["breadcrumb"],
-            "relatedLink" : [ {
-                "@type":"Url"
-            } for c in]
+            "breadcrumb" : {
+                "itemListElement": [
+                ]
+            },
+            "relatedLink" : [ c["path"] for c in entry.categories_leaves],
             **optionals
         }
 

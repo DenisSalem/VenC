@@ -270,7 +270,16 @@ class Thread:
         if self.columns_counter >= self.columns_number:
             self.columns_counter = 0
 
-    # Must be called in child class
+    def iterate_through_pages(self):
+        for page in self.pages:
+            self.pre_iteration()
+            for entry in page:
+                self.setup_context(entry)
+                self.do_iteration(entry)
+
+            self.post_iteration()
+    
+    # Must be called in child class           
     def do(self):
         self.current_page = 0
         self.page_number = 0
@@ -289,10 +298,5 @@ class Thread:
             stream.close()
             
         else:
-            for page in self.pages:
-                self.pre_iteration()
-                for entry in page:
-                    self.setup_context(entry)
-                    self.do_iteration(entry)
+            self.iterate_through_pages()
 
-                self.post_iteration()

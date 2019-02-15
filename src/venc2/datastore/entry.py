@@ -90,7 +90,7 @@ class Entry:
                     setattr(self, key, metadata[key])
                     
                 elif key == "https://schema.org" and metadata[key] != None:
-                    setattr(self, "schemadotorg", metadata[key]
+                    setattr(self, "schemadotorg", metadata[key])
                     
                 else:
                     notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")

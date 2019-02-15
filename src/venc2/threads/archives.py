@@ -22,10 +22,9 @@ import os
 from venc2.prompt import notify
 from venc2.threads import Thread
 
-class DatesThread(Thread):
+class ArchivesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
         super().__init__(prompt, datastore, theme, patterns, forbidden)
-        
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.sub_folders = self.datastore.blog_configuration["path"]["dates_sub_folders"]
         self.relative_origin = str("../"+''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
@@ -50,6 +49,11 @@ class DatesThread(Thread):
             ])
             super().do()
 
+    def JSONLD(self, argv):
+        if self.current_page == 0:
+            return '<script type="application/ld+json" src="archives.jsonld"></script>'
+        
+        return ''
 
 
 

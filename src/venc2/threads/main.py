@@ -18,7 +18,6 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc2.threads import Thread
-from venc2.threads.feed import FeedThread
 
 class MainThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
@@ -41,32 +40,39 @@ class MainThread(Thread):
         self.relative_origin = str()
         self.export_path = "blog/"
         self.in_thread = True
+        disable_rss_feed = self.datastore.blog_configuration["disable_rss_feed"]
+        disable_atom_feed = self.datastore.blog_configuration["disable_atom_feed"]
+        entries = [] 
+        if (not disable_rss_feed) or (not disable_atom_feed):
+            entries += self.get_feed_entries()
+            from venc2.threads.feed import FeedThread
         
-        if not self.datastore.blog_configuration["disable_rss_feed"]:
-            self.rss_feed = FeedThread(datastore, theme, patterns, forbidden, "rss")
-        
-        if not self.datastore.blog_configuration["disable_atom_feed"]:
-            self.atom_feed = FeedThread(datastore, theme, patterns, forbidden, "atom")
-
-    def do(self):
-        super().do()
-        i = 0
+        if not disable_atom_feed:
+            FeedThread(datastore, theme, patterns, forbidden, "atom").do(entries, self.export_path, self.relative_origin)
+            
+        if not disable_rss_feed:
+            FeedThread(datastore, theme, patterns, forbidden, "rss").do(entries, self.export_path, self.relative_origin)
+            
+    def get_feed_entries(self):
         entries = []
+        i = 0
         for entry in self.datastore.get_entries(True):
             entries.append(entry)
             i+=1
             if i == self.datastore.blog_configuration["feed_lenght"]:
-                break
-
-        if not self.datastore.blog_configuration["disable_rss_feed"]:
-            self.rss_feed.do(entries, self.export_path, self.relative_origin)
-    
-        if not self.datastore.blog_configuration["disable_atom_feed"]:
-            self.atom_feed.do(entries, self.export_path, self.relative_origin)
-
+                return entries
+                    
+    def do(self):
+        super().do()
+        if self.datastore.enable_jsonld: 
+            import json
+            dump = json.dumps(self.datastore.root_as_jsonld)
+            f = open("blog/root.jsonld", 'w')
+            f.write(dump)
+            
     def JSONLD(self, argv):
         if self.current_page == 0:
-            return '<script type="application/ld+json" src="blog.jsonld"></script>'
+            return '<script type="application/ld+json" src="root.jsonld"></script>'
         
         return ''
                 

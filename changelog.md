@@ -140,7 +140,7 @@
 	DONE | Add support for Atom feed.
 	DONE | Add blog generation timestamp.
 	DONE | Split unit-test from main branch
-    	DONE | Support ForPage in entries thread.
+    DONE | Support ForPage in entries thread.
 	DONE | Update command help with.
 	DONE | Handle ftp encoding error.
 	DONE | Sort by metadata.
@@ -155,6 +155,7 @@
 	DONE | fix FAQ categories separator is ' > ', not '>'
 	DONE | fix FAQ subfolders must not start with '/'
 	DONE | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
+    DONE | Refactor DatesThread to ArchivesThread.
 	TODO | Add definition for optional fields in blog configuration .
 	TODO | Open with navigator manual.
 	TODO | Client-side search engine.
@@ -185,6 +186,7 @@
 	TODO | Add more informations into JSON-LD document.
 	TODO | Optimize JSON-LD processing.
 	TODO | Embed as much as possible microdata/JSON-LD into blog.
+    TODO | Automatically add entries categories to entries tags.
 
 # version 3.x.x
 	TODO | Add support for plugin.
