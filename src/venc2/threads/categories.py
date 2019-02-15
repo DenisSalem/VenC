@@ -22,7 +22,6 @@ import urllib.parse
 
 from venc2.prompt import notify
 from venc2.threads import Thread
-from venc2.threads.feed import FeedThread
 
 class CategoriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
@@ -32,10 +31,16 @@ class CategoriesThread(Thread):
         self.export_path = "blog/"+self.datastore.blog_configuration["path"]["categories_sub_folders"]+'/'
         self.relative_origin = ""
         self.in_thread = True
-        if not self.datastore.blog_configuration["disable_rss_feed"]:
+        self.disable_rss_feed = self.datastore.blog_configuration["disable_rss_feed"]
+        self.disable_atom_feed = self.datastore.blog_configuration["disable_atom_feed"]
+        
+        if (not self.disable_rss_feed) or (not self.disable_atom_feed):
+            from venc2.threads.feed import FeedThread
+        
+        if not self.disable_rss_feed:
             self.rss_feed = FeedThread(datastore, theme, patterns, forbidden, "rss")
         
-        if not self.datastore.blog_configuration["disable_atom_feed"]:
+        if not self.disable_atom_feed:
             self.atom_feed = FeedThread(datastore, theme, patterns, forbidden, "atom")
  
     def if_in_categories(self, argv):
@@ -65,18 +70,23 @@ class CategoriesThread(Thread):
             entries = [self.datastore.entries[entry_index] for entry_index in node.related_to]
             self.organize_entries( entries[::-1] if self.datastore.blog_configuration["reverse_thread_order"] else entries )
             
-            super().do()
             entries = sorted(entries, key = lambda entry : entry.id, reverse=True)[0:self.datastore.blog_configuration["feed_lenght"]]
-            if not self.datastore.blog_configuration["disable_rss_feed"]:
+            if not self.disable_rss_feed:
                 self.rss_feed.do(entries, self.export_path, self.relative_origin)
     
-            if not self.datastore.blog_configuration["disable_atom_feed"]:
+            if not self.disable_atom_feed:
                 self.atom_feed.do(entries, self.export_path, self.relative_origin)
             
             self.do(root=node.childs)
 
             # Restore path
             self.export_path = export_path
+
+    def JSONLD(self, argv):
+        if self.current_page == 0:
+            return '<script type="application/ld+json" src="categories.jsonld"></script>'
+        
+        return ''
 
 
 

@@ -120,7 +120,15 @@ class EntriesThread(Thread):
         )
         stream.write(output)
         stream.close()
-    
+
+    def iterate_through_pages(self):
+        for page in self.pages:
+            for entry in page:
+                self.pre_iteration()
+                self.setup_context(entry)
+                self.do_iteration(entry)
+                self.post_iteration()
+
     def do(self):
         self.page_number = 0
         self.current_page = 0
@@ -132,4 +140,9 @@ class EntriesThread(Thread):
                     self.do_iteration(entry)
                     self.post_iteration()
 
+    def JSONLD(self, argv):
+        if self.current_page == 0:
+            return '<script type="application/ld+json" src="entry'+str(self.current_entry.id)+'.jsonld"></script>'
+        
+        return ''
 

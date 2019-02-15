@@ -35,11 +35,6 @@ from venc2.patterns.contextual import extra_contextual_pattern_names
 from venc2.patterns.non_contextual import non_contextual_pattern_names
 from venc2.patterns.processor import Processor
 from venc2.patterns.processor import ProcessedString
-from venc2.threads.categories import CategoriesThread
-from venc2.threads.dates import DatesThread
-from venc2.threads.entries import EntriesThread
-from venc2.threads.feed import FeedThread
-from venc2.threads.main import MainThread
 from venc2.commands.remote import remote_copy
 
 # Initialisation of environment
@@ -212,18 +207,22 @@ def export_blog(argv=list()):
     datastore.embed_providers = {}
 
     # Starting second pass and exporting
+    from venc2.threads.main import MainThread
     thread = MainThread(messages.export_main_thread, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
     thread.do()
 
     if not datastore.blog_configuration["disable_archives"]:
-        thread = DatesThread(messages.export_archives, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
+        from venc2.threads.archives import ArchivesThread
+        thread = ArchivesThread(messages.export_archives, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
         thread.do()
 
     if not datastore.blog_configuration["disable_categories"]:
+        from venc2.threads.categories import CategoriesThread
         thread = CategoriesThread(messages.export_categories, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
         thread.do()
 
     if not datastore.blog_configuration["disable_single_entries"]:
+        from venc2.threads.entries import EntriesThread
         thread = EntriesThread(messages.export_single_entries, datastore, theme, contextual_pattern_names, non_contextual_pattern_names_entry_keys)
         thread.do()
 
@@ -232,12 +231,6 @@ def export_blog(argv=list()):
     code_highlight.export_style_sheets()
     copy_recursively("extra/","blog/")
     copy_recursively(theme_folder+"assets/","blog/")
-    
-    if datastore.enable_jsonld: 
-        import json
-        dump = json.dumps(datastore.blog_as_jsonld)
-        f = open("blog/blog.jsonld", 'w')
-        f.write(dump)
 
 
  
