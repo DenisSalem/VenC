@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2019 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -34,11 +34,18 @@ class ArchivesThread(Thread):
         return argv[0].strip()
         
     def do(self):
-        for thread in self.datastore.entries_per_dates:
+        len_archives = len(self.datastore.entries_per_dates)
+        for i in range(0, len_archives):
+            thread = self.datastore.entries_per_dates[i]
             if thread.value in self.disable_threads:
                 continue
 
-            notify("\t"+thread.value+"...")
+            if i == len_archives-1:
+                tree_special_char = '└'
+            else:
+                tree_special_char = '├'
+                
+            notify("│\t "+tree_special_char+"─ "+thread.value+"...")
             self.export_path = str("blog/"+self.sub_folders+'/'+thread.value+'/').replace(' ','-')
             os.makedirs(self.export_path)
             self.organize_entries([

@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2019 Denis Salem
 # 
 #    This file is part of VenC.
 #
@@ -100,5 +100,5 @@ class Messages:
     chapter_already_exists = "Les chapitres \"{0}\" (id = {1}) et \"{2}\" (id = {3}) ont le même index \"{4}\"."
     malformed_escape_patterns_missing_opening_symbols = "Motifs d'échappement mal formés dans \"{0}\": Il manque un ou plusieurs symboles d'ouverture."
     malformed_escape_patterns_missing_closing_symbols = "Motifs d'échappement mal formés dans \"{0}\": Il manque un ou plusieurs symboles de fermeture."
-
+    copy_assets_and_extra_files = "Copie des fichiers additionelles..."
 

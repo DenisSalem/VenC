@@ -38,7 +38,7 @@ def merge(iterable, argv):
 
 class DataStore:
     def __init__(self):
-        notify(messages.loading_data)
+        notify("┌─ "+messages.loading_data)
         self.blog_configuration = get_blog_configuration()
         self.sort_by = self.blog_configuration["sort_by"]
         self.enable_jsonld = self.blog_configuration["enable_jsonld"]
