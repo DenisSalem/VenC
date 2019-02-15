@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2019 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -163,7 +163,7 @@ def export_blog(argv=list()):
 
     processor.blacklist.append("Escape")
 
-    notify(messages.pre_process)
+    notify("├─ "+messages.pre_process)
 
     # Now we want to perform first parsing pass on entries and chunk
     for entry in datastore.get_entries():
@@ -227,7 +227,7 @@ def export_blog(argv=list()):
         thread.do()
 
     # Copy assets and extra files
-
+    notify('└─ '+messages.copy_assets_and_extra_files)
     code_highlight.export_style_sheets()
     copy_recursively("extra/","blog/")
     copy_recursively(theme_folder+"assets/","blog/")

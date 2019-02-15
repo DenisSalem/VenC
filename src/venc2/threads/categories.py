@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2019 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -26,7 +26,7 @@ from venc2.threads import Thread
 class CategoriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
         super().__init__(prompt, datastore, theme, patterns, forbidden)
-        
+        self.indentation_level = "│  "
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.export_path = "blog/"+self.datastore.blog_configuration["path"]["categories_sub_folders"]+'/'
         self.relative_origin = ""
@@ -49,12 +49,20 @@ class CategoriesThread(Thread):
     def do(self, root=None):
         if root == None:
             root = self.datastore.entries_per_categories
-
-        for node in root:
+        
+        len_root = len(root)
+        for i in range(0, len_root):
+            node = root[i]
             if node.value in self.disable_threads:
                 continue
-
-            notify("\t"+node.value+"...")
+            
+            if i == len_root-1:
+                tree_special_char = '└'
+                
+            else:
+                tree_special_char = '├'
+                
+            notify(self.indentation_level+tree_special_char+"─ "+node.value+"...")
 
             export_path = self.export_path
             self.export_path += str(node.value+'/').replace(' ','-')
@@ -69,15 +77,25 @@ class CategoriesThread(Thread):
             # Get entries
             entries = [self.datastore.entries[entry_index] for entry_index in node.related_to]
             self.organize_entries( entries[::-1] if self.datastore.blog_configuration["reverse_thread_order"] else entries )
-            
+            super().do()
             entries = sorted(entries, key = lambda entry : entry.id, reverse=True)[0:self.datastore.blog_configuration["feed_lenght"]]
+            if i == len_root-1:
+                tree_special_char = ' '
+            else:
+                tree_special_char = '│'
+                
             if not self.disable_rss_feed:
-                self.rss_feed.do(entries, self.export_path, self.relative_origin)
+                self.rss_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', '├' if not self.disable_atom_feed or len(node.childs) else '└')
     
             if not self.disable_atom_feed:
-                self.atom_feed.do(entries, self.export_path, self.relative_origin)
-            
+                self.atom_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', '├' if len(node.childs) else '└')
+            if len_root - 1 == i:
+                self.indentation_level += "   "
+            else:
+                self.indentation_level += "│  "
             self.do(root=node.childs)
+            self.indentation_level = self.indentation_level[:-3]
+
 
             # Restore path
             self.export_path = export_path

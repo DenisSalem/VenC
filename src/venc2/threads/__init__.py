@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2019 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -32,7 +32,7 @@ class Thread:
         self.datastore = datastore
         # Notify wich thread is processed
         if prompt != "":
-            notify(prompt)
+            notify("├─ "+prompt)
 
         self.forbidden = forbidden
         self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])

@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2019 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -38,8 +38,8 @@ class FeedThread(Thread):
         self.in_thread = True
         self.content_type = feed_type
 
-    def do(self, entries, export_path, relative_origin):
-        notify("│\t └─ "+getattr(messages, "generating_"+self.content_type))
+    def do(self, entries, export_path, relative_origin, indentation_level, tree_special_char):
+        notify(indentation_level+' '+tree_special_char+"─ "+getattr(messages, "generating_"+self.content_type))
         self.export_path = export_path
         self.relative_origin = relative_origin
         self.organize_entries(entries)

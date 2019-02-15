@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2019 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -48,10 +48,10 @@ class MainThread(Thread):
             from venc2.threads.feed import FeedThread
         
         if not disable_atom_feed:
-            FeedThread(datastore, theme, patterns, forbidden, "atom").do(entries, self.export_path, self.relative_origin)
+            FeedThread(datastore, theme, patterns, forbidden, "atom").do(entries, self.export_path, self.relative_origin, "│  ", '└' if disable_atom_feed else '├')
             
         if not disable_rss_feed:
-            FeedThread(datastore, theme, patterns, forbidden, "rss").do(entries, self.export_path, self.relative_origin)
+            FeedThread(datastore, theme, patterns, forbidden, "rss").do(entries, self.export_path, self.relative_origin, "│  ", '└')
             
     def get_feed_entries(self):
         entries = []
