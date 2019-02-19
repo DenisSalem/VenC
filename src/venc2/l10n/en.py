@@ -103,3 +103,6 @@ class Messages:
     malformed_escape_patterns_missing_opening_symbols = "Malformed escaping patterns in \"{0}\": One or more opening symbols are missing."
     malformed_escape_patterns_missing_closing_symbols = "Malformed escaping patterns in \"{0}\": One or more closing symbols are missing."
     copy_assets_and_extra_files = "Copying extra files..."
+    generating_jsonld_doc = "Generating JSON-LD document..."
+    generating_jsonld_docs = "Generating JSON-LD documents..."
+

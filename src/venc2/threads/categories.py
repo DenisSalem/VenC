@@ -26,7 +26,6 @@ from venc2.threads import Thread
 class CategoriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
         super().__init__(prompt, datastore, theme, patterns, forbidden)
-        self.indentation_level = "│  "
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.export_path = "blog/"+self.datastore.blog_configuration["path"]["categories_sub_folders"]+'/'
         self.relative_origin = ""

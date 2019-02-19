@@ -29,7 +29,9 @@ from venc2.patterns.processor import Processor
 
 class Thread:
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
+        self.indentation_level = "│  "
         self.datastore = datastore
+        self.patterns = patterns
         # Notify wich thread is processed
         if prompt != "":
             notify("├─ "+prompt)
