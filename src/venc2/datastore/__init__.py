@@ -60,14 +60,27 @@ class DataStore:
         
         # Build JSON-LD doc if any
         if self.enable_jsonld:
+            if "https://schema.org" in self.blog_configuration.keys():
+                self.optionals_schemadotorg = self.blog_configuration["https://schema.org"]
+                
+            else:
+                self.optionals_schemadotorg = {}
+            
             self.entries_as_jsonld = {}
+            self.archives_as_jsonld = {}
             self.root_site_to_jsonld()
             
         # Build entries
         try:
             jsonld_callback = self.entry_to_jsonld_callback if self.enable_jsonld else None
             for filename in yield_entries_content():
-                self.entries.append(Entry(filename, self.blog_configuration["path"], jsonld_callback=jsonld_callback, encoding=self.blog_configuration["path_encoding"]))
+                self.entries.append(Entry(
+                    filename,
+                    self.blog_configuration["path"],
+                    jsonld_callback,
+                    self.blog_configuration["path"]["dates_directory_name"],
+                    self.blog_configuration["path_encoding"]
+                ))
 
         except MalformedPatterns as e:
             from venc2.helpers import handle_malformed_patterns
@@ -83,11 +96,11 @@ class DataStore:
 
             # Update entriesPerDates
             if self.blog_configuration["path"]["dates_directory_name"] != '':
-                formatted_date = current_entry.date.strftime(self.blog_configuration["path"]["dates_directory_name"])
-                entries_indexes = self.get_entries_index_for_given_date(formatted_date)
-                if entries_indexes != None:
-                    self.entries_per_dates[entries_indexes].count +=1
-                    self.entries_per_dates[entries_indexes].related_to.append(entry_index)
+                formatted_date = current_entry.formatted_date
+                entries_index = self.get_entries_index_for_given_date(formatted_date)
+                if entries_index != None:
+                    self.entries_per_dates[entries_index].count +=1
+                    self.entries_per_dates[entries_index].related_to.append(entry_index)
 
                 else:
                     self.entries_per_dates.append(MetadataNode(formatted_date, entry_index))
@@ -134,7 +147,7 @@ class DataStore:
                         top = top[-1].sub_chapters
 
 
-        # Setup BlogDates Data
+        # Setup BlogArchives Data
         self.blog_dates = list()
         for node in self.entries_per_dates:
             try:
@@ -152,14 +165,13 @@ class DataStore:
                 "count": node.count,
                 "weight": node.weight
             })
+        
+        # Setup archives as jsonld if any
+        if self.enable_jsonld:
+            for archive in self.entries_per_dates:
+                self.archives_to_jsonld(archive.value, archive.related_to)
 
     def root_site_to_jsonld(self):
-        if "https://schema.org" in self.blog_configuration.keys():
-            optionals = self.blog_configuration["https://schema.org"]
-                
-        else:
-            optionals = {}
-
         self.root_as_jsonld = {
             "@context": "http://schema.org",
             "@type": ["Blog","WebPage"],
@@ -180,9 +192,33 @@ class DataStore:
                 "name": self.blog_configuration["license"]
             },
             "blogPost" : [],
-            **optionals
+            **self.optionals_schemadotorg
         }
 
+    def archives_to_jsonld(self, archive_value, related_to):
+        self.archives_as_jsonld[archive_value] = {
+            "@context": "http://schema.org",
+            "@type": ["Blog","WebPage"],
+            "@id" : self.blog_configuration["blog_url"]+'/'+archive_value+"/archives.jsonld",
+            "name": self.blog_configuration["blog_name"],
+            "url": self.blog_configuration["blog_url"]+'/'+archive_value,
+            "description": self.blog_configuration["blog_description"],
+            "author": {
+                "@type" : "Person",
+                "email" : self.blog_configuration["author_email"],
+                "description" : self.blog_configuration["author_description"],
+                "name" : self.blog_configuration["author_name"]
+            },
+            "keywords" : self.blog_configuration["blog_keywords"],
+            "inLanguage" : self.blog_configuration["blog_language"],
+            "license" : {
+                "@type": "CreativeWork",
+                "name": self.blog_configuration["license"]
+            },
+            "blogPost" : [],
+            **self.optionals_schemadotorg
+        }
+        
     def entry_to_jsonld_callback(self, entry):
         if hasattr(entry, "schemadotorg"):
             optionals = entry.schemadotorg
@@ -190,16 +226,34 @@ class DataStore:
         else:
             optionals = {}
         
+        author = [{"name":author["value"], "@type": "Person"} for author in entry.authors]
+        if "publisher" in entry.schemadotorg.keys():
+            publisher = entry.schemadotorg["publisher"]
+            
+        elif "publisher" in self.blog_configuration["https://schema.org"].keys():
+            publisher = self.blog_configuration["https://schema.org"]["publisher"]
+        
+        elif author != []:
+            publisher = author
+        
+        else:
+            publisher = {
+                "@type":"Person",
+                "name":self.blog_configuration["author_name"]
+            }
+            
+        entry_url = '/'.join(entry.url.split('/')[:-1]).replace(".:GetRelativeOrigin:.", self.blog_configuration["blog_url"]+'/')
         doc = {
             "@context": "http://schema.org",
             "@type" : ["BlogPosting", "WebPage"],
-            "@id" : self.blog_configuration["blog_url"]+"/entry"+str(entry.id)+".jsonld",
-            "keywords" : entry.raw_metadata["tags"],
+            "@id" : entry_url+"/entry"+str(entry.id)+".jsonld",
+            "keywords" : entry.raw_metadata["tags"]+", "+entry.raw_metadata["categories"],
             "headline" : entry.title,
             "name" : entry.title,
-            "date" : entry.date.isoformat(),
+            "datePublished" : entry.date.isoformat(),
             "inLanguage" : self.blog_configuration["blog_language"],
-            "author" : [{"name":author["value"], "@type": "Person"} for author in entry.authors],
+            "author" : author if author != [] else self.blog_configuration["author_name"],
+            "publisher" : publisher,
             "url" : entry.url.replace(".:GetRelativeOrigin:.", self.blog_configuration["blog_url"]+"/"),
             "breadcrumb" : {
                 "itemListElement": [
@@ -208,8 +262,21 @@ class DataStore:
             "relatedLink" : [ c["path"] for c in entry.categories_leaves],
             **optionals
         }
-
         self.entries_as_jsonld[entry.id] = doc
+        # TODO 2.x.x : TRY AVOID DEREFERENCE HERE
+        
+        blogPost = {
+            "@type": doc["@type"],
+            "@id": doc["@id"],
+            "headline":entry.title,
+            "author": doc["author"],
+            "publisher": doc["publisher"],
+            "datePublished": doc["datePublished"],
+            "keywords": doc["keywords"],
+            "url": doc["url"]
+        }
+        self.root_as_jsonld["blogPost"].append(blog_post)
+        self.archives_as_jsonld[entry.formatted_date]["blogPost"].append(blog_post)
         
     def get_chapters(self, argv):
         key = ''.join(argv)

@@ -40,18 +40,6 @@ class MainThread(Thread):
         self.relative_origin = str()
         self.export_path = "blog/"
         self.in_thread = True
-        disable_rss_feed = self.datastore.blog_configuration["disable_rss_feed"]
-        disable_atom_feed = self.datastore.blog_configuration["disable_atom_feed"]
-        entries = [] 
-        if (not disable_rss_feed) or (not disable_atom_feed):
-            entries += self.get_feed_entries()
-            from venc2.threads.feed import FeedThread
-        
-        if not disable_atom_feed:
-            FeedThread(datastore, theme, patterns, forbidden, "atom").do(entries, self.export_path, self.relative_origin, "│  ", '└' if disable_atom_feed else '├')
-            
-        if not disable_rss_feed:
-            FeedThread(datastore, theme, patterns, forbidden, "rss").do(entries, self.export_path, self.relative_origin, "│  ", '└')
             
     def get_feed_entries(self):
         entries = []
@@ -64,14 +52,30 @@ class MainThread(Thread):
                     
     def do(self):
         super().do()
-        if self.datastore.enable_jsonld: 
+        disable_rss_feed = self.datastore.blog_configuration["disable_rss_feed"]
+        disable_atom_feed = self.datastore.blog_configuration["disable_atom_feed"]
+        entries = [] 
+        if (not disable_rss_feed) or (not disable_atom_feed):
+            entries += self.get_feed_entries()
+            from venc2.threads.feed import FeedThread
+        
+        if not disable_atom_feed:
+            FeedThread(self.datastore, self.theme, self.patterns, self.forbidden, "atom").do(entries, self.export_path, self.relative_origin, "│  ", '└' if disable_atom_feed and not self.datastore.enable_jsonld else '├')
+            
+        if not disable_rss_feed:
+            FeedThread(self.datastore, self.theme, self.patterns, self.forbidden, "rss").do(entries, self.export_path, self.relative_origin, "│  ", '└' if not self.datastore.enable_jsonld else '├')
+        
+        if self.datastore.enable_jsonld:
+            from venc2.prompt import notify
+            from venc2.l10n import messages
             import json
+            notify(self.indentation_level+' └─ '+messages.generating_jsonld_doc)
             dump = json.dumps(self.datastore.root_as_jsonld)
             f = open("blog/root.jsonld", 'w')
             f.write(dump)
             
     def JSONLD(self, argv):
-        if self.current_page == 0:
+        if self.current_page == 0 and self.datastore.enable_jsonld:
             return '<script type="application/ld+json" src="root.jsonld"></script>'
         
         return ''

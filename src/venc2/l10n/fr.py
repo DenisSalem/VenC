@@ -101,4 +101,6 @@ class Messages:
     malformed_escape_patterns_missing_opening_symbols = "Motifs d'échappement mal formés dans \"{0}\": Il manque un ou plusieurs symboles d'ouverture."
     malformed_escape_patterns_missing_closing_symbols = "Motifs d'échappement mal formés dans \"{0}\": Il manque un ou plusieurs symboles de fermeture."
     copy_assets_and_extra_files = "Copie des fichiers additionelles..."
+    generating_jsonld_doc = "Génération du document JSON-LD..."
+    generating_jsonld_docs = "Génération des documents JSON-LD..."
 

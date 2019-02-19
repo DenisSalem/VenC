@@ -56,9 +56,10 @@ class EntryWrapper:
         die(messages.missing_entry_content_inclusion)
 
 class Entry:
-    def __init__(self, filename, paths, jsonld_callback, encoding="utf-8", ):
+    def __init__(self, filename, paths, jsonld_callback, date_format, encoding="utf-8", ):
         self.previous_entry = None
         self.next_entry = None
+        self.schemadotorg = {}
 
         # Loading
         raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()
@@ -90,7 +91,7 @@ class Entry:
                     setattr(self, key, metadata[key])
                     
                 elif key == "https://schema.org" and metadata[key] != None:
-                    setattr(self, "schemadotorg", metadata[key])
+                    self.schemadotorg = metadata[key]
                     
                 else:
                     notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")
@@ -114,7 +115,8 @@ class Entry:
             hour=int(raw_date[3]),
             minute=int(raw_date[4])
         )
-        
+        self.formatted_date = self.date.strftime(date_format)
+
         try:
             self.title = metadata["title"].replace(".:GetEntryTitle:.",'')
 

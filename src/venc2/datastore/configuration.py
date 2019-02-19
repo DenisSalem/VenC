@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#   Copyright 2016, 2017 Denis Salem
+#   Copyright 2016, 2019 Denis Salem
 
 #    This file is part of VenC.
 #
@@ -32,18 +32,18 @@ def get_blog_configuration():
             "blog_name",
             "text_editor",
             "date_format",
-	    "author_name",
-	    "blog_description",
-	    "blog_keywords",
-	    "author_description",
-	    "license",
-	    "blog_url",
+            "author_name",
+            "blog_description",
+            "blog_keywords",
+            "author_description",
+            "license",
+            "blog_url",
             "ftp_host",
-	    "blog_language",
-	    "author_email",
-	    "entries_per_pages",
+            "blog_language",
+            "author_email",
+            "entries_per_pages",
             "columns",
-	    "feed_lenght",
+            "feed_lenght",
             "reverse_thread_order",
             "markup_language",
             "disable_threads",
@@ -68,11 +68,11 @@ def get_blog_configuration():
         
         mandatory_fields = [
             "index_file_name",
-	    "category_directory_name",
-	    "dates_directory_name",
-	    "entry_file_name",
-	    "rss_file_name",
-	    "atom_file_name",
+            "category_directory_name",
+            "dates_directory_name",
+            "entry_file_name",
+            "rss_file_name",
+            "atom_file_name",
             "ftp",
             "entries_sub_folders",
             "categories_sub_folders",
@@ -84,6 +84,9 @@ def get_blog_configuration():
                 everything_is_okay = False
                 notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
 
+        if not "https://schema.org" in blog_configuration.keys():
+            blog_configuration["https://schema.org"] = {}
+            
         if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
             everything_is_okay = False
             notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blog_configuration.yaml"),"RED")

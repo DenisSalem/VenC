@@ -156,7 +156,7 @@
     DONE | fix FAQ subfolders must not start with '/'
     DONE | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
     DONE | Refactor DatesThread to ArchivesThread.
-    TODO | Add definition for optional fields in blog configuration.
+    TODO | Add definition in documentation for optional fields in blog configuration.
     TODO | Open with navigator manual.
     WIP  | Client-side search engine.
     WIP  | Semantic-web features.
@@ -164,7 +164,8 @@
     TODO | Add relevant templates for themes.
     WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
-# version 2.x.x
+# version 2.1.x
+    TODO | Create entry with default template, if defined.
     TODO | Add support for access metadata by key.
     TODO | Make some dependencies optional.
     TODO | Split themes from main branch
@@ -185,12 +186,14 @@
     TODO | Optimize modules importation.
     TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Add more informations into JSON-LD document.
-    TODO | Optimize JSON-LD processing.
+    TODO | Optimize and refine JSON-LD processing.
     TODO | Embed as much as possible microdata/JSON-LD into blog.
     TODO | Automatically add entries categories to entries tags.
+    TODO | Make entry URL nicer when filename is index.html and has subfolder.
+    TODO | Catch "OSError: [Errno 98] Address already in use".
 
 # version 3.x.x
     TODO | Add support for plugin.
     TODO | Add Incremental blog update.
-    TODO | Add support for blog within blog.
-    TODO | Add support for single page.
+    TODO | Add support for sub-blogs within main blog.
+    TODO | Add support for single pages.

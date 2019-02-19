@@ -22,6 +22,8 @@ import os
 
 from venc2.prompt import notify
 from venc2.threads import Thread
+from venc2.l10n import messages
+import json
 
 class EntriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
@@ -120,16 +122,12 @@ class EntriesThread(Thread):
         )
         stream.write(output)
         stream.close()
-
-    def iterate_through_pages(self):
-        for page in self.pages:
-            for entry in page:
-                self.pre_iteration()
-                self.setup_context(entry)
-                self.do_iteration(entry)
-                self.post_iteration()
-
+        self.current_export_path = export_path
+        
     def do(self):
+        if self.datastore.enable_jsonld:
+            notify(self.indentation_level+' └─ '+messages.generating_jsonld_docs)
+            
         self.page_number = 0
         self.current_page = 0
         if len(self.pages):
@@ -139,10 +137,14 @@ class EntriesThread(Thread):
                     self.pre_iteration()
                     self.do_iteration(entry)
                     self.post_iteration()
+                    if self.datastore.enable_jsonld:
+                        dump = json.dumps(self.datastore.entries_as_jsonld[self.current_entry.id])
+                        f = open(self.current_export_path+"/entry"+str(entry.id)+".jsonld", 'w')
+                        f.write(dump)
 
     def JSONLD(self, argv):
-        if self.current_page == 0:
+        if self.datastore.enable_jsonld:
             return '<script type="application/ld+json" src="entry'+str(self.current_entry.id)+'.jsonld"></script>'
-        
+            
         return ''
 
