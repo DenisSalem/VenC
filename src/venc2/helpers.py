@@ -44,7 +44,7 @@ def handle_malformed_patterns(e):
             die(messages.malformed_escape_patterns_missing_closing_symbols.format(e.ressource))
         die(messages.malformed_escape_patterns_missing_opening_symbols.format(e.ressource))
     
-    if e.too_many_openings_symbols:
+    if e.too_many_opening_symbols:
         die(messages.malformed_patterns_missing_closing_symbols.format(e.ressource))
     die(messages.malformed_patterns_missing_opening_symbols.format(e.ressource))
 
