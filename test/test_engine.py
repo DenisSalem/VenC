@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-from venc2.helpers import get_formatted_message 
+from venc2.prompt import get_formatted_message 
 
 def run_tests(tests_name, tests):
     print(tests_name)

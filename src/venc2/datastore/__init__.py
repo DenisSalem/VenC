@@ -166,11 +166,6 @@ class DataStore:
                 "weight": node.weight
             })
         
-        # Setup archives as jsonld if any
-        if self.enable_jsonld:
-            for archive in self.entries_per_dates:
-                self.archives_to_jsonld(archive.value, archive.related_to)
-
     def root_site_to_jsonld(self):
         self.root_as_jsonld = {
             "@context": "http://schema.org",
@@ -195,13 +190,15 @@ class DataStore:
             **self.optionals_schemadotorg
         }
 
-    def archives_to_jsonld(self, archive_value, related_to):
+    def archives_to_jsonld(self, archive_value):
+        blog_url = self.blog_configuration["blog_url"]
+        blog_name = self.blog_configuration["blog_name"]
         self.archives_as_jsonld[archive_value] = {
             "@context": "http://schema.org",
             "@type": ["Blog","WebPage"],
-            "@id" : self.blog_configuration["blog_url"]+'/'+archive_value+"/archives.jsonld",
-            "name": self.blog_configuration["blog_name"],
-            "url": self.blog_configuration["blog_url"]+'/'+archive_value,
+            "@id" : blog_url+'/'+archive_value+"/archives.jsonld",
+            "name": blog_name,
+            "url": blog_url+'/'+archive_value,
             "description": self.blog_configuration["blog_description"],
             "author": {
                 "@type" : "Person",
@@ -211,9 +208,17 @@ class DataStore:
             },
             "keywords" : self.blog_configuration["blog_keywords"],
             "inLanguage" : self.blog_configuration["blog_language"],
-            "license" : {
-                "@type": "CreativeWork",
-                "name": self.blog_configuration["license"]
+            "license" : self.root_as_jsonld["license"],
+            "breadcrumb" : {
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                        "@id": blog_url+"/root.jsonld",
+                        "url": blog_url,
+                        "name": blog_name
+                    }
+                }]
             },
             "blogPost" : [],
             **self.optionals_schemadotorg
@@ -256,8 +261,24 @@ class DataStore:
             "publisher" : publisher,
             "url" : entry.url.replace(".:GetRelativeOrigin:.", self.blog_configuration["blog_url"]+"/"),
             "breadcrumb" : {
-                "itemListElement": [
-                ]
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                        "@id": blog_url+"/root.jsonld",
+                        "url": blog_url,
+                        "name": blog_name
+                    }
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "item": {
+                        "@id": blog_url+"/root.jsonld",
+                        "url": blog_url,
+                        "name": entry.title
+                    }
+                }]
             },
             "relatedLink" : [ c["path"] for c in entry.categories_leaves],
             **optionals
@@ -265,7 +286,7 @@ class DataStore:
         self.entries_as_jsonld[entry.id] = doc
         # TODO 2.x.x : TRY AVOID DEREFERENCE HERE
         
-        blogPost = {
+        blog_post = {
             "@type": doc["@type"],
             "@id": doc["@id"],
             "headline":entry.title,
@@ -276,6 +297,12 @@ class DataStore:
             "url": doc["url"]
         }
         self.root_as_jsonld["blogPost"].append(blog_post)
+        
+        # Setup archives as jsonld if any
+        entry_formatted_date = entry.formatted_date
+        if entry_formatted_date not in self.archives_as_jsonld.keys():
+            self.archives_to_jsonld(entry_formatted_date)
+            
         self.archives_as_jsonld[entry.formatted_date]["blogPost"].append(blog_post)
         
     def get_chapters(self, argv):
