@@ -140,9 +140,9 @@ class Entry:
             "entry_title": self.title
         }
         sf = paths["entries_sub_folders"].format(**params).replace(' ','-')
-        self.sub_folder = sf+'/' if sf != '' else ''
+        self.sub_folder = urllib.parse.quote(sf, encoding=encoding)+'/' if sf != '' else ''
         try:
-            self.url = ".:GetRelativeOrigin:."+urllib.parse.quote(self.sub_folder+paths["entry_file_name"].format(**params), encoding=encoding)
+            self.url = ".:GetRelativeOrigin:."+self.sub_folder+urllib.parse.quote(paths["entry_file_name"].format(**params), encoding=encoding)
 
         except UnicodeEncodeError as e:
             self.url = ".:GetRelativeOrigin:."+self.sub_folder+paths["entry_file_name"].format(**params)

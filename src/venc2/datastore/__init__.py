@@ -193,6 +193,7 @@ class DataStore:
     def archives_to_jsonld(self, archive_value):
         blog_url = self.blog_configuration["blog_url"]
         blog_name = self.blog_configuration["blog_name"]
+        
         self.archives_as_jsonld[archive_value] = {
             "@context": "http://schema.org",
             "@type": ["Blog","WebPage"],
@@ -246,13 +247,14 @@ class DataStore:
                 "@type":"Person",
                 "name":self.blog_configuration["author_name"]
             }
-            
+        blog_url = self.blog_configuration["blog_url"]
         entry_url = '/'.join(entry.url.split('/')[:-1]).replace(".:GetRelativeOrigin:.", self.blog_configuration["blog_url"]+'/')
+        filename = "entry"+str(entry.id)+".jsonld"
         doc = {
             "@context": "http://schema.org",
             "@type" : ["BlogPosting", "WebPage"],
-            "@id" : entry_url+"/entry"+str(entry.id)+".jsonld",
-            "keywords" : entry.raw_metadata["tags"]+", "+entry.raw_metadata["categories"],
+            "@id" : entry_url+'/'+filename,
+            "keywords" : ','.join(list(set( [keyword.strip() for keyword in (entry.raw_metadata["tags"]+", "+entry.raw_metadata["categories"]).split(',')] ))),
             "headline" : entry.title,
             "name" : entry.title,
             "datePublished" : entry.date.isoformat(),
@@ -267,15 +269,15 @@ class DataStore:
                     "item": {
                         "@id": blog_url+"/root.jsonld",
                         "url": blog_url,
-                        "name": blog_name
+                        "name": self.blog_configuration["blog_name"]
                     }
                 },
                 {
                     "@type": "ListItem",
                     "position": 2,
                     "item": {
-                        "@id": blog_url+"/root.jsonld",
-                        "url": blog_url,
+                        "@id": blog_url+entry.sub_folder+filename,
+                        "url": entry_url,
                         "name": entry.title
                     }
                 }]
