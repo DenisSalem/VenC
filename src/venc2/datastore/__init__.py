@@ -68,6 +68,7 @@ class DataStore:
             
             self.entries_as_jsonld = {}
             self.archives_as_jsonld = {}
+            self.categories_as_jsonld = {}
             self.root_site_to_jsonld()
             
         # Build entries
@@ -190,6 +191,38 @@ class DataStore:
             **self.optionals_schemadotorg
         }
 
+	def categories_to_jsonld(self, category_value):
+        self.categories_as_jsonld[category_value] = {
+            "@context": "http://schema.org",
+            "@type": ["Blog","WebPage"],
+            "@id" : blog_url+'/'+category_value+"/categories.jsonld",
+            "name": blog_name,
+            "url": blog_url+'/'+category_value,
+            "description": self.blog_configuration["blog_description"],
+            "author": {
+                "@type" : "Person",
+                "email" : self.blog_configuration["author_email"],
+                "description" : self.blog_configuration["author_description"],
+                "name" : self.blog_configuration["author_name"]
+            },
+            "keywords" : self.blog_configuration["blog_keywords"],
+            "inLanguage" : self.blog_configuration["blog_language"],
+            "license" : self.root_as_jsonld["license"],
+            "breadcrumb" : {
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                        "@id": blog_url+"/root.jsonld",
+                        "url": blog_url,
+                        "name": blog_name
+                    }
+                }]
+            },
+            "blogPost" : [],
+            **self.optionals_schemadotorg
+        }
+        		
     def archives_to_jsonld(self, archive_value):
         blog_url = self.blog_configuration["blog_url"]
         blog_name = self.blog_configuration["blog_name"]
@@ -240,7 +273,10 @@ class DataStore:
             publisher = self.blog_configuration["https://schema.org"]["publisher"]
         
         elif author != []:
-            publisher = author
+            publisher = [{
+                "@type":"Person",
+                "name": v.strip(),
+            } for v in author.split(',')]
         
         else:
             publisher = {
@@ -304,6 +340,10 @@ class DataStore:
         entry_formatted_date = entry.formatted_date
         if entry_formatted_date not in self.archives_as_jsonld.keys():
             self.archives_to_jsonld(entry_formatted_date)
+            
+		for category in entry.categories_leaves:
+			path = category["path"].replace('.:GetRelativeOrigin:.','')
+			self.categories
             
         self.archives_as_jsonld[entry.formatted_date]["blogPost"].append(blog_post)
         

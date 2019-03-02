@@ -154,13 +154,13 @@ class Entry:
             for category in self.raw_categories:
                 category_leaf = category.split(' > ')[-1].strip()
                 if len(category_leaf) != 0:
-                    category_leaf_url = ".:GetRelativeOrigin:."
+                    category_leaf_path = ".:GetRelativeOrigin:."
                     for sub_category in category.split(' > '):
-                        category_leaf_url +=sub_category.strip()+'/'
+                        category_leaf_path +=sub_category.strip()+'/'
                 
                     self.categories_leaves.append({
                         "value": category_leaf,
-                        "path":category_leaf_url,
+                        "path": category_leaf_path,
                         "raw" : category
                     })
 
