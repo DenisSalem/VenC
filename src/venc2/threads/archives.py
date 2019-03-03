@@ -62,7 +62,8 @@ class ArchivesThread(Thread):
             super().do()
             if self.datastore.enable_jsonld:
                 blog_url = self.datastore.blog_configuration["blog_url"]
-                self.datastore.archives_as_jsonld[thread.value]["breadcrumb"]["itemListElement"].append({
+                archive_as_jsonld = self.datastore.archives_as_jsonld[thread.value]
+                archive_as_jsonld["breadcrumb"]["itemListElement"].append({
                     "@type": "ListItem",
                     "position": 2,
                     "item": {
@@ -71,7 +72,9 @@ class ArchivesThread(Thread):
                         "name": self.datastore.blog_configuration["blog_name"] +' | '+thread.value
                     }
                 })
-                dump = json.dumps(self.datastore.archives_as_jsonld[thread.value])
+                archive_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+thread.value+"/archives.jsonld"
+                archive_as_jsonld["url"] = blog_url+'/'+self.sub_folders+thread.value
+                dump = json.dumps(archive_as_jsonld)
                 f = open("blog/"+self.sub_folders+'/'+thread.value+"/archives.jsonld", 'w')
                 f.write(dump)
 
