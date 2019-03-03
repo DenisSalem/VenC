@@ -27,7 +27,11 @@ class CategoriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns, forbidden):
         super().__init__(prompt, datastore, theme, patterns, forbidden)
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
-        self.export_path = "blog/"+self.datastore.blog_configuration["path"]["categories_sub_folders"]+'/'
+        self.sub_folders = self.datastore.blog_configuration["path"]["categories_sub_folders"]
+        if len(self.sub_folders) and self.sub_folders[-1] != '/':
+            self.sub_folders += '/'
+        self.export_path = "blog/"+self.sub_folders
+        self.category_value = ""
         self.relative_origin = ""
         self.in_thread = True
         self.disable_rss_feed = self.datastore.blog_configuration["disable_rss_feed"]
@@ -64,6 +68,8 @@ class CategoriesThread(Thread):
             notify(self.indentation_level+tree_special_char+"─ "+node.value+"...")
 
             export_path = self.export_path
+            category_value = self.category_value
+            self.category_value += node.value+'/'
             self.export_path += str(node.value+'/').replace(' ','-')
             self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
 
@@ -92,12 +98,38 @@ class CategoriesThread(Thread):
                 self.indentation_level += "   "
             else:
                 self.indentation_level += "│  "
+            
             self.do(root=node.childs)
             self.indentation_level = self.indentation_level[:-3]
-
-
+            
+            if self.datastore.enable_jsonld:
+                import json
+                blog_url = self.datastore.blog_configuration["blog_url"]
+                category_as_jsonld = self.datastore.categories_as_jsonld[self.category_value]
+                position = 2
+                category_breadcrumb_path = ''
+                for sub_category in self.category_value.split('/'):
+                    category_breadcrumb_path += sub_category+'/'
+                    category_as_jsonld["breadcrumb"]["itemListElement"].append({
+                        "@type": "ListItem",
+                        "position": position,
+                        "item": {
+                            "@id": blog_url+'/'+self.sub_folders+category_breadcrumb_path+"categories.jsonld",
+                            "url": blog_url+'/'+self.sub_folders+category_breadcrumb_path,
+                            "name": self.datastore.blog_configuration["blog_name"] +' | '+ sub_category
+                        }
+                    })
+                    position += 1
+                category_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+self.category_value+"categories.jsonld"
+                category_as_jsonld["url"] = blog_url+'/'+self.sub_folders+self.category_value
+                dump = json.dumps(category_as_jsonld)
+                f = open(("blog/"+self.sub_folders+self.category_value+"categories.jsonld").replace(' ','-'), 'w')
+                f.write(dump)
+                
             # Restore path
             self.export_path = export_path
+            self.category_value = category_value
+
 
     def JSONLD(self, argv):
         if self.current_page == 0:

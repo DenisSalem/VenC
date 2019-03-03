@@ -187,6 +187,7 @@
     TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Add more informations into JSON-LD document.
     TODO | Optimize and refine JSON-LD processing.
+    TODO | Fix encoding issue in JSON-LD document.
     TODO | Embed as much as possible microdata/JSON-LD into blog.
     TODO | Automatically add entries categories to entries tags.
     TODO | Make entry URL nicer when filename is index.html and has subfolder.

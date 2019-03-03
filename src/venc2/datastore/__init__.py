@@ -191,13 +191,15 @@ class DataStore:
             **self.optionals_schemadotorg
         }
 
-	def categories_to_jsonld(self, category_value):
+    def categories_to_jsonld(self, category_value, leaf_name):
+        blog_url = self.blog_configuration["blog_url"]
+        blog_name = self.blog_configuration["blog_name"]
         self.categories_as_jsonld[category_value] = {
             "@context": "http://schema.org",
             "@type": ["Blog","WebPage"],
             "@id" : blog_url+'/'+category_value+"/categories.jsonld",
-            "name": blog_name,
             "url": blog_url+'/'+category_value,
+            "name": blog_name + ' | ' + leaf_name,
             "description": self.blog_configuration["blog_description"],
             "author": {
                 "@type" : "Person",
@@ -222,7 +224,7 @@ class DataStore:
             "blogPost" : [],
             **self.optionals_schemadotorg
         }
-        		
+                
     def archives_to_jsonld(self, archive_value):
         blog_url = self.blog_configuration["blog_url"]
         blog_name = self.blog_configuration["blog_name"]
@@ -230,9 +232,7 @@ class DataStore:
         self.archives_as_jsonld[archive_value] = {
             "@context": "http://schema.org",
             "@type": ["Blog","WebPage"],
-            "@id" : blog_url+'/'+archive_value+"/archives.jsonld",
-            "name": blog_name,
-            "url": blog_url+'/'+archive_value,
+            "name": blog_name + ' | ' + archive_value,
             "description": self.blog_configuration["blog_description"],
             "author": {
                 "@type" : "Person",
@@ -265,18 +265,15 @@ class DataStore:
         else:
             optionals = {}
         
-        author = [{"name":author["value"], "@type": "Person"} for author in entry.authors]
+        authors = [{"name":author["value"], "@type": "Person"} for author in entry.authors]
         if "publisher" in entry.schemadotorg.keys():
             publisher = entry.schemadotorg["publisher"]
             
         elif "publisher" in self.blog_configuration["https://schema.org"].keys():
             publisher = self.blog_configuration["https://schema.org"]["publisher"]
         
-        elif author != []:
-            publisher = [{
-                "@type":"Person",
-                "name": v.strip(),
-            } for v in author.split(',')]
+        elif authors != []:
+            publisher = authors
         
         else:
             publisher = {
@@ -295,7 +292,7 @@ class DataStore:
             "name" : entry.title,
             "datePublished" : entry.date.isoformat(),
             "inLanguage" : self.blog_configuration["blog_language"],
-            "author" : author if author != [] else self.blog_configuration["author_name"],
+            "author" : authors if authors != [] else self.blog_configuration["author_name"],
             "publisher" : publisher,
             "url" : entry.url.replace(".:GetRelativeOrigin:.", self.blog_configuration["blog_url"]+"/"),
             "breadcrumb" : {
@@ -339,14 +336,20 @@ class DataStore:
         # Setup archives as jsonld if any
         entry_formatted_date = entry.formatted_date
         if entry_formatted_date not in self.archives_as_jsonld.keys():
-            self.archives_to_jsonld(entry_formatted_date)
-            
-		for category in entry.categories_leaves:
-			path = category["path"].replace('.:GetRelativeOrigin:.','')
-			self.categories
-            
+            self.archives_to_jsonld(entry_formatted_date)            
         self.archives_as_jsonld[entry.formatted_date]["blogPost"].append(blog_post)
-        
+
+        # Setup categories as jsonld if any
+        for category in entry.categories_leaves:
+            complete_path = category["path"].replace('.:GetRelativeOrigin:.','')
+            path = ''
+            for sub_path in complete_path.split('/')[:-1]:
+                path += sub_path+'/'
+                if path not in self.categories_as_jsonld.keys():
+                    self.categories_to_jsonld(path, sub_path)
+                
+                self.categories_as_jsonld[path]["blogPost"].append(blog_post)
+            
     def get_chapters(self, argv):
         key = ''.join(argv)
         if not key in self.html_chapters.keys():
