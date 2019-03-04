@@ -69,7 +69,7 @@ class MainThread(Thread):
             from venc2.prompt import notify
             from venc2.l10n import messages
             import json
-            notify(self.indentation_level+' └─ '+messages.generating_jsonld_doc)
+            notify(self.indentation_level+'└─ '+messages.generating_jsonld_doc)
             dump = json.dumps(self.datastore.root_as_jsonld)
             f = open("blog/root.jsonld", 'w')
             f.write(dump)

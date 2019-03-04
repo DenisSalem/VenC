@@ -211,6 +211,7 @@ class DataStore:
             "inLanguage" : self.blog_configuration["blog_language"],
             "license" : self.root_as_jsonld["license"],
             "breadcrumb" : {
+                "@type": "BreadcrumbList",
                 "itemListElement": [{
                     "@type": "ListItem",
                     "position": 1,
@@ -244,6 +245,7 @@ class DataStore:
             "inLanguage" : self.blog_configuration["blog_language"],
             "license" : self.root_as_jsonld["license"],
             "breadcrumb" : {
+                "@type": "BreadcrumbList",
                 "itemListElement": [{
                     "@type": "ListItem",
                     "position": 1,

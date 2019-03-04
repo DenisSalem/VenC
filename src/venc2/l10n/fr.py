@@ -47,7 +47,6 @@ class Messages:
     copy_to_ftp_directory="Copie du blog vers le repertoire FTP de destination..."
     possible_malformed_entry="La publication {0} est probablement mal formée... {1} Abandon."
     possible_malformed_blog_configuration="Le fichier de configuration du blog est probablement mal formée... Abandon."
-    blog_recompilation="Recompilation du blog locale..."
     export_single_entries="Exportation locale des publications individuelles..."
     export_archives="Exportation locale des publications triées par dates..."
     export_main_thread="Exportation locale du fil de publications principal."

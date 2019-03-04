@@ -39,7 +39,7 @@ class FeedThread(Thread):
         self.content_type = feed_type
 
     def do(self, entries, export_path, relative_origin, indentation_level, tree_special_char):
-        notify(indentation_level+' '+tree_special_char+"─ "+getattr(messages, "generating_"+self.content_type))
+        notify(indentation_level+tree_special_char+"─ "+getattr(messages, "generating_"+self.content_type))
         self.export_path = export_path
         self.relative_origin = relative_origin
         self.organize_entries(entries)

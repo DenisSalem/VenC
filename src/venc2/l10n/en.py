@@ -48,7 +48,6 @@ class Messages:
     copy_to_ftp_directory="Copying your blog to target FTP directory..."
     possible_malformed_entry="Possible malformed entry {0}. {1} Abort."
     possible_malformed_blog_configuration="Possible malformed blog configuration. Abort."
-    blog_recompilation="Recompilation of your blog locally..."
     export_single_entries="Exporting local single entries..."
     export_archives="Exporting local entries sorted by dates..."
     export_main_thread="Exporting local main entries thread."

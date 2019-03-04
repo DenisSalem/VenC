@@ -61,6 +61,9 @@ class ArchivesThread(Thread):
             ])
             super().do()
             if self.datastore.enable_jsonld:
+                from venc2.l10n import messages
+                notify("│\t "+('│' if i != len_archives-1 else ' ')+"  └─ "+messages.generating_jsonld_doc)
+                
                 blog_url = self.datastore.blog_configuration["blog_url"]
                 archive_as_jsonld = self.datastore.archives_as_jsonld[thread.value]
                 archive_as_jsonld["breadcrumb"]["itemListElement"].append({

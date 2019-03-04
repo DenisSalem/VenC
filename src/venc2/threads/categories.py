@@ -86,23 +86,19 @@ class CategoriesThread(Thread):
             entries = sorted(entries, key = lambda entry : entry.id, reverse=True)[0:self.datastore.blog_configuration["feed_lenght"]]
             if i == len_root-1:
                 tree_special_char = ' '
+                
             else:
                 tree_special_char = '│'
                 
             if not self.disable_rss_feed:
-                self.rss_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', '├' if not self.disable_atom_feed or len(node.childs) else '└')
+                self.rss_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', ' ├' if not self.disable_atom_feed or self.datastore.enable_jsonld or len(node.childs) else ' └')
     
             if not self.disable_atom_feed:
-                self.atom_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', '├' if len(node.childs) else '└')
-            if len_root - 1 == i:
-                self.indentation_level += "   "
-            else:
-                self.indentation_level += "│  "
-            
-            self.do(root=node.childs)
-            self.indentation_level = self.indentation_level[:-3]
+                self.atom_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', ' ├' if len(node.childs) or self.datastore.enable_jsonld else ' └')
             
             if self.datastore.enable_jsonld:
+                from venc2.l10n import messages
+                notify(self.indentation_level+tree_special_char+' '+ (' ├─ ' if len(node.childs) else ' └─ ')+messages.generating_jsonld_doc)
                 import json
                 blog_url = self.datastore.blog_configuration["blog_url"]
                 category_as_jsonld = self.datastore.categories_as_jsonld[self.category_value]
@@ -125,7 +121,15 @@ class CategoriesThread(Thread):
                 dump = json.dumps(category_as_jsonld)
                 f = open(("blog/"+self.sub_folders+self.category_value+"categories.jsonld").replace(' ','-'), 'w')
                 f.write(dump)
-                
+            
+            if len_root - 1 == i:
+                self.indentation_level += "   "
+            else:
+                self.indentation_level += "│  "
+            
+            self.do(root=node.childs)
+            self.indentation_level = self.indentation_level[:-3]
+            
             # Restore path
             self.export_path = export_path
             self.category_value = category_value

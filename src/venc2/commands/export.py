@@ -114,7 +114,6 @@ contextual_pattern_names = {
 }
 
 def export_and_remote_copy(argv=list()):
-    notify(messages.blog_recompilation)
     export_blog(argv)
     remote_copy()
 
