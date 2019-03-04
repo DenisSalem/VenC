@@ -1,6 +1,6 @@
 #! /usr/bin/python
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2019 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -428,7 +428,7 @@ class DataStore:
 
     def get_entry_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
-        return str( getattr(self.entries[self.requested_entry_index], argv[0]))
+        return str(getattr(self.entries[self.requested_entry_index], argv[0]))
     
     def get_entry_metadata_if_exists(self, argv):
         try:
