@@ -86,10 +86,3 @@ class ArchivesThread(Thread):
             return '<script type="application/ld+json" src="archives.jsonld"></script>'
         
         return ''
-
-
-
-                
-                
-
-

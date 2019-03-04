@@ -17,10 +17,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import time
 from copy import deepcopy
+import os
+import shutil
 import subprocess
+import time
 
 from venc2.datastore import DataStore
 from venc2.datastore.theme import themes_descriptor
@@ -117,8 +118,7 @@ def export_and_remote_copy(argv=list()):
     export_blog(argv)
     remote_copy()
 
-def export_blog(argv=list()):
-    # Initialisation of theme
+def init_theme(argv):
     theme_folder = "theme/"
 
     if len(argv) == 1:
@@ -134,16 +134,14 @@ def export_blog(argv=list()):
                 datastore.blog_configuration[param] = themes_descriptor[argv[0]][param]
 
     try:
-        theme = Theme(theme_folder, non_contextual_pattern_names)
+        return Theme(theme_folder, non_contextual_pattern_names), theme_folder
     
     except MalformedPatterns as e:
         from venc2.helpers import handle_malformed_patterns
         handle_malformed_patterns(e)
 
-    # Set up of non-contextual patterns
-    
+def setup_pattern_processor():
     processor = Processor()
-
     for pattern_name in non_contextual_pattern_names_datastore.keys():
         processor.set_function(pattern_name, getattr(datastore, non_contextual_pattern_names_datastore[pattern_name]))
     
@@ -153,7 +151,6 @@ def export_blog(argv=list()):
     for pattern_name in non_contextual_pattern_names.keys():
         processor.set_function(pattern_name, non_contextual_pattern_names[pattern_name])
     
-    # Blacklist contextual patterns
     for pattern_name in contextual_pattern_names.keys():
         processor.blacklist.append(pattern_name)
 
@@ -161,49 +158,52 @@ def export_blog(argv=list()):
         processor.keep_appart_from_markup.append(pattern_name)
 
     processor.blacklist.append("Escape")
+    return processor
 
-    notify("├─ "+messages.pre_process)
-
-    # Now we want to perform first parsing pass on entries and chunk
+def process_non_contextual_patterns(pattern_processor, theme):
     for entry in datastore.get_entries():
-        try:
+        if hasattr(entry, "markup_language"):
             markup_language = getattr(entry, "markup_language")
 
-        except AttributeError:
+        else:
             markup_language = datastore.blog_configuration["markup_language"]
         
-        processor.process(entry.preview)
+        pattern_processor.process(entry.preview)
         entry.preview.process_markup_language(markup_language)
         
-        processor.process(entry.content)
+        pattern_processor.process(entry.content)
         entry.content.process_markup_language(markup_language)
 
         entry.html_wrapper = deepcopy(theme.entry)
-        processor.process(entry.html_wrapper.above)
-        processor.process(entry.html_wrapper.below)
-        
+        pattern_processor.process(entry.html_wrapper.above)
+        pattern_processor.process(entry.html_wrapper.below)
         
         entry.rss_wrapper = deepcopy(theme.rss_entry)
-        processor.process(entry.rss_wrapper.above)
-        processor.process(entry.rss_wrapper.below)
+        pattern_processor.process(entry.rss_wrapper.above)
+        pattern_processor.process(entry.rss_wrapper.below)
         
         entry.atom_wrapper = deepcopy(theme.atom_entry)
-        processor.process(entry.atom_wrapper.above)
-        processor.process(entry.atom_wrapper.below)
+        pattern_processor.process(entry.atom_wrapper.above)
+        pattern_processor.process(entry.atom_wrapper.below)
         
-    processor.process(theme.header) 
-    processor.process(theme.footer) 
-    processor.process(theme.rss_header) 
-    processor.process(theme.rss_footer) 
-    processor.process(theme.atom_header)
-    processor.process(theme.atom_footer) 
+    pattern_processor.process(theme.header) 
+    pattern_processor.process(theme.footer) 
+    pattern_processor.process(theme.rss_header) 
+    pattern_processor.process(theme.rss_footer) 
+    pattern_processor.process(theme.atom_header)
+    pattern_processor.process(theme.atom_footer) 
+    
+def export_blog(argv=list()):
+    theme, theme_folder = init_theme(argv)
+    pattern_processor = setup_pattern_processor()
+    
+    notify("├─ "+messages.pre_process)
+    process_non_contextual_patterns(pattern_processor, theme)
     
     # cleaning directory
-    import shutil
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
 
-    datastore.embed_providers = {}
 
     # Starting second pass and exporting
     from venc2.threads.main import MainThread
@@ -231,11 +231,8 @@ def export_blog(argv=list()):
     copy_recursively("extra/","blog/")
     copy_recursively(theme_folder+"assets/","blog/")
 
-
- 
 def copy_recursively(src, dest):
     import errno
-    import shutil
     for filename in os.listdir(src):
         try:
             shutil.copytree(src+filename, dest+filename)

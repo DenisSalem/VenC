@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2019 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -22,7 +22,6 @@ import os
 import time
 import urllib.parse
 import yaml
-
 
 from venc2.prompt import die
 from venc2.prompt import notify
