@@ -126,7 +126,7 @@ class EntriesThread(Thread):
         
     def do(self):
         if self.datastore.enable_jsonld:
-            notify(self.indentation_level+' └─ '+messages.generating_jsonld_docs)
+            notify(self.indentation_level+'└─ '+messages.generating_jsonld_docs)
             
         self.page_number = 0
         self.current_page = 0
