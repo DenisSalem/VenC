@@ -124,7 +124,12 @@ class EntriesThread(Thread):
         stream.write(output)
         stream.close()
         self.current_export_path = export_path
-        
+    
+    def do_jsonld(self, entry):
+        dump = json.dumps(self.datastore.entries_as_jsonld[self.current_entry.id])
+        f = open(self.current_export_path+"/entry"+str(entry.id)+".jsonld", 'w')
+        f.write(dump)
+            
     def do(self):
         if self.datastore.enable_jsonld:
             notify(self.indentation_level+'└─ '+messages.generating_jsonld_docs)
@@ -139,11 +144,10 @@ class EntriesThread(Thread):
                     self.do_iteration(entry)
                     self.post_iteration()
                     if self.datastore.enable_jsonld:
-                        dump = json.dumps(self.datastore.entries_as_jsonld[self.current_entry.id])
-                        f = open(self.current_export_path+"/entry"+str(entry.id)+".jsonld", 'w')
-                        f.write(dump)
+                        self.do_jsonld(entry)
 
-    def JSONLD(self, argv):
+
+    def GetJSONLD(self, argv):
         if self.datastore.enable_jsonld:
             return '<script type="application/ld+json" src="entry'+str(self.current_entry.id)+'.jsonld"></script>'
             

@@ -37,51 +37,56 @@ class ArchivesThread(Thread):
 
     def if_in_archives(self, argv):
         return argv[0].strip()
+
+    def setup_archive_context(self, i, len_archives):
+        archive = self.datastore.entries_per_dates[i]
+        if archive.value in self.disable_threads:
+            return None
+
+        tree_special_char = '└' if i == len_archives-1 else '├'
+
+                
+        notify("│\t "+tree_special_char+"─ "+archive.value+"...")
+        self.export_path = str("blog/"+self.sub_folders+'/'+archive.value+'/').replace(' ','-')
+        os.makedirs(self.export_path)
+        self.organize_entries([
+            entry for entry in self.datastore.get_entries_for_given_date(
+                archive.value,
+                self.datastore.blog_configuration["reverse_thread_order"]
+            )
+        ])
+        return archive
         
     def do(self):
         len_archives = len(self.datastore.entries_per_dates)
         for i in range(0, len_archives):
-            thread = self.datastore.entries_per_dates[i]
-            if thread.value in self.disable_threads:
+            archive = self.setup_archive_context(i, len_archives)
+            if archive == None:
                 continue
-
-            if i == len_archives-1:
-                tree_special_char = '└'
-            else:
-                tree_special_char = '├'
                 
-            notify("│\t "+tree_special_char+"─ "+thread.value+"...")
-            self.export_path = str("blog/"+self.sub_folders+'/'+thread.value+'/').replace(' ','-')
-            os.makedirs(self.export_path)
-            self.organize_entries([
-                entry for entry in self.datastore.get_entries_for_given_date(
-                    thread.value,
-                    self.datastore.blog_configuration["reverse_thread_order"]
-                )
-            ])
             super().do()
             if self.datastore.enable_jsonld:
                 from venc2.l10n import messages
                 notify("│\t "+('│' if i != len_archives-1 else ' ')+"  └─ "+messages.generating_jsonld_doc)
                 
                 blog_url = self.datastore.blog_configuration["blog_url"]
-                archive_as_jsonld = self.datastore.archives_as_jsonld[thread.value]
+                archive_as_jsonld = self.datastore.archives_as_jsonld[archive.value]
                 archive_as_jsonld["breadcrumb"]["itemListElement"].append({
                     "@type": "ListItem",
                     "position": 2,
                     "item": {
-                        "@id": blog_url+'/'+self.sub_folders+thread.value+"/archives.jsonld",
-                        "url": blog_url+'/'+self.sub_folders+thread.value,
-                        "name": self.datastore.blog_configuration["blog_name"] +' | '+thread.value
+                        "@id": blog_url+'/'+self.sub_folders+archive.value+"/archives.jsonld",
+                        "url": blog_url+'/'+self.sub_folders+archive.value,
+                        "name": self.datastore.blog_configuration["blog_name"] +' | '+archive.value
                     }
                 })
-                archive_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+thread.value+"/archives.jsonld"
-                archive_as_jsonld["url"] = blog_url+'/'+self.sub_folders+thread.value
+                archive_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+archive.value+"/archives.jsonld"
+                archive_as_jsonld["url"] = blog_url+'/'+self.sub_folders+archive.value
                 dump = json.dumps(archive_as_jsonld)
-                f = open("blog/"+self.sub_folders+'/'+thread.value+"/archives.jsonld", 'w')
+                f = open("blog/"+self.sub_folders+'/'+archive.value+"/archives.jsonld", 'w')
                 f.write(dump)
 
-    def JSONLD(self, argv):
+    def GetJSONLD(self, argv):
         if self.current_page == 0:
             return '<script type="application/ld+json" src="archives.jsonld"></script>'
         

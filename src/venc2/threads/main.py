@@ -50,7 +50,7 @@ class MainThread(Thread):
             if i == self.datastore.blog_configuration["feed_lenght"]:
                 return entries
     
-    def do_feed(self):
+    def do_feeds(self):
         disable_rss_feed = self.datastore.blog_configuration["disable_rss_feed"]
         disable_atom_feed = self.datastore.blog_configuration["disable_atom_feed"]
         entries = [] 
@@ -76,10 +76,10 @@ class MainThread(Thread):
             
     def do(self):
         super().do()
-        self.do_feed()
+        self.do_feeds()
         self.do_jsonld()   
 
-    def JSONLD(self, argv):
+    def GetJSONLD(self, argv):
         if self.current_page == 0 and self.datastore.enable_jsonld:
             return '<script type="application/ld+json" src="root.jsonld"></script>'
         
