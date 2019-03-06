@@ -24,6 +24,7 @@ from math import ceil
 from venc2.prompt import notify
 from venc2.prompt import die
 from venc2.l10n import messages
+from venc2.patterns.exceptions import PatternInvalidArgument
 from venc2.patterns.processor import Processor
 
 class Thread:
@@ -141,14 +142,18 @@ class Thread:
         page_number = 0
         for page in self.pages:
             if (not page_number < self.current_page - list_lenght) and (not page_number > self.current_page + list_lenght):
-                output += string.format(
-                    **{
-                        "entry_id":'',
-                        "entry_title":'',
-                        "page_number":str(page_number),
-                        "path": self.filename.format(**{"page_number": (str() if page_number == 0 else page_number) })
-                    }
-                ) + separator
+                try:
+                    output += string.format(
+                        **{
+                            "entry_id":'',
+                            "entry_title":'',
+                            "page_number":str(page_number),
+                            "path": self.filename.format(**{"page_number": (str() if page_number == 0 else page_number) })
+                        }
+                    ) + separator
+                except KeyError as e:
+                    print(e)
+                    raise PatternInvalidArgument(name="string", value=string)
 
             page_number +=1
         

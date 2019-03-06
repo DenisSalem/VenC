@@ -49,9 +49,8 @@ class MainThread(Thread):
             i+=1
             if i == self.datastore.blog_configuration["feed_lenght"]:
                 return entries
-                    
-    def do(self):
-        super().do()
+    
+    def do_feed(self):
         disable_rss_feed = self.datastore.blog_configuration["disable_rss_feed"]
         disable_atom_feed = self.datastore.blog_configuration["disable_atom_feed"]
         entries = [] 
@@ -64,7 +63,8 @@ class MainThread(Thread):
             
         if not disable_rss_feed:
             FeedThread(self.datastore, self.theme, self.patterns_map, "rss").do(entries, self.export_path, self.relative_origin, "│  ", '└' if not self.datastore.enable_jsonld else '├')
-        
+ 
+    def do_jsonld(self):
         if self.datastore.enable_jsonld:
             from venc2.prompt import notify
             from venc2.l10n import messages
@@ -74,6 +74,11 @@ class MainThread(Thread):
             f = open("blog/root.jsonld", 'w')
             f.write(dump)
             
+    def do(self):
+        super().do()
+        self.do_feed()
+        self.do_jsonld()   
+
     def JSONLD(self, argv):
         if self.current_page == 0 and self.datastore.enable_jsonld:
             return '<script type="application/ld+json" src="root.jsonld"></script>'
