@@ -104,4 +104,4 @@ def gen_entries(markup_language, max_categories, number_of_entries, hierarchical
         else:
             raise ValueError("Markup Language not supported")
     
-gen_entries("Markdown", 5, 1000, False)
+gen_entries("Markdown", 5, 100, False)

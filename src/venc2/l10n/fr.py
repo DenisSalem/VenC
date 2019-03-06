@@ -102,4 +102,5 @@ class Messages:
     copy_assets_and_extra_files = "Copie des fichiers additionelles..."
     generating_jsonld_doc = "Génération du document JSON-LD..."
     generating_jsonld_docs = "Génération des documents JSON-LD..."
+    task_done_in_n_seconds = "Tache réalisée en {0} seconds."
 
