@@ -139,6 +139,7 @@ def process_non_contextual_patterns(pattern_processor, theme):
     pattern_processor.process(theme.atom_footer) 
     
 def export_blog(argv=list()):
+    start_timestamp = time.time()
     theme, theme_folder = init_theme(argv)
     patterns_map = PatternsMap(datastore, code_highlight, theme)
     pattern_processor = setup_pattern_processor(patterns_map)
@@ -175,6 +176,7 @@ def export_blog(argv=list()):
     code_highlight.export_style_sheets()
     copy_recursively("extra/","blog/")
     copy_recursively(theme_folder+"assets/","blog/")
+    notify(messages.task_done_in_n_seconds.format(round(time.time() - start_timestamp,6)))
 
 
 def edit_and_export(argv):
