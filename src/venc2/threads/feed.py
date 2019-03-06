@@ -22,8 +22,8 @@ from venc2.prompt import notify
 from venc2.l10n import messages
 
 class FeedThread(Thread):
-    def __init__(self, datastore, theme, patterns, forbidden, feed_type):
-        super().__init__('', datastore, theme, patterns, forbidden)
+    def __init__(self, datastore, theme, patterns_map, feed_type):
+        super().__init__('', datastore, theme, patterns_map)
         self.footer = getattr(self.theme, feed_type+"_footer")
         self.header = getattr(self.theme, feed_type+"_header")
         self.entry = getattr(self.theme, feed_type+"_entry")

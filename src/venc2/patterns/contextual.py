@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2019 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -43,7 +43,3 @@ def get_random_number(in_argv):
 
     v = mn + random.random() * (mx - mn + 1)
     return str(int(v)) if precision == 0 else str(round(v, precision))
-
-extra_contextual_pattern_names = {
-    "GetRandomNumber" : get_random_number
-}

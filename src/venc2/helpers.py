@@ -21,8 +21,9 @@ import math
 import base64
 import datetime
 import os
-import pygments
 import shutil
+
+import pygments
 
 from venc2.l10n import messages
 from venc2.prompt import die
@@ -32,8 +33,6 @@ from venc2.prompt import notify
 class GenericMessage(Exception):
     def __init__(self, message):
         self.message = message
-
-keep_appart_from_markup = ["CodeHighlight", "Latex2MathML", "IncludeFile", "audio", "video","EmbedContent"]
 
 # hold error messages
 errors=list()

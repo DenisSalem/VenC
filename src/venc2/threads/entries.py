@@ -20,14 +20,15 @@
 import codecs
 import os
 
+import json
+
 from venc2.prompt import notify
 from venc2.threads import Thread
 from venc2.l10n import messages
-import json
 
 class EntriesThread(Thread):
-    def __init__(self, prompt, datastore, theme, patterns, forbidden):
-        super().__init__(prompt, datastore, theme, patterns, forbidden)
+    def __init__(self, prompt, datastore, theme, patterns_map):
+        super().__init__(prompt, datastore, theme, patterns_map)
         self.entries_per_page = 1 #override value
         self.organize_entries([
             entry for entry in datastore.get_entries(
