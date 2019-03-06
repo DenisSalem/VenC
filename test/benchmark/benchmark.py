@@ -66,21 +66,6 @@ def gen_content():
     summary = content[int(random.random() * len(content))]
     return '\n'.join(content), summary
     
-def gen_entries(markup_language, max_categories, number_of_entries, hierarchical_categories=False):
-    for i in range(0,number_of_entries):
-        if markup_language == "Markdown":
-            categories = gen_categories(
-                int(random.random() * max_categories) + 1,
-                hierarchical_categories
-            )
-            content, summary = gen_content()
-            title = "Entry "+str(i)
-            date = datetime.datetime.now()
-            authors = "Denis Salem, VenC Team"
-            gen_pelican_entry(title, date, categories, authors, content, summary, exts[markup_language])
-        else:
-            raise ValueError("Markup Language not supported")
-
 def gen_pelican_entry(title, date, categories, authors, content, summary, ext):
     entry  = "Title: "+title+'\n'
     entry += "Category: "+categories[0]+'\n'
@@ -91,4 +76,32 @@ def gen_pelican_entry(title, date, categories, authors, content, summary, ext):
     entry += content
     open("pelican-benchmark/content/"+title+'.'+ext, 'w').write(entry)
 
+def gen_venc_entry(ID, title, date, categories, authors, content, summary):
+    entry  = "title: "+title+'\n'
+    entry += "authors: "+authors+'\n'
+    entry += "categories: "+(', '.join(categories))+'\n'
+    entry += "tags: "+(', '.join(categories))+'\n'
+    entry += "---VENC-BEGIN-PREVIEW---\n"+summary+'\n'
+    entry += "---VENC-END-PREVIEW---\n"+content
+    
+    entry_date = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
+    output_filename = str(ID)+"__"+entry_date+"__"+title
+    open("venc-benchmark/entries/"+output_filename, 'w').write(entry)
+
+def gen_entries(markup_language, max_categories, number_of_entries, hierarchical_categories=False):
+    for i in range(0,number_of_entries):
+        if markup_language == "Markdown":
+            categories = gen_categories(
+                int(random.random() * max_categories) + 1,
+                hierarchical_categories
+            )
+            content, summary = gen_content()
+            title = "Entry-"+str(i)
+            date = datetime.datetime.now()
+            authors = "Denis Salem, VenC Team"
+            gen_pelican_entry(title, date, categories, authors, content, summary, exts[markup_language])
+            gen_venc_entry(i, title, date, categories, authors, content, summary)
+        else:
+            raise ValueError("Markup Language not supported")
+    
 gen_entries("Markdown", 5, 1000, False)

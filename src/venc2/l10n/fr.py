@@ -72,7 +72,7 @@ class Messages:
     unknown_text_editor = "{0} : Éditeur de texte inconnu."
     theme_name = "Nom du thème"
     entry_is_empty = "{0} : Le contenu de la publication est vide."
-    missing_entry_content_inclusion="Thème invalide. Il manque l'inclusion du contenu de la publication dans entry.html et/ou rssEntry.html"
+    missing_entry_content_inclusion="Thème invalide. Il manque l'inclusion du contenu de la publication dans entry.html et/ou rssEntry.html et/ou atomEntry.html"
     unknown_language="Pygments: {0} : Langage inconnu."
     pre_process="Pré-traitement du théme et des publications..."
     directory_not_copied="Le dossier ne peut être copié. Erreur: %s"
