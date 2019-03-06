@@ -31,6 +31,7 @@ from venc2.prompt import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
 from venc2.patterns.code_highlight import CodeHighlight
+from venc2.patterns.exceptions import MalformedPatterns
 from venc2.patterns.patterns_map import PatternsMap
 from venc2.patterns.processor import Processor
 from venc2.patterns.processor import ProcessedString
@@ -76,7 +77,7 @@ def init_theme(argv):
 
     try:
         return Theme(theme_folder), theme_folder
-    
+        
     except MalformedPatterns as e:
         from venc2.helpers import handle_malformed_patterns
         handle_malformed_patterns(e)

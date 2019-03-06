@@ -190,7 +190,7 @@ def yield_entries_content():
                     hour=int(date[3]),
                     minute=int(date[4])
                 ) 
-                if entry_id > 0:
+                if entry_id >= 0:
                     yield filename
 
                 else:
