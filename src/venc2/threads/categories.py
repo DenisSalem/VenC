@@ -49,93 +49,96 @@ class CategoriesThread(Thread):
     def if_in_categories(self, argv):
         return argv[0].strip()
 
+    def do_feeds(self, entries, node, tree_special_char):
+        entries = sorted(entries, key = lambda entry : entry.id, reverse=True)[0:self.datastore.blog_configuration["feed_lenght"]]
+        if not self.disable_rss_feed:
+            self.rss_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', ' ├' if not self.disable_atom_feed or self.datastore.enable_jsonld or len(node.childs) else ' └')
+    
+        if not self.disable_atom_feed:
+            self.atom_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', ' ├' if len(node.childs) or self.datastore.enable_jsonld else ' └')
+            
+    def do_jsonld(self, node, tree_special_char):
+        from venc2.l10n import messages
+        import json
+        notify(self.indentation_level+tree_special_char+' '+ (' ├─ ' if len(node.childs) else ' └─ ')+messages.generating_jsonld_doc)
+        blog_url = self.datastore.blog_configuration["blog_url"]
+        category_as_jsonld = self.datastore.categories_as_jsonld[self.category_value]
+        position = 2
+        category_breadcrumb_path = ''
+        for sub_category in self.category_value.split('/'):
+            category_breadcrumb_path += sub_category+'/'
+            category_as_jsonld["breadcrumb"]["itemListElement"].append({
+                "@type": "ListItem",
+                "position": position,
+                "item": {
+                    "@id": blog_url+'/'+self.sub_folders+category_breadcrumb_path+"categories.jsonld",
+                    "url": blog_url+'/'+self.sub_folders+category_breadcrumb_path,
+                    "name": self.datastore.blog_configuration["blog_name"] +' | '+ sub_category
+                }
+            })
+            position += 1
+        category_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+self.category_value+"categories.jsonld"
+        category_as_jsonld["url"] = blog_url+'/'+self.sub_folders+self.category_value
+        dump = json.dumps(category_as_jsonld)
+        f = open(("blog/"+self.sub_folders+self.category_value+"categories.jsonld").replace(' ','-'), 'w')
+        f.write(dump)
+
+    def setup_category_context(self, i, root, len_root):
+        node = root[i]
+        if node.value in self.disable_threads:
+            return (None, None, None)
+            
+        if i == len_root-1:
+            tree_special_char = '└'
+                
+        else:
+            tree_special_char = '├'
+                
+        notify(self.indentation_level+tree_special_char+"─ "+node.value+"...")
+
+        export_path = self.export_path
+        category_value = self.category_value
+        self.category_value += node.value+'/'
+        self.export_path += str(node.value+'/').replace(' ','-')
+        self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
+
+        try:
+            os.makedirs(self.export_path)
+
+        except FileExistsError:
+            pass
+            
+        return (node, export_path, category_value)
+            
     def do(self, root=None):
         if root == None:
             root = self.datastore.entries_per_categories
         
         len_root = len(root)
         for i in range(0, len_root):
-            node = root[i]
-            if node.value in self.disable_threads:
+            node, export_path, category_value = self.setup_category_context(i, root, len_root)
+            if node == None:
                 continue
             
-            if i == len_root-1:
-                tree_special_char = '└'
-                
-            else:
-                tree_special_char = '├'
-                
-            notify(self.indentation_level+tree_special_char+"─ "+node.value+"...")
-
-            export_path = self.export_path
-            category_value = self.category_value
-            self.category_value += node.value+'/'
-            self.export_path += str(node.value+'/').replace(' ','-')
-            self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
-
-            try:
-                os.makedirs(self.export_path)
-
-            except FileExistsError:
-                pass
-
-            # Get entries
+            # do actual context
             entries = [self.datastore.entries[entry_index] for entry_index in node.related_to]
             self.organize_entries( entries[::-1] if self.datastore.blog_configuration["reverse_thread_order"] else entries )
             super().do()
-            entries = sorted(entries, key = lambda entry : entry.id, reverse=True)[0:self.datastore.blog_configuration["feed_lenght"]]
-            if i == len_root-1:
-                tree_special_char = ' '
-                
-            else:
-                tree_special_char = '│'
-                
-            if not self.disable_rss_feed:
-                self.rss_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', ' ├' if not self.disable_atom_feed or self.datastore.enable_jsonld or len(node.childs) else ' └')
-    
-            if not self.disable_atom_feed:
-                self.atom_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', ' ├' if len(node.childs) or self.datastore.enable_jsonld else ' └')
-            
+            tree_special_char = ' ' if i == len_root-1 else '│'
+            self.do_feeds(entries, node, tree_special_char)
             if self.datastore.enable_jsonld:
-                from venc2.l10n import messages
-                notify(self.indentation_level+tree_special_char+' '+ (' ├─ ' if len(node.childs) else ' └─ ')+messages.generating_jsonld_doc)
-                import json
-                blog_url = self.datastore.blog_configuration["blog_url"]
-                category_as_jsonld = self.datastore.categories_as_jsonld[self.category_value]
-                position = 2
-                category_breadcrumb_path = ''
-                for sub_category in self.category_value.split('/'):
-                    category_breadcrumb_path += sub_category+'/'
-                    category_as_jsonld["breadcrumb"]["itemListElement"].append({
-                        "@type": "ListItem",
-                        "position": position,
-                        "item": {
-                            "@id": blog_url+'/'+self.sub_folders+category_breadcrumb_path+"categories.jsonld",
-                            "url": blog_url+'/'+self.sub_folders+category_breadcrumb_path,
-                            "name": self.datastore.blog_configuration["blog_name"] +' | '+ sub_category
-                        }
-                    })
-                    position += 1
-                category_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+self.category_value+"categories.jsonld"
-                category_as_jsonld["url"] = blog_url+'/'+self.sub_folders+self.category_value
-                dump = json.dumps(category_as_jsonld)
-                f = open(("blog/"+self.sub_folders+self.category_value+"categories.jsonld").replace(' ','-'), 'w')
-                f.write(dump)
+                self.do_jsonld(node, tree_special_char)
             
-            if len_root - 1 == i:
-                self.indentation_level += "   "
-            else:
-                self.indentation_level += "│  "
-            
+            # jump to branchs
+            self.indentation_level += "   " if len_root - 1 == i else "│  "
             self.do(root=node.childs)
-            self.indentation_level = self.indentation_level[:-3]
             
-            # Restore path
+            # Restore states
+            self.indentation_level = self.indentation_level[:-3]
             self.export_path = export_path
             self.category_value = category_value
 
-
-    def JSONLD(self, argv):
+    def GetJSONLD(self, argv):
         if self.current_page == 0:
             return '<script type="application/ld+json" src="categories.jsonld"></script>'
         

@@ -44,6 +44,9 @@ class FeedThread(Thread):
         self.relative_origin = relative_origin
         self.organize_entries(entries)
         super().do()
-        
+    
+    def GetJSONLD(self, argv):
+        # Trigger UnknownPattern.
+        raise KeyError
 
  

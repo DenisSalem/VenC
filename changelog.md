@@ -193,6 +193,7 @@
     TODO | Make entry URL nicer when filename is index.html and has subfolder.
     TODO | Catch "OSError: [Errno 98] Address already in use".
     TODO | Improve sub folder management in Entry and EntriesThread.
+    TODO | Optimize objects dereferencing.
 
 # version 3.x.x
     TODO | Add support for plugin.
