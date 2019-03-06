@@ -30,12 +30,22 @@ from venc2.datastore.metadata import MetadataNode
 from venc2.datastore.metadata import Chapter
 from venc2.prompt import notify
 from venc2.l10n import messages
-from venc2.patterns.non_contextual import get_embed_content
 from venc2.patterns.exceptions import MalformedPatterns
+from venc2.patterns.exceptions import PatternMissingArguments
+from venc2.patterns.exceptions import PatternInvalidArgument
+from venc2.patterns.non_contextual import get_embed_content
 
 def merge(iterable, argv):
-    return argv[1].join([argv[0].format(**something) for something in iterable])
-
+    if len(argv) != 2:
+        raise PatternMissingArguments(expected=2,got=len(argv))
+    try:
+        return argv[1].join([argv[0].format(**something) for something in iterable])
+        
+    except IndexError as e:
+        if e.args == ('tuple index out of range',):
+            raise PatternInvalidArgument(name="string", value=argv[0])
+                
+        raise e
 class DataStore:
     def __init__(self):
         notify("┌─ "+messages.loading_data)
