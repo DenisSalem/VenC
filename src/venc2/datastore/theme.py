@@ -29,10 +29,7 @@ themes_descriptor = {
 }
 
 class Theme:
-    def __init__(self, theme_folder, non_contextual_pattern_names):
-        non_contextual_pattern_names["video"] = self.get_video
-        non_contextual_pattern_names["audio"] = self.get_audio
-
+    def __init__(self, theme_folder):
         try:
             self.header = ProcessedString(open(theme_folder+"chunks/header.html",'r').read(), "header.html")
             self.footer = ProcessedString(open(theme_folder+"chunks/footer.html",'r').read(), "footer.html")

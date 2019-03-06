@@ -20,11 +20,11 @@
 from venc2.threads import Thread
 
 class MainThread(Thread):
-    def __init__(self, prompt, datastore, theme, patterns, forbidden):
+    def __init__(self, prompt, datastore, theme, patterns_map):
         if datastore.blog_configuration["disable_main_thread"]:
             prompt = ""
 
-        super().__init__(prompt, datastore, theme, patterns, forbidden)
+        super().__init__(prompt, datastore, theme, patterns_map)
         
         if datastore.blog_configuration["disable_main_thread"]:
             self.pages_count = 0
@@ -60,10 +60,10 @@ class MainThread(Thread):
             from venc2.threads.feed import FeedThread
         
         if not disable_atom_feed:
-            FeedThread(self.datastore, self.theme, self.patterns, self.forbidden, "atom").do(entries, self.export_path, self.relative_origin, "│  ", '└' if disable_atom_feed and not self.datastore.enable_jsonld else '├')
+            FeedThread(self.datastore, self.theme, self.patterns_map, "atom").do(entries, self.export_path, self.relative_origin, "│  ", '└' if disable_atom_feed and not self.datastore.enable_jsonld else '├')
             
         if not disable_rss_feed:
-            FeedThread(self.datastore, self.theme, self.patterns, self.forbidden, "rss").do(entries, self.export_path, self.relative_origin, "│  ", '└' if not self.datastore.enable_jsonld else '├')
+            FeedThread(self.datastore, self.theme, self.patterns_map, "rss").do(entries, self.export_path, self.relative_origin, "│  ", '└' if not self.datastore.enable_jsonld else '├')
         
         if self.datastore.enable_jsonld:
             from venc2.prompt import notify

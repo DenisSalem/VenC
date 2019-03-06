@@ -24,8 +24,8 @@ from venc2.prompt import notify
 from venc2.threads import Thread
 
 class CategoriesThread(Thread):
-    def __init__(self, prompt, datastore, theme, patterns, forbidden):
-        super().__init__(prompt, datastore, theme, patterns, forbidden)
+    def __init__(self, prompt, datastore, theme, patterns_map):
+        super().__init__(prompt, datastore, theme, patterns_map)
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.sub_folders = self.datastore.blog_configuration["path"]["categories_sub_folders"]
         if len(self.sub_folders) and self.sub_folders[-1] != '/':
@@ -41,10 +41,10 @@ class CategoriesThread(Thread):
             from venc2.threads.feed import FeedThread
         
         if not self.disable_rss_feed:
-            self.rss_feed = FeedThread(datastore, theme, patterns, forbidden, "rss")
+            self.rss_feed = FeedThread(datastore, theme, self.patterns_map, "rss")
         
         if not self.disable_atom_feed:
-            self.atom_feed = FeedThread(datastore, theme, patterns, forbidden, "atom")
+            self.atom_feed = FeedThread(datastore, theme, self.patterns_map, "atom")
  
     def if_in_categories(self, argv):
         return argv[0].strip()

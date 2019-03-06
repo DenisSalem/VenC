@@ -18,7 +18,6 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import codecs
-
 from copy import deepcopy
 from math import ceil
 
@@ -28,15 +27,15 @@ from venc2.l10n import messages
 from venc2.patterns.processor import Processor
 
 class Thread:
-    def __init__(self, prompt, datastore, theme, patterns, forbidden):
+    def __init__(self, prompt, datastore, theme, patterns_map):
         self.indentation_level = "│  "
+        self.patterns_map = patterns_map
         self.datastore = datastore
-        self.patterns = patterns
         # Notify wich thread is processed
         if prompt != "":
             notify("├─ "+prompt)
 
-        self.forbidden = forbidden
+        self.forbidden = patterns_map.non_contextual_entries_keys
         self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])
         self.disable_threads = datastore.disable_threads
 
@@ -53,12 +52,11 @@ class Thread:
         self.columns_number = self.datastore.blog_configuration["columns"]
         # Setup pattern processor
         self.processor = Processor()
-        for pattern_name in patterns.keys():
-            try:
-                self.processor.set_function(pattern_name, getattr(self, patterns[pattern_name]))
-
-            except TypeError: # if value isn't string but function reference
-                self.processor.set_function(pattern_name, patterns[pattern_name])
+        for pattern_name in patterns_map.contextual["functions"].keys():
+            self.processor.set_function(pattern_name, patterns_map.contextual["functions"][pattern_name])
+                
+        for pattern_name in patterns_map.contextual["names"].keys():
+            self.processor.set_function(pattern_name, getattr(self, patterns_map.contextual["names"][pattern_name]))
 
     def return_page_around(self, string, params):
         return string.format(**params)

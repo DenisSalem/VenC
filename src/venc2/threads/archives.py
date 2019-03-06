@@ -25,8 +25,8 @@ from venc2.threads import Thread
 
 
 class ArchivesThread(Thread):
-    def __init__(self, prompt, datastore, theme, patterns, forbidden):
-        super().__init__(prompt, datastore, theme, patterns, forbidden)
+    def __init__(self, prompt, datastore, theme, patterns_map):
+        super().__init__(prompt, datastore, theme, patterns_map)
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.sub_folders = self.datastore.blog_configuration["path"]["dates_sub_folders"]
         if len(self.sub_folders) and self.sub_folders[-1] != '/':

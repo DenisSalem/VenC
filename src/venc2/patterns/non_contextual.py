@@ -49,6 +49,7 @@ def try_oembed(providers, url):
 
     try:
         html = json.loads(r.text)["html"]
+        
     except Exception as e:
         raise GenericMessage(messages.response_is_not_json.format(url.geturl()))
         
@@ -94,11 +95,5 @@ def include_file(argv):
     
     except FileNotFoundError:
         raise PatternInvalidArgument("path", filename, messages.file_not_found.format(filename))
-
-non_contextual_pattern_names = {
-    "GetVenCVersion" : get_venc_version,
-    "IncludeFile" : include_file,
-    "SetColor" : set_color
-}
 
 
