@@ -89,7 +89,7 @@ def new_entry(argv):
     stream.close()
 
     try:
-        command = blog_configuration["text_editor"].split(' ')
+        command = [arg for arg in blog_configuration["text_editor"].split(' ') if arg != '']
         command.append(output_filename)
         subprocess.call(command) 
 

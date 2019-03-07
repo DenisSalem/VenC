@@ -3,7 +3,30 @@
 import datetime
 import os
 import random
+import shutil
+import subprocess
 import sys
+import time
+
+import json
+
+from venc2.helpers import rm_tree_error_handler 
+
+PATH_TO_VENC = os.path.expanduser("~")+"/.local/bin/venc"
+PATH_TO_PELICAN = os.path.expanduser("~")+"/.local/bin/pelican"
+PATH_TO_JEKYLL = os.path.expanduser("~")+"/.gem/ruby/2.4.0/bin/jekyll"
+PATH_TO_HUGO = "/usr/bin/hugo"
+
+folders_to_clear = [
+    "pelican-benchmark/content",
+    "pelican-benchmark/output",
+    "venc-benchmark/entries",
+    "venc-benchmark/blog",
+    "jekyll-benchmark/_posts",
+    "jekyll-benchmark/_site",
+    "hugo-benchmark/content/posts",
+    "hugo-benchmark/public"
+]
 
 lorem_ipsum = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales, dui ultrices interdum tincidunt, nibh tortor varius arcu, vitae fermentum velit nisl vel elit. Donec at lorem semper, pellentesque velit in, sodales metus. Fusce tempus arcu sit amet dui luctus, id rhoncus augue iaculis. Maecenas laoreet odio sit amet mauris porttitor feugiat. Aliquam nec elit congue, eleifend purus vitae, hendrerit felis. Proin vitae condimentum quam. Praesent suscipit nisl est, ac semper mauris eleifend et. Duis neque lorem, pharetra ut facilisis ac, rutrum et mauris. Pellentesque facilisis ex in metus semper vulputate. Vivamus ultrices justo et eros molestie, quis hendrerit tellus sollicitudin. Aenean id nisl a lacus finibus ullamcorper.
 Cras auctor, dolor ut elementum vulputate, lectus arcu luctus turpis, quis laoreet augue dolor ac ex. Suspendisse molestie vestibulum erat, ut congue neque elementum et. Fusce nisl nulla, blandit ac sapien sed, vehicula vestibulum neque. Ut sit amet elementum urna. Vivamus bibendum commodo sem vel tempor. Donec nec magna sed diam ullamcorper pretium a ut felis. Phasellus elementum aliquet tempor. Proin quis orci non est mollis blandit sit amet vitae neque.
@@ -88,8 +111,42 @@ def gen_venc_entry(ID, title, date, categories, authors, content, summary):
     output_filename = str(ID)+"__"+entry_date+"__"+title
     open("venc-benchmark/entries/"+output_filename, 'w').write(entry)
 
-def gen_entries(markup_language, max_categories, number_of_entries, hierarchical_categories=False):
-    for i in range(0,number_of_entries):
+def zeroing_day_month(v):
+    return '0'+str(v) if v < 10 else str(v)
+    
+def gen_jekyll_entry(title, date, categories, authors, content, summary):
+    entry  = "---\n"
+    entry += "layout: post\n"
+    entry += "title: "+title+'\n'
+    entry += "authors: "+authors+'\n'
+    entry += "date: "+date.strftime("%Y-%m-%d")+"\n"
+    entry += "categories: "+(', '.join(categories))+'\n'
+    entry += "tags: "+(', '.join(categories))+'\n'
+    entry += "---\n"
+    entry += summary+"\n<!--more-->\n"
+    entry += content
+    
+    output_filename = str(date.year)+'-'+zeroing_day_month(date.month)+'-'+zeroing_day_month(date.day)+'-'+title+".md"
+    
+    open("jekyll-benchmark/_posts/"+output_filename, 'w').write(entry)
+
+def gen_hugo_entry(title, date, categories, authors, content, summary):
+    entry  = "---\n"
+    entry += "title: \""+title+'\"\n'
+    entry += "authors: "+authors+'\n'
+    entry += "draft: false\n"
+    entry += "date: "+date.strftime("%Y-%m-%d")+"\n"
+    entry += "categories: \n - "+('\n - '.join(categories))+'\n'
+    entry += "---\n"
+    entry += summary+"\n<!--more-->\n"
+    entry += content
+    
+    output_filename = title+".md"
+    
+    open("hugo-benchmark/content/posts/"+output_filename, 'w').write(entry)
+    
+def gen_entries(markup_language, max_categories, max_id, hierarchical_categories=False):
+    for i in range(max_id-10, max_id):
         if markup_language == "Markdown":
             categories = gen_categories(
                 int(random.random() * max_categories) + 1,
@@ -97,11 +154,110 @@ def gen_entries(markup_language, max_categories, number_of_entries, hierarchical
             )
             content, summary = gen_content()
             title = "Entry-"+str(i)
-            date = datetime.datetime.now()
+            date = datetime.datetime.fromtimestamp(datetime.datetime(2000, 1, 1, 0, 0).timestamp()+i*86400)
             authors = "Denis Salem, VenC Team"
             gen_pelican_entry(title, date, categories, authors, content, summary, exts[markup_language])
             gen_venc_entry(i, title, date, categories, authors, content, summary)
+            gen_jekyll_entry(title, date, categories, authors, content, summary)
+            gen_hugo_entry(title, date, categories, authors, content, summary)
+            
         else:
             raise ValueError("Markup Language not supported")
+
+def reset_folder(folder_path):
+    for f in os.listdir(folder_path):
+        file_path = folder_path+'/'+f
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+            
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+                
+        except Exception as e:
+            print(e)
+
+benchmark_data = {
+    "entries":[],
+    "VenC":[],
+    "Pelican": [],
+    "Jekyll": [],
+    "Hugo": []
+}
+
+def benchmark_venc():
+    os.chdir("venc-benchmark")
+    start_timestamp = time.time()
+    output = subprocess.Popen([PATH_TO_VENC,"-xb","gentle"], stdout=subprocess.PIPE)
+    output.wait()
+    time_command = time.time() - start_timestamp
+    time_internal = None
+    for v in [line for line in output.stdout.read().decode("utf-8").split('\n') if line != ''][-1].split(' '):
+        try:
+            time_internal = float(v)
+            
+        except:
+            pass
+            
+    os.chdir("..")
+    return time_command, time_internal
+
+def benchmark_pelican():
+    os.chdir("pelican-benchmark")
+    start_timestamp = time.time()
+    output = subprocess.Popen([PATH_TO_PELICAN,"content"], stdout=subprocess.PIPE)
+    output.wait()
+    time_command = time.time() - start_timestamp
+    time_internal = float([line for line in output.stdout.read().decode("utf-8").split('\n') if line != ''][-1].split(' ')[-2])
+            
+    os.chdir("..")
+    return time_command, time_internal
+
+def benchmark_jekyll():
+    os.chdir("jekyll-benchmark")
+    start_timestamp = time.time()
+    output = subprocess.Popen([PATH_TO_JEKYLL, "build"], stdout=subprocess.PIPE)
+    output.wait()
+    time_command = time.time() - start_timestamp
+
+    done_in_n_seconds_line = [line for line in output.stdout.read().decode("utf-8").split('\n') if line != ''][-2]
+    time_internal = float([ v for v in done_in_n_seconds_line.split(' ') if v != ''][2])
+    os.chdir("..")
+    return time_command, time_internal
+
+def benchmark_hugo():
+    os.chdir("hugo-benchmark")
+    start_timestamp = time.time()
+    output = subprocess.Popen([PATH_TO_HUGO], stdout=subprocess.PIPE)
+    output.wait()
+    time_command = time.time() - start_timestamp
+
+    done_in_n_seconds_line = [line for line in output.stdout.read().decode("utf-8").split('\n') if line != ''][-1]
+    time_internal = float([ v for v in done_in_n_seconds_line.split(' ') if v != ''][2]) / 1000
+    os.chdir("..")
+    return time_command, time_internal
+
+for folder in folders_to_clear:
+    reset_folder(folder)
     
-gen_entries("Markdown", 5, 100, False)
+#~ for i in range(1,101):
+    #~ gen_entries("Markdown", 5, (i*10)+1, False)
+    #~ print("Number or entries:",i*10)
+    #~ benchmark_data["entries"].append(i*10)
+
+    #~ benchmark_data["VenC"].append(benchmark_venc())
+    #~ benchmark_data["Pelican"].append(benchmark_pelican())
+    #~ benchmark_data["Jekyll"].append(benchmark_jekyll())
+    #~ benchmark_data["Hugo"].append(benchmark_hugo())
+    
+    #~ print("\tVenC", benchmark_data["VenC"][-1])
+    #~ print("\tPelican", benchmark_data["Pelican"][-1])
+    #~ print("\tJekyll", benchmark_data["Jekyll"][-1])
+    #~ print("\tHugo", benchmark_data["Hugo"][-1])
+    
+    #~ print()
+
+#~ output = json.dumps(benchmark_data)
+#~ f = open(str(time.time())+".json","w")
+#~ f.write(output)
+#~ f.close()
