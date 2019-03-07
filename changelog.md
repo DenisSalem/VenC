@@ -194,6 +194,7 @@
     TODO | Catch "OSError: [Errno 98] Address already in use".
     TODO | Improve sub folder management in Entry and EntriesThread.
     TODO | Optimize objects dereferencing.
+    TODO | Add draft support.
 
 # version 3.x.x
     TODO | Add support for plugin.
