@@ -240,24 +240,24 @@ def benchmark_hugo():
 for folder in folders_to_clear:
     reset_folder(folder)
     
-#~ for i in range(1,101):
-    #~ gen_entries("Markdown", 5, (i*10)+1, False)
-    #~ print("Number or entries:",i*10)
-    #~ benchmark_data["entries"].append(i*10)
+for i in range(1,101):
+    gen_entries("Markdown", 5, (i*10)+1, False)
+    print("Number or entries:",i*10)
+    benchmark_data["entries"].append(i*10)
 
-    #~ benchmark_data["VenC"].append(benchmark_venc())
-    #~ benchmark_data["Pelican"].append(benchmark_pelican())
-    #~ benchmark_data["Jekyll"].append(benchmark_jekyll())
-    #~ benchmark_data["Hugo"].append(benchmark_hugo())
+    benchmark_data["VenC"].append(benchmark_venc())
+    benchmark_data["Pelican"].append(benchmark_pelican())
+    benchmark_data["Jekyll"].append(benchmark_jekyll())
+    benchmark_data["Hugo"].append(benchmark_hugo())
     
-    #~ print("\tVenC", benchmark_data["VenC"][-1])
-    #~ print("\tPelican", benchmark_data["Pelican"][-1])
-    #~ print("\tJekyll", benchmark_data["Jekyll"][-1])
-    #~ print("\tHugo", benchmark_data["Hugo"][-1])
+    print("\tVenC", benchmark_data["VenC"][-1])
+    print("\tPelican", benchmark_data["Pelican"][-1])
+    print("\tJekyll", benchmark_data["Jekyll"][-1])
+    print("\tHugo", benchmark_data["Hugo"][-1])
     
-    #~ print()
+    print()
 
-#~ output = json.dumps(benchmark_data)
-#~ f = open(str(time.time())+".json","w")
-#~ f.write(output)
-#~ f.close()
+output = json.dumps(benchmark_data)
+f = open(str(time.time())+".json","w")
+f.write(output)
+f.close()

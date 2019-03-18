@@ -91,7 +91,7 @@ def get_blog_configuration():
             everything_is_okay = False
             notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blog_configuration.yaml"),"RED")
 
-        if blog_configuration["sort_by"] in ['', None]:
+        if (not "sort_by" in blog_configuration.keys() ) or blog_configuration["sort_by"] in ['', None]:
             blog_configuration["sort_by"] = "id"
 
         if blog_configuration["blog_url"][-1:] == '/':

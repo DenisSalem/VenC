@@ -195,9 +195,11 @@
     TODO | Improve sub folder management in Entry and EntriesThread.
     TODO | Optimize objects dereferencing.
     TODO | Add draft support.
+    TODO | Add CPU threads support.
 
 # version 3.x.x
+    TODO | Replace categories with taxonomy support.
     TODO | Add support for plugin.
     TODO | Add Incremental blog update.
-    TODO | Add support for sub-blogs within main blog.
+    TODO | Add support for sub-sites within main site.
     TODO | Add support for single pages.
