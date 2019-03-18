@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-#   Copyright 2016, 2017 Denis Salem
+#   Copyright 2016, 2019 Denis Salem
 
 #    This file is part of VenC.
 #
