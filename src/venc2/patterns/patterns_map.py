@@ -107,5 +107,5 @@ class PatternsMap():
             "IncludeFile",
             "Audio",
             "Video",
-            "EmbedContent"
+            "GetEmbedContent"
         ]
