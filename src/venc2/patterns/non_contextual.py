@@ -41,6 +41,7 @@ def try_oembed(providers, url):
             "url": url.geturl(),
             "format":"json"
         })
+
     except requests.exceptions.ConnectionError as e:
         raise GenericMessage(messages.connectivity_issue+'\n'+str(e))
 

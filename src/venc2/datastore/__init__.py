@@ -20,6 +20,8 @@
 import hashlib
 import os
 import datetime
+import json
+
 import urllib.parse
 
 from venc2.datastore.configuration import get_blog_configuration
@@ -681,7 +683,7 @@ class DataStore:
             if self.embed_providers == dict():
                 f = open(os.path.expanduser("~")+"/.local/share/VenC/embed_providers/oembed.json")
                 self.embed_providers["oembed"] = {}
-                j =json.load(f)
+                j = json.load(f)
                 for p in j:
                     self.embed_providers["oembed"][p["provider_url"]] = []
                     for e in p["endpoints"]:
