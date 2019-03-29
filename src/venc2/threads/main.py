@@ -48,9 +48,9 @@ class MainThread(Thread):
             entries.append(entry)
             i+=1
             if i == self.datastore.blog_configuration["feed_lenght"]:
-                return entries
+             return entries
                 
-		return entries
+        return entries
     
     def do_feeds(self):
         disable_rss_feed = self.datastore.blog_configuration["disable_rss_feed"]
