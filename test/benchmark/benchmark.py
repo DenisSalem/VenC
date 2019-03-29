@@ -185,6 +185,17 @@ benchmark_data = {
     "Hugo": []
 }
 
+def get_venc_version():
+    output = subprocess.Popen([PATH_TO_VENC,"-v"], stdout=subprocess.PIPE)
+    output.wait()
+    return output.stdout.read().decode("utf-8")
+
+def get_hugo_version():
+    output = subprocess.Popen([PATH_TO_HUGO,"version"], stdout=subprocess.PIPE)
+    output.wait()
+    return "Hugo "+output.stdout.read().decode("utf-8").split(' ')[4].split('-')[0]
+
+
 def benchmark_venc():
     os.chdir("venc-benchmark")
     start_timestamp = time.time()
@@ -216,11 +227,14 @@ def benchmark_pelican():
 def benchmark_jekyll():
     os.chdir("jekyll-benchmark")
     start_timestamp = time.time()
-    output = subprocess.Popen([PATH_TO_JEKYLL, "build"], stdout=subprocess.PIPE)
+    output = subprocess.Popen(["bundle", "exec", PATH_TO_JEKYLL, "build"], stdout=subprocess.PIPE)
     output.wait()
     time_command = time.time() - start_timestamp
-
-    done_in_n_seconds_line = [line for line in output.stdout.read().decode("utf-8").split('\n') if line != ''][-2]
+    try:
+        done_in_n_seconds_line = [line for line in output.stdout.read().decode("utf-8").split('\n') if line != ''][-2]
+    except Exception as e:
+        print(output.stdout.read())
+        raise e 
     time_internal = float([ v for v in done_in_n_seconds_line.split(' ') if v != ''][2])
     os.chdir("..")
     return time_command, time_internal

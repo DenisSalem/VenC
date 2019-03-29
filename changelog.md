@@ -196,6 +196,7 @@
     TODO | Optimize objects dereferencing.
     TODO | Add draft support.
     TODO | Add CPU threads support.
+    TODO | Regenerate any missing folders.
 
 # version 3.x.x
     TODO | Replace categories with taxonomy support.
