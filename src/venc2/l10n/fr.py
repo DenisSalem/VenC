@@ -18,8 +18,8 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 class Messages:
-    blog_created = "Votre blog a été crée!"
-    theme_installed = "Le thème à bien été installé!"
+    blog_created = "Votre blog a été créé!"
+    theme_installed = "Le thème a bien été installé!"
     entry_written = "La publication a bien été ajouté!"
     file_not_found = "{0} : Ce fichier ou ce dossier n'existe pas."
     file_already_exists = "{0} : {1}: Le fichier existe déjà."
