@@ -87,7 +87,7 @@ class PatternsMap():
             },
             "names" : {
                 # Patterns below are acquired dynamically because they depend on the context
-                "GetJSON-LD" : "JSONLD",
+                "GetJSON-LD" : "GetJSONLD",
                 "IfInThread" : "if_in_thread",
                 "IfInArchives" : "if_in_archives",
                 "IfInCategories" : "if_in_categories",
