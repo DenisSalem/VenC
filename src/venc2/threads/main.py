@@ -74,11 +74,14 @@ class MainThread(Thread):
             notify(self.indentation_level+'└─ '+messages.generating_jsonld_doc)
             dump = json.dumps(self.datastore.root_as_jsonld)
         
+        # TODO RUN AS PARENT CLASS METHOD
         if self.datastore.enable_jsonld:
             f = open("blog/root.jsonld", 'w')
             f.write(dump)
         
         if self.datastore.enable_jsonp
+            f = open("blog/root.jsonp", 'w')
+            f.write("function "+self.+"() {return "+dump+";}")
             
     def do(self):
         super().do()

@@ -55,6 +55,7 @@ class DataStore:
         self.sort_by = self.blog_configuration["sort_by"]
         self.enable_jsonld = self.blog_configuration["enable_jsonld"]
         self.enable_jsonp = self.blog_configuration["enable_jsonp"]
+		self.blog_url = blog_configuration["blog_url"]
         self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
         self.entries = list()
         self.entries_per_dates = list()
