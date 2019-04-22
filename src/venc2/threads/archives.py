@@ -65,7 +65,7 @@ class ArchivesThread(Thread):
                 continue
                 
             super().do()
-            if self.datastore.enable_jsonld:
+            if self.datastore.enable_jsonld or self.enable_jsonp:
                 from venc2.l10n import messages
                 notify("│\t "+('│' if i != len_archives-1 else ' ')+"  └─ "+messages.generating_jsonld_doc)
                 

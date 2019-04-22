@@ -131,7 +131,7 @@ class EntriesThread(Thread):
         f.write(dump)
             
     def do(self):
-        if self.datastore.enable_jsonld:
+        if self.datastore.enable_jsonld or self.enable_jsonp:
             notify(self.indentation_level+'└─ '+messages.generating_jsonld_docs)
             
         self.page_number = 0

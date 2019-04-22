@@ -57,7 +57,8 @@ def get_blog_configuration():
             "disable_rss_feed",
             "disable_atom_feed",
             "sort_by",
-            "enable_jsonld"
+            "enable_jsonld",
+            "enable_jsonp"
         ]
 
         everything_is_okay = True
