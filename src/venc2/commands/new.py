@@ -143,7 +143,8 @@ def new_blog(argv):
         "path_encoding":                "utf-8",
         "server_port":                  8888,
         "sort_by":                      "id",
-        "enable_jsonld":                True
+        "enable_jsonld":                True,
+        "enable_jsonp":					True
     }
     for folder_name in argv:
         try:

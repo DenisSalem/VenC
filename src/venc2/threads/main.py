@@ -67,14 +67,18 @@ class MainThread(Thread):
             FeedThread(self.datastore, self.theme, self.patterns_map, "rss").do(entries, self.export_path, self.relative_origin, "│  ", '└' if not self.datastore.enable_jsonld else '├')
  
     def do_jsonld(self):
-        if self.datastore.enable_jsonld:
+        if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
             from venc2.prompt import notify
             from venc2.l10n import messages
             import json
             notify(self.indentation_level+'└─ '+messages.generating_jsonld_doc)
             dump = json.dumps(self.datastore.root_as_jsonld)
+        
+        if self.datastore.enable_jsonld:
             f = open("blog/root.jsonld", 'w')
             f.write(dump)
+        
+        if self.datastore.enable_jsonp
             
     def do(self):
         super().do()

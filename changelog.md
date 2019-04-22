@@ -165,6 +165,10 @@
     WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.1.x
+    TODO | Fix gvim / -ex.
+    TODO | Fix encoding issue in JSON-LD document.
+    TODO | Catch "OSError: [Errno 98] Address already in use".
+    TODO | Catch invalid encoding at startup.
     TODO | Create entry with default template, if defined.
     TODO | Add support for access metadata by key.
     TODO | Make some dependencies optional.
@@ -175,11 +179,9 @@
     TODO | Decrease halt_level to render reStructuredText even if errors occurs.
     TODO | Access {count} and {weight} from LeavesForEntrycategories.
     TODO | Add Yaml comments in blog configuration.
-    TODO | Catch invalid encoding at startup.
     TODO | Add nice 404 errors page.
     TODO | Improve Feed.
     TODO | Print out what's going on while FTP transfert.
-    TODO | Fix gvim / -ex.
     TODO | Warn about entry title duplicates.
     TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add configuration field type check.
@@ -187,17 +189,16 @@
     TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Add more informations into JSON-LD document.
     TODO | Optimize and refine JSON-LD processing.
-    TODO | Fix encoding issue in JSON-LD document.
     TODO | Embed as much as possible microdata/JSON-LD into blog.
     TODO | Automatically add entries categories to entries tags.
     TODO | Make entry URL nicer when filename is index.html and has subfolder.
-    TODO | Catch "OSError: [Errno 98] Address already in use".
     TODO | Improve sub folder management in Entry and EntriesThread.
     TODO | Optimize objects dereferencing.
     TODO | Add draft support.
     TODO | Add CPU threads support.
     TODO | Regenerate any missing folders.
-
+	TODO | Override server port with extra arg.
+	
 # version 3.x.x
     TODO | Replace categories with taxonomy support.
     TODO | Add support for plugin.

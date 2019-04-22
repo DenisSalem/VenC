@@ -54,6 +54,7 @@ class DataStore:
         self.blog_configuration = get_blog_configuration()
         self.sort_by = self.blog_configuration["sort_by"]
         self.enable_jsonld = self.blog_configuration["enable_jsonld"]
+        self.enable_jsonp = self.blog_configuration["enable_jsonp"]
         self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
         self.entries = list()
         self.entries_per_dates = list()
@@ -71,7 +72,7 @@ class DataStore:
         self.html_chapters = {}
         
         # Build JSON-LD doc if any
-        if self.enable_jsonld:
+        if self.enable_jsonld or self.enable_jsonp:
             if "https://schema.org" in self.blog_configuration.keys():
                 self.optionals_schemadotorg = self.blog_configuration["https://schema.org"]
                 
@@ -85,7 +86,7 @@ class DataStore:
             
         # Build entries
         try:
-            jsonld_callback = self.entry_to_jsonld_callback if self.enable_jsonld else None
+            jsonld_callback = self.entry_to_jsonld_callback if (self.enable_jsonld or self.enable_jsonp) else None
             for filename in yield_entries_content():
                 self.entries.append(Entry(
                     filename,
