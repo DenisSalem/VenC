@@ -27,6 +27,9 @@ from venc2.prompt import die
 from venc2.l10n import messages
 
 def install_theme(argv):
+    if len(argv) < 1:
+        die(messages.missing_params.format("--install-themes"))
+        
     blog_configuration = get_blog_configuration()
     if blog_configuration == None:
         notify(messages.no_blog_configuration)
@@ -42,7 +45,7 @@ def install_theme(argv):
 
     try:
         shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0], "theme")
-    
+        
     except FileNotFoundError as e:
         ''' Restore previous states '''
         try:

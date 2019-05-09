@@ -79,9 +79,10 @@ class MainThread(Thread):
             f = open("blog/root.jsonld", 'w')
             f.write(dump)
         
-        if self.datastore.enable_jsonp
-            f = open("blog/root.jsonp", 'w')
-            f.write("function "+self.+"() {return "+dump+";}")
+        if self.datastore.enable_jsonp:
+            pass
+            #~ f = open("blog/root.jsonp", 'w')
+            #~ f.write("function "+self.+"() {return "+dump+";}")
             
     def do(self):
         super().do()

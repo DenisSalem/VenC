@@ -38,10 +38,10 @@ class MinimalEntry:
             setattr(self, key, data["key"])
 
 def new_entry(argv):
-    blog_configuration = get_blog_configuration()
     if len(argv) < 1:
         die(messages.missing_params.format("--new-entry"))
-            
+        
+    blog_configuration = get_blog_configuration()            
     content =   {"authors":	"",
 		"tags":		"",
 		"categories":	"",

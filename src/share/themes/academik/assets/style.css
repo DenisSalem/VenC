@@ -1,0 +1,126 @@
+body
+     {background-color: white;
+     font-family: georgia;
+     color: black;
+     margin: 0px;}
+.entry p
+    {width: 580px;
+    text-align: justify;
+    float: left;}
+
+header {
+    width: 800px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    border-bottom: 1px solid grey;
+}
+
+header h1
+    {display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+
+
+aside {
+    position: fixed;
+    width: 19%;
+    height: 100%;
+    top: 0px;
+}
+
+.footnote
+    {float: left;
+    margin-top: 1em;
+    font-size: 0.9em;
+    font-style: italic;
+    margin-left: 10px;
+    width: 200px;}
+
+a
+    {color: #000;
+    text-decoration: none;}
+    
+#blog-avatar
+ {width: 110px;
+ height: 110px;
+ border-radius: 55px;
+ margin: auto;
+ margin-top: 100px;
+ background-color: grey;}
+
+#blog-description
+    {width: 95%;
+    font-size: 0.8em;
+    font-style: italic;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 5%;
+}
+
+#blog-categories-header 
+    {text-transform: uppercase;
+    text-align: center;
+    display: block;
+    width: 95%;
+    margin-left: 5%;
+    overflow: hidden;}
+
+#blog-categories-header-wrapper
+    {width: 750px;
+    height: 20px;
+    position: relative;
+    left: 50%;
+    margin-left: -375px;}
+    
+#blog-categories-header-wrapper div
+    {width: 315px;
+    height: 5px;
+    float: left;
+    margin-top: 7px;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;}
+
+#blog-categories-header-wrapper div
+ {margin-left:5px;}
+ 
+#blog-categories-header-wrapper div:first-child
+ {margin-right:5px;}
+
+#blog-categories-header span
+    {float: left;}
+
+#blog-categories {
+    font-size: 1.1em;
+    margin-top: 1em;
+}
+
+#blog-categories ul
+    {display: block;
+    margin:0px;
+    padding: 5px;}
+
+#blog-categories ul li
+    {display: block;
+    padding-left: 5px;
+    border-left: 1px solid grey;}
+
+#blog-content {
+    position: absolute;
+    left: 20%;
+    width: 80%;
+    height: 100%;
+}
+
+#VENC_COLUMN_1 {
+    display: block;
+    top: 100px;
+    height: 100px;
+    width: 800px;
+}
+
+.entry {
+    font-size: 1.15em;
+}

@@ -156,15 +156,19 @@
     DONE | fix FAQ subfolders must not start with '/'
     DONE | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
     DONE | Refactor DatesThread to ArchivesThread.
+    TODO | Force preview / full content in thread, for single entry.
     TODO | Add definition in documentation for optional fields in blog configuration.
     TODO | Open with navigator manual.
     WIP  | Client-side search engine.
     WIP  | Semantic-web features.
     TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
     TODO | Add relevant templates for themes.
+    TODO | Theme must have it's own yaml configuration.
     WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.1.x
+    TODO | If previous theme empty, juste remove it.
+    TODO | Add plural form at the end of blog creation if multiple blog has been made.
     TODO | Fix gvim / -ex.
     TODO | Fix encoding issue in JSON-LD document.
     TODO | Catch "OSError: [Errno 98] Address already in use".

@@ -38,3 +38,4 @@ banner: 'https://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA
 path_encoding: 'windows-1252'
 server_port: 8888
 sort_by: 'chapter'
+enable_jsonld: True

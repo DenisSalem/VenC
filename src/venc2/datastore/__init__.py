@@ -48,14 +48,15 @@ def merge(iterable, argv):
             raise PatternInvalidArgument(name="string", value=argv[0])
                 
         raise e
+        
 class DataStore:
     def __init__(self):
         notify("┌─ "+messages.loading_data)
         self.blog_configuration = get_blog_configuration()
         self.sort_by = self.blog_configuration["sort_by"]
         self.enable_jsonld = self.blog_configuration["enable_jsonld"]
-        self.enable_jsonp = self.blog_configuration["enable_jsonp"]
-		self.blog_url = blog_configuration["blog_url"]
+        self.enable_jsonp =  self.blog_configuration["enable_jsonp"]
+        self.blog_url = self.blog_configuration["blog_url"]
         self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
         self.entries = list()
         self.entries_per_dates = list()
@@ -555,7 +556,7 @@ class DataStore:
         return self.html_blog_dates[key]
 
     def get_root_page(self, argv):
-        return ".:GetRelativeOrigin:."+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
+        return ".:GetRelativeOrigin:./"+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
 
     def build_html_categories_tree(self, opening_node, opening_branch, closing_branch, closing_node, tree):
         output_string = opening_node
