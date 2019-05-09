@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>.:GetBlogName:.</title>
+        <meta charset="utf-8">
+        <link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="feed.xml" />
+        <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css" />
+    </head>
+    <body>
+        <aside>
+            <div id="blog-avatar" style="background-image: url('.:GetBlogMetadataIfExists::avatar::{value}:.');">
+            </div>
+            <p id="blog-description">
+                .:GetBlogDescription:.
+            </p>
+            <div id="blog-categories-header">
+                <div id="blog-categories-header-wrapper">
+                    <div></div><span>Categories</span><div></div>
+                </div>
+            </div>
+            <div id="blog-categories">
+                .:TreeForBlogCategories::<ul>::<li><a href="{path}" title="{count} publications">{value}</a>::</li>::</ul>:.
+            </div>
+        </aside>
+        <div id="blog-content">
+            <header>
+                <h1><a href=".:GetBlogURL:."><img src=".:GetBlogMetadataIfExists::banner::{value}:." alt="Le turfu expliqué à mon poney"></a></h1>
+            </header>
