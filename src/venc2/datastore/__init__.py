@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 
 #    Copyright 2016, 2019 Denis Salem
 #
@@ -436,10 +436,15 @@ class DataStore:
     
     def get_blog_metadata_if_exists(self, argv):
         try:
-            return self.blog_configuration[argv[0]]
-            
+            value = self.blog_configuration[argv[0]]
         except KeyError:
             return str()
+        
+        try:
+            return argv[1].format(**{"value" : value})
+        
+        except IndexError:
+            return value
 
     def get_entry_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
@@ -447,10 +452,16 @@ class DataStore:
     
     def get_entry_metadata_if_exists(self, argv):
         try:
-            return str( getattr(self.entries[self.requested_entry_index], argv[0]))
+            value = str(getattr(self.entries[self.requested_entry_index], argv[0]))
 
         except AttributeError:
             return str()
+            
+        try:
+            return argv[1].format(**{"value" : value})
+        
+        except IndexError:
+            return value
 
     def get_entries_index_for_given_date(self, value):
         index = 0

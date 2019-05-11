@@ -8,11 +8,18 @@
     </head>
     <body>
         <aside>
-            <div id="blog-avatar" style="background-image: url('.:GetBlogMetadataIfExists::avatar::{value}:.');">
+            <div id="blog-avatar" style="background-image: url('.:GetBlogMetadataIfExists::avatar:: .:GetRelativeOrigin:.{value} :.');">
             </div>
             <p id="blog-description">
                 .:GetBlogDescription:.
             </p>
+            <div id="social-network">
+                .:GetBlogMetadataIfExists::github:: <a href="{value}" class="social-network-item"><img src=".:GetRelativeOrigin:.GitHub-Mark-64px.png" alt="Github" title="Github"/></a>:.
+                .:GetBlogMetadataIfExists::gitlab:: <a href="{value}" class="social-network-item"><img src=".:GetRelativeOrigin:.gitlab.png" alt="Gitlab" title="Gitlab"/></a>:.
+                .:GetBlogMetadataIfExists::diaspora:: <a href="{value}" class="social-network-item"><img src=".:GetRelativeOrigin:.diaspora.png" alt="Diaspora*" title="Diaspora*"/></a>:.
+                .:GetBlogMetadataIfExists::mastodon:: <a href="{value}" class="social-network-item"><img src=".:GetRelativeOrigin:.mastodon.png" alt="Mastodon" title="Mastodon"/></a>:.
+
+            </div>
             <div id="blog-categories-header">
                 <div id="blog-categories-header-wrapper">
                     <div></div><span>Categories</span><div></div>

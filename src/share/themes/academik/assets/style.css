@@ -34,7 +34,7 @@ aside {
 .footnote
     {float: left;
     margin-top: 1em;
-    font-size: 0.9em;
+    font-size: 0.8em;
     font-style: italic;
     margin-left: 10px;
     width: 200px;}
@@ -49,7 +49,8 @@ a
  border-radius: 55px;
  margin: auto;
  margin-top: 100px;
- background-color: grey;}
+ background-color: grey;
+ background-size: cover;}
 
 #blog-description
     {width: 95%;
@@ -60,13 +61,18 @@ a
     margin-left: 5%;
 }
 
+#social-network
+    {text-align: center;
+    width: 100%;}
+
 #blog-categories-header 
     {text-transform: uppercase;
     text-align: center;
     display: block;
     width: 95%;
     margin-left: 5%;
-    overflow: hidden;}
+    overflow: hidden;
+    margin-top: 1em;}
 
 #blog-categories-header-wrapper
     {width: 750px;
@@ -124,3 +130,15 @@ a
 .entry {
     font-size: 1.15em;
 }
+
+.entry-date
+    {width: 100%;
+    display: block;}
+    
+.entry-authors
+    {width: 100%;
+    display: block;}
+    
+.social-network-item img
+    {width: 20px;
+    display: inline-block;}
