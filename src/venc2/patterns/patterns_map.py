@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/env python3
 
 #    Copyright 2016, 2019 Denis Salem
 #
@@ -19,7 +19,7 @@
 
 from venc2.patterns.contextual import get_random_number
 from venc2.patterns.latex2mathml import Latex2MathML
-from venc2.patterns.non_contextual import get_venc_version, include_file, set_color
+from venc2.patterns.non_contextual import get_venc_version, include_file, set_color, set_style
 
 class PatternsMap():
     def __init__(self, datastore, code_highlight, theme):
@@ -71,6 +71,7 @@ class PatternsMap():
                 "GetVenCVersion" :          get_venc_version,
                 "IncludeFile" :             include_file,
                 "SetColor" :                set_color,
+                "SetStyle" :                set_style,
                 "Video" :                   theme.get_video,
                 "Audio" :                   theme.get_audio
             }
@@ -105,6 +106,7 @@ class PatternsMap():
             "CodeHighlight",
             "Latex2MathML",
             "IncludeFile",
+            "SetStyle",
             "Audio",
             "Video",
             "GetEmbedContent"

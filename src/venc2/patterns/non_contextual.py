@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 
 #    Copyright 2016, 2018 Denis Salem
 #
@@ -81,6 +81,9 @@ def get_venc_version(argv):
 """ Need to handle missing args in case of unknown number of args """
 def set_color(argv):
     return "<span style=\"color: "+('::'.join(argv[1:]))+";\">"+argv[0]+"</span>"
+
+def set_style(argv):
+    return "<span class=\""+argv[0]+"\">"+('::'.join(argv[1:]))+"</span>"
 
 def include_file(argv):
     try:
