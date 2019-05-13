@@ -156,6 +156,7 @@
     DONE | fix FAQ subfolders must not start with '/'
     DONE | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
     DONE | Refactor DatesThread to ArchivesThread.
+    DONE | Fix Shabang issue for compatibility.
     TODO | Force preview / full content in thread, for single entry.
     TODO | Add definition in documentation for optional fields in blog configuration.
     TODO | Open with navigator manual.

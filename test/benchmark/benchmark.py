@@ -165,7 +165,12 @@ def gen_entries(markup_language, max_categories, max_id, hierarchical_categories
             raise ValueError("Markup Language not supported")
 
 def reset_folder(folder_path):
-    for f in os.listdir(folder_path):
+    try:
+        folder_content = os.listdir(folder_path)
+    except FileNotFoundError:
+        return
+        
+    for f in folder_content:
         file_path = folder_path+'/'+f
         try:
             if os.path.isfile(file_path):
