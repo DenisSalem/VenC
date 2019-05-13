@@ -1,4 +1,21 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
+
+#   Copyright 2016, 2019 Denis Salem
+#
+#    This file is part of VenC.
+#
+#    VenC is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    VenC is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
 import os
@@ -15,6 +32,7 @@ from venc2.helpers import rm_tree_error_handler
 PATH_TO_VENC = os.path.expanduser("~")+"/.local/bin/venc"
 PATH_TO_PELICAN = os.path.expanduser("~")+"/.local/bin/pelican"
 PATH_TO_JEKYLL = os.path.expanduser("~")+"/.gem/ruby/2.4.0/bin/jekyll"
+PATH_TO_BUNDLE = os.path.expanduser("~")+"/.gem/ruby/2.4.0/bin/bundle"
 PATH_TO_HUGO = "/usr/bin/hugo"
 
 folders_to_clear = [
@@ -212,7 +230,7 @@ def benchmark_venc():
         try:
             time_internal = float(v)
             
-        except:
+        except Exception as e:
             pass
             
     os.chdir("..")
@@ -232,11 +250,12 @@ def benchmark_pelican():
 def benchmark_jekyll():
     os.chdir("jekyll-benchmark")
     start_timestamp = time.time()
-    output = subprocess.Popen(["bundle", "exec", PATH_TO_JEKYLL, "build"], stdout=subprocess.PIPE)
+    output = subprocess.Popen([PATH_TO_BUNDLE, "exec", PATH_TO_JEKYLL, "build"], stdout=subprocess.PIPE)
     output.wait()
     time_command = time.time() - start_timestamp
     try:
         done_in_n_seconds_line = [line for line in output.stdout.read().decode("utf-8").split('\n') if line != ''][-2]
+        
     except Exception as e:
         print(output.stdout.read())
         raise e 
