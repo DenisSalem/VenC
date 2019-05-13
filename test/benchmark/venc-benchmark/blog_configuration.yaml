@@ -38,3 +38,5 @@ reverse_thread_order: true
 server_port: 8888
 sort_by: id
 text_editor: nano
+enable_jsonld: true
+enable_jsonp: true
