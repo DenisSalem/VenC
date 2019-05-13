@@ -4,6 +4,7 @@
         <title>.:GetBlogName:.</title>
         <meta charset="utf-8">
         <link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="feed.xml" />
+        .:GetStyleSheets:.
         <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css" />
     </head>
     <body>
@@ -27,6 +28,16 @@
             </div>
             <div id="blog-categories">
                 .:TreeForBlogCategories::<ul>::<li><a href="{path}" title="{count} publications">{value}</a>::</li>::</ul>:.
+            </div>
+            <div id="blog-navigation-header">
+                <div id="blog-navigation-header-wrapper">
+                    <div></div><span>Navigation</span><div></div>
+                </div>
+            </div>
+            <div id="blog-navigation">
+                .:GetPreviousPage::<a id="previous" href="{path}">←</a>:.
+                <ul id="pagesList">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>
+                .:GetNextPage::<a id="next" href="{path}">→</a>:.
             </div>
         </aside>
         <div id="blog-content">

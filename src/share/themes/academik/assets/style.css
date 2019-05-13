@@ -3,14 +3,13 @@ body
      font-family: georgia;
      color: black;
      margin: 0px;}
-.entry p
-    {width: 580px;
-    text-align: justify;
-    float: left;}
 
 header {
     width: 800px;
     height: 100px;
+/*
+    margin: auto;
+*/
     line-height: 100px;
     text-align: center;
     border-bottom: 1px solid grey;
@@ -22,27 +21,40 @@ header h1
     line-height: normal;
 }
 
-
-
 aside {
     position: fixed;
-    width: 19%;
+    width: 290px;
     height: 100%;
+    left: calc(50% - 550px);
     top: 0px;
 }
-
-.footnote
-    {float: left;
-    margin-top: 1em;
-    font-size: 0.8em;
-    font-style: italic;
-    margin-left: 10px;
-    width: 200px;}
 
 a
     {color: #000;
     text-decoration: none;}
-    
+
+blockquote p
+    {border-left: 2px solid grey;
+    display: block;
+    width: 100%;
+    font-style: italic;
+    clear: both;
+    font-size: 0.8em;
+    padding-left: 1em;}
+
+table {width: 580px; display: block; clear: both;}
+table tr {width: 100%; display: block;}
+table tbody {width: 100%; display: block;}
+table .linenos {width: 4%; display: inline-block;vertical-align: top;}
+table .code {width: 95%; display: inline-block;vertical-align: top;}
+table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
+
+#blog-content
+    {position: absolute;
+    left: calc(50% - 250px);
+    top: 0px;
+    width: 800px;}
+
 #blog-avatar
  {width: 110px;
  height: 110px;
@@ -65,7 +77,8 @@ a
     {text-align: center;
     width: 100%;}
 
-#blog-categories-header 
+#blog-categories-header,
+#blog-navigation-header 
     {text-transform: uppercase;
     text-align: center;
     display: block;
@@ -74,14 +87,16 @@ a
     overflow: hidden;
     margin-top: 1em;}
 
-#blog-categories-header-wrapper
+#blog-categories-header-wrapper,
+#blog-navigation-header-wrapper
     {width: 750px;
     height: 20px;
     position: relative;
     left: 50%;
     margin-left: -375px;}
     
-#blog-categories-header-wrapper div
+#blog-categories-header-wrapper div,
+#blog-navigation-header-wrapper div
     {width: 315px;
     height: 5px;
     float: left;
@@ -89,13 +104,16 @@ a
     border-top: 1px solid grey;
     border-bottom: 1px solid grey;}
 
-#blog-categories-header-wrapper div
+#blog-categories-header-wrapper div,
+#blog-navigation-header-wrapper div
  {margin-left:5px;}
  
-#blog-categories-header-wrapper div:first-child
+#blog-categories-header-wrapper div:first-child,
+#blog-navigation-header-wrapper div:first-child
  {margin-right:5px;}
 
-#blog-categories-header span
+#blog-categories-header span,
+#blog-navigation-header span
     {float: left;}
 
 #blog-categories {
@@ -113,12 +131,16 @@ a
     padding-left: 5px;
     border-left: 1px solid grey;}
 
-#blog-content {
-    position: absolute;
-    left: 20%;
-    width: 80%;
-    height: 100%;
-}
+#blog-navigation
+    {text-align: center;}
+
+#blog-navigation ul
+    {margin: 0px;
+    padding: 0px;
+    display:inline-block;}
+    
+#blog-navigation ul li
+    {display:inline-block;}
 
 #VENC_COLUMN_1 {
     display: block;
@@ -128,8 +150,23 @@ a
 }
 
 .entry {
+    width: 100%;
+    display: block;
+    clear: both;
     font-size: 1.15em;
 }
+
+.entry p
+    {width: 580px;
+    text-align: justify;
+    float: left;}
+    
+.entry h1,
+.entry h2,
+.entry h3,
+.entry h4,
+.entry h5
+    {clear: both;}
 
 .entry-date
     {width: 100%;
@@ -138,6 +175,18 @@ a
 .entry-authors
     {width: 100%;
     display: block;}
+
+.entry_content
+    {width: 800px;
+    clear: both;}
+    
+.footnote
+    {float: left;
+    margin-top: 1em;
+    font-size: 0.8em;
+    font-style: italic;
+    margin-left: 10px;
+    width: 200px;}
     
 .social-network-item img
     {width: 20px;
