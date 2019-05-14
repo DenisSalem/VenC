@@ -167,9 +167,11 @@ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0
     font-size: 1.15em;
 }
 
-.entry a
+.entry p a,
+.entry span a
     {font-style: italic;
     color: grey;}
+    
 .entry p
     {width: 580px;
     text-align: justify;
@@ -224,13 +226,15 @@ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0
     .entry, .entry_content
         {width: 580px;}
         
-    .note
+    .note,
+    .footnote
         {border-left: 2px solid grey;
         padding-left: 10px;
         display: inline-block;
         margin: 0px;
         width: calc(100% - 12px);
-        float: none;}
+        float: none;
+        clear: both;}
         
     .footnote
         {height: 0px;
