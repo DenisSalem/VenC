@@ -60,7 +60,7 @@ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0
  height: 110px;
  border-radius: 55px;
  margin: auto;
- margin-top: 100px;
+ margin-top: 1em;
  background-color: grey;
  background-size: cover;}
 
