@@ -142,6 +142,17 @@ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0
 #blog-navigation ul li
     {display:inline-block;}
 
+#blog-navigation a
+    {background-color: grey;
+    border-radius: 0.5em;
+    margin-left: 0.5em;
+    height: 1em;
+    width: 1em;
+    display: inline-block;
+    line-height: 1em;
+    color: white;
+    margin-right: 0.5em;}
+    
 #VENC_COLUMN_1 {
     display: block;
     top: 100px;
@@ -191,3 +202,12 @@ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0
 .social-network-item img
     {width: 20px;
     display: inline-block;}
+
+@media (max-width: 1100px) {
+  aside
+    {display: none;}
+    
+  #blog-content
+    {width: 580px;
+    left: calc(50% - 290px);}
+}
