@@ -83,7 +83,11 @@ def set_color(argv):
     return "<span style=\"color: "+('::'.join(argv[1:]))+";\">"+argv[0]+"</span>"
 
 def set_style(argv):
-    return "<span class=\""+argv[0]+"\">"+('::'.join(argv[1:]))+"</span>"
+    ID = argv[0].strip()
+    CLASS = argv[1].strip()
+    ID = "id=\""+ID+"\"" if ID != '' else ''
+    CLASS = "class=\""+CLASS+"\"" if CLASS != '' else ''
+    return "<span "+ID+' '+CLASS+">"+('::'.join(argv[2:]))+"</span>"
 
 def include_file(argv):
     try:
