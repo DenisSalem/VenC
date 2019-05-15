@@ -84,7 +84,7 @@ class MainThread(Thread):
             import hashlib
             url_digest = hashlib.sha512(self.datastore.blog_url.encode('utf-8'))
             f = open("blog/root.jsonp", 'w')
-            f.write("function "+url_digest.hexdigest()+"() {return "+dump+";}")
+            f.write("function _"+url_digest.hexdigest()+"() {return "+dump+";}")
             
     def do(self):
         super().do()

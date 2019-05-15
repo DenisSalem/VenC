@@ -1,0 +1,31 @@
+<!DOCTYPE !html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<script type="text/javascript" src="jsSHA/src/sha.js"></script> <!-- https://github.com/Caligatio/jsSHA/releases/tag/v2.3.1 -->
+		<script type="text/javascript">
+            jsonp_script = document.createElement('script');
+            jsonp_script.type = 'text/javascript';
+            jsonp_script.src = "http://127.0.0.1:8888/root.jsonp"
+            jsonp_script.onload = function () {
+                console.log(1, this.src)
+                var pathArray = jsonp_script.src.split( '/' );
+                var protocol = pathArray[0];
+                var host = pathArray[2];
+                var url = protocol + '//' + host;
+                var shaObj = new jsSHA("SHA-512", "TEXT");
+                shaObj.update(url);
+                var hash = shaObj.getHash("HEX");
+                console.log(window['_'+hash]())
+                jsonp_doc = document.createElement('p')
+                jsonp_doc.innerHTML = "Successfully get JSON-LD document identified by: "+window['_'+hash]()["@id"]
+                document.body.appendChild(jsonp_doc);
+            }
+            document.head.appendChild(jsonp_script);
+        </script>
+	</head>
+	<body>
+		<h1>JSONP VENC API PROOF OF CONCEPT</h1>
+        <p>Before running <b>venc -xb; venc -s</b> in your tty, be sure to enable jsonp in blog_configuration.yaml and set server port to 8888.</p>
+	</body>
+</html>
