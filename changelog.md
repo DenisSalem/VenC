@@ -157,17 +157,17 @@
     DONE | fix FAQ https://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting.
     DONE | Refactor DatesThread to ArchivesThread.
     DONE | Fix Shabang issue for compatibility.
-    TODO | Force preview / full content in thread, for single entry.
-    TODO | Add definition in documentation for optional fields in blog configuration.
-    TODO | Open with navigator manual.
+    DONE | Semantic-web features.
     WIP  | Client-side search engine.
-    WIP  | Semantic-web features.
+    TODO | Theme must have it's own yaml configuration.
+    TODO | Open with navigator manual.
     TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
     TODO | Add relevant templates for themes.
-    TODO | Theme must have it's own yaml configuration.
-    WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
+    TODO | Add definition in documentation for optional fields in blog configuration.
+    TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.1.x
+    TODO | Force preview / full content in thread, for single entry.
     TODO | If previous theme empty, juste remove it.
     TODO | Add plural form at the end of blog creation if multiple blog has been made.
     TODO | Fix gvim / -ex.
