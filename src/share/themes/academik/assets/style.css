@@ -49,6 +49,9 @@ table .linenos {width: 4%; display: inline-block;vertical-align: top;}
 table .code {width: 95%; display: inline-block;vertical-align: top;}
 table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
 
+footer
+    {display: none;}
+    
 #blog-content
     {position: absolute;
     left: calc(50% - 250px);
@@ -131,18 +134,22 @@ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0
     padding-left: 5px;
     border-left: 1px solid grey;}
 
-#blog-navigation
+#blog-navigation,
+footer
     {text-align: center;}
 
-#blog-navigation ul
+#blog-navigation ul,
+footer ul
     {margin: 0px;
     padding: 0px;
     display:inline-block;}
     
-#blog-navigation ul li
+#blog-navigation ul li,
+footer ul li
     {display:inline-block;}
 
-#blog-navigation a
+#blog-navigation a,
+footer a
     {background-color: grey;
     border-radius: 0.5em;
     margin-left: 0.5em;
@@ -244,4 +251,9 @@ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0
     .footnote:target
         {height: auto;
         opacity: 1;}
+        
+    footer
+        {display: block;
+        margin-top: 1em;
+        margin-bottom:1em;}
 }
