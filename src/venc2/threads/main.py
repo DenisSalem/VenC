@@ -75,11 +75,12 @@ class MainThread(Thread):
         
         # TODO RUN AS PARENT CLASS METHOD
         if self.datastore.enable_jsonld:
-            notify(self.indentation_level+'└─ '+messages.generating_jsonld_doc)
+            notify(self.indentation_level+('└─ ' if not self.datastore.enable_jsonp else '├─ ')+messages.generating_jsonld_doc)
             f = open("blog/root.jsonld", 'w')
             f.write(dump)
         
         if self.datastore.enable_jsonp:
+            notify(self.indentation_level+'└─ '+messages.generating_jsonp_doc)
             import hashlib
             url_digest = hashlib.sha512(self.datastore.blog_url.encode('utf-8'))
             f = open("blog/root.jsonp", 'w')
