@@ -194,9 +194,27 @@ class ProcessedString():
         
         for triplet in self.keep_appart_from_markup_indexes:
             index, paragraphe, new_chunk = triplet
+            string = self.string
             if paragraphe:
-                self.string = self.string.replace(
-                    "<p>---VENC-TEMPORARY-REPLACEMENT-"+str(index)+"---</p>",
+                target = "---VENC-TEMPORARY-REPLACEMENT-"+str(index)+"---"
+                try:
+                    index = string.index(target)
+                    if string[index-3:index] == "<p>":
+                        string = string[:index-3]+string[index: ]
+                        
+                except ValueError:
+                    pass
+                    
+                try:
+                    index = string.index(target)
+                    if string[index+len(target):index+len(target)+4] == "</p>":
+                        string = string[:index+len(target)]+string[index+len(target)+4:]
+                        
+                except ValueError:
+                    pass
+                                        
+                self.string = string.replace(
+                    target,
                     new_chunk
                 )
             else:
