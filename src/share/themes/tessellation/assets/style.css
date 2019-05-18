@@ -36,6 +36,9 @@ header ul
 header li
   {display: inline-block;
   margin: 1em;}
+  
+math
+    {display:block;}
 
 #__VENC_THREAD__
   {max-width: 800px;

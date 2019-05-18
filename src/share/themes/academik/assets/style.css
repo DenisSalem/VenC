@@ -51,6 +51,9 @@ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0
 
 footer
     {display: none;}
+
+math
+    {display:block;}
     
 #blog-content
     {position: absolute;
