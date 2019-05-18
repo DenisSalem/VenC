@@ -23,6 +23,9 @@ h1
   text-transform: uppercase;
   font-weight: lighter;}
 
+math
+    {display:block;}
+
 /***************/
 /* H E A D E R */
 /***************/
