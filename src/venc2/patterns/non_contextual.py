@@ -110,7 +110,7 @@ def table(argv):
     append_td = tr[-1].append
     append_tr = tr.append
     for cell in argv:
-        if cell == '':
+        if cell == 'NewRow':
             append_tr([])
             append_td = tr[-1].append
 
