@@ -192,36 +192,32 @@ class ProcessedString():
             except Exception as ee: 
                 handle_markup_language_error(self.ressource+", "+str(e))
         
-        for triplet in self.keep_appart_from_markup_indexes:
-            index, paragraphe, new_chunk = triplet
-            string = self.string
-            if paragraphe:
-                target = "---VENC-TEMPORARY-REPLACEMENT-"+str(index)+"---"
+        while "Missings triplet is not empty":
+            missings = []
+            for triplet in self.keep_appart_from_markup_indexes:
+                identifier, paragraphe, new_chunk = triplet
+                string = self.string
+                target = "---VENC-TEMPORARY-REPLACEMENT-"+str(identifier)+"---"
                 try:
                     index = string.index(target)
+                
+                except:
+                    missings.append(triplet)
+                
+                if paragraphe:
                     if string[index-3:index] == "<p>":
                         string = string[:index-3]+string[index: ]
+                        index -=3
                         
-                except ValueError:
-                    pass
-                    
-                try:
-                    index = string.index(target)
                     if string[index+len(target):index+len(target)+4] == "</p>":
                         string = string[:index+len(target)]+string[index+len(target)+4:]
                         
-                except ValueError:
-                    pass
-                                        
-                self.string = string.replace(
-                    target,
-                    new_chunk
-                )
-            else:
-                self.string = self.string.replace(
-                    "---VENC-TEMPORARY-REPLACEMENT-"+str(index)+'---',
-                    new_chunk
-                )
+                self.string = string.replace(target, new_chunk)
+            
+            if not len(missings):
+                break
+            
+            self.keep_appart_from_markup_indexes = missings
     
         self.__init__(self.string, self.ressource, process_escapes=True)
 
