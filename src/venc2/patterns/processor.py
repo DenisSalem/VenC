@@ -203,6 +203,7 @@ class ProcessedString():
                 
                 except:
                     missings.append(triplet)
+                    continue
                 
                 if paragraphe:
                     if string[index-3:index] == "<p>":
