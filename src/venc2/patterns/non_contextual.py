@@ -104,4 +104,21 @@ def include_file(argv):
     except FileNotFoundError:
         raise PatternInvalidArgument("path", filename, messages.file_not_found.format(filename))
 
+def table(argv):
+    output = "<table class=\"__VENC_TABLE__\">"
+    tr = [[]]
+    append_td = tr[-1].append
+    append_tr = tr.append
+    for cell in argv:
+        if cell == '':
+            append_tr([])
+            append_td = tr[-1].append
 
+        else:
+            append_td("<td>"+cell+"</td>")
+    
+    join = ''.join
+    for row in tr:
+        output += "<tr>"+join(row)+"</tr>"
+        
+    return output + "</table>"
