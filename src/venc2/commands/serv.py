@@ -50,4 +50,4 @@ def serv_blog(argv=list()):
         httpd.server_close()
 
     except FileNotFoundError:
-        httpd.server_close()
+        die(messages.nothing_to_serv)

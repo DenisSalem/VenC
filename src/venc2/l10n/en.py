@@ -106,5 +106,5 @@ class Messages:
     generating_jsonp_doc = "Generating JSONP document..."
     generating_jsonld_docs = "Generating JSON-LD documents..."
     task_done_in_n_seconds = "Task done in {0} seconds."
-
+    nothing_to_serv = "Nothing to do. Try venc -xb before."
 
