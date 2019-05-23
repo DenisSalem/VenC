@@ -100,7 +100,7 @@ def new_entry(argv):
 
 def new_blog(argv):
     if len(argv) < 1:
-        die(Messages.missingParams.format("--new-blog"))
+        die(messages.missing_params.format("--new-blog"))
 
     default_configuration =	{
         "blog_name":			        messages.blog_name,
