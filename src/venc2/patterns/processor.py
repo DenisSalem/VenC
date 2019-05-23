@@ -257,7 +257,7 @@ class Processor():
                 e,
                 pattern+": "+e.info,
                 ",;"+pattern+";;"+";;".join(argv)+";,",
-                [pattern]
+                error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
             )
 
         except PatternInvalidArgument as e:
