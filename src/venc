@@ -57,7 +57,7 @@ command_index = {"-v":                  [".print", "print_version", 0],
                 "--version":            [".print", "print_version", 0]}
 
 def argv_handler(argv=None):
-    argv = argv if argv != None else sys.argv[1:]
+    argv = argv if argv is not None else sys.argv[1:]
     if argv != []: 
        if argv[0] in command_index:
            if command_index[argv[0]][2] != -1: 
