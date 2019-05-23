@@ -26,15 +26,16 @@ from venc2.patterns.exceptions import PatternMissingArguments
 def Latex2MathML(argv):
     try:
         tex_math_string = argv[0]
-        return latex2mathml.converter.convert(tex_math_string)
-
+        
     except IndexError:
         raise PatternMissingArguments()
+    
+    try:    
+        return latex2mathml.converter.convert(tex_math_string)
 
-    except Exception as e:
-        print(e)
+    except:
         raise PatternInvalidArgument(
-            "Tex math string",
+            "LaTex math string",
             tex_math_string,
             messages.tex_math_error
         )
