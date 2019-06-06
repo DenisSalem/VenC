@@ -126,7 +126,7 @@ class CategoriesThread(Thread):
             super().do()
             tree_special_char = ' ' if i == len_root-1 else '│'
             self.do_feeds(entries, node, tree_special_char)
-            if self.datastore.enable_jsonld or self.enable_jsonp:
+            if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
                 self.do_jsonld(node, tree_special_char)
             
             # jump to branchs
