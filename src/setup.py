@@ -62,7 +62,8 @@ setup(name='VenC',
           "latex2mathml",
           'markdown2',
           'pyyaml',
-          'Pygments'
+          'Pygments',
+          "requests"
     ],
     scripts=['venc','venc-blog-migration'],
     data_files = extra_files
