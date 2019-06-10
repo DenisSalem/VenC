@@ -93,8 +93,19 @@ def include_file(argv):
     try:
         filename = argv[0]
         include_string = open("includes/"+filename, 'r').read()
-        return include_string
 
+        if len(argv) > 1:
+            args = {}
+            index = 1
+            for arg in argv[1:]:
+                args["venc_arg_"+str(index)] = arg
+                index +=1
+            
+            return include_string.format(args)
+            
+        else: 
+            return include_string
+            
     except IndexError:
         raise PatternMissingArguments()
 
