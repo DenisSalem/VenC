@@ -18,6 +18,11 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+import codecs
+
+# Force stdout encoding to utf-8
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+
 import importlib
 
 from venc2.helpers import notify
