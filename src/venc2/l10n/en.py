@@ -67,6 +67,7 @@ class Messages:
     arg_template_name="Template name"
     arg_input_filename="Filename"
     blog_folder_doesnt_exists="Destination folder doesn't exist. VenC doesn't care and will built a new one."
+    theme_description_academik = "Theme with one column and footnotes support. Fit nicely for a blog."
     theme_description_dummy = "The empty one. Aim to built your own from scratch."
     theme_description_gentle = "Theme with one column. It's light, clear and elegant. Fit nicely for a blog."
     theme_description_tessellation = "Theme with three columns. It's light, clear, and elegant. Fit nicely for a galery."
