@@ -105,4 +105,5 @@ class Messages:
     generating_jsonld_docs = "Génération des documents JSON-LD..."
     task_done_in_n_seconds = "Tache réalisée en {0} seconds."
     nothing_to_serv = "Rien à faire. Essayez venc -xb d'abord."
+    theme_has_no_description = "Ce thème n'a pas de description."
 

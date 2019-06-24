@@ -22,13 +22,40 @@ import os
 import shutil
 
 from venc2.datastore.configuration import get_blog_configuration
+from venc2.prompt import msg_format
 from venc2.prompt import notify
 from venc2.prompt import die
 from venc2.l10n import messages
 
+def print_themes():
+    import os
+    import yaml
+
+    themes_folder = os.path.expanduser('~')+"/.local/share/VenC/themes/"
+    for theme in os.listdir(themes_folder):
+        if "config.yaml" in os.listdir(themes_folder+theme) and not os.path.isdir(themes_folder+theme+"/config.yaml"):
+            config = yaml.load(open(themes_folder+theme+"/config.yaml",'r').read())
+            try:
+                description = getattr(messages, config["info"]["description"])
+                        
+            except AttributeError:
+                description = config["info"]["description"]
+                
+            except KeyError:
+                description = messages.theme_has_no_description
+                
+            except TypeError:
+                description = messages.theme_has_no_description
+
+        else:
+            description = messages.theme_has_no_description
+
+        print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
+
 def install_theme(argv):
     if len(argv) < 1:
-        die(messages.missing_params.format("--install-themes"))
+        print_themes()
+        return
         
     blog_configuration = get_blog_configuration()
     if blog_configuration == None:
@@ -45,14 +72,14 @@ def install_theme(argv):
 
     try:
         shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0], "theme")
-        
+        notify(messages.theme_installed)
+       
     except FileNotFoundError as e:
+        notify(messages.theme_doesnt_exists.format("'"+argv[0]+"'"),color='RED')
         ''' Restore previous states '''
         try:
             shutil.move(new_folder_name, "theme")
-            die(messages.theme_doesnt_exists.format("'"+argv[0]+"'"))
 
         except Exception as e:
             die(str(e))
 
-    notify(messages.theme_installed)

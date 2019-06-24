@@ -25,7 +25,6 @@ import time
 
 from venc2.commands.remote import remote_copy
 from venc2.datastore import DataStore
-from venc2.datastore.theme import themes_descriptor
 from venc2.datastore.theme import Theme
 from venc2.prompt import notify
 from venc2.helpers import rm_tree_error_handler 
@@ -63,19 +62,17 @@ def export_and_remote_copy(argv=list()):
 
 def init_theme(argv):
     theme_folder = "theme/"
-
-    if len(argv) == 1:
-        if not argv[0] in themes_descriptor.keys():
-            from venc2.helpers import die
-            die(messages.theme_doesnt_exists.format(argv[0]))
-        
-        else:
-            theme_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
+    themes_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"
+    if len(argv) == 1 and os.path.isdir(themes_folder+argv[0]):
+        theme_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
     
-        for param in themes_descriptor[argv[0]].keys():
-            if param[0] != "_": # marker to detect field names we do not want to replace
-                datastore.blog_configuration[param] = themes_descriptor[argv[0]][param]
-
+    if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(themes_folder+"/config.yaml"):
+        import yaml
+        config = yaml.load(open(theme_folder+"/config.yaml",'r').read())
+        if "override" in config.keys() and type(config["override"]) == dict:
+            for param in config["override"].keys():
+                datastore.blog_configuration[param] = config["override"][param]
+                
     try:
         return Theme(theme_folder), theme_folder
         

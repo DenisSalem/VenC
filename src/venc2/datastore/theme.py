@@ -22,12 +22,6 @@ from venc2.prompt import die
 from venc2.l10n import messages
 from venc2.patterns.processor import ProcessedString
 
-themes_descriptor = {
-    "dummy": {"columns":1,"_themeDescription_": messages.theme_description_dummy},
-    "gentle": {"columns":1,"_themeDescription_": messages.theme_description_gentle},
-    "tessellation": {"columns":3,"_themeDescription_": messages.theme_description_tessellation},
-}
-
 class Theme:
     def __init__(self, theme_folder):
         try:
