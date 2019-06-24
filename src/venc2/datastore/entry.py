@@ -52,7 +52,7 @@ class EntryWrapper:
             except IndexError:
                 pass
         
-        die(messages.missing_entry_content_inclusion)
+        die(messages.missing_entry_content_inclusion.format(filename))
 
 class Entry:
     def __init__(self, filename, paths, jsonld_callback, date_format, encoding="utf-8", ):

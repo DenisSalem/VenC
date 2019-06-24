@@ -160,9 +160,9 @@
     DONE | Semantic-web features.
     WIP  | Client-side search engine.
     TODO | Theme must have it's own yaml configuration.
-    TODO | Open with navigator manual.
     TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
     TODO | Add relevant templates for themes.
+    TODO | Open with navigator manual.
     TODO | Add definition in documentation for optional fields in blog configuration.
     TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 

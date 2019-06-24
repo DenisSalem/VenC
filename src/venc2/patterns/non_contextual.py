@@ -100,7 +100,6 @@ def include_file(argv):
             for arg in argv[1:]:
                 args["venc_arg_"+str(index)] = arg.strip()
                 index +=1
-            print(args)
             return include_string.format(**args)
             
         else: 

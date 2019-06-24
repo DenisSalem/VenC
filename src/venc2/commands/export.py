@@ -145,8 +145,8 @@ def export_blog(argv=list()):
     pattern_processor = setup_pattern_processor(patterns_map)
     
     notify("├─ "+messages.pre_process)
+
     process_non_contextual_patterns(pattern_processor, theme)
-    
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
