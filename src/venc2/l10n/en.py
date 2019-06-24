@@ -74,7 +74,7 @@ class Messages:
     unknown_text_editor = "{0}: unknown text editor."
     theme_name = "Theme name"
     entry_is_empty = "{0}: The content of the entry is empty."
-    missing_entry_content_inclusion = "Invalid theme. Missing entry content inclusion in entry.html and/or rssEntry.html and/or atomEntry.html"
+    missing_entry_content_inclusion = "Invalid theme. Missing entry content inclusion in \"chunks/{0}\""
     unknown_language="Pygments: {0}: Unknown language."
     pre_process="Pre-processing theme and entries..."
     directory_not_copied="Directory not copied. Error: %s"
