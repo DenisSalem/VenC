@@ -65,6 +65,7 @@ class Messages:
     arg_template_name="Nom du template"
     arg_input_filename="Nom de fichier"
     blog_folder_doesnt_exists="Le dossier de destination n'existe pas... VenC s'en fiche et va en faire un nouveau."
+    theme_description_academik = "Thème mono colonne, avec de note de bas de page. Idéal pour un blog."
     theme_description_dummy = "Le thème vide. Il donne une bonne base pour concevoir le votre."
     theme_description_gentle = "Thème mono colonne, très clair, aéré et élégant. Idéal pour un blog."
     theme_description_tessellation = "Thème comportant trois colonnes, très clair, aéré et élégant. Idéal pour une galerie."

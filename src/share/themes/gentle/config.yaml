@@ -1,0 +1,5 @@
+info:
+    description : 'theme_description_gentle'
+    
+override:
+    columns: 1

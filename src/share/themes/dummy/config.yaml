@@ -1,0 +1,5 @@
+info:
+    description : 'theme_description_dummy'
+    
+override:
+    columns: 1
