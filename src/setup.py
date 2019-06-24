@@ -26,14 +26,22 @@ themes = os.listdir(src_themes_path)
 
 extra_files = []
 for theme in themes:
-    for sub_folder in os.listdir(src_themes_path+theme+'/'):
-        dst = dst_themes_path+theme+'/'+sub_folder
-        src_files = [src_themes_path+theme+'/'+sub_folder+'/'+f for f in os.listdir(src_themes_path+theme+'/'+sub_folder)]
+    for filename in os.listdir(src_themes_path+theme+'/'):
+        if os.path.isdir(src_themes_path+theme+'/'+filename):
+            dst = dst_themes_path+theme+'/'+filename
+            src_files = [src_themes_path+theme+'/'+filename+'/'+f for f in os.listdir(src_themes_path+theme+'/'+filename)]
+
+        else:
+            dst = dst_themes_path+theme
+            src_files = [src_themes_path+theme+'/'+filename]
+            print(dst, src_files)
+            
         extra_files.append((
             dst,
             src_files
         ))
-
+            
+        
 extra_files.append((os.path.expanduser('~')+"/.local/share/VenC/embed_providers/",["share/embed_providers/oembed.json"]))
 
 setup(name='VenC',
