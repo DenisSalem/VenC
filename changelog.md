@@ -158,11 +158,10 @@
     DONE | Refactor DatesThread to ArchivesThread.
     DONE | Fix Shabang issue for compatibility.
     DONE | Semantic-web features.
+    DONE | Theme must have it's own yaml configuration.
     WIP  | Client-side search engine.
-    WIP | Theme must have it's own yaml configuration.
-    TODO | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
-    TODO | Add relevant templates for themes.
-    TODO | Open with navigator manual.
+    WIP  | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
+    WIP  | Add relevant templates for themes.
     TODO | Add definition in documentation for optional fields in blog configuration.
     TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
@@ -177,9 +176,9 @@
     TODO | Create entry with default template, if defined.
     TODO | Add support for access metadata by key.
     TODO | Make some dependencies optional.
-    TODO | Split themes from main branch
+    TODO | Split themes from main branch.
     TODO | Add translation for Deutsch and Spanish.
-    TODO | Add ForMetadata, ForMetadataIfExists
+    TODO | Add ForMetadata, ForMetadataIfExists.
     TODO | Add docutils reStructuredText parser settings override.
     TODO | Decrease halt_level to render reStructuredText even if errors occurs.
     TODO | Access {count} and {weight} from LeavesForEntrycategories.
