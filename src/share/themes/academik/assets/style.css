@@ -42,13 +42,6 @@ blockquote p
     font-size: 0.8em;
     padding-left: 1em;}
 
-table {width: 580px; display: block; clear: both;}
-table tr {width: 100%; display: block;}
-table tbody {width: 100%; display: block;}
-table .linenos {width: 4%; display: inline-block;vertical-align: top;}
-table .code {width: 95%; display: inline-block;vertical-align: top;}
-table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
-
 footer
     {display: none;}
 
@@ -181,11 +174,23 @@ footer a
 .entry span a
     {font-style: italic;
     color: grey;}
-    
+
+
 .entry p
     {width: 580px;
     text-align: justify;
     float: left;}
+    
+.entry iframe,
+.entry img,
+.entry math
+    {max-width: 580px;
+    margin-top: 1em;
+    clear: both;}
+
+.entry ul
+    {clear: both;
+    max-width: 580px;}
     
 .entry h1,
 .entry h2,
@@ -205,7 +210,14 @@ footer a
 .entry_content
     {width: 800px;
     clear: both;}
-    
+
+.__VENC_PYGMENTIZE_WRAPPER__ table {width: 580px; display: block; clear: both;}
+.__VENC_PYGMENTIZE_WRAPPER__ table tr {width: 100%; display: block;}
+.__VENC_PYGMENTIZE_WRAPPER__ table tbody {width: 100%; display: block;}
+.__VENC_PYGMENTIZE_WRAPPER__ table .linenos {width: 4%; display: inline-block;vertical-align: top;}
+.__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 95%; display: inline-block;vertical-align: top;}
+.__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
+
 .note, .footnote
     {float: left;
     margin-top: 1em;

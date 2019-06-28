@@ -52,9 +52,9 @@ class CodeHighlight:
 
             lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=True)
 
-            formatter = pygments.formatters.HtmlFormatter(linenos=("table" if argv[1]=="True" else False), cssclass=name)
+            formatter = pygments.formatters.HtmlFormatter(linenos=(True if argv[1]=="True" else False), cssclass=name)
             code = argv[2]
-            result = pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:")
+            result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:")+"</div>"
             css  = formatter.get_style_defs()
 
             if not name+".css" in self._includes.keys():

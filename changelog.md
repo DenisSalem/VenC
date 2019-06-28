@@ -159,7 +159,8 @@
     DONE | Fix Shabang issue for compatibility.
     DONE | Semantic-web features.
     DONE | Theme must have it's own yaml configuration.
-    WIP  | Reorganize themes dependencies in setup (adding default templates, scripts, and pages to include).
+    DONE | Reorganize themes dependencies in setup.
+    TODO | Fix Tessellation CSS
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
     TODO | Add definition in documentation for optional fields in blog configuration.
