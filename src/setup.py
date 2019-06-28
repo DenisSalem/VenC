@@ -17,19 +17,21 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+from os.path import expanduser, isdir
+from os import listdir
 from setuptools import setup
-import os
 
-dst_themes_path = os.path.expanduser('~')+"/.local/share/VenC/themes/"
+
+dst_themes_path = expanduser('~')+"/.local/share/VenC/themes/"
 src_themes_path = "share/themes/"
-themes = os.listdir(src_themes_path)
+themes = listdir(src_themes_path)
 
 extra_files = []
 for theme in themes:
-    for filename in os.listdir(src_themes_path+theme+'/'):
-        if os.path.isdir(src_themes_path+theme+'/'+filename):
+    for filename in listdir(src_themes_path+theme+'/'):
+        if isdir(src_themes_path+theme+'/'+filename):
             dst = dst_themes_path+theme+'/'+filename
-            src_files = [src_themes_path+theme+'/'+filename+'/'+f for f in os.listdir(src_themes_path+theme+'/'+filename)]
+            src_files = [src_themes_path+theme+'/'+filename+'/'+f for f in listdir(src_themes_path+theme+'/'+filename)]
 
         else:
             dst = dst_themes_path+theme
@@ -42,9 +44,11 @@ for theme in themes:
         ))
             
         
-extra_files.append((os.path.expanduser('~')+"/.local/share/VenC/embed_providers/",["share/embed_providers/oembed.json"]))
+extra_files.append((expanduser('~')+"/.local/share/VenC/embed_providers/",  ["share/embed_providers/oembed.json"]))
+extra_files.append((expanduser('~')+"/.local/share/VenC/themes_assets",    ["share/themes_assets/"+filename for filename in listdir("share/themes_assets")]) )
 
-setup(name='VenC',
+setup(
+    name='VenC',
     version='2.0.0',
     description='A static blog generator.',
     author='Denis Salem',

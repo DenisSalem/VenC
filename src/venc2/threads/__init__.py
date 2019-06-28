@@ -27,6 +27,20 @@ from venc2.l10n import messages
 from venc2.patterns.exceptions import PatternInvalidArgument
 from venc2.patterns.processor import Processor
 
+current_source = None
+
+def undefined_variable(match):
+    die(
+        messages.undefined_variable.format(
+            match,
+            current_source.ressource
+        ), 
+        extra=current_source.string.replace(
+            match[1:-1], 
+            '\033[91m'+match[1:-1]+'\033[0m'
+        )
+    )
+
 class Thread:
     def __init__(self, prompt, datastore, theme, patterns_map):
         self.indentation_level = "│  "
@@ -60,8 +74,12 @@ class Thread:
             self.processor.set_function(pattern_name, getattr(self, patterns_map.contextual["names"][pattern_name]))
 
     def return_page_around(self, string, params):
-        return string.format(**params)
-
+        try:
+            return string.format(**params)
+            
+        except KeyError as e:
+            self.undefined_variable(str(e))
+            
     # Must be called in child class
     def get_relative_location(self, argv):
         return self.export_path[5:]
@@ -97,8 +115,12 @@ class Thread:
 
                 except AttributeError:
                     pass
-
-            return argv[0].format(**params)
+                    
+            try:
+                return argv[0].format(**params)
+                
+            except KeyError as e:
+                undefined_variable(str(e))
 
         else:
             return str()
@@ -124,8 +146,12 @@ class Thread:
                 except AttributeError:
                     pass
 
-            return argv[0].format(**params)
-        
+            try:
+                return argv[0].format(**params)
+                
+            except KeyError as e:
+                undefined_variable(str(e))
+                
         else:
             return str()
 
@@ -148,12 +174,12 @@ class Thread:
                             "entry_id":'',
                             "entry_title":'',
                             "page_number":str(page_number),
-                            "path": self.filename.format(**{"page_number": (str() if page_number == 0 else page_number) })
+                            "path": self.format_filename(page_number)
                         }
                     ) + separator
+                    
                 except KeyError as e:
-                    print(e)
-                    raise PatternInvalidArgument(name="string", value=string)
+                    self.undefined_variable(str(e))
 
             page_number +=1
         
@@ -227,22 +253,27 @@ class Thread:
         stream.close()
 
     def pre_iteration(self):
+        global current_source
         self.processor.blacklist = self.forbidden
-        self.processor.process(self.header, safe_process = True)
-        self.output = self.header.string
-        self.header.restore()
+        current_source = self.header
+        self.processor.process(current_source, safe_process = True)
+        self.output = current_source.string
+        current_source.restore()
         self.processor.blacklist = []
         self.columns_counter = 0
         self.columns = [ '' for i in range(0, self.columns_number) ]
     
     def post_iteration(self):
+        global current_source
         self.columns_counter = 0
         for column in self.columns:
             self.output += self.column_opening.format(self.columns_counter)+column+self.column_closing
             
         self.processor.blacklist = self.forbidden
-        self.processor.process(self.footer, safe_process = True)
-        self.output += self.footer.string
+        
+        current_source = self.footer
+        self.processor.process(current_source, safe_process = True)
+        self.output += current_source.string
         self.footer.restore()
         
         self.write_file(self.output.replace(".:GetRelativeOrigin:.", self.relative_origin), self.page_number)
@@ -251,25 +282,29 @@ class Thread:
         self.current_page = self.page_number
 
     def do_iteration(self, entry):
-        content_header = getattr(entry,self.content_type+"_wrapper").above
-        self.processor.process(content_header, safe_process = True)
-        self.columns[self.columns_counter] += content_header.string
-        content_header.restore()
+        global current_source
+        current_source = getattr(entry, self.content_type+"_wrapper").above
+        self.processor.process(current_source, safe_process = True)
+        
+        self.columns[self.columns_counter] += current_source.string
+        current_source.restore()
         
         if (entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.") or (entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread):
-            self.processor.process(entry.preview, safe_process = True)
-            self.columns[self.columns_counter] += entry.preview.string
-            entry.preview.restore()
+            current_source = entry.preview
+            self.processor.process(current_source, safe_process = True)
+            self.columns[self.columns_counter] += current_source.string
+            current_source.restore()
                 
-        else: 
-            self.processor.process(entry.content, safe_process = True)
-            self.columns[self.columns_counter] += entry.content.string
-            entry.content.restore()
+        else:
+            current_source = entry.content
+            self.processor.process(current_source, safe_process = True)
+            self.columns[self.columns_counter] += current_source.string
+            current_source.restore()
 
-        content_footer = getattr(entry,self.content_type+"_wrapper").below
-        self.processor.process(content_footer, safe_process = True)
-        self.columns[self.columns_counter] += content_footer.string
-        content_footer.restore()
+        current_source = getattr(entry, self.content_type+"_wrapper").below
+        self.processor.process(current_source, safe_process = True)
+        self.columns[self.columns_counter] += current_source.string
+        current_source.restore()
 
         self.columns_counter +=1
         if self.columns_counter >= self.columns_number:
@@ -286,14 +321,17 @@ class Thread:
     
     # Must be called in child class           
     def do(self):
+        global current_source
         self.current_page = 0
         self.page_number = 0
         if self.pages_count == 0:
-            self.processor.process(self.header)
-            output = self.header.string
+            current_source = self.header
+            self.processor.process(current_source)
+            output = current_source.string
 
-            self.processor.process(self.footer)
-            output += self.footer.string
+            current_source = self.footer
+            self.processor.process(current_source)
+            output += current_source.string
             stream = codecs.open(
                 self.export_path +'/'+ self.format_filename(0),
                 'w',
