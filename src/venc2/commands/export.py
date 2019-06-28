@@ -65,8 +65,12 @@ def export_and_remote_copy(argv=list()):
 def init_theme(argv):
     theme_folder = "theme/"
     themes_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"
-    if len(argv) == 1 and os.path.isdir(themes_folder+argv[0]):
-        theme_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
+    if len(argv) == 1
+        if os.path.isdir(themes_folder+argv[0]):
+            theme_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
+            
+        else:
+            die(theme_doesnt_exists.format(argv[0]))
     
     if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(themes_folder+"/config.yaml"):
         import yaml
