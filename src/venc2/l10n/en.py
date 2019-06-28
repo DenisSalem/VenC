@@ -109,5 +109,6 @@ class Messages:
     task_done_in_n_seconds = "Task done in {0} seconds."
     nothing_to_serv = "Nothing to do. Try venc -xb before."
     theme_has_no_description = "This theme has no description."
+    undefined_variable = "{0} is undefined in {1}."
 
 

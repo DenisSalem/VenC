@@ -40,6 +40,8 @@ start_timestamp = time.time()
 datastore = DataStore()
 code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
 
+theme_dependencies = []
+
 def copy_recursively(src, dest):
     import errno
     for filename in os.listdir(src):
@@ -72,6 +74,10 @@ def init_theme(argv):
         if "override" in config.keys() and type(config["override"]) == dict:
             for param in config["override"].keys():
                 datastore.blog_configuration[param] = config["override"][param]
+    
+        if "dependencies" in config.keys() and type(config["dependencies"]) == list:
+            global theme_dependencies
+            theme_dependencies = config["dependencies"]
                 
     try:
         return Theme(theme_folder), theme_folder
@@ -173,6 +179,8 @@ def export_blog(argv=list()):
     code_highlight.export_style_sheets()
     copy_recursively("extra/","blog/")
     copy_recursively(theme_folder+"assets/","blog/")
+    for depenpency in theme_dependencies:
+        shutil.copyfile(os.path.expanduser("~")+"/.local/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
     notify(messages.task_done_in_n_seconds.format(round(time.time() - start_timestamp,6)))
 
 
