@@ -41,7 +41,7 @@ def die(msg, color="RED", extra=""):
 
 # Being verborse is nice, with colours it's better
 def notify(msg, color="GREEN"):
-    print(get_formatted_message(msg, color))
+    print(get_formatted_message(msg, color), flush=True)
 
 # Take care of setting up colours in printed out message
 def get_formatted_message(msg, color="GREEN", prompt="VenC: "):

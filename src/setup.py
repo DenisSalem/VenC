@@ -21,7 +21,6 @@ from os.path import expanduser, isdir
 from os import listdir
 from setuptools import setup
 
-
 dst_themes_path = expanduser('~')+"/.local/share/VenC/themes/"
 src_themes_path = "share/themes/"
 themes = listdir(src_themes_path)
@@ -36,7 +35,6 @@ for theme in themes:
         else:
             dst = dst_themes_path+theme
             src_files = [src_themes_path+theme+'/'+filename]
-            print(dst, src_files)
             
         extra_files.append((
             dst,
