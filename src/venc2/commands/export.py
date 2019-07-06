@@ -26,6 +26,7 @@ import time
 from venc2.commands.remote import remote_copy
 from venc2.datastore import DataStore
 from venc2.datastore.theme import Theme
+from venc2.helpers import die
 from venc2.prompt import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
@@ -65,13 +66,16 @@ def export_and_remote_copy(argv=list()):
 def init_theme(argv):
     theme_folder = "theme/"
     themes_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"
-    if len(argv) == 1
+    if len(argv) == 1:
         if os.path.isdir(themes_folder+argv[0]):
             theme_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
             
         else:
             die(theme_doesnt_exists.format(argv[0]))
     
+    if not os.path.isdir(theme_folder):
+        die(messages.file_not_found.format(theme_folder))
+        
     if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(themes_folder+"/config.yaml"):
         import yaml
         config = yaml.load(open(theme_folder+"/config.yaml",'r').read())
@@ -190,7 +194,6 @@ def export_blog(argv=list()):
 
 def edit_and_export(argv):
     if len(argv) != 1:
-        from venc2.helpers import die
         die(messages.missing_params.format("--edit-and-export"))
     
     try:
@@ -199,7 +202,6 @@ def edit_and_export(argv):
             pass
 
     except TypeError:
-        from venc2.helpers import die
         die(messages.unknown_text_editor.format(datastore.blog_configuration["text_editor"]))
     
     except:
