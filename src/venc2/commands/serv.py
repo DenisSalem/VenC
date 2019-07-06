@@ -29,6 +29,10 @@ from venc2.l10n import messages
 blog_configuration = get_blog_configuration()
 
 class VenCServer(http.server.CGIHTTPRequestHandler):
+    def __init__(self, request, client_address, server):
+        print(client_address)
+        super().__init__(request, client_address, server)
+        
     def do_GET(self):
         self.path = urllib.parse.unquote(self.path, encoding=blog_configuration["path_encoding"])        
         super().do_GET()
@@ -44,7 +48,6 @@ def serv_blog(argv=list()):
 
     except ValueError:
         die(messages.server_port_is_invalid.format(blog_configuration["server_port"]))
-
 
     except KeyboardInterrupt:
         httpd.server_close()
