@@ -185,7 +185,6 @@ function VENC_INFINITE_SCROLL_ON_LOAD() {
        		}
 	}
 	if (VENC_INFINITE_SCROLL.end == false) {
-	  	console.log("there")
 		VENC_INFINITE_SCROLL.domUpdate = VENC_INFINITE_SCROLL_UPDATE_DOM;
 		VENC_INFINITE_SCROLL.timer = setInterval(VENC_INFINITE_SCROLL_RUN, VENC_INFINITE_SCROLL.interval);
 	}

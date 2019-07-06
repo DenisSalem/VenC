@@ -1,4 +1,4 @@
-# version 1.0.0 Last minute edition :p
+cd # version 1.0.0 Last minute edition :p
 
     DONE | Copy recursively, if necessary, data from extra.
     DONE | Copy recursively, if necessary data from assets.
