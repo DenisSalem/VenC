@@ -77,7 +77,7 @@ def get_embed_content(providers, argv):
 
 def get_venc_version(argv):
     return venc_version
-
+    
 """ Need to handle missing args in case of unknown number of args """
 def set_color(argv):
     return "<span style=\"color: "+('::'.join(argv[1:]))+";\">"+argv[0]+"</span>"

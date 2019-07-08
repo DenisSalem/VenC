@@ -160,6 +160,7 @@ cd # version 1.0.0 Last minute edition :p
     DONE | Semantic-web features.
     DONE | Theme must have it's own yaml configuration.
     DONE | Reorganize themes dependencies in setup.
+    DONE | Fix pattern processing within included file.
     TODO | Fix Tessellation CSS
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.

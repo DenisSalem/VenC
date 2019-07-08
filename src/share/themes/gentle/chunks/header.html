@@ -22,10 +22,12 @@
           <img id="banner" src=".:GetRelativeOrigin:..:GetBlogMetadataIfExists::header_image::{value}:." alt=".:GetBlogName:." title=".:GetBlogName:." />
         </a>
       </h1>
+      .:IfCategories::
       <h2>CATEGORIES</h2>
       <div id="categories">
         .:TreeForBlogCategories::<ul>::<li><a href="{path}" title="{count} publications">{value}</a>::</li>::</ul>:. 
       </div>
+      :.
       <h2 id="archivesHeader">ARCHIVES</h2>
       <ul id="archives">.:ForBlogDates::<li><a href="{path}" title="{count} publications">{value}</a></li>:: :.</ul>
       <div id="__VENC_LOADING__"></div>
