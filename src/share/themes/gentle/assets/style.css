@@ -26,6 +26,10 @@ h1
 math
     {display:block;}
 
+/**************/
+/* VENC BOXES */
+/**************/
+
 .venc_info_box, .venc_warning_box  {
     background-color: #91A8D0;
     color: white;
@@ -45,6 +49,24 @@ math
     background-color: #F7CAC9;
 }
 
+/********/
+/* NSFW */
+/********/
+
+.venc_nsfw
+    {min-width: 442px;
+    min-height: 228px;
+    display: block;
+    background-repeat: no-repeat;
+    margin: auto;
+    background-position: center center;}
+    
+.venc_nsfw .venc_nsfw_content
+	{display: none;}
+
+.venc_nsfw:target .venc_nsfw_content
+	{display: block;}
+    
 /***************/
 /* H E A D E R */
 /***************/

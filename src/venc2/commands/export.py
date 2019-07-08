@@ -30,6 +30,7 @@ from venc2.helpers import die
 from venc2.prompt import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
+from venc2.patterns.non_contextual import theme_includes_dependencies
 from venc2.patterns.code_highlight import CodeHighlight
 from venc2.patterns.exceptions import MalformedPatterns
 from venc2.patterns.patterns_map import PatternsMap
@@ -41,7 +42,7 @@ start_timestamp = time.time()
 datastore = DataStore()
 code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
 
-theme_dependencies = []
+theme_assets_dependencies = []
 
 def copy_recursively(src, dest):
     import errno
@@ -83,9 +84,15 @@ def init_theme(argv):
             for param in config["override"].keys():
                 datastore.blog_configuration[param] = config["override"][param]
     
-        if "dependencies" in config.keys() and type(config["dependencies"]) == list:
-            global theme_dependencies
-            theme_dependencies = config["dependencies"]
+        if "assets_dependencies" in config.keys() and type(config["assets_dependencies"]) == list:
+            global theme_assets_dependencies
+            theme_assets_dependencies = config["assets_dependencies"]
+            
+        if "includes_dependencies" in config.keys() and type(config["includes_dependencies"]) == list:
+            global theme_includes_dependencies
+            append = theme_includes_dependencies.append
+            for include_file in config["includes_dependencies"]:
+                append(include_file)
                 
     try:
         return Theme(theme_folder), theme_folder
@@ -187,7 +194,7 @@ def export_blog(argv=list()):
     code_highlight.export_style_sheets()
     copy_recursively("extra/","blog/")
     copy_recursively(theme_folder+"assets/","blog/")
-    for depenpency in theme_dependencies:
+    for depenpency in theme_assets_dependencies:
         shutil.copyfile(os.path.expanduser("~")+"/.local/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
     notify(messages.task_done_in_n_seconds.format(round(time.time() - start_timestamp,6)))
 

@@ -29,6 +29,12 @@ from venc2.helpers import GenericMessage
 from venc2.prompt import notify
 from urllib.parse import urlparse
 
+theme_includes_dependencies = []
+
+class MissingKeyDict(dict):
+    def __missing__(self, key): 
+        return key.join("{}")
+
 def try_oembed(providers, url):
     try:
         key = [ key for key in providers["oembed"].keys() if url.netloc in key][0]
@@ -89,21 +95,12 @@ def set_style(argv):
     CLASS = "class=\""+CLASS+"\"" if CLASS != '' else ''
     return "<span "+ID+' '+CLASS+">"+('::'.join(argv[2:]))+"</span>"
 
+
+""" Must fix dirty try/except structure. """
 def include_file(argv):
     try:
         filename = argv[0]
         include_string = open("includes/"+filename, 'r').read()
-
-        if len(argv) > 1:
-            args = {}
-            index = 1
-            for arg in argv[1:]:
-                args["venc_arg_"+str(index)] = arg.strip()
-                index +=1
-            return include_string.format(**args)
-            
-        else: 
-            return include_string
             
     except IndexError:
         raise PatternMissingArguments()
@@ -112,8 +109,26 @@ def include_file(argv):
         raise PatternInvalidArgument("path", filename, messages.wrong_permissions.format(argv[0]))
     
     except FileNotFoundError:
-        raise PatternInvalidArgument("path", filename, messages.file_not_found.format(filename))
-
+        try:
+            include_string = open(os.path.expanduser("~/.local/share/VenC/themes_includes/"+filename), 'r').read()
+            
+        except FileNotFoundError:
+            raise PatternInvalidArgument("path", filename, messages.file_not_found.format(filename))
+            
+        except PermissionError:
+            raise PatternInvalidArgument("path", filename, messages.wrong_permissions.format(argv[0]))
+                
+    if len(argv) > 1:
+        args = MissingKeyDict({})
+        index = 1
+        for arg in argv[1:]:
+            args["venc_arg_"+str(index)] = arg.strip()
+            index +=1
+                
+        return include_string.format_map(args)
+            
+    else: 
+        return include_string
 def table(argv):
     output = "<table class=\"__VENC_TABLE__\">"
     tr = [[]]

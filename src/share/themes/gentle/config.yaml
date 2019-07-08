@@ -3,6 +3,7 @@ info:
     
 override:
     columns: 1
-    nsfw_image: 'VenC-nsfw.png'
+    nsfw_image: 'VenC_nsfw.png'
 
-dependencies: ['VenC-Infinite-Scroll-1.1.0.js', 'VenC_nsfw.png', 'VenC_info_icon1.png', 'VenC_warning_icon1.png']
+assets_dependencies: ['VenC-Infinite-Scroll-1.1.0.js', 'VenC_nsfw.png', 'VenC_info_icon1.png', 'VenC_warning_icon1.png']
+includes_dependencies: ['nsfw.html']
