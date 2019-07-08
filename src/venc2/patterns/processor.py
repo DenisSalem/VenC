@@ -159,12 +159,15 @@ class ProcessedString():
             
         self.string = string
         self.ressource = ressource
-
+        self.process_escapes = process_escapes
         self.keep_appart_from_markup_indexes = list()
         self.keep_appart_from_markup_inc = 0
         self.bop, self.bcp = [], []
         self.backup = None
 
+    def do_again(self):
+        self.__init__(self.string, self.ressource, self.process_escapes)
+        
     def restore(self):
         self.open_pattern_pos, self.close_pattern_pos, self.len_open_pattern_pos, self.len_close_pattern_pos, self.string = self.backup
         self.backup = None
@@ -230,11 +233,14 @@ class Processor():
         self.ressource              = ''
         self.blacklist = []
         self.keep_appart_from_markup = []
+        self.include_file_called = False
 
     # Run any pattern and catch exception nicely
     def run_pattern(self, pattern, argv):
         try: # Should be refactored, Create a base PatternException
             output = self.functions[pattern](argv)
+            if pattern == "IncludeFile":
+                self.include_file_called = True 
         
         except KeyError as e:
             output = self.handle_error(
@@ -327,6 +333,7 @@ class Processor():
        self.dictionary[symbol] = value
 
     def process(self, pre_processed, escape=False, safe_process=False):
+        extra_processing_required = []
         op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
         if safe_process and pre_processed.backup == None:
             pre_processed.backup = (list(op), list(cp), lo, lc, str(pre_processed.string))
@@ -363,6 +370,9 @@ class Processor():
                         self.run_pattern(current_pattern, fields[1:]),
                         escape
                     )
+                    if self.include_file_called:
+                        extra_processing_required.append(pre_processed.keep_appart_from_markup_indexes[-1])
+                        self.include_file_called = False
             
                 elif current_pattern == "SetColor":
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
@@ -401,3 +411,9 @@ class Processor():
         pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.open_pattern_pos, pre_processed.close_pattern_pos = lo, lc, op, cp
         pre_processed.string = string
         self.process(pre_processed, escape, safe_process)
+        
+        for extra in extra_processing_required:
+            index, paragraphe, new_chunk = extra
+            extra_pre_processed = ProcessedString(new_chunk, pre_processed.ressource, pre_processed.process_escapes)
+            self.process(extra_pre_processed, escape, safe_process)
+            pre_processed.keep_appart_from_markup_indexes[index] = (index, paragraphe, extra_pre_processed.string)

@@ -64,6 +64,7 @@ class PatternsMap():
                 "Chapters" :                datastore.get_chapters
             },
             "extra": {
+                "IfCategories":             datastore.if_categories,
                 "GetEmbedContent":          datastore.wrapper_embed_content,
                 "GetGenerationTimestamp":   datastore.get_generation_timestamp,
                 "CodeHighlight" :           code_highlight.highlight,

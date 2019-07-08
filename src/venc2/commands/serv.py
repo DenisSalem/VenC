@@ -30,7 +30,6 @@ blog_configuration = get_blog_configuration()
 
 class VenCServer(http.server.CGIHTTPRequestHandler):
     def __init__(self, request, client_address, server):
-        print(client_address)
         super().__init__(request, client_address, server)
         
     def do_GET(self):

@@ -181,7 +181,17 @@ class DataStore:
                 "count": node.count,
                 "weight": node.weight
             })
-        
+
+    def if_categories(self, argv):
+        if self.entries_per_categories != []:
+            return argv[0]
+            
+        else:
+            try:
+                return argv[1]
+            except:
+                return ''
+                
     def root_site_to_jsonld(self):
         self.root_as_jsonld = {
             "@context": "http://schema.org",
