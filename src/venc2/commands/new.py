@@ -71,7 +71,7 @@ def new_entry(argv):
     entry["minute"] = raw_entry_date.minute
     entry["date"] = raw_entry_date
 
-    entry_date = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
+    entry_date = date.strftime("%m-%d-%Y-%H-%M")
     output_filename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entry_date+"__"+entry["title"].replace(' ','_')
 
     stream = codecs.open(output_filename, 'w', encoding="utf-8")
@@ -79,11 +79,26 @@ def new_entry(argv):
         output = yaml.dump(content, default_flow_style=False, allow_unicode=True) + "---VENC-BEGIN-PREVIEW---\n---VENC-END-PREVIEW---\n"
    
     else:
-        try:
-            output = open(os.getcwd()+'/templates/'+argv[1], 'r').read().replace(".:GetEntryTitle:.", argv[0])
-
-        except FileNotFoundError as e:
-            die(messages.file_not_found.format(os.getcwd()+"/templates/"+argv[1]))
+        found_template = False
+        templates_paths = [
+            os.getcwd()+'/templates/'+argv[1],
+            os.path.expanduser("~/.local/share/VenC/themes_templates/"+argv[1])
+        ]
+        for template_path in templates_paths:
+            try:
+                output = open(template_path, 'r').read().replace(".:GetEntryTitle:.", argv[0])
+                found_template = True
+                break
+                
+            except FileNotFoundError:
+                pass
+                
+            except PermissionError:
+                die(messages.wrong_permissions.format(template_path))
+        
+        if not found_template:
+            notify(messages.file_not_found.format(templates_paths[0]), color="RED")
+            die(messages.file_not_found.format(templates_paths[1]))
 
     stream.write(output)
     stream.close()
