@@ -94,12 +94,14 @@ def new_entry(argv):
                 pass
                 
             except PermissionError:
+                os.remove(output_filename)
                 die(messages.wrong_permissions.format(template_path))
         
         if not found_template:
+            os.remove(output_filename)
             notify(messages.file_not_found.format(templates_paths[0]), color="RED")
             die(messages.file_not_found.format(templates_paths[1]))
-
+            
     stream.write(output)
     stream.close()
 
@@ -109,6 +111,7 @@ def new_entry(argv):
         subprocess.call(command) 
 
     except FileNotFoundError:
+        os.remove(output_filename)
         die(messages.unknown_command.format(blog_configuration["text_editor"]))
 
     notify(messages.entry_written)
