@@ -4,4 +4,4 @@ info:
 override:
     columns: 3
 
-dependencies: ['VenC-Infinite-Scroll-1.1.0.js']
+assets_dependencies: ['VenC-Infinite-Scroll-1.1.0.js']

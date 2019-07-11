@@ -21,7 +21,9 @@ from os.path import expanduser, isdir
 from os import listdir
 from setuptools import setup
 
-dst_themes_path = expanduser('~')+"/.local/share/VenC/themes/"
+homedir = expanduser('~')
+
+dst_themes_path = homedir+"/.local/share/VenC/themes/"
 src_themes_path = "share/themes/"
 themes = listdir(src_themes_path)
 
@@ -42,9 +44,10 @@ for theme in themes:
         ))
             
         
-extra_files.append((expanduser('~')+"/.local/share/VenC/embed_providers/",  ["share/embed_providers/oembed.json"]))
-extra_files.append((expanduser('~')+"/.local/share/VenC/themes_assets",    ["share/themes_assets/"+filename for filename in listdir("share/themes_assets")]) )
-extra_files.append((expanduser('~')+"/.local/share/VenC/themes_includes",    ["share/themes_includes/"+filename for filename in listdir("share/themes_includes")]) )
+extra_files.append((homedir+"/.local/share/VenC/embed_providers/",  ["share/embed_providers/oembed.json"]))
+extra_files.append((homedir+"/.local/share/VenC/themes_assets",    ["share/themes_assets/"+filename for filename in listdir("share/themes_assets")]) )
+extra_files.append((homedir+"/.local/share/VenC/themes_includes",    ["share/themes_includes/"+filename for filename in listdir("share/themes_includes")]) )
+extra_files.append((homedir+"/.local/share/VenC/themes_templates",    ["share/themes_templates/"+filename for filename in listdir("share/themes_templates")]) )
 
 setup(
     name='VenC',
