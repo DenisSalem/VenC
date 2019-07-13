@@ -18,7 +18,6 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import urllib.parse
 
 from venc2.prompt import notify
 from venc2.threads import Thread

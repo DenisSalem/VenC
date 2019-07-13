@@ -30,11 +30,7 @@ class EntriesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns_map):
         super().__init__(prompt, datastore, theme, patterns_map)
         self.entries_per_page = 1 #override value
-        self.organize_entries([
-            entry for entry in datastore.get_entries(
-                False
-            )
-        ])
+        self.organize_entries(datastore.entries)
 
         self.filename = self.datastore.blog_configuration["path"]["entry_file_name"]
         self.sub_folders = self.datastore.blog_configuration["path"]["entries_sub_folders"]

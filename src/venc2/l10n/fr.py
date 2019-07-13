@@ -52,6 +52,7 @@ class Messages:
     export_main_thread="Exportation locale du fil de publications principal."
     export_main_rhread_rss="Exportation locale du flux RSS du fil de publications principal."
     export_categories="Exportation locale des publications groupées par categories..."
+    export_chapters="Exportation locale des chapitres..."
     export_categories_rss="Exportation locale du flux RSS du fil de publications de la categorie '{0}'."
     missing_mandatory_field_in_entry="Le champ '{0}' dans l'entrée numéro {1} est manquant."
     recursive_for_unknown_value="RecursiveFor: La valeur {0} n'existe pas."
@@ -108,4 +109,3 @@ class Messages:
     nothing_to_serv = "Rien à faire. Essayez venc -xb d'abord."
     theme_has_no_description = "Ce thème n'a pas de description."
     undefined_variable = "{0} n'est  pas défini dans \"{1}\"."
-

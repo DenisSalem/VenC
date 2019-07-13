@@ -22,7 +22,7 @@ import os
 import datetime
 import json
 
-import urllib.parse
+from urllib.parse import quote as urllib_parse_quote
 
 from venc2.datastore.configuration import get_blog_configuration
 from venc2.datastore.entry import yield_entries_content
@@ -57,6 +57,7 @@ class DataStore:
         self.enable_jsonld = self.blog_configuration["enable_jsonld"]
         self.enable_jsonp =  self.blog_configuration["enable_jsonp"]
         self.blog_url = self.blog_configuration["blog_url"]
+        self.path_encoding = self.blog_configuration["path_encoding"]
         self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
         self.entries = list()
         self.entries_per_dates = list()
@@ -95,7 +96,7 @@ class DataStore:
                     self.blog_configuration["path"],
                     jsonld_callback,
                     self.blog_configuration["path"]["dates_directory_name"],
-                    self.blog_configuration["path_encoding"]
+                    self.path_encoding
                 ))
 
         except MalformedPatterns as e:
@@ -123,17 +124,18 @@ class DataStore:
 
             # Update entriesPerCategories
             try:
-                sub_folders = urllib.parse.quote(self.blog_configuration["path"]["categories_sub_folders"]+'/', encoding=self.blog_configuration["path_encoding"])
+                sub_folders = urllib_parse_quote(self.blog_configuration["path"]["categories_sub_folders"]+'/', encoding=self.path_encoding)
 
             except UnicodeEncodeError as e:
                 sub_folders = self.blog_configuration["path"]["categories_sub_folders"]+'/'
                 notify("\"{0}\": ".format(sub_folders)+str(e), color="YELLOW")
             
             sub_folders = sub_folders if sub_folders != '/' else ''
-            build_categories_tree(entry_index, current_entry.raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.blog_configuration["path_encoding"], sub_folders=sub_folders)
+            build_categories_tree(entry_index, current_entry.raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.path_encoding, sub_folders=sub_folders)
             self.update_chapters(current_entry)
     
         # build chapters index
+        chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
         for chapter in sorted(self.raw_chapters.keys()):
             top = self.chapters_index
             index = ''
@@ -154,20 +156,22 @@ class DataStore:
                 except StopIteration:
                     try:
                         top.append(
-                            Chapter(index, self.raw_chapters[index][1], self.raw_chapters[index][2])
+                            Chapter(index, self.raw_chapters[index])
                         )
                     except KeyError:
                         top.append(
                             Chapter(index, '', '')
                         )
                         top = top[-1].sub_chapters
+                        
 
 
         # Setup BlogArchives Data
         self.blog_dates = list()
+        """ Should use encoding for path value as well """
         for node in self.entries_per_dates:
             try:
-                sub_folders = urllib.parse.quote(self.blog_configuration["path"]["dates_sub_folders"]+'/', encoding=self.blog_configuration["path_encoding"])
+                sub_folders = urllib_parse_quote(self.blog_configuration["path"]["dates_sub_folders"]+'/', encoding=self.path_encoding)
 
             except UnicodeEncodeError as e:
                 sub_folders = self.blog_configuration["path"]["dates_sub_folders"]+'/'
@@ -388,19 +392,32 @@ class DataStore:
         lo, io, ic, lc = argv
         if top == []:
             return ''
-
+            
+        path_encoding = self.path_encoding
         output = lo.format(**{"level" :level})
-        for sub_chapters in top:
+        chapter_sub_folder = self.blog_configuration["path"]["chapters_sub_folders"]
+        chapter_folder_name = self.blog_configuration["path"]["chapter_directory_name"]
+
+        for sub_chapter in top:
+            try:
+                path = (chapter_sub_folder+'/'+chapter_folder_name).format(**{
+                    "chapter_name" : sub_chapter.entry.title,
+                    "chapter_index" : sub_chapter.index
+                })
+            except KeyError as e:
+                print("Unknown variable", e)
+                
             output += io.format(**{
-                "index": sub_chapters.index,
-                "title": sub_chapters.title,
-                "path": sub_chapters.path,
+                "index": sub_chapter.index,
+                "title": sub_chapter.entry.title,
+                "path": ".:GetRelativeOrigin:."+urllib_parse_quote(path, encoding=path_encoding),
                 "level": level
             })
-            output += self.build_html_chapters(argv, sub_chapters.sub_chapters, level+1)
+            output += self.build_html_chapters(argv, sub_chapter.sub_chapters, level+1)
             output += ic
             
         output += lc
+
         return output
 
     def update_chapters(self, entry):
@@ -424,7 +441,7 @@ class DataStore:
                 chapter
             ))
         else:
-            self.raw_chapters[chapter] = (entry.id, entry.title, entry.url)
+            self.raw_chapters[chapter] = entry
 
     def sort(self, entry):
         try:

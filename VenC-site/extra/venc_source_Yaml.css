@@ -67,10 +67,3 @@
 .venc_source_Yaml .vi { color: #19177C } /* Name.Variable.Instance */
 .venc_source_Yaml .vm { color: #19177C } /* Name.Variable.Magic */
 .venc_source_Yaml .il { color: #666666 } /* Literal.Number.Integer.Long */
-.venc_source_Yamltable {width: 100%; display: block;}
-.venc_source_Yamltable tr {width: 100%; display: block;}
-.venc_source_Yamltable tbody {width: 100%; display: block;}
-.venc_source_Yamltable .linenos {width: 4%; display: inline-block;vertical-align: top;}
-.venc_source_Yamltable .code {width: 95%; display: inline-block;vertical-align: top;}
-.venc_source_Yamltable td pre {vertical-align: top; overflow: hidden; overflow-x: scroll;}
-.venc_source_Yaml pre {overflow: hidden; overflow-x: scroll;}
