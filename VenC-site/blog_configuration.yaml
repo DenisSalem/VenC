@@ -15,7 +15,7 @@ code_highlight_css_override: true
 markup_language: 'Markdown'
 path:
   category_directory_name: '{category}'
-  chapter_directory_name: '{chapter_name}'
+  chapter_directory_name: '{chapter_aname}'
   dates_directory_name: '%m-%Y'
   entry_file_name: index.html
   ftp: Chemin absolu de votre blog sur l'hôte FTP.

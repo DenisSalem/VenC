@@ -405,7 +405,8 @@ class DataStore:
                     "chapter_index" : sub_chapter.index
                 })
             except KeyError as e:
-                print("Unknown variable", e)
+                from venc2.helpers import die
+                die(messages.variable_error_in_filename.format(e))
                 
             output += io.format(**{
                 "index": sub_chapter.index,
