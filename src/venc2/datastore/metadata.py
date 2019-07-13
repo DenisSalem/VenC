@@ -23,12 +23,10 @@ import urllib.parse
 from venc2.prompt import notify
 
 class Chapter:
-    def __init__(self, index, title, path):
+    def __init__(self, index, entry):
         self.sub_chapters = []
         self.index = index
-        self.title = title
-        self.path = path
-
+        self.entry = entry
 
 class MetadataNode:
     def __init__(self, value, entry_index):

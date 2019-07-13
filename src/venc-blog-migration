@@ -115,6 +115,7 @@ new_keys = {
     "disable_main_thread": False,
     "disable_archives": False,
     "disable_categories": False,
+    "disable_chapters": True,
     "disable_single_entries": False,
     "path_encoding":"utf-8",
     "code_highlight_css_override":False,
@@ -130,6 +131,8 @@ new_keys = {
 new_path_keys = {
     "atom_file_name": "atom_feed.xml",
     "entries_sub_folders":"",
+    "chapters_sub_folders":"chapters",
+    "chapter_directory_name": "{chapter_name}",
     "categories_sub_folders":"",
     "dates_sub_folders":""
 }

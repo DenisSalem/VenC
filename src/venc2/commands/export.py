@@ -189,6 +189,11 @@ def export_blog(argv=list()):
         thread = EntriesThread(messages.export_single_entries, datastore, theme, patterns_map)
         thread.do()
 
+    if not datastore.blog_configuration["disable_chapters"]:
+        from venc2.threads.chapters import ChaptersThread
+        thread = ChaptersThread(messages.export_chapters, datastore, theme, patterns_map)
+        thread.do()
+
     # Copy assets and extra files
     notify('└─ '+messages.copy_assets_and_extra_files)
     code_highlight.export_style_sheets()

@@ -50,6 +50,7 @@ def get_blog_configuration():
             "disable_main_thread",
             "disable_archives",
             "disable_categories",
+            "disable_chapters",
             "disable_single_entries",
             "path_encoding",
             "code_highlight_css_override",
@@ -70,6 +71,7 @@ def get_blog_configuration():
         mandatory_fields = [
             "index_file_name",
             "category_directory_name",
+            "chapter_directory_name",
             "dates_directory_name",
             "entry_file_name",
             "rss_file_name",
@@ -77,7 +79,8 @@ def get_blog_configuration():
             "ftp",
             "entries_sub_folders",
             "categories_sub_folders",
-            "dates_sub_folders"
+            "dates_sub_folders",
+            "chapters_sub_folders",
         ]
 
         for field in mandatory_fields:

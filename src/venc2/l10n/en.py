@@ -53,6 +53,7 @@ class Messages:
     export_main_thread="Exporting local main entries thread."
     export_main_thread_rss="Exporting local main RSS feed entries."
     export_categories="Exporting local entries grouped by categories..."
+    export_chapters="Exporting local chapters..."
     export_categoriesRss="Exporting local entries RSS feed thread from category '{0}'."
     missing_mandatory_field_in_entry="Field '{0}' in entry number {1} is missing."
     for_unknown_value="For: Value {0} isn't defined."
