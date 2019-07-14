@@ -400,7 +400,7 @@ class DataStore:
 
         for sub_chapter in top:
             try:
-                path = (chapter_sub_folder+'/'+chapter_folder_name).format(**{
+                path = ((chapter_sub_folder+'/' if chapter_sub_folder != '' else '')+chapter_folder_name).format(**{
                     "chapter_name" : sub_chapter.entry.title,
                     "chapter_index" : sub_chapter.index
                 })
@@ -595,7 +595,7 @@ class DataStore:
         return self.html_blog_dates[key]
 
     def get_root_page(self, argv):
-        return ".:GetRelativeOrigin:./"+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
+        return ".:GetRelativeOrigin:."+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
 
     def build_html_categories_tree(self, opening_node, opening_branch, closing_branch, closing_node, tree):
         output_string = opening_node
