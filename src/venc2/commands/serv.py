@@ -33,7 +33,7 @@ class VenCServer(http.server.CGIHTTPRequestHandler):
         super().__init__(request, client_address, server)
         
     def do_GET(self):
-        self.path = urllib.parse.unquote(self.path, encoding=blog_configuration["path_encoding"])        
+        self.path = urllib.parse.unquote(self.path, encoding=blog_configuration["path_encoding"])
         super().do_GET()
 
 def serv_blog(argv=list()):
