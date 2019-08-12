@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 
 from venc2.patterns.processor import ProcessedString    # The object holding the string and its states.
 from venc2.patterns.processor import Processor          # The actual string processor, holding binded methods.

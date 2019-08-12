@@ -93,6 +93,8 @@ header li
   font-size: 1.25em;
   display: inline-block;}
 
+header li li {font-size: 1em;}
+
 header a
   {opacity: 0.8;
   color: black;
