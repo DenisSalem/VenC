@@ -18,6 +18,7 @@ En outre, voilà ce que VenC propose:
   - Module javascript de moteur de recherche décentralisé.
   - Les publications peuvent être organisées par catégories et sous catégories.
   - Les publications peuvent être organisées par période de dates.
+  - Les publications peuvent être organisées par chapitres.
   - Possibilité de désactiver des fils de publications spécifique.
   - Possibilité de définir des sous répertoires par type de fils de publications.
   - Possibilité d'ajouter des métadonnés au blog et aux publications.
@@ -28,7 +29,7 @@ En outre, voilà ce que VenC propose:
   - La gestion et l'édition du blog peut-être faite entièrement en ligne de commande.
   - Rédaction des publications en [Markdown](https://daringfireball.net/projects/markdown/syntax), [reStructuredText](http://docutils.sourceforge.net/rst.html), ou HTML.
   - Exportation en ligne du blog via FTP.
-  - Coloration Syntaxique.
+  - Coloration Syntaxique grace à [Pygments](http://pygments.org/).
   - Balises VenC permettant une mise en page et intégration de contenu avancés.
   - Support du protocol oembed.
   - Support de contenu audio et video. 
