@@ -188,6 +188,12 @@ class Thread:
     def JSONLD(self, argv):
         return ''
 
+    def if_pages(self, argv):
+        if self.pages_count > 1:
+            return argv[0]
+        else:
+            return ''
+        
     def if_in_first_page(self, argv):
         if self.current_page == 0:
             return argv[0].strip()

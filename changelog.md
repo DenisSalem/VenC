@@ -159,15 +159,18 @@ cd # version 1.0.0 Last minute edition :p
     DONE | Fix Shabang issue for compatibility.
     DONE | Semantic-web features.
     DONE | Theme must have it's own yaml configuration.
-    WIP  | Reorganize themes dependencies in setup.
     DONE | Fix pattern processing within included file.
+    WIP  | Reorganize themes dependencies in setup.
     TODO | Fix Tessellation CSS
+    TODO | Add IfChapters and use it in academik to hide/show chapters navigation.
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
     TODO | Add definition in documentation for optional fields in blog configuration.
     TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.1.x
+    TODO | Add folder for blog_configuration, with multiple configuration file (for splitting the actual one).
+    TODO | Automatically merge all known entry authors into blog authors.
     TODO | Force preview / full content in thread, for single entry.
     TODO | If previous theme empty, juste remove it.
     TODO | Add plural form at the end of blog creation if multiple blog has been made.

@@ -1,15 +1,78 @@
+/***************/
+/* G L O B A L */
+/***************/
+
 body
      {background-color: white;
      font-family: georgia;
      color: black;
      margin: 0px;}
+a
+    {color: #000;
+    text-decoration: none;}
+    
+math
+    {display:block;}
+    
+blockquote p
+    {border-left: 2px solid grey;
+    display: block;
+    width: 100%;
+    font-style: italic;
+    clear: both;
+    font-size: 0.8em;
+    padding-left: 1em;}
+
+.__VENC_PYGMENTIZE_WRAPPER__ table {width: 580px; display: block; clear: both;}
+.__VENC_PYGMENTIZE_WRAPPER__ table tr {width: 100%; display: block;}
+.__VENC_PYGMENTIZE_WRAPPER__ table tbody {width: 100%; display: block;}
+.__VENC_PYGMENTIZE_WRAPPER__ table .linenos {width: 4%; display: inline-block;vertical-align: top;}
+.__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 95%; display: inline-block;vertical-align: top;}
+.__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
+
+.note, .footnote
+    {float: left;
+    margin-top: 1em;
+    font-size: 0.8em;
+    font-style: italic;
+    text-align: justify; 
+    margin-left: 10px;
+    width: 200px;}
+    
+.social-network-item img
+    {width: 20px;
+    display: inline-block;}
+    
+.__VENC_CATEGORY_BUTTON__
+    {margin-right: 1em;
+    outline: none;}
+
+.navigation
+    {text-align: center;}
+
+.navigation ul
+    {margin: 0px;
+    padding: 0px;
+    display:inline-block;}
+    
+.navigation ul li
+    {display:inline-block;
+    margin-left: 0.5em;
+    margin-right: 0.5em;}
+
+.navigation-next
+    {margin-left: 0.5em;}
+ 
+ .navigation-previous
+    {margin-right: 0.5em;}
+    
+/***************/
+/* H E A D E R */
+/***************/
 
 header {
     width: 800px;
     height: 100px;
-/*
-    margin: auto;
-*/
     line-height: 100px;
     text-align: center;
     border-bottom: 1px solid grey;
@@ -29,39 +92,17 @@ aside {
     top: 0px;
 }
 
-a
-    {color: #000;
-    text-decoration: none;}
-
-blockquote p
-    {border-left: 2px solid grey;
-    display: block;
-    width: 100%;
-    font-style: italic;
-    clear: both;
-    font-size: 0.8em;
-    padding-left: 1em;}
-
 footer
     {display: none;}
 
-math
-    {display:block;}
-    
-#blog-content
-    {position: absolute;
-    left: calc(50% - 250px);
-    top: 0px;
-    width: 800px;}
-
 #blog-avatar
- {width: 110px;
- height: 110px;
- border-radius: 55px;
- margin: auto;
- margin-top: 1em;
- background-color: grey;
- background-size: cover;}
+    {width: 110px;
+    height: 110px;
+    border-radius: 55px;
+    margin: auto;
+    margin-top: 1em;
+    background-color: grey;
+    background-size: cover;}
 
 #blog-description
     {width: 95%;
@@ -130,38 +171,9 @@ math
     padding-left: 5px;
     border-left: 1px solid grey;}
 
-#blog-navigation,
-footer
-    {text-align: center;}
-
-#blog-navigation ul,
-footer ul
-    {margin: 0px;
-    padding: 0px;
-    display:inline-block;}
-    
-#blog-navigation ul li,
-footer ul li
-    {display:inline-block;}
-
-#blog-navigation a,
-footer a
-    {background-color: grey;
-    border-radius: 0.5em;
-    margin-left: 0.5em;
-    height: 1em;
-    width: 1em;
-    display: inline-block;
-    line-height: 1em;
-    color: white;
-    margin-right: 0.5em;}
-    
-#VENC_COLUMN_1 {
-    display: block;
-    top: 100px;
-    height: 100px;
-    width: 800px;
-}
+/*************/
+/* E N T R Y */
+/*************/
 
 .entry {
     width: 100%;
@@ -210,31 +222,23 @@ footer a
 .entry_content
     {width: 800px;
     clear: both;}
-
-.__VENC_PYGMENTIZE_WRAPPER__ table {width: 580px; display: block; clear: both;}
-.__VENC_PYGMENTIZE_WRAPPER__ table tr {width: 100%; display: block;}
-.__VENC_PYGMENTIZE_WRAPPER__ table tbody {width: 100%; display: block;}
-.__VENC_PYGMENTIZE_WRAPPER__ table .linenos {width: 4%; display: inline-block;vertical-align: top;}
-.__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 95%; display: inline-block;vertical-align: top;}
-.__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
-
-.note, .footnote
-    {float: left;
-    margin-top: 1em;
-    font-size: 0.8em;
-    font-style: italic;
-    text-align: justify; 
-    margin-left: 10px;
-    width: 200px;}
     
-.social-network-item img
-    {width: 20px;
-    display: inline-block;}
-    
-.__VENC_CATEGORY_BUTTON__
-    {margin-right: 1em;
-    outline: none;}
+/***************/
+/* L A Y O U T */
+/***************/
 
+#blog-content
+    {position: absolute;
+    left: calc(50% - 250px);
+    top: 0px;
+    width: 800px;}
+    
+#VENC_COLUMN_1 {
+    display: block;
+    top: 100px;
+    height: 100px;
+    width: 800px;
+}
 @media (max-width: 1100px) {
     aside
         {display: none;}
