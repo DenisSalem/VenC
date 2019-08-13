@@ -6,14 +6,14 @@ title: .:GetEntryTitle:.
 ---VENC-END-PREVIEW---
 This template is designed to work with defaults themes
 
-The following will display aside if used with Academik theme. Otherwise,
+The following[¹](#footnote_1) will display aside if used with Academik theme. Otherwise,
 it will be display below the current paragraphe.
 
-.:SetStyle:: ::footnote:: A first footnote for the sake of the demonstration:.
+.:SetStyle::footnote_1::footnote:: A first footnote for the sake of the demonstration:.
 
-You can go directly to [this](#footnote_1) second footnote by clicking the link.
+You can go directly to [this](#footnote_2) second footnote by clicking the link.
 Do not forget to add a line break so the parser will know that the footnote
 is not part of this paragraphe
 
-.:SetStyle::footnote_1::footnote::¹ The first argument is the css id name,
+.:SetStyle::footnote_2::footnote::² The first argument is the css id name,
 the second is the css class name:.
