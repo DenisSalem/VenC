@@ -100,7 +100,8 @@ class PatternsMap():
                 "GetRelativeLocation" : "get_relative_location",
                 "GetNextPage" : "get_next_page",
                 "GetPreviousPage" : "get_previous_page",
-                "ForPages" : "for_pages"
+                "ForPages" : "for_pages",
+                "IfPages" : "if_pages"
             }
         }
         
