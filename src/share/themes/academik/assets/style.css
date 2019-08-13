@@ -22,13 +22,15 @@ blockquote p
     clear: both;
     font-size: 0.8em;
     padding-left: 1em;}
-
-.__VENC_PYGMENTIZE_WRAPPER__ table {width: 580px; display: block; clear: both;}
+    
+.__VENC_PYGMENTIZE_WRAPPER__ {clear: both; width: 580px;}
+.__VENC_PYGMENTIZE_WRAPPER__ pre {overflow-x: auto;}
+.__VENC_PYGMENTIZE_WRAPPER__ table {width: 580px; display: block; }
 .__VENC_PYGMENTIZE_WRAPPER__ table tr {width: 100%; display: block;}
 .__VENC_PYGMENTIZE_WRAPPER__ table tbody {width: 100%; display: block;}
 .__VENC_PYGMENTIZE_WRAPPER__ table .linenos {width: 4%; display: inline-block;vertical-align: top;}
 .__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 95%; display: inline-block;vertical-align: top;}
-.__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
+.__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; overflow: hidden; margin: 0px; overflow-x: auto;}
 
 .note, .footnote
     {float: left;
