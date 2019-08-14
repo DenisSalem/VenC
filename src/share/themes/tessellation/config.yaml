@@ -3,5 +3,7 @@ info:
     
 override:
     columns: 3
+    entries_per_pages: 12
+
 
 assets_dependencies: ['VenC-Infinite-Scroll-1.1.0.js']
