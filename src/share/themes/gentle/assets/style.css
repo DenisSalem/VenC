@@ -44,7 +44,16 @@ math
 .footnote:target
     {height: auto;
     opacity: 1;}
-    
+
+.__VENC_PYGMENTIZE_WRAPPER__ {clear: both; width: 100%;}
+.__VENC_PYGMENTIZE_WRAPPER__ pre {overflow: hidden; overflow-x: auto;}
+.__VENC_PYGMENTIZE_WRAPPER__ table {width: 100%; display: block; clear: both;}
+.__VENC_PYGMENTIZE_WRAPPER__ table tr {width: 100%; display: block;}
+.__VENC_PYGMENTIZE_WRAPPER__ table tbody {width: 100%; display: block;}
+.__VENC_PYGMENTIZE_WRAPPER__ table .linenos {width: 4%; display: inline-block;vertical-align: top;}
+.__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 95%; display: inline-block;vertical-align: top;}
+.__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
+
 /**************/
 /* VENC BOXES */
 /**************/
@@ -174,15 +183,6 @@ header a:hover
 
 .entry pre
   {overflow-x: auto;}
-
-.__VENC_PYGMENTIZE_WRAPPER__ {clear: both; width: 100%;}
-.__VENC_PYGMENTIZE_WRAPPER__ pre {overflow: hidden; overflow-x: auto;}
-.__VENC_PYGMENTIZE_WRAPPER__ table {width: 100%; display: block; clear: both;}
-.__VENC_PYGMENTIZE_WRAPPER__ table tr {width: 100%; display: block;}
-.__VENC_PYGMENTIZE_WRAPPER__ table tbody {width: 100%; display: block;}
-.__VENC_PYGMENTIZE_WRAPPER__ table .linenos {width: 4%; display: inline-block;vertical-align: top;}
-.__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 95%; display: inline-block;vertical-align: top;}
-.__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
     
 /***************/
 /* F O O T E R */
@@ -217,7 +217,7 @@ footer #pagesList li, #previous, #next
 #__VENC_THREAD__
   {margin-bottom: 1em;}
 
-@media (max-width: 360px) {
+@media (max-width: 480px) {
   header li
     {display: block;}
 

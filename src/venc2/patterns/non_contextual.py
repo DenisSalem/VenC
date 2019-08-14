@@ -130,7 +130,7 @@ def include_file(argv):
     else: 
         return include_string
 def table(argv):
-    output = "<table class=\"__VENC_TABLE__\">"
+    output = "<div class=\"__VENC_TABLE__\"><table>"
     tr = [[]]
     append_td = tr[-1].append
     append_tr = tr.append
@@ -146,4 +146,4 @@ def table(argv):
     for row in tr:
         output += "<tr>"+join(row)+"</tr>"
         
-    return output + "</table>"
+    return output + "</table></div>"
