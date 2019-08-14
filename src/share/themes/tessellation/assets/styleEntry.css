@@ -1,5 +1,6 @@
 .entry img
-  {width: auto;}
+  {width: auto;
+  margin: auto;}
   
 .permalink
   {display: none;}
