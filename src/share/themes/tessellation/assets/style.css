@@ -1,8 +1,13 @@
+/***************/
+/* G L O B A L */
+/***************/
+
 body, html
   {margin: 0px;
   font-family: sans;
   font-weight: lighter;
   background-color: white;}
+  
 a
   {outline: none;
   text-decoration: none;
@@ -54,7 +59,7 @@ math
 
 .entry
   {font-size: 0.7em;
-  text-align: center;
+  text-align: justify;
   transition: 1s ease all;
   overflow: hidden;}
 
