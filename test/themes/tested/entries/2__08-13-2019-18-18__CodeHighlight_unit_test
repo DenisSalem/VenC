@@ -1,0 +1,43 @@
+authors: 'Denis Salem'
+categories: 'Templates > Patterns > CodeHighlight'
+tags: ''
+title: CodeHighlight unit test
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Example of C++ syntax coloration with line number:
+
+.:CodeHighlight::C++::True::
+
+#include <iostream>:
+
+class Example {
+	public:
+		static void do_something();
+};
+
+void Example::do_something() {
+	std::cout << "Well, not really" << std::endl;
+}
+
+int main(int argc, char ** argv) {
+	Example::do_something();
+	return 0;
+}
+
+:.
+
+Another example of Python syntax coloration without line number:
+
+.:CodeHighlight::Python::False::
+def merge(iterable, argv):
+    if len(argv) != 2:
+        raise PatternMissingArguments(expected=2,got=len(argv))
+    try:
+        return argv[1].join([argv[0].format(**something) for something in iterable])
+        
+    except IndexError as e:
+        if e.args == ('tuple index out of range',):
+            raise PatternInvalidArgument(name="string", value=argv[0])
+                
+        raise e
+:.
