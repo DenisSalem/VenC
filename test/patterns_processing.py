@@ -94,7 +94,6 @@ def test_markup_language(args, test_name):
     ps.process_markup_language(markup_language)
     return ps.string.replace('\n', '')
 
-
 tests = [
     (
         "Simple pattern detection.", 
@@ -253,7 +252,7 @@ tests = [
         test_markup_language
     ),
     (
-        "reStructuredText integration.",
+        "reStructuredText integration integration when pattern produce html.",
         ("Main title\n==========\n.:add::1::1:.", "reStructuredText", ["add"]),
         "<div class=\"document\"><div class=\"section\" id=\"main-title\"><h1>Main title</h1>2</div></div>",
         test_markup_language
