@@ -39,8 +39,8 @@ from venc2.patterns.processor import ProcessedString
 
 # Initialisation of environment
 start_timestamp = time.time()
-datastore = DataStore()
-code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
+datastore = None
+code_highlight = None
 
 theme_assets_dependencies = []
 
@@ -158,6 +158,10 @@ def process_non_contextual_patterns(pattern_processor, theme):
     pattern_processor.process(theme.atom_footer) 
     
 def export_blog(argv=list()):
+    global datastore
+    datastore = DataStore()
+    global code_highlight
+    code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
     theme, theme_folder = init_theme(argv)
     patterns_map = PatternsMap(datastore, code_highlight, theme)
     pattern_processor = setup_pattern_processor(patterns_map)
