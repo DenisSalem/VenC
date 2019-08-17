@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!-- Page generated: 2019-08-17 13:03:52 -->
+<html lang="en">
+  <head>
+    <title>Theme Unit Test</title>
+    <meta name="generator" content="VenC" />
+    <meta name="keywords" content="test, unittest, blog, venc" />
+    <meta name="description" content="Test blog output" />
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="../../../VenC-Infinite-Scroll-1.1.0.js"></script>
+    <script type="text/javascript">
+	window.onload = VENC_INFINITE_SCROLL_ON_LOAD;
+    </script>
+    <link rel="stylesheet" href="../../../venc_source_CPlusPlus.css" type="text/css" />
+<link rel="stylesheet" href="../../../venc_source_Python.css" type="text/css" />
+
+    <link rel="alternate" type="application/rss+xml" title="Theme Unit Test" href="feed.xml" />
+    <link rel="stylesheet" href="../../../style.css" type="text/css" />
+    <link rel="stylesheet" href="../../../styleThread.css" type="text/css" />
+    <script type="application/ld+json" src="categories.jsonld"></script>
+    </head>
+    <body>
+      <header>
+        <h1>
+          <a href="../../../../ ">
+            <img src="../../../" alt="Theme Unit Test" title="Theme Unit Test" />
+          </a>
+        </h1>
+        <p id="categoriesHeader">CATEGORIES</p>
+        <div id="categories">
+          <ul><li><a class="atomOpacity0.25" href="../../../Templates/" title="4 oeuvres">Templates</a><ul><li><a class="atomOpacity0.25" href="../../../Templates/Footnotes/" title="1 oeuvres">Footnotes</a></li><li><a class="atomOpacity0.25" href="../../../Templates/Patterns/" title="3 oeuvres">Patterns</a><ul><li><a class="atomOpacity0.25" href="../../../Templates/Patterns/CodeHighlight/" title="1 oeuvres">CodeHighlight</a></li><li><a class="atomOpacity0.25" href="../../../Templates/Patterns/Escape/" title="1 oeuvres">Escape</a></li><li><a class="atomOpacity0.25" href="../../../Templates/Patterns/Latex2MathML/" title="1 oeuvres">Latex2MathML</a></li></ul></li></ul></li></ul> 
+        </div>
+	<div id="archives">
+          <p>ARCHIVES</p>
+          <ul><li><a href="../../../2019-08" title="4 oeuvres" class="atomOpacity1">2019-08</a></li></ul>
+	</div>
+        <div id="__VENC_LOADING__"></div>
+      </header>
+      <div id="__VENC_THREAD__">
+      <hr>
+<div id="__VENC_COLUMN_0__" class="__VENC_COLUMN__"><div class="entry " id="entry2" data-venc-tags="">
+  <a class="permalink" href="../../../entry2.html">#2</a>
+  <p>Example of C++ syntax coloration with line number:</p>
+
+<div class="__VENC_PYGMENTIZE_WRAPPER__"><table class="venc_source_CPlusPlustable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="venc_source_CPlusPlus"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;:</span><span class="cp"></span>
+
+<span class="k">class</span> <span class="nc">Example</span> <span class="p">{</span>
+	<span class="k">public</span><span class="o">:</span>
+		<span class="k">static</span> <span class="kt">void</span> <span class="n">do_something</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="n">Example</span><span class="o">::</span><span class="n">do_something</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Well, not really&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">Example</span><span class="o">::</span><span class="n">do_something</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+<p>Another example of Python syntax coloration without line number:</p>
+
+<div class="__VENC_PYGMENTIZE_WRAPPER__"><div class="venc_source_Python"><pre><span></span><span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">argv</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PatternMissingArguments</span><span class="p">(</span><span class="n">expected</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">got</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">argv</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">something</span><span class="p">)</span> <span class="k">for</span> <span class="n">something</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">])</span>
+        
+    <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;tuple index out of range&#39;</span><span class="p">,):</span>
+            <span class="k">raise</span> <span class="n">PatternInvalidArgument</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                
+        <span class="k">raise</span> <span class="n">e</span>
+</pre></div>
+</div>
+
+</div>
+</div><div id="__VENC_COLUMN_0__" class="__VENC_COLUMN__"></div><div id="__VENC_COLUMN_0__" class="__VENC_COLUMN__"></div>      </div>
+      <footer id="__VENC_NAVIGATION__">
+      	
+	<ul id="pagesList"></ul>
+    
+      </footer>
+  </body>
+</html>

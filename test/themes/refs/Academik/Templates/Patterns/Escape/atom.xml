@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>Theme Unit Test</title>
+ <subtitle>Test blog output</subtitle>
+ <link href="http://127.0.0.1:8888"/>
+ <updated>2010-05-13T18:30:02Z</updated>
+ <author>
+   <name>Denis Salem</name>
+   <email>venc@tuxfamily.org</email>
+ </author>
+ <entry>
+   <title>Escape unit test</title>
+   <link href="../../../entry4.html"/>
+   <content type="xhtml">
+   <p><em>As shown below Escape will disable parsing of both VenC patterns and markup language between the Escape/EndEscape pair.</em></p>
+
+<p><strong>With Escape/EndEscape</strong></p>
+
+<p>
+- Hello VenC!
+- Hello lovely user!
+</p>
+
+<p> .:SetColor::This is red text!t::red:. </p>
+
+<p><strong>Without Escape/EndEscape</strong></p>
+
+<ul>
+<li>Hello VenC!</li>
+<li>Hello lovely user!</li>
+</ul>
+
+<p><span style="color: red;">This is red text!t</span></p>
+
+<p>Please note that VenC syntax require you to close Escape pattern with ::EndEscape.</p>
+
+   </content>
+ </entry>
+</feed>
