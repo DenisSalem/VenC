@@ -1,0 +1,249 @@
+/***************/
+/* G L O B A L */
+/***************/
+
+body, html
+  {margin: 0px;
+  font-family: sans;
+  font-weight: lighter;
+  background-color: white;}
+
+strong
+  {font-weight: bold;}
+
+a
+  {outline: none;
+  color: black;
+  text-decoration: none;}
+
+h1
+  {font-family: sans;
+  font-size: 3em;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+  font-weight: lighter;}
+
+math
+    {display:block;}
+
+.note,
+.footnote
+    {border-left: 2px solid grey;
+    padding-left: 10px;
+    display: inline-block;
+    margin: 0px;
+    width: calc(100% - 12px);
+    float: none;
+    clear: both;}
+        
+.footnote
+    {height: 0px;
+    opacity: 0;
+    transition: 0.25s ease all;}
+        
+.footnote:target
+    {height: auto;
+    opacity: 1;}
+
+.__VENC_PYGMENTIZE_WRAPPER__ {clear: both; width: 100%;}
+.__VENC_PYGMENTIZE_WRAPPER__ pre {overflow: hidden; overflow-x: auto;}
+.__VENC_PYGMENTIZE_WRAPPER__ table {width: 100%; display: block; clear: both;}
+.__VENC_PYGMENTIZE_WRAPPER__ table tr {width: 100%; display: block;}
+.__VENC_PYGMENTIZE_WRAPPER__ table tbody {width: 100%; display: block;}
+.__VENC_PYGMENTIZE_WRAPPER__ table .linenos {width: 4%; display: inline-block;vertical-align: top;}
+.__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 95%; display: inline-block;vertical-align: top;}
+.__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
+
+/**************/
+/* VENC BOXES */
+/**************/
+
+.venc_info_box, .venc_warning_box  {
+    background-color: #91A8D0;
+    color: white;
+    display: block;
+    padding: 1em;
+    padding-left: 26px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-style: italic;
+    background-image: url('VenC_info_icon1.png');
+    background-repeat: no-repeat;
+    background-position: center left;
+}
+
+.venc_warning_box  {
+    background-image: url('VenC_warning_icon1.png');
+    background-color: #F7CAC9;
+}
+
+/********/
+/* NSFW */
+/********/
+
+.venc_nsfw
+    {min-width: 442px;
+    min-height: 228px;
+    display: block;
+    background-repeat: no-repeat;
+    margin: auto;
+    background-position: center center;}
+    
+.venc_nsfw .venc_nsfw_content
+	{display: none;}
+
+.venc_nsfw:target .venc_nsfw_content
+	{display: block;}
+    
+/***************/
+/* H E A D E R */
+/***************/
+   
+header h2
+  {font-size: 0.8em;
+  font-weight: lighter;
+  margin: 0px;
+  opacity: 0.5;}
+
+header
+  {text-align: center;
+  color: black;
+  text-align: center;}
+
+header ul
+  {margin: 0px;
+  display: inline-block;
+  list-style-type: none;
+  padding: 0px;}
+
+header li
+  {font-size: 1.25em;
+  display: inline-block;}
+
+header li a
+  {margin: 1em;
+  display: inline-block;}
+
+header li li {font-size: 1em;}
+
+header a
+  {opacity: 0.8;
+  color: black;
+  transition: 0.5s ease all;}
+
+header a:hover
+  {opacity:1.0;}
+
+#archives li
+  {margin: 0.5em;
+  font-size: 0.8em;}
+
+/*************/
+/* E N T R Y */
+/*************/
+
+.entry
+  {font-size: 1em;
+  width: 700px;
+  margin: auto;
+  text-align: justify;
+  transition: 1s ease all;
+  overflow: hidden;}
+
+.entry img
+  {max-width: 100%;
+  display: block;
+  margin: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;}
+
+.entry a {
+  text-decoration: underline;
+}
+
+.entry em {
+  color: grey;
+}
+
+.permalink a
+  {color: black;
+  font-size: 1em;
+  text-decoration: none;}
+
+.permalink
+  {margin: 0px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: center;}
+
+.permalink p
+  {font-size: 1em;
+  letter-spacing: 5px;
+  opacity: 0.5;}
+
+.entry pre
+  {overflow-x: auto;}
+    
+/***************/
+/* F O O T E R */
+/***************/
+footer
+  {padding: 1em;
+  font-size: 1.5em;
+  text-align: center;}
+ 
+footer #pagesList
+  {list-style-type: none;
+  display:inline-block;
+  text-align: center;
+  margin: 0px;
+  padding-left: 3px;}
+
+footer #pagesList li
+    {display:inline-block;
+    margin-left: 1em;
+    margin-right: 1em;}
+    
+footer a
+  {color: black;}
+
+footer #pagesList li, #previous, #next
+  {display: inline-block;}
+
+/***************/
+/* L A Y O U T */
+/***************/
+
+#__VENC_THREAD__
+  {margin-bottom: 1em;}
+
+@media (max-width: 480px) {
+  header li
+    {display: block;}
+
+  header ul
+    {margin: 0px;
+    padding: 0px;
+    display: block;}
+    
+  #archivesHeader
+    {display: none;}
+
+  #archives
+    {display: none;}
+
+  .entry
+    {width:95%;
+    margin-left: 2.5%;}
+
+  .permalink a
+    {font-size: 0.66em;
+    letter-spacing: 0px;}
+
+  footer
+    {font-size: 1.25em;
+    min-height: 1.25em;}
+
+  .__VENC_PYGMENTIZE_WRAPPER__ table .linenos {width: 5%; display: inline-block;vertical-align: top;}
+  .__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 93%; display: inline-block;vertical-align: top;}
+}

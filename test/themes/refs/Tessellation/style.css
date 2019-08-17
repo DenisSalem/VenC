@@ -1,0 +1,139 @@
+/***************/
+/* G L O B A L */
+/***************/
+
+body, html
+  {margin: 0px;
+  font-family: sans;
+  font-weight: lighter;
+  background-color: white;}
+  
+a
+  {outline: none;
+  text-decoration: none;
+  color: black;
+  transition: 0.5s ease all;
+  opacity: 0.5;}
+
+a:hover
+  {opacity:1.0;}
+
+hr
+  {border: 0px;
+  background-color: grey;
+  height: 1px;}
+
+.__VENC_PYGMENTIZE_WRAPPER__ {clear: both; width: 100%;}
+.__VENC_PYGMENTIZE_WRAPPER__ pre {overflow: hidden; overflow-x: auto;}
+.__VENC_PYGMENTIZE_WRAPPER__ table {width: 100%; display: block; clear: both;}
+.__VENC_PYGMENTIZE_WRAPPER__ table tr {width: 100%; display: block;}
+.__VENC_PYGMENTIZE_WRAPPER__ table tbody {width: 100%; display: block;}
+.__VENC_PYGMENTIZE_WRAPPER__ table .linenos {width: 4%; display: inline-block;vertical-align: top;}
+.__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 94%; display: inline-block;vertical-align: top;}
+.__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
+
+.__VENC_TABLE__
+    {width: 100%;
+    overflow: auto;}
+
+.note,
+.footnote
+    {border-left: 2px solid grey;
+    padding-left: 10px;
+    display: inline-block;
+    margin: 0px;
+    width: calc(100% - 12px);
+    float: none;
+    clear: both;}
+        
+.footnote
+    {height: 0px;
+    opacity: 0;
+    transition: 0.25s ease all;}
+        
+.footnote:target
+    {height: auto;
+    opacity: 1;}
+
+/***************/
+/* H E A D E R */
+/***************/
+ 
+header
+  {text-align: center;
+  max-width: 800px;
+  margin: auto;
+  color: black;}
+
+header ul
+  {margin: 0px;
+  display: inline-block;
+  list-style-type: none;
+  padding: 0px;}
+
+header li
+  {display: inline-block;}
+
+header li a
+  {margin: 1em;
+  display: inline-block;}
+  
+math
+    {display:block;}
+
+#__VENC_THREAD__
+  {max-width: 800px;
+  text-align: center;
+  margin: auto;}
+
+.entry
+  {font-size: 0.7em;
+  text-align: justify;
+  transition: 1s ease all;
+  overflow: hidden;}
+
+.entry img
+  {max-width: 100%;
+  display: inline-block;
+  margin: auto;}
+
+.permalink
+  {display: block;
+  width: 100%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+  font-size: 1em;}
+
+footer
+  {padding: 1em;
+  font-size: 1.25em;
+  text-align: center;}
+ 
+footer #pagesList
+  {list-style-type: none;
+  display:inline-block;
+  text-align: center;
+  margin: 0px;
+  padding-left: 3px;}
+
+footer a
+  {color: black;}
+
+footer #pagesList li, #previous, #next
+  {display: inline-block;}
+
+@media (max-width: 480px) {
+  header li
+    {display: block;}
+
+  header ul
+    {margin: 0px;
+    padding: 0px;
+    display: block;}
+    
+  #archives, #categoriesHeader {display: none;}
+  
+  .__VENC_PYGMENTIZE_WRAPPER__ table .linenos {width: 7%; display: inline-block;vertical-align: top;}
+  .__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 90%; display: inline-block;vertical-align: top;}
+}

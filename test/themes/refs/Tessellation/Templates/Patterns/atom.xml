@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ <title>Theme Unit Test</title>
+ <subtitle>Test blog output</subtitle>
+ <link href="http://127.0.0.1:8888"/>
+ <updated>2010-05-13T18:30:02Z</updated>
+ <author>
+   <name>Denis Salem</name>
+   <email>venc@tuxfamily.org</email>
+ </author>
+ <entry>
+   <title>Escape unit test</title>
+   <link href="../../entry4.html"/>
+   <content type="xhtml">
+   <p><em>As shown below Escape will disable parsing of both VenC patterns and markup language between the Escape/EndEscape pair.</em></p>
+
+<p><strong>With Escape/EndEscape</strong></p>
+
+<p>
+- Hello VenC!
+- Hello lovely user!
+</p>
+
+<p> .:SetColor::This is red text!t::red:. </p>
+
+<p><strong>Without Escape/EndEscape</strong></p>
+
+<ul>
+<li>Hello VenC!</li>
+<li>Hello lovely user!</li>
+</ul>
+
+<p><span style="color: red;">This is red text!t</span></p>
+
+<p>Please note that VenC syntax require you to close Escape pattern with ::EndEscape.</p>
+
+   </content>
+ </entry>
+ <entry>
+   <title>Latex2MathML unit test</title>
+   <link href="../../entry3.html"/>
+   <content type="xhtml">
+   <p>Example of Latex2MathML usage for rendering complex number expression:</p>
+
+<math><mrow><mover><mrow><msub><mi>z</mi><mn>1</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover><mi>.</mi><mover><mrow><msub><mi>z</mi><mn>2</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover><mo>&#x0003D;</mo><mover><mrow><msub><mi>z</mi><mn>1</mn></msub><mi>.</mi><msub><mi>z</mi><mn>2</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover></mrow></math>
+
+<p>Another example combining Latex2MathML and Table for rendering lined up equation:</p>
+
+<div class="__VENC_TABLE__"><table><tr><td><math><mrow><mover><mrow><msub><mi>z</mi><mn>1</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover><mi>.</mi><mover><mrow><msub><mi>z</mi><mn>2</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover></mrow></math></td><td>=</td><td><math><mrow><mover><mrow><mo>&#x00028;</mo><mi>a</mi><mo>&#x0002B;</mo><mi>i</mi><mi>b</mi><mo>&#x00029;</mo></mrow><mo stretchy="true">&#x000AF;</mo></mover><mover><mrow><mo>&#x00028;</mo><mi>c</mi><mo>&#x0002B;</mo><mi>i</mi><mi>d</mi><mo>&#x00029;</mo></mrow><mo stretchy="true">&#x000AF;</mo></mover></mrow></math></td></tr><tr><td></td><td>=</td><td><math><mrow><mo>&#x00028;</mo><mi>a</mi><mo>&#x02212;</mo><mi>i</mi><mi>b</mi><mo>&#x00029;</mo><mo>&#x00028;</mo><mi>c</mi><mo>&#x02212;</mo><mi>i</mi><mi>d</mi><mo>&#x00029;</mo></mrow></math></td></tr><tr><td></td><td>=</td><td><math><mrow><mi>a</mi><mi>c</mi><mo>&#x02212;</mo><mi>i</mi><mi>a</mi><mi>d</mi><mo>&#x02212;</mo><mi>i</mi><mi>b</mi><mi>c</mi><mo>&#x02212;</mo><mi>b</mi><mi>d</mi></mrow></math></td></tr><tr><td></td><td>=</td><td><math><mrow><mo>&#x00028;</mo><mi>a</mi><mi>c</mi><mo>&#x02212;</mo><mi>b</mi><mi>d</mi><mo>&#x00029;</mo><mo>&#x02212;</mo><mi>i</mi><mo>&#x00028;</mo><mi>a</mi><mi>d</mi><mo>&#x0002B;</mo><mi>b</mi><mi>c</mi><mo>&#x00029;</mo></mrow></math></td></tr></table></div>
+
+   </content>
+ </entry>
+ <entry>
+   <title>CodeHighlight unit test</title>
+   <link href="../../entry2.html"/>
+   <content type="xhtml">
+   <p>Example of C++ syntax coloration with line number:</p>
+
+<div class="__VENC_PYGMENTIZE_WRAPPER__"><table class="venc_source_CPlusPlustable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15</pre></div></td><td class="code"><div class="venc_source_CPlusPlus"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;:</span><span class="cp"></span>
+
+<span class="k">class</span> <span class="nc">Example</span> <span class="p">{</span>
+	<span class="k">public</span><span class="o">:</span>
+		<span class="k">static</span> <span class="kt">void</span> <span class="n">do_something</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="n">Example</span><span class="o">::</span><span class="n">do_something</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Well, not really&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">Example</span><span class="o">::</span><span class="n">do_something</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+
+<p>Another example of Python syntax coloration without line number:</p>
+
+<div class="__VENC_PYGMENTIZE_WRAPPER__"><div class="venc_source_Python"><pre><span></span><span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">argv</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PatternMissingArguments</span><span class="p">(</span><span class="n">expected</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">got</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">argv</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">something</span><span class="p">)</span> <span class="k">for</span> <span class="n">something</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">])</span>
+        
+    <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;tuple index out of range&#39;</span><span class="p">,):</span>
+            <span class="k">raise</span> <span class="n">PatternInvalidArgument</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                
+        <span class="k">raise</span> <span class="n">e</span>
+</pre></div>
+</div>
+
+   </content>
+ </entry>
+</feed>

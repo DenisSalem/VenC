@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+<channel>
+  <atom:link href="http://127.0.0.1:8888/feed.xml" rel="self" type="application/rss+xml" />
+  <title>Theme Unit Test</title>
+  <link>http://127.0.0.1:8888</link>
+  <description>Test blog output</description>
+  
+  <item>
+    <title>Latex2MathML unit test</title>
+    <link>http://127.0.0.1:8888/../../../entry3.html</link>
+    <guid isPermaLink="true">http://127.0.0.1:8888/../../../entry3.html</guid>
+    <description>
+    	<![CDATA[
+	<p>Example of Latex2MathML usage for rendering complex number expression:</p>
+
+<math><mrow><mover><mrow><msub><mi>z</mi><mn>1</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover><mi>.</mi><mover><mrow><msub><mi>z</mi><mn>2</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover><mo>&#x0003D;</mo><mover><mrow><msub><mi>z</mi><mn>1</mn></msub><mi>.</mi><msub><mi>z</mi><mn>2</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover></mrow></math>
+
+<p>Another example combining Latex2MathML and Table for rendering lined up equation:</p>
+
+<div class="__VENC_TABLE__"><table><tr><td><math><mrow><mover><mrow><msub><mi>z</mi><mn>1</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover><mi>.</mi><mover><mrow><msub><mi>z</mi><mn>2</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover></mrow></math></td><td>=</td><td><math><mrow><mover><mrow><mo>&#x00028;</mo><mi>a</mi><mo>&#x0002B;</mo><mi>i</mi><mi>b</mi><mo>&#x00029;</mo></mrow><mo stretchy="true">&#x000AF;</mo></mover><mover><mrow><mo>&#x00028;</mo><mi>c</mi><mo>&#x0002B;</mo><mi>i</mi><mi>d</mi><mo>&#x00029;</mo></mrow><mo stretchy="true">&#x000AF;</mo></mover></mrow></math></td></tr><tr><td></td><td>=</td><td><math><mrow><mo>&#x00028;</mo><mi>a</mi><mo>&#x02212;</mo><mi>i</mi><mi>b</mi><mo>&#x00029;</mo><mo>&#x00028;</mo><mi>c</mi><mo>&#x02212;</mo><mi>i</mi><mi>d</mi><mo>&#x00029;</mo></mrow></math></td></tr><tr><td></td><td>=</td><td><math><mrow><mi>a</mi><mi>c</mi><mo>&#x02212;</mo><mi>i</mi><mi>a</mi><mi>d</mi><mo>&#x02212;</mo><mi>i</mi><mi>b</mi><mi>c</mi><mo>&#x02212;</mo><mi>b</mi><mi>d</mi></mrow></math></td></tr><tr><td></td><td>=</td><td><math><mrow><mo>&#x00028;</mo><mi>a</mi><mi>c</mi><mo>&#x02212;</mo><mi>b</mi><mi>d</mi><mo>&#x00029;</mo><mo>&#x02212;</mo><mi>i</mi><mo>&#x00028;</mo><mi>a</mi><mi>d</mi><mo>&#x0002B;</mo><mi>b</mi><mi>c</mi><mo>&#x00029;</mo></mrow></math></td></tr></table></div>
+
+	]]>
+    </description>
+  </item>
+</channel>
+</rss>
