@@ -17,6 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+import difflib
 import os
 import sys
 os.chdir("themes/tested")
@@ -51,18 +52,27 @@ def test_theme(args, test_name):
     tested = tree_list_dir('blog', 1)
     refs = tree_list_dir('../refs/'+(theme.capitalize()), 3)
     
-
     extra = []
-    a = extra.append
+    tested_exists = []
+    tested_extra_append = extra.append
+    tested_exists_append = tested_exists.append
     for f in tested:
         if not f in refs:
-            a(f)
+            extra_append(f)
+        else:
+            tested_exists_append(f)
     
     missings = []
-    a = missings.append
+    refs_exists = []
+    missings_append = missings.append
+    refs_exists_append = refs_exists.append
+    
     for f in refs:
         if not f in tested:
-            a(f)
+            missings_append(f)
+            
+        else:
+            refs_exists_append(f)
             
     len_missings = len(missings)
     len_extra = len(extra)
@@ -72,9 +82,30 @@ def test_theme(args, test_name):
 
     for f in extra:
         print(get_formatted_message("\t\tExtra: "+f, color="RED", prompt=""))
+    
+    diff = difflib.Differ()
+    mismatch = False
+    for index in range(0, len(refs_exists)):
+        try:
+            file_ref  = open('../refs/'+(theme.capitalize())+'/'+refs_exists[index], 'r').read().split('\n')
+            file_tested = open('blog/'+tested_exists[index], 'r').read().split('\n')
+        except UnicodeDecodeError:
+            continue
             
-    if len_missings or len_extra:
+        line_index = 0
+        for l in diff.compare(file_ref, file_tested):
+            if l[0] in ['-','+'] and not "Page generated" in l:
+                print(get_formatted_message("\t\tMismatch: "+("refs: \t" if l[0] == '-' else "tested:\t")+refs_exists[index]+": "+str(line_index+1)+": "+l, color="RED", prompt=""))
+                mismatch = True
+
+            elif l[0] == '?':
+                line_index -= 2
+                
+            line_index += 1
+        
+    if len_missings or len_extra or mismatch:
         return False
+        
     else:
         return True
         
