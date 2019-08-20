@@ -195,10 +195,21 @@ class DataStore:
                 return argv[1]
             except:
                 return ''
+    
+    def if_chapters(self, argv):
+        if self.chapters_index != []:
+            return argv[0]
+            
+        else:
+            try:
+                return argv[1]
                 
+            except:
+                return ''
+        
     def root_site_to_jsonld(self):
         self.root_as_jsonld = {
-            "@context": "http://schema.org",
+          q  "@context": "http://schema.org",
             "@type": ["Blog","WebPage"],
             "@id" : self.blog_configuration["blog_url"]+"/root.jsonld",
             "name": self.blog_configuration["blog_name"],
