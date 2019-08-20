@@ -89,6 +89,7 @@ def test_theme(args, test_name):
         try:
             file_ref  = open('../refs/'+(theme.capitalize())+'/'+refs_exists[index], 'r').read().split('\n')
             file_tested = open('blog/'+tested_exists[index], 'r').read().split('\n')
+            
         except UnicodeDecodeError:
             continue
             
