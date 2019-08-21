@@ -3,9 +3,9 @@
     <head>
         <title>Theme Unit Test</title>
         <meta charset="utf-8">
-        <script type="text/javascript" src="../../VenC-Categories-0.0.0.js"></script>
+        <script type="text/javascript" src="../../VenC-Tree-0.0.0.js"></script>
         <script type="text/javascript">
-            window.onload = VENC_CATEGORIES_ON_LOAD
+            window.onload = VENC_TREE_ON_LOAD
         </script>
         <link rel="alternate" type="application/rss+xml" title="Theme Unit Test" href="feed.xml" />
         <link rel="stylesheet" href="../../venc_source_CPlusPlus.css" type="text/css" />
@@ -32,10 +32,18 @@
                     <div></div><span>Categories</span><div></div>
                 </div>
             </div>
-            <div id="blog-categories">
-                <ul class="__VENC_CATEGORY_NODE__"><li><a href="../../Templates/" title="4 publications">Templates</a><ul class="__VENC_CATEGORY_NODE__"><li><a href="../../Templates/Footnotes/" title="1 publications">Footnotes</a></li><li><a href="../../Templates/Patterns/" title="3 publications">Patterns</a><ul class="__VENC_CATEGORY_NODE__"><li><a href="../../Templates/Patterns/CodeHighlight/" title="1 publications">CodeHighlight</a></li><li><a href="../../Templates/Patterns/Escape/" title="1 publications">Escape</a></li><li><a href="../../Templates/Patterns/Latex2MathML/" title="1 publications">Latex2MathML</a></li></ul></li></ul></li></ul>
+            <div id="blog-categories" class="__VENC_TREE_ROOT__">
+                <ul class="__VENC_TREE_NODE__"><li><a href="../../Templates/" title="4 publications">Templates</a><ul class="__VENC_TREE_NODE__"><li><a href="../../Templates/Footnotes/" title="1 publications">Footnotes</a></li><li><a href="../../Templates/Patterns/" title="3 publications">Patterns</a><ul class="__VENC_TREE_NODE__"><li><a href="../../Templates/Patterns/CodeHighlight/" title="1 publications">CodeHighlight</a></li><li><a href="../../Templates/Patterns/Escape/" title="1 publications">Escape</a></li><li><a href="../../Templates/Patterns/Latex2MathML/" title="1 publications">Latex2MathML</a></li></ul></li></ul></li></ul>
             </div>
             
+            <div id="blog-chapters-header">
+                <div id="blog-chapters-header-wrapper">
+                    <div></div><span>Chapters</span><div></div>
+                </div>
+            </div>
+            <div id="blog-chapters" class="__VENC_TREE_ROOT__">
+                <ul class="chapter-level0 __VENC_TREE_NODE__"><li>1. <a href="../../chapters/Footnotes%20unit%20test">Footnotes unit test</a><ul class="chapter-level1 __VENC_TREE_NODE__"><li>1.2. <a href="../../chapters/CodeHighlight%20unit%20test">CodeHighlight unit test</a><ul class="chapter-level2 __VENC_TREE_NODE__"><li>1.2.3. <a href="../../chapters/Latex2MathML%20unit%20test">Latex2MathML unit test</a></li></ul></li></ul></li><li>2. <a href="../../chapters/Escape%20unit%20test">Escape unit test</a></li></ul>
+            </div>
             <div id="blog-navigation-header">
                 <div id="blog-navigation-header-wrapper">
                     <div></div><span>Navigation</span><div></div>
@@ -75,7 +83,7 @@
 <li>Hello lovely user!</li>
 </ul>
 
-<p><span style="color: red;">This is red text!t</span></p>
+<p><span style="color: red;">This is red text!</span></p>
 
 <p>Please note that VenC syntax require you to close Escape pattern with ::EndEscape.</p>
 

@@ -45,7 +45,7 @@ blockquote p
     {width: 20px;
     display: inline-block;}
     
-.__VENC_CATEGORY_BUTTON__
+.__VENC_TREE_BUTTON__
     {margin-right: 1em;
     outline: none;}
 
@@ -160,17 +160,21 @@ footer
 #blog-navigation-header span
     {float: left;}
 
-#blog-categories {
+#blog-categories,
+#blog-chapters
+ {
     font-size: 1.1em;
     margin-top: 1em;
 }
 
-#blog-categories ul
+#blog-categories ul,
+#blog-chapters ul
     {display: block;
     margin:0px;
     padding: 5px;}
 
-#blog-categories ul li
+#blog-categories ul li,
+#blog-chapters ul li
     {display: block;
     padding-left: 5px;
     border-left: 1px solid grey;}

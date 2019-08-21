@@ -45,7 +45,7 @@ blockquote p
     {width: 20px;
     display: inline-block;}
     
-.__VENC_CATEGORY_BUTTON__
+.__VENC_TREE_BUTTON__
     {margin-right: 1em;
     outline: none;}
 
@@ -120,6 +120,7 @@ footer
     width: 100%;}
 
 #blog-categories-header,
+#blog-chapters-header,
 #blog-navigation-header 
     {text-transform: uppercase;
     text-align: center;
@@ -130,6 +131,7 @@ footer
     margin-top: 1em;}
 
 #blog-categories-header-wrapper,
+#blog-chapters-header-wrapper,
 #blog-navigation-header-wrapper
     {width: 750px;
     height: 20px;
@@ -138,37 +140,41 @@ footer
     margin-left: -375px;}
     
 #blog-categories-header-wrapper div,
+#blog-chapters-header-wrapper div,
 #blog-navigation-header-wrapper div
     {width: 315px;
     height: 5px;
     float: left;
     margin-top: 7px;
     border-top: 1px solid grey;
-    border-bottom: 1px solid grey;}
+    border-bottom: 1px solid grey;
+    margin-left:5px;}
 
-#blog-categories-header-wrapper div,
-#blog-navigation-header-wrapper div
- {margin-left:5px;}
- 
 #blog-categories-header-wrapper div:first-child,
+#blog-chapters-header-wrapper div:first-child,
 #blog-navigation-header-wrapper div:first-child
  {margin-right:5px;}
 
 #blog-categories-header span,
+#blog-chapters-header span,
 #blog-navigation-header span
     {float: left;}
 
-#blog-categories {
+#blog-categories,
+#blog-chapters
+ {
     font-size: 1.1em;
     margin-top: 1em;
 }
 
-#blog-categories ul
+#blog-categories ul,
+#blog-chapters ul
     {display: block;
     margin:0px;
     padding: 5px;}
 
-#blog-categories ul li
+#blog-categories ul li,
+#blog-chapters ul li
     {display: block;
     padding-left: 5px;
     border-left: 1px solid grey;}
