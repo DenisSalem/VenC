@@ -187,7 +187,7 @@ class DataStore:
             })
 
     def if_categories(self, argv):
-        if self.entries_per_categories != []:
+        if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:
             return argv[0]
             
         else:
@@ -197,7 +197,7 @@ class DataStore:
                 return ''
     
     def if_chapters(self, argv):
-        if self.chapters_index != []:
+        if self.chapters_index != [] and not self.blog_configuration["disable_chapters"]:
             return argv[0]
             
         else:
@@ -209,7 +209,7 @@ class DataStore:
         
     def root_site_to_jsonld(self):
         self.root_as_jsonld = {
-          q  "@context": "http://schema.org",
+            "@context": "http://schema.org",
             "@type": ["Blog","WebPage"],
             "@id" : self.blog_configuration["blog_url"]+"/root.jsonld",
             "name": self.blog_configuration["blog_name"],
