@@ -21,6 +21,6 @@ __Without Escape/EndEscape__
 - Hello VenC!
 - Hello lovely user!
 
-.:SetColor::This is red text!t::red:.
+.:SetColor::This is red text!::red:.
 
 Please note that VenC syntax require you to close Escape pattern with ::EndEscape.

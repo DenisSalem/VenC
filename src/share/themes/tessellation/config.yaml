@@ -3,6 +3,7 @@ info:
     
 override:
     columns: 3
+    disable_chapters: true
     entries_per_pages: 12
 
 

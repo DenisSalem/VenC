@@ -3,9 +3,9 @@
     <head>
         <title>.:GetBlogName:.</title>
         <meta charset="utf-8">
-        <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Categories-0.0.0.js"></script>
+        <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Tree-0.0.0.js"></script>
         <script type="text/javascript">
-            window.onload = VENC_CATEGORIES_ON_LOAD
+            window.onload = VENC_TREE_ON_LOAD
         </script>
         <link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="feed.xml" />
         .:GetStyleSheets:.
@@ -25,25 +25,25 @@
                 .:GetBlogMetadataIfExists::diaspora:: <a href="{value}" class="social-network-item"><img src=".:GetRelativeOrigin:.diaspora.png" alt="Diaspora*" title="Diaspora*"/></a>:.
                 .:GetBlogMetadataIfExists::mastodon:: <a href="{value}" class="social-network-item"><img src=".:GetRelativeOrigin:.mastodon.png" alt="Mastodon" title="Mastodon"/></a>:.
             </div>
-            <!--.:IfCategories::
+            .:IfCategories::
             <div id="blog-categories-header">
                 <div id="blog-categories-header-wrapper">
                     <div></div><span>Categories</span><div></div>
                 </div>
             </div>
-            <div id="blog-categories">
-                .:TreeForBlogCategories::<ul class="__VENC_CATEGORY_NODE__">::<li><a href="{path}" title="{count} publications">{value}</a>::</li>::</ul>:.
+            <div id="blog-categories" class="__VENC_TREE_ROOT__">
+                .:TreeForBlogCategories::<ul class="__VENC_TREE_NODE__">::<li><a href="{path}" title="{count} publications">{value}</a>::</li>::</ul>:.
             </div>
             :.
-            -->
+            
             .:IfChapters::
             <div id="blog-chapters-header">
                 <div id="blog-chapters-header-wrapper">
                     <div></div><span>Chapters</span><div></div>
                 </div>
             </div>
-            <div id="blog-chapters">
-                .:Chapters::<ul class="chapter-level{level}">::<li>{index}. <a href="{path}">{title}</a>::</li>::</ul>:.
+            <div id="blog-chapters" class="__VENC_TREE_ROOT__">
+                .:Chapters::<ul class="chapter-level{level} __VENC_TREE_NODE__">::<li>{index}. <a href="{path}">{title}</a>::</li>::</ul>:.
             </div>            
             :.
             .:IfPages::
