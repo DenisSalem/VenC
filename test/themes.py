@@ -40,15 +40,15 @@ def tree_list_dir(root_path, clear):
 
 def test_theme(args, test_name):
     refs, theme = args
-    
     null = open('/dev/null', 'w')
     stdout = sys.stdout
+
     sys.stdout = null
     
     export_blog([theme])
     
     sys.stdout = stdout
-    
+
     tested = tree_list_dir('blog', 1)
     refs = tree_list_dir('../refs/'+(theme.capitalize()), 3)
     
@@ -58,10 +58,10 @@ def test_theme(args, test_name):
     tested_exists_append = tested_exists.append
     for f in tested:
         if not f in refs:
-            extra_append(f)
+            tested_extra_append(f)
         else:
             tested_exists_append(f)
-    
+
     missings = []
     refs_exists = []
     missings_append = missings.append
@@ -95,7 +95,7 @@ def test_theme(args, test_name):
             
         line_index = 0
         for l in diff.compare(file_ref, file_tested):
-            if l[0] in ['-','+'] and not "Page generated" in l:
+            if (l[0] in ['-','+']) and (not "Page generated" in l):
                 print(get_formatted_message("\t\tMismatch: "+("refs: \t" if l[0] == '-' else "tested:\t")+refs_exists[index]+": "+str(line_index+1)+": "+l, color="RED", prompt=""))
                 mismatch = True
 
@@ -103,7 +103,7 @@ def test_theme(args, test_name):
                 line_index -= 2
                 
             line_index += 1
-        
+    
     if len_missings or len_extra or mismatch:
         return False
         
