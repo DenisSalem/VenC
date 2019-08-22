@@ -19,7 +19,7 @@
 
 from venc2.patterns.contextual import get_random_number
 from venc2.patterns.latex2mathml import Latex2MathML
-from venc2.patterns.non_contextual import get_venc_version, include_file, set_color, set_style, table
+from venc2.patterns.non_contextual import get_venc_version, include_file, set_color, set_style, table, disable_markup
 
 class PatternsMap():
     def __init__(self, datastore, code_highlight, theme):
@@ -74,6 +74,7 @@ class PatternsMap():
                 "IncludeFile" :             include_file,
                 "SetColor" :                set_color,
                 "SetStyle" :                set_style,
+                "DisableMarkup":            disable_markup,
                 "Video" :                   theme.get_video,
                 "Audio" :                   theme.get_audio,
                 "Table" :                   table
@@ -114,5 +115,6 @@ class PatternsMap():
             "Audio",
             "Video",
             "GetEmbedContent",
-            "Table"
+            "Table",
+            "DisableMarkup"
         ]
