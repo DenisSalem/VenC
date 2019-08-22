@@ -1,0 +1,18 @@
+authors: 'Denis Salem'
+categories: 'Layout Tricks'
+tags: ''
+title: Display title in entry test
+display_title_in_entry: ''
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+With Tessellation you can tell VenC if it must display entry title or not.
+
+By default, entry title are disabled.
+
+On the user side, to display the entry title in the entry, one have to set up the above metadata "__.:DisableMarkup::display_title_in_entry:.__".
+
+By looking the source of the Tessellation theme, in _entry.html_ you'll see that we are calling the following patterns to achieve the trick.
+
+.:Escape::
+<pre>.:GetEntryMetadataIfExists::display_title_in_entry::&lt;h1&gt;Display title in entry test&lt;/h1&gt;:.</pre>
+::EndEscape:.

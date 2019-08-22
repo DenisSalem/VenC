@@ -23,6 +23,9 @@ hr
   background-color: grey;
   height: 1px;}
 
+strong
+    {font-weight: bold;}
+    
 pre {overflow: hidden; overflow-x: auto;}
 
 .__VENC_PYGMENTIZE_WRAPPER__ {clear: both; width: 100%;}
