@@ -9,26 +9,69 @@
    <email>venc@tuxfamily.org</email>
  </author>
  <entry>
+   <title>Display title in entry test</title>
+   <link href="entry6.html"/>
+   <content type="xhtml">
+   <p>With Tessellation you can tell VenC if it must display entry title or not.</p>
+
+<p>By default, entry title are disabled.</p>
+
+<p>On the user side, to display the entry title in the entry, one have to set up the above metadata "<strong>display_title_in_entry</strong>".</p>
+
+<p>By looking the source of the Tessellation theme, in <em>entry.html</em> you'll see that we are calling the following patterns to achieve the trick.</p>
+
+<p></p>
+
+<pre>.:GetEntryMetadataIfExists::display_title_in_entry::&lt;h1&gt;Display title in entry test&lt;/h1&gt;:.</pre>
+
+<p></p>
+
+   </content>
+ </entry>
+ <entry>
+   <title>Display title in thread test</title>
+   <link href="entry5.html"/>
+   <content type="xhtml">
+   <p>With Tessellation you can tell VenC if it must display entry title or not.</p>
+
+<p>By default, entry title are disabled.</p>
+
+<p>On the user side, to display the entry title in blog thread, one have to set up the above metadata "<strong>display_title_in_threads</strong>".</p>
+
+<p>By looking the source of the Tessellation theme, in <em>entry.html</em> you'll see that we are calling the following patterns to achieve the trick.</p>
+
+<p></p>
+
+<pre>.:GetEntryMetadataIfExists::display_title_in_threads::&lt;h1&gt;.:GetEntryTitle:.&lt;/h1&gt;:.</pre>
+
+<p></p>
+
+   </content>
+ </entry>
+ <entry>
    <title>Escape unit test</title>
    <link href="entry4.html"/>
    <content type="xhtml">
-   <p><em>As shown below Escape will disable parsing of both VenC patterns and markup language between the Escape/EndEscape pair.</em></p>
+   <p><em>As shown below Escape will disable parsing of VenC patterns between Escape/EndEscape pair.
+In the other hand, the behavior of DisableMarkup is pretty straightforward.</em></p>
 
-<p><strong>With Escape/EndEscape</strong></p>
+<p><strong>With Escape/EndEscape and DisableMarkup</strong></p>
 
-<p>
 - Hello VenC!
 - Hello lovely user!
-</p>
+
+_Italic text for fun and non profit!_
 
 <p> .:SetColor::This is red text!t::red:. </p>
 
-<p><strong>Without Escape/EndEscape</strong></p>
+<p><strong>Without Escape/EndEscape and DisableMarkup</strong></p>
 
 <ul>
 <li>Hello VenC!</li>
 <li>Hello lovely user!</li>
 </ul>
+
+<p><em>Italic text for fun and non profit!</em></p>
 
 <p><span style="color: red;">This is red text!</span></p>
 
@@ -103,26 +146,6 @@
         <span class="k">raise</span> <span class="n">e</span>
 </pre></div>
 </div>
-
-   </content>
- </entry>
- <entry>
-   <title>Footnotes unit test</title>
-   <link href="entry1.html"/>
-   <content type="xhtml">
-   <p>This template is designed to work with defaults themes</p>
-
-<p>The following<a href="#footnote_1">¹</a> will display aside if used with Academik theme. Otherwise,
-it will be display below the current paragraphe.</p>
-
-<span id="footnote_1" class="footnote">A first footnote for the sake of the demonstration</span>
-
-<p>You can go directly to <a href="#footnote_2">this</a> second footnote by clicking the link.
-Do not forget to add a line break so the parser will know that the footnote
-is not part of this paragraphe</p>
-
-<span id="footnote_2" class="footnote">² The first argument is the css id name,
-the second is the css class name</span>
 
    </content>
  </entry>

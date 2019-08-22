@@ -1,0 +1,18 @@
+authors: ''
+categories: ''
+tags: ''
+title:
+display_title_in_threads: ''
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+With Tessellation you can tell VenC if it must display entry title or not.
+
+By default, entry title are disabled.
+
+On the user side, to display the entry title in blog thread, one have to set up the above metadata "__.:DisableMarkup::display_title_in_threads:.__".
+
+By looking the source of the Tessellation theme, in _entry.html_ you'll see that we are calling the following patterns to achieve the trick.
+
+.:Escape::
+<pre>.:GetEntryMetadataIfExists::display_title_in_threads::&lt;h1&gt;.:GetEntryTitle:.&lt;/h1&gt;:.</pre>
+::EndEscape:.
