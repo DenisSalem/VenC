@@ -116,5 +116,5 @@ class PatternsMap():
             "Video",
             "GetEmbedContent",
             "Table",
-            "DisableMarkup"
+            "DisableMarkup",
         ]

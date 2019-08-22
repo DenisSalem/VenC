@@ -23,14 +23,15 @@ hr
   background-color: grey;
   height: 1px;}
 
+pre {overflow: hidden; overflow-x: auto;}
+
 .__VENC_PYGMENTIZE_WRAPPER__ {clear: both; width: 100%;}
-.__VENC_PYGMENTIZE_WRAPPER__ pre {overflow: hidden; overflow-x: auto;}
 .__VENC_PYGMENTIZE_WRAPPER__ table {width: 100%; display: block; clear: both;}
 .__VENC_PYGMENTIZE_WRAPPER__ table tr {width: 100%; display: block;}
 .__VENC_PYGMENTIZE_WRAPPER__ table tbody {width: 100%; display: block;}
 .__VENC_PYGMENTIZE_WRAPPER__ table .linenos {width: 4%; display: inline-block;vertical-align: top;}
 .__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 94%; display: inline-block;vertical-align: top;}
-.__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; overflow: hidden; overflow-x: auto; margin: 0px;}
+.__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; margin: 0px;}
 
 .__VENC_TABLE__
     {width: 100%;
@@ -81,10 +82,9 @@ header li a
 math
     {display:block;}
 
-#__VENC_THREAD__
-  {max-width: 800px;
-  text-align: center;
-  margin: auto;}
+/*************/
+/* E N T R Y */
+/*************/
 
 .entry
   {font-size: 0.7em;
@@ -92,6 +92,9 @@ math
   transition: 1s ease all;
   overflow: hidden;}
 
+.entry h1
+    {text-align: center;}
+    
 .entry img
   {max-width: 100%;
   display: inline-block;
@@ -104,6 +107,10 @@ math
   margin-bottom: 1em;
   text-align: center;
   font-size: 1em;}
+
+/***************/
+/* F O O T E R */
+/***************/
 
 footer
   {padding: 1em;
@@ -122,6 +129,15 @@ footer a
 
 footer #pagesList li, #previous, #next
   {display: inline-block;}
+
+/***************/
+/* L A Y O U T */
+/***************/
+
+#__VENC_THREAD__
+  {max-width: 800px;
+  text-align: center;
+  margin: auto;}
 
 @media (max-width: 480px) {
   header li

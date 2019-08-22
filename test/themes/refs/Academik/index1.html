@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div id="blog-categories" class="__VENC_TREE_ROOT__">
-                <ul class="__VENC_TREE_NODE__"><li><a href="Templates/" title="4 publications">Templates</a><ul class="__VENC_TREE_NODE__"><li><a href="Templates/Footnotes/" title="1 publications">Footnotes</a></li><li><a href="Templates/Patterns/" title="3 publications">Patterns</a><ul class="__VENC_TREE_NODE__"><li><a href="Templates/Patterns/CodeHighlight/" title="1 publications">CodeHighlight</a></li><li><a href="Templates/Patterns/Escape/" title="1 publications">Escape</a></li><li><a href="Templates/Patterns/Latex2MathML/" title="1 publications">Latex2MathML</a></li></ul></li></ul></li></ul>
+                <ul class="__VENC_TREE_NODE__"><li><a href="Layout-Tricks/" title="1 publications">Layout Tricks</a></li><li><a href="Templates/" title="5 publications">Templates</a><ul class="__VENC_TREE_NODE__"><li><a href="Templates/Footnotes/" title="1 publications">Footnotes</a></li><li><a href="Templates/Layout-Tricks/" title="1 publications">Layout Tricks</a></li><li><a href="Templates/Patterns/" title="3 publications">Patterns</a><ul class="__VENC_TREE_NODE__"><li><a href="Templates/Patterns/CodeHighlight/" title="1 publications">CodeHighlight</a></li><li><a href="Templates/Patterns/Escape/" title="1 publications">Escape</a></li><li><a href="Templates/Patterns/Latex2MathML/" title="1 publications">Latex2MathML</a></li></ul></li></ul></li></ul>
             </div>
             
             <div id="blog-chapters-header">
@@ -51,7 +51,7 @@
             </div>
             <div id="blog-navigation" class="navigation">
                 <a class="navigation-previous" href="index.html">⇽</a>·
-                <ul class="navigation-pages-list"><li><a href="index.html">0</a></li>·<li><a href="index1.html">1</a></li>·<li><a href="index2.html">2</a></li>·<li><a href="index3.html">3</a></li></ul>
+                <ul class="navigation-pages-list"><li><a href="index.html">0</a></li>·<li><a href="index1.html">1</a></li>·<li><a href="index2.html">2</a></li>·<li><a href="index3.html">3</a></li>·<li><a href="index4.html">4</a></li>·<li><a href="index5.html">5</a></li></ul>
                 ·<a class="navigation-next" href="index2.html">⇾</a>
             </div>
         </aside>
@@ -59,25 +59,31 @@
             <header>
                 <h1><a href="http://127.0.0.1:8888"><img src="" alt="Theme Unit Test"></a></h1>
             </header>
-<div id="__VENC_COLUMN_0__" class="__VENC_COLUMN__">                <div id="entry3" class="entry">
+<div id="__VENC_COLUMN_0__" class="__VENC_COLUMN__">                <div id="entry5" class="entry">
                     <div class="entry_header">
-                    <h2><a href="entry3.html">Latex2MathML unit test</a></h2>
-                    <span class="entry-date">Tuesday 13. August 2019</span>
+                    <h2><a href="entry5.html">Display title in thread test</a></h2>
+                    <span class="entry-date">Thursday 22. August 2019</span>
                     </div>
                     <div class="entry_content">
-                        <p>Example of Latex2MathML usage for rendering complex number expression:</p>
+                        <p>With Tessellation you can tell VenC if it must display entry title or not.</p>
 
-<math><mrow><mover><mrow><msub><mi>z</mi><mn>1</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover><mi>.</mi><mover><mrow><msub><mi>z</mi><mn>2</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover><mo>&#x0003D;</mo><mover><mrow><msub><mi>z</mi><mn>1</mn></msub><mi>.</mi><msub><mi>z</mi><mn>2</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover></mrow></math>
+<p>By default, entry title are disabled.</p>
 
-<p>Another example combining Latex2MathML and Table for rendering lined up equation:</p>
+<p>On the user side, to display the entry title in blog thread, one have to set up the above metadata "<strong>display_title_in_threads</strong>".</p>
 
-<div class="__VENC_TABLE__"><table><tr><td><math><mrow><mover><mrow><msub><mi>z</mi><mn>1</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover><mi>.</mi><mover><mrow><msub><mi>z</mi><mn>2</mn></msub></mrow><mo stretchy="true">&#x000AF;</mo></mover></mrow></math></td><td>=</td><td><math><mrow><mover><mrow><mo>&#x00028;</mo><mi>a</mi><mo>&#x0002B;</mo><mi>i</mi><mi>b</mi><mo>&#x00029;</mo></mrow><mo stretchy="true">&#x000AF;</mo></mover><mover><mrow><mo>&#x00028;</mo><mi>c</mi><mo>&#x0002B;</mo><mi>i</mi><mi>d</mi><mo>&#x00029;</mo></mrow><mo stretchy="true">&#x000AF;</mo></mover></mrow></math></td></tr><tr><td></td><td>=</td><td><math><mrow><mo>&#x00028;</mo><mi>a</mi><mo>&#x02212;</mo><mi>i</mi><mi>b</mi><mo>&#x00029;</mo><mo>&#x00028;</mo><mi>c</mi><mo>&#x02212;</mo><mi>i</mi><mi>d</mi><mo>&#x00029;</mo></mrow></math></td></tr><tr><td></td><td>=</td><td><math><mrow><mi>a</mi><mi>c</mi><mo>&#x02212;</mo><mi>i</mi><mi>a</mi><mi>d</mi><mo>&#x02212;</mo><mi>i</mi><mi>b</mi><mi>c</mi><mo>&#x02212;</mo><mi>b</mi><mi>d</mi></mrow></math></td></tr><tr><td></td><td>=</td><td><math><mrow><mo>&#x00028;</mo><mi>a</mi><mi>c</mi><mo>&#x02212;</mo><mi>b</mi><mi>d</mi><mo>&#x00029;</mo><mo>&#x02212;</mo><mi>i</mi><mo>&#x00028;</mo><mi>a</mi><mi>d</mi><mo>&#x0002B;</mo><mi>b</mi><mi>c</mi><mo>&#x00029;</mo></mrow></math></td></tr></table></div>
+<p>By looking the source of the Tessellation theme, in <em>entry.html</em> you'll see that we are calling the following patterns to achieve the trick.</p>
+
+<p></p>
+
+<pre>.:GetEntryMetadataIfExists::display_title_in_threads::&lt;h1&gt;.:GetEntryTitle:.&lt;/h1&gt;:.</pre>
+
+<p></p>
 
                     </div>
                 </div>
 </div>            <footer class="navigation">
                 <a class="navigation-previous" href="index.html">⇽</a>·
-                <ul class="navigation-pages-list"><li><a href="index.html">0</a></li>·<li><a href="index1.html">1</a></li>·<li><a href="index2.html">2</a></li>·<li><a href="index3.html">3</a></li></ul>
+                <ul class="navigation-pages-list"><li><a href="index.html">0</a></li>·<li><a href="index1.html">1</a></li>·<li><a href="index2.html">2</a></li>·<li><a href="index3.html">3</a></li>·<li><a href="index4.html">4</a></li>·<li><a href="index5.html">5</a></li></ul>
                 ·<a class="navigation-next" href="index2.html">⇾</a>
             </footer>
         </div>
