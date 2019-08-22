@@ -35,6 +35,9 @@ class MissingKeyDict(dict):
     def __missing__(self, key): 
         return key.join("{}")
 
+def disable_markup(argv):
+    return ''.join(argv)
+    
 def try_oembed(providers, url):
     try:
         key = [ key for key in providers["oembed"].keys() if url.netloc in key][0]

@@ -1,4 +1,9 @@
 <div class="entry .:GetEntryMetadataIfExists::style:." id="entry.:GetEntryID:." data-venc-tags=".:ForEntryTags::{value}::,:.">
   <a class="permalink" href=".:GetEntryURL:.">#.:GetEntryID:.</a>
+  .:IfInThread::
+    .:GetEntryMetadataIfExists::display_title_in_threads::<h1>.:GetEntryTitle:.</h1>:.
+  ::
+    .:GetEntryMetadataIfExists::display_title_in_entry::<h1>.:GetEntryTitle:.</h1>:.
+  :.
   .:GetEntryContent:.
 </div>
