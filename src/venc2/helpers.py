@@ -29,7 +29,6 @@ from venc2.l10n import messages
 from venc2.prompt import die
 from venc2.prompt import notify
 
-
 class GenericMessage(Exception):
     def __init__(self, message):
         self.message = message

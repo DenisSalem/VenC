@@ -42,6 +42,7 @@ class PatternsMap():
                 # Extra metadata getter
                 "LeavesForEntryCategories" :    datastore.leaves_for_entry_categories,
                 "TreeForEntryCategories" :      datastore.tree_for_entry_categories,
+                "ForEntryMetadata" :            datastore.for_entry_metadata,
                 "GetEntryMetadata" :            datastore.get_entry_metadata,
                 "GetEntryMetadataIfExists" :    datastore.get_entry_metadata_if_exists
             },

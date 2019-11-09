@@ -172,6 +172,7 @@ class Entry:
         self.html_tags = {}
         self.html_authors = {}
         self.html_categories_leaves = {}
+        self.html_for_metadata = {}
         if jsonld_callback != None:
             jsonld_callback(self)
 
