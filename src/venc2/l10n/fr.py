@@ -109,3 +109,5 @@ class Messages:
     nothing_to_serv = "Rien à faire. Essayez venc -xb d'abord."
     theme_has_no_description = "Ce thème n'a pas de description."
     undefined_variable = "{0} n'est  pas défini dans \"{1}\"."
+    too_much_call_of_content = "Il y a trop d'appels de .:GetEntryContent:. et/ou de .:GetEntryPreview:. dans {0}"
+    entry_has_no_metadata_like = "La publication ne possède pas la métadonnée identifié par {0}."

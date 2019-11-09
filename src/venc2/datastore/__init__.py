@@ -30,6 +30,7 @@ from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 from venc2.datastore.metadata import Chapter
+from venc2.helpers import GenericMessage
 from venc2.prompt import notify
 from venc2.l10n import messages
 from venc2.patterns.exceptions import MalformedPatterns
@@ -680,12 +681,32 @@ class DataStore:
 
         return self.entries[self.requested_entry_index].html_tags[key]
     
-    def for_entry_authors(self, argv):
+    def for_entry_metadata(self, argv):
+        if len(argv) != 2:
+            raise PatternMissingArguments(expected=2,got=len(argv))
+            
+        entry = self.entries[self.requested_entry_index]
         key = ''.join(argv)
-        if not key in self.entries[self.requested_entry_index].html_authors.keys():
-            self.entries[self.requested_entry_index].html_authors[key] = merge(self.entries[self.requested_entry_index].authors, argv)
+        try:
+            l = getattr(entry, argv[0]).split(',')
+            
+        except:
+            raise GenericMessage(messages.entry_has_no_metadata_like.format(argv[0]))
+            
+        if not key in entry.html_for_metadata:
+            entry.html_for_metadata[key] = ''.join([
+                 argv[1].format(**{"item": item.strip()}) for item in l
+            ])
+            
+        return entry.html_for_metadata[key]
+            
+    def for_entry_authors(self, argv):
+        entry = self.entries[self.requested_entry_index]
+        key = ''.join(argv)
+        if not key in entry.html_authors.keys():
+            entry.html_authors[key] = merge(entry.authors, argv)
 
-        return self.entries[self.requested_entry_index].html_authors[key]
+        return entry.html_authors[key]
 
     """ TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing. """
     def leaves_for_entry_categories(self, argv):

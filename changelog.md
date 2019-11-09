@@ -160,7 +160,10 @@ cd # version 1.0.0 Last minute edition :p
     DONE | Semantic-web features.
     DONE | Theme must have it's own yaml configuration.
     DONE | Fix pattern processing within included file.
+    DONE | Add ForEntryMetadata
     WIP  | Reorganize themes dependencies in setup.
+    TODO | Include threads preview in entry
+    TODO | Add command for reorder entries by criteria
     TODO | Fix Tessellation CSS
     TODO | Add IfChapters and use it in academik to hide/show chapters navigation.
     WIP  | Add relevant templates for themes.
@@ -206,7 +209,7 @@ cd # version 1.0.0 Last minute edition :p
     TODO | Add draft support.
     TODO | Add CPU threads support.
     TODO | Regenerate any missing folders.
-	TODO | Override server port with extra arg.
+    TODO | Override server port with extra arg.
 	
 # version 3.x.x
     TODO | Replace categories with taxonomy support.

@@ -111,5 +111,6 @@ class Messages:
     nothing_to_serv = "Nothing to do. Try venc -xb before."
     theme_has_no_description = "This theme has no description."
     undefined_variable = "{0} is undefined in {1}."
-
+    too_much_call_of_content = "There is too much call of .:GetEntryContent:. and/or .:GetEntryPreview in {0}"
+    entry_has_no_metadata_like = "Entry has no metadata identified by {0}."
 
