@@ -103,6 +103,9 @@ def set_style(argv):
 def include_file(argv):
     try:
         filename = argv[0]
+        if argv[0] == '':
+            raise GenericMessage(messages.wrong_pattern_argument.format("path", argv[0], "include_file"))
+            
         include_string = open("includes/"+filename, 'r').read()
             
     except IndexError:

@@ -7,13 +7,16 @@ body, html
   font-family: sans;
   font-weight: lighter;
   background-color: white;}
-  
+
+p
+    {padding: 0px;}
+    
 a
   {outline: none;
   text-decoration: none;
   color: black;
   transition: 0.5s ease all;
-  opacity: 0.5;}
+  opacity: 0.9;}
 
 a:hover
   {opacity:1.0;}
@@ -102,14 +105,28 @@ math
   {max-width: 100%;
   display: inline-block;
   margin: auto;}
+    
+.entry p:last-of-type
+    {margin-bottom: 0px;}
+
+.entry p:first-of-type
+    {margin-top: 0px;}
 
 .permalink
   {display: block;
   width: 100%;
-  margin-top: 1em;
-  margin-bottom: 1em;
+  height: 0px;
+  opacity: 0;
+  margin-bottom: 5px;
   text-align: center;
-  font-size: 1em;}
+  font-size: 1em;
+  background-color: white;
+  overflow-y: hidden;
+  transition: 0.5s ease all;}
+  
+.entry:hover .permalink
+    {height: 1em;
+    opacity: 1;}
 
 /***************/
 /* F O O T E R */
@@ -118,6 +135,9 @@ math
 footer
   {padding: 1em;
   font-size: 1.25em;
+  margin: auto;
+  margin-bottom: 1em;
+  max-width: 800px;
   text-align: center;}
  
 footer #pagesList
@@ -132,6 +152,12 @@ footer a
 
 footer #pagesList li, #previous, #next
   {display: inline-block;}
+
+#previous
+    {float: left;}
+    
+#next
+    {float: right;}
 
 /***************/
 /* L A Y O U T */

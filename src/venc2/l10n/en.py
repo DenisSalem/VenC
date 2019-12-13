@@ -113,4 +113,5 @@ class Messages:
     undefined_variable = "{0} is undefined in {1}."
     too_much_call_of_content = "There is too much call of .:GetEntryContent:. and/or .:GetEntryPreview in {0}"
     entry_has_no_metadata_like = "Entry has no metadata identified by {0}."
+    invalid_range = "Invalid range {0}:{1}."
 

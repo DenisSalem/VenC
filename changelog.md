@@ -161,6 +161,9 @@ cd # version 1.0.0 Last minute edition :p
     DONE | Theme must have it's own yaml configuration.
     DONE | Fix pattern processing within included file.
     DONE | Add ForEntryMetadata
+    DONE | Add ForEntryRange
+    TODO | Use built in list in yaml instead to turn str to list.
+
     WIP  | Reorganize themes dependencies in setup.
     TODO | Include threads preview in entry
     TODO | Add command for reorder entries by criteria
@@ -172,6 +175,7 @@ cd # version 1.0.0 Last minute edition :p
     TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.1.x
+    TODO | Warn about metadata that should be list but are str.
     TODO | Add folder for blog_configuration, with multiple configuration file (for splitting the actual one).
     TODO | Automatically merge all known entry authors into blog authors.
     TODO | Force preview / full content in thread, for single entry.
