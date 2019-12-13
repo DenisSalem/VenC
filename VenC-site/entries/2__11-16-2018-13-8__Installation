@@ -22,5 +22,11 @@ Pour désinstaller VenC, c'est triste, mais rien de plus simple.
 
 Et voilà!
 
-.:GetRelativeOrigin:.
+Petite précision. Les dépendances de VenC ne sont pas désinstallées automatiquement:
 
+- [docutils](http://docutils.sourceforge.net/)
+- [latex2mathml](https://github.com/roniemartinez/latex2mathml)
+- [markdown2](https://github.com/trentm/python-markdown2)
+- [pyyaml](https://github.com/yaml/pyyaml)
+- [Pygments](https://pygments.org/)
+- [requests](https://2.python-requests.org/en/master/)

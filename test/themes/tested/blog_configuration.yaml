@@ -30,8 +30,8 @@ path:
   category_directory_name: '{category}'
   chapter_directory_name: '{chapter_name}'
   chapters_sub_folders: chapters
-  dates_directory_name: '%Y-%m'
-  dates_sub_folders: ''
+  archives_directory_name: '%Y-%m'
+  archives_sub_folders: ''
   entries_sub_folders: ''
   entry_file_name: entry{entry_id}.html
   ftp: Chemin absolu de votre blog sur l'hôte FTP.

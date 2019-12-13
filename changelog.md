@@ -162,19 +162,19 @@ cd # version 1.0.0 Last minute edition :p
     DONE | Fix pattern processing within included file.
     DONE | Add ForEntryMetadata
     DONE | Add ForEntryRange
+    DONE | Add IfChapters and use it in academik to hide/show chapters navigation.
+    DONE | Fix and clean Tessellation theme.
     TODO | Use built in list in yaml instead to turn str to list.
-
     WIP  | Reorganize themes dependencies in setup.
     TODO | Include threads preview in entry
     TODO | Add command for reorder entries by criteria
-    TODO | Fix Tessellation CSS
-    TODO | Add IfChapters and use it in academik to hide/show chapters navigation.
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
     TODO | Add definition in documentation for optional fields in blog configuration.
     TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.1.x
+    TODO | Add --insert-chapter command.
     TODO | Warn about metadata that should be list but are str.
     TODO | Add folder for blog_configuration, with multiple configuration file (for splitting the actual one).
     TODO | Automatically merge all known entry authors into blog authors.

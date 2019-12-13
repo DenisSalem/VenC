@@ -28,7 +28,7 @@ path:
   chapters_sub_folders: ""
 reverse_thread_order: false
 feed_lenght: 5
-text_editor: gvim
+text_editor: geany
 disable_rss_feed: true
 disable_atom_feed: true
 disable_main_thread: true

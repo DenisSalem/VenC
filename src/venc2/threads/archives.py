@@ -28,7 +28,7 @@ class ArchivesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns_map):
         super().__init__(prompt, datastore, theme, patterns_map)
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
-        self.sub_folders = self.datastore.blog_configuration["path"]["dates_sub_folders"]
+        self.sub_folders = self.datastore.blog_configuration["path"]["archives_sub_folders"]
         if len(self.sub_folders) and self.sub_folders[-1] != '/':
             self.sub_folders += '/'
             
@@ -39,7 +39,7 @@ class ArchivesThread(Thread):
         return argv[0].strip()
 
     def setup_archive_context(self, i, len_archives):
-        archive = self.datastore.entries_per_dates[i]
+        archive = self.datastore.entries_per_archives[i]
         if archive.value in self.disable_threads:
             return None
 
@@ -58,7 +58,7 @@ class ArchivesThread(Thread):
         return archive
         
     def do(self):
-        len_archives = len(self.datastore.entries_per_dates)
+        len_archives = len(self.datastore.entries_per_archives)
         for i in range(0, len_archives):
             archive = self.setup_archive_context(i, len_archives)
             if archive == None:

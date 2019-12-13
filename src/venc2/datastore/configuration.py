@@ -72,14 +72,14 @@ def get_blog_configuration():
             "index_file_name",
             "category_directory_name",
             "chapter_directory_name",
-            "dates_directory_name",
+            "archives_directory_name",
             "entry_file_name",
             "rss_file_name",
             "atom_file_name",
             "ftp",
             "entries_sub_folders",
             "categories_sub_folders",
-            "dates_sub_folders",
+            "archives_sub_folders",
             "chapters_sub_folders",
         ]
 

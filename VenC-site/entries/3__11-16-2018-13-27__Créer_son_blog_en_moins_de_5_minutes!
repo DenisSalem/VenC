@@ -1,4 +1,4 @@
-authors: ''
+authors: 'Denis Salem'
 categories: ''
 chapter: 3.1
 tags: ''
@@ -29,7 +29,7 @@ blog_description: 'Les tribulations du roy de France Jean Rochefort en direct du
 blog_keywords: 'cinema,moustache,punchline,boloss'
 blog_language: 'fr'
 blog_name: 'Le blog de Jean Rochefort, élu roy de France par les internets.'
-license: 'License royale':.
+license: 'Licence royale':.
 
 Pour plus d'informations sur la configuration du blog, rendez-vous [ici](https://framagit.org/denissalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal)
 

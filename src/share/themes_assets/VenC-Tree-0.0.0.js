@@ -20,7 +20,7 @@
 var VENC_TREE = {
     button_show: '+',
     button_hide: '-',
-    button_disabled: '◦'
+    button_disabled: '○'
 }
 
 function VENC_TREE_ON_CLICK() {
