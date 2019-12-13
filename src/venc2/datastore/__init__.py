@@ -61,7 +61,7 @@ class DataStore:
         self.path_encoding = self.blog_configuration["path_encoding"]
         self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
         self.entries = list()
-        self.entries_per_dates = list()
+        self.entries_per_archives = list()
         self.entries_per_categories = list()
         self.requested_entry_index = 0
         self.max_category_weight = 1
@@ -69,7 +69,7 @@ class DataStore:
         self.embed_providers = {}
         self.html_categories_tree = {}
         self.html_categories_leaves = {}
-        self.html_blog_dates = {}
+        self.html_blog_archives = {}
         self.generation_timestamp = datetime.datetime.now()
         self.raw_chapters = {}
         self.chapters_index = []
@@ -96,7 +96,7 @@ class DataStore:
                     filename,
                     self.blog_configuration["path"],
                     jsonld_callback,
-                    self.blog_configuration["path"]["dates_directory_name"],
+                    self.blog_configuration["path"]["archives_directory_name"],
                     self.path_encoding
                 ))
 
@@ -113,15 +113,15 @@ class DataStore:
                 current_entry.previous_entry = self.entries[entry_index-1]
 
             # Update entriesPerDates
-            if self.blog_configuration["path"]["dates_directory_name"] != '':
+            if self.blog_configuration["path"]["archives_directory_name"] != '':
                 formatted_date = current_entry.formatted_date
                 entries_index = self.get_entries_index_for_given_date(formatted_date)
                 if entries_index != None:
-                    self.entries_per_dates[entries_index].count +=1
-                    self.entries_per_dates[entries_index].related_to.append(entry_index)
+                    self.entries_per_archives[entries_index].count +=1
+                    self.entries_per_archives[entries_index].related_to.append(entry_index)
 
                 else:
-                    self.entries_per_dates.append(MetadataNode(formatted_date, entry_index))
+                    self.entries_per_archives.append(MetadataNode(formatted_date, entry_index))
 
             # Update entriesPerCategories
             try:
@@ -168,19 +168,19 @@ class DataStore:
 
 
         # Setup BlogArchives Data
-        self.blog_dates = list()
+        self.blog_archives = list()
         """ Should use encoding for path value as well """
-        for node in self.entries_per_dates:
+        for node in self.entries_per_archives:
             try:
-                sub_folders = urllib_parse_quote(self.blog_configuration["path"]["dates_sub_folders"]+'/', encoding=self.path_encoding)
+                sub_folders = urllib_parse_quote(self.blog_configuration["path"]["archives_sub_folders"]+'/', encoding=self.path_encoding)
 
             except UnicodeEncodeError as e:
-                sub_folders = self.blog_configuration["path"]["dates_sub_folders"]+'/'
+                sub_folders = self.blog_configuration["path"]["archives_sub_folders"]+'/'
                 notify("\"{0}\": ".format(sub_folders)+str(e), color="YELLOW")
 
             sub_folders = sub_folders if sub_folders != '/' else ''
 
-            self.blog_dates.append({
+            self.blog_archives.append({
                 "value":node.value,
                 "path": ".:GetRelativeOrigin:."+sub_folders+node.value,
                 "count": node.count,
@@ -458,7 +458,7 @@ class DataStore:
 
     def sort(self, entry):
         try:
-            return getattr(entry, self.sort_by)
+            return str(getattr(entry, self.sort_by))
 
         except AttributeError:
             return ''
@@ -507,19 +507,19 @@ class DataStore:
 
     def get_entries_index_for_given_date(self, value):
         index = 0
-        for metadata in self.entries_per_dates:
+        for metadata in self.entries_per_archives:
             if value == metadata.value:
                 return index
             index += 1
 
     def get_entries_for_given_date(self, value, reverse):
         index = 0
-        for metadata in self.entries_per_dates:
+        for metadata in self.entries_per_archives:
             if value == metadata.value:
                 break
             index += 1
 
-        for entry in (self.entries_per_dates[index].related_to[::-1] if reverse else self.entries_per_dates[index].related_to):
+        for entry in (self.entries_per_archives[index].related_to[::-1] if reverse else self.entries_per_archives[index].related_to):
             self.requested_entry_index = entry
             yield self.entries[entry]
             
@@ -561,7 +561,7 @@ class DataStore:
         return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["date_format"])
 
     def get_entry_date_url(self, argv=list()):
-        return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["path"]["dates_directory_name"])
+        return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["path"]["archives_directory_name"])
 
     def get_entry_url(self, argv=list()):
         if self.blog_configuration["disable_single_entries"]:
@@ -596,17 +596,17 @@ class DataStore:
     def get_author_email(self, argv=list()):
         return self.blog_configuration["author_email"]
 
-    def for_blog_dates(self, argv):
+    def for_blog_archives(self, argv):
         key = ''.join(argv)
-        if not key in self.html_blog_dates.keys():
+        if not key in self.html_blog_archives.keys():
             if self.blog_configuration["disable_archives"]:
-                self.html_blog_dates[key] = ''
+                self.html_blog_archives[key] = ''
 
             else:
-                dates = [o for o in self.blog_dates if o["value"] not in self.disable_threads]
-                self.html_blog_dates[key] = merge(dates, argv)
+                archives = [o for o in self.blog_archives if o["value"] not in self.disable_threads]
+                self.html_blog_archives[key] = merge(archives, argv)
 
-        return self.html_blog_dates[key]
+        return self.html_blog_archives[key]
 
     def get_root_page(self, argv):
         return ".:GetRelativeOrigin:."+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})

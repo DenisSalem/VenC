@@ -61,7 +61,7 @@ class PatternsMap():
 
                 # Extra metadata getter
                 "GetBlogMetadataIfExists" : datastore.get_blog_metadata_if_exists, 
-                "ForBlogDates" :            datastore.for_blog_dates,
+                "ForBlogArchives" :         datastore.for_blog_archives,
                 "LeavesForBlogCategories" : datastore.leaves_for_blog_categories,
                 "TreeForBlogCategories" :   datastore.tree_for_blog_categories,
                 "Chapters" :                datastore.get_chapters

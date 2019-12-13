@@ -1,0 +1,57 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+chapter: 4.2
+title: Fichier de configuration principal
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+__blog_configuration.yaml__ est un document Yaml à la racine du projet définissant les propriétés du blog, comme son titre, le nom de son auteur, ainsi que des détails fonctionnels comme le nombre de publications par pages ou l'ordre d'affichage de celles-ci.
+
+Immédiatement après avoir créé votre blog, il s'agira sans doute du premier fichier que vous éditerez. Après avoir rempli ces champs dont l'usage est détaillé ci-dessous, vous n'aurez normalement plus besoin d'y retoucher.
+
+- __.:DisableMarkup::blog_name:.__ : Sans surprise, il s'agit du titre de votre blog.
+- __.:DisableMarkup::text_editor:.__ : L'éditeur de texte choisi pour éditer une nouvelle publication du blog.
+- __.:DisableMarkup::date_format:.__ : "%A %d. %B %Y" par défaut. Définit le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par python. Pour en savoir plus sur ce format rendez vous [ici](http://strftime.org).
+- __.:DisableMarkup::author_name:.__: Le nom de l'administrateur ou l'auteur du blog.
+- __:DisableMarkup::ftp_host:.__ : Le nom d'hôte de votre serveur FTP.
+- __:DisableMarkup::blog_description:.__ : Un très court résumé de ce dont parle votre site.
+- __:DisableMarkup::blog_keywords:.__ : Les mots clefs associés au site.
+- __:DisableMarkup::author_description:.__ : Un court texte à propos de l'auteur du blog.
+- __license__ : La licence appliquée au contenu de votre site.
+- __:DisableMarkup::blog_url:.__ : L'url du blog. Peut être laissée vide, selon le thème utilisé.
+- __:DisableMarkup::blog_language:.__ : Définit la langue du site.
+- __:DisableMarkup::author_email:.__ : Votre adresse e-mail.
+- __columns__ : "1" par défaut. Ce champ définit le nombre de colonnes dans une page.
+- __.:DisableMarkup::rss_thread_lenght:.__ : "5" par défaut. Définit le nombre de publications à afficher dans le flux RSS.
+- __.:DisableMarkup::thread_order:.__ : "latest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ peut prendre comme valeur soit "oldest first", soit "latest first".
+- __path__ : Il s'agit d'une variable contenant différents chemins, vous ne devriez normalement pas avoir besoin d'y toucher. La liste de ces chemins est détaillé ci-dessous
+    - __ftp__ : Le chemin absolu du répertoire de destination sur votre serveur ftp.
+    - __entries_sub_folders__ :
+    - __categories_sub_folders__ :
+    - __archives_sub_folders__ :
+    - __.:DisableMarkup::index_file_name:.__ : "index{page_number}.html" par défaut. Le nom de fichier formaté des pages du fil principal de publications. Devrait toujours contenir la variable {page_number}.
+    - __.:DisableMarkup::category_directory_name:.__ : "{category}" par défaut. Définit le répertoire où sera exporté un fil de publication spécifique à une catégorie de publication. Ce champ devrait donc toujours contenir la variable {category}.
+    - __.:DisableMarkup::archives_directory_name:.__ : "%Y-%m" par défaut. Définit le format de date utilisé pour les noms de répertoires de fils de publications associés à des dates. Le format des dates est en fait le même que celui utilisé par python. Pour en savoir plus sur ce format rendez vous [ici](http://strftime.org).
+    - __.:DisableMarkup::entry_file_name:.__ : "entry{entry_id}.html" par défaut. Définit le nom de fichier d'une publication unique. Ce champ devrait toujours contenir la variable {entry_id}.
+    - __.:DisableMarkup::rss_file_name:.__ : "feed.xml" par défaut. Définit le nom de fichier du flux rss.
+
+- __.:DisableMarkup::entries_per_pages:.__ : "10" par défaut. Définit évidemment le nombre de publications par page.
+- __columns__ : 
+- __feed_lenght__ :
+- __reverse_thread_order__ :
+- __markup_language__ : 
+- __path_encoding__ :
+- __server_port__ :
+- __sort_by__ :
+- __enable_jsonld__ :
+- __enable_jsonp__ :
+
+- __disable_rss_feed__:
+- __disable_atom_feed__:
+- __disable_main_thread__:
+- __disable_threads__:
+- __disable_archives__:
+- __disable_chapters__:
+- __disable_categories__:
+- __disable_single_entries__:

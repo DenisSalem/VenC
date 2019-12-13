@@ -72,8 +72,8 @@ Par exemple:
 .:CodeHighlight::Yaml::False::
 path:
   category_directory_name: '/{category}' # Incorrect
-  dates_directory_name: '%m-%Y' # Correct
-  dates_sub_folders: '/' # Incorrect
+  archives_directory_name: '%m-%Y' # Correct
+  archives_sub_folders: '/' # Incorrect
   categories_sub_folders: '' # Correct
   entries_sub_folders: '{entry_title}' # Correct
 :.
@@ -89,7 +89,9 @@ Si l'environnement système est mal configuré vous pourriez avoir quelque chose
 
 Cela signifie que vos locales ne sont pas correctement configurées, la résolution de ce probléme est spécifique à chaque distribution GNU/Linux.
 
+## Où trouver le code source?
 
+Sur [github](https://github.com/DenisSalem/VenC) ou sur [framagit](https://framagit.org/denissalem/VenC/).
 
 
 
