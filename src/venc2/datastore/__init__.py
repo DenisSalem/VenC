@@ -488,6 +488,8 @@ class DataStore:
 
     def get_entry_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
+        
+        getattr(self.entries[self.requested_entry_index], argv[0])
         return str(getattr(self.entries[self.requested_entry_index], argv[0]))
     
     def get_entry_metadata_if_exists(self, argv):
@@ -674,12 +676,48 @@ class DataStore:
 
         return self.html_categories_tree[key]
 
+    def for_entry_range(self, argv):
+        if len(argv) != 3:
+            raise PatternMissingArguments(expected=2,got=len(argv))
+            
+        try:
+            start_from= int(argv[0])
+            
+        except TypeError:
+            raise GenericMessage(
+                messages.wrong_pattern_argument.format("start_from", argv[0])+' '+
+                messages.pattern_argument_must_be_integer
+            )
+        
+        try:
+            end_from= int(argv[1])
+            
+        except TypeError:
+            raise GenericMessage(
+                messages.wrong_pattern_argument.format("end_to", argv[0])+' '+
+                messages.pattern_argument_must_be_integer
+            )
+            
+        if end_from <= start_from:
+            raise GenericMessage(messages.invalid_range.format(start_from, end_to))
+        
+        entry = self.entries[self.requested_entry_index]
+        
+        output = ""
+        #TODO: PREVENT CRASH IN CASE OF WRONG INPUTS
+        for i in range(start_from, end_from):
+            output += argv[2].replace("[index]}", '['+str(i)+']}').format(**entry.raw_metadata)
+        
+        return output
+        
     def for_entry_tags(self, argv):
         key = ''.join(argv)
-        if not key in self.entries[self.requested_entry_index].html_tags.keys():
-            self.entries[self.requested_entry_index].html_tags[key] = merge(self.entries[self.requested_entry_index].tags, argv)
+        entry = self.entries[self.requested_entry_index]
 
-        return self.entries[self.requested_entry_index].html_tags[key]
+        if not key in entry.html_tags.keys():
+            entry.html_tags[key] = merge(entry.tags, argv)
+
+        return entry.html_tags[key]
     
     def for_entry_metadata(self, argv):
         if len(argv) != 2:
@@ -688,7 +726,7 @@ class DataStore:
         entry = self.entries[self.requested_entry_index]
         key = ''.join(argv)
         try:
-            l = getattr(entry, argv[0]).split(',')
+            l = getattr(entry, argv[0].strip()).split(',')
             
         except:
             raise GenericMessage(messages.entry_has_no_metadata_like.format(argv[0]))
@@ -711,17 +749,19 @@ class DataStore:
     """ TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing. """
     def leaves_for_entry_categories(self, argv):
         key = ''.join(argv)
-        if not key in self.entries[self.requested_entry_index].html_categories_leaves.keys():
+        entry = self.entries[self.requested_entry_index]
+        if not key in entry.html_categories_leaves.keys():
             if self.blog_configuration["disable_categories"]:
-                self.entries[self.requested_entry_index].html_categories_leaves[key] = ''
+                entry.html_categories_leaves[key] = ''
 
             else:
-                self.entries[self.requested_entry_index].html_categories_leaves[key] = merge(self.entries[self.requested_entry_index].categories_leaves, argv)
+                entry.html_categories_leaves[key] = merge(entry.categories_leaves, argv)
         
-        return self.entries[self.requested_entry_index].html_categories_leaves[key]
+        return entry.html_categories_leaves[key]
 
     def leaves_for_blog_categories(self, argv):
         key = ''.join(argv)
+
         if not key in self.html_categories_leaves.keys():
             if self.blog_configuration["disable_categories"]:
                 self.html_categories_leaves[key] = ''

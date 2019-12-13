@@ -37,12 +37,14 @@ class PatternsMap():
                 "GetEntryDateURL" : datastore.get_entry_date_url,
                 "GetEntryURL" :     datastore.get_entry_url,
                 "ForEntryAuthors" : datastore.for_entry_authors, 
+                "ForEntryRange":    datastore.for_entry_range,
                 "ForEntryTags" :    datastore.for_entry_tags,
     
                 # Extra metadata getter
                 "LeavesForEntryCategories" :    datastore.leaves_for_entry_categories,
                 "TreeForEntryCategories" :      datastore.tree_for_entry_categories,
                 "ForEntryMetadata" :            datastore.for_entry_metadata,
+                "ForEntryRange" :               datastore.for_entry_range,
                 "GetEntryMetadata" :            datastore.get_entry_metadata,
                 "GetEntryMetadataIfExists" :    datastore.get_entry_metadata_if_exists
             },

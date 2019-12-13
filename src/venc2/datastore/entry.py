@@ -87,11 +87,11 @@ class Entry:
         for key in metadata.keys():
             if not key in ["authors", "tags", "categories", "title"]:
                 if metadata[key] != None:
-                    setattr(self, key, metadata[key])
-                    
-                elif key == "https://schema.org" and metadata[key] != None:
-                    self.schemadotorg = metadata[key]
-                    
+                    if key == "https://schema.org":
+                        self.schemadotorg = metadata[key]
+                    else:
+                        setattr(self, key, metadata[key])
+                        
                 else:
                     notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")
                     setattr(self, key, '')
