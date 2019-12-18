@@ -14,14 +14,14 @@ Immédiatement après avoir créé votre blog, il s'agira sans doute du premier 
 - __.:DisableMarkup::text_editor:.__ : L'éditeur de texte choisi pour éditer une nouvelle publication du blog.
 - __.:DisableMarkup::date_format:.__ : "%A %d. %B %Y" par défaut. Définit le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par python. Pour en savoir plus sur ce format rendez vous [ici](http://strftime.org).
 - __.:DisableMarkup::author_name:.__: Le nom de l'administrateur ou l'auteur du blog.
-- __:DisableMarkup::ftp_host:.__ : Le nom d'hôte de votre serveur FTP.
-- __:DisableMarkup::blog_description:.__ : Un très court résumé de ce dont parle votre site.
-- __:DisableMarkup::blog_keywords:.__ : Les mots clefs associés au site.
-- __:DisableMarkup::author_description:.__ : Un court texte à propos de l'auteur du blog.
+- __.:DisableMarkup::ftp_host:.__ : Le nom d'hôte de votre serveur FTP.
+- __.:DisableMarkup::blog_description:.__ : Un très court résumé de ce dont parle votre site.
+- __.:DisableMarkup::blog_keywords:.__ : Les mots clefs associés au site.
+- __.:DisableMarkup::author_description:.__ : Un court texte à propos de l'auteur du blog.
 - __license__ : La licence appliquée au contenu de votre site.
-- __:DisableMarkup::blog_url:.__ : L'url du blog. Peut être laissée vide, selon le thème utilisé.
-- __:DisableMarkup::blog_language:.__ : Définit la langue du site.
-- __:DisableMarkup::author_email:.__ : Votre adresse e-mail.
+- __.:DisableMarkup::blog_url:.__ : L'url du blog. Peut être laissée vide, selon le thème utilisé.
+- __.:DisableMarkup::blog_language:.__ : Définit la langue du site.
+- __.:DisableMarkup::author_email:.__ : Votre adresse e-mail.
 - __columns__ : "1" par défaut. Ce champ définit le nombre de colonnes dans une page.
 - __.:DisableMarkup::rss_thread_lenght:.__ : "5" par défaut. Définit le nombre de publications à afficher dans le flux RSS.
 - __.:DisableMarkup::thread_order:.__ : "latest first" par défaut. Définit l'ordre de publication. Du plus anciens au plus récent, ou l'inverse. Ce champ peut prendre comme valeur soit "oldest first", soit "latest first".
@@ -47,11 +47,11 @@ Immédiatement après avoir créé votre blog, il s'agira sans doute du premier 
 - __enable_jsonld__ :
 - __enable_jsonp__ :
 
-- __disable_rss_feed__:
-- __disable_atom_feed__:
-- __disable_main_thread__:
-- __disable_threads__:
-- __disable_archives__:
-- __disable_chapters__:
-- __disable_categories__:
-- __disable_single_entries__:
+- __disable_rss_feed__ :
+- __disable_atom_feed__ :
+- __disable_main_thread__ :
+- __disable_threads__ :
+- __disable_archives__ :
+- __disable_chapters__ :
+- __disable_categories__ :
+- __disable_single_entries__ :

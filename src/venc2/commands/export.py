@@ -149,13 +149,13 @@ def process_non_contextual_patterns(pattern_processor, theme):
         entry.atom_wrapper = deepcopy(theme.atom_entry)
         pattern_processor.process(entry.atom_wrapper.above)
         pattern_processor.process(entry.atom_wrapper.below)
-        
-    pattern_processor.process(theme.header) 
-    pattern_processor.process(theme.footer) 
-    pattern_processor.process(theme.rss_header) 
-    pattern_processor.process(theme.rss_footer) 
-    pattern_processor.process(theme.atom_header)
-    pattern_processor.process(theme.atom_footer) 
+    
+    pattern_processor.process(theme.header, no_markup=True)
+    pattern_processor.process(theme.footer, no_markup=True) 
+    pattern_processor.process(theme.rss_header, no_markup=True) 
+    pattern_processor.process(theme.rss_footer, no_markup=True) 
+    pattern_processor.process(theme.atom_header, no_markup=True)
+    pattern_processor.process(theme.atom_footer, no_markup=True) 
     
 def export_blog(argv=list()):
     global datastore

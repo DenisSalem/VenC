@@ -133,8 +133,9 @@ def include_file(argv):
                 
         return include_string.format_map(args)
             
-    else: 
+    else:
         return include_string
+        
 def table(argv):
     output = "<div class=\"__VENC_TABLE__\"><table>"
     tr = [[]]

@@ -156,7 +156,7 @@ class ProcessedString():
             
         if self.len_open_pattern_pos != self.len_close_pattern_pos:
             raise MalformedPatterns(self.len_open_pattern_pos > self.len_close_pattern_pos, False, ressource)
-            
+
         self.string = string
         self.ressource = ressource
         self.process_escapes = process_escapes
@@ -200,6 +200,7 @@ class ProcessedString():
             for triplet in self.keep_appart_from_markup_indexes:
                 identifier, paragraphe, new_chunk = triplet
                 string = self.string
+                
                 target = "---VENC-TEMPORARY-REPLACEMENT-"+str(identifier)+"---"
                 try:
                     index = string.index(target)
@@ -332,7 +333,7 @@ class Processor():
     def set(self, symbol, value):
        self.dictionary[symbol] = value
 
-    def process(self, pre_processed, escape=False, safe_process=False):
+    def process(self, pre_processed, escape=False, safe_process=False, no_markup=False):
         extra_processing_required = []
         op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
         if safe_process and pre_processed.backup == None:
@@ -364,7 +365,7 @@ class Processor():
             
             current_pattern = fields[0]
             if (not current_pattern in ["GetRelativeOrigin","Escape"]) and (not current_pattern in self.blacklist):
-                if current_pattern in self.keep_appart_from_markup:
+                if current_pattern in self.keep_appart_from_markup and not no_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
                         self.run_pattern(current_pattern, fields[1:]),
