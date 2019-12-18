@@ -192,8 +192,8 @@ class Thread:
         if self.pages_count > 1:
             return argv[0]
         else:
-            return ''
-        
+            return argv[1]
+                    
     def if_in_first_page(self, argv):
         if self.current_page == 0:
             return argv[0].strip()
@@ -210,6 +210,9 @@ class Thread:
 
     def if_in_entry_id(self, argv):
         return argv[2].strip()
+
+    def if_in_main_thread(self, argv):
+        return argv[1].strip()
 
     def if_in_categories(self, argv):
         return argv[1].strip()

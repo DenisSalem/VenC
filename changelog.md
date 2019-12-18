@@ -164,7 +164,9 @@ cd # version 1.0.0 Last minute edition :p
     DONE | Add ForEntryRange
     DONE | Add IfChapters and use it in academik to hide/show chapters navigation.
     DONE | Fix and clean Tessellation theme.
+    DONE | Add IfInMainThread pattern.
     TODO | Use built in list in yaml instead to turn str to list.
+    TODO | Fix url with special char in chapter.
     WIP  | Reorganize themes dependencies in setup.
     TODO | Include threads preview in entry
     TODO | Add command for reorder entries by criteria

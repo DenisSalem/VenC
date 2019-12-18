@@ -97,6 +97,7 @@ class PatternsMap():
                 # Patterns below are acquired dynamically because they depend on the context
                 "GetJSON-LD" : "GetJSONLD",
                 "IfInThread" : "if_in_thread",
+                "IfInMainThread" : "if_in_main_thread",
                 "IfInArchives" : "if_in_archives",
                 "IfInCategories" : "if_in_categories",
                 "IfInFirstPage" : "if_in_first_page",

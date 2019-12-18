@@ -97,6 +97,6 @@ class MainThread(Thread):
         
         return ''
                 
-                
-
+    def if_in_main_thread(self, argv):
+        return argv[0].strip()
 
