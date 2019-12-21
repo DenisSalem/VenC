@@ -1,4 +1,4 @@
-cd # version 1.0.0 Last minute edition :p
+# version 1.0.0 Last minute edition :p
 
     DONE | Copy recursively, if necessary, data from extra.
     DONE | Copy recursively, if necessary data from assets.
@@ -165,6 +165,7 @@ cd # version 1.0.0 Last minute edition :p
     DONE | Add IfChapters and use it in academik to hide/show chapters navigation.
     DONE | Fix and clean Tessellation theme.
     DONE | Add IfInMainThread pattern.
+    DONE | Make entry URL nicer when filename is index.html and has subfolder.
     TODO | Use built in list in yaml instead to turn str to list.
     TODO | Fix url with special char in chapter.
     WIP  | Reorganize themes dependencies in setup.
@@ -176,6 +177,7 @@ cd # version 1.0.0 Last minute edition :p
     TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.1.x
+    TODO | Allow markdown2 setup.
     TODO | Add --insert-chapter command.
     TODO | Warn about metadata that should be list but are str.
     TODO | Add folder for blog_configuration, with multiple configuration file (for splitting the actual one).
@@ -209,7 +211,6 @@ cd # version 1.0.0 Last minute edition :p
     TODO | Optimize and refine JSON-LD processing.
     TODO | Embed as much as possible microdata/JSON-LD into blog.
     TODO | Automatically add entries categories to entries tags.
-    TODO | Make entry URL nicer when filename is index.html and has subfolder.
     TODO | Improve sub folder management in Entry and EntriesThread.
     TODO | Optimize objects dereferencing.
     TODO | Add draft support.

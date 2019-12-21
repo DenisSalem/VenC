@@ -79,7 +79,7 @@ class CategoriesThread(Thread):
         category_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+self.category_value+"categories.jsonld"
         category_as_jsonld["url"] = blog_url+'/'+self.sub_folders+self.category_value
         dump = json.dumps(category_as_jsonld)
-        f = open(("blog/"+self.sub_folders+self.category_value+"categories.jsonld").replace(' ','-'), 'w')
+        f = open((self.export_path+"categories.jsonld").replace(' ','-'), 'w')
         f.write(dump)
 
     def setup_category_context(self, i, root, len_root):
@@ -98,7 +98,7 @@ class CategoriesThread(Thread):
         export_path = self.export_path
         category_value = self.category_value
         self.category_value += node.value+'/'
-        self.export_path += str(node.value+'/').replace(' ','-')
+        self.export_path += self.path_encode(node.value)+'/'
         self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
 
         try:

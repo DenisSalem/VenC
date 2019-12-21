@@ -104,14 +104,15 @@ class EntriesThread(Thread):
                 'entry_id': self.current_entry.id,
                 'entry_title': self.current_entry.title
         }).replace(' ','-')
+        export_path = self.path_encode(export_path)
         self.relative_origin = str(''.join([ "../" for p in export_path.split('/')[1:] if p != ''])).replace("//",'/')
         os.makedirs(export_path, exist_ok=True)
 
     def write_file(self, output, file_id):
-        export_path = self.export_path.format(**{
+        export_path = self.path_encode(self.export_path.format(**{
             'entry_id': self.current_entry.id,
             'entry_title': self.current_entry.title
-        }).replace(' ','-')
+        }))
         stream = codecs.open(
             export_path+'/'+self.format_filename(),
             'w',

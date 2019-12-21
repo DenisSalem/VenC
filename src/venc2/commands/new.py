@@ -161,7 +161,7 @@ def new_blog(argv):
         "feed_lenght":	        	    5,
         "reverse_thread_order":		    True,
         "markup_language":              "Markdown",
-        "path_encoding":                "utf-8",
+        "path_encoding":                "",
         "server_port":                  8888,
         "sort_by":                      "id",
         "enable_jsonld":                False,

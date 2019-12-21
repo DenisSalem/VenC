@@ -19,7 +19,7 @@
 
 import datetime
 import urllib.parse
-
+import unidecode
 from venc2.prompt import notify
 
 class Chapter:
@@ -57,7 +57,11 @@ def build_categories_tree(entry_index, input_list, output_tree, output_leaves, m
                     output_leaves.append(root[-1])
                 
                 try:
-                    root[-1].path = ".:GetRelativeOrigin:."+urllib.parse.quote(path, encoding=encoding)
+                    if encoding == '':
+                        root[-1].path = ".:GetRelativeOrigin:."+unidecode.unidecode(path).replace(' ','-')
+                    else:
+                        root[-1].path = ".:GetRelativeOrigin:."+urllib.parse.quote(path, encoding=encoding)
+                        
                 except UnicodeEncodeError as e:
                     root[-1].path = ".:GetRelativeOrigin:."+path
                     notify("\"{0}\": ".format(root[-1].path)+str(e), color="YELLOW")

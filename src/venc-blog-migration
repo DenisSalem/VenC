@@ -57,7 +57,7 @@ def replace_patterns(string):
     
     string = string.replace(".:For::EntryTags:",".:ForEntryTags:")
     string = string.replace(".:For::EntryAuthors:",".:ForEntryAuthors:")
-    string = string.replace(".:For::BlogDates:",".:ForBlogDates:")
+    string = string.replace(".:For::BlogDates:",".:ForBlogArchives:")
     string = string.replace(".:PagesList:",".:ForPages:")
     string = string.replace("{0[tag]}", "{value}")
     string = string.replace("{0[categoryPath]}", "{path}")
