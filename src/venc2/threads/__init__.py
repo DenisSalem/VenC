@@ -20,9 +20,9 @@
 import codecs
 from copy import deepcopy
 from math import ceil
+import unidecode
 
 from venc2.prompt import notify
-from venc2.prompt import die
 from venc2.l10n import messages
 from venc2.patterns.exceptions import PatternInvalidArgument
 from venc2.patterns.processor import Processor
@@ -30,6 +30,7 @@ from venc2.patterns.processor import Processor
 current_source = None
 
 def undefined_variable(match):
+    from venc2.prompt import die
     die(
         messages.undefined_variable.format(
             match,
@@ -46,6 +47,7 @@ class Thread:
         self.indentation_level = "│  "
         self.patterns_map = patterns_map
         self.datastore = datastore
+        self.path_encoding = datastore.blog_configuration["path_encoding"]
         # Notify wich thread is processed
         if prompt != "":
             notify("├─ "+prompt)
@@ -72,6 +74,12 @@ class Thread:
                 
         for pattern_name in patterns_map.contextual["names"].keys():
             self.processor.set_function(pattern_name, getattr(self, patterns_map.contextual["names"][pattern_name]))
+
+    def path_encode(self, path):
+        if self.path_encoding == '':
+            return unidecode.unidecode(path).replace(' ', '-').replace('\'', '-')
+            
+        return path
 
     def return_page_around(self, string, params):
         try:
@@ -230,16 +238,21 @@ class Thread:
     def format_filename(self, value):
         try:
             if value == 0:
-                return self.filename.format(**{
-                    'page_number':''
-                })
+                return self.path_encode(
+                    self.filename.format(**{
+                        'page_number':''
+                    })
+                )
         
             else:
-                return self.filename.format(**{
-                    'page_number':value
-                })
+                return self.path_encode(
+                    self.filename.format(**{
+                        'page_number':value
+                    })
+                )
 
         except KeyError as e:
+            from venc2.prompt import die
             die(messages.variable_error_in_filename.format(str(e)))
 
     # Overridden in child class (EntriesThread)

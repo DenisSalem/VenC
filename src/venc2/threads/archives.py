@@ -47,7 +47,8 @@ class ArchivesThread(Thread):
 
                 
         notify("│\t "+tree_special_char+"─ "+archive.value+"...")
-        self.export_path = str("blog/"+self.sub_folders+'/'+archive.value+'/').replace(' ','-')
+        self.export_path = str("blog/"+self.sub_folders+'/'+archive.value+'/')
+        self.export_path = self.path_encode(self.export_path)            
         os.makedirs(self.export_path)
         self.organize_entries([
             entry for entry in self.datastore.get_entries_for_given_date(

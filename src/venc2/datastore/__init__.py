@@ -17,10 +17,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import hashlib
-import os
 import datetime
+import hashlib
 import json
+import os
+import unidecode
 
 from urllib.parse import quote as urllib_parse_quote
 
@@ -106,6 +107,9 @@ class DataStore:
 
         self.entries = sorted(self.entries, key = lambda entry : self.sort(entry))
 
+        path_categories_sub_folders = self.blog_configuration["path"]["categories_sub_folders"]+'/'
+        path_archives_directory_name = self.blog_configuration["path"]["archives_directory_name"]
+        path_chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
         for entry_index in range(0, len(self.entries)):
             current_entry = self.entries[entry_index]
             if entry_index > 0:
@@ -113,7 +117,7 @@ class DataStore:
                 current_entry.previous_entry = self.entries[entry_index-1]
 
             # Update entriesPerDates
-            if self.blog_configuration["path"]["archives_directory_name"] != '':
+            if path_archives_directory_name != '':
                 formatted_date = current_entry.formatted_date
                 entries_index = self.get_entries_index_for_given_date(formatted_date)
                 if entries_index != None:
@@ -125,18 +129,20 @@ class DataStore:
 
             # Update entriesPerCategories
             try:
-                sub_folders = urllib_parse_quote(self.blog_configuration["path"]["categories_sub_folders"]+'/', encoding=self.path_encoding)
+                if self.path_encoding == '':
+                    sub_folders = unidecode.unidecode(path_categories_sub_folders).replace(' ','-')
+                else:
+                    sub_folders = urllib_parse_quote(path_categories_sub_folders, encoding=self.path_encoding)
 
             except UnicodeEncodeError as e:
-                sub_folders = self.blog_configuration["path"]["categories_sub_folders"]+'/'
-                notify("\"{0}\": ".format(sub_folders)+str(e), color="YELLOW")
+                notify("\"{0}\": ".format(path_categories_sub_folders)+str(e), color="YELLOW")
             
             sub_folders = sub_folders if sub_folders != '/' else ''
             build_categories_tree(entry_index, current_entry.raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.path_encoding, sub_folders=sub_folders)
             self.update_chapters(current_entry)
     
         # build chapters index
-        chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
+        chapters_sub_folders = path_chapters_sub_folders
         for chapter in sorted(self.raw_chapters.keys()):
             top = self.chapters_index
             index = ''
@@ -169,14 +175,17 @@ class DataStore:
 
         # Setup BlogArchives Data
         self.blog_archives = list()
-        """ Should use encoding for path value as well """
+        
+        path_archives_sub_folders = self.blog_configuration["path"]["archives_sub_folders"]+'/'
         for node in self.entries_per_archives:
             try:
-                sub_folders = urllib_parse_quote(self.blog_configuration["path"]["archives_sub_folders"]+'/', encoding=self.path_encoding)
+                if self.path_encoding == '':
+                    sub_folders = unidecode.unidecode(path_archives_sub_folders).replace(' ','-')
+                else:
+                    sub_folders = urllib_parse_quote(path_archives_sub_folders, encoding=self.path_encoding)
 
             except UnicodeEncodeError as e:
-                sub_folders = self.blog_configuration["path"]["archives_sub_folders"]+'/'
-                notify("\"{0}\": ".format(sub_folders)+str(e), color="YELLOW")
+                notify("\"{0}\": ".format(path_archives_sub_folders)+str(e), color="YELLOW")
 
             sub_folders = sub_folders if sub_folders != '/' else ''
 
@@ -416,14 +425,25 @@ class DataStore:
                     "chapter_name" : sub_chapter.entry.title,
                     "chapter_index" : sub_chapter.index
                 })
+                
             except KeyError as e:
                 from venc2.helpers import die
                 die(messages.variable_error_in_filename.format(e))
+            
+            try:
+                if path_encoding == '':
+                    path = unidecode.unidecode(path).replace(' ','-')
+                    
+                else:
+                    path = urllib_parse_quote(path, encoding=path_encoding)
                 
+            except UnicodeEncodeError as e:
+                notify("\"{0}\": ".format(chapter_sub_folder)+str(e), color="YELLOW")
+            
             output += io.format(**{
                 "index": sub_chapter.index,
                 "title": sub_chapter.entry.title,
-                "path": ".:GetRelativeOrigin:."+urllib_parse_quote(path, encoding=path_encoding),
+                "path": ".:GetRelativeOrigin:."+path,
                 "level": level
             })
             output += self.build_html_chapters(argv, sub_chapter.sub_chapters, level+1)

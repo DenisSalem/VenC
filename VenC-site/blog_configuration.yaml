@@ -38,7 +38,7 @@ disable_chapters: false
 disable_categories: true
 disable_single_entries: true
 banner: 'https://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg'
-path_encoding: 'windows-1252'
+path_encoding: ''
 server_port: 8888
 sort_by: 'chapter'
 enable_jsonld: True

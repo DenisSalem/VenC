@@ -20,6 +20,7 @@
 import datetime
 import os
 import time
+import unidecode
 import urllib.parse
 import yaml
 
@@ -138,14 +139,29 @@ class Entry:
             "entry_id": self.id,
             "entry_title": self.title
         }
-        sf = paths["entries_sub_folders"].format(**params).replace(' ','-')
-        self.sub_folder = urllib.parse.quote(sf, encoding=encoding)+'/' if sf != '' else ''
-        try:
-            self.url = ".:GetRelativeOrigin:."+self.sub_folder+urllib.parse.quote(paths["entry_file_name"].format(**params), encoding=encoding)
+        # TODO MAY BE OPTIMIZED
+        sf = paths["entries_sub_folders"].format(**params)
+        if encoding == '':
+            self.sub_folder = unidecode.unidecode(sf).replace(' ','-').replace('\'','-')+'/' if sf != '' else ''
+            self.url = ".:GetRelativeOrigin:."+self.sub_folder
+            if self.sub_folder == '' or paths["entry_file_name"] != "index.html":
+                self.url += unidecode.unidecode(
+                    paths["entry_file_name"].format(**params)
+                ).replace(' ','-').replace('\'','-')
+            
+        else:
+            try:
+                self.sub_folder = urllib.parse.quote(sf, encoding=encoding)+'/' if sf != '' else ''
+                self.url = ".:GetRelativeOrigin:."+self.sub_folder
+                if self.sub_folder == '' or paths["entry_file_name"] != "index.html":
+                    self.url += urllib.parse.quote(paths["entry_file_name"].format(**params), encoding=encoding)
 
-        except UnicodeEncodeError as e:
-            self.url = ".:GetRelativeOrigin:."+self.sub_folder+paths["entry_file_name"].format(**params)
-            notify("\"{0}\": ".format(sf+paths["entry_file_name"].format(**params))+str(e), color="YELLOW")
+
+            except UnicodeEncodeError as e:
+                self.url = ".:GetRelativeOrigin:."+self.sub_folder+paths["entry_file_name"].format(**params)
+                notify("\"{0}\": ".format(sf+paths["entry_file_name"].format(**params))+str(e), color="YELLOW")
+        
+
 
         self.categories_leaves = list()
         self.raw_categories = [ c.strip() for c in metadata["categories"].split(',')]

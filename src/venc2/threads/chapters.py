@@ -56,10 +56,11 @@ class ChaptersThread(Thread):
         notify(self.indentation_level+tree_special_char+"─ "+node.index+' '+node.entry.title+"...")
         
         self.export_path = "blog/"+self.sub_folders+'/'+self.folder_name
-        self.export_path = self.export_path.replace(' ','-').format(**{
+        self.export_path = self.export_path.format(**{
             "chapter_name" : node.entry.title,
             "chapter_index": node.index
         })
+        self.export_path = self.path_encode(self.export_path)
         self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
 
         try:
