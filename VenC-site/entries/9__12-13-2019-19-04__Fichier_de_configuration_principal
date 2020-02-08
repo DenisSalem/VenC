@@ -198,10 +198,21 @@ Spécifie le port du server http local. Ce champ est fixé à *8888* par défaut
 
 Pour être ordonnées, les publications sont généralement évalués selon
 la valeur de leur identifiant. C'est pourquoi la valeur de ce champ est
-'id' par défaut. Il est possible de spécifié le nom d'une autre propriété
+'id' par défaut. Il est possible de spécifier le nom d'une autre propriété
 pour les publications.
 
-.:SetColor::TODO: Completes fields::red:.
+Les valeurs possible sont:
+
+- authors
+- date
+- filename
+- formatted_date
+- id
+- tags
+- title
+
+Vous pouvez également spécifier le nom d'une métadonnée définit
+manuellement dans l'entête de vos publications.
 
 ## .:DisableMarkup::enable_jsonld:.
 

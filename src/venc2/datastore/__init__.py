@@ -432,7 +432,7 @@ class DataStore:
             
             try:
                 if path_encoding == '':
-                    path = unidecode.unidecode(path).replace(' ','-')
+                    path = unidecode.unidecode(path).replace(' ','-').replace('\'','-')
                     
                 else:
                     path = urllib_parse_quote(path, encoding=path_encoding)
