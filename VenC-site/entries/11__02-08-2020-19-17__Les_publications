@@ -5,9 +5,8 @@ chapter: 4.3
 title: Les publications
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Une publication est un fichier dont le
-propos est d'être remplit par l'utilisateur manuellement en y rédigeant
-le contenu désiré. Cela peut-être un billet d'humeur, un article de fond,
+Une publication est un fichier dans lequel vous allez pouvoir rédiger votre
+contenu. Cela peut-être un billet d'humeur, un article de fond,
 une galerie d'image, etc. Pour faciliter l'édition de votre blog avec
 VenC vous êtes fortement encouragé à utiliser des [templates](/Les-templates).
 
@@ -26,3 +25,45 @@ publication, et l'autre son véritable contenu.
 Une publication vierge se présente de la façon suivante:
 
 .:CodeHighlightInclude::Text::False::empty_entry:.
+
+## Métadonnées
+
+On a donc quatre champs qu'il est possible de compléter.
+
+### authors
+
+C'est la liste des auteurs de la publication, séparés par une virgule. Pas exemple _Denis Salem_, _Benjamin Bayard_, _Richard Stallman_.
+
+### categories
+
+C'est la liste des categories de la publication, séparées par une virgule. Vous pouvez également avoir des sous categories pour une publication qui définiront ensuite un arbre de categories. Pour définir une sous catégories il faut séparer la categorie parente de la categorie fille par ' > '. Ce procédé peut-être répété autant de fois que nécessaire. Par exemple Metal > Copper, Metal > Steel > Properties, Materials.
+
+### tags
+
+C'est la liste des mots clefs de la publication, séparées par une virgule. Par exemple Libre, Open-source, Linux.
+
+### title
+C'est le nom de votre publication tel que vous l'avez définit au moment de créer la publication avec venc -ne <titre de la publication>.
+
+## Métadonnées optionnels
+
+Il est également possible de rajouter librement des champs optionnels. Il y a cependant deux
+champs réservé:
+
+### chapter
+
+Indique à quel chapitre correspond la publication. La convention qu'utilise
+VenC pour reconnaitre les chapitres est la suivante:
+
+Chaque chapitre et chaque sous-partis sont numérotés, et séparé par un
+point. Quelques exemples pour aider à visualiser le truc.
+
+- __2__ : Indiquerait que la publication correspond au chapitre deux.
+- __1.2__ : Indiquerait que la publication correspond au premier chapitre, seconde sous-partie
+- __3.3.5__ : Indiquerait que la publication correspond au troisième chapitre, troisième sous-partie, cinquième sous-partie de la partie parente.
+
+### .:DisableMarkup::markup_language:.
+
+Il est possible de spécifier un langage de balisage qui sera utilisé pour
+la publication courante, en lieu et place du langage définit dans le
+fichier de configuration du blog.
