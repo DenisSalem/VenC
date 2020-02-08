@@ -77,7 +77,8 @@ setup(
           'markdown2',
           'pyyaml',
           'Pygments',
-          "requests"
+          'requests',
+          'unidecode'
     ],
     scripts=['venc','venc-blog-migration'],
     data_files = extra_files

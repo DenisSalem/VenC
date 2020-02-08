@@ -478,7 +478,11 @@ class DataStore:
 
     def sort(self, entry):
         try:
-            return str(getattr(entry, self.sort_by))
+            value = str(getattr(entry, self.sort_by))
+            if self.sort_by == 'id':
+                return int(value)
+                
+            return value
 
         except AttributeError:
             return ''
