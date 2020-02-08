@@ -1,0 +1,26 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+chapter: 4.4
+title: Les templates
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Un template est en fait une publication vierge qui a cependant été
+préformatée pour contenir des choses redondante à rédiger ou
+programmer manuellement. Typiquement, pour une Galerie, vous pourriez
+vouloir un template qui contiendrait déjà la ou les balises Markdown pour inclure
+une ou plusieurs images, les champs __categories__ et __tags__ préremplits, etc...
+
+.:CodeHighlightInclude::Text::False::template_example:.
+
+VenC est livrés avec des examples de templates. En voici la liste:
+
+- .:DisableMarkup::example_code_highlight:.
+- .:DisableMarkup::example_Escape:.
+- .:DisableMarkup::example_Latex2MathML:.
+- .:DisableMarkup::markdown_example_footnotes:.
+- .:DisableMarkup::tessellation_example_display_title_in_entry:.
+- .:DisableMarkup::tessellation_example_display_title_in_threads:.
+
+_Parmis ces templates, certains servent surtout à illustrer l'usage
+de certaine fonctionnalités de VenC._

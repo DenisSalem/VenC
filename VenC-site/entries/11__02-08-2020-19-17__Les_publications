@@ -1,0 +1,28 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+chapter: 4.3
+title: Les publications
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Une publication est un fichier dont le
+propos est d'être remplit par l'utilisateur manuellement en y rédigeant
+le contenu désiré. Cela peut-être un billet d'humeur, un article de fond,
+une galerie d'image, etc. Pour faciliter l'édition de votre blog avec
+VenC vous êtes fortement encouragé à utiliser des [templates](/Les-templates).
+
+Le nom de fichier d'une publication est formaté de la façon suivante:
+
+.:CodeHighlight::Text::False::
+<id>__<mois>-<jour>-<année>-<heure>-<minute>__<titre>
+:.
+
+Une publication contient une premiere partie au format Yaml contenant les
+métadonnées de la publication, puis une seconde au format Markdown qui
+elle contiendra la publication à proprement parler. Cette seconde partie
+est elle-même scindé en deux. L'une contiendra la prévisualisation de la
+publication, et l'autre son véritable contenu.
+
+Une publication vierge se présente de la façon suivante:
+
+.:CodeHighlightInclude::Text::False::empty_entry:.
