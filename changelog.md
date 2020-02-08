@@ -166,8 +166,8 @@
     DONE | Fix and clean Tessellation theme.
     DONE | Add IfInMainThread pattern.
     DONE | Make entry URL nicer when filename is index.html and has subfolder.
-    TODO | Use built in list in yaml instead to turn str to list.
-    TODO | Fix url with special char in chapter.
+    DONE | Fix url with special char in chapter.
+    DONE | Add CodeHighlightInclude
     WIP  | Reorganize themes dependencies in setup.
     TODO | Include threads preview in entry
     TODO | Add command for reorder entries by criteria
@@ -177,6 +177,7 @@
     TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.1.x
+    TODO | Use built in list in yaml instead to turn str to list.
     TODO | Allow markdown2 setup.
     TODO | Add --insert-chapter command.
     TODO | Warn about metadata that should be list but are str.

@@ -99,7 +99,7 @@ def set_style(argv):
     return "<span "+ID+' '+CLASS+">"+('::'.join(argv[2:]))+"</span>"
 
 
-""" Must fix dirty try/except structure. """
+# TODO: Must fix dirty try/except structure.
 def include_file(argv):
     try:
         filename = argv[0]

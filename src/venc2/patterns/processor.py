@@ -155,7 +155,12 @@ class ProcessedString():
         self.len_close_pattern_pos = len(self.close_pattern_pos)
             
         if self.len_open_pattern_pos != self.len_close_pattern_pos:
-            raise MalformedPatterns(self.len_open_pattern_pos > self.len_close_pattern_pos, False, ressource)
+            notify(string, color="RED")
+            if (self.len_open_pattern_pos > self.len_close_pattern_pos):
+                die(messages.malformed_patterns_missing_closing_symbols.format(ressource))
+                
+            else:
+                die(messages.malformed_patterns_missing_closing_symbols.format(ressource))
 
         self.string = string
         self.ressource = ressource

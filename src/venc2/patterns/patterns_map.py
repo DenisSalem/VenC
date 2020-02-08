@@ -72,6 +72,7 @@ class PatternsMap():
                 "GetEmbedContent":          datastore.wrapper_embed_content,
                 "GetGenerationTimestamp":   datastore.get_generation_timestamp,
                 "CodeHighlight" :           code_highlight.highlight,
+                "CodeHighlightInclude" :    code_highlight.highlight_include,
                 "Latex2MathML" :            Latex2MathML,
                 "GetVenCVersion" :          get_venc_version,
                 "IncludeFile" :             include_file,

@@ -22,9 +22,10 @@ import os
 import pygments.lexers
 import pygments.formatters
 
+from venc2.l10n import messages
+from venc2.patterns.non_contextual import include_file
 from venc2.prompt import die
 from venc2.prompt import notify
-from venc2.l10n import messages
 
 """ Need to handle missing args in case of unknown number of args """
 class CodeHighlight:
@@ -46,15 +47,22 @@ class CodeHighlight:
                 stream = open(os.getcwd()+"/extra/"+key,'w')
                 stream.write(self._includes[key])
 
-    def highlight(self, argv):
+    def highlight_include(self, argv):
+        string = include_file([argv[2]])
+        return self.highlight(argv[:2]+[string], included_file=True)
+        
+    def highlight(self, argv, included_file=False):
         try:
             name = "venc_source_"+argv[0].replace('+','Plus')
 
             lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=True)
 
             formatter = pygments.formatters.HtmlFormatter(linenos=(True if argv[1]=="True" else False), cssclass=name)
-            code = "::".join(argv[2:])
-            result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:")+"</div>"
+            if not included_file:
+                code = "::".join(argv[2:])
+            else:
+                code = argv[2]
+            result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
             css  = formatter.get_style_defs()
 
             if not name+".css" in self._includes.keys():
