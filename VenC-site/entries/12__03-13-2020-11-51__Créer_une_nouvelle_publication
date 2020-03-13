@@ -1,0 +1,41 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+title: Créer une nouvelle publication
+chapter: 3.2
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Pour créer une nouvelle publication, placez vous dans le répertoire de votre blog et tapez la commande suivante
+
+> .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --new-entry "Ma Première Publication"
+
+vous pouvez également utiliser la version racourcie de la commade
+
+> .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc -ne "Ma Première Publication"
+
+Cette commande crée la publication et la stock dans le repertoire *entries* de votre blog.
+
+__Astuce__ : _L'éditeur de texte par défaut définit dans votre fichier de 
+configuration devrait être **nano**. Quand vous créez une nouvelle 
+publication VenC l'ouvre pour vous dans l'éditeur de texte ainsi 
+définit. Vous pouvez changer votre éditeur de texte dans 
+[.:DisableMarkup::blog_configuration.yaml:.](.:GetRelativeOrigin:.Fichier-de-configuration-principal/)._
+
+Une publication vierge ressemble à ça
+
+.:CodeHighlightInclude::Text::False::empty_entry:.
+
+C'est un document découpé en trois parties:
+
+- La premiére partie contient les méta-données de la publication au format [yaml](http://www.yaml.org/).
+- La seconde peut contenir un résumé de la publication pour la prévisualisation.
+- La troisième contient le corps de votre publication.
+
+__Astuce : Par défaut VenC utilise la syntax 
+[Markdown](https://daringfireball.net/projects/markdown/), 
+vous pouvez cependant changer le langage de balisage. Plus d'information
+à ce sujet [ici](.:GetRelativeOrigin:.Les-publications/).__
+
+Pour en savoir plus sur les méta-données des publications rendez vous [ici](.:GetRelativeOrigin:.Les-publications/).
+
+Une fois que vous avez terminé d'écrire le meilleur billet de blog de tous les internets, enregistrez, et c'est finis! Il n'y à plus qu'à publier!
