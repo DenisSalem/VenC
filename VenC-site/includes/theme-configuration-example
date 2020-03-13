@@ -1,0 +1,11 @@
+info:
+    description : ''
+    
+override:
+    whatever_field_1: 'whatever_value'
+    whatever_field_2: 'whatever_value2'
+    ...
+
+assets_dependencies: ['awesome.css','not_so_shitty_script.js',]
+
+includes_dependencies: ['source_code.example','whatever_you_want.file']
