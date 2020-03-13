@@ -79,7 +79,8 @@ class Thread:
         if self.path_encoding == '':
             return unidecode.unidecode(path).replace(' ', '-').replace('\'', '-')
             
-        return path
+        else:
+            return path
 
     def return_page_around(self, string, params):
         try:
