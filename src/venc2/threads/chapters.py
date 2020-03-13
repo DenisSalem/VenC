@@ -80,9 +80,13 @@ class ChaptersThread(Thread):
             self.organize_entries([ chapter.entry ] + [c.entry for c in chapter.sub_chapters])
             self.setup_chapters_context(chapter_index, top, len(top))
             super().do()
-
+        
             if len(chapter.sub_chapters) > 0:
+                self.indentation_level += "   " if len(top) - 1 == chapter_index else "│  "
                 self.do(chapter.sub_chapters)
+        
+                # Restore states
+                self.indentation_level = self.indentation_level[:-3]
                 
     def GetJSONLD(self, argv):
         if self.current_page == 0:
