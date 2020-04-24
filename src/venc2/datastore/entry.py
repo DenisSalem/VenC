@@ -72,7 +72,7 @@ class Entry:
                 self.content = ProcessedString(entry_parted[2], filename)
 
                 try:
-                    metadata = yaml.load(entry_parted[0])
+                    metadata = yaml.load(entry_parted[0], Loader=yaml.FullLoader)
 
                 except yaml.scanner.ScannerError as e:
                     die(messages.possible_malformed_entry.format(filename, ''), extra=str(e))
