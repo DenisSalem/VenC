@@ -26,7 +26,13 @@ from venc2.l10n import messages
 
 def get_blog_configuration():
     try:
-        blog_configuration = yaml.load(open(os.getcwd()+"/blog_configuration.yaml",'r').read())
+        blog_configuration = yaml.load(
+            open(
+                os.getcwd()+"/blog_configuration.yaml",
+                'r'
+            ).read(),
+            Loader=yaml.FullLoader
+        )
         
         mandatory_fields = [
             "blog_name",
