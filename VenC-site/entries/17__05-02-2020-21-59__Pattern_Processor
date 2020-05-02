@@ -1,0 +1,26 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+chapter: 5
+title: Pattern Processor
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+VenC utilise un moteur de reconnaissance de motif permettant une mise en
+page facilitée et automatisée. Ce système devrait permettre dans de
+futures versions d'utiliser des modules externes. La création et l'ajout
+de greffons sera détaillé dans une autre partie.
+
+Les motifs pouvant être reconnus dépendent du contexte dans lequel ils
+sont trouvés.
+
+Les motifs sont définis de la façon suivante dans VenC
+
+- Chaque motifs commence par .:Escape::'.:'::EndEscape:.
+- Chaque motifs se termine par .:Escape::':.'::EndEscape:.
+- Le ou les séparateurs à l'intérieur d'un motif sont représentés par .:Escape::'::'::EndEscape:.
+
+Un motif est une fonction pouvant prendre des paramètres. L'objectif est
+de remplacer un motif par une chaine de caractères formatée. Typiquement,
+les motifs permettent d'accéder aux données du blog ou de faire de la mise
+en page spécifique pour faire, par exemple, un menu déroulant, ou une
+barre de navigation.

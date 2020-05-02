@@ -47,27 +47,46 @@ def cgi_escape(string):
     )
 
 def get_markers_indexes(string, begin=".:", end=":."):
-    op = []
-    cp = []
+    op, cp = [], []
+    op_append, cp_append = op.append, cp.append
+    string_find = string.find
+    strip_begin, strip_end = [], []
+    strip_begin_append, strip_end_append = strip_begin.append, strip_end.append
     i = 0
     l = len(string)
     offset=0
     while i < l:
-        i = string.find(begin, i)
+        i = string_find(begin, i)
         if i == -1:
             i=0
             break
-        op.append(i)
+            
+        if begin == ".:Escape::":
+            j = 0
+            while string[i+10+j] == ' ':
+                j+=1
+            strip_begin_append(i+j)
+
+        op_append(i)
         i+=2
     
     while i < l:
-        i = string.find(end, i)
+        i = string_find(end, i)
         if i == -1:
             i=0
             break
-        cp.append(i)
+        if begin == ".:EndEscape::" and False:
+            j = -1
+            while string[i+j] == ' ':
+                j-=1
+                strip_end_append(i+j)
+
+        cp_append(i)
+            
         i+=2
 
+    if begin == ".:Escape::":
+        return (op, cp, strip_begin, strip_end)
     return (op, cp)
 
 def handle_markup_language_error(message, line=None, string=None):
@@ -107,7 +126,7 @@ class ProcessedString():
         self.open_pattern_pos, self.close_pattern_pos = get_markers_indexes(string)
         
         #Process escape
-        self.escapes_o, self.escapes_c = get_markers_indexes(string, begin=".:Escape::", end="::EndEscape:.")
+        self.escapes_o, self.escapes_c, self.strip_begin, self.strip_end = get_markers_indexes(string, begin=".:Escape::", end="::EndEscape:.")
         leo, lec = len(self.escapes_o), len(self.escapes_c)
         if leo != lec:
             raise MalformedPatterns(leo > lec, True, ressource)

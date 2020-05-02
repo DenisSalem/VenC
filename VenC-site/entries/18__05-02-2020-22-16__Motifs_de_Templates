@@ -1,0 +1,19 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+chapter: 5.1
+title: Motifs de Templates
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Pour en savoir plus sur les templates, rendez vous [ici](.:GetRelativeOrigin:.Les-templates) Un template peut
+contenir un certains nombre de motifs que VenC peut interpréter.
+
+- __.:Escape:: .:GetEntryID:. ::EndEscape:.__ : Retourne l'identifiant unique de la publication.
+- __.:Escape:: .:GetEntryTitle:. ::EndEscape:.__ : Retourne le nom de la publication.
+- __.:Escape:: .:GetEntryMonth:. ::EndEscape:.__ : Retourne le mois de création de la publication.
+- __.:Escape:: .:GetEntryYear:. ::EndEscape:.__ : Retourne l'année de création de la publication.
+- __.:Escape:: .:GetEntryDay:. ::EndEscape:.__ : Retourne le jour de création de la publication.
+- __.:Escape:: .:GetEntryHour:. ::EndEscape:.__ : Retourne l'heure de création de la publication.
+- __.:Escape:: .:GetEntryMinute:. ::EndEscape:.__ : Retourne la minute de création de la publication.
+
+À ces motifs s'ajoutent les super globaux généralement disponibles quelque soit le contexte.

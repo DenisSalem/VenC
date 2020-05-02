@@ -1,0 +1,31 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+chapter: 5.2
+title: Motifs super globaux
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Ces motifs sont généralement disponibles quelque soit le contexte et
+sont définis dans blog_configuration.yaml.
+
+- .:Escape:: .:GetAuthorName:. ::EndEscape:. : Retourne le nom de l'auteur du blog.
+- .:Escape:: .:GetBlogName:. ::EndEscape:.: Retourne le titre du blog.
+- .:Escape:: .:GetBlogDescription:. ::EndEscape:. : Retourne la description du blog.
+- .:Escape:: .:GetBlogKeywords:. ::EndEscape:. : Retourne les mots clefs décrivant le blog.
+- .:Escape:: .:GetAuthorDescription:. ::EndEscape:. : Retourne la description de l'auteur du blog.
+- .:Escape:: .:GetBlogLicense:. ::EndEscape:. : Retourne la licence appliquée au contenu du blog.
+- .:Escape:: .:GetBlogURL:. ::EndEscape:. : Retourne l'URL du blog.
+- .:Escape:: .:GetBlogLanguage:. ::EndEscape:. : Retourne le language du blog.
+- .:Escape:: .:GetAuthorEmail:. ::EndEscape:. : Retourne l'adresse email de l'auteur du blog.
+- .:Escape:: blablabla.:GetRelativeOrigin:. ::EndEscape:. : Retourne le chemin relatif de la racine du blog.
+- .:Escape:: .:GetRelativeLocation:. ::EndEscape:. : Retourne le répertoire courant relativement à la racine du blog.
+
+Vous pouvez également définir vos propres variables en rajoutant des
+champs au fichier de configuration blog_configuration.yaml. Par exemple
+en rajoutant la ligne
+
+> Banner: 'maBanniere.jpg'
+
+dans le fichier de configuration, vous pourrez récupérer la valeurs de Banner avec
+
+> .:Escape:: .:Get::Banner:. ::EndEscape:.
