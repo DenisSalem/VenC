@@ -88,7 +88,10 @@ def to_camel_case(name):
 
 ''' Processing blog configuration '''
 try:
-    blog_configuration = yaml.load(open(os.getcwd()+"/blog_configuration.yaml",'r').read())
+    blog_configuration = yaml.load(
+        open(os.getcwd()+"/blog_configuration.yaml",'r').read(),
+        Loader=yaml.FullLoader
+    )
 
 except FileNotFoundError:
     die(messages.no_blog_configuration)
@@ -156,7 +159,10 @@ yaml.dump(blog_configuration, stream, default_flow_style=False, allow_unicode=Tr
 for entry_filename in yield_entries_content():
     raw_data = open(os.getcwd()+"/entries/"+entry_filename,'r').read()
     try:
-        metadata = yaml.load(raw_data.split("---\n")[0])
+        metadata = yaml.load(
+            raw_data.split("---\n")[0],
+            Loader=yaml.FullLoader
+        )
         metadata["title"] = metadata.pop("entry_name")
 
     except yaml.scanner.ScannerError:

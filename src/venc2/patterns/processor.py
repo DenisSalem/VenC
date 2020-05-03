@@ -61,11 +61,11 @@ def get_markers_indexes(string, begin=".:", end=":."):
             i=0
             break
             
-        if begin == ".:Escape::":
-            j = 0
-            while string[i+10+j] == ' ':
-                j+=1
-            strip_begin_append(i+j)
+        # ~ if begin == ".:Escape::":
+            # ~ j = 0
+            # ~ while string[i+10+j] in [' ','\t','\n']:
+                # ~ j+=1
+            # ~ strip_begin_append(i+j)
 
         op_append(i)
         i+=2
@@ -75,18 +75,20 @@ def get_markers_indexes(string, begin=".:", end=":."):
         if i == -1:
             i=0
             break
-        if begin == ".:EndEscape::" and False:
-            j = -1
-            while string[i+j] == ' ':
-                j-=1
-                strip_end_append(i+j)
+        # ~ if begin == ".:EndEscape::" and False:
+            # ~ j = -1
+            # ~ while string[i+j] == in [' ','\t','\n']:
+                # ~ j-=1
+            # ~ strip_end_append(i+j)
 
         cp_append(i)
             
         i+=2
 
-    if begin == ".:Escape::":
-        return (op, cp, strip_begin, strip_end)
+    # ~ if begin == ".:Escape::":
+        # ~ a = [ (op[i], strip_begin[i])  for i in range(0,len(op)) ]
+        # ~ b = [ (cp[i], strip_begin[i])  for i in range(0,len(cp)) ]
+        # ~ return (a, b)
     return (op, cp)
 
 def handle_markup_language_error(message, line=None, string=None):
@@ -126,8 +128,9 @@ class ProcessedString():
         self.open_pattern_pos, self.close_pattern_pos = get_markers_indexes(string)
         
         #Process escape
-        self.escapes_o, self.escapes_c, self.strip_begin, self.strip_end = get_markers_indexes(string, begin=".:Escape::", end="::EndEscape:.")
+        self.escapes_o, self.escapes_c = get_markers_indexes(string, begin=".:Escape::", end="::EndEscape:.")
         leo, lec = len(self.escapes_o), len(self.escapes_c)
+
         if leo != lec:
             raise MalformedPatterns(leo > lec, True, ressource)
         
@@ -139,6 +142,7 @@ class ProcessedString():
                     if self.escapes_o[i] > self.escapes_c[i-1]:
                         o = self.escapes_o[0]
                         c = self.escapes_c[i-1]
+
                         escapes.append((o,c))
                         self.escapes_o = self.escapes_o[i:]
                         self.escapes_c = self.escapes_c[i:]
@@ -160,11 +164,8 @@ class ProcessedString():
                 escapes[i] = (o, c-10)
                 self.open_pattern_pos = [(v-10 if v > o+10 and v <= o+23 else (v-23 if v > o+23 else v)) for v in self.open_pattern_pos]
                 self.close_pattern_pos = [(v-10 if v > o+10 and v <= o+23 else (v-23 if v > o+23 else v)) for v in self.close_pattern_pos]
-                if i == 0:
-                    escapes = escapes[:1]+[ (p[0]-23, p[1]-23) for p in escapes[i+1:] ]
-
-                else:
-                    escapes = escapes[:i+1]+[ (p[0]-23, p[1]-23) for p in escapes[i+1:] ]
+                
+                escapes = escapes[:i+1]+[ (p[0]-23 , p[1]-23) for p in escapes[i+1:] ]
         
         if len(escapes):
             self.open_pattern_pos = [v for v in self.open_pattern_pos if not index_in_range(v, escapes, process_escapes)]
@@ -174,12 +175,7 @@ class ProcessedString():
         self.len_close_pattern_pos = len(self.close_pattern_pos)
             
         if self.len_open_pattern_pos != self.len_close_pattern_pos:
-            notify(string, color="RED")
-            if (self.len_open_pattern_pos > self.len_close_pattern_pos):
-                die(messages.malformed_patterns_missing_closing_symbols.format(ressource))
-                
-            else:
-                die(messages.malformed_patterns_missing_closing_symbols.format(ressource))
+            raise MalformedPatterns(self.len_open_pattern_pos > self.len_close_pattern_pos, False, ressource)
 
         self.string = string
         self.ressource = ressource

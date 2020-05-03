@@ -79,7 +79,7 @@ def init_theme(argv):
         
     if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(themes_folder+"/config.yaml"):
         import yaml
-        config = yaml.load(open(theme_folder+"/config.yaml",'r').read())
+        config = yaml.load(open(theme_folder+"/config.yaml",'r').read(), Loader=yaml.FullLoader)
         if "override" in config.keys() and type(config["override"]) == dict:
             for param in config["override"].keys():
                 datastore.blog_configuration[param] = config["override"][param]
