@@ -23,6 +23,9 @@ from venc2 import venc_version
 
 def print_version(argv):
     print("VenC", venc_version)
+    import platform
+    print("Python", platform.python_version())
+
 
 # Will be removed and replaced by argparse
 def print_help(argv=None):

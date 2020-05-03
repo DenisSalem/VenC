@@ -76,7 +76,7 @@ class Thread:
             self.processor.set_function(pattern_name, getattr(self, patterns_map.contextual["names"][pattern_name]))
 
     def path_encode(self, path):
-        if self.path_encoding == '':
+        if self.path_encoding in ["utf-8",'']:
             return unidecode.unidecode(path).replace(' ', '-').replace('\'', '-')
             
         else:

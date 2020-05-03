@@ -37,7 +37,7 @@ path:
   ftp: Chemin absolu de votre blog sur l'hôte FTP.
   index_file_name: index{page_number}.html
   rss_file_name: rss.xml
-path_encoding: utf-8
+path_encoding: ''
 reverse_thread_order: true
 server_port: 8888
 sort_by: id

@@ -34,7 +34,10 @@ def print_themes():
     themes_folder = os.path.expanduser('~')+"/.local/share/VenC/themes/"
     for theme in os.listdir(themes_folder):
         if "config.yaml" in os.listdir(themes_folder+theme) and not os.path.isdir(themes_folder+theme+"/config.yaml"):
-            config = yaml.load(open(themes_folder+theme+"/config.yaml",'r').read())
+            config = yaml.load(
+                open(themes_folder+theme+"/config.yaml",'r').read(),
+                Loader=yaml.FullLoader
+            )
             try:
                 description = getattr(messages, config["info"]["description"])
                         

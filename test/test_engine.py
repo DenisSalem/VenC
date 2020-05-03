@@ -28,6 +28,7 @@ def run_tests(tests_name, tests):
             print(get_formatted_message("\t"+test_name+" Pass", prompt=""))
    
         except AssertionError as e:
+
             if str(e) == test_name:
                 print(get_formatted_message("\t"+test_name+" Failed", color="RED", prompt=""))
 
@@ -42,7 +43,7 @@ def run_tests(tests_name, tests):
             except AssertionError:
                 print(get_formatted_message("\t"+test_name+" "+str(err)+" != "+str(type(venc_defined_exception)), color="RED", prompt=""))
                 continue
-
+            
             params_okay = True
             for arg in args:
                 try:
@@ -55,6 +56,5 @@ def run_tests(tests_name, tests):
 
             if params_okay:
                 print(get_formatted_message("\t"+test_name+" Pass", prompt=""))
-
 
     print("Done.")
