@@ -20,54 +20,43 @@
   <body>
     <header>
       <h1>
-        <a href="../index.html">
+          <a href="../ ">
           <img id="banner" src="../" alt="Theme Unit Test" title="Theme Unit Test" />
         </a>
       </h1>
       <h2>CATEGORIES</h2>
       <div id="categories">
-        <ul><li><a href="../Layout-Tricks/" title="1 publications">Layout Tricks</a></li><li><a href="../Templates/" title="5 publications">Templates</a><ul><li><a href="../Templates/Footnotes/" title="1 publications">Footnotes</a></li><li><a href="../Templates/Layout-Tricks/" title="1 publications">Layout Tricks</a></li><li><a href="../Templates/Patterns/" title="3 publications">Patterns</a><ul><li><a href="../Templates/Patterns/CodeHighlight/" title="1 publications">CodeHighlight</a></li><li><a href="../Templates/Patterns/Escape/" title="1 publications">Escape</a></li><li><a href="../Templates/Patterns/Latex2MathML/" title="1 publications">Latex2MathML</a></li></ul></li></ul></li></ul> 
+        <ul><li><a href="../Templates/" title="6 publications">Templates</a><ul><li><a href="../Templates/Footnotes/" title="1 publications">Footnotes</a></li><li><a href="../Templates/Layout-Tricks/" title="2 publications">Layout Tricks</a></li><li><a href="../Templates/Patterns/" title="3 publications">Patterns</a><ul><li><a href="../Templates/Patterns/CodeHighlight/" title="1 publications">CodeHighlight</a></li><li><a href="../Templates/Patterns/Escape/" title="1 publications">Escape</a></li><li><a href="../Templates/Patterns/Latex2MathML/" title="1 publications">Latex2MathML</a></li></ul></li></ul></li></ul> 
       </div>
       <h2 id="archivesHeader">ARCHIVES</h2>
       <ul id="archives"><li><a href="../2019-08" title="6 publications">2019-08</a></li></ul>
       <div id="__VENC_LOADING__"></div>
     </header>
     <div id="__VENC_THREAD__">
-<div id="__VENC_COLUMN_0__" class="__VENC_COLUMN__"><div class="entry " id="entry4" data-venc-tags="">
+<div id="__VENC_COLUMN_0__" class="__VENC_COLUMN__"><div class="entry " id="entry5" data-venc-tags="">
   <div class="permalink">
-    <h1><a href="../entry4.html">Escape unit test</a></h1>
-    <p>Tuesday 13. August 2019</p>
+    <h1><a href="../entry5.html">Display title in thread test</a></h1>
+    <p>Thursday 22. August 2019</p>
   </div>
-  <p><em>As shown below Escape will disable parsing of VenC patterns between Escape/EndEscape pair.
-In the other hand, the behavior of DisableMarkup is pretty straightforward.</em></p>
+  <p>With Tessellation you can tell VenC if it must display entry title or not.</p>
 
-<p><strong>With Escape/EndEscape and DisableMarkup</strong></p>
+<p>By default, entry title are disabled.</p>
 
-- Hello VenC!
-- Hello lovely user!
+<p>On the user side, to display the entry title in blog thread, one have to set up the above metadata "<strong>display_title_in_threads</strong>".</p>
 
-_Italic text for fun and non profit!_
+<p>By looking the source of the Tessellation theme, in <em>entry.html</em> you'll see that we are calling the following patterns to achieve the trick.</p>
 
-<p> .:SetColor::This is red text!t::red:. </p>
+<p></p>
 
-<p><strong>Without Escape/EndEscape and DisableMarkup</strong></p>
+<pre>.:GetEntryMetadataIfExists::display_title_in_threads::&lt;h1&gt;.:GetEntryTitle:.&lt;/h1&gt;:.</pre>
 
-<ul>
-<li>Hello VenC!</li>
-<li>Hello lovely user!</li>
-</ul>
-
-<p><em>Italic text for fun and non profit!</em></p>
-
-<p><span style="color: red;">This is red text!</span></p>
-
-<p>Please note that VenC syntax require you to close Escape pattern with ::EndEscape.</p>
+<p></p>
 
 </div>
 </div>      </div>
       <footer id="__VENC_NAVIGATION__">
         <a id="previous" href="index.html">←</a>
-        <ul id="pagesList"><li><a href="index.html">0</a></li>.<li><a href="index1.html">1</a></li>.<li><a href="index2.html">2</a></li>.<li><a href="index3.html">3</a></li>.<li><a href="index4.html">4</a></li></ul>
+        <ul id="pagesList"><li><a href="index.html">0</a></li>.<li><a href="index1.html">1</a></li>.<li><a href="index2.html">2</a></li>.<li><a href="index3.html">3</a></li>.<li><a href="index4.html">4</a></li>.<li><a href="index5.html">5</a></li></ul>
         <a id="next" href="index2.html" data-venc-api-infinite-scroll-hook="index2.html">→</a>
       </footer>
   </body>

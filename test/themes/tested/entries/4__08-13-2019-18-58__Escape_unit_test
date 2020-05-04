@@ -30,4 +30,4 @@ _Italic text for fun and non profit!_
 
 .:SetColor::This is red text!::red:.
 
-Please note that VenC syntax require you to close Escape pattern with ::EndEscape.
+Please note that VenC syntax require you to close Escape pattern with ':&colon;EndEscape&colon;.' .

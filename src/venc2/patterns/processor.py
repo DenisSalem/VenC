@@ -268,7 +268,7 @@ class Processor():
                 e,
                 messages.unknown_pattern.format(pattern),
                 ",;"+pattern+";;"+";;".join(argv)+";,",
-                error_origin = [':'+pattern+':']
+                error_origin = [self.current_input_string[self.vop:self.vcp]]
             )
 
         except UnknownContextual as e:
@@ -284,7 +284,7 @@ class Processor():
                 e,
                 pattern+": "+e.info,
                 ",;"+pattern+";;"+";;".join(argv)+";,",
-                error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
+                error_origin = [self.current_input_string[self.vop:self.vcp]]
             )
 
         except PatternInvalidArgument as e:
@@ -292,7 +292,7 @@ class Processor():
                 e,
                 messages.wrong_pattern_argument.format(e.name, e.value, pattern)+' '+e.message,
                 ",;"+pattern+";;"+";;".join(argv)+";,",
-                error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
+                error_origin = [self.current_input_string[self.vop:self.vcp]]
             )
 
         except GenericMessage as e: 
@@ -300,7 +300,7 @@ class Processor():
                 e,
                 e.message,
                 ",;"+pattern+";;"+";;".join(argv)+";,",
-                error_origin = [".:"+pattern+"::"+"::".join(argv)+":."]
+                error_origin = [self.current_input_string[self.vop:self.vcp]]
             )
 
         # might be removed
@@ -316,18 +316,19 @@ class Processor():
 
     # Print out notification to user and replace erroneous pattern
     def handle_error(self, exception, error, default_output, error_origin = list()):
+        extra= ""
         if self.debug:
             raise exception
 
         err = get_formatted_message(error, "RED")+"\n"
         if self.ressource != str():
             err = messages.in_ressource.format(self.ressource)+'\n'+err
-                
-        if error_origin != list():
-            err+=(''.join(self.current_input_string).strip())
+        
+        if len(error_origin):
+            extra+=(''.join(self.current_input_string))
             for origin in error_origin:
-                err = highlight_value(err, origin)
-        die(err, "RED")
+                extra = highlight_value(extra, origin)
+        die(err, "RED", extra)
 
     def set_function(self, key, function):
         self.functions[key] = function
@@ -379,7 +380,8 @@ class Processor():
                         i = io
                         j = ic
 
-            vop, vcp = op[i], cp[j]
+            self.vop, self.vcp = op[i], cp[j]
+            vop, vcp = self.vop, self.vcp
 
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
             
@@ -408,6 +410,7 @@ class Processor():
                         new_chunk = cgi_escape(new_string)
                 
                 string = string[0:vop] + new_chunk + string[vcp+2:]
+                self.current_input_string = string
                         
                 offset = len(new_chunk) - (vcp + 2 - vop)
                 op = [ (v+offset if v > vop else v) for v in op]
