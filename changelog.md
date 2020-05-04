@@ -169,14 +169,14 @@
     DONE | Fix url with special char in chapter.
     DONE | Add CodeHighlightInclude
     WIP  | Reorganize themes dependencies in setup.
-    TODO | Include threads preview in entry
-    TODO | Add command for reorder entries by criteria
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
     TODO | Add definition in documentation for optional fields in blog configuration.
-    TODO | Change nomenclature: Most of the usual patterns are changed. Fix doc.
+    WIP | Change nomenclature: Most of the usual patterns are changed. Fix doc.
 
 # version 2.1.x
+    TODO | Include threads preview in entry
+    TODO | Add command for reorder entries by criteria
     TODO | Use built in list in yaml instead to turn str to list.
     TODO | Allow markdown2 setup.
     TODO | Add --insert-chapter command.

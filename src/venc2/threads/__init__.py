@@ -25,6 +25,7 @@ import unidecode
 from venc2.prompt import notify
 from venc2.l10n import messages
 from venc2.patterns.exceptions import PatternInvalidArgument
+from venc2.patterns.exceptions import PatternMissingArguments
 from venc2.patterns.processor import Processor
 
 current_source = None
@@ -198,6 +199,9 @@ class Thread:
         return ''
 
     def if_pages(self, argv):
+        if len(argv) < 2:
+            raise PatternMissingArguments(expected=2,got=len(argv))
+            
         if self.pages_count > 1:
             return argv[0]
         else:

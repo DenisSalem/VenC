@@ -46,7 +46,6 @@ def test_theme(args, test_name):
     sys.stdout = null
     
     export_blog([theme])
-    
     sys.stdout = stdout
 
     tested = tree_list_dir('blog', 1)

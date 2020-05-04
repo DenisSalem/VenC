@@ -36,7 +36,7 @@ _Italic text for fun and non profit!_
 
 <p><span style="color: red;">This is red text!</span></p>
 
-<p>Please note that VenC syntax require you to close Escape pattern with ::EndEscape.</p>
+<p>Please note that VenC syntax require you to close Escape pattern with ':&colon;EndEscape&colon;.' .</p>
 
 	]]>
     </description>

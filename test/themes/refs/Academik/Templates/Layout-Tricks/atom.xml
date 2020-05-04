@@ -9,6 +9,26 @@
    <email>venc@tuxfamily.org</email>
  </author>
  <entry>
+   <title>Display title in entry test</title>
+   <link href="../../entry6.html"/>
+   <content type="xhtml">
+   <p>With Tessellation you can tell VenC if it must display entry title or not.</p>
+
+<p>By default, entry title are disabled.</p>
+
+<p>On the user side, to display the entry title in the entry, one have to set up the above metadata "<strong>display_title_in_entry</strong>".</p>
+
+<p>By looking the source of the Tessellation theme, in <em>entry.html</em> you'll see that we are calling the following patterns to achieve the trick.</p>
+
+<p></p>
+
+<pre>.:GetEntryMetadataIfExists::display_title_in_entry::&lt;h1&gt;Display title in entry test&lt;/h1&gt;:.</pre>
+
+<p></p>
+
+   </content>
+ </entry>
+ <entry>
    <title>Display title in thread test</title>
    <link href="../../entry5.html"/>
    <content type="xhtml">
