@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+<channel>
+  <atom:link href="http://127.0.0.1:8888/feed.xml" rel="self" type="application/rss+xml" />
+  <title>Theme Unit Test</title>
+  <link>http://127.0.0.1:8888</link>
+  <description>Test blog output</description>
+  
+  <item>
+    <title>Footnotes unit test</title>
+    <link>http://127.0.0.1:8888/../../entry1.html</link>
+    <guid isPermaLink="true">http://127.0.0.1:8888/../../entry1.html</guid>
+    <description>
+    	<![CDATA[
+	<p>This template is designed to work with defaults themes</p>
+
+<p>The following<a href="#footnote_1">¹</a> will display aside if used with Academik theme. Otherwise,
+it will be display below the current paragraphe.</p>
+
+<span id="footnote_1" class="footnote">A first footnote for the sake of the demonstration</span>
+
+<p>You can go directly to <a href="#footnote_2">this</a> second footnote by clicking the link.
+Do not forget to add a line break so the parser will know that the footnote
+is not part of this paragraphe</p>
+
+<span id="footnote_2" class="footnote">² The first argument is the css id name,
+the second is the css class name</span>
+
+	]]>
+    </description>
+  </item>
+</channel>
+</rss>

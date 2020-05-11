@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+<channel>
+  <atom:link href="http://127.0.0.1:8888/feed.xml" rel="self" type="application/rss+xml" />
+  <title>Theme Unit Test</title>
+  <link>http://127.0.0.1:8888</link>
+  <description>Test blog output</description>
+  
+  <item>
+    <title>Display title in entry test</title>
+    <link>http://127.0.0.1:8888/../../entry6.html</link>
+    <guid isPermaLink="true">http://127.0.0.1:8888/../../entry6.html</guid>
+    <description>
+    	<![CDATA[
+	<p>With Tessellation you can tell VenC if it must display entry title or not.</p>
+
+<p>By default, entry title are disabled.</p>
+
+<p>On the user side, to display the entry title in the entry, one have to set up the above metadata "<strong>display_title_in_entry</strong>".</p>
+
+<p>By looking the source of the Tessellation theme, in <em>entry.html</em> you'll see that we are calling the following patterns to achieve the trick.</p>
+
+<p></p>
+
+<pre>.:GetEntryMetadataIfExists::display_title_in_entry::&lt;h1&gt;Display title in entry test&lt;/h1&gt;:.</pre>
+
+<p></p>
+
+	]]>
+    </description>
+  </item>
+  <item>
+    <title>Display title in thread test</title>
+    <link>http://127.0.0.1:8888/../../entry5.html</link>
+    <guid isPermaLink="true">http://127.0.0.1:8888/../../entry5.html</guid>
+    <description>
+    	<![CDATA[
+	<p>With Tessellation you can tell VenC if it must display entry title or not.</p>
+
+<p>By default, entry title are disabled.</p>
+
+<p>On the user side, to display the entry title in blog thread, one have to set up the above metadata "<strong>display_title_in_threads</strong>".</p>
+
+<p>By looking the source of the Tessellation theme, in <em>entry.html</em> you'll see that we are calling the following patterns to achieve the trick.</p>
+
+<p></p>
+
+<pre>.:GetEntryMetadataIfExists::display_title_in_threads::&lt;h1&gt;.:GetEntryTitle:.&lt;/h1&gt;:.</pre>
+
+<p></p>
+
+	]]>
+    </description>
+  </item>
+</channel>
+</rss>
