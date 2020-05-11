@@ -140,13 +140,13 @@ tests = [
     (
         "Simple Escaping surrounded by simple patterns.",
         ("moo .:add::1::1:. foo .:Escape:: .:mul::1::1:. ::EndEscape:. boo .:mul::2::2:. bar", True),
-        "moo 2 foo  .:mul::1::1:.  boo 4 bar",
+        "moo 2 foo .:mul::1::1:. boo 4 bar",
         test_pattern_processor
     ),
     (
         "Escaping surrounded by Escape patterns.",
-        ("moo .:Escape:: .:NoRage:. ::EndEscape:. foo .:Escape:: .:mul::1::1:. ::EndEscape:. boo .:Escape:: .:NoPattern:. What could possibly go wrong here? ::EndEscape:. bar", True),
-        "moo  .:NoRage:.  foo  .:mul::1::1:.  boo  .:NoPattern:. What could possibly go wrong here?  bar",
+        ("moo .:Escape:: \t\n.:NoRage:. ::EndEscape:. foo .:Escape::\t \n.:mul::1::1:.\t \n::EndEscape:. boo .:Escape:: .:NoPattern:. What could possibly go wrong here? ::EndEscape:. bar", True),
+        "moo .:NoRage:. foo .:mul::1::1:. boo .:NoPattern:. What could possibly go wrong here? bar",
         test_pattern_processor
     ),
     (
@@ -176,13 +176,13 @@ tests = [
     (
         "Escape missing opening symbols.",
         ("moo .:mul::2::3:. foo .:add::3::3:. bar .:Escape:: mul::3::3:. ::EndEscape:. boo", True),
-        "moo 6 foo 6 bar  mul::3::3:.  boo",
+        "moo 6 foo 6 bar mul::3::3:. boo",
         test_pattern_processor
     ),
     (
         "Escape missing closing symbols.",
         ("moo .:mul::2::3:. foo .:add::3::3:. bar .:Escape:: .:mul::3::3 ::EndEscape:. boo", True),
-        "moo 6 foo 6 bar  .:mul::3::3  boo",
+        "moo 6 foo 6 bar .:mul::3::3 boo",
         test_pattern_processor
     ),
     (

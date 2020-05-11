@@ -55,17 +55,19 @@ def get_markers_indexes(string, begin=".:", end=":."):
     i = 0
     l = len(string)
     offset=0
+    begin_eq_escape = begin == ".:Escape::"
     while i < l:
         i = string_find(begin, i)
         if i == -1:
             i=0
             break
             
-        # ~ if begin == ".:Escape::":
-            # ~ j = 0
-            # ~ while string[i+10+j] in [' ','\t','\n']:
-                # ~ j+=1
-            # ~ strip_begin_append(i+j)
+        if begin_eq_escape:
+            j = 0
+            while string[i+10+j] in [' ','\t','\n']:
+                j+=1
+                
+            strip_begin_append(j)
 
         op_append(i)
         i+=2
@@ -75,20 +77,22 @@ def get_markers_indexes(string, begin=".:", end=":."):
         if i == -1:
             i=0
             break
-        # ~ if begin == ".:EndEscape::" and False:
-            # ~ j = -1
-            # ~ while string[i+j] == in [' ','\t','\n']:
-                # ~ j-=1
-            # ~ strip_end_append(i+j)
+            
+        if begin_eq_escape:
+            j = 0
+            while string[i-j-1] in [' ','\t','\n']:
+                j+=1
+            strip_end_append(j)
 
         cp_append(i)
             
         i+=2
 
-    # ~ if begin == ".:Escape::":
-        # ~ a = [ (op[i], strip_begin[i])  for i in range(0,len(op)) ]
-        # ~ b = [ (cp[i], strip_begin[i])  for i in range(0,len(cp)) ]
-        # ~ return (a, b)
+    if begin_eq_escape:
+        a = [ (op[i], strip_begin[i]) for i in range(0,len(op)) ]
+        b = [ (cp[i], strip_end[i])   for i in range(0,len(cp)) ]
+        return (a, b)
+        
     return (op, cp)
 
 def handle_markup_language_error(message, line=None, string=None):
@@ -116,12 +120,12 @@ def parse_markup_language(string, markup_language, ressource):
 
     return string
 
-def index_in_range(index, ranges, process_escapes):
-    for b, e in ranges:
-        if index >= b and index <= (e if process_escapes else e+13):
-            return True
+def index_not_in_range(index, ranges, process_escapes):
+    for o, c in ranges:
+        if index >= o[0] and index <= (c[0] if process_escapes else c[0]+13):
+            return False
 
-    return False
+    return True
 
 class ProcessedString():
     def __init__(self, string, ressource, process_escapes=False):
@@ -139,7 +143,7 @@ class ProcessedString():
         while len(self.escapes_o):
             if len(self.escapes_o) > 1:
                 for i in range(1, len(self.escapes_o)):
-                    if self.escapes_o[i] > self.escapes_c[i-1]:
+                    if self.escapes_o[i][0] > self.escapes_c[i-1][0]:
                         o = self.escapes_o[0]
                         c = self.escapes_c[i-1]
 
@@ -156,20 +160,34 @@ class ProcessedString():
                 break
 
         if len(escapes) and process_escapes:
+            # First removes open and closes indexes which
+            # are actually referencing escapes indexes.
+            for e in escapes:
+                self.open_pattern_pos.remove(e[0][0])
+                self.close_pattern_pos.remove(e[1][0]+11)
+            
             # Remove Escape and EndEscapes, update indexes
             for i in range(0, len(escapes)):
                 o,c = escapes[i]
-                string = string[:o]+string[o+10:]
-                string = string[:c-10]+string[c+3:]
-                escapes[i] = (o, c-10)
-                self.open_pattern_pos = [(v-10 if v > o+10 and v <= o+23 else (v-23 if v > o+23 else v)) for v in self.open_pattern_pos]
-                self.close_pattern_pos = [(v-10 if v > o+10 and v <= o+23 else (v-23 if v > o+23 else v)) for v in self.close_pattern_pos]
+                #bs and es are for begin strip and end strip
+                o, bs = o
+                c, es = c
+                string = string[:o]+string[o+10+bs:]
+                string = string[:c-10-bs-es]+string[c+3-bs:]
+
+                # -1 to set close escape at the end of the escaped string
+                escapes[i] = ((o, bs), (c-10-bs-es-1, es)) 
                 
-                escapes = escapes[:i+1]+[ (p[0]-23 , p[1]-23) for p in escapes[i+1:] ]
-        
+                # adjust pattern indexes
+                self.open_pattern_pos = [(v-10-bs if v > o and v < c else (v-23-bs-es if v > c+13 else v)) for v in self.open_pattern_pos]
+                self.close_pattern_pos = [(v-10-bs if v > o and v < c else (v-23-bs-es if v > c+13 else v)) for v in self.close_pattern_pos]
+                
+                escapes = escapes[:i+1]+[ ( (p[0][0]-23-bs-es, p[0][1]), (p[1][0]-23-bs-es, p[1][1])) for p in escapes[i+1:] ]
+                
+        # remove escaped patterns indexes
         if len(escapes):
-            self.open_pattern_pos = [v for v in self.open_pattern_pos if not index_in_range(v, escapes, process_escapes)]
-            self.close_pattern_pos = [v for v in self.close_pattern_pos if not index_in_range(v, escapes, process_escapes)]
+            self.open_pattern_pos = [v for v in self.open_pattern_pos if index_not_in_range(v, escapes, process_escapes)]
+            self.close_pattern_pos = [v for v in self.close_pattern_pos if index_not_in_range(v, escapes, process_escapes)]
 
         self.len_open_pattern_pos = len(self.open_pattern_pos)
         self.len_close_pattern_pos = len(self.close_pattern_pos)
@@ -184,7 +202,7 @@ class ProcessedString():
         self.keep_appart_from_markup_inc = 0
         self.bop, self.bcp = [], []
         self.backup = None
-
+                     
     def do_again(self):
         self.__init__(self.string, self.ressource, self.process_escapes)
         
@@ -382,10 +400,10 @@ class Processor():
 
             self.vop, self.vcp = op[i], cp[j]
             vop, vcp = self.vop, self.vcp
-
-            fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
             
+            fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
             current_pattern = fields[0]
+            
             if (not current_pattern in ["GetRelativeOrigin","Escape"]) and (not current_pattern in self.blacklist):
                 if current_pattern in self.keep_appart_from_markup and not no_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
