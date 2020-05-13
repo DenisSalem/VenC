@@ -22,7 +22,7 @@ En outre, voilà ce que VenC propose:
   - Possibilité de désactiver des fils de publications spécifique.
   - Possibilité de définir des sous répertoires par type de fils de publications.
   - Possibilité d'ajouter des métadonnés au blog et aux publications.
-  - Publication chronologique ascendante ou descendante.
+  - Publication trié par ordre chronologique ou par métadonné. Ordre ascendant ou descendant.
   - Flux ATOM et/ou RSS pour chaque fils de publications.
   - Permaliens.
   - Serveur HTTP simple.

@@ -191,7 +191,7 @@ class DataStore:
 
             self.blog_archives.append({
                 "value":node.value,
-                "path": ".:GetRelativeOrigin:."+sub_folders+node.value,
+                "path": "\x1a"+sub_folders+node.value,
                 "count": node.count,
                 "weight": node.weight
             })
@@ -333,7 +333,7 @@ class DataStore:
                 "name":self.blog_configuration["author_name"]
             }
         blog_url = self.blog_configuration["blog_url"]
-        entry_url = '/'.join(entry.url.split('/')[:-1]).replace(".:GetRelativeOrigin:.", self.blog_configuration["blog_url"]+'/')
+        entry_url = '/'.join(entry.url.split('/')[:-1]).replace("\x1a", self.blog_configuration["blog_url"]+'/')
         filename = "entry"+str(entry.id)+".jsonld"
         doc = {
             "@context": "http://schema.org",
@@ -346,7 +346,7 @@ class DataStore:
             "inLanguage" : self.blog_configuration["blog_language"],
             "author" : authors if authors != [] else self.blog_configuration["author_name"],
             "publisher" : publisher,
-            "url" : entry.url.replace(".:GetRelativeOrigin:.", self.blog_configuration["blog_url"]+"/"),
+            "url" : entry.url.replace("\x1a", self.blog_configuration["blog_url"]+"/"),
             "breadcrumb" : {
                 "itemListElement": [{
                     "@type": "ListItem",
@@ -393,7 +393,7 @@ class DataStore:
 
         # Setup categories as jsonld if any
         for category in entry.categories_leaves:
-            complete_path = category["path"].replace('.:GetRelativeOrigin:.','')
+            complete_path = category["path"].replace('\x1a','')
             path = ''
             for sub_path in complete_path.split('/')[:-1]:
                 path += sub_path+'/'
@@ -443,7 +443,7 @@ class DataStore:
             output += io.format(**{
                 "index": sub_chapter.index,
                 "title": sub_chapter.entry.title,
-                "path": ".:GetRelativeOrigin:."+path,
+                "path": "\x1a"+path,
                 "level": level
             })
             output += self.build_html_chapters(argv, sub_chapter.sub_chapters, level+1)
@@ -633,7 +633,7 @@ class DataStore:
         return self.html_blog_archives[key]
 
     def get_root_page(self, argv):
-        return ".:GetRelativeOrigin:."+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
+        return "\x1a"+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
 
     def build_html_categories_tree(self, opening_node, opening_branch, closing_branch, closing_node, tree):
         output_string = opening_node

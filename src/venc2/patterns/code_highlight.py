@@ -36,7 +36,7 @@ class CodeHighlight:
     def get_style_sheets(self, argv=list()):
         output = str()
         for filename in self._includes.keys():
-            output += "<link rel=\"stylesheet\" href=\".:GetRelativeOrigin:."+filename+"\" type=\"text/css\" />\n"
+            output += "<link rel=\"stylesheet\" href=\"\x1a"+filename+"\" type=\"text/css\" />\n"
 
         return output
 

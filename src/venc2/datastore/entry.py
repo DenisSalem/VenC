@@ -143,7 +143,7 @@ class Entry:
         sf = paths["entries_sub_folders"].format(**params)
         if encoding == '':
             self.sub_folder = unidecode.unidecode(sf).replace(' ','-').replace('\'','-')+'/' if sf != '' else ''
-            self.url = ".:GetRelativeOrigin:."+self.sub_folder
+            self.url = "\x1a"+self.sub_folder
             if self.sub_folder == '' or paths["entry_file_name"] != "index.html":
                 self.url += unidecode.unidecode(
                     paths["entry_file_name"].format(**params)
@@ -152,13 +152,13 @@ class Entry:
         else:
             try:
                 self.sub_folder = urllib.parse.quote(sf, encoding=encoding)+'/' if sf != '' else ''
-                self.url = ".:GetRelativeOrigin:."+self.sub_folder
+                self.url = "\x1a"+self.sub_folder
                 if self.sub_folder == '' or paths["entry_file_name"] != "index.html":
                     self.url += urllib.parse.quote(paths["entry_file_name"].format(**params), encoding=encoding)
 
 
             except UnicodeEncodeError as e:
-                self.url = ".:GetRelativeOrigin:."+self.sub_folder+paths["entry_file_name"].format(**params)
+                self.url = "\x1a"+self.sub_folder+paths["entry_file_name"].format(**params)
                 notify("\"{0}\": ".format(sf+paths["entry_file_name"].format(**params))+str(e), color="YELLOW")
         
 
@@ -169,7 +169,7 @@ class Entry:
             for category in self.raw_categories:
                 category_leaf = category.split(' > ')[-1].strip()
                 if len(category_leaf) != 0:
-                    category_leaf_path = ".:GetRelativeOrigin:."
+                    category_leaf_path = "\x1a"
                     for sub_category in category.split(' > '):
                         category_leaf_path +=sub_category.strip()+'/'
                 
