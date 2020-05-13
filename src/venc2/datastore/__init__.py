@@ -523,7 +523,7 @@ class DataStore:
             return str()
             
         try:
-            return argv[1].format(**{"value" : value})
+            return argv[1].format(**{"value" : value, "relative_origin": "\x1a"})
         
         except IndexError:
             return value
