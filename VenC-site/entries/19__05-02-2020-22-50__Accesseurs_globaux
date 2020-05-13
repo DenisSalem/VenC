@@ -57,6 +57,20 @@ De façon similaire, il est possible d'essayer d'accéder à une variable,
 sans garantie que celle-ci existe. Si la variable existe, il est possible
 alors de formater du texte pour y inclure notre variable.
 
-Un cas d'usage typique serait d'ajouter un bouton de réseau social:
+Le formatage du texte se fait en utilisant des variables contextuelles propre à la fonction:
 
-.:CodeHighlightInclude::C++::True::GetBlogMetadataIfExists_example:.
+- __{value}__ : La valeur de la variable qu'on référence.
+- __{relative_origin}__ : Le chemin relatif de la racine du blog.
+
+Un cas d'usage typique serait d'ajouter un bouton de réseau social si
+l'utilisateur définit un compte dans son fichier de configuration:
+
+.:CodeHighlightInclude::html::False::GetBlogMetadataIfExists_example:.
+
+Dans cet example, on suppose que l'image de l'icone du réseau social se trouve à la
+racine du blog, on a donc besoin de préciser son chemin relatif avec la
+variable contextuelle {relative_origin}.
+
+Si la variable référencée n'est pas définit VenC ignore le motif et le supprime.
+
+Si le second argument n'est pas définit l'accesseur renvoie directement la variable référencée, si elle existe.
