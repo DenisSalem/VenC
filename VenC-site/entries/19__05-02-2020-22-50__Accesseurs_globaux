@@ -1,10 +1,11 @@
 authors: 'Denis Salem'
 categories: ''
 tags: ''
-chapter: 5.2
-title: Motifs super globaux
+chapter: 5.1.2
+title: Accesseurs globaux
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
+
 Ces motifs sont généralement disponibles quelque soit le contexte et
 sont définis dans blog_configuration.yaml.
 
@@ -17,11 +18,6 @@ sont définis dans blog_configuration.yaml.
 - __.:Escape:: .:GetBlogURL:. ::EndEscape:.__ : Retourne l'URL du blog.
 - __.:Escape:: .:GetBlogLanguage:. ::EndEscape:.__ : Retourne le language du blog.
 - __.:Escape:: .:GetAuthorEmail:. ::EndEscape:.__ : Retourne l'adresse email de l'auteur du blog.
-- __.:Escape:: .:GetRelativeOrigin:. ::EndEscape:.__ : Retourne le chemin relatif de la racine du blog.
-- __.:Escape:: .:GetRelativeLocation:. ::EndEscape:.__ : Retourne le répertoire courant relativement à la racine du blog.
-
-.:GetRelativeOrigin:.
-.:GetRelativeLocation:.
 
 Vous pouvez également définir vos propres variables en rajoutant des
 champs au fichier de configuration blog_configuration.yaml. Par exemple
@@ -29,6 +25,6 @@ en rajoutant la ligne
 
 > Banner: 'maBanniere.jpg'
 
-dans le fichier de configuration, vous pourrez récupérer la valeurs de Banner avec
+dans le fichier de configuration, vous pourrez ensuite récupérer la valeurs de Banner avec
 
 > .:Escape:: .:Get::Banner:. ::EndEscape:.

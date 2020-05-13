@@ -60,6 +60,7 @@ class PatternsMap():
                 "GetAuthorEmail" :      datastore.get_author_email,
 
                 # Extra metadata getter
+                "GetBlogMetadata" :         datastore.get_blog_metadata, 
                 "GetBlogMetadataIfExists" : datastore.get_blog_metadata_if_exists, 
                 "ForBlogArchives" :         datastore.for_blog_archives,
                 "LeavesForBlogCategories" : datastore.leaves_for_blog_categories,
