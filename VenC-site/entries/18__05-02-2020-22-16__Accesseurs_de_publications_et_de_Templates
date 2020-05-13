@@ -23,4 +23,6 @@ Il est possible de définir ses propres variable dans les métadonnées de la pu
 
 Pour accéder à l'une de ces variables on utilise la motif suivant:
 
-> .:Escape:: .:GetEntryMetadata::<nom_de_la_variable>:. :.
+> .:Escape:: .:GetEntryMetadata::nom-de-la-variable:. ::EndEscape:.
+
+Si la variable appelé référencé n'existe pas 

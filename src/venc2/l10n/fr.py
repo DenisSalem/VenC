@@ -111,4 +111,5 @@ class Messages:
     undefined_variable = "{0} n'est  pas défini dans \"{1}\"."
     too_much_call_of_content = "Il y a trop d'appels de .:GetEntryContent:. et/ou de .:GetEntryPreview:. dans {0}"
     entry_has_no_metadata_like = "La publication ne possède pas la métadonnée identifié par {0}."
+    blog_has_no_metadata_like = "Le blog ne possède pas la métadonnée identifié par {0}."
     invalid_range = "Plage de nombres invalide {0}:{1}."
