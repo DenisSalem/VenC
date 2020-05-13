@@ -79,7 +79,7 @@ class CategoriesThread(Thread):
         category_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+self.category_value+"categories.jsonld"
         category_as_jsonld["url"] = blog_url+'/'+self.sub_folders+self.category_value
         dump = json.dumps(category_as_jsonld)
-        f = open((self.export_path+"categories.jsonld").replace(' ','-'), 'w')
+        f = open((self.export_path+"categories.jsonld"), 'w')
         f.write(dump)
 
     def setup_category_context(self, i, root, len_root):
