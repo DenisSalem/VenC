@@ -11,13 +11,28 @@ des fichiers __entry.html__, __rssEntry.xml__ et __atomEntry.xml__ et de la publ
 
 Il est aussi possible d'utiliser ceux là dans des templates. Pour en savoir plus sur les templates, rendez vous [ici](.:GetRelativeOrigin:.Les-templates)
 
-- __.:Escape:: .:GetEntryID:. ::EndEscape:.__ : Retourne l'identifiant unique de la publication.
-- __.:Escape:: .:GetEntryTitle:. ::EndEscape:.__ : Retourne le nom de la publication.
-- __.:Escape:: .:GetEntryMonth:. ::EndEscape:.__ : Retourne le mois de création de la publication.
-- __.:Escape:: .:GetEntryYear:. ::EndEscape:.__ : Retourne l'année de création de la publication.
-- __.:Escape:: .:GetEntryDay:. ::EndEscape:.__ : Retourne le jour de création de la publication.
-- __.:Escape:: .:GetEntryHour:. ::EndEscape:.__ : Retourne l'heure de création de la publication.
-- __.:Escape:: .:GetEntryMinute:. ::EndEscape:.__ : Retourne la minute de création de la publication.
+## .:Escape:: .:GetEntryID:. ::EndEscape:.
+ Retourne l'identifiant unique de la publication.
+
+## .:Escape:: .:GetEntryTitle:. ::EndEscape:.
+Retourne le nom de la publication.
+
+## .:Escape:: .:GetEntryMonth:. ::EndEscape:.
+Retourne le mois de création de la publication.
+
+## .:Escape:: .:GetEntryYear:. ::EndEscape:.
+Retourne l'année de création de la publication.
+
+## .:Escape:: .:GetEntryDay:. ::EndEscape:.
+Retourne le jour de création de la publication.
+
+## .:Escape:: . :GetEntryHour:. ::EndEscape:.
+Retourne l'heure de création de la publication.
+
+## .:Escape:: .:GetEntryMinute:. ::EndEscape:.
+Retourne la minute de création de la publication.
+
+## .:Escape:: .:GetEntryMetadata::variable_name:. ::EndEscape:.
 
 Il est possible de définir ses propres variable dans les métadonnées de la publication ou du template.
 
@@ -31,3 +46,22 @@ Pour accéder à celle-ci on utilisera le motif GetEntryMetadata de la façon su
 
 Si la variable ainsi référencée n'existe pas VenC générera une
 erreur et vous indiquera où en est l'origine.
+
+## .:Escape:: .:GetEntryMetadataIfExists::variable_name[::string]:. ::EndEscape:.
+
+De façon similaire, il est possible d'essayer d'accéder à une variable,
+sans garantie que celle-ci existe. Si la variable existe, il est possible
+alors de formater du texte pour y inclure notre variable.
+
+Le formatage du texte se fait en utilisant des variables contextuelles propre à la fonction:
+
+- __{value}__ : La valeur de la variable qu'on référence.
+- __{relative_origin}__ : Le chemin relatif de la racine du blog.
+
+Un cas d'usage typique serait de modifier le style de la publications en attribuant une classe CSS à l'élément HTML:
+
+.:CodeHighlightInclude::Text::False::GetEntryMetadataIfExists_example:.
+
+Si la variable référencée n'est pas définit VenC ignore le motif et le supprime.
+
+Si le second argument n'est pas définit l'accesseur renvoie directement la variable référencée, si elle existe.
