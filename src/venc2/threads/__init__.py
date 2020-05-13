@@ -93,6 +93,9 @@ class Thread:
     # Must be called in child class
     def get_relative_location(self, argv):
         return self.export_path[5:]
+        
+    def get_relative_origin(self, argv):
+        return self.relative_origin
 
     # Must be called in child class
     def organize_entries(self, entries):
@@ -276,7 +279,7 @@ class Thread:
             'w',
             encoding="utf-8"
         )
-        stream.write(output)
+        stream.write(output.replace("\x1a", self.relative_origin))
         stream.close()
 
     def pre_iteration(self):
@@ -303,7 +306,7 @@ class Thread:
         self.output += current_source.string
         self.footer.restore()
         
-        self.write_file(self.output.replace(".:GetRelativeOrigin:.", self.relative_origin), self.page_number)
+        self.write_file(self.output.replace("\x1a",self.relative_origin), self.page_number)
 
         self.page_number += 1
         self.current_page = self.page_number
@@ -364,7 +367,7 @@ class Thread:
                 'w',
                 encoding="utf-8"
             )
-            stream.write(output.replace(".:GetRelativeOrigin:.", self.relative_origin))
+            stream.write(output.replace("\x1a", self.relative_origin))
             stream.close()
             
         else:

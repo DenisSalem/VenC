@@ -105,6 +105,7 @@ class PatternsMap():
                 "IfInLastPage" : "if_in_last_page",
                 "IfInEntryID" : "if_in_entry_id",
                 "GetRelativeLocation" : "get_relative_location",
+                "GetRelativeOrigin" : "get_relative_origin",
                 "GetNextPage" : "get_next_page",
                 "GetPreviousPage" : "get_previous_page",
                 "ForPages" : "for_pages",

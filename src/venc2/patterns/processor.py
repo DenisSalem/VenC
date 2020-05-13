@@ -404,7 +404,7 @@ class Processor():
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
             current_pattern = fields[0]
             
-            if (not current_pattern in ["GetRelativeOrigin","Escape"]) and (not current_pattern in self.blacklist):
+            if (not current_pattern == "Escape") and (not current_pattern in self.blacklist):
                 if current_pattern in self.keep_appart_from_markup and not no_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
@@ -439,7 +439,7 @@ class Processor():
                 op.pop(i)
                 cp.pop(j)
 
-            elif current_pattern in ["GetRelativeOrigin", "Escape"]:
+            elif current_pattern == "Escape":
                 op.pop(i)
                 cp.pop(j)
 

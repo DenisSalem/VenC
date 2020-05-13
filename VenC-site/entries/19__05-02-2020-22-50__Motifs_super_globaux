@@ -8,17 +8,20 @@ title: Motifs super globaux
 Ces motifs sont généralement disponibles quelque soit le contexte et
 sont définis dans blog_configuration.yaml.
 
-- .:Escape:: .:GetAuthorName:. ::EndEscape:. : Retourne le nom de l'auteur du blog.
-- .:Escape:: .:GetBlogName:. ::EndEscape:.: Retourne le titre du blog.
-- .:Escape:: .:GetBlogDescription:. ::EndEscape:. : Retourne la description du blog.
-- .:Escape:: .:GetBlogKeywords:. ::EndEscape:. : Retourne les mots clefs décrivant le blog.
-- .:Escape:: .:GetAuthorDescription:. ::EndEscape:. : Retourne la description de l'auteur du blog.
-- .:Escape:: .:GetBlogLicense:. ::EndEscape:. : Retourne la licence appliquée au contenu du blog.
-- .:Escape:: .:GetBlogURL:. ::EndEscape:. : Retourne l'URL du blog.
-- .:Escape:: .:GetBlogLanguage:. ::EndEscape:. : Retourne le language du blog.
-- .:Escape:: .:GetAuthorEmail:. ::EndEscape:. : Retourne l'adresse email de l'auteur du blog.
-- .:Escape:: blablabla.:GetRelativeOrigin:. ::EndEscape:. : Retourne le chemin relatif de la racine du blog.
-- .:Escape:: .:GetRelativeLocation:. ::EndEscape:. : Retourne le répertoire courant relativement à la racine du blog.
+- __.:Escape:: .:GetAuthorName:. ::EndEscape:.__ : Retourne le nom de l'auteur du blog.
+- __.:Escape:: .:GetBlogName:. ::EndEscape:.__ : Retourne le titre du blog.
+- __.:Escape:: .:GetBlogDescription:. ::EndEscape:.__ : Retourne la description du blog.
+- __.:Escape:: .:GetBlogKeywords:. ::EndEscape:.__ : Retourne les mots clefs décrivant le blog.
+- __.:Escape:: .:GetAuthorDescription:. ::EndEscape:.__ : Retourne la description de l'auteur du blog.
+- __.:Escape:: .:GetBlogLicense:. ::EndEscape:.__ : Retourne la licence appliquée au contenu du blog.
+- __.:Escape:: .:GetBlogURL:. ::EndEscape:.__ : Retourne l'URL du blog.
+- __.:Escape:: .:GetBlogLanguage:. ::EndEscape:.__ : Retourne le language du blog.
+- __.:Escape:: .:GetAuthorEmail:. ::EndEscape:.__ : Retourne l'adresse email de l'auteur du blog.
+- __.:Escape:: .:GetRelativeOrigin:. ::EndEscape:.__ : Retourne le chemin relatif de la racine du blog.
+- __.:Escape:: .:GetRelativeLocation:. ::EndEscape:.__ : Retourne le répertoire courant relativement à la racine du blog.
+
+.:GetRelativeOrigin:.
+.:GetRelativeLocation:.
 
 Vous pouvez également définir vos propres variables en rajoutant des
 champs au fichier de configuration blog_configuration.yaml. Par exemple
