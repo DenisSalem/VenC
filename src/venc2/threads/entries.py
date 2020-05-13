@@ -125,7 +125,7 @@ class EntriesThread(Thread):
     def do_jsonld(self, entry):
         dump = json.dumps(self.datastore.entries_as_jsonld[self.current_entry.id])
         f = open(self.current_export_path+"/entry"+str(entry.id)+".jsonld", 'w')
-        f.write(dump)
+        f.write(dump.replace("\\u001a", self.relative_origin))
             
     def do(self):
         if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
