@@ -62,6 +62,7 @@ class CodeHighlight:
                 code = "::".join(argv[2:])
             else:
                 code = argv[2]
+                
             result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
             css  = formatter.get_style_defs()
 

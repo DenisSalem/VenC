@@ -506,6 +506,7 @@ class DataStore:
     def get_blog_metadata_if_exists(self, argv):
         try:
             value = self.blog_configuration[argv[0]]
+            
         except KeyError:
             return str()
         

@@ -37,8 +37,8 @@ aside ul
 
 blockquote,
 .venc_source_Yaml,
-.venc_source_Text
-
+.venc_source_Text,
+.venc_source_html,
 	{background-color: rgba(0,0,0,0.5);
 	color: #FFF;
 	font-size: 0.8em;
@@ -54,14 +54,15 @@ blockquote p
     {padding-right: 15px;}
 
 .venc_source_Yaml,
-.venc_source_Text
-
+.venc_source_Text,
+.venc_source_html
 	{font-size: 1em;
 	margin-left: 15px;
 	margin-right: 15px;}
 
 .venc_source_Yaml pre,
-.venc_source_Text pre
+.venc_source_Text pre,
+.venc_source_html pre
 	{overflow: hidden;
 	margin-top: 0px;
 	margin-left: 15px;

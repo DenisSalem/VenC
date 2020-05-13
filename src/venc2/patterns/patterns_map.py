@@ -116,6 +116,7 @@ class PatternsMap():
         
         self.keep_appart_from_markup = [
             "CodeHighlight",
+            "CodeHighlightInclude",
             "Latex2MathML",
             "IncludeFile",
             "SetStyle",

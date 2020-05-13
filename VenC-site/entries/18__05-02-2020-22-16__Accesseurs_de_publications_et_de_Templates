@@ -21,8 +21,13 @@ Il est aussi possible d'utiliser ceux là dans des templates. Pour en savoir plu
 
 Il est possible de définir ses propres variable dans les métadonnées de la publication ou du template.
 
-Pour accéder à l'une de ces variables on utilise la motif suivant:
+Par exemple, si on définie la variable suivante:
 
-> .:Escape:: .:GetEntryMetadata::nom-de-la-variable:. ::EndEscape:.
+> free_hardware : Arduino Mega
 
-Si la variable appelé référencé n'existe pas 
+Pour accéder à celle-ci on utilisera le motif GetEntryMetadata de la façon suivante:
+
+> .:Escape:: .:GetEntryMetadata::free_hardware:. ::EndEscape:.
+
+Si la variable ainsi référencée n'existe pas VenC générera une
+erreur et vous indiquera où en est l'origine.
