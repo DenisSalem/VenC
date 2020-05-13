@@ -495,8 +495,14 @@ class DataStore:
 
     def get_blog_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
-        return self.blog_configuration[argv[0]]
-    
+        try:
+            return self.blog_configuration[argv[0]]
+        except KeyError:
+            raise PatternInvalidArgument(
+                "GetBlogMetadata",
+                argv[0],
+                messages.blog_has_no_metadata_like.format(argv[0])
+            )
     def get_blog_metadata_if_exists(self, argv):
         try:
             value = self.blog_configuration[argv[0]]
@@ -511,10 +517,16 @@ class DataStore:
 
     def get_entry_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
-        
-        getattr(self.entries[self.requested_entry_index], argv[0])
-        return str(getattr(self.entries[self.requested_entry_index], argv[0]))
-    
+        try:
+            return str(getattr(self.entries[self.requested_entry_index], argv[0]))
+            
+        except AttributeError:
+            raise PatternInvalidArgument(
+                "GetEntryMetadata",
+                argv[0],
+                messages.entry_has_no_metadata_like.format(argv[0])
+            )
+            
     def get_entry_metadata_if_exists(self, argv):
         try:
             value = str(getattr(self.entries[self.requested_entry_index], argv[0]))

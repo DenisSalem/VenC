@@ -1,0 +1,9 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+chapter: 5.1
+title: Motifs de type Accesseur
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Il existe plusieurs type de motifs que VenC reconnais. Le premier d'entre eux est le type accesseur.
+Il permet de récupérer le contenu d'une variable dont la disponibilité dépend du contexte.
