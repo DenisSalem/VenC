@@ -124,14 +124,18 @@ class Entry:
             die(messages.missing_mandatory_field_in_entry.format("title", self.id))
 
         try:
-            self.authors = [ {"value":e} for e in list(metadata["authors"].split(",") if metadata["authors"] != str() else list()) ]
-
+            self.authors = [ e.strip() for e in metadata["authors"].split(",")] if type(metadata["authors"]) == str else metadata["authors"]
+            if type(self.authors) != list:
+                raise GenericMessage(messages.entry_metadata_is_not_a_list.format("authors", self.id))
+                
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("authors", self.id))
 
         try:
-            self.tags = [ {"value":e} for e in list(metadata["tags"].split(",") if metadata["tags"] != str() else list())]
-
+            self.tags = [ e.strip() for e in metadata["tags"].split(",")] if type(metadata["tags"]) == str else metadata["tags"]
+            if type(self.tags) != list:
+                raise GenericMessage(messages.entry_metadata_is_not_a_list.format("tags", self.id))
+                
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("tags", self.id))
 

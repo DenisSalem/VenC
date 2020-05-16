@@ -3,6 +3,7 @@ categories: ''
 tags: ''
 chapter: 5.1.1
 title: Accesseur de publications
+variable_name: pif, paf, pouf
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
@@ -32,6 +33,47 @@ Retourne l'heure de création de la publication.
 ## .:Escape:: .:GetEntryMinute:. ::EndEscape:.
 Retourne la minute de création de la publication.
 
+## .:Escape:: .:GetEntryDate:. ::EndEscape:.
+
+Retourne la date de la publication formaté comme définit dans le fichier de configuration par le champ date_format.
+
+## .:Escape:: .:GetEntryDateURL:. ::EndEscape:.
+
+Retourne le liens vers le groupe d'archive dans lequel se trouve la publication.
+
+## .:Escape:: .:GetEntryURL:. ::EndEscape:.
+
+Retourne l'URL de la publication si VenC est configuré pour générer une page par publication.
+sinon, le motif est ignoré et supprimé.
+
+## .:Escape:: .:ForEntryAuthors::string::separator:. ::EndEscape:.
+
+Retourne la liste des auteurs de la publication.
+
+Le premier argument est une chaine de
+caractère à formater avec la variable contextuelle __{value}__ contenant le nom de l'auteur courant.
+
+Le second paramètre est une chaine de caractère servant de séparateur.
+
+## .:Escape:: .:ForEntryTags::string::separator:. ::EndEscape:.
+
+Retourne la liste des mots clefs de la publication.
+
+Le premier argument est une chaine de
+caractère à formater avec la variable contextuelle __{value}__ contenant le mot clef courant.
+
+Le second paramètre est une chaine de caractère servant de séparateur.
+
+## .:ForEntryMetadata::variable_name::{value}::,:.
+
+Il est possible de définir des métadonnées sous la forme de listes. Qu'il est 
+Retourne la liste des mots clefs de la publication.
+
+Le premier argument est une chaine de
+caractère à formater avec la variable contextuelle __{value}__ contenant le mot clef courant.
+
+Le second paramètre est une chaine de caractère servant de séparateur.
+
 ## .:Escape:: .:GetEntryMetadata::variable_name:. ::EndEscape:.
 
 Il est possible de définir ses propres variable dans les métadonnées de la publication ou du template.
@@ -53,7 +95,7 @@ De façon similaire, il est possible d'essayer d'accéder à une variable,
 sans garantie que celle-ci existe. Si la variable existe, il est possible
 alors de formater du texte pour y inclure notre variable.
 
-Le formatage du texte se fait en utilisant des variables contextuelles propre à la fonction:
+Il est possible d'utiliser des variables contextuelles propre à la fonction pour formater le texte:
 
 - __{value}__ : La valeur de la variable qu'on référence.
 - __{relative_origin}__ : Le chemin relatif de la racine du blog.
