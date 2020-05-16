@@ -1,6 +1,6 @@
 authors: 'Denis Salem'
 categories: ''
-tags: ''
+tags: 'yaml'
 chapter: 4.3
 title: Les publications
 ---VENC-BEGIN-PREVIEW---
@@ -16,8 +16,7 @@ Le nom de fichier d'une publication est formaté de la façon suivante:
 <id>__<mois>-<jour>-<année>-<heure>-<minute>__<titre>
 :.
 
-Une publication contient une premiere partie au format Yaml contenant les
-métadonnées de la publication, puis une seconde au format Markdown qui
+Une publication contient une premiere partie au format [Yaml](https://yaml.org/) contenant [les métadonnées](.:GetRelativeOrigin:.Metadonnee) de la publication, puis une seconde au format Markdown qui
 elle contiendra la publication à proprement parler. Cette seconde partie
 est elle-même scindé en deux. L'une contiendra la prévisualisation de la
 publication, et l'autre son véritable contenu.
@@ -47,7 +46,7 @@ C'est le nom de votre publication tel que vous l'avez définit au moment de cré
 
 ## Métadonnées optionnels
 
-Il est également possible de rajouter librement des champs optionnels. Il y a cependant deux
+Il est également possible de rajouter librement des [champs optionnels](.:GetRelativeOrigin:.Metadonnee). Il y a cependant deux
 champs réservé:
 
 ### chapter
@@ -72,4 +71,5 @@ VenC supporte deux langages de balisage:
 
 - __Markdown__ : qui est le langage par défaut.
 - __reStructuredText__ : un peu plus complet et puissant que Markdown.
-- __none__ : Le langage de balisage est désactivé. Permet d'incorporer de l'html/CSS dans une publication.
+- __none__ : Le langage de balisage est désactivé. Permet d'incorporer
+de l'html/CSS dans une publication.
