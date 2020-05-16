@@ -115,4 +115,4 @@ class Messages:
     entry_has_no_metadata_like = "Entry has no metadata identified by {0}."
     blog_has_no_metadata_like = "Blog has no metadata identified by {0}."
     invalid_range = "Invalid range {0}:{1}."
-
+    entry_metadata_is_not_a_list = "Metadata named \"{0}\" from entry {1} is not a list."

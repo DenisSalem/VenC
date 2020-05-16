@@ -317,7 +317,7 @@ class DataStore:
         else:
             optionals = {}
         
-        authors = [{"name":author["value"], "@type": "Person"} for author in entry.authors]
+        authors = [{"name":author, "@type": "Person"} for author in entry.authors]
         if "publisher" in entry.schemadotorg.keys():
             publisher = entry.schemadotorg["publisher"]
             
@@ -712,6 +712,7 @@ class DataStore:
 
         return self.html_categories_tree[key]
 
+    # TODO: NOT FINISHED YET
     def for_entry_range(self, argv):
         if len(argv) != 3:
             raise PatternMissingArguments(expected=2,got=len(argv))
@@ -745,44 +746,35 @@ class DataStore:
             output += argv[2].replace("[index]}", '['+str(i)+']}').format(**entry.raw_metadata)
         
         return output
-        
-    def for_entry_tags(self, argv):
-        key = ''.join(argv)
-        entry = self.entries[self.requested_entry_index]
-
-        if not key in entry.html_tags.keys():
-            entry.html_tags[key] = merge(entry.tags, argv)
-
-        return entry.html_tags[key]
     
     def for_entry_metadata(self, argv):
-        if len(argv) != 2:
-            raise PatternMissingArguments(expected=2,got=len(argv))
+        if len(argv) != 3:
+            raise PatternMissingArguments(expected=3,got=len(argv))
             
         entry = self.entries[self.requested_entry_index]
         key = ''.join(argv)
         try:
-            l = getattr(entry, argv[0].strip()).split(',')
+            l = getattr(entry, argv[0].strip())
+            if type(l) != list:
+                raise GenericMessage(messages.entry_metadata_is_not_a_list.format(argv[0], entry.id))
             
         except:
             raise GenericMessage(messages.entry_has_no_metadata_like.format(argv[0]))
             
         if not key in entry.html_for_metadata:
             entry.html_for_metadata[key] = ''.join([
-                 argv[1].format(**{"item": item.strip()}) for item in l
+                 argv[1].format(**{"value": item.strip()}) for item in l
             ])
             
         return entry.html_for_metadata[key]
             
     def for_entry_authors(self, argv):
-        entry = self.entries[self.requested_entry_index]
-        key = ''.join(argv)
-        if not key in entry.html_authors.keys():
-            entry.html_authors[key] = merge(entry.authors, argv)
+        return self.for_entry_metadata(["authors"]+argv)
 
-        return entry.html_authors[key]
+    def for_entry_tags(self, argv):
+        return self.for_entry_metadata(["tags"]+argv)
 
-    """ TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing. """
+    # TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.
     def leaves_for_entry_categories(self, argv):
         key = ''.join(argv)
         entry = self.entries[self.requested_entry_index]
