@@ -1,0 +1,56 @@
+authors: 'Denis Salem'
+categories: ''
+tags: 'yaml'
+title: Métadonnée
+chapter: 4.4
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+Il est possible d'ajouter aux publications et au fichier de configuration
+principal des métadonnées supplémentaire. 
+
+## Type de métadonnée
+
+Il y a trois type possibles de métadonnée pour Venc:
+
+### Chaine de caractères
+
+C'est le type  par défaut de la plupart des métadonnées. Par exemple:
+
+.:CodeHighlight::Yaml::False::
+free_artist: 'Revolution Void'
+:.
+
+### Liste de chaine de caractères
+
+C'est le type par défaut des champs tags et authors. Il s'agit d'une
+liste d'éléments formatés selon la convention de [yaml](https://yaml.org/).
+
+Il peut s'agir d'une liste explicite:
+
+.:CodeHighlight::Yaml::False::
+liste_de_chose_à_faire: ['Devenir un dieu de la prog', 'Niquer le capitalisme', 'Assassiner Hitler']
+:.
+
+ou bien d'une chaine de caractère qui peut être convertie en liste si nécessaire
+
+.:CodeHighlight::Yaml::False::
+liste_de_chose_à_faire: 'Devenir un dieu de la prog, Niquer le capitalisme, Assassiner Hitler'
+:.
+
+Pour ce faire la liste est crée en utilisant les virgules comme séparateur.
+
+### Dictionnaire de donnée
+
+Ce type n'est utilisé qu'en interne par VenC, et pour le moment
+l'utilisateur a très peu d'intérêt à le manipuler. Il se présente
+comme spécifié par le format [Yaml](https://yaml.org/). Par exemple:
+
+.:CodeHighlight::Yaml::False::
+mon_dico:
+    bidule: 'kekchose'
+    trucs: ['machin', 'chose']
+    sous_dico:
+        autre_bidule: 'trucmuche'
+        autre_trucs: ['moo','foo','bar']
+:.
