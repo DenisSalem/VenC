@@ -168,12 +168,14 @@
     DONE | Make entry URL nicer when filename is index.html and has subfolder.
     DONE | Fix url with special char in chapter.
     DONE | Add CodeHighlightInclude
-    WIP  | Reorganize themes dependencies in setup.
+    DONE | Reorganize themes dependencies in setup.
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
-    TODO | Add definition in documentation for optional fields in blog configuration.
-    WIP | Change nomenclature: Most of the usual patterns are changed. Fix doc.
-
+    WIP  | Add definition in documentation for optional fields in blog configuration.
+    WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
+    TODO | Documenter le type des métadonnées: list, str ou dict
+    TODO | Fix chapters rendering (only first level sub-chapter are rendered for now)
+    
 # version 2.1.x
     TODO | Include threads preview in entry
     TODO | Add command for reorder entries by criteria

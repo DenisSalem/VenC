@@ -750,19 +750,23 @@ class DataStore:
     def for_entry_metadata(self, argv):
         if len(argv) != 3:
             raise PatternMissingArguments(expected=3,got=len(argv))
-            
+        
         entry = self.entries[self.requested_entry_index]
         key = ''.join(argv)
-        try:
-            l = getattr(entry, argv[0].strip())
-            if type(l) != list:
-                raise GenericMessage(messages.entry_metadata_is_not_a_list.format(argv[0], entry.id))
-            
-        except:
-            raise GenericMessage(messages.entry_has_no_metadata_like.format(argv[0]))
             
         if not key in entry.html_for_metadata:
-            entry.html_for_metadata[key] = ''.join([
+            try:
+                l = getattr(entry, argv[0].strip())
+                if type(l) == dict:
+                    raise GenericMessage(messages.entry_metadata_is_not_a_list.format(argv[0], entry.id))
+                    
+                elif type(l) == str:
+                    l = l.split(",")
+                
+            except AttributeError as e:
+                raise GenericMessage(messages.entry_has_no_metadata_like.format(argv[0]))
+                
+            entry.html_for_metadata[key] = argv[2].join([
                  argv[1].format(**{"value": item.strip()}) for item in l
             ])
             

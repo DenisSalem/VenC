@@ -43,7 +43,6 @@ for theme in themes:
             src_files
         ))
             
-        
 extra_files.append((homedir+"/.local/share/VenC/embed_providers/",  ["share/embed_providers/oembed.json"]))
 extra_files.append((homedir+"/.local/share/VenC/themes_assets",    ["share/themes_assets/"+filename for filename in listdir("share/themes_assets")]) )
 extra_files.append((homedir+"/.local/share/VenC/themes_includes",    ["share/themes_includes/"+filename for filename in listdir("share/themes_includes")]) )
