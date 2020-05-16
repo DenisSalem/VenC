@@ -1,14 +1,19 @@
 authors: 'Denis Salem'
 categories: ''
-tags: ''
+tags: 'yaml'
 chapter: 4.2
 title: Fichier de configuration principal
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-__blog_configuration.yaml__ est un document Yaml à la racine du projet définissant les propriétés du blog, comme son titre, le nom de son auteur, ainsi que des détails fonctionnels comme le nombre de publications par pages ou l'ordre d'affichage de celles-ci.
+__blog_configuration.yaml__ est un document [Yaml](https://yaml.org/) à la racine du projet
+définissant les propriétés du blog, comme son titre, le nom de son auteur,
+ainsi que des détails fonctionnels comme le nombre de publications par pages ou
+l'ordre d'affichage de celles-ci.
 
-Immédiatement après avoir créé votre blog, il s'agira sans doute du premier fichier que vous éditerez. Après avoir rempli ces champs dont l'usage est détaillé ci-dessous, vous n'aurez normalement plus besoin d'y retoucher.
+Immédiatement après avoir créé votre blog, il s'agira sans doute du premier
+fichier que vous éditerez. Après avoir rempli ces champs dont l'usage est
+détaillé ci-dessous, vous n'aurez normalement plus besoin d'y retoucher.
 
 ## .:DisableMarkup::blog_name:.
 

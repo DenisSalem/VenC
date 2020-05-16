@@ -2,7 +2,7 @@ authors: 'Denis Salem'
 categories: ''
 tags: ''
 title: Les Thèmes
-chapter: 4.5
+chapter: 4.6
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Un thème est l'ensemble des fragments qui seront assemblés et
@@ -24,7 +24,7 @@ librairies comme JQuery ou bootstrap.
   - rssEntry.html
   - rssFooter.html
   
-- __config.yaml__ : Un fichier de configuration yaml permettant
+- __config.yaml__ : Un fichier de configuration [Yaml](https://yaml.org/) permettant
 d'indiquer les dépendances du thème, supplanter des options de
 configuration et décrire le thème. Plus d'infos plus bas dans ce
 chapitre.
