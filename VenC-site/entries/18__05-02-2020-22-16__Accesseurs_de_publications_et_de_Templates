@@ -64,13 +64,12 @@ caractère à formater avec la variable contextuelle __{value}__ contenant le mo
 
 Le second paramètre est une chaine de caractère servant de séparateur.
 
-## .:ForEntryMetadata::variable_name::{value}::,:.
+## .:Escape:: .:ForEntryMetadata::variable_name::string::separator:. ::EndEscape:.
 
-Il est possible de définir des métadonnées sous la forme de listes. Qu'il est 
-Retourne la liste des mots clefs de la publication.
+Il est possible de définir des [métadonnées](.:GetRelativeOrigin:.Metadonnee) sous la forme de listes. 
 
-Le premier argument est une chaine de
-caractère à formater avec la variable contextuelle __{value}__ contenant le mot clef courant.
+Le premier argument est une chaine de caractère à formater avec la
+variable contextuelle __{value}__ contenant l'élément courant de la liste.
 
 Le second paramètre est une chaine de caractère servant de séparateur.
 
@@ -107,3 +106,39 @@ Un cas d'usage typique serait de modifier le style de la publications en attribu
 Si la variable référencée n'est pas définit VenC ignore le motif et le supprime.
 
 Si le second argument n'est pas définit l'accesseur renvoie directement la variable référencée, si elle existe.
+
+## .:Escape:: .:LeavesForEntryCategories::string::separator:. ::EndEscape:. 
+
+Les categories sont organisées sous la forme d'un arbre. Il est
+possible de ne récupérer que les "feuilles" de cet arbres, c'est à dire
+les catégories qui n'ont pas de filles.
+
+Par exemple si la publication courante se trouve dans les catégories suivantes:
+
+.:CodeHighlight::Yaml::False::categories: 'moo, foo > bar, boo > loo > poo':.
+
+le motif
+
+> .:Escape:: .:LeavesForEntryCategories::{value}::,:. ::EndEscape:.
+
+retournera
+
+> moo,bar,poo
+
+LeavesForEntryCategories possède les variables contextuelles suivante:
+
+- __{value}__ : Contient le nom de la catégorie courante.
+- __{path}__ : Contient le chemin relatif de la catégorie courante.
+- __{branch}__ : Contient la branche complète de la catégorie, de la racine de l'arbre, jusqu-à la feuille.
+
+Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de configuration principal.
+
+## .:Escape:: .:TreeForBlogCategories::open&#95;node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
+
+Les categories sont organisées sous la forme d'un arbre. Il est
+possible de récupérer l'arbre entier afin typiquement de générer un menu ou une liste de catégories et de sous catégories.
+
+- __open&#95;node__ : Contient la chaine de caractère d'ouverture pour la categorie parente.
+- __open&#95;branch__ : Contient la chaine de caractère d'ouverture de la categorie courante.
+- __close&#95;branch__ : Contient la chaine de caractère de fermeture de la categorie courante.
+- __close&#95;node__ : Contient la chaine de caractère de fermeture de la categorie parente.

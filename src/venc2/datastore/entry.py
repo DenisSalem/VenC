@@ -180,7 +180,7 @@ class Entry:
                     self.categories_leaves.append({
                         "value": category_leaf,
                         "path": category_leaf_path,
-                        "raw" : category
+                        "branch" : category
                     })
 
         except IndexError : # when list is empty
