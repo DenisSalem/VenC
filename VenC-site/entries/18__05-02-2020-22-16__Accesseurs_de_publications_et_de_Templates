@@ -1,5 +1,5 @@
 authors: 'Denis Salem'
-categories: ''
+categories: Material > Metal > Copper, Material Metal > Steel, Science
 tags: ''
 chapter: 5.1.1
 title: Accesseur de publications
@@ -135,10 +135,63 @@ Ce motif est ignoré et supprimé si la génération des catégories est désact
 
 ## .:Escape:: .:TreeForBlogCategories::open&#95;node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
 
-Les categories sont organisées sous la forme d'un arbre. Il est
-possible de récupérer l'arbre entier afin typiquement de générer un menu ou une liste de catégories et de sous catégories.
+Les categories de la publication sont organisées sous la forme d'un arbre. Il est
+possible de récupérer l'arbre entier afin, typiquement, de générer un menu ou une liste de catégories 
+et de sous catégories.
 
 - __open&#95;node__ : Contient la chaine de caractère d'ouverture pour la categorie parente.
 - __open&#95;branch__ : Contient la chaine de caractère d'ouverture de la categorie courante.
 - __close&#95;branch__ : Contient la chaine de caractère de fermeture de la categorie courante.
 - __close&#95;node__ : Contient la chaine de caractère de fermeture de la categorie parente.
+
+Par exemple, pour créer un menu déroulant, on utiliserait le motif comme ci-dessous:
+
+.:CodeHighlightInclude::html::False::TreeForEntryCategories_example:.
+
+Si la publication était incluse dans les catégories suivantes:
+
+.:CodeHighlight::Yaml::False:: categories: 'Material > Metal > Copper, Material Metal > Steel, Science' :.
+
+Alors le motif générerait le code html suivant:
+
+.:CodeHighlight::html::False::
+<ul>
+    <li>
+        <a href="../Material/" title="1 publications">Material</a>
+        <ul>
+            <li>
+                <a href="../Material/Metal/" title="1 publications">Metal</a>
+                <ul>
+                    <li><a href="../Material/Metal/Copper/" title="1 publications">Copper</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="../Material-Metal/" title="1 publications">Material Metal</a>
+        <ul>
+            <li>
+                <a href="../Material-Metal/Steel/" title="1 publications">Steel</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="../Science/" title="1 publications">Science</a>
+    </li>
+</ul>
+:.
+
+À la fin de chaque branche, si la catégorie courante possède une ou plusieurs catégorie filles,
+alors les arguments open&#95;node et close&#95;node sont ajoutés est une nouvelle liste de sous catégories
+est générée entre ces deux arguments, en utilisant les arguments open&#95;branch et close&#95;branch.
+
+Les variables contextuelles de ce motif sont les suivantes:
+
+- __{value}__ : Le nom de la categorie courante.
+- __{path}__ : Le chemin relatif de la categorie courante.
+- __{count}__ : Le nombre de publication dans la categorie courante.
+- __{weight}__ : Le nombre de publication dans la categorie courante divisé
+par le nombre maximal de publication dans une categorie.
+
+Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de configuration principal.
+
