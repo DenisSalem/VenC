@@ -38,4 +38,4 @@ def print_help(argv=None):
     print("-xftp\t--export-via-ftp")
     print("-rc\t--remote-copy")
     print("-h\t--help")
-    print("-it\t--install-themes <"+messages.theme_name+">")
+    print("-it\t--install-theme <"+messages.theme_name+">")

@@ -6,10 +6,10 @@ title: Configuration d'un thème
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-Il s'agit d'un fichier de configuration au format yaml qui accompagne
+Il s'agit d'un fichier de configuration au format [Yaml](https://yaml.org/) qui accompagne
 chaque thème installable dans le blog avec la commande
 
-> .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --remote-copy
+> .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --intall-theme
 
 Ce fichier est structuré de la façon suivante
 

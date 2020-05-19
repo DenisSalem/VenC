@@ -10,7 +10,7 @@ columns: 1
 date_format: '%A %d. %B %Y'
 entries_per_pages: 10
 ftp_host: Nom d'hôte FTP
-license: CC By-SA
+license: CC-By-SA
 code_highlight_css_override: true
 markup_language: 'Markdown'
 path:
@@ -35,7 +35,7 @@ disable_main_thread: true
 disable_threads: ""
 disable_archives: true
 disable_chapters: false
-disable_categories: true
+disable_categories: false
 disable_single_entries: true
 banner: 'https://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA_-_VenC-logo.svg'
 path_encoding: ''
