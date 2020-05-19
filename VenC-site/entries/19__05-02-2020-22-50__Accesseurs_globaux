@@ -74,3 +74,6 @@ variable contextuelle {relative_origin}.
 Si la variable référencée n'est pas définit VenC ignore le motif et le supprime.
 
 Si le second argument n'est pas définit l'accesseur renvoie directement la variable référencée, si elle existe.
+
+## .:Escape:: .:ForBlogArchives::string::separator:. ::EndEscape:.
+
