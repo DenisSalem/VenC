@@ -77,3 +77,19 @@ Si le second argument n'est pas définit l'accesseur renvoie directement la vari
 
 ## .:Escape:: .:ForBlogArchives::string::separator:. ::EndEscape:.
 
+Ce motif permet de récuper la listes des périodes archivées. Le format de la période de temps
+est définit dans le fichier de configuration
+principal par le champ __archives&#95;directory&#95;name__.
+
+- Le premier argument __string__ contient le texte à formater pour chaque élément de la liste de période.
+- Le second argument __separator__ contient le texte utilisé comme séparateur.
+
+Les variables contextuelles de la fonction sont les suivantes:
+
+- __{value}__ : La période courante, tel que définit par __archives&#95;directory&#95;name__ dans le fichier de configuration principal du blog.
+- __{path}__ : Le chemin relatif la période archivée.
+- __{count}__ : Le nombre de publication dans la période courante.
+- __{weight}__ : Le nombre de publication dans la période courange divisé
+par le nombre maximal de publication par période.
+
+Si la génération des archives est désactivé, le motif est ignoré et supprimé.

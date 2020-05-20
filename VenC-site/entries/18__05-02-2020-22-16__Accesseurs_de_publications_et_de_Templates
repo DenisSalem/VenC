@@ -191,7 +191,7 @@ Les variables contextuelles de ce motif sont les suivantes:
 - __{path}__ : Le chemin relatif de la categorie courante.
 - __{count}__ : Le nombre de publication dans la categorie courante.
 - __{weight}__ : Le nombre de publication dans la categorie courante divisé
-par le nombre maximal de publication dans une categorie.
+par le nombre maximal de publication par categorie.
 
 Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de configuration principal.
 
