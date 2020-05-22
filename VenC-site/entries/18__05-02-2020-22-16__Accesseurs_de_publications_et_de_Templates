@@ -111,7 +111,19 @@ Si le second argument n'est pas définit l'accesseur renvoie directement la vari
 
 Les categories sont organisées sous la forme d'un arbre. Il est
 possible de ne récupérer que les "feuilles" de cet arbres, c'est à dire
-les catégories qui n'ont pas de filles.
+les catégories qui n'ont pas de sous categories.
+
+Les arguments du motif sont les suivants:
+
+- __string__ : La chaine de caractères à formater avec des variables contextuelles.
+- __separator__ : La chaine de caractère qui sert de séparateur.
+
+LeavesForEntryCategories possède les variables contextuelles suivante:
+
+- __{value}__ : Contient le nom de la catégorie courante.
+- __{path}__ : Contient le chemin relatif de la catégorie courante.
+- __{branch}__ : Contient la branche complète de la catégorie; de la racine de l'arborescence,
+ jusqu-à la categorie courante.
 
 Par exemple si la publication courante se trouve dans les catégories suivantes:
 
@@ -125,24 +137,28 @@ retournera
 
 > moo,bar,poo
 
-LeavesForEntryCategories possède les variables contextuelles suivante:
-
-- __{value}__ : Contient le nom de la catégorie courante.
-- __{path}__ : Contient le chemin relatif de la catégorie courante.
-- __{branch}__ : Contient la branche complète de la catégorie, de la racine de l'arbre, jusqu-à la feuille.
-
 Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de configuration principal.
 
-## .:Escape:: .:TreeForBlogCategories::open&#95;node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
+## .:Escape:: .:TreeForEntryCategories::open&#95;node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
 
 Les categories de la publication sont organisées sous la forme d'un arbre. Il est
 possible de récupérer l'arbre entier afin, typiquement, de générer un menu ou une liste de catégories 
 et de sous catégories.
 
+Les arguments du motif sont les suivantes:
+
 - __open&#95;node__ : Contient la chaine de caractère d'ouverture pour la categorie parente.
 - __open&#95;branch__ : Contient la chaine de caractère d'ouverture de la categorie courante.
 - __close&#95;branch__ : Contient la chaine de caractère de fermeture de la categorie courante.
 - __close&#95;node__ : Contient la chaine de caractère de fermeture de la categorie parente.
+
+Les variables contextuelles de ce motif sont les suivantes:
+
+- __{value}__ : Le nom de la categorie courante.
+- __{path}__ : Le chemin relatif de la categorie courante.
+- __{count}__ : Le nombre de publication dans la categorie courante.
+- __{weight}__ : Le nombre de publication dans la categorie courante divisé
+par le nombre maximal de publication par categorie.
 
 Par exemple, pour créer un menu déroulant, on utiliserait le motif comme ci-dessous:
 
@@ -152,7 +168,7 @@ Si la publication était incluse dans les catégories suivantes:
 
 .:CodeHighlight::Yaml::False:: categories: 'Material > Metal > Copper, Material Metal > Steel, Science' :.
 
-Alors le motif générerait le code html suivant:
+Alors le motif générerait quelque chose comme le code html suivant:
 
 .:CodeHighlight::html::False::
 <ul>
@@ -185,13 +201,4 @@ Alors le motif générerait le code html suivant:
 alors les arguments open&#95;node et close&#95;node sont ajoutés est une nouvelle liste de sous catégories
 est générée entre ces deux arguments, en utilisant les arguments open&#95;branch et close&#95;branch.
 
-Les variables contextuelles de ce motif sont les suivantes:
-
-- __{value}__ : Le nom de la categorie courante.
-- __{path}__ : Le chemin relatif de la categorie courante.
-- __{count}__ : Le nombre de publication dans la categorie courante.
-- __{weight}__ : Le nombre de publication dans la categorie courante divisé
-par le nombre maximal de publication par categorie.
-
 Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de configuration principal.
-

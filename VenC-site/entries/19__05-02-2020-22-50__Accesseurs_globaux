@@ -60,7 +60,7 @@ alors de formater du texte pour y inclure notre variable.
 Le formatage du texte se fait en utilisant des variables contextuelles propre à la fonction:
 
 - __{value}__ : La valeur de la variable qu'on référence.
-- __{relative_origin}__ : Le chemin relatif de la racine du blog.
+- __{relative_origidn}__ : Le chemin relatif de la racine du blog.
 
 Un cas d'usage typique serait d'ajouter un bouton de réseau social si
 l'utilisateur définit un compte dans son fichier de configuration:
@@ -89,7 +89,170 @@ Les variables contextuelles de la fonction sont les suivantes:
 - __{value}__ : La période courante, tel que définit par __archives&#95;directory&#95;name__ dans le fichier de configuration principal du blog.
 - __{path}__ : Le chemin relatif la période archivée.
 - __{count}__ : Le nombre de publication dans la période courante.
-- __{weight}__ : Le nombre de publication dans la période courange divisé
+- __{weight}__ : Le nombre de publication dans la période courante divisé
 par le nombre maximal de publication par période.
 
 Si la génération des archives est désactivé, le motif est ignoré et supprimé.
+
+## .:Escape:: .:LeavesForBlogCategories::string::separator:. ::EndEscape:. 
+
+Les categories sont organisées sous la forme d'un arbre. Il est
+possible de ne récupérer que les "feuilles" de cet arbres, c'est à dire
+les catégories qui n'ont pas de sous categories.
+
+Le motif fonctione comme __LeavesForEntryCategories__
+mais construit l'arborescence des categories en compilant toutes les catégories de toutes les publications.
+
+Les arguments du motif sont les suivants:
+
+- __string__ : La chaine de caractères à formater avec des variables contextuelles.
+- __separator__ : La chaine de caractère qui sert de séparateur.
+
+LeavesForBlogCategories possède les variables contextuelles suivante:
+
+- __{value}__ : Contient le nom de la catégorie courante.
+- __{path}__ : Contient le chemin relatif de la catégorie courante.
+- __{branch}__ : Contient la branche complète de la catégorie; de la racine de l'arborescence,
+ jusqu-à la categorie courante.
+
+Par exemple imaginons que l'arborescence des categories du blog se présente de la façon suivante
+
+.:CodeHighlight::Text::False::
+├─── Science 
+│    ├─── Chemestry
+│    └─── Physic
+└─── Art
+     ├─── Music
+     └─── Painting
+:.
+
+alors
+
+> .:Escape:: .:LeavesForEntryCategories::{value}::,:. ::EndEscape:.
+
+retournera
+
+> Chemestry,Physic,Music,Painting
+
+Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de configuration principal.
+
+## .:Escape:: .:TreeForBlogCategories::open&#95;node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
+
+Les categories de la publication sont organisées sous la forme d'un arbre. Il est
+possible de récupérer l'arbre entier afin, typiquement, de générer un menu ou une liste de catégories 
+et de sous catégories.
+
+Le motif fonctione comme __TreeForEntryCategories__
+mais construit l'arborescence des categories en compilant toutes les catégories de toutes les publications.
+
+Les arguments du motif sont
+
+- __open&#95;node__ : Contient la chaine de caractère d'ouverture pour la categorie parente.
+- __open&#95;branch__ : Contient la chaine de caractère d'ouverture de la categorie courante.
+- __close&#95;branch__ : Contient la chaine de caractère de fermeture de la categorie courante.
+- __close&#95;node__ : Contient la chaine de caractère de fermeture de la categorie parente.
+
+Les variables contextuelles de ce motif sont les suivantes:
+
+- __{value}__ : Le nom de la categorie courante.
+- __{path}__ : Le chemin relatif de la categorie courante.
+- __{count}__ : Le nombre de publication dans la categorie courante.
+- __{weight}__ : Le nombre de publication dans la categorie courante divisé
+par le nombre maximal de publication par categorie.
+
+Par exemple, pour créer un menu déroulant, on utiliserait le motif comme ci-dessous:
+
+.:CodeHighlightInclude::html::False::TreeForBlogCategories_example:.
+
+Si l'ensemble des categories du blog formait l'arborescence suivante:
+
+.:CodeHighlight::Text::False::
+├─── Material
+│    └─── Metal
+│          ├─── Copper
+│          └─── Steel
+└─── Science
+:.
+
+Alors le motif générerait quelque chose comme le code html suivant:
+
+.:CodeHighlight::html::False::
+<ul>
+    <li>
+        <a href="../Material/" title="1 publications">Material</a>
+        <ul>
+            <li>
+                <a href="../Material/Metal/" title="1 publications">Metal</a>
+                <ul>
+                    <li><a href="../Material/Metal/Copper/" title="1 publications">Copper</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="../Material-Metal/" title="1 publications">Material Metal</a>
+        <ul>
+            <li>
+                <a href="../Material-Metal/Steel/" title="1 publications">Steel</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="../Science/" title="1 publications">Science</a>
+    </li>
+</ul>
+:.
+
+À la fin de chaque branche, si la catégorie courante possède une ou plusieurs catégorie filles,
+alors les arguments open&#95;node et close&#95;node sont ajoutés et une nouvelle liste de sous catégories
+est générée entre ces deux arguments, en utilisant les arguments open&#95;branch et close&#95;branch.
+
+Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de configuration principal.
+
+## .:Escape:: .:Chapters::open_node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
+
+Ce motif permet de récupérer l'arborescence des chapitres du blog. En effet, VenC permet d'organiser
+votre contenu comme le serait un livre ou un e-book. La présente documentation est d'ailleurs faite ainsi.
+
+Le motif a les mêmes arguments que __TreeForEntryCategories__ et __TreeForBlogCategories__:
+
+- open_node : Contient la chaine de caractère d'ouverture du chapitre parent.
+- open_branch : Contient la chaine de caractère d'ouverture du chapitre courant.
+- close_branch : Contient la chaine de caractère de fermeture du chapitre courant.
+- close_node : Contient la chaine de caractère de fermeture du chapitre parent.
+
+Les varariables contextuelles de la fonction sont les suivantes:
+
+- __{index}__ : La valeur de la numérotation du chapitre courant. Par exemple '3.2', '4.2.1' ou bien '2'.
+- __{level}__ : Le niveau du chapitre courant. Par exemple un chapitre avec
+ l'index '3.2' aurait le niveau 1. Un chapitre avec l'index '4.2.1' aurait
+ le niveau 2 et un chapitre avec l'index '2' aurait le niveau 0.
+- __{title}__ : Le titre du chapitre courant.
+- __{path}__ : Le chemin relatif du chapitre courant.
+
+Une utilisation typique du motif serait:
+
+.:CodeHighlightInclude::html::False::Chapters_example:.
+
+La fonction générerait alors par exemple le code html ci-dessous
+
+.:CodeHighlight::html::False::
+<ul class="chapter-level0">
+    <li>
+        1. <a href="../Premier-Chapitre">Premier Chapitre</a>
+    </li>
+    <li>
+        2. <a href="../Second-Chapitre">Second Chapitre</a>
+    </li>
+    <li>
+        3. <a href="../Troisième-Chapitre">Troisième Chapitre</a>
+        <ul class="chapter-level1">
+            <li>
+                3. <a href="../Premier-Sous-Chapitre-du-Troisième Chapitre">Premier Sous-Chapitre du Troisième Chapitre</a>
+            </li>
+        </ul>
+</ul>
+:.
+
+Si la génération des chapitres est désactivé dans le fichier de
+configuration principal le motif est ignoré et supprimé.
