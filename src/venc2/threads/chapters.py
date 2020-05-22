@@ -70,14 +70,26 @@ class ChaptersThread(Thread):
             pass
             
         return (node)
-       
+    
+    def extract_sub_chapters(self, sub_chapters):
+        output = []
+        output_append = output.append
+        for c in sub_chapters:
+            output_append(c.entry)
+            if len(c.sub_chapters):
+                for sc_entries in self.extract_sub_chapters(c.sub_chapters):
+                    output_append(sc_entries)
+            
+        return output
+        
+        
     def do(self, top=None):
         if top == None:
             top = self.datastore.chapters_index
             
         for chapter_index in range(0, len(top)):
             chapter = top[chapter_index]
-            self.organize_entries([ chapter.entry ] + [c.entry for c in chapter.sub_chapters])
+            self.organize_entries([ chapter.entry ] + self.extract_sub_chapters(chapter.sub_chapters))
             self.setup_chapters_context(chapter_index, top, len(top))
             super().do()
         

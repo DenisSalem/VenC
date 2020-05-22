@@ -64,7 +64,7 @@ class PatternsMap():
                 "ForBlogArchives" :         datastore.for_blog_archives,
                 "LeavesForBlogCategories" : datastore.leaves_for_blog_categories,
                 "TreeForBlogCategories" :   datastore.tree_for_blog_categories,
-                "Chapters" :                datastore.get_chapters
+                "GetChapters" :             datastore.get_chapters
             },
             "extra": {
                 "IfCategories":             datastore.if_categories,
