@@ -8,3 +8,27 @@ title: Motifs Conditionnels
 
 Ce type de motifs s'executent sous condition. Ils permettent une mise en
 page plus fine et spécifique.
+
+## .:Escape:: .:IfCategories::string1[::string2]:. ::EndEscape:.
+
+Ce motif permet de retourner l'un ou l'autre argument selon que la condition suivante soit remplie.
+
+_La fonction teste si des categories existent et si la générations des pages de celles-si est bien activé
+dans le fichier de configuration principal._
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variable contextuelles.
+
+## .:Escape:: .:IfChapters::string1[::string2]:. ::EndEscape:.
+
+Ce motif permet de retourner l'un ou l'autre argument selon que la condition suivante soit remplie.
+
+_La fonction teste si des chapitres existent et si la générations des pages de ceux-là est bien activé
+dans le fichier de configuration principal._
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variable contextuelles.

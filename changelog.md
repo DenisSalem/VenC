@@ -173,8 +173,8 @@
     WIP  | Client-side search engine.
     WIP  | Add definition in documentation for optional fields in blog configuration.
     WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
-    TODO | Documenter le type des métadonnées: list, str ou dict
-    TODO | Fix chapters rendering (only first level sub-chapter are rendered for now)
+    DONE | Documenter le type des métadonnées: list, str ou dict
+    DONE | Fix chapters rendering (only first level sub-chapter are rendered for now)
     
 # version 2.1.x
     TODO | Include threads preview in entry
