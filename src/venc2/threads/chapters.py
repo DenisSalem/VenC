@@ -39,10 +39,10 @@ class ChaptersThread(Thread):
         self.in_thread = True
         
     def if_in_first_page(self, argv):
-        return argv[1].strip()
+        return argv[1].strip() if len(argv) >= 2 else ''
     
     def if_in_last_page(self, argv):
-        return argv[1].strip()
+        return argv[1].strip() if len(argv) >= 2 else ''
         
     def setup_chapters_context(self, i, top, len_top):
         node = top[i]

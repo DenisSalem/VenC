@@ -7,14 +7,14 @@ title: Motifs Conditionnels
 ---VENC-END-PREVIEW---
 
 Ce type de motifs s'executent sous condition. Ils permettent une mise en
-page plus fine et spécifique.
+page plus fine et spécifique en renvoyant l'un ou l'autre argument selon
+que la condition du teste soit remplie.
+
 
 ## .:Escape:: .:IfCategories::string1[::string2]:. ::EndEscape:.
 
-Ce motif permet de retourner l'un ou l'autre argument selon que la condition suivante soit remplie.
-
-_La fonction teste si des categories existent et si la générations des pages de celles-si est bien activé
-dans le fichier de configuration principal._
+La fonction teste si des categories existent et si la générations des pages de celles-si est bien activé
+dans le fichier de configuration principal.
 
 - __string1__ : Texte retourné si la condition est remplie.
 - __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
@@ -23,22 +23,8 @@ Ce motif n'a pas de variable contextuelles.
 
 ## .:Escape:: .:IfChapters::string1[::string2]:. ::EndEscape:.
 
-Ce motif permet de retourner l'un ou l'autre argument selon que la condition suivante soit remplie.
-
-_La fonction teste si des chapitres existent et si la générations des pages de ceux-là est bien activé
-dans le fichier de configuration principal._
-
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
-
-Ce motif n'a pas de variable contextuelles.
-
-## .:Escape:: .:IfChapters::string1[::string2]:. ::EndEscape:.
-
-Ce motif permet de retourner l'un ou l'autre argument selon que la condition suivante soit remplie.
-
-_La fonction teste si des chapitres existent et si la générations des pages de ceux-là est bien activé
-dans le fichier de configuration principal._
+La fonction teste si des chapitres existent et si la générations des pages de ceux-là est bien activé
+dans le fichier de configuration principal.
 
 - __string1__ : Texte retourné si la condition est remplie.
 - __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
@@ -47,10 +33,76 @@ Ce motif n'a pas de variable contextuelles.
 
 ## .:Escape:: .:IfInThread::string1[::string2]:. ::EndEscape:.
 
-Ce motif permet de retourner l'un ou l'autre argument selon que la condition suivante soit remplie.
+La fonction teste si la page courante est généré dans le contexte d'un fil de
+publications (categories, archives chapitres, ou fil principal).
 
-_La fonction teste si la page courante est généré dans le contexte d'un fil de
-publications (categories, archives chapitres, ou fil principal)._
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variable contextuelles.
+
+## .:Escape:: .:IfInMainThread::string1[::string2]:. ::EndEscape:.
+
+La fonction teste si la page courante est généré dans le fil de publication principal.
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variable contextuelles.
+
+## .:Escape:: .:IfInArchives::string1[::string2]:. ::EndEscape:.
+
+La fonction teste si la page courante est généré dans le fil des archives.
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variable contextuelles.
+
+## .:Escape:: .:IfInCategories::string1[::string2]:. ::EndEscape:.
+
+La fonction teste si la page courante est généré dans le fil des categories.
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variable contextuelles.
+
+## .:Escape:: .:IfInFirstPage::string1[::string2]:. ::EndEscape:.
+
+La fonction teste si le numero de page courrant correspond à la première
+page du fil de publication courant. Si la page est généré dans le contexte
+d'une page individuelle de publication ou d'un chapitre, le test échoue.
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variable contextuelles.
+
+## .:Escape:: .:IfInLastPage::string1[::string2]:. ::EndEscape:.
+
+La fonction teste si le numero de page courrant correspond à la dernière
+page du fil de publication courant. Si la page est généré dans le contexte
+d'une page individuelle de publication ou d'un chapitre, le test échoue.
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variable contextuelles.
+
+## .:Escape:: .:IfInEntryID::id::string1[::string2]:. ::EndEscape:.
+
+La fonction teste si l'identifiant de la publication correspond à celui spécifié en argument.
+
+- __id__ : Un nombre entier différent de 0 identifiant une publication.
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variable contextuelles.
+
+## .:Escape:: .:IfPages::string1[::string2]:. ::EndEscape:.
+
+Le fil de publication courant à plus d'une page.
 
 - __string1__ : Texte retourné si la condition est remplie.
 - __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.

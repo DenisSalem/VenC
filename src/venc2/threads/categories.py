@@ -142,12 +142,3 @@ class CategoriesThread(Thread):
             return '<script type="application/ld+json" src="categories.jsonld"></script>'
         
         return ''
-
-
-
-
-
-                
-                
-
-
