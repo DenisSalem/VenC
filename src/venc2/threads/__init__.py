@@ -225,24 +225,43 @@ class Thread:
             return argv[1].strip()
 
     def if_in_entry_id(self, argv):
-        return argv[2].strip()
+        if len(argv) == 3:
+            return argv[2].strip()
+            
+        else:
+            return ''
 
     def if_in_main_thread(self, argv):
-        return argv[1].strip()
-
+        if len(argv) == 2:
+            return argv[1].strip()
+            
+        else:
+            return ''
+            
     def if_in_categories(self, argv):
-        return argv[1].strip()
-
+        if len(argv) == 2:
+            return argv[1].strip()
+            
+        else:
+            return ''
+            
     def if_in_archives(self, argv):
-        return argv[1].strip()
+        if len(argv) == 2:
+            return argv[1].strip()
+            
+        else:
+            return ''
         
     def if_in_thread(self, argv):
         if self.in_thread:
             return argv[0].strip()
 
-        else:
+        elif len(argv) == 2:
             return argv[1].strip()
-
+            
+        else:
+            return ''
+            
     def format_filename(self, value):
         try:
             if value == 0:
