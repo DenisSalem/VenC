@@ -37,13 +37,7 @@ class EntriesThread(Thread):
         self.export_path = "blog/"+self.sub_folders
         self.relative_origin = str(''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = False
-    
-    def if_in_first_page(self, argv):
-        return argv[1].strip()
-    
-    def if_in_last_page(self, argv):
-        return argv[1].strip()
-    
+
     def format_filename(self, value=None): #value ignored
         try:
             return self.filename.format(**{
@@ -53,18 +47,34 @@ class EntriesThread(Thread):
         
         except KeyError as e:
             die(messages.variable_error_in_filename.format(str(e)))
-
+            
+    def if_in_first_page(self, argv):
+        if len(argv) >= 2:
+            return argv[1].strip()
+            
+        else:
+            return ''
+            
+    def if_in_last_page(self, argv):
+        if len(argv) >= 2:
+            return argv[1].strip()
+            
+        else:
+            return ''
     
     def if_in_entry_id(self, argv):
         try:
             if argv[0] == str(self.current_entry.id):
                 return argv[1].strip()
         
-            else:
+            elif len(argv) >= 3:
                 return argv[2].strip()
-
+                
+            else:
+                return ''
+                
         except AttributeError:
-            return argv[2].strip()
+            return argv[2].strip() if len(argv) >= 3 else ''
 
     def for_pages(self, argv):
         list_lenght = int(argv[0])

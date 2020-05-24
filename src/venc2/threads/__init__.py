@@ -202,51 +202,58 @@ class Thread:
         return ''
 
     def if_pages(self, argv):
-        if len(argv) < 2:
-            raise PatternMissingArguments(expected=2,got=len(argv))
-            
         if self.pages_count > 1:
-            return argv[0]
+            return argv[0].strip()
+            
+        elif len(argv) >= 2:
+            return argv[1].strip()
+            
         else:
-            return argv[1]
+            return ''
                     
     def if_in_first_page(self, argv):
         if self.current_page == 0:
             return argv[0].strip()
         
-        else:
+        elif len(argv) >= 2:
             return argv[1].strip()
+            
+        else:
+            return  ''
 
     def if_in_last_page(self, argv):
         if self.current_page == len(self.pages) -1:
             return argv[0].strip()
         
-        else:
+        elif len(argv) >= 2:
             return argv[1].strip()
+            
+        else:
+            return ''
 
     def if_in_entry_id(self, argv):
-        if len(argv) == 3:
+        if len(argv) >= 3:
             return argv[2].strip()
             
         else:
             return ''
 
     def if_in_main_thread(self, argv):
-        if len(argv) == 2:
+        if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
             
     def if_in_categories(self, argv):
-        if len(argv) == 2:
+        if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
             
     def if_in_archives(self, argv):
-        if len(argv) == 2:
+        if len(argv) >= 2:
             return argv[1].strip()
             
         else:
@@ -256,7 +263,7 @@ class Thread:
         if self.in_thread:
             return argv[0].strip()
 
-        elif len(argv) == 2:
+        elif len(argv) >= 2:
             return argv[1].strip()
             
         else:
