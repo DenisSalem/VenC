@@ -100,9 +100,9 @@ Votre adresse e-mail.
 
 ## .:DisableMarkup::code_highlight_css_override:.
 
-Régénère le code CSS crée par le module pygmentize. Ce champ est un booléen,
+Régénère le code CSS crée par le module [Pygments](https://pygments.org/languages/). Ce champ est un booléen,
 fixé à *False* par défaut. Attention, si ce champ est fixé à *True*, à chaque exportation
-de votre blog les anciens codes CSS crée par pygmentize seront écrasés.
+de votre blog les anciens codes CSS crée par [Pygments](https://pygments.org/languages/) seront écrasés.
 
 ## path
 

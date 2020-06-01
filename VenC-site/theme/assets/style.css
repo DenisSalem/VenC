@@ -40,9 +40,7 @@ aside ul
 	padding-left: 10px;}
 
 blockquote,
-.venc_source_Yaml,
-.venc_source_Text,
-.venc_source_html
+.__VENC_PYGMENTIZE_WRAPPER__ > div
 	{background-color: rgba(0,0,0,0.5);
 	color: #FFF;
 	font-size: 0.8em;
@@ -57,16 +55,12 @@ blockquote p
 .entry
     {padding-right: 15px;}
 
-.venc_source_Yaml,
-.venc_source_Text,
-.venc_source_html
+.__VENC_PYGMENTIZE_WRAPPER__ > div
 	{font-size: 1em;
 	margin-left: 15px;
 	margin-right: 15px;}
 
-.venc_source_Yaml pre,
-.venc_source_Text pre,
-.venc_source_html pre
+.__VENC_PYGMENTIZE_WRAPPER__ > div pre
 	{overflow: hidden;
 	margin-top: 0px;
 	margin-left: 15px;

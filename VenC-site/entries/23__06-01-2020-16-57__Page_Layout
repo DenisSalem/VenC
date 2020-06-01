@@ -1,0 +1,11 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+chapter: 5.2
+title: Motifs de mise en page
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Il s'agit de motifs qui intéragissent le plus souvent directement avec
+le système de pagination et les chemins manipulés par VenC. Il sont conçu
+spécifiquement pour vous aider à la mise en page et peuvent par exemple
+générer du code HTML ou formatter du texte.
