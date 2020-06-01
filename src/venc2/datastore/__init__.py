@@ -469,8 +469,8 @@ class DataStore:
             die(messages.chapter_already_exists.format(
                 entry.title,
                 entry.id,
-                self.raw_chapters[chapter][1],
-                self.raw_chapters[chapter][0],
+                self.raw_chapters[chapter].title,
+                self.raw_chapters[chapter].id,
                 chapter
             ))
         else:
