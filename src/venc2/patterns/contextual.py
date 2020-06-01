@@ -36,10 +36,10 @@ def get_random_number(in_argv):
 
     for i in range(0,3):
         try:
-            argv.append(int(in_argv[i]))
+            argv.append(float(in_argv[i]))
 
         except ValueError:
             raise PatternInvalidArgument(arg_names[i],in_argv[i], messages.pattern_argument_must_be_integer)
 
-    v = mn + random.random() * (mx - mn + 1)
-    return str(int(v)) if precision == 0 else str(round(v, precision))
+    v = float(mn) + random.random() * (float(mx) - float(mn))
+    return str(int(v)) if int(precision) == 0 else str(round(v, int(precision)))

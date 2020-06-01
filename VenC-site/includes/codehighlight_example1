@@ -1,0 +1,8 @@
+.:CodeHighlight::C::False::
+#include <stdio.h>
+
+int main(int argc, char ** argv) {
+    printf("Hello VenC user!\n");
+    return 0;
+}
+:.

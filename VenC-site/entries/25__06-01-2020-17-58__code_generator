@@ -1,0 +1,127 @@
+authors: ''
+categories: ''
+tags: ''
+chapter: 5.2.3
+title: Générateurs de code HTML
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+# .:Escape:: .:CodeHightlight::language::line&#95;numbers::input&#95;code:. ::EndEscape:.
+
+VenC permet de formatter du code source pour qu'il soit plus lisible et
+agréable à lire. Cette fonctionnalité dépend de la librairie tierce [Pygments](https://pygments.org/).
+
+Ce motif prend trois arguments:
+
+- __input&#95;code__ : Le code source que vous souhaitez formater.
+- __language__ : Indique le langage du texte d'entrée.
+La liste des langages supportés par Pygments est disponible [ici](https://pygments.org/languages/).
+Si vous ne souhaitez pas coloriser le texte d'entrée utilisez la valeur "Text".
+- __line&#95;numbers__: Il s'agit d'un booléen indiquant à VenC si vous
+souhaitez générer des numéros de ligne.
+
+Par exemple l'utilisation ci-dessous du motif
+
+.:CodeHighlightInclude::Text::False::codehighlight_example1:.
+
+générerais le code html suivant:
+
+.:CodeHighlight::html::False::
+<div class="__VENC_PYGMENTIZE_WRAPPER__">
+    <div class="venc_source_C">
+        <pre>
+            <span></span>
+            <span class="cp">#include</span>
+            <span class="cpf">&lt;stdio.h&gt;</span>
+            <span class="cp"></span>
+            <span class="kt">int</span>
+            <span class="nf">main</span>
+            <span class="p">(</span>
+            <span class="kt">int</span>
+            <span class="n">argc</span>
+            <span class="p">,</span>
+            <span class="kt">char</span>
+            <span class="o">**</span>
+            <span class="n">argv</span>
+            <span class="p">)</span> 
+            <span class="p">{</span>
+            <span class="n">printf</span>
+            <span class="p">(</span>
+            <span class="s">&quot;Hello VenC user!</span>
+            <span class="se">\n</span>
+            <span class="s">&quot;</span>
+            <span class="p">);</span>
+            <span class="k">return</span>
+            <span class="mi">0</span>
+            <span class="p">;</span>
+            <span class="p">}</span>
+        </pre>
+    </div>
+</div>
+:.
+
+Le style CSS du code source ainsi formaté est généré automatiquement par 
+VenC dans un fichier et est placé dans le répertoire "extra" de votre projet.
+Ces fichiers doivent être explicitement incluent dans votre page à l'aide du
+motif __GetStyleSheets__ détaillé plus bas dans ce chapitre.
+
+Dans l'example précédent, le fichier CSS crée serait le suivant
+
+> venc&#95;source&#95;C.css
+
+Pour adapter le style du formattage à votre mise en page vous pouvez définir
+un style appliqué aux éléments enfants de la balise
+
+.:CodeHighlight::HTML::False::<div class="__VENC_PYGMENTIZE_WRAPPER__"></div>:.
+
+par exemple, pour la documentation que vous êtes en train de lire le style CSS
+suivant est appliqué:
+
+.:CodeHighlight::CSS::False::
+.__VENC_PYGMENTIZE_WRAPPER__ > div
+	{background-color: rgba(0,0,0,0.5);
+	color: #FFF;
+	font-size: 0.8em;
+	padding:5px;
+	border-bottom: 1px solid rgba(255,255,255,0.25);
+	border-radius: 5px;}
+    
+.__VENC_PYGMENTIZE_WRAPPER__ > div
+	{font-size: 1em;
+	margin-left: 15px;
+	margin-right: 15px;}
+
+.__VENC_PYGMENTIZE_WRAPPER__ > div pre
+	{overflow: hidden;
+	margin-top: 0px;
+	margin-left: 15px;
+	margin-right: 15px;
+	margin-bottom: 0px;}
+:.
+
+Il est important que le style ainsi définit soit inclut dans header.html __APRÈS__
+utilisation du motifs __GetStyleSheets__.
+
+# .:Escape:: .:CodeHightlightInclude::language::line&#95;numbers::input&#95;code&#95;file:. ::EndEscape:.
+
+Ce motif fonctionne exactement comme le précédent motif __CodeHighlight__ à la différence que le dernier argument
+ne contient pas de code source mais le nom de fichier dans lequel se trouve celui-ci.
+Ce fichier source doit être placé dans le repertoire __includes__ de votre projet.
+
+Ce motif est donc à préférer au précédent quand le code source est très long, et que vous ne souhaitez
+pas "polluer" votre publication avec du code.
+
+# .:Escape:: .:GetStyleSheets:. ::EndEscape:.
+
+Comme on l'a vu précédement VenC peut générer des feuilles de style CSS.
+Ces fichiers peuvent être inclus dans votre thème avec le motif __GetStyleSheets__
+
+Par exemple, pour la documentation que vous êtes en train de lire, l'utilisation
+de ce motif produirait le code suivant:
+
+.:CodeHighlight::HTML::False::
+<link rel="stylesheet" href="../venc_source_Text.css" type="text/css" />
+<link rel="stylesheet" href="../venc_source_html.css" type="text/css" />
+<link rel="stylesheet" href="../venc_source_HTML.css" type="text/css" />
+<link rel="stylesheet" href="../venc_source_CSS.css" type="text/css" />
+:.

@@ -1,0 +1,29 @@
+authors: ''
+categories: ''
+tags: ''
+chapter: 5.3
+title: Motifs divers
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+# .:Escape:: .:GetRandomNumber::min::max::precision:. ::EndEscape:.
+
+Génére un nombre aléatoire compris entre __min__ et __max__ avec une précision
+décimal définit par __precision__
+
+Par exemple pour générer un nombre décimal compris en zero inclus et dix, avec au plus quatre
+chiffres après la virgule nous ferions
+
+> .:Escape:: .:GetRandomNumber::0::10::4:. ::EndEscape:.
+
+Pour générer un nombre entier compris entre zero inclus et cent nous ferions
+
+> .:Escape:: .:GetRandomNumber::0::100::0:. ::EndEscape:.
+
+Enfin pour générer un nombre décimal, par exemple entre 12.25 inclus et 12.5,
+avec au plus 5 chiffres après la virgules, nous ferions
+
+>  .:Escape:: .:GetRandomNumber::12.25::12.5::5:. ::EndEscape:.
+
+
+
