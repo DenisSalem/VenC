@@ -54,6 +54,7 @@ def merge(iterable, argv):
 class DataStore:
     def __init__(self):
         notify("┌─ "+messages.loading_data)
+        self.root_page = None
         self.blog_configuration = get_blog_configuration()
         self.sort_by = self.blog_configuration["sort_by"]
         self.enable_jsonld = self.blog_configuration["enable_jsonld"]
@@ -646,7 +647,10 @@ class DataStore:
         return self.html_blog_archives[key]
 
     def get_root_page(self, argv):
-        return "\x1a"+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
+        if self.root_page == None:
+            self.root_page =  "\x1a"+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
+            
+        return self.root_page
 
     def build_html_categories_tree(self, opening_node, opening_branch, closing_branch, closing_node, tree):
         output_string = opening_node

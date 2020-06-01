@@ -20,6 +20,7 @@ aside
 	top: 0px;
 	left: 0px;
 	width: 25%;
+    min-width: 330px;
 	height: 100%;
     padding-right: 25px;
     overflow-y: scroll;}
