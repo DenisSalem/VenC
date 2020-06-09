@@ -25,5 +25,12 @@ avec au plus 5 chiffres après la virgules, nous ferions
 
 >  .:Escape:: .:GetRandomNumber::12.25::12.5::5:. ::EndEscape:.
 
+# .:Escape:: .:GetGenerationTimestamp::date&#95;format:. ::EndEscape:.
 
+Ce motif renvoie la date formatée à laquelle la page courante a été générée.
 
+Le seul paramétre de ce motif est:
+
+- __date&#95;format__ : La chaine de caractére permettant de formatter
+la date courante. Le format utilisé est le même que celui utilisé par python.
+La documentation est disponible  [ici](https://strftime.org/)

@@ -493,8 +493,12 @@ class DataStore:
         return value
 
     def get_generation_timestamp(self, argv):
-        return datetime.datetime.strftime(self.generation_timestamp, argv[0])
-
+        if len(argv):
+            return datetime.datetime.strftime(self.generation_timestamp, argv[0])
+        
+        else:
+            raise PatternMissingArguments
+            
     def get_blog_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
         try:
@@ -826,6 +830,9 @@ class DataStore:
             return ""
 
     def wrapper_embed_content(self, argv):
+        if len(argv) == 0:
+            raise PatternMissingArguments
+            
         cache = self.cache_embed_exists(argv[0])
         if cache != "":
             return cache

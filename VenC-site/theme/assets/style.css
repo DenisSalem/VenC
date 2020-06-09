@@ -54,6 +54,9 @@ blockquote p
 
 .entry
     {padding-right: 15px;}
+    
+.entry iframe
+    {margin-left: 15px;}
 
 .__VENC_PYGMENTIZE_WRAPPER__ > div
 	{font-size: 1em;
