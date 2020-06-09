@@ -125,3 +125,42 @@ de ce motif produirait le code suivant:
 <link rel="stylesheet" href="../venc_source_HTML.css" type="text/css" />
 <link rel="stylesheet" href="../venc_source_CSS.css" type="text/css" />
 :.
+
+# .:Escape:: .:GetEmbedContent::content_url:. ::EndEscape:.
+
+Ce motif permet de récupérer du contenu embarqué via le protocole _oembed_.
+Typiquement cela vous permet d'importer un lecteur youtube ou soundcloud dans
+votre publication.
+
+Le seul argument de ce motif est
+
+- __content&#95;url__ : Il s'agit de l'url de la ressource embarqué que vous voulez inclure.
+
+Par exemple, l'utilisation du motif comme ci-dessous
+
+> .:Escape:: .:GetEmbedContent::https://www.youtube.com/watch?v=y8Kyi0WNg40:. ::EndEscape:.
+
+produit le code suivant
+
+.:CodeHighlight::HTML::False::
+<iframe
+    width="459"
+    height="344"
+    src="https://www.youtube.com/embed/y8Kyi0WNg40?feature=oembed"
+    frameborder="0"
+    allow="
+        accelerometer;
+        autoplay;
+        encrypted-media;
+        gyroscope;
+        picture-in-picture
+    "
+    allowfullscreen
+>
+</iframe>
+:.
+
+Pour fonctionner ce motif utilise une liste de _providers_ disponible
+[ici](https://oembed.com/providers.json) incluse avec VenC.
+
+L'utilisation de ce motif génère des données misent en cache dans le répertoire de votre projet.

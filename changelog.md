@@ -220,6 +220,7 @@
     TODO | Add CPU threads support.
     TODO | Regenerate any missing folders.
     TODO | Override server port with extra arg.
+    TODO | Try to install an up to date oembed providers from https://oembed.com/providers.json with pip
 	
 # version 3.x.x
     TODO | Replace categories with taxonomy support.
