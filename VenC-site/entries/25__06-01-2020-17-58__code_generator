@@ -164,3 +164,61 @@ Pour fonctionner ce motif utilise une liste de _providers_ disponible
 [ici](https://oembed.com/providers.json) incluse avec VenC.
 
 L'utilisation de ce motif génère des données misent en cache dans le répertoire de votre projet.
+
+# .:Escape:: .:Latex2MathML::latex_code:. ::EndEscape:.
+
+Ce motif vous permet de générer du code [MathML](https://www.w3.org/Math/)
+converti depuis le langage très populaire [LaTeX](https://www.latex-project.org/).
+Ainsi, vous pouvez facilement inclure dans votre publication des formules mathématiques.
+
+Cette fonctionnalité dépend d'une librairie tierce indépendante de VenC.
+En cas de problème ou de difficulté vous pourriez vouloir signaler un bug
+sur [la page du projet latex2mathml](https://github.com/roniemartinez/latex2mathml)
+
+Le seul argument du motif est:
+
+- __latex&#95;code__ : Le code source LaTeX de la formule que vous souhaitez intégrer.
+
+Par exemple:
+
+> .:Escape:: .:Latex2MathML:: \overline{z^{n+1}} = {\overline{z}}^{n+1}:. ::EndEscape:.
+
+produirait le code suivant
+
+.:CodeHighlight::HTML::False::
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
+    <mrow>
+        <mover>
+            <mrow>
+                <msup>
+                    <mi>z</mi>
+                    <mrow>
+                        <mi>n</mi>
+                        <mo>&#x0002B;</mo>
+                        <mn>1</mn>
+                    </mrow>
+                </msup>
+            </mrow>
+            <mo stretchy="true">&#x000AF;</mo>
+        </mover>
+        <mo>&#x0003D;</mo>
+        <msup>
+            <mrow>
+                <mover>
+                    <mrow>
+                        <mi>z</mi>
+                    </mrow>
+                    <mo stretchy="true">&#x000AF;</mo>
+                </mover>
+            </mrow>
+            <mrow>
+                <mi>n</mi>
+                <mo>&#x0002B;</mo>
+                <mn>1</mn>
+            </mrow>
+        </msup>
+    </mrow>
+</math>
+:.
+
+
