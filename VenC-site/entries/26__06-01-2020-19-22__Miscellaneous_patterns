@@ -33,4 +33,9 @@ Le seul paramétre de ce motif est:
 
 - __date&#95;format__ : La chaine de caractére permettant de formatter
 la date courante. Le format utilisé est le même que celui utilisé par python.
-La documentation est disponible  [ici](https://strftime.org/)
+La documentation est disponible [ici](https://strftime.org/)
+
+# .:Escape:: .:GetVenCVersion:. ::EndEscape:.
+
+Ce motif retourne le version de VenC avec lequel la page
+courrante est généré et ne prend pas de paramétre.
