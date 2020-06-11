@@ -89,7 +89,10 @@ def get_venc_version(argv):
     
 """ Need to handle missing args in case of unknown number of args """
 def set_color(argv):
-    return "<span style=\"color: "+('::'.join(argv[1:]))+";\">"+argv[0]+"</span>"
+    if len(argv) < 2:
+        raise PatternMissingArguments(expected=2, got=len(argv))
+        
+    return "<span style=\"color: "+argv[1]+";\">"+argv[0]+"</span>"
 
 def set_style(argv):
     ID = argv[0].strip()
@@ -142,12 +145,13 @@ def table(argv):
     append_td = tr[-1].append
     append_tr = tr.append
     for cell in argv:
-        if cell == 'NewRow':
+        cell_stripped = cell.strip()
+        if cell_stripped == 'NewLine':
             append_tr([])
             append_td = tr[-1].append
 
         else:
-            append_td("<td>"+cell+"</td>")
+            append_td("<td>"+cell_stripped+"</td>")
     
     join = ''.join
     for row in tr:

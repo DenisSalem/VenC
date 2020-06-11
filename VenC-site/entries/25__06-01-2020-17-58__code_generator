@@ -221,4 +221,39 @@ produirait le code suivant
 </math>
 :.
 
+# .:Escape:: .:SetColor:. ::EndEscape:.
 
+.:SetColor:.
+
+# .:Escape:: .:Table[::item1][::item2][...]:. ::EndEscape:.
+
+Ce motif permet d'organiser du contenu dans une table. Le motif a un
+nombre illimité d'arguments. Chaque argument correspond au contenu d'une cellule.
+
+Quand VenC détect qu'un argument est égale à la valeur __NewLine__ une nouvelle
+ligne est inséré et poursuit l'ajout des cellules du tableau pour chaque argument.
+
+Par exemple pour créer un tableau de quatre cellules et deux lignes
+
+.:CodeHighlightInclude::Text::False::table_example_1:.
+
+Ce qui produira le code suivant
+
+.:CodeHighlight::HTML::False::
+<div class="__VENC_TABLE__">
+    <table>
+        <tr>
+            <td>VenC version:</td>
+            <td>2.0.0</td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td>11-06-2020</td>
+        </tr>
+    </table>
+</div>
+:.
+
+Comme on le voit, il est possible d'utiliser des motifs VenC à
+l'intérieur du motif __Table__. Remarquons également que pour chaque cellule
+les caractères blancs au début et à la fin de l'argument correspondant sont effacé.
