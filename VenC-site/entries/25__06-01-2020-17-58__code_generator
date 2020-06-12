@@ -221,9 +221,9 @@ produirait le code suivant
 </math>
 :.
 
-# .:Escape:: .:SetColor:. ::EndEscape:.
+# .:Escape:: .:SetColor::input_text::color:. ::EndEscape:.
 
-.:SetColor:.
+Ce motif permet de formater du texte avec la couleur de son choix.
 
 # .:Escape:: .:Table[::item1][::item2][...]:. ::EndEscape:.
 
