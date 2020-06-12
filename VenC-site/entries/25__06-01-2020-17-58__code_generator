@@ -223,7 +223,23 @@ produirait le code suivant
 
 # .:Escape:: .:SetColor::input_text::color:. ::EndEscape:.
 
-Ce motif permet de formater du texte avec la couleur de son choix.
+Ce motif permet de formater du texte avec la couleur de son choix et prend deux arguments:
+
+- __input&#95;text__ : Le texte à formater. Peut contenir d'autres motifs.
+- __color__ : La couleur désirée tel que spécifié par CSS.
+
+Par exemple
+
+> .:Escape:: .:SetColor::Texte de couleur rouge::red:. ::EndEscape:.
+
+produira le code HTML suivant
+
+.:CodeHighlight::HTML::False::
+<span class="__VENC_TEXT_COLOR__" style="color: red;">Texte de couleur rouge</span>
+:.
+
+On remarque que la balise span a pour class __&#95;&#95;VENC&#95;TEXT&#95;COLOR&#95;&#95;__
+ce qui permet plus de contrôle lors de la mise en page de votre blog.
 
 # .:Escape:: .:Table[::item1][::item2][...]:. ::EndEscape:.
 

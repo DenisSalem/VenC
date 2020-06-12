@@ -92,7 +92,7 @@ def set_color(argv):
     if len(argv) < 2:
         raise PatternMissingArguments(expected=2, got=len(argv))
         
-    return "<span class="__VENC_TEXT_COLOR__" style=\"color: "+argv[1]+";\">"+argv[0]+"</span>"
+    return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+argv[1]+";\">"+argv[0]+"</span>"
 
 def set_style(argv):
     ID = argv[0].strip()

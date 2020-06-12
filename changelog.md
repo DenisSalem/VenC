@@ -177,6 +177,7 @@
     DONE | Fix chapters rendering (only first level sub-chapter are rendered for now)
     
 # version 2.1.x
+    TODO | SetBackgroundColor for text
     TODO | Include threads preview in entry
     TODO | Add command for reorder entries by criteria
     TODO | Use built in list in yaml instead to turn str to list.
