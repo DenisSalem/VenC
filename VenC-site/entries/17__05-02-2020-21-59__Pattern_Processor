@@ -6,9 +6,8 @@ title: Pattern Processor
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 VenC utilise un moteur de reconnaissance de motif permettant une mise en
-page facilitée et automatisée. Ce système devrait permettre dans de
-futures versions d'utiliser des modules externes. La création et l'ajout
-de greffons sera détaillé dans une autre partie.
+page facilitée et automatisée, notamment quand vous souhaitez réaliser votre
+propre design pour votre site.
 
 Un motif est en fait une fonction pouvant prendre des paramètres. L'objectif est
 de remplacer un motif par une chaine de caractères formatée. Typiquement,
