@@ -99,7 +99,7 @@ def set_style(argv):
     CLASS = argv[1].strip()
     ID = "id=\""+ID+"\"" if ID != '' else ''
     CLASS = "class=\""+CLASS+"\"" if CLASS != '' else ''
-    return "<span "+ID+' '+CLASS+">"+('::'.join(argv[2:]))+"</span>"
+    return "<span "+ID+' '+CLASS+">"+('::'.join(argv[2:]).strip())+"</span>"
 
 
 # TODO: Must fix dirty try/except structure.
