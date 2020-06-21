@@ -40,17 +40,20 @@ La documentation est disponible [ici](https://strftime.org/)
 Ce motif retourne le version de VenC avec lequel la page
 courrante est généré et ne prend pas de paramétre.
 
-# .:Escape:: .:IncludeFile::filename:. ::EndEscape:.
+# .:Escape:: .:IncludeFile::escape::filename[::arg&#95;1][::arg&#95;2][::arg&#95;n]:. ::EndEscape:.
 
 Ce motif permet d'inclure le contenu d'un fichier dans la page courante. Celui-ci ne
 doit comporter que des caractères imprimables.
 
-Ce motif ne prend qu'un seul argument:
+Ce motif prend au minimum deux arguments:
 
+- __escape__ : Indique à VenC s'il doit chercher des motifs à interpréter
+dans le fichier à inclure. Si _escape_ vaut "true". VenC ignore les motifs dans le fichier.
 - __filename__ : Le chemin du fichier à inclure dans la page. Celui-ci
 doit se trouver dans le répertoire __includes__ de votre projet.
+- __arg&#95;1__, __arg&#95;2__, arg&#95;n__ : 
 
-Par exemple avec un fichier contenant plein de trucs longs et compliqués
+Un premier exemple avec un fichier contenant plein de trucs longs et compliqués
 que nous appellerons
 
 > plein-de-truc-longs-et-compliqués.txt
@@ -61,5 +64,15 @@ nous utiliserions le motif comme suit:
 > .:Escape:: .:IncludeFile::plein-de-truc-longs-et-compliqués.txt:. ::EndEscape:.
 
 Notons que tous ce qui se trouve à l'intérieur du fichier ainsi inclue n'est
-pas traité par le moteur de motifs de VenC, ni par __Markdown__, ni par
+pas traité par les interpréteur de langage balisé __Markdown__ et
 __reStructuredText__.
+
+# .:Escape:: .:DisableMarkup::content:. ::EndEscape:.
+
+Ce motif permet de désactiver l'interpréteur de langage de balisage.
+pour le texte passé passé en paramètre. Attention cependant, VenC reconnait
+toujours ses propres motifs documentés ici, dans le chapitre 5 de ce manuel.
+
+Ce motif ne prend qu'un seul paramètre.
+
+- __content__ : Le texte pour lequel on veut désactiver l'interpréteur de langage de balisage.

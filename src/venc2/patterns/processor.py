@@ -139,6 +139,7 @@ class ProcessedString():
             raise MalformedPatterns(leo > lec, True, ressource)
         
         escapes = []
+        
         # Get ranges
         while len(self.escapes_o):
             if len(self.escapes_o) > 1:
@@ -276,9 +277,9 @@ class Processor():
 
     # Run any pattern and catch exception nicely
     def run_pattern(self, pattern, argv):
-        try: # Should be refactored, Create a base PatternException
-            output = self.functions[pattern](argv)
-            if pattern == "IncludeFile":
+        try: # TODO: Should be refactored, Create a base PatternException
+            output = self.functions[pattern](argv[1:])
+            if pattern == "IncludeFile" and argv[0].lower() == "true":
                 self.include_file_called = True 
         
         except KeyError as e:
