@@ -39,3 +39,27 @@ La documentation est disponible [ici](https://strftime.org/)
 
 Ce motif retourne le version de VenC avec lequel la page
 courrante est généré et ne prend pas de paramétre.
+
+# .:Escape:: .:IncludeFile::filename:. ::EndEscape:.
+
+Ce motif permet d'inclure le contenu d'un fichier dans la page courante. Celui-ci ne
+doit comporter que des caractères imprimables.
+
+Ce motif ne prend qu'un seul argument:
+
+- __filename__ : Le chemin du fichier à inclure dans la page. Celui-ci
+doit se trouver dans le répertoire __includes__ de votre projet.
+
+Par exemple avec un fichier contenant plein de trucs longs et compliqués
+que nous appellerons
+
+> plein-de-truc-longs-et-compliqués.txt
+
+et qui se trouverait dans le répertoire __includes__ de votre projet
+nous utiliserions le motif comme suit:
+
+> .:Escape:: .:IncludeFile::plein-de-truc-longs-et-compliqués.txt:. ::EndEscape:.
+
+Notons que tous ce qui se trouve à l'intérieur du fichier ainsi inclue n'est
+pas traité par le moteur de motifs de VenC, ni par __Markdown__, ni par
+__reStructuredText__.
