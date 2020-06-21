@@ -111,6 +111,9 @@ Ce fichier source doit être placé dans le repertoire __includes__ de votre pro
 Ce motif est donc à préférer au précédent quand le code source est très long, et que vous ne souhaitez
 pas "polluer" votre publication avec du code.
 
+Notons que tous ce qui se trouve à l'intérieur du fichier ainsi inclue n'est
+pas traité par le moteur de motifs de VenC.
+
 # .:Escape:: .:GetStyleSheets:. ::EndEscape:.
 
 Comme on l'a vu précédement VenC peut générer des feuilles de style CSS.
@@ -271,5 +274,6 @@ Ce qui produira le code suivant
 :.
 
 Comme on le voit, il est possible d'utiliser des motifs VenC à
-l'intérieur du motif __Table__. Remarquons également que pour chaque cellule
-les caractères blancs au début et à la fin de l'argument correspondant sont effacé.
+l'intérieur du motif __Table__. Remarquons également que pour chaque
+cellule les caractères blancs au début et à la fin de l'argument
+correspondant sont effacé.
