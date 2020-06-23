@@ -40,6 +40,7 @@ aside ul
 	padding-left: 10px;}
 
 blockquote,
+code,
 .__VENC_PYGMENTIZE_WRAPPER__ > div
 	{background-color: rgba(0,0,0,0.5);
 	color: #FFF;
@@ -48,6 +49,9 @@ blockquote,
 	border-bottom: 1px solid rgba(255,255,255,0.25);
 	border-radius: 5px;}
 
+code
+    {display: inline-block;}
+    
 blockquote p 
 	{margin-top: 0px;
 	margin-bottom: 0px;}
@@ -58,12 +62,14 @@ blockquote p
 .entry iframe
     {margin-left: 15px;}
 
-.__VENC_PYGMENTIZE_WRAPPER__ > div
+.__VENC_PYGMENTIZE_WRAPPER__ > div,
+code
 	{font-size: 1em;
 	margin-left: 15px;
 	margin-right: 15px;}
 
-.__VENC_PYGMENTIZE_WRAPPER__ > div pre
+.__VENC_PYGMENTIZE_WRAPPER__ > div pre,
+code
 	{overflow: hidden;
 	margin-top: 0px;
 	margin-left: 15px;
@@ -94,4 +100,3 @@ blockquote p
 
 #content ul
 	{list-style-type: square;}
-

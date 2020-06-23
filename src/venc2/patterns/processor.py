@@ -278,8 +278,9 @@ class Processor():
     # Run any pattern and catch exception nicely
     def run_pattern(self, pattern, argv):
         try: # TODO: Should be refactored, Create a base PatternException
-            output = self.functions[pattern](argv[1:])
-            if pattern == "IncludeFile" and argv[0].lower() == "true":
+            include_file = pattern == "IncludeFile"
+            output = self.functions[pattern](argv[include_file:])
+            if include_file and argv[0].lower() == "true":
                 self.include_file_called = True 
         
         except KeyError as e:
