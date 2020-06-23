@@ -48,29 +48,74 @@ doit comporter que des caractères imprimables.
 Ce motif prend au minimum deux arguments:
 
 - __escape__ : Indique à VenC s'il doit chercher des motifs à interpréter
-dans le fichier à inclure. Si _escape_ vaut "true". VenC ignore les motifs dans le fichier.
+dans le fichier à inclure. Si _escape_ vaut "true". VenC ignore les motifs dans le fichier. Cette variable n'est pas sensible à la casse.
 - __filename__ : Le chemin du fichier à inclure dans la page. Celui-ci
 doit se trouver dans le répertoire __includes__ de votre projet.
-- __arg&#95;1__, __arg&#95;2__, arg&#95;n__ : 
+- __arg&#95;1__, __arg&#95;2__, __arg&#95;n__ : Ces paramètres sont optionnels.
+Il vous permettent de formatter l'intérieur du fichier à inclure en remplaçant
+des variables numérotés (venc&#95;arg&#95;1, venc&#95;arg&#95;2, venc&#95;arg&#95;n)
+qui s'y trouverai par la valeurs des paramètres correspondant.
 
-Un premier exemple avec un fichier contenant plein de trucs longs et compliqués
+## Un premier exemple
+
+avec un fichier contenant plein de trucs longs et compliqués
 que nous appellerons
 
 > plein-de-truc-longs-et-compliqués.txt
 
-et qui se trouverait dans le répertoire __includes__ de votre projet
-nous utiliserions le motif comme suit:
+et qui se trouverait dans le répertoire __includes__ de votre projet.
+Nous utiliserions alors le motif comme suit:
 
-> .:Escape:: .:IncludeFile::plein-de-truc-longs-et-compliqués.txt:. ::EndEscape:.
+> .:Escape:: .:IncludeFile::True::plein-de-truc-longs-et-compliqués.txt:. ::EndEscape:.
 
 Notons que tous ce qui se trouve à l'intérieur du fichier ainsi inclue n'est
 pas traité par les interpréteur de langage balisé __Markdown__ et
-__reStructuredText__.
+__reStructuredText__. Comme le premier argument, __escape__ vaut "True",
+les motifs VenC sont également ignorés.
+
+## Un Second example
+
+où nous utiliserons les paramètres optionnels pour formatter le contenu
+du fichier à inclure.
+
+Soit le fichier
+
+> liste&#95;de&#95;choses&#95;à&#95;faire.txt
+
+qui contiendrait
+
+.:CodeHighlight::Text::False::
+Voilà les choses qu'il faut que je fasse avant de mourrir
+ - venc_arg_1
+ - venc_arg_2
+ - venc_arg_3
+ - venc_arg_4
+:.
+
+En utilisant le motif __IncludeFile__ comme suit
+
+    .:Escape:: .:IncludeFile::True::liste_de_choses_à_faire.txt::
+    Libérer la Corée du Nord::
+    Terraformer la lune::
+    Découvrir la matière exotique et commercialiser les trous de ver pour le voyage interstellaire::
+    Nourrir Freki, mon chiens.
+    :. ::EndEscape:.
+    
+nous obtiendrions
+
+.:CodeHighlight::Text::False::
+.:IncludeFile::True::things_to_do.txt::
+Libérer la Corée du Nord::
+Terraformer la lune::
+Découvrir la matière exotique et commercialiser les trous de ver pour le voyage interstellaire::
+Nourrir Tacos, mon chiens
+:.
+:.
 
 # .:Escape:: .:DisableMarkup::content:. ::EndEscape:.
 
 Ce motif permet de désactiver l'interpréteur de langage de balisage.
-pour le texte passé passé en paramètre. Attention cependant, VenC reconnait
+pour le texte passé en paramètre. Attention cependant, VenC reconnait
 toujours ses propres motifs documentés ici, dans le chapitre 5 de ce manuel.
 
 Ce motif ne prend qu'un seul paramètre.
