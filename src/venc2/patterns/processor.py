@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import cgi
 import markdown2 as markdown
 
 from copy import deepcopy
@@ -37,14 +36,6 @@ from venc2.patterns.exceptions import PatternInvalidArgument
 from venc2.helpers import GenericMessage
 
 markup_language_errors = []
-
-def cgi_escape(string):
-    return cgi.escape(string).encode(
-        'ascii', 
-        'xmlcharrefreplace'
-    ).decode(
-        encoding='ascii'
-    )
 
 def get_markers_indexes(string, begin=".:", end=":."):
     op, cp = [], []
@@ -211,10 +202,7 @@ class ProcessedString():
         self.open_pattern_pos, self.close_pattern_pos, self.len_open_pattern_pos, self.len_close_pattern_pos, self.string = self.backup
         self.backup = None
 
-    def keep_appart_from_markup_indexes_append(self, paragraphe, new_chunk, escape):
-        if escape:
-            new_chunk = cgi_escape(new_chunk)
-
+    def keep_appart_from_markup_indexes_append(self, paragraphe, new_chunk):
         self.keep_appart_from_markup_indexes.append((self.keep_appart_from_markup_inc, paragraphe, new_chunk))
         output = "---VENC-TEMPORARY-REPLACEMENT-"+str(self.keep_appart_from_markup_inc)+'---'
         self.keep_appart_from_markup_inc +=1
@@ -374,7 +362,7 @@ class Processor():
     def set(self, symbol, value):
        self.dictionary[symbol] = value
 
-    def process(self, pre_processed, escape=False, safe_process=False, no_markup=False):
+    def process(self, pre_processed, safe_process=False, no_markup=False):
         extra_processing_required = []
         op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
         if safe_process and pre_processed.backup == None:
@@ -410,8 +398,7 @@ class Processor():
                 if current_pattern in self.keep_appart_from_markup and not no_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
-                        self.run_pattern(current_pattern, fields[1:]),
-                        escape
+                        self.run_pattern(current_pattern, fields[1:])
                     )
                     if self.include_file_called:
                         extra_processing_required.append(pre_processed.keep_appart_from_markup_indexes[-1])
@@ -420,14 +407,11 @@ class Processor():
                 elif current_pattern == "SetColor":
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         False,
-                        self.run_pattern(current_pattern, fields[1:]),
-                        escape
+                        self.run_pattern(current_pattern, fields[1:])
                     )
                 
                 else:
                     new_chunk = self.run_pattern(current_pattern, fields[1:])
-                    if escape:
-                        new_chunk = cgi_escape(new_string)
                 
                 string = string[0:vop] + new_chunk + string[vcp+2:]
                 self.current_input_string = string
@@ -454,10 +438,10 @@ class Processor():
 
         pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.open_pattern_pos, pre_processed.close_pattern_pos = lo, lc, op, cp
         pre_processed.string = string
-        self.process(pre_processed, escape, safe_process)
+        self.process(pre_processed, safe_process)
         
         for extra in extra_processing_required:
             index, paragraphe, new_chunk = extra
             extra_pre_processed = ProcessedString(new_chunk, pre_processed.ressource, pre_processed.process_escapes)
-            self.process(extra_pre_processed, escape, safe_process)
+            self.process(extra_pre_processed, safe_process)
             pre_processed.keep_appart_from_markup_indexes[index] = (index, paragraphe, extra_pre_processed.string)
