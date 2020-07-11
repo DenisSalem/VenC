@@ -112,6 +112,9 @@ Nourrir Tacos, mon chiens
 :.
 :.
 
+La portion de texte ci-dessus serait inclus tel quel dans la page généré par VenC.
+Là encore, ni les motifs VenC, ni le langages de balisage courant ne serait interprété.
+
 # .:Escape:: .:DisableMarkup::content:. ::EndEscape:.
 
 Ce motif permet de désactiver l'interpréteur de langage de balisage.
@@ -121,3 +124,5 @@ toujours ses propres motifs documentés ici, dans le chapitre 5 de ce manuel.
 Ce motif ne prend qu'un seul paramètre.
 
 - __content__ : Le texte pour lequel on veut désactiver l'interpréteur de langage de balisage.
+
+# .:IncludeFile::true::escape:.

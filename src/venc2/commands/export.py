@@ -178,6 +178,10 @@ def export_blog(argv=list()):
     thread = MainThread(messages.export_main_thread, datastore, theme, patterns_map)
     thread.do()
 
+    # ~ for entry in datastore.entries:
+        # ~ if entry.id == 26:
+            # ~ print(entry.content.string)
+
     if not datastore.blog_configuration["disable_archives"]:
         from venc2.threads.archives import ArchivesThread
         thread = ArchivesThread(messages.export_archives, datastore, theme, patterns_map)
