@@ -37,6 +37,11 @@ from venc2.helpers import GenericMessage
 
 markup_language_errors = []
 
+def fix_indexes_offset(l, p, offset):
+    for i in range(0, len(l)):
+        if l[i] >= p:
+            l[i] += offset
+
 def get_markers_indexes(string, begin=".:", end=":."):
     op, cp = [], []
     op_append, cp_append = op.append, cp.append
@@ -222,16 +227,23 @@ class ProcessedString():
             except Exception as ee: 
                 handle_markup_language_error(self.ressource+", "+str(e))
         
+        # After markup langage processing done, indexes are messed up.
+        keep_appart_from_markup_indexes = self.keep_appart_from_markup_indexes
+        self.__init__(self.string, self.ressource, process_escapes=True)
+        self.keep_appart_from_markup_indexes = keep_appart_from_markup_indexes
+        
+        # Last round is about replacing needles and fix one last time indexes
         while "Missings triplet is not empty":
             missings = []
+
             for triplet in self.keep_appart_from_markup_indexes:
                 identifier, paragraphe, new_chunk = triplet
                 string = self.string
-                
                 target = "---VENC-TEMPORARY-REPLACEMENT-"+str(identifier)+"---"
                 try:
                     index = string.index(target)
                 
+                # In some case needle may be hidden in another needle.
                 except:
                     missings.append(triplet)
                     continue
@@ -240,10 +252,18 @@ class ProcessedString():
                     if string[index-3:index] == "<p>":
                         string = string[:index-3]+string[index: ]
                         index -=3
+                        fix_indexes_offset(self.open_pattern_pos, index, -3)
+                        fix_indexes_offset(self.close_pattern_pos, index, -3)
+
                         
                     if string[index+len(target):index+len(target)+4] == "</p>":
                         string = string[:index+len(target)]+string[index+len(target)+4:]
-                        
+                        fix_indexes_offset(self.open_pattern_pos, index+len(target), -4)
+                        fix_indexes_offset(self.close_pattern_pos, index+len(target), -4)
+                
+                self.string = string[index]+new_chunk+string[index+len(target):]
+                fix_indexes_offset(self.open_pattern_pos, index, len(new_chunk)-len(target))
+                fix_indexes_offset(self.close_pattern_pos, index, len(new_chunk)-len(target))
                 self.string = string.replace(target, new_chunk)
             
             if not len(missings):
@@ -251,8 +271,6 @@ class ProcessedString():
             
             self.keep_appart_from_markup_indexes = missings
     
-        self.__init__(self.string, self.ressource, process_escapes=True)
-
 class Processor():
     def __init__(self):
         self.debug = False
@@ -262,15 +280,17 @@ class Processor():
         self.blacklist = []
         self.keep_appart_from_markup = []
         self.include_file_called = False
+        self.ignore_patterns = False
 
     # Run any pattern and catch exception nicely
     def run_pattern(self, pattern, argv):
         try: # TODO: Should be refactored, Create a base PatternException
             include_file = pattern == "IncludeFile"
             output = self.functions[pattern](argv[include_file:])
-            if include_file and argv[0].lower() == "true":
+            if include_file:
                 self.include_file_called = True 
-        
+                self.ignore_patterns = argv[0].lower() == "true"
+
         except KeyError as e:
             output = self.handle_error(
                 e,
@@ -401,7 +421,11 @@ class Processor():
                         self.run_pattern(current_pattern, fields[1:])
                     )
                     if self.include_file_called:
-                        extra_processing_required.append(pre_processed.keep_appart_from_markup_indexes[-1])
+                        extra_processing_required.append(
+                            pre_processed.keep_appart_from_markup_indexes[-1]+
+                            (self.ignore_patterns,)
+                        )
+                        self.ignore_patterns = False
                         self.include_file_called = False
             
                 elif current_pattern == "SetColor":
@@ -441,7 +465,10 @@ class Processor():
         self.process(pre_processed, safe_process)
         
         for extra in extra_processing_required:
-            index, paragraphe, new_chunk = extra
-            extra_pre_processed = ProcessedString(new_chunk, pre_processed.ressource, pre_processed.process_escapes)
-            self.process(extra_pre_processed, safe_process)
-            pre_processed.keep_appart_from_markup_indexes[index] = (index, paragraphe, extra_pre_processed.string)
+            index, paragraphe, new_chunk, ignore_patterns = extra
+            if not ignore_patterns:
+                extra_pre_processed = ProcessedString(new_chunk, pre_processed.ressource, True)
+                self.process(extra_pre_processed, safe_process)
+                
+            print(ignore_patterns, pre_processed.process_escapes, new_chunk)
+            pre_processed.keep_appart_from_markup_indexes[index] = (index, paragraphe, extra_pre_processed.string if not ignore_patterns else new_chunk)
