@@ -23,6 +23,12 @@ from venc2.l10n import messages
 class UnknownContextual(KeyError):
     pass
 
+class IllegalUseOfEscape(Exception):
+    def __init__(self, ressource):
+        self.ressource = ressource
+        pass
+
+
 class MalformedPatterns(Exception):
     def __init__(self, too_many_opening_symbols, escape, ressource):
         self.too_many_opening_symbols = too_many_opening_symbols

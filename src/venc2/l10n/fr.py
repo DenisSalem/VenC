@@ -114,3 +114,4 @@ class Messages:
     blog_has_no_metadata_like = "Le blog ne possède pas la métadonnée identifié par {0}."
     invalid_range = "Plage de nombres invalide {0}:{1}."
     entry_metadata_is_not_a_list = "La métadonné \"{0}\" de la publication {1} n'est pas une liste."
+    illegal_use_of_escape = "Usage illégal d'un ou plusieur motif d'échappement dans le fichier {0}."

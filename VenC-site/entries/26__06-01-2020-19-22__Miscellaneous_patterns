@@ -126,3 +126,8 @@ Ce motif ne prend qu'un seul paramètre.
 - __content__ : Le texte pour lequel on veut désactiver l'interpréteur de langage de balisage.
 
 # .:IncludeFile::true::escape:.
+
+.:Escape:: .:Escape:: ::EndEscape:. ::EndEscape:.
+
+Ce motif est traité un peu différement des autres. Il permet d'ignorer les motifs contenu à l'intérieur
+du texte de l'unique argument __content__.
