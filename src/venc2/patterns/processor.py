@@ -29,6 +29,7 @@ from venc2.prompt import notify
 from venc2.prompt import die
 from venc2.helpers import remove_by_value
 from venc2.l10n import messages
+from venc2.patterns.exceptions import IllegalUseOfEscape
 from venc2.patterns.exceptions import MalformedPatterns
 from venc2.patterns.exceptions import UnknownContextual
 from venc2.patterns.exceptions import PatternMissingArguments
@@ -148,6 +149,9 @@ class ProcessedString():
                         self.escapes_o = self.escapes_o[i:]
                         self.escapes_c = self.escapes_c[i:]
                         break
+                        
+                    else:
+                        raise IllegalUseOfEscape(ressource)
                     
             else:
                 escapes.append((
@@ -229,7 +233,7 @@ class ProcessedString():
         
         # After markup langage processing done, indexes are messed up.
         keep_appart_from_markup_indexes = self.keep_appart_from_markup_indexes
-        self.__init__(self.string, self.ressource, process_escapes=True)
+        self.do_again()
         self.keep_appart_from_markup_indexes = keep_appart_from_markup_indexes
         
         # Last round is about replacing needles and fix one last time indexes
@@ -250,12 +254,11 @@ class ProcessedString():
                 
                 if paragraphe:
                     if string[index-3:index] == "<p>":
-                        string = string[:index-3]+string[index: ]
+                        string = string[:index-3]+string[index:]
                         index -=3
                         fix_indexes_offset(self.open_pattern_pos, index, -3)
                         fix_indexes_offset(self.close_pattern_pos, index, -3)
 
-                        
                     if string[index+len(target):index+len(target)+4] == "</p>":
                         string = string[:index+len(target)]+string[index+len(target)+4:]
                         fix_indexes_offset(self.open_pattern_pos, index+len(target), -4)

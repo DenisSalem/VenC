@@ -21,6 +21,7 @@ from venc2.datastore.entry import EntryWrapper
 from venc2.prompt import die
 from venc2.l10n import messages
 from venc2.patterns.processor import ProcessedString
+from venc2.patterns.exceptions import IllegalUseOfEscape
 
 class Theme:
     def __init__(self, theme_folder):
@@ -39,6 +40,9 @@ class Theme:
             self.audio = open(theme_folder+"chunks/audio.html",'r').read()
             self.video = open(theme_folder+"chunks/video.html",'r').read()
 
+        except IllegalUseOfEscape as e:
+            die(messages.illegal_use_of_escape.format(e.ressource))
+            
         except FileNotFoundError as e:
             die(messages.file_not_found.format(str(e.filename)))
 

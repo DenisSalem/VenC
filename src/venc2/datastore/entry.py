@@ -31,6 +31,7 @@ from venc2.l10n import messages
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 from venc2.patterns.processor import ProcessedString
+from venc2.patterns.exceptions import IllegalUseOfEscape
 
 class EntryWrapper:
     def __init__(self, wrapper, filename):
@@ -68,9 +69,12 @@ class Entry:
         if len(entry_parted) == 2:
             entry_parted = [entry_parted[0]] + entry_parted[1].split("---VENC-END-PREVIEW---\n")
             if len(entry_parted) == 3:
-                self.preview = ProcessedString(entry_parted[1], filename)
-                self.content = ProcessedString(entry_parted[2], filename)
-
+                try:
+                    self.preview = ProcessedString(entry_parted[1], filename)
+                    self.content = ProcessedString(entry_parted[2], filename)
+                except IllegalUseOfEscape:
+                    die(messages.illegal_use_of_escape.format(filename))
+                    
                 try:
                     metadata = yaml.load(entry_parted[0], Loader=yaml.FullLoader)
 

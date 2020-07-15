@@ -116,3 +116,4 @@ class Messages:
     blog_has_no_metadata_like = "Blog has no metadata identified by {0}."
     invalid_range = "Invalid range {0}:{1}."
     entry_metadata_is_not_a_list = "Metadata named \"{0}\" from entry {1} is not a list."
+    illegal_use_of_escape = "illegal use of one or more escape pattern in {0}."
