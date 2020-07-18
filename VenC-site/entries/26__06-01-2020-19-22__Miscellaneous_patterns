@@ -98,7 +98,7 @@ En utilisant le motif __IncludeFile__ comme suit
     Libérer la Corée du Nord::
     Terraformer la lune::
     Découvrir la matière exotique et commercialiser les trous de ver pour le voyage interstellaire::
-    Nourrir Freki, mon chiens.
+    Nourrir Tacos, mon chiens.
     :. ::EndEscape:.
     
 nous obtiendrions
@@ -127,7 +127,8 @@ Ce motif ne prend qu'un seul paramètre.
 
 # .:IncludeFile::true::escape:.
 
-.:Escape:: .:Escape:: ::EndEscape:. ::EndEscape:.
-
 Ce motif est traité un peu différement des autres. Il permet d'ignorer les motifs contenu à l'intérieur
 du texte de l'unique argument __content__.
+
+Ce motif ne peut pas s'échapter lui même. Pour ignorer ce motif, il doit être inclu dans un fichier avec
+le pattern _IncludeFile_.
