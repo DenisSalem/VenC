@@ -169,12 +169,13 @@
     DONE | Fix url with special char in chapter.
     DONE | Add CodeHighlightInclude
     DONE | Reorganize themes dependencies in setup.
+    DONE | Print out what's going on while FTP transfert.
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
     WIP  | Add definition in documentation for optional fields in blog configuration.
     WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
     DONE | Documenter le type des métadonnées: list, str ou dict
-    DONE | Fix chapters rendering (only first level sub-chapter are rendered for now)
+    DONE | Fix chapters rendering (only first level sub-chapter were rendered)
     
 # version 2.1.x
     TODO | SetBackgroundColor for text
@@ -205,7 +206,6 @@
     TODO | Add Yaml comments in blog configuration.
     TODO | Add nice 404 errors page.
     TODO | Improve Feed.
-    TODO | Print out what's going on while FTP transfert.
     TODO | Warn about entry title duplicates.
     TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add configuration field type check.

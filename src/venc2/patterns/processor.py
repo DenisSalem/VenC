@@ -203,10 +203,7 @@ class ProcessedString():
         self.keep_appart_from_markup_inc = 0
         self.bop, self.bcp = [], []
         self.backup = None
-                     
-    def do_again(self):
-        self.__init__(self.string, self.ressource, self.process_escapes)
-        
+                             
     def restore(self):
         self.open_pattern_pos, self.close_pattern_pos, self.len_open_pattern_pos, self.len_close_pattern_pos, self.string = self.backup
         self.backup = None
@@ -233,7 +230,7 @@ class ProcessedString():
         
         # After markup langage processing done, indexes are messed up.
         keep_appart_from_markup_indexes = self.keep_appart_from_markup_indexes
-        self.do_again()
+        self.__init__(self.string, self.ressource, True)
         self.keep_appart_from_markup_indexes = keep_appart_from_markup_indexes
         
         # Last round is about replacing needles and fix one last time indexes
@@ -473,5 +470,4 @@ class Processor():
                 extra_pre_processed = ProcessedString(new_chunk, pre_processed.ressource, True)
                 self.process(extra_pre_processed, safe_process)
                 
-            print(ignore_patterns, pre_processed.process_escapes, new_chunk)
             pre_processed.keep_appart_from_markup_indexes[index] = (index, paragraphe, extra_pre_processed.string if not ignore_patterns else new_chunk)

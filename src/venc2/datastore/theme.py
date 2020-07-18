@@ -34,7 +34,7 @@ class Theme:
             self.atom_footer = ProcessedString(open(theme_folder+"chunks/atomFooter.xml",'r').read(), "atomFooter.html")
 
             self.entry = EntryWrapper(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
-            self.rss_entry = EntryWrapper(open(theme_folder+"chunks/rssEntry.xml",'r').read(),"rssEntry.xxml")
+            self.rss_entry = EntryWrapper(open(theme_folder+"chunks/rssEntry.xml",'r').read(),"rssEntry.xml")
             self.atom_entry = EntryWrapper(open(theme_folder+"chunks/atomEntry.xml",'r').read(),"atomEntry.xml")
             
             self.audio = open(theme_folder+"chunks/audio.html",'r').read()
