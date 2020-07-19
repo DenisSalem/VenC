@@ -26,12 +26,12 @@ from venc2.patterns.exceptions import IllegalUseOfEscape
 class Theme:
     def __init__(self, theme_folder):
         try:
-            self.header = ProcessedString(open(theme_folder+"chunks/header.html",'r').read(), "header.html")
-            self.footer = ProcessedString(open(theme_folder+"chunks/footer.html",'r').read(), "footer.html")
-            self.rss_header = ProcessedString(open(theme_folder+"chunks/rssHeader.xml",'r').read(), "rssHeader.html")
-            self.rss_footer = ProcessedString(open(theme_folder+"chunks/rssFooter.xml",'r').read(), "rssFooter.html")
-            self.atom_header = ProcessedString(open(theme_folder+"chunks/atomHeader.xml",'r').read(), "atomHeader.html")
-            self.atom_footer = ProcessedString(open(theme_folder+"chunks/atomFooter.xml",'r').read(), "atomFooter.html")
+            self.header = ProcessedString(open(theme_folder+"chunks/header.html",'r').read(), "header.html", True)
+            self.footer = ProcessedString(open(theme_folder+"chunks/footer.html",'r').read(), "footer.html", True)
+            self.rss_header = ProcessedString(open(theme_folder+"chunks/rssHeader.xml",'r').read(), "rssHeader.html", True)
+            self.rss_footer = ProcessedString(open(theme_folder+"chunks/rssFooter.xml",'r').read(), "rssFooter.html", True)
+            self.atom_header = ProcessedString(open(theme_folder+"chunks/atomHeader.xml",'r').read(), "atomHeader.html", True)
+            self.atom_footer = ProcessedString(open(theme_folder+"chunks/atomFooter.xml",'r').read(), "atomFooter.html", True)
 
             self.entry = EntryWrapper(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
             self.rss_entry = EntryWrapper(open(theme_folder+"chunks/rssEntry.xml",'r').read(),"rssEntry.xml")
