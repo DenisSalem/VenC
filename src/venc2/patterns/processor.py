@@ -264,7 +264,7 @@ class ProcessedString():
                 self.string = string[index]+new_chunk+string[index+len(target):]
                 fix_indexes_offset(self.open_pattern_pos, index, len(new_chunk)-len(target))
                 fix_indexes_offset(self.close_pattern_pos, index, len(new_chunk)-len(target))
-                self.string = string.replace(target, new_chunk)
+                self.string = string.replace(target, new_chunk.strip())
             
             if not len(missings):
                 break
