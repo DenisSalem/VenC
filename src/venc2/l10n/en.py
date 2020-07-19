@@ -117,3 +117,5 @@ class Messages:
     invalid_range = "Invalid range {0}:{1}."
     entry_metadata_is_not_a_list = "Metadata named \"{0}\" from entry {1} is not a list."
     illegal_use_of_escape = "illegal use of one or more escape pattern in {0}."
+    item_deleted_from_server = "Deleted from server: "
+    item_uploaded_to_server = "Uploaded to server: "

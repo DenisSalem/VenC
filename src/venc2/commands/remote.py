@@ -73,7 +73,7 @@ def ftp_export_recursively(origin, ftp):
                     notify(item+": "+str(e), color="YELLOW")
 
             else:
-                notify("Uploaded: "+ftp.pwd()+"/"+item)
+                notify(messages.item_uploaded_to_server+ftp.pwd()+"/"+item)
                 ftp.storbinary("STOR "+ftp.pwd()+"/"+item, open(origin+"/"+item, 'rb'))
 
 def ftp_clean_destination(ftp):
@@ -84,13 +84,13 @@ def ftp_clean_destination(ftp):
         if item not in ['.','..']:
             try:
                 ftp.delete(item)
-                notify("Deleted: "+ftp.pwd()+"/"+item)
+                notify(messages.item_deleted_from_server+ftp.pwd()+"/"+item)
 
 
             except Exception:
                 try:
                     ftp.rmd(item)
-                    notify("Deleted: "+ftp.pwd()+"/"+item)
+                    notify(messages.item_deleted_from_server+ftp.pwd()+"/"+item)
 
                 except:
                     ftp.cwd(ftp.pwd()+"/"+item)

@@ -115,3 +115,5 @@ class Messages:
     invalid_range = "Plage de nombres invalide {0}:{1}."
     entry_metadata_is_not_a_list = "La métadonné \"{0}\" de la publication {1} n'est pas une liste."
     illegal_use_of_escape = "Usage illégal d'un ou plusieur motif d'échappement dans le fichier {0}."
+    item_deleted_from_server = "Supprimé du serveur: "
+    item_uploaded_to_server = "Transféré sur le serveur: "
