@@ -46,8 +46,8 @@ class EntryWrapper:
                     if p in w[0] or p in w[1]:
                         die(messages.too_much_call_of_content.format(filename))
 
-                self.above = ProcessedString(w[0], filename)
-                self.below = ProcessedString(w[1], filename)
+                self.above = ProcessedString(w[0], filename, True)
+                self.below = ProcessedString(w[1], filename, True)
                 self.required_content_pattern = pattern
                 return
 
