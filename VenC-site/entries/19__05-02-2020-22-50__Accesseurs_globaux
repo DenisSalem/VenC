@@ -7,7 +7,7 @@ title: Accesseurs globaux
 ---VENC-END-PREVIEW---
 
 Ces motifs sont disponibles quelque soit le contexte et
-sont définis dans blog_configuration.yaml.
+leurs valeurs sont définis dans blog_configuration.yaml.
 
 ## .:Escape:: .:GetAuthorName:. ::EndEscape:.
 Retourne le nom de l'auteur du blog.

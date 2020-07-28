@@ -126,7 +126,7 @@ Le nom de sous répertoire qui contiendras les categories
 
 ### .:DisableMarkup::index_file_name:.
 
-"index{page_number}.html" par défaut. Spécifie le nom de fichier des pages d'un fil de publication. Devrait toujours contenir la variable {page_number}.
+"index{page_number}.html" par défaut. Spécifie le nom de fichier des pages d'un fil de publication. Devrait toujours contenir la variable .:DisableMarkup::{page_number}:..
 
 ### .:DisableMarkup::category_directory_name:.
 
@@ -136,7 +136,7 @@ Le nom de sous répertoire qui contiendras les categories
 
 "{chapter_name} par défaut. Définit les noms de répertoire où serons
 exportés les chapitres, s'il en existe. Ce champ devrait donc toujours
-contenir la variable {chapter_name}.
+contenir la variable .:DisableMarkup::{chapter_name}:..
 
 ### .:DisableMarkup::archives_directory_name:.
 

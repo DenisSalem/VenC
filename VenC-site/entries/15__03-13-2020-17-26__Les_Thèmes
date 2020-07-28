@@ -23,6 +23,8 @@ librairies comme JQuery ou bootstrap.
   - rssHeader.html
   - rssEntry.html
   - rssFooter.html
+  - audio.html
+  - video.html
   
 - __config.yaml__ : Un fichier de configuration [Yaml](https://yaml.org/) permettant
 d'indiquer les dépendances du thème, supplanter des options de
