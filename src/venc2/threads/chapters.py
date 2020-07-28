@@ -27,11 +27,6 @@ class ChaptersThread(Thread):
         super().__init__(prompt, datastore, theme, patterns_map)
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.entries_per_page = self.datastore.blog_configuration["entries_per_pages"]
-        self.organize_entries([
-            entry for entry in datastore.get_entries(
-                False
-            )
-        ])
 
         self.folder_name = self.datastore.blog_configuration["path"]["chapter_directory_name"]
         self.sub_folders = self.datastore.blog_configuration["path"]["chapters_sub_folders"]
@@ -79,7 +74,7 @@ class ChaptersThread(Thread):
             if len(c.sub_chapters):
                 for sc_entries in self.extract_sub_chapters(c.sub_chapters):
                     output_append(sc_entries)
-            
+        
         return output
         
         
