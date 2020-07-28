@@ -7,8 +7,10 @@ variable_name: pif, paf, pouf
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-Les accesseurs de publications ne sont disponible que pendant le traitement d'une publication, donc à l'intérieur
-des fichiers __entry.html__, __rssEntry.xml__ et __atomEntry.xml__ et de la publication elle même.
+Les accesseurs de publications ne sont disponible que pendant le
+traitement d'une publication, donc à l'intérieur
+des fichiers __entry.html__, __rssEntry.xml__ et __atomEntry.xml__ et de
+la publication elle même.
 
 Il est aussi possible d'utiliser ceux là dans des templates. Pour en savoir plus sur les templates, rendez vous [ici](.:GetRelativeOrigin:.Les-templates)
 
