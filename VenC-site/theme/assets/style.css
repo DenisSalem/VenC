@@ -49,6 +49,11 @@ code,
 	border-bottom: 1px solid rgba(255,255,255,0.25);
 	border-radius: 5px;}
 
+video
+    {margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100% - 20px);}
+
 code
     {display: inline-block;}
     

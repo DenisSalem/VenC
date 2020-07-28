@@ -347,15 +347,13 @@ class Thread:
         
         if (entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.") or (entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread):
             current_source = entry.preview
-            self.processor.process(current_source, safe_process = True)
-            self.columns[self.columns_counter] += current_source.string
-            current_source.restore()
                 
         else:
             current_source = entry.content
-            self.processor.process(current_source, safe_process = True)
-            self.columns[self.columns_counter] += current_source.string
-            current_source.restore()
+            
+        self.processor.process(current_source, safe_process = True)
+        self.columns[self.columns_counter] += current_source.string
+        current_source.restore()
 
         current_source = getattr(entry, self.content_type+"_wrapper").below
         self.processor.process(current_source, safe_process = True)

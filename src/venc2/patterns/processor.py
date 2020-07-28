@@ -203,7 +203,7 @@ class ProcessedString():
         self.keep_appart_from_markup_inc = 0
         self.bop, self.bcp = [], []
         self.backup = None
-                             
+            
     def restore(self):
         self.open_pattern_pos, self.close_pattern_pos, self.len_open_pattern_pos, self.len_close_pattern_pos, self.string = self.backup
         self.backup = None
@@ -230,6 +230,8 @@ class ProcessedString():
         
         # After markup langage processing done, indexes are messed up.
         keep_appart_from_markup_indexes = self.keep_appart_from_markup_indexes
+        # This is the last time entry content is preprocessed, so it must
+        # handle escapes pattern now.
         self.__init__(self.string, self.ressource, True)
         self.keep_appart_from_markup_indexes = keep_appart_from_markup_indexes
         
@@ -410,9 +412,12 @@ class Processor():
 
             self.vop, self.vcp = op[i], cp[j]
             vop, vcp = self.vop, self.vcp
-            
+
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
             current_pattern = fields[0]
+            
+            if "28__07-20-2020-23-05__DEBUG" == pre_processed.ressource:
+                print("PROCESS ", current_pattern in self.blacklist, string[vop:vcp+2])
             
             if (not current_pattern == "Escape") and (not current_pattern in self.blacklist):
                 if current_pattern in self.keep_appart_from_markup and not no_markup:
