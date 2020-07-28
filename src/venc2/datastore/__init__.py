@@ -144,10 +144,12 @@ class DataStore:
     
         # build chapters index
         chapters_sub_folders = path_chapters_sub_folders
-        for chapter in sorted(self.raw_chapters.keys()):
+        #DO: Might be not safe, must test level if is actually an int. Test as well the whole sequence.
+
+        for chapter in sorted(self.raw_chapters.keys(), key = lambda x : int(x.replace('.', ''))):
             top = self.chapters_index
             index = ''
-            levels = [str(level) for level in chapter.split('.') if str(level) != '']
+            levels = [str(level) for level in chapter.split('.') if level != '']
             len_levels = len(levels)
             for i in range(0, len_levels):
                 l = levels[i]
@@ -168,7 +170,7 @@ class DataStore:
                         )
                     except KeyError:
                         top.append(
-                            Chapter(index, '', '')
+                            Chapter(index, '')
                         )
                         top = top[-1].sub_chapters
                         

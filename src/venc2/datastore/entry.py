@@ -169,8 +169,6 @@ class Entry:
                 self.url = "\x1a"+self.sub_folder+paths["entry_file_name"].format(**params)
                 notify("\"{0}\": ".format(sf+paths["entry_file_name"].format(**params))+str(e), color="YELLOW")
         
-
-
         self.categories_leaves = list()
         self.raw_categories = [ c.strip() for c in metadata["categories"].split(',')]
         try:
