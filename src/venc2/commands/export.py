@@ -159,7 +159,9 @@ def process_non_contextual_patterns(pattern_processor, theme):
     
 def export_blog(argv=list()):
     global datastore
-    datastore = DataStore()
+    if datastore == None:
+        datastore = DataStore()
+        
     global code_highlight
     code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
     theme, theme_folder = init_theme(argv)
@@ -213,6 +215,9 @@ def export_blog(argv=list()):
 
 
 def edit_and_export(argv):
+    global datastore
+    datastore = DataStore()
+    
     if len(argv) != 1:
         die(messages.missing_params.format("--edit-and-export"))
     
