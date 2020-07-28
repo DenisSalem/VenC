@@ -5,7 +5,7 @@ chapter: 5.2.2
 title: Générateurs de chemins
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-# .:Escape:: .:GetRelativeOrigin:. ::EndEscape:.
+## .:Escape:: .:GetRelativeOrigin:. ::EndEscape:.
 
 Ce motif renvoie le chemin relatif de la racine du blog.
 
@@ -17,7 +17,7 @@ alors le motif renverra
 
 > ../../../
 
-# .:Escape:: .:GetRelativeLocation:. ::EndEscape:.
+## .:Escape:: .:GetRelativeLocation:. ::EndEscape:.
 
 Ce motif renvoie le chemin depuis la racine du blog vers le répertoire courant.
 
@@ -29,7 +29,7 @@ alors le motif renverra
 
 > /Categories/Cinema/Science-Fiction
 
-# .:Escape:: .:GetRootPage:. ::EndEscape:.
+## .:Escape:: .:GetRootPage:. ::EndEscape:.
 
 Ce motif renvoie le chemin relatif vers la page principal du blog qui
 correspond généralement au fichier _index.html_ et qui devrait se trouver

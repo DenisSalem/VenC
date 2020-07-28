@@ -55,8 +55,9 @@ class Theme:
         f = {}
         f["source"] = source
         f["poster"] = ""
+        
         if media_type == "video":
-            f["poster"] = argv[2].strip()
+            f["poster"] = argv[2].strip().format(**{"relative_origin" : "\x1a"}) if len(argv) == 3 else ""
 
         return getattr(self, media_type).format(**f)
 

@@ -6,7 +6,7 @@ title: Générateurs de code HTML
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-# .:Escape:: .:CodeHightlight::language::line&#95;numbers::input&#95;code:. ::EndEscape:.
+## .:Escape:: .:CodeHightlight::language::line&#95;numbers::input&#95;code:. ::EndEscape:.
 
 VenC permet de formatter du code source pour qu'il soit plus lisible et
 agréable à lire. Cette fonctionnalité dépend de la librairie tierce [Pygments](https://pygments.org/).
@@ -102,7 +102,7 @@ suivant est appliqué:
 Il est important que le style ainsi définit soit inclut dans header.html __APRÈS__
 utilisation du motifs __GetStyleSheets__.
 
-# .:Escape:: .:CodeHightlightInclude::language::line&#95;numbers::input&#95;code&#95;file:. ::EndEscape:.
+## .:Escape:: .:CodeHightlightInclude::language::line&#95;numbers::input&#95;code&#95;file:. ::EndEscape:.
 
 Ce motif fonctionne exactement comme le précédent motif __CodeHighlight__ à la différence que le dernier argument
 ne contient pas de code source mais le nom de fichier dans lequel se trouve celui-ci.
@@ -114,7 +114,7 @@ pas "polluer" votre publication avec du code.
 Notons que tous ce qui se trouve à l'intérieur du fichier ainsi inclue n'est
 pas traité par le moteur de motifs de VenC.
 
-# .:Escape:: .:GetStyleSheets:. ::EndEscape:.
+## .:Escape:: .:GetStyleSheets:. ::EndEscape:.
 
 Comme on l'a vu précédement VenC peut générer des feuilles de style CSS.
 Ces fichiers peuvent être inclus dans votre thème avec le motif __GetStyleSheets__
@@ -129,46 +129,7 @@ de ce motif produirait le code suivant:
 <link rel="stylesheet" href="../venc_source_CSS.css" type="text/css" />
 :.
 
-# .:Escape:: .:GetEmbedContent::content_url:. ::EndEscape:.
-
-Ce motif permet de récupérer du contenu embarqué via le protocole _oembed_.
-Typiquement cela vous permet d'importer un lecteur youtube ou soundcloud dans
-votre publication.
-
-Le seul argument de ce motif est
-
-- __content&#95;url__ : Il s'agit de l'url de la ressource embarqué que vous voulez inclure.
-
-Par exemple, l'utilisation du motif comme ci-dessous
-
-> .:Escape:: .:GetEmbedContent::https://www.youtube.com/watch?v=y8Kyi0WNg40:. ::EndEscape:.
-
-produit le code suivant
-
-.:CodeHighlight::HTML::False::
-<iframe
-    width="459"
-    height="344"
-    src="https://www.youtube.com/embed/y8Kyi0WNg40?feature=oembed"
-    frameborder="0"
-    allow="
-        accelerometer;
-        autoplay;
-        encrypted-media;
-        gyroscope;
-        picture-in-picture
-    "
-    allowfullscreen
->
-</iframe>
-:.
-
-Pour fonctionner ce motif utilise une liste de _providers_ disponible
-[ici](https://oembed.com/providers.json) incluse avec VenC.
-
-L'utilisation de ce motif génère des données misent en cache dans le répertoire de votre projet.
-
-# .:Escape:: .:Latex2MathML::latex_code:. ::EndEscape:.
+## .:Escape:: .:Latex2MathML::latex_code:. ::EndEscape:.
 
 Ce motif vous permet de générer du code [MathML](https://www.w3.org/Math/)
 converti depuis le langage très populaire [LaTeX](https://www.latex-project.org/).
@@ -224,7 +185,7 @@ produirait le code suivant
 </math>
 :.
 
-# .:Escape:: .:SetColor::input_text::color:. ::EndEscape:.
+## .:Escape:: .:SetColor::input_text::color:. ::EndEscape:.
 
 Ce motif permet de formater du texte avec la couleur de son choix et prend deux arguments:
 
@@ -244,7 +205,7 @@ produira le code HTML suivant
 On remarque que la balise span a pour class __&#95;&#95;VENC&#95;TEXT&#95;COLOR&#95;&#95;__
 ce qui permet plus de contrôle lors de la mise en page de votre blog.
 
-# .:Escape:: .:SetStyle::tag&#95;id::tag&#95;class::content:. ::EndEscape:.
+## .:Escape:: .:SetStyle::tag&#95;id::tag&#95;class::content:. ::EndEscape:.
 
 Ce motif permet d'assigner un __id__ et une __class__ CSS à une paire de balise
 __span__ ajouté par VenC pour encapsuler le texte passé en paramètre.
@@ -265,7 +226,7 @@ produirait
 <span id="ma_class" class="ma_class">Un texte quelconque à formatter.</span>
 :.
 
-# .:Escape:: .:Table[::item1][::item2][...]:. ::EndEscape:.
+## .:Escape:: .:Table[::item1][::item2][...]:. ::EndEscape:.
 
 Ce motif permet d'organiser du contenu dans une table. Le motif a un
 nombre illimité d'arguments. Chaque argument correspond au contenu d'une cellule.

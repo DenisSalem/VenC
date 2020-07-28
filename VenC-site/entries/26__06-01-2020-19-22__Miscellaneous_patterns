@@ -6,7 +6,7 @@ title: Motifs divers
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-# .:Escape:: .:GetRandomNumber::min::max::precision:. ::EndEscape:.
+## .:Escape:: .:GetRandomNumber::min::max::precision:. ::EndEscape:.
 
 Génére un nombre aléatoire compris entre __min__ et __max__ avec une précision
 décimal définit par __precision__
@@ -25,7 +25,7 @@ avec au plus 5 chiffres après la virgules, nous ferions
 
 >  .:Escape:: .:GetRandomNumber::12.25::12.5::5:. ::EndEscape:.
 
-# .:Escape:: .:GetGenerationTimestamp::date&#95;format:. ::EndEscape:.
+## .:Escape:: .:GetGenerationTimestamp::date&#95;format:. ::EndEscape:.
 
 Ce motif renvoie la date formatée à laquelle la page courante a été générée.
 
@@ -35,12 +35,12 @@ Le seul paramétre de ce motif est:
 la date courante. Le format utilisé est le même que celui utilisé par python.
 La documentation est disponible [ici](https://strftime.org/)
 
-# .:Escape:: .:GetVenCVersion:. ::EndEscape:.
+## .:Escape:: .:GetVenCVersion:. ::EndEscape:.
 
 Ce motif retourne le version de VenC avec lequel la page
 courrante est généré et ne prend pas de paramétre.
 
-# .:Escape:: .:IncludeFile::escape::filename[::arg&#95;1][::arg&#95;2][::arg&#95;n]:. ::EndEscape:.
+## .:Escape:: .:IncludeFile::escape::filename[::arg&#95;1][::arg&#95;2][::arg&#95;n]:. ::EndEscape:.
 
 Ce motif permet d'inclure le contenu d'un fichier dans la page courante. Celui-ci ne
 doit comporter que des caractères imprimables.
@@ -56,7 +56,7 @@ Il vous permettent de formatter l'intérieur du fichier à inclure en remplaçan
 des variables numérotés (venc&#95;arg&#95;1, venc&#95;arg&#95;2, venc&#95;arg&#95;n)
 qui s'y trouverai par la valeurs des paramètres correspondant.
 
-## Un premier exemple
+### Un premier exemple
 
 avec un fichier contenant plein de trucs longs et compliqués
 que nous appellerons
@@ -73,7 +73,7 @@ pas traité par les interpréteur de langage balisé __Markdown__ et
 __reStructuredText__. Comme le premier argument, __escape__ vaut "True",
 les motifs VenC sont également ignorés.
 
-## Un Second example
+### Un Second example
 
 où nous utiliserons les paramètres optionnels pour formatter le contenu
 du fichier à inclure.
@@ -113,7 +113,7 @@ Nourrir Tacos, mon chiens:. :.
 La portion de texte ci-dessus serait inclus tel quel dans la page généré par VenC.
 Là encore, ni les motifs VenC, ni le langages de balisage courant ne serait interprété.
 
-# .:Escape:: .:DisableMarkup::content:. ::EndEscape:.
+## .:Escape:: .:DisableMarkup::content:. ::EndEscape:.
 
 Ce motif permet de désactiver l'interpréteur de langage de balisage.
 pour le texte passé en paramètre. Attention cependant, VenC reconnait
@@ -123,10 +123,10 @@ Ce motif ne prend qu'un seul paramètre.
 
 - __content__ : Le texte pour lequel on veut désactiver l'interpréteur de langage de balisage.
 
-# .:IncludeFile::true::escape:.
+## .:IncludeFile::true::escape:.
 
-Ce motif est traité un peu différement des autres. Il permet d'ignorer les motifs contenu à l'intérieur
+Ce motif est traité un peu différement des autres. Il permet d'ignorer les motifs contenus à l'intérieur
 du texte de l'unique argument __content__.
 
 Ce motif ne peut pas s'échapter lui même. Pour ignorer ce motif, il doit être inclu dans un fichier avec
-le pattern _IncludeFile_.
+le pattern __IncludeFile__ dont l'argument __escape__ doit être fixé à _True_.
