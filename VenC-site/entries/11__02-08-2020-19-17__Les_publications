@@ -1,7 +1,7 @@
 authors: 'Denis Salem'
 categories: ''
 tags: 'yaml'
-chapter: 4.3
+chapter: "4.3"
 title: Les publications
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -57,9 +57,12 @@ VenC pour reconnaitre les chapitres est la suivante:
 Chaque chapitre et chaque sous-partis sont numérotés, et séparé par un
 point. Quelques exemples pour aider à visualiser le truc.
 
-- __2__ : Indiquerait que la publication correspond au chapitre deux.
-- __1.2__ : Indiquerait que la publication correspond au premier chapitre, seconde sous-partie
-- __3.3.5__ : Indiquerait que la publication correspond au troisième chapitre, troisième sous-partie, cinquième sous-partie de la partie parente.
+- __'2'__ : Indiquerait que la publication correspond au chapitre deux.
+- __'1.2'__ : Indiquerait que la publication correspond au premier chapitre, seconde sous-partie
+- __'3.3.5'__ : Indiquerait que la publication correspond au troisième chapitre, troisième sous-partie, cinquième sous-partie de la partie parente.
+
+**Important : Le champ _chapter_ doit explicitement être une chaine
+de caractère. Pour ce faire l'index du chapitre doit être entre guillement.**
 
 ### .:DisableMarkup::markup_language:.
 
