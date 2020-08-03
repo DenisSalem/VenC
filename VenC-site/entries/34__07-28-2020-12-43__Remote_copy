@@ -1,0 +1,17 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+chapter: 6.6
+title: Copie du blog vers un serveur FTP
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+    $ venc -rc
+
+ou
+
+    $ venc --remote-copy
+
+Cette commande permet de copier le blog courant sur votre serveur FTP,
+sans le régénérer. Une invite d'authentification FTP apparaitra dans le
+terminal pour lancer la procédure.

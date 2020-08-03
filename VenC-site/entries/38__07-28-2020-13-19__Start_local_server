@@ -1,0 +1,13 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+title: Démarrer le serveur locale
+chapter: '6.10'
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+    $ venc -s
+    
+ou
+
+    $ venc --serv
