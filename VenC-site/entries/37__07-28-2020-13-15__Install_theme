@@ -1,0 +1,20 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+title: Installer un théme
+chapter: 6.9
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+    $ venc -it [Nom du thème)
+    
+ou
+
+    $ venc --install-theme [Nom du thème]
+
+Quand aucun nom de théme n'est précisé, cette commande affiche la liste
+des thèmes disponibles.
+
+Sinon cette commande déplace et sauvegarde l'anciens thème dans un dossier
+daté à la racine de votre blog. Le nouveau théme, passé en paramétre,
+est alors installé.
