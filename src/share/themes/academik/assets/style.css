@@ -180,6 +180,31 @@ footer
     padding-left: 5px;
     border-left: 1px solid grey;}
 
+#__VENC_FEEDS_HEADER__
+    {position: absolute;
+    top: 0px;
+    
+    text-align: center;
+    background-color: #FF8800;
+    color: white;
+    font-size: 0.8em;
+    opacity: 0.25;
+    left: 1em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    transition: ease 0.25s opacity; 
+    border-radius: 0px 0px 3px 3px;}
+
+#__VENC_FEEDS_HEADER__:hover
+    {opacity: 0.5;}
+    
+#__VENC_FEEDS_HEADER__ img
+    {height: 10px;
+    margin-right: 0.5em;}
+    
+#__VENC_FEEDS_HEADER__ a
+    {color: white;}
+
 /*************/
 /* E N T R Y */
 /*************/
