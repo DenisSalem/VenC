@@ -13,6 +13,14 @@
         .:GetJSON-LD:.
     </head>
     <body>
+      .:IfInThread::
+      .:IfFeeds::
+      <div id="__VENC_FEEDS_HEADER__">
+          <img src="{relative_origin}feed-logo.png" title="FEED" alt="{relative_origin}feed-logo.png"/>
+          .:IfRSS::<a href="rss_feed.xml">RSS</a>:. .:IfAtom::<a href="atom_feed.xml">ATOM</a>:.
+      </div>
+      :.
+      :.
         <aside>
             <div id="blog-avatar" style="background-image: url('.:GetBlogMetadataIfExists::avatar::{value}:.');">
             </div>
@@ -43,7 +51,7 @@
                 </div>
             </div>
             <div id="blog-chapters" class="__VENC_TREE_ROOT__">
-                .:Chapters::<ul class="chapter-level{level} __VENC_TREE_NODE__">::<li>{index}. <a href="{path}">{title}</a>::</li>::</ul>:.
+                .:GetChapters::<ul class="chapter-level{level} __VENC_TREE_NODE__">::<li>{index}. <a href="{path}">{title}</a>::</li>::</ul>:.
             </div>            
             :.
             .:IfPages::
