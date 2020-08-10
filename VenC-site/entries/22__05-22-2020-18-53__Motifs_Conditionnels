@@ -102,9 +102,42 @@ Ce motif n'a pas de variable contextuelles.
 
 ## .:Escape:: .:IfPages::string1[::string2]:. ::EndEscape:.
 
-Le fil de publication courant à plus d'une page.
+La fonction teste si le fil de publication courant à plus d'une page.
 
 - __string1__ : Texte retourné si la condition est remplie.
 - __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
 
 Ce motif n'a pas de variable contextuelles.
+
+## .:Escape:: IfFeeds::string1[::string2]:. ::EndEscape:.
+
+La fonction texte si VenC est configuré pour généré un flux RSS et/ou un flux Atom.
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif possède une variable contextuelle : 
+
+- __{relative&#95;origin}__ : retourne Le chemin relatif de la racine du blog.
+
+## .:Escape:: IfRSS::string1[::string2]:. ::EndEscape:.
+
+La fonction texte si VenC est configuré pour généré un flux RSS.
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif possède une variable contextuelle : 
+
+- __{relative&#95;origin}__ : retourne Le chemin relatif de la racine du blog.
+
+## .:Escape:: IfAtom::string1[::string2]:. ::EndEscape:.
+
+La fonction texte si VenC est configuré pour généré un flux Atom.
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif possède une variable contextuelle : 
+
+- __{relative&#95;origin}__ : retourne Le chemin relatif de la racine du blog.

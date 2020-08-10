@@ -67,7 +67,7 @@ class PatternsMap():
                 "GetChapters" :             datastore.get_chapters
             },
             "extra": {
-                "IfFeed":                   datastore.if_feed,
+                "IfFeeds":                  datastore.if_feeds,
                 "IfRSS":                    datastore.if_rss,
                 "IfAtom":                   datastore.if_atom,          
                 "IfCategories":             datastore.if_categories,
