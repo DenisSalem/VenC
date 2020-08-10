@@ -12,12 +12,23 @@
 	window.onload = VENC_INFINITE_SCROLL_ON_LOAD;
     </script>
     .:GetStyleSheets:.
-    <link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="feed.xml" />
+    .:IfInThread::
+    <link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="rss_feed.xml" />
+    <link rel="alternate" type="application/atom+xml" title=".:GetBlogName:." href="atom_feed.xml" />
+    :.
     <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css" />
     .:IfInThread::<link rel="stylesheet" href=".:GetRelativeOrigin:.styleThread.css" type="text/css" />::<link rel="stylesheet" href=".:GetRelativeOrigin:.styleEntry.css" type="text/css" />:.
     .:GetJSON-LD:.
     </head>
     <body>
+      .:IfInThread::
+      .:IfFeed::
+      <div id="__VENC_FEEDS_HEADER__">
+          <img src="{relative_origin}feed-logo.png" title="FEED" alt="{relative_origin}feed-logo.png"/>
+          .:IfRSS::<a href="rss_feed.xml">RSS</a>:. .:IfAtom::<a href="atom_feed.xml">ATOM</a>:.
+      </div>
+      :.
+      :.
       <header>
         <h1>
           <a href=".:IfInMainThread:: ../ :: .:GetRelativeOrigin:. :. ">
