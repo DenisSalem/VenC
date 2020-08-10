@@ -6,5 +6,5 @@ override:
     disable_chapters: true
     nsfw_image: 'VenC_nsfw.png'
 
-assets_dependencies: ['VenC-Infinite-Scroll-1.1.0.js', 'VenC_nsfw.png', 'VenC_info_icon1.png', 'VenC_warning_icon1.png']
+assets_dependencies: ['feed-logo.png', 'VenC-Infinite-Scroll-1.1.0.js', 'VenC_nsfw.png', 'VenC_info_icon1.png', 'VenC_warning_icon1.png']
 includes_dependencies: ['nsfw.html']
