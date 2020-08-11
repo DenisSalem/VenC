@@ -3,6 +3,6 @@
    <link href=".:GetEntryURL:."/>
    <updated>.:GetEntryDate::%Y-%m-%dT%H:%M:%SZ:.</updated>
    <content type="xhtml">
-       <xhtml:div>.:GetEntryContent:.</div>
+       <xhtml:div>.:GetEntryContent:.</xhtml:div>
    </content>
  </entry>

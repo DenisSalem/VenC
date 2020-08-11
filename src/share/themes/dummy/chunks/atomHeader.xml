@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  <title>.:GetBlogName:.</title>
- <subtitle>.:GetBlogDescription:.</subtitle>
+ .:GetBlogMetadataIfNotNull::blog_description::<subtitle>{value}</subtitle>:.
  <link href=".:GetBlogURL:."/>
+   .:GetBlogMetadataIfNotNull::blog_url::<id>{value}</id>:.
  <updated>.:GetGenerationTimestamp::%Y-%m-%dT%H:%M:%SZ:.</updated>
  <author>
-   <name>.:GetAuthorName:.</name>
-   <email>.:GetAuthorEmail:.</email>
+   .:GetBlogMetadataIfNotNull::author_name::<name>{value}</name>:.
+   .:GetBlogMetadataIfNotNull::author_email::<email>{value}</email>:.
  </author>
