@@ -32,7 +32,8 @@ class ChaptersThread(Thread):
         self.sub_folders = self.datastore.blog_configuration["path"]["chapters_sub_folders"]
         self.relative_origin = str(''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = True
-        
+        self.thread_has_feeds = False
+
     def if_in_first_page(self, argv):
         return argv[1].strip() if len(argv) >= 2 else ''
     

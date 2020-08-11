@@ -13,11 +13,11 @@
         .:GetJSON-LD:.
     </head>
     <body>
-      .:IfInThread::
-      .:IfFeeds::
+      .:IfInThreadAndHasFeeds::
+      .:IfFeedsEnabled::
       <div id="__VENC_FEEDS_HEADER__">
           <img src="{relative_origin}feed-logo.png" title="FEED" alt="{relative_origin}feed-logo.png"/>
-          .:IfRSS::<a href="rss_feed.xml">RSS</a>:. .:IfAtom::<a href="atom_feed.xml">ATOM</a>:.
+          .:IfRSSEnabled::<a href="rss_feed.xml">RSS</a>:. .:IfAtomEnabled::<a href="atom_feed.xml">ATOM</a>:.
       </div>
       :.
       :.

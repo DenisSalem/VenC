@@ -40,6 +40,8 @@ class MainThread(Thread):
         self.relative_origin = str()
         self.export_path = "blog/"
         self.in_thread = True
+        self.thread_has_feeds = True
+
             
     def get_feed_entries(self):
         entries = []
