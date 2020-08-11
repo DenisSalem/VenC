@@ -268,7 +268,10 @@ class Thread:
             
         else:
             return ''
-            
+
+    def if_in_thread_and_has_feeds(self, argv):
+        return argv[0] if self.thread_has_feeds else ("" if len(argv) <= 1 else argv[1])
+
     def format_filename(self, value):
         try:
             if value == 0:

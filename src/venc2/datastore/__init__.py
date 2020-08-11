@@ -221,13 +221,13 @@ class DataStore:
             except:
                 return ''
     
-    def if_feeds(self, argv):
+    def if_feeds_enabled(self, argv):
         return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_atom_feed"] and self.blog_configuration["disable_rss_feed"] else argv[0].replace("{relative_origin}", "\x1a")
         
-    def if_atom(self, argv):
+    def if_atom_enabled(self, argv):
         return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_atom_feed"] else argv[0].replace("{relative_origin}", "\x1a")
 
-    def if_rss(self, argv):
+    def if_rss_enabled(self, argv):
         return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_rss_feed"] else argv[0].replace("{relative_origin}", "\x1a")
 
     def root_site_to_jsonld(self):

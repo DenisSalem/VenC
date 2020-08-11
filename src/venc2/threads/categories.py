@@ -33,6 +33,8 @@ class CategoriesThread(Thread):
         self.category_value = ""
         self.relative_origin = ""
         self.in_thread = True
+        self.thread_has_feeds = True
+
         self.disable_rss_feed = self.datastore.blog_configuration["disable_rss_feed"]
         self.disable_atom_feed = self.datastore.blog_configuration["disable_atom_feed"]
         

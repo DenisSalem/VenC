@@ -37,6 +37,7 @@ class EntriesThread(Thread):
         self.export_path = "blog/"+self.sub_folders
         self.relative_origin = str(''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = False
+        self.thread_has_feeds = False
 
     def format_filename(self, value=None): #value ignored
         try:

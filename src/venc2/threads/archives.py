@@ -34,6 +34,7 @@ class ArchivesThread(Thread):
             
         self.relative_origin = str("../"+''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = True
+        self.thread_has_feeds = False
 
     def if_in_archives(self, argv):
         return argv[0].strip()

@@ -67,9 +67,9 @@ class PatternsMap():
                 "GetChapters" :             datastore.get_chapters
             },
             "extra": {
-                "IfFeeds":                  datastore.if_feeds,
-                "IfRSS":                    datastore.if_rss,
-                "IfAtom":                   datastore.if_atom,          
+                "IfFeedsEnabled":           datastore.if_feeds_enabled,
+                "IfRSSEnabled":             datastore.if_rss_enabled,
+                "IfAtomEnabled":            datastore.if_atom_enabled,          
                 "IfCategories":             datastore.if_categories,
                 "IfChapters":               datastore.if_chapters,
                 "GetEmbedContent":          datastore.wrapper_embed_content,
@@ -101,6 +101,7 @@ class PatternsMap():
                 # Patterns below are acquired dynamically because they depend on the context
                 "GetJSON-LD" : "GetJSONLD",
                 "IfInThread" : "if_in_thread",
+                "IfInThreadAndHasFeeds" : "if_in_thread_and_has_feeds",
                 "IfInMainThread" : "if_in_main_thread",
                 "IfInArchives" : "if_in_archives",
                 "IfInCategories" : "if_in_categories",
