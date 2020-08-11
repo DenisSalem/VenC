@@ -3,7 +3,7 @@
  <title>.:GetBlogName:.</title>
  <subtitle>.:GetBlogDescription:.</subtitle>
  <link href=".:GetBlogURL:."/>
- <updated>.:GetGenerationTimestamp::%Y-%m-%dT%H-%M-%SZ:.</updated>
+ <updated>.:GetGenerationTimestamp::%Y-%m-%dT%H:%M:%SZ:.</updated>
  <author>
    <name>.:GetAuthorName:.</name>
    <email>.:GetAuthorEmail:.</email>

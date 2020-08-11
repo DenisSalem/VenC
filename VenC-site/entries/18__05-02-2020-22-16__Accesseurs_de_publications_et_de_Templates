@@ -35,9 +35,12 @@ Retourne l'heure de création de la publication.
 ## .:Escape:: .:GetEntryMinute:. ::EndEscape:.
 Retourne la minute de création de la publication.
 
-## .:Escape:: .:GetEntryDate:. ::EndEscape:.
+## .:Escape:: .:GetEntryDate[::format]:. ::EndEscape:.
 
 Retourne la date de la publication formaté comme définit dans le fichier de configuration par le champ date_format.
+
+Il est possible d'utiliser un autre format de date à l'aide de l'argument
+optionnel __format__. Pour en savoir plus sur ce format rendez vous [ici](http://strftime.org).
 
 ## .:Escape:: .:GetEntryDateURL:. ::EndEscape:.
 

@@ -613,10 +613,14 @@ class DataStore:
         return self.entries[self.requested_entry_index].date.minute
 
     def get_entry_date(self, argv=list()):
-        return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["date_format"])
+        return self.entries[self.requested_entry_index].date.strftime(
+            self.blog_configuration["date_format"] if len(argv) < 1 else argv[0]
+        )
 
     def get_entry_date_url(self, argv=list()):
-        return self.entries[self.requested_entry_index].date.strftime(self.blog_configuration["path"]["archives_directory_name"])
+        return self.entries[self.requested_entry_index].date.strftime(
+            self.blog_configuration["path"]["archives_directory_name"]
+        )
 
     def get_entry_url(self, argv=list()):
         if self.blog_configuration["disable_single_entries"]:
