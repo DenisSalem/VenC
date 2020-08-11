@@ -520,7 +520,8 @@ class DataStore:
                 argv[0],
                 messages.blog_has_no_metadata_like.format(argv[0])
             )
-    def get_blog_metadata_if_exists(self, argv):
+            
+    def get_blog_metadata_if_exists(self, argv, ok_if_null=True):
         try:
             value = self.blog_configuration[argv[0]]
             
@@ -528,12 +529,17 @@ class DataStore:
             return str()
         
         try:
-            return argv[1].format(**{"value" : value,"{relative_origin}":"\x1a"})
-        
+            if ok_if_null or len(value):
+                return argv[1].format(**{"value" : value,"{relative_origin}":"\x1a"})
+            
+            else:
+                return ""
+                
         except IndexError:
             return value
 
-    #TODO : add get_blog_metadata_if_not_null
+    def get_blog_metadata_if_not_null(self, argv):
+        return self.get_blog_metadata_if_exists(self, argv, ok_if_null=False)
 
     def get_entry_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
@@ -547,7 +553,7 @@ class DataStore:
                 messages.entry_has_no_metadata_like.format(argv[0])
             )
             
-    def get_entry_metadata_if_exists(self, argv):
+    def get_entry_metadata_if_exists(self, argv, ok_if_null=True):
         try:
             value = str(getattr(self.entries[self.requested_entry_index], argv[0]))
 
@@ -555,11 +561,18 @@ class DataStore:
             return str()
             
         try:
-            return argv[1].format(**{"value" : value, "relative_origin": "\x1a"})
-        
+            if len(value) or ok_if_null:
+                return argv[1].format(**{"value" : value, "relative_origin": "\x1a"})
+                
+            else:
+                return ""
+                
         except IndexError:
             return value
-
+            
+    def get_entry_metadata_if_not_null(self, argv):
+        return self.get_entry_metadata_if_exists(self, argv, ok_if_null=False)
+        
     def get_entries_index_for_given_date(self, value):
         index = 0
         for metadata in self.entries_per_archives:
