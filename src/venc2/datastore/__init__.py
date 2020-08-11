@@ -539,7 +539,7 @@ class DataStore:
             return value
 
     def get_blog_metadata_if_not_null(self, argv):
-        return self.get_blog_metadata_if_exists(self, argv, ok_if_null=False)
+        return self.get_blog_metadata_if_exists(argv, ok_if_null=False)
 
     def get_entry_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
@@ -571,7 +571,7 @@ class DataStore:
             return value
             
     def get_entry_metadata_if_not_null(self, argv):
-        return self.get_entry_metadata_if_exists(self, argv, ok_if_null=False)
+        return self.get_entry_metadata_if_exists(argv, ok_if_null=False)
         
     def get_entries_index_for_given_date(self, value):
         index = 0
