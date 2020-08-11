@@ -65,6 +65,10 @@ Le formatage du texte se fait en utilisant des variables contextuelles propre à
 Un cas d'usage typique serait d'ajouter un bouton de réseau social si
 l'utilisateur définit un compte dans son fichier de configuration:
 
+## .:Escape:: .:GetBlogMetadataIfNotNull::variable_name[::string]:. ::EndEscape:.
+
+Identique à __GetBlogMetadataIfExists__, mais la variable spécifié ne doit pas être vide.
+
 .:CodeHighlightInclude::html::False::GetBlogMetadataIfExists_example:.
 
 Dans cet example, on suppose que l'image de l'icone du réseau social se trouve à la

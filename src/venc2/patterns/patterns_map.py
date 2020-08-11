@@ -45,7 +45,8 @@ class PatternsMap():
                 "ForEntryMetadata" :            datastore.for_entry_metadata,
                 "ForEntryRange" :               datastore.for_entry_range,
                 "GetEntryMetadata" :            datastore.get_entry_metadata,
-                "GetEntryMetadataIfExists" :    datastore.get_entry_metadata_if_exists
+                "GetEntryMetadataIfExists" :    datastore.get_entry_metadata_if_exists,
+                "GetEntryMetadataIfNotNull":     datastore.get_entry_metadata_if_not_null
             },
             "blog": {
                 "GetAuthorName" :       datastore.get_author_name,
@@ -61,6 +62,7 @@ class PatternsMap():
                 # Extra metadata getter
                 "GetBlogMetadata" :         datastore.get_blog_metadata, 
                 "GetBlogMetadataIfExists" : datastore.get_blog_metadata_if_exists, 
+                "GetBlogMetadataIfNotNull": datastore.get_blog_metadata_if_not_null, 
                 "ForBlogArchives" :         datastore.for_blog_archives,
                 "LeavesForBlogCategories" : datastore.leaves_for_blog_categories,
                 "TreeForBlogCategories" :   datastore.tree_for_blog_categories,

@@ -5,6 +5,6 @@
  <link href=".:GetBlogURL:."/>
  <updated>.:GetGenerationTimestamp::%Y-%m-%dT%H:%M:%SZ:.</updated>
  <author>
-   <name>.:GetAuthorName:.</name>
-   <email>.:GetAuthorEmail:.</email>
+   .:GetBlogMetadataIfNotNull::author_name::<email>{value}</email>:.
+   .:GetBlogMetadataIfNotNull::author_email::<email>{value}</email>:.
  </author>

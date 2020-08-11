@@ -106,6 +106,10 @@ Il est possible d'utiliser des variables contextuelles propre à la fonction pou
 
 Un cas d'usage typique serait de modifier le style de la publications en attribuant une classe CSS à l'élément HTML:
 
+## .:Escape:: .:GetEntryMetadataIfNotNull::variable_name[::string]:. ::EndEscape:.
+
+Identique à __GetEntryMetadataIfExists__, mais la variable spécifié ne doit pas être vide.
+
 .:CodeHighlightInclude::Text::False::GetEntryMetadataIfExists_example:.
 
 Si la variable référencée n'est pas définit VenC ignore le motif et le supprime.
