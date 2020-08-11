@@ -1,7 +1,8 @@
  <entry>
    <title>.:GetEntryTitle:.</title>
    <link href=".:GetEntryURL:."/>
+   <updated>.:GetEntryDate::%Y-%m-%dT%H:%M:%SZ:.</updated>
    <content type="xhtml">
-   .:GetEntryContent:.
+       <xhtml:div>.:GetEntryContent:.</div>
    </content>
  </entry>

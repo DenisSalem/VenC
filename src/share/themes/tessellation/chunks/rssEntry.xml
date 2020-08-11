@@ -2,7 +2,7 @@
     <title>.:GetEntryTitle:.</title>
     <link>.:GetBlogURL:./.:GetEntryURL:.</link>
     <guid isPermaLink="true">.:GetBlogURL:./.:GetEntryURL:.</guid>
-    <pubDate>.:GetGenerationTimestamp::%a, %b %d %Y %H:%M:%S GMT:.</pubDate>
+    <pubDate>.:GetEntryDate::%a, %d %b %Y %H:%M:%S GMT:.</pubDate>
     <description>
     	<![CDATA[
 	.:GetEntryContent:.
