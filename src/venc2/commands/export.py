@@ -81,8 +81,13 @@ def init_theme(argv):
         import yaml
         config = yaml.load(open(theme_folder+"/config.yaml",'r').read(), Loader=yaml.FullLoader)
         if "override" in config.keys() and type(config["override"]) == dict:
+            # TODO : Be explicit about which value are updated
             for param in config["override"].keys():
-                datastore.blog_configuration[param] = config["override"][param]
+                if type(config["override"][param]) == dict and param in datastore.blog_configuration.keys() and type(datastore.blog_configuration[param]) == dict:
+                    datastore.blog_configuration[param].update(config["override"][param])
+                
+                else:
+                    datastore.blog_configuration[param] = config["override"][param]
     
         if "assets_dependencies" in config.keys() and type(config["assets_dependencies"]) == list:
             global theme_assets_dependencies

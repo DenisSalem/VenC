@@ -5,5 +5,8 @@ override:
     columns: 3
     disable_chapters: true
     entries_per_pages: 12
-
+    path:
+        atom_file_name: 'atom_feed.xml'
+        rss_file_name: 'rss_feed.xml'
+        
 assets_dependencies: ['feed-logo.png','VenC-Infinite-Scroll-1.1.0.js']

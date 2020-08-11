@@ -533,6 +533,8 @@ class DataStore:
         except IndexError:
             return value
 
+    #TODO : add get_blog_metadata_if_not_null
+
     def get_entry_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
         try:
