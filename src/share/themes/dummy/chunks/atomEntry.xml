@@ -1,8 +1,9 @@
  <entry>
+   <id>.:GetBlogURL:./.:GetEntryURL:.</id>
    <title>.:GetEntryTitle:.</title>
-   <link href=".:GetEntryURL:."/>
+   <link href=".:GetBlogURL:./.:GetEntryURL:." rel="alternate" type="text/html"/>
    <updated>.:GetEntryDate::%Y-%m-%dT%H:%M:%SZ:.</updated>
    <content type="xhtml">
-       <xhtml:div>.:GetEntryContent:.</xhtml:div>
+       <div xmlns="http://www.w3.org/1999/xhtml">.:GetEntryContent:.</div>
    </content>
  </entry>

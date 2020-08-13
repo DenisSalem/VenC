@@ -36,7 +36,7 @@ class MissingKeyDict(dict):
         return key.join("{}")
 
 def disable_markup(argv):
-    return ''.join(argv)
+    return '::'.join(argv)
     
 def try_oembed(providers, url):
     try:

@@ -49,4 +49,7 @@ class FeedThread(Thread):
         # Trigger UnknownPattern.
         raise KeyError
 
- 
+    def if_in_feed(self, argv):
+        return argv[0].strip()
+            
+

@@ -162,6 +162,8 @@ def process_non_contextual_patterns(pattern_processor, theme):
     pattern_processor.process(theme.atom_header, no_markup=True)
     pattern_processor.process(theme.atom_footer, no_markup=True) 
     
+    
+# TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(argv=list()):
     global datastore
     if datastore == None:
@@ -184,10 +186,6 @@ def export_blog(argv=list()):
     from venc2.threads.main import MainThread
     thread = MainThread(messages.export_main_thread, datastore, theme, patterns_map)
     thread.do()
-
-    # ~ for entry in datastore.entries:
-        # ~ if entry.id == 26:
-            # ~ print(entry.content.string)
 
     if not datastore.blog_configuration["disable_archives"]:
         from venc2.threads.archives import ArchivesThread
@@ -217,7 +215,6 @@ def export_blog(argv=list()):
     for depenpency in theme_assets_dependencies:
         shutil.copyfile(os.path.expanduser("~")+"/.local/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
     notify(messages.task_done_in_n_seconds.format(round(time.time() - start_timestamp,6)))
-
 
 def edit_and_export(argv):
     global datastore
