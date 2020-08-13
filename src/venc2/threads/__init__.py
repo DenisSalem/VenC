@@ -269,6 +269,14 @@ class Thread:
         else:
             return ''
 
+
+    def if_in_feed(self, argv):
+        if len(argv) >= 2:
+            return argv[1].strip()
+            
+        else:
+            return ''
+                    
     def if_in_thread_and_has_feeds(self, argv):
         return argv[0] if self.thread_has_feeds else ("" if len(argv) <= 1 else argv[1])
 

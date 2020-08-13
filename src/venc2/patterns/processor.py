@@ -38,11 +38,6 @@ from venc2.helpers import GenericMessage
 
 markup_language_errors = []
 
-def fix_indexes_offset(l, p, offset):
-    for i in range(0, len(l)):
-        if l[i] >= p:
-            l[i] += offset
-
 def get_markers_indexes(string, begin=".:", end=":."):
     op, cp = [], []
     op_append, cp_append = op.append, cp.append
@@ -228,13 +223,6 @@ class ProcessedString():
             except Exception as ee: 
                 handle_markup_language_error(self.ressource+", "+str(e))
         
-        # After markup langage processing done, indexes are messed up.
-        keep_appart_from_markup_indexes = self.keep_appart_from_markup_indexes
-        # This is the last time entry content is preprocessed, so it must
-        # handle escapes pattern now.
-        self.__init__(self.string, self.ressource, True)
-        self.keep_appart_from_markup_indexes = keep_appart_from_markup_indexes
-        
         # Last round is about replacing needles and fix one last time indexes
         while "Missings triplet is not empty":
             missings = []
@@ -248,6 +236,7 @@ class ProcessedString():
                 
                 # In some case needle may be hidden in another needle.
                 except:
+                    print(target, "not found")
                     missings.append(triplet)
                     continue
                 
@@ -255,24 +244,26 @@ class ProcessedString():
                     if string[index-3:index] == "<p>":
                         string = string[:index-3]+string[index:]
                         index -=3
-                        fix_indexes_offset(self.open_pattern_pos, index, -3)
-                        fix_indexes_offset(self.close_pattern_pos, index, -3)
 
                     if string[index+len(target):index+len(target)+4] == "</p>":
                         string = string[:index+len(target)]+string[index+len(target)+4:]
-                        fix_indexes_offset(self.open_pattern_pos, index+len(target), -4)
-                        fix_indexes_offset(self.close_pattern_pos, index+len(target), -4)
-                
-                self.string = string[index]+new_chunk+string[index+len(target):]
-                fix_indexes_offset(self.open_pattern_pos, index, len(new_chunk)-len(target))
-                fix_indexes_offset(self.close_pattern_pos, index, len(new_chunk)-len(target))
-                self.string = string.replace(target, new_chunk.strip())
             
+
+                # TODO: WTF?! Why doing this twice? Why the firt one doesn't do?
+                #self.string = string[index]+new_chunk.strip()+string[index+len(target):]
+
+                self.string = string.replace(target, new_chunk.strip().replace("\x1B\x1B","::"))
+                
             if not len(missings):
                 break
             
             self.keep_appart_from_markup_indexes = missings
-    
+            
+        # After markup langage processing done, indexes are messed up.
+        # This is the last time entry content is preprocessed, so it must
+        # handle escapes pattern now. Also, escaped markup string may hold some VenC patterns. 
+        self.__init__(self.string, self.ressource, True)
+
 class Processor():
     def __init__(self):
         self.debug = False
@@ -391,6 +382,11 @@ class Processor():
             pre_processed.backup = (list(op), list(cp), lo, lc, str(pre_processed.string))
 
         if lo == 0 and lc == 0:
+            bop = pre_processed.bop
+            bcp = pre_processed.bcp
+            for i in range(0, len(pre_processed.bop)):
+                string = string[:bop[i]]+(string[bop[i]:bcp[i]].replace("\x1B\x1B","::"))+string[bcp[i]:]
+            
             op, cp = sorted(op+pre_processed.bop), sorted(cp+pre_processed.bcp)
             pre_processed.bop, pre_processed.bcp = [], []
             pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.string = len(op), len(cp), op, cp, string
@@ -414,16 +410,13 @@ class Processor():
             vop, vcp = self.vop, self.vcp
 
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
-            current_pattern = fields[0]
-            
-            if "28__07-20-2020-23-05__DEBUG" == pre_processed.ressource:
-                print("PROCESS ", current_pattern in self.blacklist, string[vop:vcp+2])
+            current_pattern = fields.pop(0)
             
             if (not current_pattern == "Escape") and (not current_pattern in self.blacklist):
                 if current_pattern in self.keep_appart_from_markup and not no_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
-                        self.run_pattern(current_pattern, fields[1:])
+                        self.run_pattern(current_pattern, fields)
                     )
                     if self.include_file_called:
                         extra_processing_required.append(
@@ -436,11 +429,12 @@ class Processor():
                 elif current_pattern == "SetColor":
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         False,
-                        self.run_pattern(current_pattern, fields[1:])
+                        self.run_pattern(current_pattern, fields)
                     )
                 
                 else:
-                    new_chunk = self.run_pattern(current_pattern, fields[1:])
+                    new_chunk = self.run_pattern(current_pattern, fields)
+                
                 
                 string = string[0:vop] + new_chunk + string[vcp+2:]
                 self.current_input_string = string
@@ -459,6 +453,7 @@ class Processor():
                 cp.pop(j)
 
             else:
+                string = string[:op[i]]+(string[op[i]:cp[j]].replace("::","\x1B\x1B"))+string[cp[j]:]
                 pre_processed.bop.append( op.pop(i) )
                 pre_processed.bcp.append( cp.pop(j) )
 
@@ -467,6 +462,7 @@ class Processor():
 
         pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.open_pattern_pos, pre_processed.close_pattern_pos = lo, lc, op, cp
         pre_processed.string = string
+
         self.process(pre_processed, safe_process)
         
         for extra in extra_processing_required:
