@@ -224,7 +224,7 @@ class ProcessedString():
                 handle_markup_language_error(self.ressource+", "+str(e))
         
         # Last round is about replacing needles and fix one last time indexes
-        while "Missings triplet is not empty":
+        while "Missings triplet is not empty":                
             missings = []
 
             for triplet in self.keep_appart_from_markup_indexes:
@@ -236,7 +236,7 @@ class ProcessedString():
                 
                 # In some case needle may be hidden in another needle.
                 except:
-                    print(target, "not found")
+                    
                     missings.append(triplet)
                     continue
                 
@@ -248,15 +248,11 @@ class ProcessedString():
                     if string[index+len(target):index+len(target)+4] == "</p>":
                         string = string[:index+len(target)]+string[index+len(target)+4:]
             
-
-                # TODO: WTF?! Why doing this twice? Why the firt one doesn't do?
-                #self.string = string[index]+new_chunk.strip()+string[index+len(target):]
-
-                self.string = string.replace(target, new_chunk.strip().replace("\x1B\x1B","::"))
+                self.string = string[:index]+new_chunk.strip().replace("\x1B\x1B","::")+string[index+len(target):]
                 
             if not len(missings):
                 break
-            
+                
             self.keep_appart_from_markup_indexes = missings
             
         # After markup langage processing done, indexes are messed up.
