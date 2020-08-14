@@ -111,7 +111,7 @@ Ce motif n'a pas de variable contextuelles.
 
 ## .:Escape:: IfFeedsEnabled::string1[::string2]:. ::EndEscape:.
 
-La fonction texte si VenC est configuré pour généré un flux RSS et/ou un flux Atom.
+La fonction teste si VenC est configuré pour généré un flux RSS et/ou un flux Atom.
 
 - __string1__ : Texte retourné si la condition est remplie.
 - __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
@@ -122,7 +122,7 @@ Ce motif possède une variable contextuelle :
 
 ## .:Escape:: IfRSSEnabled::string1[::string2]:. ::EndEscape:.
 
-La fonction texte si VenC est configuré pour généré un flux RSS.
+La fonction teste si VenC est configuré pour généré un flux RSS.
 
 - __string1__ : Texte retourné si la condition est remplie.
 - __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
@@ -133,7 +133,7 @@ Ce motif possède une variable contextuelle :
 
 ## .:Escape:: IfAtomEnabled::string1[::string2]:. ::EndEscape:.
 
-La fonction texte si VenC est configuré pour généré un flux Atom.
+La fonction teste si VenC est configuré pour généré un flux Atom.
 
 - __string1__ : Texte retourné si la condition est remplie.
 - __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
@@ -146,6 +146,20 @@ Ce motif possède une variable contextuelle :
 
 La fonction teste si le fil de publication courant peut produire un flux Atom et/ou RSS.
 Seul les categories et le fil principal valident la condition.
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variable contextuelles.
+
+## .:Escape:: .:IfInFeed::string1[::string2]:. ::EndEscape:.
+
+Certains éléments contenue dans une publication ne peuvent pas être présent dans le flux RSS/Atom sous peine
+que celui-ci ne soit pas valide et ne s'affiche pas correctement dans les lecteurs de flux RSS/Atom.
+
+Vous pouvez utiliser __IfInFeed__ pour remplacer un certains type de contenu par un autre qui lui serait valide dans un flux RSS/Atom.
+
+En outre la fonction teste si le fil de publication courant est un flux RSS ou Atom.
 
 - __string1__ : Texte retourné si la condition est remplie.
 - __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
