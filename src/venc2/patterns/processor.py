@@ -258,6 +258,9 @@ class ProcessedString():
         # After markup langage processing done, indexes are messed up.
         # This is the last time entry content is preprocessed, so it must
         # handle escapes pattern now. Also, escaped markup string may hold some VenC patterns. 
+        self.fix_indexes()
+        
+    def fix_indexes(self):
         self.__init__(self.string, self.ressource, True)
 
 class Processor():
