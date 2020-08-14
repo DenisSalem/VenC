@@ -178,6 +178,7 @@
     DONE | Fix chapters rendering (only first level sub-chapter were rendered)
     
 # version 2.1.x
+    TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
     TODO | SetBackgroundColor for text
     TODO | Include threads preview in entry
     TODO | Add command for reorder entries by criteria
