@@ -381,7 +381,6 @@ class Processor():
             bop = pre_processed.bop
             bcp = pre_processed.bcp
             for i in range(0, len(pre_processed.bop)):
-                print(">>>",(string[bop[i]:bcp[i]].replace("\x1B\x1B","::")))
                 string = string[:bop[i]]+(string[bop[i]:bcp[i]].replace("\x1B\x1B","::"))+string[bcp[i]:]
             
             op, cp = sorted(op+pre_processed.bop), sorted(cp+pre_processed.bcp)
