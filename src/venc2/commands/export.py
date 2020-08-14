@@ -144,25 +144,34 @@ def process_non_contextual_patterns(pattern_processor, theme):
         entry.content.process_markup_language(markup_language)
 
         entry.html_wrapper = deepcopy(theme.entry)
-        pattern_processor.process(entry.html_wrapper.above)
-        pattern_processor.process(entry.html_wrapper.below)
+        for pp in [entry.html_wrapper.above, entry.html_wrapper.below]:
+            pattern_processor.process(pp)
+            pp.fix_indexes()
         
         entry.rss_wrapper = deepcopy(theme.rss_entry)
-        pattern_processor.process(entry.rss_wrapper.above)
-        pattern_processor.process(entry.rss_wrapper.below)
+        for pp in [entry.rss_wrapper.above, entry.rss_wrapper.below]:
+            pattern_processor.process(pp)
+            pp.fix_indexes()
         
         entry.atom_wrapper = deepcopy(theme.atom_entry)
-        pattern_processor.process(entry.atom_wrapper.above)
-        pattern_processor.process(entry.atom_wrapper.below)
+        for pp in [entry.atom_wrapper.above, entry.atom_wrapper.below]:
+            pattern_processor.process(pp)
+            pp.fix_indexes()
     
     
     pattern_processor.process(theme.header)
-    pattern_processor.process(theme.footer) 
+    theme.header.fix_indexes()
+    pattern_processor.process(theme.footer)
+    theme.footer.fix_indexes()
     pattern_processor.process(theme.rss_header) 
-    pattern_processor.process(theme.rss_footer) 
+    theme.rss_header.fix_indexes()
+    pattern_processor.process(theme.rss_footer)
+    theme.rss_footer.fix_indexes()
     pattern_processor.process(theme.atom_header)
+    theme.atom_header.fix_indexes()
     pattern_processor.process(theme.atom_footer) 
-        
+    theme.atom_footer.fix_indexes()
+
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(argv=list()):
     global datastore
