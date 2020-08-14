@@ -371,7 +371,7 @@ class Processor():
     def set(self, symbol, value):
        self.dictionary[symbol] = value
 
-    def process(self, pre_processed, safe_process=False, no_markup=False):
+    def process(self, pre_processed, safe_process=False):
         extra_processing_required = []
         op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
         if safe_process and pre_processed.backup == None:
@@ -381,6 +381,7 @@ class Processor():
             bop = pre_processed.bop
             bcp = pre_processed.bcp
             for i in range(0, len(pre_processed.bop)):
+                print(">>>",(string[bop[i]:bcp[i]].replace("\x1B\x1B","::")))
                 string = string[:bop[i]]+(string[bop[i]:bcp[i]].replace("\x1B\x1B","::"))+string[bcp[i]:]
             
             op, cp = sorted(op+pre_processed.bop), sorted(cp+pre_processed.bcp)
@@ -409,7 +410,7 @@ class Processor():
             current_pattern = fields.pop(0)
             
             if (not current_pattern == "Escape") and (not current_pattern in self.blacklist):
-                if current_pattern in self.keep_appart_from_markup and not no_markup:
+                if current_pattern in self.keep_appart_from_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
                         self.run_pattern(current_pattern, fields)

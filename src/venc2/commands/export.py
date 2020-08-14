@@ -155,14 +155,14 @@ def process_non_contextual_patterns(pattern_processor, theme):
         pattern_processor.process(entry.atom_wrapper.above)
         pattern_processor.process(entry.atom_wrapper.below)
     
-    pattern_processor.process(theme.header, no_markup=True)
-    pattern_processor.process(theme.footer, no_markup=True) 
-    pattern_processor.process(theme.rss_header, no_markup=True) 
-    pattern_processor.process(theme.rss_footer, no_markup=True) 
-    pattern_processor.process(theme.atom_header, no_markup=True)
-    pattern_processor.process(theme.atom_footer, no_markup=True) 
     
-    
+    pattern_processor.process(theme.header)
+    pattern_processor.process(theme.footer) 
+    pattern_processor.process(theme.rss_header) 
+    pattern_processor.process(theme.rss_footer) 
+    pattern_processor.process(theme.atom_header)
+    pattern_processor.process(theme.atom_footer) 
+        
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(argv=list()):
     global datastore
@@ -178,6 +178,9 @@ def export_blog(argv=list()):
     notify("├─ "+messages.pre_process)
 
     process_non_contextual_patterns(pattern_processor, theme)
+    
+    print("DONE WITH NON CONTEXTUAL")
+    
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")

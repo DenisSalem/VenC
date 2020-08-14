@@ -11,6 +11,12 @@
     <link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="./feed.xml" />
   </head>
   <body>
+    .:IfCategories::
+        .:IfInFeed::MOO::FOO:.
+    ::
+        .:IfInFeed::BOO::BAR:.
+
+    :.
     <aside>
       <header>
         <h1><a href=".:GetRootPage:."><img src=".:GetRelativeOrigin:.logo.png" alt=".:GetBlogName:." title=".:GetBlogName:." /></a></h1>
