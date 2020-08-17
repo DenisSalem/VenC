@@ -37,7 +37,7 @@ La documentation est disponible [ici](https://strftime.org/)
 
 ## .:Escape:: .:GetVenCVersion:. ::EndEscape:.
 
-Ce motif retourne le version de VenC avec lequel la page
+Ce motif retourne la version de VenC avec lequel la page
 courrante est généré et ne prend pas de paramétre.
 
 ## .:Escape:: .:IncludeFile::escape::filename[::arg&#95;1][::arg&#95;2][::arg&#95;n]:. ::EndEscape:.

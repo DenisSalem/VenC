@@ -97,7 +97,7 @@ class ChaptersThread(Thread):
                 self.indentation_level = self.indentation_level[:-3]
                 
     def GetJSONLD(self, argv):
-        if self.current_page == 0:
+        if self.current_page == 0 and self.enable_jsonld:
             return '<script type="application/ld+json" src="chapters.jsonld"></script>'
         
         return ''

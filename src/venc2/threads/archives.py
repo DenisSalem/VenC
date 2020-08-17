@@ -89,7 +89,7 @@ class ArchivesThread(Thread):
                 f.write(dump)
 
     def GetJSONLD(self, argv):
-        if self.current_page == 0:
+        if self.current_page == 0 and self.enable_jsonld:
             return '<script type="application/ld+json" src="archives.jsonld"></script>'
         
         return ''
