@@ -259,3 +259,11 @@ Comme on le voit, il est possible d'utiliser des motifs VenC à
 l'intérieur du motif __Table__. Remarquons également que pour chaque
 cellule les caractères blancs au début et à la fin de l'argument
 correspondant sont effacé.
+
+## .:Escape:: .:GetJSON-LD:. ::EndEscape:.
+
+Retourne le document JSON-LD, s'il existe, associé à la première page du fil de publication courant.
+
+Par exemple si l'on est sur la première page d'une catégorie quelconque, le motif renvoie:
+
+.:CodeHighlight::HTML::False::<script type="application/ld+json" src="categories.jsonld"></script>:.

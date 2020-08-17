@@ -48,6 +48,7 @@ class Thread:
         self.indentation_level = "│  "
         self.patterns_map = patterns_map
         self.datastore = datastore
+        self.enable_jsonld = datastore.blog_configuration["enable_jsonld"]
         self.path_encoding = datastore.blog_configuration["path_encoding"]
         # Notify wich thread is processed
         if prompt != "":
