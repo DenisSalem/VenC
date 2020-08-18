@@ -12,6 +12,17 @@
   </head>
   <body>
     <aside>
+      .:IfInFeed::
+        .:IfCategories::MOO::FOO:.
+      ::
+        .:IfCategories::BOO::BAR:.
+      :.
+      
+      .:IfCategories::
+        .:IfInFeed::MOO::FOO:.
+      ::
+        .:IfInFeed::BOO::BAR:.
+      :.
       <header>
         <h1><a href=".:GetRootPage:."><img src=".:GetRelativeOrigin:.logo.png" alt=".:GetBlogName:." title=".:GetBlogName:." /></a></h1>
       </header>

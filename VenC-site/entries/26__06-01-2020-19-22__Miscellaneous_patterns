@@ -42,7 +42,7 @@ courrante est généré et ne prend pas de paramétre.
 
 ## .:Escape:: .:IncludeFile::escape::filename[::arg&#95;1][::arg&#95;2][::arg&#95;n]:. ::EndEscape:.
 
-Ce motif permet d'inclure le contenu d'un fichier dans la page courante. Celui-ci ne
+Ce motif permet d'inclure le contenu d'un fichier dans la publication courante. Celui-ci ne
 doit comporter que des caractères imprimables.
 
 Ce motif prend au minimum deux arguments:
