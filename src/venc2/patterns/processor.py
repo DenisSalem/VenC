@@ -114,14 +114,23 @@ def parse_markup_language(string, markup_language, ressource):
 
 def index_not_in_range(index, ranges, process_escapes):
     for o, c in ranges:
-        if index >= o[0] and index <= (c[0] if process_escapes else c[0]+13):
-            return False
-
+        try:
+            if index >= o[0] and index <= (c[0] if process_escapes else c[0]+13):
+                return False
+        except TypeError:
+            if index >= o and index <= (c if process_escapes else c+13):
+                return False
+                
     return True
 
 class ProcessedString():
-    def __init__(self, string, ressource, process_escapes=False):
+    def __init__(self, string, ressource, process_escapes=False, meta_escapes=[]):
         self.open_pattern_pos, self.close_pattern_pos = get_markers_indexes(string)
+        if len(meta_escapes):
+            for m in meta_escapes:
+                print(string[m[0]:m[1]])
+            self.open_pattern_pos = [ v for v in self.open_pattern_pos if index_not_in_range(v, meta_escapes, False)]
+            self.close_pattern_pos = [ v for v in self.close_pattern_pos if index_not_in_range(v, meta_escapes, False)]
         
         #Process escape
         self.escapes_o, self.escapes_c = get_markers_indexes(string, begin=".:Escape::", end="::EndEscape:.")
@@ -149,10 +158,11 @@ class ProcessedString():
                         raise IllegalUseOfEscape(ressource)
                     
             else:
-                escapes.append((
-                    self.escapes_o[0],
-                    self.escapes_c[0]
-                ))
+                if not len(meta_escapes) or index_not_in_range(self.escapes_o[0][0], meta_escapes, False):
+                    escapes.append((
+                        self.escapes_o[0],
+                        self.escapes_c[0]
+                    ))
                 break
 
         if len(escapes) and process_escapes:
@@ -204,7 +214,7 @@ class ProcessedString():
         self.backup = None
 
     def keep_appart_from_markup_indexes_append(self, paragraphe, new_chunk):
-        self.keep_appart_from_markup_indexes.append((self.keep_appart_from_markup_inc, paragraphe, new_chunk))
+        self.keep_appart_from_markup_indexes.append((self.keep_appart_from_markup_inc, paragraphe, new_chunk, False))
         output = "---VENC-TEMPORARY-REPLACEMENT-"+str(self.keep_appart_from_markup_inc)+'---'
         self.keep_appart_from_markup_inc +=1
         return output
@@ -223,45 +233,69 @@ class ProcessedString():
             except Exception as ee: 
                 handle_markup_language_error(self.ressource+", "+str(e))
         
-        # Last round is about replacing needles and fix one last time indexes
-        while "Missings triplet is not empty":                
-            missings = []
-
-            for triplet in self.keep_appart_from_markup_indexes:
-                identifier, paragraphe, new_chunk = triplet
-                string = self.string
-                target = "---VENC-TEMPORARY-REPLACEMENT-"+str(identifier)+"---"
-                try:
-                    index = string.index(target)
-                
-                # In some case needle may be hidden in another needle.
-                except:
-                    
-                    missings.append(triplet)
-                    continue
-                
-                if paragraphe:
-                    if string[index-3:index] == "<p>":
-                        string = string[:index-3]+string[index:]
-                        index -=3
-
-                    if string[index+len(target):index+len(target)+4] == "</p>":
-                        string = string[:index+len(target)]+string[index+len(target)+4:]
-            
-                self.string = string[:index]+new_chunk.strip().replace("\x1B\x1B","::")+string[index+len(target):]
-                
-            if not len(missings):
-                break
-                
-            self.keep_appart_from_markup_indexes = missings
-            
-        # After markup langage processing done, indexes are messed up.
-        # This is the last time entry content is preprocessed, so it must
-        # handle escapes pattern now. Also, escaped markup string may hold some VenC patterns. 
-        self.fix_indexes()
+        self.replace_needles(in_entry=True)
         
-    def fix_indexes(self):
-        self.__init__(self.string, self.ressource, True)
+    def replace_needles(self, in_entry=False):
+        meta_escapes = []
+        if in_entry or len(self.keep_appart_from_markup_indexes):            
+            while "Missings triplet is not empty":                
+                missings = []
+    
+                for quadruplet in self.keep_appart_from_markup_indexes:
+                    identifier, paragraphe, new_chunk, ignore_patterns = quadruplet
+                        
+                    string = self.string
+                    target = "---VENC-TEMPORARY-REPLACEMENT-"+str(identifier)+"---"
+                    len_target = len(target)
+                    len_new_chunk = len(new_chunk.strip())
+                    try:
+                        index = string.index(target)
+                    
+                    # In some case needle may be hidden in another needle.
+                    except:
+                        missings.append(quadruplet)
+                        continue
+                    
+                    p_offset = 0
+                    if paragraphe:
+                        if string[index-3:index] == "<p>":
+                            string = string[:index-3]+string[index:]
+                            index -=3
+                            p_offset -=3
+    
+                        if string[index+len_target:index+len_target+4] == "</p>":
+                            string = string[:index+len_target]+string[index+len_target+4:]
+                            p_offset -=4
+    
+                
+                    self.string = string[:index]+new_chunk.strip().replace("\x1B\x1B","::")+string[index+len_target:]
+                    
+                    diff = len_new_chunk - len_target + p_offset
+                    for i in range(0, len(meta_escapes)):
+                        if index <= meta_escapes[i][0]:
+                            meta_escapes[i] = [
+                                meta_escapes[i][0]+diff,
+                                meta_escapes[i][1]+diff
+                            ]
+                        
+                    if ignore_patterns:
+                        meta_escapes.append([
+                            index,
+                            index+len_new_chunk
+                        ])
+                                        
+                if not len(missings):
+                    break
+                    
+                self.keep_appart_from_markup_indexes = missings
+        
+        # After markup langage/needles processing done, indexes are messed up.
+        # This is the last time entry content is preprocessed, so it must
+        # handle escapes pattern now.
+        self.fix_indexes(meta_escapes)
+        
+    def fix_indexes(self, meta_escapes=[]):
+        self.__init__(self.string, self.ressource, True, meta_escapes)
 
 class Processor():
     def __init__(self):
@@ -419,7 +453,7 @@ class Processor():
                     )
                     if self.include_file_called:
                         extra_processing_required.append(
-                            pre_processed.keep_appart_from_markup_indexes[-1]+
+                            pre_processed.keep_appart_from_markup_indexes[-1][:3]+
                             (self.ignore_patterns,)
                         )
                         self.ignore_patterns = False
@@ -470,4 +504,4 @@ class Processor():
                 extra_pre_processed = ProcessedString(new_chunk, pre_processed.ressource, True)
                 self.process(extra_pre_processed, safe_process)
                 
-            pre_processed.keep_appart_from_markup_indexes[index] = (index, paragraphe, extra_pre_processed.string if not ignore_patterns else new_chunk)
+            pre_processed.keep_appart_from_markup_indexes[index] = (index, paragraphe, extra_pre_processed.string if not ignore_patterns else new_chunk, ignore_patterns)

@@ -116,7 +116,6 @@ class PatternsMap():
                 "GetNextPage" : "get_next_page",
                 "GetPreviousPage" : "get_previous_page",
                 #TODO : add .:GetCurrentThreadName::string1::string2:.
-                #TODO : add .:GetCurrentThreadURL::string1::string2:.
                 "ForPages" : "for_pages",
                 "IfPages" : "if_pages"
             }

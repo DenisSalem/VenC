@@ -146,31 +146,31 @@ def process_non_contextual_patterns(pattern_processor, theme):
         entry.html_wrapper = deepcopy(theme.entry)
         for pp in [entry.html_wrapper.above, entry.html_wrapper.below]:
             pattern_processor.process(pp)
-            pp.fix_indexes()
+            pp.replace_needles()
         
         entry.rss_wrapper = deepcopy(theme.rss_entry)
         for pp in [entry.rss_wrapper.above, entry.rss_wrapper.below]:
             pattern_processor.process(pp)
-            pp.fix_indexes()
+            pp.replace_needles()
         
         entry.atom_wrapper = deepcopy(theme.atom_entry)
         for pp in [entry.atom_wrapper.above, entry.atom_wrapper.below]:
             pattern_processor.process(pp)
-            pp.fix_indexes()
+            pp.replace_needles()
     
     
     pattern_processor.process(theme.header)
-    theme.header.fix_indexes()
+    theme.header.replace_needles()
     pattern_processor.process(theme.footer)
-    theme.footer.fix_indexes()
+    theme.footer.replace_needles()
     pattern_processor.process(theme.rss_header) 
-    theme.rss_header.fix_indexes()
+    theme.rss_header.replace_needles()
     pattern_processor.process(theme.rss_footer)
-    theme.rss_footer.fix_indexes()
+    theme.rss_footer.replace_needles()
     pattern_processor.process(theme.atom_header)
-    theme.atom_header.fix_indexes()
+    theme.atom_header.replace_needles()
     pattern_processor.process(theme.atom_footer) 
-    theme.atom_footer.fix_indexes()
+    theme.atom_footer.replace_needles()
 
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(argv=list()):
