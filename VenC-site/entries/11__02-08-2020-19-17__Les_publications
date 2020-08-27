@@ -16,7 +16,7 @@ Le nom de fichier d'une publication est formaté de la façon suivante:
 <id>__<mois>-<jour>-<année>-<heure>-<minute>__<titre>
 :.
 
-Une publication contient une premiere partie au format [Yaml](https://yaml.org/) contenant [les métadonnées](.:GetRelativeOrigin:.Metadonnee) de la publication, puis une seconde au format Markdown qui
+Une publication contient une première partie au format [Yaml](https://yaml.org/) contenant [les métadonnées](.:GetRelativeOrigin:.Metadonnee) de la publication, puis une seconde au format Markdown qui
 elle contiendra la publication à proprement parler. Cette seconde partie
 est elle-même scindé en deux. L'une contiendra la prévisualisation de la
 publication, et l'autre son véritable contenu.
