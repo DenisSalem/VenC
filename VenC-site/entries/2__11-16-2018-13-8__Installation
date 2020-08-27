@@ -5,8 +5,8 @@ tags: ''
 title: Installation
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Depuis la version 1.2.0 VenC s'installe avec [pip](https://pypi.python.org/pypi/pip) ce qui rend le processus substantiellement plus simple!
-Attention cependant, VenC utilise python 3, assurez vous donc d'utiliser la version correspondante de pip. Sur les systèmes basés sur debian il s'agit de pip3.
+Depuis la version 1.2.0 VenC s'installe avec [pip](https://pypi.python.org/pypi/pip), ce qui rend le processus substantiellement plus simple !
+Attention cependant, VenC utilise Python 3, assurez-vous donc d'utiliser la version correspondante de pip. Sur les systèmes basés sur Debian, il s'agit de pip3.
 
 > pip install venc --user
 
@@ -20,9 +20,9 @@ Pour désinstaller VenC, c'est triste, mais rien de plus simple.
 
 > pip uninstall venc
 
-Et voilà!
+Et voilà !
 
-Petite précision. Les dépendances de VenC ne sont pas désinstallées automatiquement:
+Petite précision. Les dépendances de VenC ne sont pas désinstallées automatiquement :
 
 - [docutils](http://docutils.sourceforge.net/)
 - [latex2mathml](https://github.com/roniemartinez/latex2mathml)
