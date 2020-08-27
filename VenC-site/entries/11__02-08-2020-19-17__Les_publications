@@ -7,18 +7,17 @@ title: Les publications
 ---VENC-END-PREVIEW---
 Une publication est un fichier dans lequel vous allez pouvoir rédiger votre
 contenu. Cela peut-être un billet d'humeur, un article de fond,
-une galerie d'image, etc. Pour faciliter l'édition de votre blog avec
-VenC vous êtes fortement encouragé à utiliser des [templates](/Les-templates).
+une galerie d'images, etc. Pour faciliter l'édition de votre blog avec
+VenC, vous êtes fortement encouragé à utiliser des [templates](.:GetRelativeOrigin:.Les-templates).
 
-Le nom de fichier d'une publication est formaté de la façon suivante:
+Le nom de fichier d'une publication est formaté de la façon suivante :
 
 .:CodeHighlight::Text::False::
 <id>__<mois>-<jour>-<année>-<heure>-<minute>__<titre>
 :.
 
-Une publication contient une première partie au format [Yaml](https://yaml.org/) contenant [les métadonnées](.:GetRelativeOrigin:.Metadonnee) de la publication, puis une seconde au format Markdown qui
-elle contiendra la publication à proprement parler. Cette seconde partie
-est elle-même scindé en deux. L'une contiendra la prévisualisation de la
+Une publication contient une première partie au format [YAML](https://yaml.org/) contenant [les métadonnées](.:GetRelativeOrigin:.Metadonnee) de la publication, puis une seconde au format Markdown qui contiendra la publication à proprement parler. Cette seconde partie
+est elle-même scindée en deux. L'une contiendra la prévisualisation de la
 publication, et l'autre son véritable contenu.
 
 Une publication vierge se présente de la façon suivante:
@@ -27,42 +26,43 @@ Une publication vierge se présente de la façon suivante:
 
 ## Métadonnées
 
-On a donc quatre champs qu'il est possible de compléter.
+Il y a donc quatre champs qu'il est possible de compléter.
 
 ### authors
 
-C'est la liste des auteurs de la publication, séparés par une virgule. Pas exemple _Denis Salem_, _Benjamin Bayard_, _Richard Stallman_.
+C'est la liste des auteurs de la publication, séparés par une virgule. Par exemple : _Denis Salem_, _Benjamin Bayard_, _Richard Stallman_.
 
 ### categories
 
-C'est la liste des categories de la publication, séparées par une virgule. Vous pouvez également avoir des sous categories pour une publication qui définiront ensuite un arbre de categories. Pour définir une sous catégories il faut séparer la categorie parente de la categorie fille par ' > '. Ce procédé peut-être répété autant de fois que nécessaire. Par exemple Metal > Copper, Metal > Steel > Properties, Materials.
+C'est la liste des catégories de la publication, séparées par une virgule. Vous pouvez également avoir des sous-catégories pour une publication qui définiront ensuite un arbre de catégories. Pour définir une sous-catégories il faut séparer la catégorie parente de la catégorie fille par ' > '. Ce procédé peut être répété autant de fois que nécessaire. Par exemple : Metal > Copper, Metal > Steel > Properties, Materials.
 
 ### tags
 
-C'est la liste des mots clefs de la publication, séparées par une virgule. Par exemple Libre, Open-source, Linux.
+C'est la liste des mots clefs de la publication, séparées par une virgule. Par exemple : Libre, Open-source, Linux.
 
 ### title
-C'est le nom de votre publication tel que vous l'avez définit au moment de créer la publication avec venc -ne <titre de la publication>.
 
-## Métadonnées optionnels
+C'est le nom de votre publication, tel que vous l'avez définit au moment de créer la publication avec la commande : venc -ne <titre de la publication>.
+
+## Métadonnées optionnelles
 
 Il est également possible de rajouter librement des [champs optionnels](.:GetRelativeOrigin:.Metadonnee). Il y a cependant deux
-champs réservé:
+champs réservés :
 
 ### chapter
 
 Indique à quel chapitre correspond la publication. La convention qu'utilise
 VenC pour reconnaitre les chapitres est la suivante:
 
-Chaque chapitre et chaque sous-partis sont numérotés, et séparé par un
+Chaque chapitre et chaque sous-partie sont numérotés, et séparé par un
 point. Quelques exemples pour aider à visualiser le truc.
 
-- __'2'__ : Indiquerait que la publication correspond au chapitre deux.
-- __'1.2'__ : Indiquerait que la publication correspond au premier chapitre, seconde sous-partie
-- __'3.3.5'__ : Indiquerait que la publication correspond au troisième chapitre, troisième sous-partie, cinquième sous-partie de la partie parente.
+- __'2'__ : indique que la publication correspond au chapitre deux.
+- __'1.2'__ : indiquer que la publication correspond au premier chapitre, seconde sous-partie
+- __'3.3.5'__ : indique que la publication correspond au troisième chapitre, troisième sous-partie, cinquième sous-partie de la partie parente.
 
-**Important : Le champ _chapter_ doit explicitement être une chaine
-de caractère. Pour ce faire l'index du chapitre doit être entre guillement.**
+**Important : le champ _chapter_ doit explicitement être une chaîne
+de caractères. Pour ce faire, l'index du chapitre doit être entre guillement.**
 
 ### .:DisableMarkup::markup_language:.
 
@@ -70,9 +70,9 @@ Il est possible de spécifier un langage de balisage qui sera utilisé pour
 la publication courante, en lieu et place du langage définit dans le
 fichier de configuration du blog.
 
-VenC supporte deux langages de balisage:
+VenC supporte deux langages de balisage :
 
 - __Markdown__ : qui est le langage par défaut.
 - __reStructuredText__ : un peu plus complet et puissant que Markdown.
 - __none__ : Le langage de balisage est désactivé. Permet d'incorporer
-de l'html/CSS dans une publication.
+de l'HTML/CSS dans une publication.
