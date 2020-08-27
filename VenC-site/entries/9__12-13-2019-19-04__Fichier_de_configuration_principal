@@ -6,14 +6,14 @@ title: Fichier de configuration principal
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-__blog_configuration.yaml__ est un document [Yaml](https://yaml.org/) à la racine du projet
+__blog_configuration.yaml__ est un document [YAML](https://yaml.org/) à la racine du projet
 définissant les propriétés du blog, comme son titre, le nom de son auteur,
 ainsi que des détails fonctionnels comme le nombre de publications par pages ou
 l'ordre d'affichage de celles-ci.
 
 Immédiatement après avoir créé votre blog, il s'agira sans doute du premier
-fichier que vous éditerez. Après avoir rempli ces champs dont l'usage est
-détaillé ci-dessous, vous n'aurez normalement plus besoin d'y retoucher.
+fichier que vous éditerez. Après avoir rempli ces champs, dont l'usage est
+détaillé ci-dessous, vous n'aurez normalement plus besoin d'y revenir.
 
 ## .:DisableMarkup::blog_name:.
 
@@ -21,7 +21,7 @@ Sans surprise, il s'agit du titre de votre blog.
 
 ## .:DisableMarkup::disable_threads:. 
 
-Empêche VenC de générer les fils de publications spécifiés dans une liste. Les noms de fils peuvent appartenir à des catégories ou à des archives. Ces noms sont listé en étant séparés par une virgule.
+Empêche VenC de générer les fils de publications spécifiés dans une liste. Les noms de fils peuvent appartenir à des catégories ou à des archives. Ces noms sont listés en étant séparés par une virgule.
 
 ## .:DisableMarkup::disable_archives:. ##
 
@@ -70,7 +70,7 @@ Un très court résumé de ce dont parle votre site.
 
 ## .:DisableMarkup::blog_keywords:.
 
-Les mots clefs associés au site, séparés par une virgule.
+Les mots-clefs associés au site, séparés par une virgule.
 
 ## .:DisableMarkup::author_description:.
 
@@ -83,11 +83,11 @@ La licence appliquée au contenu de votre site.
 
 ## .:DisableMarkup::blog_url:.
 
-L'url du blog. Peut être laissée vide, selon le thème utilisé.
+L'URL du blog. Peut être laissée vide, selon le thème utilisé.
 
 ## .:DisableMarkup::ftp_host:.
 
-Optionel. Il s'agit du nom d'hôte de votre serveur FTP s'il existe.
+Optionel. Il s'agit du nom d'hôte de votre serveur FTP, s'il existe.
 
 ## .:DisableMarkup::blog_language:.
 
@@ -114,15 +114,15 @@ La liste de ces chemins est détaillé ci-dessous
 
 ### ftp
 
-Le chemin absolu du répertoire de destination sur votre serveur ftp.
+Le chemin absolu du répertoire de destination sur votre serveur FTP.
 
 ### .:DisableMarkup::entries_sub_folders:.
 
-Le nom de sous répertoire qui contiendras les publications individuelle.
+Le nom de sous-répertoire qui contiendra les publications individuelles.
 
 ### .:DisableMarkup::categories_sub_folders:.
 
-Le nom de sous répertoire qui contiendras les categories
+Le nom de sous répertoire qui contiendra les catégories
 
 ### .:DisableMarkup::index_file_name:.
 
