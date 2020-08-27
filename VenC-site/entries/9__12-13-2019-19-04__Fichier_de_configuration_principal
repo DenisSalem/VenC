@@ -142,7 +142,7 @@ contenir la variable .:DisableMarkup::{chapter_name}:..
 
 "%Y-%m" par défaut. Définit le format de date utilisé pour les noms de
 répertoires des archives. Le format des dates est en fait le même que
-celui utilisé par python. Pour en savoir plus sur ce format rendez vous
+celui utilisé par Python. Pour en savoir plus sur ce format rendez vous
 [ici](http://strftime.org).
 
 ### .:DisableMarkup::entry_file_name:.
@@ -151,11 +151,11 @@ celui utilisé par python. Pour en savoir plus sur ce format rendez vous
 
 ### .:DisableMarkup::rss_file_name:.
 
-"rss.xml" par défaut. Définit le nom de fichier du flux rss.
+"rss.xml" par défaut. Définit le nom de fichier du flux RSS.
 
 ### .:DisableMarkup::atom_file_name:.
 
-"atom.xml" par défaut. Définit le nom de fichier du flux atom.
+"atom.xml" par défaut. Définit le nom de fichier du flux Atom.
 
 .:DisableMarkup::</div>:.
 
@@ -165,7 +165,7 @@ celui utilisé par python. Pour en savoir plus sur ce format rendez vous
 
 ## columns
 
-1 par défaut. Ce champ définit le nombre de colonnes dans une page.
+*1* par défaut. Ce champ définit le nombre de colonnes dans une page.
 
 ## .:DisableMarkup::feed_lenght:.
 
@@ -178,7 +178,7 @@ Ce champ est un booléen, fixé à *True* par défaut. Définit l'ordre de publi
 ## .:DisableMarkup::markup_language:.
 
 Ce champ spécifie le langage de balisage par défaut utilisé dans toutes
-les publications. Cette valeur peut cependant être localement écrasé
+les publications. Cette valeur peut cependant être localement écrasée
 dans l'entête d'une [publication]().
 
 Les valeurs possible de ce champ sont
@@ -189,24 +189,24 @@ Les valeurs possible de ce champ sont
 
 # .:DisableMarkup::path_encoding:.
 
-Permet de spécifier l'encodage des chemins généré par VenC.
-Utile dans certains cas, quand un ou plusieur liens interne contienne
-des accents ou des caractères speciaux mal supportés par le serveur hôte.
+Permet de spécifier l'encodage des chemins générés par VenC.
+Utile dans certains cas, quand un ou plusieurs liens internes contiennent
+des accents ou des caractères spéciaux mal supportés par le serveur hôte.
 Ce champ n'a pas de valeur par défaut.
 
 ## .:DisableMarkup::server_port:.
 
-Spécifie le port du server http local. Ce champ est fixé à *8888* par défaut.
+Spécifie le port du server HTTP local. Ce champ est fixé à *8888* par défaut.
 
 
 ## .:DisableMarkup::sort_by:.
 
-Pour être ordonnées, les publications sont généralement évalués selon
+Pour être ordonnées, les publications sont généralement évaluées selon
 la valeur de leur identifiant. C'est pourquoi la valeur de ce champ est
 'id' par défaut. Il est possible de spécifier le nom d'une autre propriété
 pour les publications.
 
-Les valeurs possible sont:
+Les valeurs possible sont :
 
 - authors
 - date
@@ -221,14 +221,14 @@ manuellement dans l'entête de vos publications.
 
 ## .:DisableMarkup::enable_jsonld:.
 
-Active la création de fichier jsonld pour le référencement à l'aide des
+Active la création de fichier JSON-LD pour le référencement à l'aide des
 technique du web sémantique.
 Ce champ est un booléen qui vaut *False* par défaut. Selon la taille de
 votre blog, ces fichiers peuvent vite prendre de la place.
 
 ## .:DisableMarkup::enable_jsonp:.
 
-Active la création de fichier jsonp contenant des données jsonld pour le
+Active la création de fichier JSON-P contenant des données jsonld pour le
 moteur de recherche décentralisé côté client. Il s'agit d'une fonctionnalité expérimental.
 Ce champ est un booléen qui vaut *False* par défaut. Selon la taille de
 votre blog, ces fichiers peuvent vite prendre de la place.

@@ -6,20 +6,20 @@ title: Configuration d'un thème
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-Il s'agit d'un fichier de configuration au format [Yaml](https://yaml.org/) qui accompagne
-chaque thème installable dans le blog avec la commande
+Il s'agit d'un fichier de configuration au format [YAML](https://yaml.org/) qui accompagne
+chaque thème installable dans le blog avec la commande :
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --intall-theme
 
-Ce fichier est structuré de la façon suivante
+Ce fichier est structuré de la façon suivante :
 
 .:CodeHighlightInclude::Yaml::false::theme-configuration-example:.
 
-- __info__ : Ce champ contient les métadonnées du thème.
-    - __description__ : Il s'agit d'un cours texte présentant le thème.
-    - __version__ : Optionnel. Indique la version du thème.
-    - __author__ : Optionnel. Indique le ou les auteurs du thème.
-- __override__ : Ce champ contient les propriétés remplaçant ou s'ajoutant au fichier de configuration principal. Typiquement, un thème qui fonctionne avec trois colones, par exemple, devra inclure le champ 'columns' ayant la valeur 3.
-- __.:DisableMarkup::assets_dependencies:.__ : Il s'agit d'une liste contenant les assets (images, feuilles de styles, scripts) contenu dans .:DisableMarkup::~/.local/share/VenC/themes_assets:.. C'est notamment utile pour inclure des modules VenC javascript.
-- __.:DisableMarkup::includes_dependencies:.__ : Comme pour le champ précédent, il s'agit d'une liste contenant des noms de ficher. Il s'agit de fichiers HTMLs à inclure avec __.:Escape:: .:IncludeFile:: ... :. ::EndEscape:.__. Ces fichiers sont installés par défaut avec VenC et se trouve dans .:DisableMarkup::~/.local/share/VenC/themes_includes:..
+- __info__ : ce champ contient les métadonnées du thème.
+    - __description__ : il s'agit d'un cours texte présentant le thème.
+    - __version__ : optionnel. Indique la version du thème.
+    - __author__ : optionnel. Indique le ou les auteurs du thème.
+- __override__ : ce champ contient les propriétés remplaçant ou s'ajoutant au fichier de configuration principal. Typiquement, un thème qui fonctionne avec trois colonnes, par exemple, devra inclure le champ 'columns' ayant la valeur 3.
+- __.:DisableMarkup::assets_dependencies:.__ : il s'agit d'une liste contenant les assets (images, feuilles de styles, scripts) contenu dans .:DisableMarkup::~/.local/share/VenC/themes_assets:.. C'est notamment utile pour inclure des modules VenC Javascript.
+- __.:DisableMarkup::includes_dependencies:.__ : comme pour le champ précédent, il s'agit d'une liste contenant des noms de fichiers. Il s'agit de fichiers HTML à inclure avec __.:Escape:: .:IncludeFile:: ... :. ::EndEscape:.__. Ces fichiers sont installés par défaut avec VenC et se trouve dans .:DisableMarkup::~/.local/share/VenC/themes_includes:..
 
