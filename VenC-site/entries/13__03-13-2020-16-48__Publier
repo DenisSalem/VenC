@@ -5,11 +5,11 @@ title: Publier
 chapter: 3.3
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Vous avez donc écris un ou plusieurs articles et vous voulez voir ce que ça donne! Placez vous dans le répertoire de votre blog et lancez la commande
+Vous avez donc écrit un ou plusieurs articles et vous voulez voir ce que ça donne ! Placez-vous dans le répertoire de votre blog et lancez la commande
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --export-blog gentle
 
-Cette commande va créer les pages HTML de votre blog en utilisant le thème __*gentle*__. Pour connaitre quels sont les thèmes disponibles, tapez
+Cette commande va créer les pages HTML de votre blog en utilisant le thème __*gentle*__. Pour connaître les thèmes disponibles, tapez :
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc -it
 
@@ -17,29 +17,29 @@ Vous pouvez alors recompiler votre blog en passant en paramètre le nom
 d'un des thèmes dans la liste, en vert.
 
 Si vous souhaitez faire votre propre thème HTML/CSS vous pouvez vous
-aider du thème __*dummy*__ qui contiens un squelette HTML pouvant servir
-de base. Pour installer un théme dans votre blog (généralement pour le
-modifier), par exemple __gentle__, utilisez la commande:
+aider du thème __*dummy*__ qui contient un squelette HTML pouvant servir
+de base. Pour installer un thème dans votre blog (généralement pour le
+modifier), par exemple __gentle__, utilisez la commande :
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc -it gentle
 
-Pour compiler le blog avec ce thème bien à vous:
+Pour compiler le blog avec ce thème bien à vous :
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --export-blog
 
 VenC utilise par défaut le thème local quand aucun nom de thème ne lui est précisé.
 
-Pour en savoir plus sur les thèmes rendez-vous [ici]()
+Pour en savoir plus sur les thèmes, rendez-vous [ici](.:GetRelativeOrigin:.Les-Themes)
 
-Le contenu de votre site est maintenant disponible dans le repertoire
-_blog_ de votre blog. Pour visualiser le résultat vous pouvez utiliser la commande
+Le contenu de votre site est maintenant disponible dans le répertoire
+_blog_ de votre blog. Pour visualiser le résultat, vous pouvez utiliser la commande :
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --serv
 
-VenC crée un serveur http local accessible par défaut à l'adresse suivante:
+VenC crée un serveur HTTP local accessible par défaut à l'adresse suivante :
 
 > http://localhost:8888
 
-_(Pour tuer le processus, ctrl+c dans le terminal actif)_
+_(Pour tuer le processus, CTRL+C dans le terminal actif)_
 
-Et voilà! Le moins qu'on puisse dire, c'est que _vous pesez lourd dans le game_ maintenant!
+Et voilà ! Le moins que l'on puisse dire, c'est que _vous pesez lourd dans le game_ maintenant !

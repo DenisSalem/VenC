@@ -2,16 +2,16 @@ authors: 'Denis Salem'
 categories: ''
 chapter: 3.1
 tags: ''
-title: Créer son blog en moins de 5 minutes!
+title: Créer son blog en moins de 5 minutes !
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Et ouais, c'est possible!
+Et ouais, c'est possible !
 
-Dans un terminal, tapez la commande suivante
+Dans un terminal, tapez la commande suivante :
 
 > venc --new-blog "MonSuperBlog"
 
-Après cette commande, VenC a créer un répertoire appelé "MonSuperBlog" à l'endroit où vous avez lancé la commande. Ce repertoire contient toutes les informations de votre blog. Il faut donc le garder préciseument, et même en faire des sauvegardes de temps à autres!
+Après cette commande, VenC a créer un répertoire appelé "MonSuperBlog" à l'endroit où vous avez lancé la commande. Ce repertoire contient toutes les informations de votre blog. Il faut donc le garder précieusement, et même en faire des sauvegardes de temps à autre !
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --new-blog "MonSuperBlog"
 
@@ -21,7 +21,7 @@ Après cette commande, VenC a créer un répertoire appelé "MonSuperBlog" à l'
 
 > .:SetColor::blog::cyan:.  blog_configuration.yaml  .:SetColor::entries::cyan:.  .:SetColor::extra::cyan:.  .:SetColor::includes::cyan:.  .:SetColor::templates::cyan:.  .:SetColor::theme::cyan:.
 
-La prochaine étape consiste à paramétrer un peu le blog. Pour ça il suffit d'éditer le fichier *blog_configuration.yaml* à la racine de ce repertoire. Vous pourrez notamment y définir le nom de votre blog, sa langue, ses mots clef, entre autre choses parmis les nombreux paramétres à configurer, ou laisser par défaut.
+La prochaine étape consiste à paramétrer un peu le blog. Pour ça, il suffit d'éditer le fichier *blog_configuration.yaml* à la racine de ce répertoire. Vous pourrez notamment y définir le nom de votre blog, sa langue, ses mots-clefs, entre autres choses parmi les nombreux paramètres à configurer, ou à laisser par défaut.
 
 .:CodeHighlight::Yaml::False::author_description: 'Je suis Jean Rochefort et je suis mort, mais je reviendrais.'
 author_name: 'Jean Fucking Rochefort'
@@ -31,8 +31,8 @@ blog_language: 'fr'
 blog_name: 'Le blog de Jean Rochefort, élu roy de France par les internets.'
 license: 'Licence royale':.
 
-Pour plus d'informations sur la configuration du blog, rendez-vous [ici](https://framagit.org/denissalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal)
+Pour plus d'informations sur la configuration du blog, rendez-vous [ici](https://framagit.org/denissalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
 
-Et voilà, c'est terminé! Votre blog est prêt à l'emploi!
+Et voilà, c'est terminé ! Votre blog est prêt à l'emploi !
 
-_Si vous avez rencontré une difficulté durant ce tutoriel, jetez un oeil à la [FAQ](.:GetBlogURL:./faqFR.md), la solution s'y trouvera certainement!_
+_Si vous avez rencontré une difficulté durant ce tutoriel, jetez un oeil à la [FAQ](.:GetBlogURL:./faqFR.md), la solution s'y trouvera certainement !_

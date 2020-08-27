@@ -13,5 +13,5 @@ ou
     $ venc --remote-copy
 
 Cette commande permet de copier le blog courant sur votre serveur FTP,
-sans le régénérer. Une invite d'authentification FTP apparaitra dans le
+sans le re-générer. Une invite d'authentification FTP apparaîtra dans le
 terminal pour lancer la procédure.

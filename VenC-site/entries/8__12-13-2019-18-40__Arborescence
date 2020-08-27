@@ -8,10 +8,10 @@ title: Arborescence
 La racine du projet porte le nom du blog, par exemple, "MooFooBar".
 Lorsque vous créez un nouveau projet, VenC produit un certain nombre de répertoires listés ci-dessous.
 
-- __blog__ : _Le dossier où est exporté le projet._
-- __extra__ : _Un dossier contenant des ressources quelquonques copiées vers blog/ au moment de l'exportation._
-- __entries__ : _Contient toutes les publications sous forme de fichiers texte numérotés et datés._
-- __theme__ : _Contient les templates html, les feuilles de style et éventuellement les scripts JS._
-- __templates__ : _Contient des modèles vierges pour de futurs publications._
-- __includes__ : _Ce repertoire contient des fichiers html que vous pouvez inclure n'importe où dans votre projet avec la fonction [IncludeFile]()._
-- __caches__ : _Ce répertoire n'est pas généré automatiquement à la création de votre projet. Mais il peut apparaitre plus tard, notamment si vous utilisez la fonction [GetEmbedContent]()._
+- __blog__ : _le dossier où est exporté le projet._
+- __extra__ : _un dossier contenant des ressources quelconques copiées vers blog/ au moment de l'exportation._
+- __entries__ : _contient toutes les publications sous forme de fichiers textes numérotés et datés._
+- __theme__ : _contient les templates HTML, les feuilles de style et éventuellement les scripts JS._
+- __templates__ : _contient des modèles vierges pour de futurs publications._
+- __includes__ : _ce répertoire contient des fichiers HTML que vous pouvez inclure n'importe où dans votre projet avec la fonction [IncludeFile]()._
+- __caches__ : _ce répertoire n'est pas généré automatiquement à la création de votre projet. Mais il peut apparaitre plus tard, notamment si vous utilisez la fonction [GetEmbedContent]()._
