@@ -9,7 +9,7 @@ Pour créer une nouvelle publication, placez-vous dans le répertoire de votre b
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --new-entry "Ma Première Publication"
 
-vous pouvez également utiliser la version racourcie de la commade :
+vous pouvez également utiliser la version racourcie de la commande :
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc -ne "Ma Première Publication"
 
