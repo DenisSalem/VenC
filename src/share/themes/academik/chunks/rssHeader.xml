@@ -3,6 +3,6 @@
 
 <channel>
   <atom:link href=".:GetBlogURL:..:GetRelativeLocation:./rss_feed.xml" rel="self" type="application/rss+xml" />
-  <title>.:GetBlogName:.</title>
+  <title>.:GetBlogName:. .:GetThreadName::| {value}:.</title>
   <link>.:GetBlogURL:.</link>
   <description>.:GetBlogDescription:.</description>

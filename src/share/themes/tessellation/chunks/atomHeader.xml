@@ -3,9 +3,9 @@
  <link href=".:GetBlogURL:..:GetRelativeLocation:./atom_feed.xml" rel="self" type="application/atom+xml"/>
  <link href=".:GetBlogURL:." rel="alternate" type="text/html" />
  
- <title>.:GetBlogName:.</title>
- .:GetBlogMetadataIfNotNull::blog_description::<subtitle>{value}</subtitle>:.
-   .:GetBlogMetadataIfNotNull::blog_url::<id>{value}</id>:.
+ <title>.:GetBlogName:. .:GetThreadName::| {value}:.</title>
+    .:GetBlogMetadataIfNotNull::blog_description::<subtitle>{value}</subtitle>:.
+    .:GetBlogMetadataIfNotNull::blog_url::<id>{value}.:GetRelativeLocation:.</id>:.
  <updated>.:GetGenerationTimestamp::%Y-%m-%dT%H:%M:%SZ:.</updated>
  <author>
    .:GetBlogMetadataIfNotNull::author_name::<name>{value}</name>:.
