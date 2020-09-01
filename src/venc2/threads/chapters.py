@@ -50,7 +50,7 @@ class ChaptersThread(Thread):
             tree_special_char = '├'
                 
         notify(self.indentation_level+tree_special_char+"─ "+node.index+' '+node.entry.title+"...")
-        
+        self.thread_name = node.entry.title
         self.export_path = "blog/"+self.sub_folders+'/'+self.folder_name
         self.export_path = self.export_path.format(**{
             "chapter_name" : node.entry.title,

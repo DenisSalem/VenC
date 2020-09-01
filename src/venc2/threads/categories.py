@@ -89,6 +89,13 @@ class CategoriesThread(Thread):
         if node.value in self.disable_threads:
             return (None, None, None)
             
+        self.thread_name = node.value
+        if self.rss_feed:
+            self.rss_feed.thread_name = node.value
+        
+        if self.atom_feed:
+            self.atom_feed.thread_name = node.value
+
         if i == len_root-1:
             tree_special_char = '└'
                 

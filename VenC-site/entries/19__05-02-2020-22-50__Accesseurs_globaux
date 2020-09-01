@@ -260,3 +260,22 @@ La fonction générerait alors par exemple le code html ci-dessous
 
 Si la génération des chapitres est désactivé dans le fichier de
 configuration principal le motif est ignoré et supprimé.
+
+## .:Escape:: .:GetThreadName[::string1][::string2]:. ::EndEscape:.
+
+Ce motif permet de récupérer le nom du fil de publication courant.
+
+Par exemple si la page courange est généré dans un fil de publication de type _categorie_
+et que ladite catégorie s'appel "Histoire de l'informatique", alors __GetThreadName__ permet
+de récupérer cette valeur dans une chaine de caractère formatée correspondant
+à l'argument __string1__. Si, au contraire, le fil de publication n'a pas de nom alors
+c'est __string2__ qui est renvoyé.
+
+- __string1__ : Premier argument du motif, c'est celui qui est renvoyé si le fil
+de publication a un nom. Pour accèder au nom du fil de publication dans l'argument,
+il faut utiliser la variable contextuelle __{value}__. Si c'est cette argument qui doit
+être utilisé par le motif et qu'il est manquant, le motif renvoie simplement le nom du fil
+de publication, sans formattage particuler.
+- __string2__ : Second argument du motif, c'est celui qui est renvoyé si le fil de publication
+n'a pas de nom. Cet argument n'a pas de variable contextuelle. Si c'est cette argument
+qui doit être utilisé par le motif et qu'il est manquant. Le motif est ignoré.

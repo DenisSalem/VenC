@@ -115,6 +115,7 @@ class EntriesThread(Thread):
                 'entry_id': self.current_entry.id,
                 'entry_title': self.current_entry.title
         }).replace(' ','-')
+        self.thread_name = self.current_entry.title
         export_path = self.path_encode(export_path)
         self.relative_origin = str(''.join([ "../" for p in export_path.split('/')[1:] if p != ''])).replace("//",'/')
         os.makedirs(export_path, exist_ok=True)

@@ -44,6 +44,8 @@ class ArchivesThread(Thread):
         if archive.value in self.disable_threads:
             return None
 
+        self.thread_name = archive.value
+        
         tree_special_char = '└' if i == len_archives-1 else '├'
 
                 

@@ -69,6 +69,9 @@ class Thread:
         self.column_opening = '<div id="__VENC_COLUMN_{0}__" class="__VENC_COLUMN__">'
         self.column_closing = "</div>"
         self.columns_number = self.datastore.blog_configuration["columns"]
+        self.thread_name = ""
+        self.rss_feed = None
+        self.atom_feed = None
         # Setup pattern processor
         self.processor = Processor()
         for pattern_name in patterns_map.contextual["functions"].keys():
@@ -98,6 +101,20 @@ class Thread:
     def get_relative_origin(self, argv):
         return self.relative_origin
 
+    def get_thread_name(self, argv):
+        if len(self.thread_name):
+            try:
+                return argv[0].format(**{"value":self.thread_name})
+            except IndexError:
+                return self.thread_name
+        
+        else:
+            try:
+                return argv[1]
+                
+            except IndexError:
+                return ""
+            
     # Must be called in child class
     def organize_entries(self, entries):
         self.pages = list()
