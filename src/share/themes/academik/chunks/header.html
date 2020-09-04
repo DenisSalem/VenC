@@ -3,10 +3,15 @@
     <head>
         <title>.:GetBlogName:.</title>
         <meta charset="utf-8">
-        <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Tree-0.0.0.js"></script>
-        <script type="text/javascript">
-            window.onload = VENC_TREE_ON_LOAD
-        </script>
+        <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Scripts-Bootstrap-0.0.0.js"></script>
+        <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Tree-0.1.0.js"></script>
+        .:IfInfiniteScrollEnabled::
+            .:IfInThread::
+                <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Infinite-Scroll-1.2.0.js"></script>
+            ::
+
+            :.
+        :.
         <link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="feed.xml" />
         .:GetStyleSheets:.
         <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css" />
@@ -55,23 +60,23 @@
             </div>            
             :.
             .:IfPages::
-                <div id="blog-navigation-header">
-                    <div id="blog-navigation-header-wrapper">
-                        <div></div><span>Navigation</span><div></div>
+                <div id="__VENC_NAVIGATION__">
+                    <div id="blog-navigation-header">
+                        <div id="blog-navigation-header-wrapper">
+                            <div></div><span>Navigation</span><div></div>
+                        </div>
+                    </div>
+                    <div id="blog-navigation" class="navigation">
+                        .:IfInThread::
+                            .:GetPreviousPage::<a class="navigation-previous" href="{path}">⇽</a>·:.
+                            <ul class="navigation-pages-list">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: · :.</ul>
+                            .:GetNextPage::·<a class="navigation-next" href="{path}" data-venc-api-infinite-scroll-hook="{path}">⇾</a>:.
+                        ::
+                            .:GetPreviousPage::<a class="navigation-previous" href="{path}" title="{entry_title}">⇽</a>:.
+                            .:GetNextPage::<a class="navigation-next" href="{path}" title="{entry_title}">⇾</a>:.
+                        :.    
                     </div>
                 </div>
-                .:IfInThread::
-                    <div id="blog-navigation" class="navigation">
-                        .:GetPreviousPage::<a class="navigation-previous" href="{path}">⇽</a>·:.
-                        <ul class="navigation-pages-list">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: · :.</ul>
-                        .:GetNextPage::·<a class="navigation-next" href="{path}">⇾</a>:.
-                    </div>
-                ::
-                    <div id="blog-navigation" class="navigation">
-                        .:GetPreviousPage::<a class="navigation-previous" href="{path}" title="{entry_title}">⇽</a>:.
-                        .:GetNextPage::<a class="navigation-next" href="{path}" title="{entry_title}">⇾</a>:.
-                    </div>
-                :.            
             :: :.
         </aside>
         <div id="blog-content">

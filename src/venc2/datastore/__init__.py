@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2019 Denis Salem
+#    Copyright 2016, 2020 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -229,6 +229,25 @@ class DataStore:
 
     def if_rss_enabled(self, argv):
         return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_rss_feed"] else argv[0].replace("{relative_origin}", "\x1a")
+
+    def if_infinite_scroll_enabled(self, argv):
+        if not len(argv):
+            raise PatternMissingArguments(expected=1, got=0)
+            
+        try:
+            if self.blog_configuration["disable_infinite_scroll"]:
+                try:
+                    return argv[1]
+                    
+                except IndexError:
+                    return ""
+                                    
+            else:
+                return argv[0]
+                    
+        except KeyError:
+            return argv[0]
+                    
 
     def root_site_to_jsonld(self):
         self.root_as_jsonld = {

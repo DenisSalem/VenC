@@ -1,0 +1,17 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+title: Paramétrage des thèmes par défaut
+chapter: 4.6.2
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Les thèmes par défaut sont partiellement customisables à l'aide de variable
+à définir dans votre fichier de configuration principal.
+
+# Gentle
+
+- __header&#95;image__ : Nom de fichier de l'image servant d'en-tête au blog.
+L'image doit être localisé à la racine du blog.
+- __disable&#95;infinite&#95;scroll__:
+
+# Tessellation

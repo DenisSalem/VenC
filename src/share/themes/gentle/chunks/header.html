@@ -6,10 +6,14 @@
     <meta name="keywords" content=".:GetBlogKeywords:." />
     <meta name="description" content=".:GetBlogDescription:."/>
     <meta charset="utf-8" />
-    .:IfInThread::<script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Infinite-Scroll-1.1.0.js"></script>:: :.
-    <script type="text/javascript">
-	window.onload = VENC_INFINITE_SCROLL_ON_LOAD;
-    </script>
+        .:IfInfiniteScrollEnabled::
+            .:IfInThread::
+                <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Scripts-Bootstrap-0.0.0.js"></script>
+                <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Infinite-Scroll-1.2.0.js"></script>
+            ::
+
+            :.
+        :.
     <link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="feed.xml" />
     <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css" />
     .:GetStyleSheets:.

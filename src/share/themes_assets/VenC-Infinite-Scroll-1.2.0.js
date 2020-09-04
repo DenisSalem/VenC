@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2019 Denis Salem
+ * Copyright 2016, 2020 Denis Salem
  * 
  * This file is part of VenC.
  * 
@@ -190,3 +190,4 @@ function VENC_INFINITE_SCROLL_ON_LOAD() {
 	}
 };
 
+VENC_ON_LOAD_CALLBACK_REGISTER.push(VENC_INFINITE_SCROLL_ON_LOAD);

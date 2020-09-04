@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2019 Denis Salem
+#    Copyright 2016, 2020 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -161,6 +161,7 @@ def process_non_contextual_patterns(pattern_processor, theme):
     
     pattern_processor.process(theme.header)
     theme.header.replace_needles()
+
     pattern_processor.process(theme.footer)
     theme.footer.replace_needles()
     pattern_processor.process(theme.rss_header) 
@@ -187,9 +188,7 @@ def export_blog(argv=list()):
     notify("├─ "+messages.pre_process)
 
     process_non_contextual_patterns(pattern_processor, theme)
-    
-    print("DONE WITH NON CONTEXTUAL")
-    
+        
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")

@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2019 Denis Salem
+#    Copyright 2016, 2020 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -69,6 +69,7 @@ class PatternsMap():
                 "GetChapters" :             datastore.get_chapters
             },
             "extra": {
+                "IfInfiniteScrollEnabled":  datastore.if_infinite_scroll_enabled,
                 "IfFeedsEnabled":           datastore.if_feeds_enabled,
                 "IfRSSEnabled":             datastore.if_rss_enabled,
                 "IfAtomEnabled":            datastore.if_atom_enabled,          

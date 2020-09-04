@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2018 Denis Salem
+#    Copyright 2016, 2020 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -299,14 +299,14 @@ class ProcessedString():
 
 class Processor():
     def __init__(self):
-        self.debug = False
-        self.functions		    = {}
-        self.current_input_string   = ''
-        self.ressource              = ''
-        self.blacklist = []
-        self.keep_appart_from_markup = []
-        self.include_file_called = False
-        self.ignore_patterns = False
+        self.debug                      = False
+        self.functions                  = {}
+        self.current_input_string       = ''
+        self.ressource                  = ''
+        self.blacklist                  = []
+        self.keep_appart_from_markup    = []
+        self.include_file_called        = False
+        self.ignore_patterns            = False
 
     # Run any pattern and catch exception nicely
     def run_pattern(self, pattern, argv):
