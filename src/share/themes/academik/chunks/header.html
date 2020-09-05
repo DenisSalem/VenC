@@ -27,7 +27,7 @@
       :.
       :.
         <aside>
-            <div id="blog-avatar" style="background-image: url('.:GetBlogMetadataIfExists::avatar::{value}:.');">
+            <div id="blog-avatar" style="background-image: url('.:GetRelativeOrigin:..:GetBlogMetadataIfExists::author_avatar::{value}:.');">
             </div>
             <p id="blog-description">
                 .:GetBlogDescription:.
@@ -81,5 +81,5 @@
         </aside>
         <div id="blog-content">
             <header>
-                <h1><a href=".:GetBlogURL:."><img src=".:GetBlogMetadataIfExists::banner::{value}:." alt=".:GetBlogName:."></a></h1>
+                <h1><a href=".:GetBlogURL:."><img src=".:GetRelativeOrigin:..:GetBlogMetadataIfExists::header_image::{value}:." alt=".:GetBlogName:."></a></h1>
             </header>

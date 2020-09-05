@@ -75,7 +75,7 @@ pre {overflow: hidden; overflow-x: auto; clear: both; max-width: 580px;}
 
 header {
     width: 800px;
-    height: 100px;
+    min-height: 100px;
     line-height: 100px;
     text-align: center;
     border-bottom: 1px solid grey;
@@ -260,6 +260,11 @@ footer
 /***************/
 /* L A Y O U T */
 /***************/
+
+#loading_wrapper
+    {width: 800px;
+    text-align: center;
+    clear: both;}
 
 #blog-content
     {position: absolute;
