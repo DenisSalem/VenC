@@ -21,7 +21,7 @@ _ftp_ du champ _path_ en indiquant le chemin de destination où sera
 copié le contenu de votre blog, sur le serveur en ligne.
 
 __Attention : soyez vigilant en renseignant le champ _ftp_ qui détermine
-le chemin de destination. Au moment de l'exporation en ligne, VenC
+le chemin de destination. Au moment de l'exportation en ligne, VenC
 efface le contenu de ce répertoire ! Assurez de savoir ce que vous
 faites !__
 

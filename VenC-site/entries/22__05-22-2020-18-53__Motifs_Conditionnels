@@ -165,3 +165,13 @@ En outre la fonction teste si le fil de publication courant est un flux RSS ou A
 - __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
 
 Ce motif n'a pas de variable contextuelles.
+
+## .:Escape:: .:IfInfiniteScrollEnabled::string&#95;1[::string&#95;2]:. ::EndEscape:.
+
+Permet de tester si la variable __disable&#95;infinite&#95;scroll__ est définit 
+dans le fichier de configuration principal et, si c'est le cas, quel en est la valeur booléenne.
+
+- __string&#95;1__ : Texte retourné si la variable testée vaut __True__.
+- __string&#95;2__ : Texte retourné si la variable testée vaut __False__ ou
+si elle n'est pas définit. Si le second argument est absent le motif est ignoré et supprimé.
+
