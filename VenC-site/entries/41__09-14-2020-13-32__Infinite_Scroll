@@ -1,0 +1,48 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+title: Défilement infini
+chapter: 4.6.3.1
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+Ce module javascript permet de charger automatiquement les pages du blog
+quand vous arrivez à la fin de la page courante.
+
+## Inclure le défilement infini dans votre page
+
+Pour pouvoir utiliser ce module vous devez inclure dans le fichier
+__header.html__ de votre thème deux scripts : 
+
+- __VenC-Scripts-Bootstrap-x.y.z.js__ : Ce script est obligatoire pour faire
+fonctionner n'importe quel module.
+- __VenC-Infinite-Scroll-x.y.z.js__ : Il s'agit du script permettant le défilement infini.
+Il doit être inclu __après__ VenC-Scripts-Bootstrap.
+
+Pour connaitre la version disponible de ces scripts sur votre système pous pouvez
+jeter un oeil au répertoire où ceux là sont normalement installés.
+
+> ls ~/.local/share/VenC/themes_assets/
+
+Une bonne façon de faire est d'inclure ces deux scripts de la façon suivante : 
+
+.:CodeHighlightInclude::::HTML::False::infinite-scroll-1:.
+
+- __IfInThread__ permet de n'inclure le script que si le contexte l'exige,
+ce qui permet de ne pas alourdir la page inutilement. Si dans votre thème
+vous prévoyez de n'utiliser que le module de défilement infini alors vous
+pouvez déplacer le code incluant VenC-Scripts-Bootstrap dans le premier argument
+de __IfInThread__.
+- Si vous prévoyez de distribuer votre thème le pattern __IfInfiniteScrollEnabled__
+permet d'activer / désactiver l'inclusion du module depuis le fichier de
+configuration principal de votre blog à l'aide de la variable booléenne __disable_infinite_scroll__.
+
+## Inclure le défilement infini dans votre thème.
+
+Il y a deux façon de procéder :
+
+- Vous pouvez copier le module et sa dépendance dans le repertoire assets
+de votre theme depuis __~/.local/share/VenC/themes_assets__
+- Vous pouvez définir [un fichier de configuration de thème](/Configuration-d-un-theme/)
+dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
+voir être exporté pendant la génération de votre blog.
