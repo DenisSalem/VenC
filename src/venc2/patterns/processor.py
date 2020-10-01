@@ -237,6 +237,7 @@ class ProcessedString():
         
     def replace_needles(self, in_entry=False):
         meta_escapes = []
+           
         if in_entry or len(self.keep_appart_from_markup_indexes):            
             while "Missings triplet is not empty":                
                 missings = []
@@ -292,6 +293,7 @@ class ProcessedString():
         # After markup langage/needles processing done, indexes are messed up.
         # This is the last time entry content is preprocessed, so it must
         # handle escapes pattern now.
+            
         self.fix_indexes(meta_escapes)
         
     def fix_indexes(self, meta_escapes=[]):
@@ -417,12 +419,12 @@ class Processor():
         if lo == 0 and lc == 0:
             bop = pre_processed.bop
             bcp = pre_processed.bcp
+            
+            # TODO: Investigate optimisation. Use "replace" once on a large string, or use multiple calls on tiny substrings?
             for i in range(0, len(pre_processed.bop)):
                 string = string[:bop[i]]+(string[bop[i]:bcp[i]].replace("\x1B\x1B","::"))+string[bcp[i]:]
-            
-            op, cp = sorted(op+pre_processed.bop), sorted(cp+pre_processed.bcp)
-            pre_processed.bop, pre_processed.bcp = [], []
-            pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.string = len(op), len(cp), op, cp, string
+                
+            pre_processed.string = string
             return
         
         self.current_input_string = string
@@ -445,7 +447,9 @@ class Processor():
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
             current_pattern = fields.pop(0)
             
-            if (not current_pattern == "Escape") and (not current_pattern in self.blacklist):
+            not_current_pattern_blacklisted = (not current_pattern in self.blacklist)
+            
+            if (not current_pattern == "Escape") and not_current_pattern_blacklisted:
                 if current_pattern in self.keep_appart_from_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
@@ -459,6 +463,7 @@ class Processor():
                         self.ignore_patterns = False
                         self.include_file_called = False
             
+                # Why the fuck there is only one pattern here?
                 elif current_pattern == "SetColor":
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         False,
@@ -471,21 +476,35 @@ class Processor():
                 
                 string = string[0:vop] + new_chunk + string[vcp+2:]
                 self.current_input_string = string
-                        
-                offset = len(new_chunk) - (vcp + 2 - vop)
+                
+                len_new_chunk = len(new_chunk)
+                offset = len_new_chunk - (vcp + 2 - vop)
+            
+                # Adjust indexes
                 op = [ (v+offset if v > vop else v) for v in op]
                 cp = [ (v+offset if v > vcp else v) for v in cp]
+                
+
                 pre_processed.bop = [ (v+offset if v > vop else v) for v in pre_processed.bop]
                 pre_processed.bcp = [ (v+offset if v > vcp else v) for v in pre_processed.bcp]
 
+                # remove indexes related to physically erased blacklisted  pattern
+                pre_processed_bop = pre_processed.bop
+                pre_processed_bop_pop = pre_processed_bop.pop
+                pre_processed_bcp_pop = pre_processed.bcp.pop
+                to_remove = [ k for k in range(0, len(pre_processed_bop)) if pre_processed_bop[k] + offset < 0]
+                for to_remove_index in to_remove:
+                    pre_processed_bop_pop(to_remove_index)
+                    pre_processed_bcp_pop(to_remove_index)
+
                 op.pop(i)
                 cp.pop(j)
-
+                
             elif current_pattern == "Escape":
                 op.pop(i)
                 cp.pop(j)
 
-            else:
+            else:                  
                 string = string[:op[i]]+(string[op[i]:cp[j]].replace("::","\x1B\x1B"))+string[cp[j]:]
                 pre_processed.bop.append( op.pop(i) )
                 pre_processed.bcp.append( cp.pop(j) )

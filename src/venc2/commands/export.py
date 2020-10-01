@@ -158,12 +158,12 @@ def process_non_contextual_patterns(pattern_processor, theme):
             pattern_processor.process(pp)
             pp.replace_needles()
     
-    
     pattern_processor.process(theme.header)
     theme.header.replace_needles()
 
-    pattern_processor.process(theme.footer)
+    pattern_processor.process(theme.footer)    
     theme.footer.replace_needles()
+    
     pattern_processor.process(theme.rss_header) 
     theme.rss_header.replace_needles()
     pattern_processor.process(theme.rss_footer)
