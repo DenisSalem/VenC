@@ -814,7 +814,7 @@ class DataStore:
             
         if not key in entry.html_for_metadata:
             try:
-                l = getattr(entry, argv[0].strip())
+                l = getattr(entry, argv[0])
                 if type(l) == dict:
                     raise GenericMessage(messages.entry_metadata_is_not_a_list.format(argv[0], entry.id))
                     
@@ -823,6 +823,9 @@ class DataStore:
                 
             except AttributeError as e:
                 raise GenericMessage(messages.entry_has_no_metadata_like.format(argv[0]))
+                
+            if not len(argv[2]):
+                argv[2] = ' '
                 
             entry.html_for_metadata[key] = argv[2].join([
                  argv[1].format(**{"value": item.strip()}) for item in l

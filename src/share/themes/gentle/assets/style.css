@@ -218,8 +218,12 @@ header a:hover
 /***************/
 
 #__VENC_LOADING__
-    {display: block;
-    margin: auto;}
+    {position: fixed;
+    bottom: 1em;
+    left: 50%;
+    display: none;
+    transform: translateX(-50%);
+    transition: opacity 0.5s ease;}
 
 footer
   {padding: 1em;

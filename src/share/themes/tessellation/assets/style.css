@@ -184,7 +184,11 @@ footer #pagesList li, #previous, #next
     
 #next
     {float: right;}
-
+    
+#__VENC_LOADING__
+    {display: none;
+    margin: auto;}
+    
 /***************/
 /* L A Y O U T */
 /***************/
