@@ -32,15 +32,13 @@ var VENC_INFINITE_SCROLL = {
 	},
 	onLoadImage: function(img) {},
 	onLoadEntry: function(entry){
-		entry.style.transition = "opacity 0.5s ease";
 		entry.style.opacity = "1.0";
 	},
-	loading : function() {
-		this.loading_image.style.transition = "opacity 0.5s ease";
-        this.loading_image.style.opacity = "1";
+	loading : function(loading_image) {
+        loading_image.style.opacity = "1.0";
     },
-	idle : function() {
-        this.loading_image.style.opacity = "0";
+	idle : function(loading_image) {
+        loading_image.style.opacity = "0";
 	},
 	getPageHook : function() {
 		v = document.querySelectorAll('[data-venc-api-infinite-scroll-hook]')
@@ -150,12 +148,12 @@ function VENC_INFINITE_SCROLL_RUN() {
 	}
 	if (VENC_INFINITE_SCROLL.queue == 0) {
         if (VENC_INFINITE_SCROLL.loading_image != undefined) {
-            VENC_INFINITE_SCROLL.idle();
+            VENC_INFINITE_SCROLL.idle(VENC_INFINITE_SCROLL.loading_image);
         }
 	}
 	else {
         if (VENC_INFINITE_SCROLL.loading_image != undefined) {
-            VENC_INFINITE_SCROLL.loading();
+            VENC_INFINITE_SCROLL.loading(VENC_INFINITE_SCROLL.loading_image);
         }
 	}
 	currentColumns = document.getElementsByClassName("__VENC_COLUMN__");
