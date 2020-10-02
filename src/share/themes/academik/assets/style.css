@@ -266,6 +266,14 @@ footer
     text-align: center;
     clear: both;}
 
+#__VENC_LOADING__
+    {position: fixed;
+    bottom: 1em;
+    left: 50%;
+    display: none;
+    transform: translateX(-50%);
+    transition: 0.5s ease opacity;}
+
 #blog-content
     {position: absolute;
     left: calc(50% - 250px);
