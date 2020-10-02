@@ -417,14 +417,7 @@ class Processor():
             pre_processed.backup = (list(op), list(cp), lo, lc, str(pre_processed.string))
 
         if lo == 0 and lc == 0:
-            bop = pre_processed.bop
-            bcp = pre_processed.bcp
-            
-            # TODO: Investigate optimisation. Use "replace" once on a large string, or use multiple calls on tiny substrings?
-            for i in range(0, len(pre_processed.bop)):
-                string = string[:bop[i]]+(string[bop[i]:bcp[i]].replace("\x1B\x1B","::"))+string[bcp[i]:]
-                
-            pre_processed.string = string
+            pre_processed.string = pre_processed.string.replace("\x1B\x1B", "::")
             return
         
         self.current_input_string = string
@@ -483,19 +476,6 @@ class Processor():
                 # Adjust indexes
                 op = [ (v+offset if v > vop else v) for v in op]
                 cp = [ (v+offset if v > vcp else v) for v in cp]
-                
-
-                pre_processed.bop = [ (v+offset if v > vop else v) for v in pre_processed.bop]
-                pre_processed.bcp = [ (v+offset if v > vcp else v) for v in pre_processed.bcp]
-
-                # remove indexes related to physically erased blacklisted  pattern
-                pre_processed_bop = pre_processed.bop
-                pre_processed_bop_pop = pre_processed_bop.pop
-                pre_processed_bcp_pop = pre_processed.bcp.pop
-                to_remove = [ k for k in range(0, len(pre_processed_bop)) if pre_processed_bop[k] + offset < 0]
-                for to_remove_index in to_remove:
-                    pre_processed_bop_pop(to_remove_index)
-                    pre_processed_bcp_pop(to_remove_index)
 
                 op.pop(i)
                 cp.pop(j)
@@ -506,8 +486,8 @@ class Processor():
 
             else:                  
                 string = string[:op[i]]+(string[op[i]:cp[j]].replace("::","\x1B\x1B"))+string[cp[j]:]
-                pre_processed.bop.append( op.pop(i) )
-                pre_processed.bcp.append( cp.pop(j) )
+                op.pop(i)
+                cp.pop(j)
 
             lo -= 1
             lc -= 1
