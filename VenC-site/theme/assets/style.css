@@ -91,7 +91,8 @@ code
 	width: 74%;
 	top:0%;
 	left:25%;
-	min-height: 100%;}
+	min-height: 100%;
+    padding-bottom: 1em;}
 
 #content h1,
 #content h2,
@@ -105,3 +106,6 @@ code
 
 #content ul
 	{list-style-type: square;}
+
+.__VENC_TREE_BUTTON_DISABLED__
+    {margin-left:0.5em;}

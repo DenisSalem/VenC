@@ -101,7 +101,7 @@ def handle_markup_language_error(message, line=None, string=None):
 
 def parse_markup_language(string, markup_language, ressource):
     if markup_language == "Markdown":
-        string = markdown.markdown(string)
+        string = markdown.markdown(string, extras=["header-ids"])
         
     elif markup_language == "reStructuredText":
         string = publish_parts(string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']

@@ -206,7 +206,6 @@
     TODO | Access {count} and {weight} from LeavesForEntrycategories.
     TODO | Add Yaml comments in blog configuration.
     TODO | Add nice 404 errors page.
-    TODO | Improve Feed.
     TODO | Warn about entry title duplicates.
     TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add configuration field type check.
