@@ -35,14 +35,113 @@ pouvez déplacer le code incluant VenC-Scripts-Bootstrap dans le premier argumen
 de __IfInThread__.
 - Si vous prévoyez de distribuer votre thème le pattern __IfInfiniteScrollEnabled__
 permet d'activer / désactiver l'inclusion du module depuis le fichier de
-configuration principal de votre blog à l'aide de la variable booléenne __disable_infinite_scroll__.
+configuration principal de votre blog à l'aide de la variable booléenne __disable&#95;infinite&#95;scroll__.
 
 ## Inclure le défilement infini dans votre thème.
 
 Il y a deux façon de procéder :
 
 - Vous pouvez copier le module et sa dépendance dans le repertoire assets
-de votre theme depuis __~/.local/share/VenC/themes_assets__
+de votre theme depuis __~/.local/share/VenC/themes_assets__. C'est cette méthode qui est recommandé.
 - Vous pouvez définir [un fichier de configuration de thème](/Configuration-d-un-theme/)
 dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
 voir être exporté pendant la génération de votre blog.
+
+## Structure d'une page
+
+Pour que le défilement infini fonctionne votre theme doit être structuré
+d'une certaine manière que nous allons détailler ici.
+
+## Customiser le défilement infini
+
+VenC fourni une API pour personnaliser le défilement infini. Pour cela,
+vous pouvez modifier les attributs de la variable globale __VENC&#95;INFINITE&#95;SCROLL__
+
+### hideVenCNavigation
+
+.:CodeHighlight::Javascript::False::hideVenCNavigation: true:.
+
+Normalement, les liens de navigation (numéro de page, page suivante/précédente)
+contenu dans l'élément ayant l'id __&#95;&#95;VENC&#95;NAVIGATION&#95;&#95;__
+sont désactivés pour le défilement infini. Mais il est possible de ne pas
+le faire et laisser ces éléments visibles en changeant la valeur de cette variable.
+
+### interval
+
+.:CodeHighlight::Javascript::False::interval: 250:.
+
+Cette variable définit le temps, en milliseconde, entre chaque test
+visant à savoir si la fin de la page a été atteinte et donc s'il faut
+charger la suite. La valeur par défaut est 250 milliseconde.
+
+### imageDefaultSetup
+
+.:CodeHighlight::Javascript::False::imageDefaultSetup: function(img) {}:.
+
+Cette méthode ne fait rien par défaut, mais permet si vous souhaitez la
+redéfinir de configurer l'était initial des images dans une publication au
+moment où celle-ci est chargé dans le DOM.
+
+### entryDefaultSetup
+
+.:CodeHighlight::Javascript::False::
+entryDefaultSetup: function(entry) {
+    entry.style.opacity = "0.0";
+}
+:.
+
+Cette méthode permet d'initialiser l'état d'une publication au moment ou elle est chargé
+dans le DOM. Par défaut les publications sont invisibilisées.
+
+### onLoadImage
+
+.:CodeHighlight::Javascript::False::onLoadImage : function(img) {}:.
+
+Par défaut cette fonction ne fait rien de particulier, mais permet si
+vous souhaitez la redéfinir de configurer l'état ou l'animation d'apparition
+d'une image au moment où son téléchargement est terminé.
+
+### onLoadEntry
+
+.:CodeHighlight::Javascript::False::
+onLoadEntry : function(entry){
+    entry.style.transition = "opacity 0.5s ease";
+    entry.style.opacity = "1.0";
+}
+:.
+
+### dontWait
+
+.:CodeHighlight::Javascript::False::dontWait: false:.
+
+Par défaut VenC attend que la page en cours de chargement soit entièrement téléchargé avant de récupérer la suivante.
+Il est possible en changeant la valeur de cette variable à True, de charger plusieurs page en même temps,
+ça n'est cependant pas recommandé.
+
+### loading
+
+Quand le chargement d'une page est en cours, le script rend par défaut
+visible l'icone de chargement de la page, si l'élément HTML ayant pour id
+__&#95;&#95;VENC&#95;LOADING&#95;&#95;__ existe. Cet élément est passé
+en argument à la fonction suivante, qu'il est possible de
+redéfinir.
+
+.:CodeHighlight::Javascript::False::
+loading : function(loading_image) {
+    loading_image.style.opacity = "1.0";
+}
+:.
+
+### idle
+
+Quand le chargement est inactif, le script rend par défaut
+invisible l'icone de chargement de la page, si l'élément HTML ayant pour id
+__&#95;&#95;VENC&#95;LOADING&#95;&#95;__ existe. Cet élément est passé
+en argument à la fonction suivante, qu'il est possible de
+redéfinir.
+
+.:CodeHighlight::Javascript::
+idle : function(loading_image) {
+    loading_image.style.opacity = "0.0";
+}
+:.

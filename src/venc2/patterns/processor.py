@@ -127,8 +127,6 @@ class ProcessedString():
     def __init__(self, string, ressource, process_escapes=False, meta_escapes=[]):
         self.open_pattern_pos, self.close_pattern_pos = get_markers_indexes(string)
         if len(meta_escapes):
-            for m in meta_escapes:
-                print(string[m[0]:m[1]])
             self.open_pattern_pos = [ v for v in self.open_pattern_pos if index_not_in_range(v, meta_escapes, False)]
             self.close_pattern_pos = [ v for v in self.close_pattern_pos if index_not_in_range(v, meta_escapes, False)]
         
