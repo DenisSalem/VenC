@@ -75,7 +75,7 @@ code
 
 .__VENC_PYGMENTIZE_WRAPPER__ > div pre,
 code
-	{overflow: hidden;
+	{overflow: auto;
 	margin-top: 0px;
 	margin-left: 15px;
 	margin-right: 15px;

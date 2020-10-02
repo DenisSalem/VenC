@@ -49,8 +49,44 @@ voir être exporté pendant la génération de votre blog.
 
 ## Structure d'une page
 
-Pour que le défilement infini fonctionne votre theme doit être structuré
+Pour que le défilement infini fonctionne votre thème doit être structuré
 d'une certaine manière que nous allons détailler ici.
+
+_Les exemples ci-dessous constituent un code minimal pour faire fonctionner le défilement infini.
+Il manque, évidemment, de nombreuse chose pour que votre thème soit pleinement opérationnel._
+
+### header.html
+Comme nous l'avons vu, il faut que les scripts soient inclus dans le fichier __header.html__.
+Idéalement de la façon suivante.
+
+.:CodeHighlightInclude::html::False::inf-scroll-header-html:.
+
+### entry.html
+
+Chaque bloc contenant une publication __doit__ avoir la _class_ "_entry_".
+Sinon, le script de défilement infini n'est pas capable de reconnaitre
+les publications qu'il doit charger.
+
+.:CodeHighlightInclude::html::False::inf-scroll-entry-html:.
+
+### footer.html
+
+Ici il y a trois éléments à considérer qui devrait se trouver dans __footer.html__
+mais qui, si votre design de mise en page l'exige pourrait se trouver dans
+__header.html__. Chaque élément ne devrait être présent qu'une et une seule fois dans la page.
+
+- __&#95;&#95;VENC&#95;LOADING&#95;&#95;__ : Cet élément est optionnel,
+dans notre exemple, il s'agit d'une image, mais ce pourrait être
+n'importe quoi d'autre faisant office d'animation de chargement.
+- __&#95;&#95;VENC&#95;NAVIGATION&#95;&#95;__ : Il s'agit de l'élément
+contenant les liens de navigation. Quand le défilement infini est activé,
+par défaut cet élément est rendu invisible.
+- __data-venc-api-infinite-scroll-hook__ : L'élément permettant au script de connaitre
+la page suivante, n'est pas nécessairement un liens, mais dans la pratique, c'est plus commode que ce soit le cas.
+Ce qui compte c'est qu'il ai l'attribut __data-venc-api-infinite-scroll-hook__ dont la valeur
+correspond au chemin de la page suivante. Cette valeur est accessible avec le pattern __GetNextPage__.
+
+.:CodeHighlightInclude::html::False::inf-scroll-footer-html:.
 
 ## Customiser le défilement infini
 
@@ -140,7 +176,7 @@ __&#95;&#95;VENC&#95;LOADING&#95;&#95;__ existe. Cet élément est passé
 en argument à la fonction suivante, qu'il est possible de
 redéfinir.
 
-.:CodeHighlight::Javascript::
+.:CodeHighlight::Javascript::False::
 idle : function(loading_image) {
     loading_image.style.opacity = "0.0";
 }

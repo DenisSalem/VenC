@@ -55,14 +55,14 @@ class CodeHighlight:
         try:
             name = "venc_source_"+argv[0].replace('+','Plus')
 
-            lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=True)
+            lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=False)
 
             formatter = pygments.formatters.HtmlFormatter(linenos=(True if argv[1]=="True" else False), cssclass=name)
             if not included_file:
                 code = "::".join(argv[2:])
             else:
                 code = argv[2]
-                
+                                
             result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
             css  = formatter.get_style_defs()
 
