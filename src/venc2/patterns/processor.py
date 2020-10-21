@@ -29,8 +29,6 @@ from venc2.prompt import notify
 from venc2.prompt import die
 from venc2.helpers import remove_by_value
 from venc2.l10n import messages
-from venc2.patterns.exceptions import EntryAttributeError
-from venc2.patterns.exceptions import EntryIdentifierError
 from venc2.patterns.exceptions import IllegalUseOfEscape
 from venc2.patterns.exceptions import MalformedPatterns
 from venc2.patterns.exceptions import UnknownContextual
@@ -321,11 +319,6 @@ class Processor():
         except KeyError as e:
             output = self.handle_error(
                 messages.unknown_pattern.format(pattern),
-            )
-
-        except EntryIdentifierError as e:
-            output = self.handle_error(
-                messages.cannot_retrieve_entry_attribute_because_wrong_id,
             )
             
         except UnknownContextual as e:

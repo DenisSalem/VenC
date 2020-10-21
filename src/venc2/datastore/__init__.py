@@ -146,8 +146,8 @@ class DataStore:
     
         # build chapters index
         chapters_sub_folders = path_chapters_sub_folders
-        #DO: Might be not safe, must test level if is actually an int. Test as well the whole sequence.
-
+        
+        #TODO: Might be not safe, must test level if is actually an int. Test as well the whole sequence.
         for chapter in sorted(self.raw_chapters.keys(), key = lambda x : int(x.replace('.', ''))):
             top = self.chapters_index
             index = ''
@@ -657,7 +657,26 @@ class DataStore:
         )
 
     # TODO : Cache Result
+    
+    # ~ def get_chapter_attribute_by_index(self, argv=list()):
+        # ~ if len(argv) < 2:
+            # ~ raise PatternMissingArguments(2, len(argv))
+        
+        # ~ key = ''.join(argv[:2])
+        # ~ if not key in self.cache_get_chapter_attribute.keys():
+            # ~ try:
+                # ~ return getattr(self.raw_chapters[argv[1]], argv[0])
+            
+            # ~ except KeyError as e:
+            # ~ except AttributeError as e:
+                
+        # ~ return self.cache_get_chapter_attribute[key]
+
+
     def get_entry_attribute_by_id(self, argv=list()):
+        if len(argv) < 2:
+            raise PatternMissingArguments(2, len(argv))
+            
         key = ''.join(argv[:2])
         if not key in self.cache_get_entry_attribute_by_id.keys():
             try:
@@ -672,12 +691,18 @@ class DataStore:
                 )
                 
             except AttributeError as e:
-                notify(messages.entry_has_no_metadata_like.format(argv[0]), color="YELLOW")
-                self.cache_get_entry_attribute_by_id[key] = ''
+                raise PatternInvalidArgument(
+                    "attribute",
+                    argv[0],
+                    messages.entry_has_no_metadata_like.format(argv[0])
+                )
 
             except IndexError:
-                from venc2.patterns.exceptions import EntryIdentifierError
-                raise EntryIdentifierError(argv[1])
+                raise PatternInvalidArgument(
+                    "id",
+                    argv[1],
+                    messages.cannot_retrieve_entry_attribute_because_wrong_id
+                )
             
         return self.cache_get_entry_attribute_by_id[key]
             

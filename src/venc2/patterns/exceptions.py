@@ -27,16 +27,7 @@ class IllegalUseOfEscape(Exception):
     def __init__(self, ressource):
         self.ressource = ressource
         pass
-
-
-class EntryAttributeError(Exception):
-    def __init__(self, attribute_name):
-        self.attribute_name = attribute_name
-        
-class EntryIdentifierError(Exception):
-    def __init__(self, identifier):
-        self.attribute_name = identifier
-                
+               
 class MalformedPatterns(Exception):
     def __init__(self, too_many_opening_symbols, escape, ressource):
         self.too_many_opening_symbols = too_many_opening_symbols

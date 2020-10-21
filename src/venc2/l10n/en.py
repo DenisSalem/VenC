@@ -121,4 +121,4 @@ class Messages:
     item_uploaded_to_server = "Uploaded to server: "
     cannot_retrieve_entry_attribute_because_wrong_id = "Cannot retrieve entry attribute because the given id is unknown."
     id_must_be_an_integer = "Identifier must be an integer."
-
+    chapter_has_a_wrong_index = "Le format de l'index du chapitre n'est pas correct"
