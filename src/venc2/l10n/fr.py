@@ -119,3 +119,5 @@ class Messages:
     item_uploaded_to_server = "Transféré sur le serveur: "
     cannot_retrieve_entry_attribute_because_wrong_id = "Impossible de récupérer l'attribut de la publication parce que l'id renseigné est inconnu."
     id_must_be_an_integer = "L'identifiant doit-être un nombre entier."
+    there_is_no_chapter_with_index = "Il n'y a pas de chapitre ayant l'index \"{0}\"."
+    chapter_has_no_attribute_like = "Le chapitre n'a pas d'attribut \"{0}\"."

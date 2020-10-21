@@ -655,22 +655,30 @@ class DataStore:
         return self.entries[self.requested_entry_index].date.strftime(
             self.blog_configuration["path"]["archives_directory_name"]
         )
-
-    # TODO : Cache Result
     
-    # ~ def get_chapter_attribute_by_index(self, argv=list()):
-        # ~ if len(argv) < 2:
-            # ~ raise PatternMissingArguments(2, len(argv))
+    def get_chapter_attribute_by_index(self, argv=list()):
+        if len(argv) < 2:
+            raise PatternMissingArguments(2, len(argv))
         
-        # ~ key = ''.join(argv[:2])
-        # ~ if not key in self.cache_get_chapter_attribute.keys():
-            # ~ try:
-                # ~ return getattr(self.raw_chapters[argv[1]], argv[0])
+        key = ''.join(argv[:2])
+        if not key in self.cache_get_chapter_attribute.keys():
+            try:
+                self.cache_get_chapter_attribute[key] = getattr(self.raw_chapters[argv[1]], argv[0])
             
-            # ~ except KeyError as e:
-            # ~ except AttributeError as e:
+            except KeyError as e:
+                raise PatternInvalidArgument(
+                    "index",
+                    argv[1],
+                    messages.there_is_no_chapter_with_index.format(argv[1])
+                )
+            except AttributeError as e:
+                raise PatternInvalidArgument(
+                    "attribute",
+                    argv[0],
+                    messages.chapter_has_no_attribute_like.format(argv[0])
+                )
                 
-        # ~ return self.cache_get_chapter_attribute[key]
+        return self.cache_get_chapter_attribute[key]
 
 
     def get_entry_attribute_by_id(self, argv=list()):
