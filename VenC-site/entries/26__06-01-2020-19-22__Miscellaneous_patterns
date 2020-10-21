@@ -86,10 +86,10 @@ qui contiendrait
 
 .:CodeHighlight::Text::False::
 Voilà les choses qu'il faut que je fasse avant de mourrir
- - venc_arg_1
- - venc_arg_2
- - venc_arg_3
- - venc_arg_4
+ - {venc_arg_1}
+ - {venc_arg_2}
+ - {venc_arg_3}
+ - {venc_arg_4}
 :.
 
 En utilisant le motif __IncludeFile__ comme suit

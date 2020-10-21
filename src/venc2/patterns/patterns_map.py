@@ -56,6 +56,7 @@ class PatternsMap():
                 "GetAuthorDescription" :datastore.get_author_description,
                 "GetBlogLicense" :      datastore.get_blog_license,
                 "GetBlogURL" :          datastore.get_blog_url,
+                "GetEntryAttributeByID":datastore.get_entry_attribute_by_id,
                 "GetBlogLanguage" :     datastore.get_blog_language,
                 "GetAuthorEmail" :      datastore.get_author_email,
 

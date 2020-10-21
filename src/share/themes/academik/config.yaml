@@ -7,4 +7,5 @@ override:
         atom_file_name: 'atom_feed.xml'
         rss_file_name: 'rss_feed.xml'
         
-assets_dependencies: ['feed-logo.png', 'VenC-Scripts-Bootstrap-0.0.0.js', 'VenC-Tree-0.1.0.js', 'VenC-Infinite-Scroll-1.2.0.js']
+assets_dependencies: ['feed-logo.png', 'VenC-Scripts-Bootstrap-0.0.0.js', 'VenC-Tree-0.1.0.js', 'VenC-Infinite-Scroll-1.2.0.js', 'VenC_nsfw.png']
+includes_dependencies: ['nsfw.html']

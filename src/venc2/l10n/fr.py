@@ -117,3 +117,5 @@ class Messages:
     illegal_use_of_escape = "Usage illégal d'un ou plusieur motif d'échappement dans le fichier {0}."
     item_deleted_from_server = "Supprimé du serveur: "
     item_uploaded_to_server = "Transféré sur le serveur: "
+    cannot_retrieve_entry_attribute_because_wrong_id = "Impossible de récupérer l'attribut de la publication parce que l'id renseigné est inconnu."
+    id_must_be_an_integer = "L'identifiant doit-être un nombre entier."

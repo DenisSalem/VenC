@@ -119,3 +119,6 @@ class Messages:
     illegal_use_of_escape = "illegal use of one or more escape pattern in {0}."
     item_deleted_from_server = "Deleted from server: "
     item_uploaded_to_server = "Uploaded to server: "
+    cannot_retrieve_entry_attribute_because_wrong_id = "Cannot retrieve entry attribute because the given id is unknown."
+    id_must_be_an_integer = "Identifier must be an integer."
+

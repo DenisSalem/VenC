@@ -29,6 +29,8 @@ from venc2.prompt import notify
 from venc2.prompt import die
 from venc2.helpers import remove_by_value
 from venc2.l10n import messages
+from venc2.patterns.exceptions import EntryAttributeError
+from venc2.patterns.exceptions import EntryIdentifierError
 from venc2.patterns.exceptions import IllegalUseOfEscape
 from venc2.patterns.exceptions import MalformedPatterns
 from venc2.patterns.exceptions import UnknownContextual
@@ -299,7 +301,6 @@ class ProcessedString():
 
 class Processor():
     def __init__(self):
-        self.debug                      = False
         self.functions                  = {}
         self.current_input_string       = ''
         self.ressource                  = ''
@@ -319,69 +320,52 @@ class Processor():
 
         except KeyError as e:
             output = self.handle_error(
-                e,
                 messages.unknown_pattern.format(pattern),
-                ",;"+pattern+";;"+";;".join(argv)+";,",
-                error_origin = [self.current_input_string[self.vop:self.vcp]]
             )
 
+        except EntryIdentifierError as e:
+            output = self.handle_error(
+                messages.cannot_retrieve_entry_attribute_because_wrong_id,
+            )
+            
         except UnknownContextual as e:
                 output = self.handle_error(
-                    e,
                     messages.unknown_contextual.format(e),
-                    ",;"+pattern+";;"+";;".join(argv)+";,",
-                    error_origin = "{0["+str(e)[1:-1]+']}'
                 )
         
         except PatternMissingArguments as e:
             output = self.handle_error(
-                e,
                 pattern+": "+e.info,
-                ",;"+pattern+";;"+";;".join(argv)+";,",
-                error_origin = [self.current_input_string[self.vop:self.vcp]]
             )
 
         except PatternInvalidArgument as e:
             output = self.handle_error(
-                e,
                 messages.wrong_pattern_argument.format(e.name, e.value, pattern)+' '+e.message,
-                ",;"+pattern+";;"+";;".join(argv)+";,",
-                error_origin = [self.current_input_string[self.vop:self.vcp]]
             )
 
         except GenericMessage as e: 
             output = self.handle_error(
-                e,
                 e.message,
-                ",;"+pattern+";;"+";;".join(argv)+";,",
-                error_origin = [self.current_input_string[self.vop:self.vcp]]
             )
 
         # might be removed
         except FileNotFoundError as e:
             output = self.handle_error(
-                e,
                 messages.file_not_found.format(e.filename),
-                ",;"+pattern+";;"+";;".join(argv)+";,",
-                error_origin = [e.filename ]
             )
 
         return str(output)
 
     # Print out notification to user and replace erroneous pattern
-    def handle_error(self, exception, error, default_output, error_origin = list()):
+    def handle_error(self, error):
         extra= ""
-        if self.debug:
-            raise exception
 
         err = get_formatted_message(error, "RED")+"\n"
         if self.ressource != str():
             err = messages.in_ressource.format(self.ressource)+'\n'+err
         
-        if len(error_origin):
-            extra+=(''.join(self.current_input_string))
-            for origin in error_origin:
-                extra = highlight_value(extra, origin)
+        extra+=(''.join(self.current_input_string))
+        extra = highlight_value(extra, self.current_input_string[self.vop:self.vcp+2])
         die(err, "RED", extra)
 
     def set_function(self, key, function):

@@ -72,6 +72,7 @@ class DataStore:
         self.html_categories_tree = {}
         self.html_categories_leaves = {}
         self.html_blog_archives = {}
+        self.cache_get_entry_attribute_by_id = {}
         self.generation_timestamp = datetime.datetime.now()
         self.raw_chapters = {}
         self.chapters_index = []
@@ -102,6 +103,7 @@ class DataStore:
                     self.path_encoding
                 ))
 
+        # Might happen during Entry creation.
         except MalformedPatterns as e:
             from venc2.helpers import handle_malformed_patterns
             handle_malformed_patterns(e)
@@ -654,6 +656,31 @@ class DataStore:
             self.blog_configuration["path"]["archives_directory_name"]
         )
 
+    # TODO : Cache Result
+    def get_entry_attribute_by_id(self, argv=list()):
+        key = ''.join(argv[:2])
+        if not key in self.cache_get_entry_attribute_by_id.keys():
+            try:
+                entry = [entry for entry in self.entries if entry.id == int(argv[1])][0]
+                self.cache_get_entry_attribute_by_id[key] = getattr(entry, argv[0])
+            
+            except ValueError:
+                raise PatternInvalidArgument(
+                    "id",
+                    argv[1],
+                    messages.id_must_be_an_integer
+                )
+                
+            except AttributeError as e:
+                notify(messages.entry_has_no_metadata_like.format(argv[0]), color="YELLOW")
+                self.cache_get_entry_attribute_by_id[key] = ''
+
+            except IndexError:
+                from venc2.patterns.exceptions import EntryIdentifierError
+                raise EntryIdentifierError(argv[1])
+            
+        return self.cache_get_entry_attribute_by_id[key]
+            
     def get_entry_url(self, argv=list()):
         if self.blog_configuration["disable_single_entries"]:
             return ''
