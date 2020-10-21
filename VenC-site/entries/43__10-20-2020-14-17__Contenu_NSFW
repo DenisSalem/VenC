@@ -1,0 +1,27 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+title: Contenu NSFW
+chapter: 4.6.4
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+Comme vous êtes un filou, vous pourriez vouloir mettre du contenu [NSFW]() sur votre site.
+Mais vous êtes un filou responsable ; vous voulez avertir les visiteurs de votre site que celui-ci
+contient des choses à ne pas regarder en famille, ou au travail avec les collègues autour.
+
+Les thèmes par défaut de VenC propose l'utilisation d'un fichier à inclure avec le pattern
+__IncludeFile__. Ce fichier c'est __nsfw.html__. Voilà comment il s'utilise :
+
+.:CodeHighlightInclude::HTML::False::nsfw-example:.
+
+Les paramètres important ici sont le second et le troisième argument,
+respectivement __nsfw.html__ et __.:Escape:: .:GetEntryID:. ::EndEscape:.__.
+
+- __nsfw.html__ : Il s'agit du fichier à inclure. Il contient le code HTML
+nécessaire pour cacher / révéler le contenu sensible.
+
+- __.:Escape:: .:GetEntryID:. ::EndEscape:.__ : Cet argument définit l'identifiant CSS du block html à cacher / révéler.
+Si vous souhaitez dissimuler une publication entière, le mieux c'est d'utiliser, comme ici, l'identifiant de la publication.
+
+Pour plus de détail sur le fonctionnement du pattern rendez-vous [ici](.:GetChapterAttributeByIndex::path::5.3:.#escape-includefileescapefilenamearg951arg952arg95n-endescape)

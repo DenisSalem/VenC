@@ -73,6 +73,7 @@ class DataStore:
         self.html_categories_leaves = {}
         self.html_blog_archives = {}
         self.cache_get_entry_attribute_by_id = {}
+        self.cache_get_chapter_attribute_by_index = {}
         self.generation_timestamp = datetime.datetime.now()
         self.raw_chapters = {}
         self.chapters_index = []
@@ -112,7 +113,7 @@ class DataStore:
 
         path_categories_sub_folders = self.blog_configuration["path"]["categories_sub_folders"]+'/'
         path_archives_directory_name = self.blog_configuration["path"]["archives_directory_name"]
-        path_chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
+        
         for entry_index in range(0, len(self.entries)):
             current_entry = self.entries[entry_index]
             if entry_index > 0:
@@ -145,14 +146,16 @@ class DataStore:
             self.update_chapters(current_entry)
     
         # build chapters index
-        chapters_sub_folders = path_chapters_sub_folders
-        
+        path_chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
+        path_chapter_folder_name = self.blog_configuration["path"]["chapter_directory_name"]
         #TODO: Might be not safe, must test level if is actually an int. Test as well the whole sequence.
+        
         for chapter in sorted(self.raw_chapters.keys(), key = lambda x : int(x.replace('.', ''))):
             top = self.chapters_index
             index = ''
             levels = [str(level) for level in chapter.split('.') if level != '']
             len_levels = len(levels)
+                    
             for i in range(0, len_levels):
                 l = levels[i]
                 if index == '':
@@ -166,18 +169,38 @@ class DataStore:
                     top = next(f).sub_chapters
                 
                 except StopIteration:
-                    try:
+                    if index in self.raw_chapters.keys():
+                        # TODO: Replace this shitty bloc by a function call building path
+                        try:
+                            path = "\x1a"+((path_chapters_sub_folders+'/' if path_chapters_sub_folders != '' else '')+path_chapter_folder_name).format(**{
+                                "chapter_name" : self.raw_chapters[index].title,
+                                "chapter_index" : index
+                            })
+                            try:
+                                if self.path_encoding == '':
+                                    path = unidecode.unidecode(path).replace(' ','-')
+                                    
+                                else:
+                                    path = urllib_parse_quote(path, encoding=self.path_encoding)
+                                    
+                            except UnicodeEncodeError as e:
+                                notify("\"{0}\": ".format(path_chapters_sub_folders)+str(e), color="YELLOW")
+                            
+                        except KeyError as e:
+                            from venc2.helpers import die
+                            die(messages.variable_error_in_filename.format(e))
+                            
                         top.append(
-                            Chapter(index, self.raw_chapters[index])
+                            Chapter(index, self.raw_chapters[index], path)
                         )
-                    except KeyError:
+                        self.raw_chapters[index].chapter = top[-1]
+                        
+                    else:
                         top.append(
-                            Chapter(index, '')
+                            Chapter(index, None, '')
                         )
                         top = top[-1].sub_chapters
-                        
-
-
+                    
         # Setup BlogArchives Data
         self.blog_archives = list()
         
@@ -450,34 +473,12 @@ class DataStore:
             
         path_encoding = self.path_encoding
         output = lo.format(**{"level" :level})
-        chapter_sub_folder = self.blog_configuration["path"]["chapters_sub_folders"]
-        chapter_folder_name = self.blog_configuration["path"]["chapter_directory_name"]
 
-        for sub_chapter in top:
-            try:
-                path = ((chapter_sub_folder+'/' if chapter_sub_folder != '' else '')+chapter_folder_name).format(**{
-                    "chapter_name" : sub_chapter.entry.title,
-                    "chapter_index" : sub_chapter.index
-                })
-                
-            except KeyError as e:
-                from venc2.helpers import die
-                die(messages.variable_error_in_filename.format(e))
-            
-            try:
-                if path_encoding == '':
-                    path = unidecode.unidecode(path).replace(' ','-').replace('\'','-')
-                    
-                else:
-                    path = urllib_parse_quote(path, encoding=path_encoding)
-                
-            except UnicodeEncodeError as e:
-                notify("\"{0}\": ".format(chapter_sub_folder)+str(e), color="YELLOW")
-            
+        for sub_chapter in top:                           
             output += io.format(**{
                 "index": sub_chapter.index,
                 "title": sub_chapter.entry.title,
-                "path": "\x1a"+path,
+                "path":  sub_chapter.path,
                 "level": level
             })
             output += self.build_html_chapters(argv, sub_chapter.sub_chapters, level+1)
@@ -661,9 +662,9 @@ class DataStore:
             raise PatternMissingArguments(2, len(argv))
         
         key = ''.join(argv[:2])
-        if not key in self.cache_get_chapter_attribute.keys():
-            try:
-                self.cache_get_chapter_attribute[key] = getattr(self.raw_chapters[argv[1]], argv[0])
+        if not key in self.cache_get_chapter_attribute_by_index.keys():
+            try:                    
+                self.cache_get_chapter_attribute_by_index[key] = getattr(self.raw_chapters[argv[1]].chapter, argv[0])
             
             except KeyError as e:
                 raise PatternInvalidArgument(
@@ -678,7 +679,7 @@ class DataStore:
                     messages.chapter_has_no_attribute_like.format(argv[0])
                 )
                 
-        return self.cache_get_chapter_attribute[key]
+        return self.cache_get_chapter_attribute_by_index[key]
 
 
     def get_entry_attribute_by_id(self, argv=list()):

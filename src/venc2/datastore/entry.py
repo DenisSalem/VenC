@@ -60,6 +60,7 @@ class Entry:
     def __init__(self, filename, paths, jsonld_callback, date_format, encoding="utf-8", ):
         self.previous_entry = None
         self.next_entry = None
+        self.chapter = None
         self.schemadotorg = {}
 
         # Loading

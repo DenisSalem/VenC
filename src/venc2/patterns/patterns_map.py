@@ -46,28 +46,29 @@ class PatternsMap():
                 "ForEntryRange" :               datastore.for_entry_range,
                 "GetEntryMetadata" :            datastore.get_entry_metadata,
                 "GetEntryMetadataIfExists" :    datastore.get_entry_metadata_if_exists,
-                "GetEntryMetadataIfNotNull":     datastore.get_entry_metadata_if_not_null
+                "GetEntryMetadataIfNotNull":    datastore.get_entry_metadata_if_not_null
             },
             "blog": {
-                "GetAuthorName" :       datastore.get_author_name,
-                "GetBlogName" :         datastore.get_blog_name,
-                "GetBlogDescription" :  datastore.get_blog_description,
-                "GetBlogKeywords" :     datastore.get_blog_keywords,
-                "GetAuthorDescription" :datastore.get_author_description,
-                "GetBlogLicense" :      datastore.get_blog_license,
-                "GetBlogURL" :          datastore.get_blog_url,
-                "GetEntryAttributeByID":datastore.get_entry_attribute_by_id,
-                "GetBlogLanguage" :     datastore.get_blog_language,
-                "GetAuthorEmail" :      datastore.get_author_email,
+                "GetAuthorName" :               datastore.get_author_name,
+                "GetBlogName" :                 datastore.get_blog_name,
+                "GetBlogDescription" :          datastore.get_blog_description,
+                "GetBlogKeywords" :             datastore.get_blog_keywords,
+                "GetAuthorDescription" :        datastore.get_author_description,
+                "GetBlogLicense" :              datastore.get_blog_license,
+                "GetBlogURL" :                  datastore.get_blog_url,
+                "GetBlogLanguage" :             datastore.get_blog_language,
+                "GetAuthorEmail" :              datastore.get_author_email,
 
                 # Extra metadata getter
-                "GetBlogMetadata" :         datastore.get_blog_metadata, 
-                "GetBlogMetadataIfExists" : datastore.get_blog_metadata_if_exists, 
-                "GetBlogMetadataIfNotNull": datastore.get_blog_metadata_if_not_null, 
-                "ForBlogArchives" :         datastore.for_blog_archives,
-                "LeavesForBlogCategories" : datastore.leaves_for_blog_categories,
-                "TreeForBlogCategories" :   datastore.tree_for_blog_categories,
-                "GetChapters" :             datastore.get_chapters
+                "GetChapterAttributeByIndex":   datastore.get_chapter_attribute_by_index,
+                "GetEntryAttributeByID":        datastore.get_entry_attribute_by_id,
+                "GetBlogMetadata" :             datastore.get_blog_metadata, 
+                "GetBlogMetadataIfExists" :     datastore.get_blog_metadata_if_exists, 
+                "GetBlogMetadataIfNotNull":     datastore.get_blog_metadata_if_not_null, 
+                "ForBlogArchives" :             datastore.for_blog_archives,
+                "LeavesForBlogCategories" :     datastore.leaves_for_blog_categories,
+                "TreeForBlogCategories" :       datastore.tree_for_blog_categories,
+                "GetChapters" :                 datastore.get_chapters
             },
             "extra": {
                 "IfInfiniteScrollEnabled":  datastore.if_infinite_scroll_enabled,

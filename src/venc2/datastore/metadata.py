@@ -23,11 +23,12 @@ import unidecode
 from venc2.prompt import notify
 
 class Chapter:
-    def __init__(self, index, entry):
+    def __init__(self, index, entry, path):
         self.sub_chapters = []
         self.index = index
         self.entry = entry
-
+        self.path = path
+        
 class MetadataNode:
     def __init__(self, value, entry_index):
         self.count = 1

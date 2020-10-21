@@ -17,7 +17,7 @@ path:
   category_directory_name: '{category}'
   chapter_directory_name: '{chapter_name}'
   archives_directory_name: '%m-%Y'
-  entry_file_name: index.html
+  entry_file_name: ind3x.html
   ftp: Chemin absolu de votre blog sur l'hôte FTP.
   index_file_name: index{page_number}.html
   rss_file_name: rss_feed.xml

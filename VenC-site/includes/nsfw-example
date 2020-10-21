@@ -1,0 +1,9 @@
+.:IncludeFile::
+    False
+::
+    nsfw.html
+:: 
+    .:GetEntryID:.
+::
+    Insérer ici votre contenu sensible dont vous souhaitez avertir le lecteur.
+:.
