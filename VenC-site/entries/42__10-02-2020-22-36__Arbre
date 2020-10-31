@@ -5,12 +5,12 @@ title: Arbre
 chapter: 4.6.3.2
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Ce module javascript permet d'animer et condenser un arbre de categorie
+Ce module javascript permet d'animer et condenser une liste hierarchique de categorie
 ou une table des matières qui auraient été généré avec un pattern VenC.
 
 En effet, si la liste d'éléments contenu dans l'un de ces types d'objet
 est très longue, ce peut-être visuellement rédhibitoire. Ce module
-perlet donc de plier / déplier les sous-parties d'une liste, comme c'est
+perlet donc de plier / déplier les sous-parties d'une liste comme c'est
 le cas ici pour la table des matières de cette documentation.
 
 ## Inclure le module arbre dans votre page.
@@ -34,7 +34,7 @@ suivante :
 .:CodeHighlightInclude::::HTML::False::tree-1:.
 
 Dans cet example on supose que l'on souhaite appliquer le module à une
-liste de catégorie. On utilise donc le pattern __IfCategories__ pour
+liste hierarchique de catégorie. On utilise donc le pattern __IfCategories__ pour
 n'inclure le module que si c'est nécessaire. Si l'on avait souhaité
 utiliser le module pour rendre interactif une table des matières on
 aurait utilisé le pattern __IfChapters__.
@@ -55,3 +55,24 @@ dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
 voir être exporté pendant la génération de votre blog.
 
 ## Structure d'une page
+
+Dans la pratique vous souhaitez appliquer le module arbre à des listes hierarchiques générées par VenC ; soit avec
+le pattern __[GetChapters](.:GetChapterAttributeByIndex::path::5.1.2:.#escape-chaptersopen_nodeopen95branchclose95branchclose95node-endescape)__
+ou __[TreeForBlogCategories](.:GetChapterAttributeByIndex::path::5.1.2:.#escape-treeforblogcategoriesopen95nodeopen95branchclose95branchclose95node-endescape)__.
+
+Commençons par observer que l'utilisation de ces deux patterns présentes des similarités :
+
+.:CodeHighlightInclude::::HTML::False::tree-2:.
+
+Entre autres choses, dans l'un ou l'autre pattern :
+
+- Le premier argument contient toujours le tag __&lt;ul&gt;__ ouvrant le noeud courant.
+- Le second argument contient toujours le tag __&lt;li&gt;__ ouvrant de la branche courante.
+- Le troisième argument contient toujours le tag __&lt;/li&gt;__ fermant de la branche courante.
+- Le quatrième argument contient toujours le tag __&lt;/ul&gt;__ fermant le noeud courant.
+
+En particulier pour que le module arbre fonctionne sur les listes hierarchiques ciblées :
+
+- Le pattern générant la liste hierarchique est toujours contenu dans un élément ayant la classe __&#95;&#95;VENC&#95;TREE&#95;ROOT&#95;&#95;___
+- L'élément __&lt;ul&gt;__ a toujours au moins une classe __&#95;&#95;VENC&#95;TREE&#95;NODE&#95;&#95;___
+
