@@ -43,7 +43,7 @@ Il y a deux façon de procéder :
 
 - Vous pouvez copier le module et sa dépendance dans le repertoire assets
 de votre theme depuis __~/.local/share/VenC/themes_assets__. C'est cette méthode qui est recommandé.
-- Vous pouvez définir [un fichier de configuration de thème](/Configuration-d-un-theme/)
+- Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::4.6.1:.)
 dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
 voir être exporté pendant la génération de votre blog.
 

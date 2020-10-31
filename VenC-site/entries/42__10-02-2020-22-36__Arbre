@@ -5,3 +5,53 @@ title: Arbre
 chapter: 4.6.3.2
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
+Ce module javascript permet d'animer et condenser un arbre de categorie
+ou une table des matières qui auraient été généré avec un pattern VenC.
+
+En effet, si la liste d'éléments contenu dans l'un de ces types d'objet
+est très longue, ce peut-être visuellement rédhibitoire. Ce module
+perlet donc de plier / déplier les sous-parties d'une liste, comme c'est
+le cas ici pour la table des matières de cette documentation.
+
+## Inclure le module arbre dans votre page.
+
+Pour pouvoir utiliser ce module vous devez inclure dans le fichier
+__header.html__ de votre thème deux scripts : 
+
+- __VenC-Scripts-Bootstrap-x.y.z.js__ : Ce script est obligatoire pour faire
+fonctionner n'importe quel module.
+- __VenC-Tree-x.y.z.js__ : Il s'agit du script permettant d'animer un arbre d'éléments.
+Il doit être inclu __après__ VenC-Scripts-Bootstrap.
+
+Pour connaitre la version disponible de ces scripts sur votre système pous pouvez
+jeter un oeil au répertoire où ceux là sont normalement installés.
+
+> ls ~/.local/share/VenC/themes_assets/
+
+Une bonne façon de faire est d'inclure ces deux scripts de la façon
+suivante : 
+
+.:CodeHighlightInclude::::HTML::False::tree-1:.
+
+Dans cet example on supose que l'on souhaite appliquer le module à une
+liste de catégorie. On utilise donc le pattern __IfCategories__ pour
+n'inclure le module que si c'est nécessaire. Si l'on avait souhaité
+utiliser le module pour rendre interactif une table des matières on
+aurait utilisé le pattern __IfChapters__.
+
+Précison également que si vous n'avez pas prévu d'utiliser d'autre module
+que __VenC-Tree-x.y.z.js__ dans votre thème vous pouvez passer la ligne
+d'inclusion de __VenC-Bootstrap-x.y.z.js__ en paramètre de __IfCategories__
+ou __IfChapters__.
+
+## Inclure le module arbre dans votre thème.
+
+Il y a deux façon de procéder :
+
+- Vous pouvez copier le module et sa dépendance dans le repertoire assets
+de votre theme depuis __~/.local/share/VenC/themes_assets__. C'est cette méthode qui est recommandé.
+- Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::4.6.1:.)
+dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
+voir être exporté pendant la génération de votre blog.
+
+## Structure d'une page
