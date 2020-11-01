@@ -54,7 +54,7 @@ de votre theme depuis __~/.local/share/VenC/themes_assets__. C'est cette méthod
 dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
 voir être exporté pendant la génération de votre blog.
 
-## Structure d'une page
+## Structure d'une liste hierarchique
 
 Dans la pratique vous souhaitez appliquer le module arbre à des listes hierarchiques générées par VenC ; soit avec
 le pattern __[GetChapters](.:GetChapterAttributeByIndex::path::5.1.2:.#escape-chaptersopen_nodeopen95branchclose95branchclose95node-endescape)__
@@ -76,3 +76,34 @@ En particulier pour que le module arbre fonctionne sur les listes hierarchiques 
 - Le pattern générant la liste hierarchique est toujours contenu dans un élément ayant la classe __&#95;&#95;VENC&#95;TREE&#95;ROOT&#95;&#95;___
 - L'élément __&lt;ul&gt;__ a toujours au moins une classe __&#95;&#95;VENC&#95;TREE&#95;NODE&#95;&#95;___
 
+## Personnaliser le module arbre
+
+Chaque élément d'une liste hierarchique se voit assigner un petit bouton qu'il est possible de définir soit même.
+
+- Pour un élément dépliable, par défaut le bouton est le caractère __+__.
+- Pour un élément repliable, par défaut le bouton est le caractère __-__.
+- Pour un élement qui n'est ni dépliable, ni repliable, par défaut le bouton est __○__ et n'est pas clickable.
+
+Vous n'êtes pas obligé de définir un caractère, ce peut-être du texte, ou des éléments HTML.
+
+L'API définit une variable globale appelé VENC_TREE.
+
+.:CodeHighlight::Javascript::False::var VENC_TREE = {
+    button_show: '+',
+    button_hide: '-',
+    button_disabled: '○'
+}:.
+
+vous pouvez assigner la valeur que vous souhaitez à l'un de ses trois attributs de la façon suivante : 
+
+.:CodeHighlight::HTML::False::
+<script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Scripts-Bootstrap-0.0.0.js"></script>
+<script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Tree-0.1.0.js"></script>
+<script type="text/javascript">
+    VENC_TREE.button_disabled = '';
+</script>
+:.
+
+L'exemple ci-dessus est extrait du code source du thème de cette documentation.
+La redéfinition des attributs de __VENC&#95;TREE__ doit se faire __après__ avoir
+inclut dans votre page __VenC-Tree-x.y.z.js__ et sa dépendance.
