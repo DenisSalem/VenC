@@ -17,8 +17,8 @@ L'image doit être localisé à la racine du blog.
 L'image doit être localisé à la racine du blog.
 - __loading_image__ : Nom de fichier de l'image servant d'icône de chargement pour le défilement infini.
 L'image doit être localisé à la racine du blog.
-- __override&#95;theme&#95;css&#95;with__ : Nom d'un fichier css à placer dans __extra/__. Il sera automatiquement exporté à
-la racine de votre blog. Si cette variable est définie, le fichier ainsi référencé sera utilisé comme style CSS
+- __override&#95;theme&#95;css&#95;with__ : Nom d'un fichier css à placer dans __extra/__ (Il sera automatiquement exporté à
+la racine de votre blog). Si cette variable est définie, le fichier ainsi référencé sera utilisé comme style CSS
 en plus de l'existant.
 
 # Gentle
@@ -28,8 +28,8 @@ L'image doit être localisé à la racine du blog.
 - __disable&#95;infinite&#95;scroll__: Booléen indiquant si le défilement infini doit être désactivé ou non.
 - __loading_image__ : Nom de fichier de l'image servant d'icône de chargement pour le défilement infini.
 L'image doit être localisé à la racine du blog.
-- __override&#95;theme&#95;css&#95;with__ : Nom d'un fichier css à placer dans __extra/__. Il sera automatiquement exporté à
-la racine de votre blog. Si cette variable est définie, le fichier ainsi référencé sera utilisé comme style CSS
+- __override&#95;theme&#95;css&#95;with__ : Nom d'un fichier css à placer dans __extra/__ (Il sera automatiquement exporté à
+la racine de votre blog). Si cette variable est définie, le fichier ainsi référencé sera utilisé comme style CSS
 en plus de l'existant.
 
 # Tessellation
@@ -39,6 +39,6 @@ L'image doit être localisé à la racine du blog.
 - __disable&#95;infinite&#95;scroll__: Booléen indiquant si le défilement infini doit être désactivé ou non.
 - __loading_image__ : Nom de fichier de l'image servant d'icône de chargement pour le défilement infini.
 L'image doit être localisé à la racine du blog.
-- __override&#95;theme&#95;css&#95;with__ : Nom d'un fichier css à placer dans __extra/__. Il sera automatiquement exporté à
-la racine de votre blog. Si cette variable est définie, le fichier ainsi référencé sera utilisé comme style CSS
+- __override&#95;theme&#95;css&#95;with__ : Nom d'un fichier css à placer dans __extra/__ (Il sera automatiquement exporté à
+la racine de votre blog). Si cette variable est définie, le fichier ainsi référencé sera utilisé comme style CSS
 en plus de l'existant.

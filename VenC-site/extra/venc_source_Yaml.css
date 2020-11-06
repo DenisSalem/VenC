@@ -1,5 +1,9 @@
+pre { line-height: 125%; margin: 0; }
+td.linenos pre { color: #000000; background-color: #f0f0f0; padding: 0 5px 0 5px; }
+span.linenos { color: #000000; background-color: #f0f0f0; padding: 0 5px 0 5px; }
+td.linenos pre.special { color: #000000; background-color: #ffffc0; padding: 0 5px 0 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding: 0 5px 0 5px; }
 .venc_source_Yaml .hll { background-color: #ffffcc }
-.venc_source_Yaml  { background: #f8f8f8; }
 .venc_source_Yaml .c { color: #408080; font-style: italic } /* Comment */
 .venc_source_Yaml .err { border: 1px solid #FF0000 } /* Error */
 .venc_source_Yaml .k { color: #008000; font-weight: bold } /* Keyword */
