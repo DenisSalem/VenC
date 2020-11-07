@@ -1,6 +1,6 @@
 @font-face
 	{font-family: FiraLight;
-        src: url(/FiraSans-Light.otf);}
+    src: url(/FiraSans-Light.otf);}
 
 body
 	{background-image: url('bg.png');
@@ -61,6 +61,27 @@ blockquote p
 	{margin-top: 0px;
 	margin-bottom: 0px;}
 
+#punchline
+    {text-align: center;
+    font-family: FiraLight;
+    font-weight: lighter;
+    font-size: 3em;
+    color: white;}
+    
+.chibi_overview
+    {font-size: 4em;
+    height: 100px;
+    width:90%;
+    color: white;
+    font-family: FiraLight;
+    font-weight: lighter;
+    margin: auto;
+    margin-top: 1em;
+    display: block;}
+
+.chibi_overview td
+    {width: 50%;}
+    
 .entry
     {padding-right: 15px;}
     
