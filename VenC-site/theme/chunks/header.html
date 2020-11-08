@@ -17,11 +17,13 @@
   </head>
   <body>
     <aside>
-      <header>
-        <h1><a href=".:GetRootPage:."><img src=".:GetRelativeOrigin:.logo.png" alt=".:GetBlogName:." title=".:GetBlogName:." /></a></h1>
-      </header>
-      <div class="__VENC_TREE_ROOT__">
+      <div class="wrapper">
+        <header>
+            <h1><a href=".:GetRootPage:."><img src=".:GetRelativeOrigin:.logo.png" alt=".:GetBlogName:." title=".:GetBlogName:." /></a></h1>
+        </header>
+        <div class="__VENC_TREE_ROOT__">
           .:GetChapters::<ul class="chapter-level{level} __VENC_TREE_NODE__">::<li>{index}. <a href="{path}" class="__VENC_TREE_PATH__">{title}</a>::</li>::</ul>:.
+        </div>
       </div>
     </aside>
     <div id="content">.:IfInMainThread::
@@ -31,5 +33,10 @@
                 <td><img src="venc_is_fast.png" ></td>
                 <td>VenC est rapide! Oui, on sait, tout le monde dit ça. Mais nous, on a mesuré et comparé!</td>
             </tr>
+            <tr>
+                <td>VenC est léger! Tout le monde s'en fiche, mais pas nous!</td>
+                <td><img src="venc_is_compact.png" ></td>
+            </tr>
         </table>
+        <p></p>
     :.

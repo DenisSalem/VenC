@@ -31,8 +31,8 @@ from venc2.helpers import rm_tree_error_handler
 
 PATH_TO_VENC = os.path.expanduser("~")+"/.local/bin/venc"
 PATH_TO_PELICAN = os.path.expanduser("~")+"/.local/bin/pelican"
-PATH_TO_JEKYLL = os.path.expanduser("~")+"/.gem/ruby/2.4.0/bin/jekyll"
-PATH_TO_BUNDLE = os.path.expanduser("~")+"/.gem/ruby/2.4.0/bin/bundle"
+PATH_TO_JEKYLL = os.path.expanduser("~")+"/.gem/ruby/2.5.0/bin/jekyll"
+PATH_TO_BUNDLE = "/usr/bin/bundle"
 PATH_TO_HUGO = "/usr/bin/hugo"
 
 folders_to_clear = [

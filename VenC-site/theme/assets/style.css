@@ -4,26 +4,38 @@
 
 body
 	{background-image: url('bg.png');
+    background-color: #101010;
 	font-family: FiraLight;
 	font-weight: lighter;
 	color: #AAA;
     overflow-x: hidden;
 	text-shadow: 0px 2px #000;
-	background-color: #181818;}
+	}
 
 strong
     {font-weight: bold;}
     
 aside
 	{display: inline-block;
+    background-image: url('bg.png');
+    background-color: #181818;
 	position: fixed;
 	top: 0px;
 	left: 0px;
+    z-index: 1;
+    border-right: 1px solid black;
 	width: 25%;
-    min-width: 330px;
 	height: 100%;
+	box-shadow: 0px 0px 10px #000;
+    overflow-y: hidden;
+    overflow-x: hidden;}
+    
+aside .wrapper
+    {width: calc(100%);
+    height: 100%;
     padding-right: 25px;
-    overflow-y: scroll;}
+    overflow-y: scroll;
+}
 
 aside header
 	{text-align: center;}
@@ -61,6 +73,17 @@ blockquote p
 	{margin-top: 0px;
 	margin-bottom: 0px;}
 
+#border_right
+    {width:1%;
+    position: fixed;
+    top: 0px;
+	box-shadow: 0px 0px 10px #000;
+    background-image: url('bg.png');
+    right: 0px;
+    height:100%;
+    z-index: 9;
+    border-left: 1px solid black;}
+    
 #punchline
     {text-align: center;
     font-family: FiraLight;
@@ -71,16 +94,36 @@ blockquote p
 .chibi_overview
     {font-size: 4em;
     height: 100px;
-    width:90%;
+    width:100%;
     color: white;
     font-family: FiraLight;
     font-weight: lighter;
     margin: auto;
     margin-top: 1em;
-    display: block;}
+    margin-bottom: 1em;
+    display: block;
+    border-collapse: collapse;}
 
 .chibi_overview td
-    {width: 50%;}
+    {width: 45%;}
+
+.chibi_overview tr:nth-child(2n+1) td
+    {text-align: left;}
+
+.chibi_overview tr:nth-child(2n+1) td:first-child
+    {text-align: center;}
+    
+.chibi_overview tr:nth-child(2n) td
+    {text-align: center;}
+    
+.chibi_overview tr:nth-child(2n) td:first-child
+    {text-align: right;}
+    
+.chibi_overview tr
+    {background-image: url('overview_background_1.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;}
     
 .entry
     {padding-right: 15px;}
@@ -104,16 +147,13 @@ code
 
 #content
 	{display: block;
-	background-image: url('bg.png');
-	background-color: #101010;
-	border-left: 1px solid #000;
-	box-shadow: 0px 0px 10px #000 inset;
 	position: absolute;
 	width: 74%;
 	top:0%;
 	left:25%;
 	min-height: 100%;
-    padding-bottom: 1em;}
+    padding-bottom: 1em;
+    clear: both;}
 
 #content h1,
 #content h2,
