@@ -18,13 +18,18 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
+import os
 import shutil
+import subprocess
 import sys
+import time
 
 from . import be_quiet
 from . import ENVIRONMENT
 from . import CONTEXT
 from . import LOREM_IPSUM
+
+PATH_TO_VENC = os.path.expanduser("~")+"/.local/bin/venc"
 
 def init_venc_blog():
     from venc2.commands.new import new_blog
@@ -49,6 +54,28 @@ def gen_venc_entry():
     entry_date = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
     output_filename = str(ID)+"__"+entry_date+"__"+"benchmark_entry_"+str(ID)
     open("venc-benchmark/entries/"+output_filename, 'w').write(entry)
+
+def benchmark_venc():
+    os.chdir("venc-benchmark")
+    start_timestamp = time.time()
+    output = subprocess.Popen([PATH_TO_VENC,"-xb"], stdout=subprocess.PIPE)
+    output.wait()
+    time_command = time.time() - start_timestamp
+    time_internal = None
+    readed_output = output.stdout.read().decode("utf-8").split('\n')
+    if "-v" in sys.argv:
+        print('\n'.join(readed_output))
+        
+    for v in [line for line in readed_output if line != ''][-1].split(' '):                
+        try:
+            time_internal = float(v)
+            
+        except Exception as e:
+            pass
+            
+    os.chdir("..")
+    return {"time":time_command, "internal":time_internal}
+
    
 def clear_venc_blog():
     try:

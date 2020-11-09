@@ -47,8 +47,10 @@ import vencbenchmark
 
 from vencbenchmark.venc import init_venc_blog
 from vencbenchmark.venc import gen_venc_entry
+from vencbenchmark.venc import benchmark_venc
 from vencbenchmark.venc import clear_venc_blog
-        
+import json
+
 stages = {
     "init": {
         "VenC" : init_venc_blog
@@ -56,21 +58,28 @@ stages = {
     "gen_entries" : {
         "VenC" : gen_venc_entry
     },
+    "benchmark": {
+        "VenC": benchmark_venc
+    },
     "clear" : { 
         "VenC" : clear_venc_blog
     }
 }
 
+benchmark_data = {}
 
 def benchmark():
+    print("Benchmark")
     for i in range(0 ,1000):
         for item in WILL_TESTS:
+            print("\tVenC with {0} entries...".format(vencbenchmark.CONTEXT["ENTRY_ID_COUNTER"]), end=('\r' if i != 999 else '\n'))
             stages["gen_entries"][item]()
+            benchmark_data[item].append(
+                stages["benchmark"][item]()
+            )
             
         vencbenchmark.update_context()
 
-
-      
 def clear():
     print("Clear: ")
     for item in WILL_TESTS:
@@ -78,13 +87,21 @@ def clear():
         stages["clear"][item]()
 
 def init():
+    global benchmark_data
     print("Initialize: ")
     for item in WILL_TESTS:
         print("\t"+item)
+        benchmark_data[item] = []
         stages["init"][item]()
 
 print("VenC Comparative Benchmark v"+vencbenchmark.BENCHMARCH_VERSION)
 clear()
 init()
 benchmark()
+
+output = json.dumps(benchmark_data)
+f = open(str(time.time())+".json","w")
+f.write(output)
+f.close()
+
 print("Done.")
