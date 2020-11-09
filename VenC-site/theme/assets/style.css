@@ -123,8 +123,12 @@ blockquote p
     {background-image: url('overview_background_1.png');
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: contain;}
-    
+    background-size: cover;
+    display: block;}
+
+.chibi_overview tr:nth-child(2n)
+    {background-image: url('overview_background_2.png');}
+
 .entry
     {padding-right: 15px;}
     
