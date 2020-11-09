@@ -1,6 +1,6 @@
     <footer>
       .:GetPreviousPage::<a href="{path}">Précédent</a>:.
-      <ul>.:ForPages::5::<li><a href="{path}">.:IfInThread::{page_number}::{entry_id} {entry_title}:.</a></li>:: :.</ul>
+      .:IfInThread::<ul>.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>:: :.
       .:GetNextPage::<a href="{path}">Suivant</a>:.
     </footer>
   </body>
