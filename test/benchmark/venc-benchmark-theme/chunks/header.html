@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta generator="VenC" />
+    <meta charset="utf-8" />
+    <title>.:GetBlogName:.</title>
+    <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css">
+    .:IfInThread::
+    	<link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="./feed.xml" />
+    	<link rel="alternate" type="application/atom+xml" title=".:GetBlogName:." href="atom_feed.xml" />
+    :.
+  </head>
+  <body>
+    <header>
+      <h1>.:GetBlogName:.</h1>
+    </header>
+    <aside>
+      .:TreeForBlogCategories::<ul>::<li><a href="{path}">{value}</a>::</li>::</ul>:.
+      <ul>.:ForBlogArchives::<li><a href="{path}">{value}</a></li>:: :.</ul>
+    </aside>
