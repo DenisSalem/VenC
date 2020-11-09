@@ -1,0 +1,5 @@
+info:
+        description: "VenC documentation theme."
+        version: "0.0.0"
+        author: "Denis Salem"
+assets_dependencies: ["VenC-Tree-0.1.0.js", "VenC-Scripts-Bootstrap-0.0.0.js"]

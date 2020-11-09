@@ -224,7 +224,12 @@ def export_blog(argv=list()):
     copy_recursively("extra/","blog/")
     copy_recursively(theme_folder+"assets/","blog/")
     for depenpency in theme_assets_dependencies:
-        shutil.copyfile(os.path.expanduser("~")+"/.local/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
+        try:
+            shutil.copyfile(os.path.expanduser("~")+"/.local/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
+        
+        except FileNotFoundError as e:
+            notify(messages.file_not_found.format(e.filename), color="YELLOW")
+            
     notify(messages.task_done_in_n_seconds.format(round(time.time() - start_timestamp,6)))
 
 def edit_and_export(argv):

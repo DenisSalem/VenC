@@ -11,7 +11,7 @@ chaque thème installable dans le blog avec la commande :
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --intall-theme
 
-Ce fichier est structuré de la façon suivante :
+Ce fichier s'appel __config.yaml__ et est structuré de la façon suivante :
 
 .:CodeHighlightInclude::Yaml::false::theme-configuration-example:.
 
@@ -19,7 +19,7 @@ Ce fichier est structuré de la façon suivante :
     - __description__ : il s'agit d'un cours texte présentant le thème.
     - __version__ : optionnel. Indique la version du thème.
     - __author__ : optionnel. Indique le ou les auteurs du thème.
-- __override__ : ce champ contient les propriétés remplaçant ou s'ajoutant au fichier de configuration principal. Typiquement, un thème qui fonctionne avec trois colonnes, par exemple, devra inclure le champ 'columns' ayant la valeur 3.
+- __override__ : Ce champ est optionnel et contient les propriétés remplaçant ou s'ajoutant au fichier de configuration principal. Typiquement, un thème qui fonctionne avec trois colonnes, par exemple, devra inclure le champ 'columns' ayant la valeur 3.
 - __.:DisableMarkup::assets_dependencies:.__ : il s'agit d'une liste contenant les assets (images, feuilles de styles, scripts) contenu dans .:DisableMarkup::~/.local/share/VenC/themes_assets:.. C'est notamment utile pour inclure des modules VenC Javascript.
 - __.:DisableMarkup::includes_dependencies:.__ : comme pour le champ précédent, il s'agit d'une liste contenant des noms de fichiers. Il s'agit de fichiers HTML à inclure avec __.:Escape:: .:IncludeFile:: ... :. ::EndEscape:.__. Ces fichiers sont installés par défaut avec VenC et se trouve dans .:DisableMarkup::~/.local/share/VenC/themes_includes:..
 
