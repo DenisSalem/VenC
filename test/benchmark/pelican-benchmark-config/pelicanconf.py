@@ -2,21 +2,23 @@
 # -*- coding: utf-8 -*- #
 
 AUTHOR = 'Denis Salem'
-SITENAME = 'pelican-benchmark'
+SITENAME = 'Pelican-benchmark'
 SITEURL = ''
 
 PATH = 'content'
 
 TIMEZONE = 'Europe/Paris'
 
-DEFAULT_LANG = 'la'
+DEFAULT_LANG = 'fr'
 
 # Feed generation is usually not desired when developing
-FEED_ALL_ATOM = None
-CATEGORY_FEED_ATOM = None
-TRANSLATION_FEED_ATOM = None
-AUTHOR_FEED_ATOM = None
-AUTHOR_FEED_RSS = None
+FEED_ALL_ATOM = 'feeds/all.atom.xml'
+FEED_ALL_RSS = 'feeds/all.rss.xml'
+CATEGORY_FEED_ATOM = 'feeds/{slug}.atom.xml'
+CATEGORY_FEED_RSS = 'feeds/{slug}.rss.xml'
+
+AUTHOR_SAVE_AS = ''
+TAG_SAVE_AS = ''
 
 # Blogroll
 LINKS = (('Pelican', 'https://getpelican.com/'),
@@ -30,5 +32,9 @@ SOCIAL = (('You can add links in your config file', '#'),
 
 DEFAULT_PAGINATION = 10
 
+DIRECT_TEMPLATES = ['index']
+
 # Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
+RELATIVE_URLS = True
+
+THEME = "benchmark"

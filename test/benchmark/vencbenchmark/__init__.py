@@ -20,6 +20,7 @@
 import datetime
 import os
 import random
+import subprocess
 import sys
 
 stdout = sys.stdout
@@ -56,6 +57,10 @@ Vivamus posuere sollicitudin odio at pulvinar. Aenean a ornare sapien. Mauris co
 Sed a magna non magna blandit tristique sed quis augue. Donec lobortis tempus dui vel aliquam. Aliquam leo metus, malesuada in interdum sed, ultricies sit amet eros. Integer luctus ante vel arcu volutpat, vel rhoncus quam commodo. Morbi dapibus eleifend nisl, a vehicula lacus tincidunt vel. Ut molestie fermentum orci, eget eleifend nisi aliquet imperdiet. Vivamus aliquet blandit lectus vitae tincidunt. Donec maximus augue sed ex euismod convallis.
 Cras ultrices orci erat, lobortis mollis est pellentesque ut. Morbi convallis consequat massa, vitae interdum lorem. Sed libero velit, commodo a varius eu, convallis in leo. Phasellus quis justo venenatis, semper mi sit amet, gravida mi. In pharetra ipsum a dolor rhoncus accumsan. Sed diam velit, tempus non massa ut, semper pellentesque sem. Suspendisse sagittis, nulla sed sagittis blandit, dolor erat lobortis sem, et elementum mi urna at dui. Duis felis lacus, malesuada sit amet enim ac, egestas malesuada orci. Duis iaculis erat quam, vel fermentum dui pretium quis. Praesent a lectus sem. Nullam est nulla, convallis at sodales et, sodales at nisi."""
 
+def set_python_version():
+    if not "Python" in ENVIRONMENT.keys():
+        ENVIRONMENT["Python"] = sys.version.replace('\n', '')
+        
 def be_quiet(fun, args):
     quiet = not "-v" in sys.argv
     if quiet:
@@ -64,6 +69,11 @@ def be_quiet(fun, args):
     fun(args)
     if quiet:
         sys.stdout = stdout
+
+def get_command_output(argv):       
+    output = subprocess.Popen(argv, stdout=subprocess.PIPE, stderr= devnull if not "-v" in sys.argv else sys.stderr)
+    output.wait()
+    return output.stdout.read().decode("utf-8").strip()
 
 def update_context():
     global CONTEXT

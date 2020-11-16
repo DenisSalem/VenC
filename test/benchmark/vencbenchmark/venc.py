@@ -28,15 +28,15 @@ from . import be_quiet
 from . import ENVIRONMENT
 from . import CONTEXT
 from . import LOREM_IPSUM
+from . import set_python_version
 
 PATH_TO_VENC = os.path.expanduser("~")+"/.local/bin/venc"
 
 def init_venc_blog():
     from venc2.commands.new import new_blog
     from venc2 import venc_version
-    if not "Python" in ENVIRONMENT.keys():
-        ENVIRONMENT["Python"] = sys.version.replace('\n', '') 
-        ENVIRONMENT["VenC"] = venc_version
+    set_python_version()
+    ENVIRONMENT["VenC"] = venc_version
     
     be_quiet(new_blog, ["venc-benchmark"])
     from distutils.dir_util import copy_tree

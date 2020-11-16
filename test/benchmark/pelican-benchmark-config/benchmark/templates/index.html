@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="content">
+{% block content_title %}
+{% endblock %}
+{% for article in articles_page.object_list %}
+        <div class="hentry">
+                <h2 class="entry-title"><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h2>
+                {{ article.content }} </div>
+        </div>
+{% endfor %}
+</section><!-- /#content -->
+{% endblock content %}
+
+{% block footer %}
+    {% if articles_page.has_other_pages() %}
+        {% include 'pagination.html' %}
+    {% endif %}
+{%endblock footer %}

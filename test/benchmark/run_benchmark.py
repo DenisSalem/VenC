@@ -36,33 +36,44 @@ Nature of the benchmark:
 
 # Comment items you want to ignore
 WILL_TESTS = [
-    "VenC"
+    "VenC",
+    "Pelican"
 ]
 
 ########################################################################
 
 import datetime
-
+import time
 import vencbenchmark
+
+from vencbenchmark.pelican import init_pelican_blog
+from vencbenchmark.pelican import gen_pelican_entry
+from vencbenchmark.pelican import benchmark_pelican
+from vencbenchmark.pelican import clear_pelican_blog
 
 from vencbenchmark.venc import init_venc_blog
 from vencbenchmark.venc import gen_venc_entry
 from vencbenchmark.venc import benchmark_venc
 from vencbenchmark.venc import clear_venc_blog
+
 import json
 
 stages = {
     "init": {
-        "VenC" : init_venc_blog
+        "VenC"    : init_venc_blog,
+        "Pelican" : init_pelican_blog
     },
     "gen_entries" : {
-        "VenC" : gen_venc_entry
+        "VenC" : gen_venc_entry,
+        "Pelican" : gen_pelican_entry
     },
     "benchmark": {
-        "VenC": benchmark_venc
+        "VenC": benchmark_venc,
+        "Pelican": benchmark_pelican
     },
     "clear" : { 
-        "VenC" : clear_venc_blog
+        "VenC" : clear_venc_blog,
+        "Pelican" : clear_pelican_blog
     }
 }
 
@@ -95,13 +106,20 @@ def init():
         stages["init"][item]()
 
 print("VenC Comparative Benchmark v"+vencbenchmark.BENCHMARCH_VERSION)
-clear()
-init()
-benchmark()
+try:
+    clear()
+    init()
+    benchmark()
+    clear()
+    output = json.dumps(benchmark_data)
+    f = open(str(time.time())+".json","w")
+    f.write(output)
+    f.close()
+    
+except KeyboardInterrupt:
+    pass
+    
+    
 
-output = json.dumps(benchmark_data)
-f = open(str(time.time())+".json","w")
-f.write(output)
-f.close()
 
 print("Done.")

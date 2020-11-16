@@ -178,6 +178,7 @@
     DONE | Fix chapters rendering (only first level sub-chapter were rendered)
     
 # version 2.1.x
+    TODO | Replace aside element by nav
     TODO | Improve context / ressource naming for error management
     TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
     TODO | SetBackgroundColor for text
