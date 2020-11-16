@@ -83,7 +83,7 @@ def benchmark():
     print("Benchmark")
     for i in range(0 ,1000):
         for item in WILL_TESTS:
-            print("\tVenC with {0} entries...".format(vencbenchmark.CONTEXT["ENTRY_ID_COUNTER"]), end=('\r' if i != 999 else '\n'))
+            print("\tWith {0} entries...".format(vencbenchmark.CONTEXT["ENTRY_ID_COUNTER"]), end=('\r' if i != 999 else '\n'))
             stages["gen_entries"][item]()
             benchmark_data[item].append(
                 stages["benchmark"][item]()
@@ -119,7 +119,4 @@ try:
 except KeyboardInterrupt:
     pass
     
-    
-
-
 print("Done.")
