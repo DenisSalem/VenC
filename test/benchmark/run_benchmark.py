@@ -111,7 +111,11 @@ try:
     init()
     benchmark()
     clear()
-    output = json.dumps(benchmark_data)
+    results = {
+                "environment"   : ENVIRONMENT,
+                "benchmark_data": benchmark_data
+    }
+    output = json.dumps(results)
     f = open(str(time.time())+".json","w")
     f.write(output)
     f.close()
