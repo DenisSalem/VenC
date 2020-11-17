@@ -32,15 +32,20 @@ p.yaxis.axis_label = "Time"
 
 
 p.line(
-	[c for c in range(0, len(data["VenC"]))],
-	[v["time"] for v in data["VenC"] ],
-        color="#000000"
+	[c for c in range(0, len(data["benchmark_data"]["VenC"]))],
+	[v["time"] for v in data["benchmark_data"]["VenC"] ],
+    color="#000000",
+    legend_label = "VenC "+ data["environment"]["VenC"]
 )
 p.line(
-	[c for c in range(0, len(data["Pelican"]))],
-	[v["time"] for v in data["Pelican"] ],
-        color="#FF0000"
+	[c for c in range(0, len(data["benchmark_data"]["Pelican"]))],
+	[v["time"] for v in data["benchmark_data"]["Pelican"] ],
+    color="#FF0000",
+    legend_label = "Pelican "+ data["environment"]["Pelican"]
 )
+
+p.legend.location = "top_left"
+
 
 output_file("vencvspelican.html", title="")
 save(p)

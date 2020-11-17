@@ -81,7 +81,7 @@ benchmark_data = {}
 
 def benchmark():
     print("Benchmark")
-    for i in range(0 ,1000):
+    for i in range(0 ,500):
         for item in WILL_TESTS:
             print("\tWith {0} entries...".format(vencbenchmark.CONTEXT["ENTRY_ID_COUNTER"]), end=('\r' if i != 999 else '\n'))
             stages["gen_entries"][item]()
@@ -112,7 +112,7 @@ try:
     benchmark()
     clear()
     results = {
-                "environment"   : ENVIRONMENT,
+                "environment"   : vencbenchmark.ENVIRONMENT,
                 "benchmark_data": benchmark_data
     }
     output = json.dumps(results)
