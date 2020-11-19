@@ -110,8 +110,10 @@ function VENC_TREE_ON_LOAD() {
     path_href = undefined
     for (i = 0; i < path_hrefs.length; i++) {
         if (window.location.pathname.includes(path_hrefs[i].pathname)) {
-            path_href = path_hrefs[i];
-            break
+            console.log(path_hrefs[i].pathname, window.location.pathname)
+            if (path_href === undefined || path_hrefs[1].pathname.length >= path_href.pathname.length) {
+                path_href = path_hrefs[i];
+            }
         }
     }
     

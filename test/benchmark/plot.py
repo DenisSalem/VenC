@@ -35,13 +35,30 @@ p.line(
 	[c for c in range(0, len(data["benchmark_data"]["VenC"]))],
 	[v["time"] for v in data["benchmark_data"]["VenC"] ],
     color="#000000",
-    legend_label = "VenC "+ data["environment"]["VenC"]
+    legend_label = "VenC "+ data["environment"]["VenC"] + " (time)"
 )
+
+p.line(
+	[c for c in range(0, len(data["benchmark_data"]["VenC"]))],
+	[v["internal"] for v in data["benchmark_data"]["VenC"] ],
+    color="#000000",
+    legend_label = "VenC "+ data["environment"]["VenC"] + " (internal)",
+    line_dash = "dashed"
+)
+
 p.line(
 	[c for c in range(0, len(data["benchmark_data"]["Pelican"]))],
 	[v["time"] for v in data["benchmark_data"]["Pelican"] ],
     color="#FF0000",
-    legend_label = "Pelican "+ data["environment"]["Pelican"]
+    legend_label = "Pelican "+ data["environment"]["Pelican"] + " (time)"
+)
+
+p.line(
+	[c for c in range(0, len(data["benchmark_data"]["Pelican"]))],
+	[v["internal"] for v in data["benchmark_data"]["Pelican"] ],
+    color="#FF0000",
+    legend_label = "Pelican "+ data["environment"]["Pelican"] + " (internal)",
+    line_dash = "dashed"
 )
 
 p.legend.location = "top_left"

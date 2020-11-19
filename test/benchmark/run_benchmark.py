@@ -81,13 +81,20 @@ benchmark_data = {}
 
 def benchmark():
     print("Benchmark")
-    for i in range(0 ,500):
+    for i in range(0 , 500):
         for item in WILL_TESTS:
             print("\tWith {0} entries...".format(vencbenchmark.CONTEXT["ENTRY_ID_COUNTER"]), end=('\r' if i != 999 else '\n'))
             stages["gen_entries"][item]()
-            benchmark_data[item].append(
-                stages["benchmark"][item]()
-            )
+            series = []
+            for i in range(0,5):
+                series.append(
+                    stages["benchmark"][item]()
+                )
+                
+            benchmark_data[item].append({
+                "time" : sum([ v["time"] for v in series ]) / len(series),
+                "internal" :  sum([ v["internal"] for v in series ]) / len(series)
+            })
             
         vencbenchmark.update_context()
 
