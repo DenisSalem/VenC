@@ -14,8 +14,8 @@ Mais ce peut-être un peu fastidieux quand on sait que VenC peut
 prendre en charge le transfert de votre blog.
 
 Pour que VenC puisse mettre en ligne votre blog, vous devez lui fournir
-quelques informations dans le fichier _.:DisableMarkup::blog_configuration.yaml:._. Pour
-cela, renseignez le champ _.:DisableMarkup::ftp_host:._ avec l'adresse
+quelques informations dans le fichier __.:DisableMarkup::blog_configuration.yaml:.__. Pour
+cela, renseignez le champ __.:DisableMarkup::ftp_host:.__ avec l'adresse
 du serveur FTP de destination. Renseignez également le sous-champ
 _ftp_ du champ _path_ en indiquant le chemin de destination où sera
 copié le contenu de votre blog, sur le serveur en ligne.

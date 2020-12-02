@@ -44,7 +44,8 @@ en rajoutant la ligne
 
 > Banner: 'maBanniere.jpg'
 
-dans le fichier de configuration, vous pourrez ensuite récupérer la valeurs de Banner avec
+dans le fichier de configuration, vous pourrez ensuite récupérer la
+valeurs de Banner avec
 
 > .:Escape:: .:GetBlogMetadata::Banner:. ::EndEscape:.
 
@@ -57,7 +58,8 @@ De façon similaire, il est possible d'essayer d'accéder à une variable,
 sans garantie que celle-ci existe. Si la variable existe, il est possible
 alors de formater du texte pour y inclure notre variable.
 
-Le formatage du texte se fait en utilisant des variables contextuelles propre à la fonction:
+Le formatage du texte se fait en utilisant des variables contextuelles
+propre à la fonction:
 
 - __{value}__ : La valeur de la variable qu'on référence.
 - __{relative_origidn}__ : Le chemin relatif de la racine du blog.
@@ -67,30 +69,35 @@ l'utilisateur définit un compte dans son fichier de configuration:
 
 ## .:Escape:: .:GetBlogMetadataIfNotNull::variable_name[::string]:. ::EndEscape:.
 
-Identique à __GetBlogMetadataIfExists__, mais la variable spécifié ne doit pas être vide.
+Identique à __GetBlogMetadataIfExists__, mais la variable spécifié ne
+doit pas être vide.
 
 .:CodeHighlightInclude::html::False::GetBlogMetadataIfExists_example:.
 
-Dans cet example, on suppose que l'image de l'icone du réseau social se trouve à la
-racine du blog, on a donc besoin de préciser son chemin relatif avec la
-variable contextuelle {relative_origin}.
+Dans cet example, on suppose que l'image de l'icone du réseau social se
+trouve à la racine du blog, on a donc besoin de préciser son chemin
+relatif avec la variable contextuelle {relative_origin}.
 
-Si la variable référencée n'est pas définit VenC ignore le motif et le supprime.
+Si la variable référencée n'est pas définit VenC ignore le motif et le
+supprime.
 
-Si le second argument n'est pas définit l'accesseur renvoie directement la variable référencée, si elle existe.
+Si le second argument n'est pas définit l'accesseur renvoie directement
+la variable référencée, si elle existe.
 
 ## .:Escape:: .:ForBlogArchives::string::separator:. ::EndEscape:.
 
-Ce motif permet de récuper la listes des périodes archivées. Le format de la période de temps
-est définit dans le fichier de configuration
+Ce motif permet de récuper la listes des périodes archivées. Le format
+de la période de temps est définit dans le fichier de configuration
 principal par le champ __archives&#95;directory&#95;name__.
 
-- Le premier argument __string__ contient le texte à formater pour chaque élément de la liste de période.
+- Le premier argument __string__ contient le texte à formater pour chaque
+élément de la liste de période.
 - Le second argument __separator__ contient le texte utilisé comme séparateur.
 
 Les variables contextuelles de la fonction sont les suivantes:
 
-- __{value}__ : La période courante, tel que définit par __archives&#95;directory&#95;name__ dans le fichier de configuration principal du blog.
+- __{value}__ : La période courante, tel que définit par __archives&#95;directory&#95;name__
+dans le fichier de configuration principal du blog.
 - __{path}__ : Le chemin relatif la période archivée.
 - __{count}__ : Le nombre de publication dans la période courante.
 - __{weight}__ : Le nombre de publication dans la période courante divisé
@@ -105,21 +112,25 @@ possible de ne récupérer que les "feuilles" de cet arbres, c'est à dire
 les catégories qui n'ont pas de sous categories.
 
 Le motif fonctione comme __LeavesForEntryCategories__
-mais construit l'arborescence des categories en compilant toutes les catégories de toutes les publications.
+mais construit l'arborescence des categories en compilant toutes les
+catégories de toutes les publications.
 
 Les arguments du motif sont les suivants:
 
-- __string__ : La chaine de caractères à formater avec des variables contextuelles.
+- __string__ : La chaine de caractères à formater avec des variables
+contextuelles.
 - __separator__ : La chaine de caractère qui sert de séparateur.
 
 LeavesForBlogCategories possède les variables contextuelles suivante:
 
 - __{value}__ : Contient le nom de la catégorie courante.
 - __{path}__ : Contient le chemin relatif de la catégorie courante.
-- __{branch}__ : Contient la branche complète de la catégorie; de la racine de l'arborescence,
+- __{branch}__ : Contient la branche complète de la catégorie; de la
+racine de l'arborescence,
  jusqu-à la categorie courante.
 
-Par exemple imaginons que l'arborescence des categories du blog se présente de la façon suivante
+Par exemple imaginons que l'arborescence des categories du blog se
+présente de la façon suivante
 
 .:CodeHighlight::Text::False::
 ├─── Science 
@@ -138,23 +149,29 @@ retournera
 
 > Chemestry,Physic,Music,Painting
 
-Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de configuration principal.
+Ce motif est ignoré et supprimé si la génération des catégories est
+désactivé dans le fichier de configuration principal.
 
 ## .:Escape:: .:TreeForBlogCategories::open&#95;node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
 
-Les categories de la publication sont organisées sous la forme d'un arbre. Il est
-possible de récupérer l'arbre entier afin, typiquement, de générer un menu ou une liste de catégories 
-et de sous catégories.
+Les categories de la publication sont organisées sous la forme d'un arbre.
+Il est possible de récupérer l'arbre entier afin, typiquement, de générer
+un menu ou une liste de catégories et de sous catégories.
 
 Le motif fonctione comme __TreeForEntryCategories__
-mais construit l'arborescence des categories en compilant toutes les catégories de toutes les publications.
+mais construit l'arborescence des categories en compilant toutes les
+catégories de toutes les publications.
 
 Les arguments du motif sont
 
-- __open&#95;node__ : Contient la chaine de caractère d'ouverture pour la categorie parente.
-- __open&#95;branch__ : Contient la chaine de caractère d'ouverture de la categorie courante.
-- __close&#95;branch__ : Contient la chaine de caractère de fermeture de la categorie courante.
-- __close&#95;node__ : Contient la chaine de caractère de fermeture de la categorie parente.
+- __open&#95;node__ : Contient la chaine de caractère d'ouverture pour
+la categorie parente.
+- __open&#95;branch__ : Contient la chaine de caractère d'ouverture de
+la categorie courante.
+- __close&#95;branch__ : Contient la chaine de caractère de fermeture de
+la categorie courante.
+- __close&#95;node__ : Contient la chaine de caractère de fermeture de
+la categorie parente.
 
 Les variables contextuelles de ce motif sont les suivantes:
 
@@ -164,7 +181,8 @@ Les variables contextuelles de ce motif sont les suivantes:
 - __{weight}__ : Le nombre de publication dans la categorie courante divisé
 par le nombre maximal de publication par categorie.
 
-Par exemple, pour créer un menu déroulant, on utiliserait le motif comme ci-dessous:
+Par exemple, pour créer un menu déroulant, on utiliserait le motif comme
+ci-dessous:
 
 .:CodeHighlightInclude::html::False::TreeForBlogCategories_example:.
 
@@ -207,16 +225,21 @@ Alors le motif générerait quelque chose comme le code html suivant:
 </ul>
 :.
 
-À la fin de chaque branche, si la catégorie courante possède une ou plusieurs catégorie filles,
-alors les arguments open&#95;node et close&#95;node sont ajoutés et une nouvelle liste de sous catégories
-est générée entre ces deux arguments, en utilisant les arguments open&#95;branch et close&#95;branch.
+À la fin de chaque branche, si la catégorie courante possède une ou
+plusieurs catégorie filles, alors les arguments open&#95;node et
+close&#95;node sont ajoutés et une nouvelle liste de sous catégories
+est générée entre ces deux arguments, en utilisant les arguments
+open&#95;branch et close&#95;branch.
 
-Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de configuration principal.
+Ce motif est ignoré et supprimé si la génération des catégories est
+désactivée dans le fichier de configuration principal.
 
 ## .:Escape:: .:Chapters::open_node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
 
-Ce motif permet de récupérer l'arborescence des chapitres du blog. En effet, VenC permet d'organiser
-votre contenu comme le serait un livre ou un e-book. La présente documentation est d'ailleurs faite ainsi.
+Ce motif permet de récupérer l'arborescence des chapitres du blog. En effet,
+VenC permet d'organiser
+votre contenu comme le serait un livre ou un e-book. La présente
+documentation est d'ailleurs faite ainsi.
 
 Le motif a les mêmes arguments que __TreeForEntryCategories__ et __TreeForBlogCategories__:
 
@@ -227,7 +250,8 @@ Le motif a les mêmes arguments que __TreeForEntryCategories__ et __TreeForBlogC
 
 Les varariables contextuelles de la fonction sont les suivantes:
 
-- __{index}__ : La valeur de la numérotation du chapitre courant. Par exemple '3.2', '4.2.1' ou bien '2'.
+- __{index}__ : La valeur de la numérotation du chapitre courant.
+Par exemple '3.2', '4.2.1' ou bien '2'.
 - __{level}__ : Le niveau du chapitre courant. Par exemple un chapitre avec
  l'index '3.2' aurait le niveau 1. Un chapitre avec l'index '4.2.1' aurait
  le niveau 2 et un chapitre avec l'index '2' aurait le niveau 0.
@@ -265,17 +289,54 @@ configuration principal le motif est ignoré et supprimé.
 
 Ce motif permet de récupérer le nom du fil de publication courant.
 
-Par exemple si la page courange est généré dans un fil de publication de type _categorie_
-et que ladite catégorie s'appel "Histoire de l'informatique", alors __GetThreadName__ permet
-de récupérer cette valeur dans une chaine de caractère formatée correspondant
-à l'argument __string1__. Si, au contraire, le fil de publication n'a pas de nom alors
-c'est __string2__ qui est renvoyé.
+Par exemple si la page courange est généré dans un fil de publication de
+type _categorie_ et que ladite catégorie s'appel "Histoire de
+l'informatique", alors __GetThreadName__ permet de récupérer cette valeur
+dans une chaine de caractère formatée correspondant
+à l'argument __string1__. Si, au contraire, le fil de publication n'a
+pas de nom alors c'est __string2__ qui est renvoyé.
 
-- __string1__ : Premier argument du motif, c'est celui qui est renvoyé si le fil
-de publication a un nom. Pour accèder au nom du fil de publication dans l'argument,
-il faut utiliser la variable contextuelle __{value}__. Si c'est cette argument qui doit
-être utilisé par le motif et qu'il est manquant, le motif renvoie simplement le nom du fil
-de publication, sans formattage particuler.
-- __string2__ : Second argument du motif, c'est celui qui est renvoyé si le fil de publication
-n'a pas de nom. Cet argument n'a pas de variable contextuelle. Si c'est cette argument
-qui doit être utilisé par le motif et qu'il est manquant. Le motif est ignoré.
+- __string1__ : Premier argument du motif, c'est celui qui est renvoyé si
+le fil de publication a un nom. Pour accèder au nom du fil de publication
+dans l'argument, il faut utiliser la variable contextuelle __{value}__.
+Si c'est cette argument qui doit être utilisé par le motif et qu'il est
+manquant, le motif renvoie simplement le nom du fil de publication, sans
+formattage particuler.
+- __string2__ : Second argument du motif, c'est celui qui est renvoyé si
+le fil de publication n'a pas de nom. Cet argument n'a pas de variable
+contextuelle. Si c'est cette argument qui doit être utilisé par le motif
+et qu'il est manquant. Le motif est ignoré.
+
+## .:Escape:: .:GetEntryAttributeByID::attribute::identifier:. ::EndEscape:.
+
+Ce motif permet de récupérer n'importe quel métadonné d'une publication
+en renseignant l'identifiant de celle-ci et le nom de la métadonnée désirée.
+
+- __attribute__ : Le nom de la métadonnée de la publication.
+- __identifier__ : Un nombre entier identifiant la publication ciblée.
+
+Ce pattern est permet de récupérer, entre autre métadonnée définit dans
+le header YAML de la publication, l'url de celle-ci. Par exemple :
+
+> .:Escape:: .:GetEntryAttributeByID::url::1337:. ::EndEscape:.
+
+Renverra le permalien relatif de la publication dont l'identifiant est 1337.
+
+## .:Escape:: .:GetChapterAttributeByIndex::attribute::index:. ::EndEscape:.
+
+Ce motif permet de récupérer n'importe quel métadonnée d'un chapitre en
+renseignant son index.
+
+- __attribute__ : Nom de la métadonnée du chapitre.
+- __index__ : Index du chapitre dont ont veut récupérer la métadonnée.
+
+Typiquement ce pattern sert à récupérer le titre
+du chapitre, ou son chemin. Par exemple
+
+> .:GetChapterAttributeByIndex::path::1.2.3:.
+
+Renverra le permalien relatif du chapitre 1.2.3.
+
+> .:GetChapterAttributeByIndex::title::4.2:.
+
+Renverra le permalien relatif du chapitre 4.2
