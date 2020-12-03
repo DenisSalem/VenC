@@ -333,10 +333,10 @@ renseignant son index.
 Typiquement ce pattern sert à récupérer le titre
 du chapitre, ou son chemin. Par exemple
 
-> .:GetChapterAttributeByIndex::path::1.2.3:.
+> .:Escape:: .:GetChapterAttributeByIndex::path::1.2.3:. ::EndEscape:.
 
 Renverra le permalien relatif du chapitre 1.2.3.
 
-> .:GetChapterAttributeByIndex::title::4.2:.
+> .:Escape:: .:GetChapterAttributeByIndex::title::4.2:. ::EndEscape:.
 
 Renverra le permalien relatif du chapitre 4.2

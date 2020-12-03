@@ -29,7 +29,7 @@ Pour compiler le blog avec ce thème bien à vous :
 
 VenC utilise par défaut le thème local quand aucun nom de thème ne lui est précisé.
 
-Pour en savoir plus sur les thèmes, rendez-vous [ici](.:GetRelativeOrigin:.Les-Themes)
+Pour en savoir plus sur les thèmes, rendez-vous [ici](.:GetChapterAttributeByIndex::path::4.6:.)
 
 Le contenu de votre site est maintenant disponible dans le répertoire
 _blog_ de votre blog. Pour visualiser le résultat, vous pouvez utiliser la commande :

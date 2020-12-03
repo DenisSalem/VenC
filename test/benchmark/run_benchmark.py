@@ -37,7 +37,8 @@ Nature of the benchmark:
 # Comment items you want to ignore
 WILL_TESTS = [
     "VenC",
-    "Pelican"
+    "Pelican",
+    "Nikola"
 ]
 
 ########################################################################
@@ -45,6 +46,11 @@ WILL_TESTS = [
 import datetime
 import time
 import vencbenchmark
+
+from vencbenchmark.nikola import init_nikola_blog
+from vencbenchmark.nikola import gen_nikola_entry
+from vencbenchmark.nikola import benchmark_nikola
+from vencbenchmark.nikola import clear_nikola_blog
 
 from vencbenchmark.pelican import init_pelican_blog
 from vencbenchmark.pelican import gen_pelican_entry
@@ -61,19 +67,23 @@ import json
 stages = {
     "init": {
         "VenC"    : init_venc_blog,
-        "Pelican" : init_pelican_blog
+        "Pelican" : init_pelican_blog,
+        "Nikola"  : init_nikola_blog,
     },
     "gen_entries" : {
-        "VenC" : gen_venc_entry,
-        "Pelican" : gen_pelican_entry
+        "VenC"    : gen_venc_entry,
+        "Pelican" : gen_pelican_entry,
+        "Nikola"  : gen_nikola_entry,
     },
     "benchmark": {
-        "VenC": benchmark_venc,
-        "Pelican": benchmark_pelican
+        "VenC"    : benchmark_venc,
+        "Pelican" : benchmark_pelican,
+        "Nikola"  : benchmark_nikola,
     },
     "clear" : { 
-        "VenC" : clear_venc_blog,
-        "Pelican" : clear_pelican_blog
+        "VenC"    : clear_venc_blog,
+        "Pelican" : clear_pelican_blog,
+        "Nikola"  : clear_nikola_blog,
     }
 }
 
@@ -90,11 +100,13 @@ def benchmark():
                 series.append(
                     stages["benchmark"][item]()
                 )
-                
-            benchmark_data[item].append({
-                "time" : sum([ v["time"] for v in series ]) / len(series),
-                "internal" :  sum([ v["internal"] for v in series ]) / len(series)
-            })
+            
+            average = {}
+            average["time"] = sum([ v["time"] for v in series ]) / len(series)
+            if series[0]["internal"] != None:
+                average["internal"] =  sum([ v["internal"] for v in series ]) / len(series)
+            
+            benchmark_data[item].append(average)
             
         vencbenchmark.update_context()
 
@@ -113,11 +125,12 @@ def init():
         stages["init"][item]()
 
 print("VenC Comparative Benchmark v"+vencbenchmark.BENCHMARCH_VERSION)
+
 try:
     clear()
     init()
     benchmark()
-    clear()
+    #clear()
     results = {
                 "environment"   : vencbenchmark.ENVIRONMENT,
                 "benchmark_data": benchmark_data

@@ -178,6 +178,7 @@
     DONE | Fix chapters rendering (only first level sub-chapter were rendered)
     
 # version 2.1.x
+    TODO | venc -xb should also work in subdirectories
     TODO | Replace aside element by nav
     TODO | Improve context / ressource naming for error management
     TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
@@ -196,9 +197,8 @@
     TODO | Fix gvim / -ex.
     TODO | Fix encoding issue in JSON-LD document.
     TODO | Catch "OSError: [Errno 98] Address already in use".
-    TODO | Catch invalid encoding at startup.
+    TODO | Catch invalid encoding at startup. (???)
     TODO | Create entry with default template, if defined.
-    TODO | Add support for access metadata by key.
     TODO | Make some dependencies optional.
     TODO | Split themes from main branch.
     TODO | Add translation for Deutsch and Spanish.
@@ -216,11 +216,11 @@
     TODO | Add more informations into JSON-LD document.
     TODO | Optimize and refine JSON-LD processing.
     TODO | Embed as much as possible microdata/JSON-LD into blog.
-    TODO | Automatically add entries categories to entries tags.
     TODO | Improve sub folder management in Entry and EntriesThread.
     TODO | Optimize objects dereferencing.
     TODO | Add draft support.
     TODO | Add CPU threads support.
+    TODO | Enhance FTP transfert with multiple connections.
     TODO | Regenerate any missing folders.
     TODO | Override server port with extra arg.
     TODO | Try to install an up to date oembed providers from https://oembed.com/providers.json with pip
