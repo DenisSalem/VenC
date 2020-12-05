@@ -22,6 +22,7 @@ from copy import deepcopy
 from math import ceil
 import unidecode
 
+from venc2.helpers import quirk_encoding
 from venc2.prompt import notify
 from venc2.l10n import messages
 from venc2.patterns.exceptions import PatternInvalidArgument
@@ -82,7 +83,7 @@ class Thread:
 
     def path_encode(self, path):
         if self.path_encoding in ["utf-8",'']:
-            return unidecode.unidecode(path).replace(' ', '-').replace('\'', '-')
+            return quirk_encoding(unidecode.unidecode(path))
             
         else:
             return path

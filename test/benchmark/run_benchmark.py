@@ -88,11 +88,11 @@ benchmark_data = {}
 
 def benchmark():
     print("Benchmark")
-    for i in range(0 , 1000):
+    for i in range(0 , 500):
         for item in WILL_TESTS:
             stages["gen_entries"][item]()
             series = []
-            if i % 5 == 0:
+            if i % 10 == 0:
                 print("\tWith {0} entries...".format(vencbenchmark.CONTEXT["ENTRY_ID_COUNTER"]), end=('\r' if i != 999 else '\n'))
                 for j in range(0,5):
                     series.append(

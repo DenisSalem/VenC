@@ -32,6 +32,7 @@ from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 from venc2.datastore.metadata import Chapter
 from venc2.helpers import GenericMessage
+from venc2.helpers import quirk_encoding
 from venc2.prompt import notify
 from venc2.l10n import messages
 from venc2.patterns.exceptions import MalformedPatterns
@@ -134,7 +135,7 @@ class DataStore:
             # Update entriesPerCategories
             try:
                 if self.path_encoding == '':
-                    sub_folders = unidecode.unidecode(path_categories_sub_folders).replace(' ','-')
+                    sub_folders = quirk_encoding(unidecode.unidecode(path_categories_sub_folders))
                 else:
                     sub_folders = urllib_parse_quote(path_categories_sub_folders, encoding=self.path_encoding)
 
@@ -178,7 +179,7 @@ class DataStore:
                             })
                             try:
                                 if self.path_encoding == '':
-                                    path = unidecode.unidecode(path).replace(' ','-').replace('\'', '-')
+                                    path = quirk_encoding(unidecode.unidecode(path))
                                     
                                 else:
                                     path = urllib_parse_quote(path, encoding=self.path_encoding)
@@ -208,7 +209,7 @@ class DataStore:
         for node in self.entries_per_archives:
             try:
                 if self.path_encoding == '':
-                    sub_folders = unidecode.unidecode(path_archives_sub_folders).replace(' ','-')
+                    sub_folders = quirk_encoding(unidecode.unidecode(path_archives_sub_folders))
                 else:
                     sub_folders = urllib_parse_quote(path_archives_sub_folders, encoding=self.path_encoding)
 
@@ -548,12 +549,18 @@ class DataStore:
             value = self.blog_configuration[argv[0]]
             
         except KeyError:
-            return str()
+            if len(argv) >= 3:
+                return argv[2]
+            else:
+                return ""
         
         try:
             if ok_if_null or len(value):
                 return argv[1].format(**{"value" : value,"{relative_origin}":"\x1a"})
             
+            elif len(argv) >= 3:
+                return argv[2]
+                
             else:
                 return ""
                 
@@ -580,11 +587,18 @@ class DataStore:
             value = str(getattr(self.entries[self.requested_entry_index], argv[0]))
 
         except AttributeError:
-            return str()
+            if len(argv) >= 3:
+                return argv[2]
+                
+            else:
+                return str()
             
         try:
             if len(value) or ok_if_null:
                 return argv[1].format(**{"value" : value, "relative_origin": "\x1a"})
+            
+            elif len(argv) >= 3:
+                return argv[2]
                 
             else:
                 return ""

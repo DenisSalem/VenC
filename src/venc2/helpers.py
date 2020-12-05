@@ -100,3 +100,15 @@ def export_extra_data(origin, destination=""):
 
 def remove_by_value(l, v):
     return [x for x in filter(lambda x : x != v, l)]
+
+def quirk_encoding(string):
+    return string.replace(
+        '\'',
+        '-'
+    ).replace(
+        ' ',
+        '-'
+    ).replace(
+        '%',
+        '-'
+    )

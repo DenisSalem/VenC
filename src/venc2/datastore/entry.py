@@ -24,6 +24,7 @@ import unidecode
 import urllib.parse
 import yaml
 
+from venc2.helpers import quirk_encoding
 from venc2.prompt import die
 from venc2.prompt import notify
 
@@ -151,12 +152,14 @@ class Entry:
         # TODO MAY BE OPTIMIZED
         sf = paths["entries_sub_folders"].format(**params)
         if encoding == '':
-            self.sub_folder = unidecode.unidecode(sf).replace(' ','-').replace('\'','-')+'/' if sf != '' else ''
+            self.sub_folder = quirk_encoding(unidecode.unidecode(sf))+'/' if sf != '' else ''
             self.url = "\x1a"+self.sub_folder
             if self.sub_folder == '' or paths["entry_file_name"] != "index.html":
-                self.url += unidecode.unidecode(
-                    paths["entry_file_name"].format(**params)
-                ).replace(' ','-').replace('\'','-')
+                self.url += quirk_encoding(
+                    unidecode.unidecode(
+                        paths["entry_file_name"].format(**params)
+                    )
+                )
             
         else:
             try:

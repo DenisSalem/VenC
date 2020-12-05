@@ -22,6 +22,7 @@ import os
 
 import json
 
+from venc2.helpers import quirk_encoding
 from venc2.prompt import notify
 from venc2.threads import Thread
 from venc2.l10n import messages
@@ -111,10 +112,12 @@ class EntriesThread(Thread):
 
     def setup_context(self, entry):
         super().setup_context(entry)
-        export_path = self.export_path.format(**{
-                'entry_id': self.current_entry.id,
-                'entry_title': self.current_entry.title
-        }).replace(' ','-')
+        export_path = quirk_encoding(
+            self.export_path.format(**{
+                    'entry_id': self.current_entry.id,
+                    'entry_title': self.current_entry.title
+            })
+        )
         self.thread_name = self.current_entry.title
         export_path = self.path_encode(export_path)
         self.relative_origin = str(''.join([ "../" for p in export_path.split('/')[1:] if p != ''])).replace("//",'/')
