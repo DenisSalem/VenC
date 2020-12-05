@@ -52,7 +52,7 @@ valeurs de Banner avec
 Comme pour __GetEntryMetadata__, si la variable référencée n'existe pas,
 VenC générera une erreur et vous en indiquera l'origine.
 
-## .:Escape:: .:GetBlogMetadataIfExists::variable_name[::string]:. ::EndEscape:.
+## .:Escape:: .:GetBlogMetadataIfExists::variable_name[::string][::string2]:. ::EndEscape:.
 
 De façon similaire, il est possible d'essayer d'accéder à une variable,
 sans garantie que celle-ci existe. Si la variable existe, il est possible
@@ -64,10 +64,15 @@ propre à la fonction:
 - __{value}__ : La valeur de la variable qu'on référence.
 - __{relative_origidn}__ : Le chemin relatif de la racine du blog.
 
-Un cas d'usage typique serait d'ajouter un bouton de réseau social si
-l'utilisateur définit un compte dans son fichier de configuration:
+Les arguments de ce pattern sont au nombre de trois :
 
-## .:Escape:: .:GetBlogMetadataIfNotNull::variable_name[::string]:. ::EndEscape:.
+- __metadata&#95;name__ : Le nom de la métadonnée désirée.
+- __string__ : Le texte formaté retourné si la condition est remplie. Optionnel. Si cet
+argument n'est pas présent, la fonction renvoie la valeur de la métadonnée sans formatage.
+- __string2__ : Le texte non formaté retourné si la condition n'est pas
+rempli. Si cet argument n'est pas présent. Le pattern est ignoré.
+
+## .:Escape:: .:GetBlogMetadataIfNotNull::variable_name[::string][::string2]:. ::EndEscape:.
 
 Identique à __GetBlogMetadataIfExists__, mais la variable spécifié ne
 doit pas être vide.
