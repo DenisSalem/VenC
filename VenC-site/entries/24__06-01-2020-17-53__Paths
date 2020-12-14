@@ -1,7 +1,7 @@
 authors: 'Denis Salem'
 categories: ''
 tags: ''
-chapter: 5.2.2
+chapter: 5.3.2
 title: Générateurs de chemins
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -25,6 +25,42 @@ variable est ignorée.
 - __page_number__ : Si le contexte le permet, cette variable contient le
 numéro de la page courante. Sinon, la variable est ignorée.
 - __path__ : Contient le chemin relatif de la page courante.
+
+## .:Escape:: .:GetNextPage::string:. ::EndEscape:.
+
+Permet de récupérer des informations sur la prochaine page, si elle existe.
+
+- __string__ : Le texte à formater, contenant les valeurs des variables contextuelles utilisées.
+
+Ce motif possède les variables contextuelles suivantes : 
+
+- __entry_id__ : Si le contexte le permet, cette variable contient
+l'identifiant de la publication associée à la page suivante. Sinon, la
+variable est ignorée.
+- __entry_title__ : Si le contexte le permet, cette variable contient
+le titre de la publication associée à la page suivante. Sinon, la
+variable est ignorée.
+- __page_number__ : Si le contexte le permet, cette variable contient le
+numéro de la page suivante. Sinon, la variable est ignorée.
+- __path__ : Contient le chemin relatif de la page suivante, si elle existe.
+
+## .:Escape:: .:GetPreviousPage::string:. ::EndEscape:.
+
+Permet de récupérer des informations sur la page précédente, si elle existe.
+
+- __string__ : Le texte à formater, contenant les valeurs des variables contextuelles utilisées.
+
+Ce motif possède les variables contextuelles suivantes : 
+
+- __entry_id__ : Si le contexte le permet, cette variable contient
+l'identifiant de la publication associée à la page précédente. Sinon, la
+variable est ignorée.
+- __entry_title__ : Si le contexte le permet, cette variable contient
+le titre de la publication associée à la page précédente. Sinon, la
+variable est ignorée.
+- __page_number__ : Si le contexte le permet, cette variable contient le
+numéro de la page précédente. Sinon, la variable est ignorée.
+- __path__ : Contient le chemin relatif de la page précédente, si elle existe.
 
 ## .:Escape:: .:GetRelativeLocation:. ::EndEscape:.
 

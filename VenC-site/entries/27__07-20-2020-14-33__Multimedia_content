@@ -2,7 +2,7 @@ authors: 'Denis Salem'
 categories: ''
 tags: ''
 title: Contenu multimédia
-chapter: 5.4
+chapter: 5.5
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
@@ -52,7 +52,7 @@ faisant partie du théme est formaté avec les paramètres passés au motif VenC
 
 - __source__ : Il s'agit de l'url ou du chemin du fichier audio. Il peut s'agir
 d'un chemin absolu ou relatif. S'il s'agit d'un chemin relatif, vous pouvez
-utiliser la variable contextuelle {relative_origin}. Attention, l'url ou le
+utiliser .:Escape:: .:GetRelativeOrigin:. ::EndEscape:.. Attention, l'url ou le
 chemin passé en paramètre ne doit pas contenir l'extension du fichier.
 - __extensions__ : Pour assurer la compatibilité de votre contenu avec
 les différents navigateurs du marché il est recommandé d'avoir plusieurs
@@ -61,8 +61,6 @@ liste des extensions disponibles. Les éléments de la
 liste sont séparés par une virgule.
 
 ### Variable contextuelle:
-
-- __{relative_origin}__ : Similaire à __.:Escape:: .:GetRelativeLocation:. ::EndEscape:.__. Renvoie le chemin depuis la racine du blog vers le répertoire courant.
 
 ### Exemple d'utilisation
 
@@ -80,7 +78,7 @@ Il y a donc deux fichiers:
 
 se trouvant à l'adresse
 
-https://www.w3schools.com/html/
+http://www.nyan.cat/music/
 
 Finalement on obtient le résultat suivant
 
@@ -92,28 +90,24 @@ Ce motif fonctionne comme __Audio__, il possède cependant un argument
 supplémentaire pour ajouter une vignette à la vidéo.
 
 - __source__ : Il s'agit de l'url ou du chemin de la video. Il peut s'agir d'un chemin absolu ou relatif.
-S'il s'agit d'un chemin relatif, vous pouvez utiliser la variable contextuelle __{relative_origin}__.
+S'il s'agit d'un chemin relatif, vous pouvez utiliser .:Escape:: .:GetRelativeOrigin:. ::EndEscape:..
 Attention, l'url ou le chemin passé en paramètre ne doit __pas__ contenir l'extension du fichier.
 - __extensions__ : Pour assurer la compatibilité de votre contenu avec les
 différents navigateurs du marché il est recommandé d'avoir plusieurs sources
 de la même vidéo en différent format. Ce paramètre est donc une liste des extensions disponibles pour votre vidéo. Les éléments de la liste sont séparés par une virgule.
 - __poster__ : Il est possible d'avoir une image de fond, en remplacement de la video quand celle-ci n'est pas encore lu.
-Ce paramètre contient donc l'url ou le chemin relatif (vous pouvez également utiliser la variable contextuelle __{relative_origin}__) ou absolu de ladite image.
-
-### Variable contextuelle:
-
-- __{relative_origin}__ : Similaire à __.:Escape:: .:GetRelativeLocation:. ::EndEscape:.__. Renvoie le chemin depuis la racine du blog vers le répertoire courant.
+Ce paramètre contient donc l'url ou le chemin relatif (vous pouvez également utiliser .:Escape:: .:GetRelativeOrigin:. ::EndEscape:.) ou absolu de ladite image.
 
 ### Exemple d'utilisation
 
     .:Escape:: .:Video::
     https://www.w3schools.com/html/mov_bbb::
     mp4,ogg::
-    {relative_origin}bbb-poster.jpg :. ::EndEscape:.
+    .:GetRelativeOrigin:.bbb-poster.jpg:. ::EndEscape:.
 
 Finalement on obtient le résultat suivant
 
 .:Video::
 https://www.w3schools.com/html/mov_bbb::
 mp4,ogg::
-{relative_origin}bbb-poster.jpg :.
+.:GetRelativeOrigin:.bbb-poster.jpg :.

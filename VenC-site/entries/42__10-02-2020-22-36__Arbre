@@ -57,8 +57,8 @@ voir être exporté pendant la génération de votre blog.
 ## Structure d'une liste hierarchique
 
 Dans la pratique vous souhaitez appliquer le module arbre à des listes hierarchiques générées par VenC ; soit avec
-le pattern __[GetChapters](.:GetChapterAttributeByIndex::path::5.1.2:.#escape-chaptersopen_nodeopen95branchclose95branchclose95node-endescape)__
-ou __[TreeForBlogCategories](.:GetChapterAttributeByIndex::path::5.1.2:.#escape-treeforblogcategoriesopen95nodeopen95branchclose95branchclose95node-endescape)__.
+le pattern __[GetChapters](.:GetChapterAttributeByIndex::path::5.2.2:.#escape-chaptersopen_nodeopen95branchclose95branchclose95node-endescape)__
+ou __[TreeForBlogCategories](.:GetChapterAttributeByIndex::path::5.2.2:.#escape-treeforblogcategoriesopen95nodeopen95branchclose95branchclose95node-endescape)__.
 
 Commençons par observer que l'utilisation de ces deux patterns présentes des similarités :
 

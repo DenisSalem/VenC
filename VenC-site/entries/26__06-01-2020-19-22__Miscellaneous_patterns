@@ -1,7 +1,7 @@
 authors: ''
 categories: ''
 tags: ''
-chapter: 5.3
+chapter: 5.4
 title: Motifs divers
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -40,7 +40,7 @@ La documentation est disponible [ici](https://strftime.org/)
 Ce motif retourne la version de VenC avec lequel la page
 courrante est généré et ne prend pas de paramétre.
 
-## .:Escape:: .:IncludeFile::escape::filename[::arg&#95;1][::arg&#95;2][::arg&#95;n]:. ::EndEscape:.
+## .:Escape:: .:IncludeFile::escape::filename[::arg1][::arg2][...]:. ::EndEscape:.
 
 Ce motif permet d'inclure le contenu d'un fichier dans la publication courante. Celui-ci ne
 doit comporter que des caractères imprimables.
@@ -51,7 +51,7 @@ Ce motif prend au minimum deux arguments:
 dans le fichier à inclure. Si _escape_ vaut "true". VenC ignore les motifs dans le fichier. Cette variable n'est pas sensible à la casse.
 - __filename__ : Le chemin du fichier à inclure dans la page. Celui-ci
 doit se trouver dans le répertoire __includes__ de votre projet.
-- __arg&#95;1__, __arg&#95;2__, __arg&#95;n__ : Ces paramètres sont optionnels.
+- __arg1__, __arg2__, __...__ : Ces paramètres sont optionnels.
 Il vous permettent de formatter l'intérieur du fichier à inclure en remplaçant
 des variables numérotés (venc&#95;arg&#95;1, venc&#95;arg&#95;2, venc&#95;arg&#95;n)
 qui s'y trouverai par la valeurs des paramètres correspondant.
