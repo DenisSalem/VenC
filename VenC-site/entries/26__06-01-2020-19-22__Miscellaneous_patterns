@@ -130,3 +130,11 @@ du texte de l'unique argument __content__.
 
 Ce motif ne peut pas s'échapter lui même. Pour ignorer ce motif, il doit être inclu dans un fichier avec
 le pattern __IncludeFile__ dont l'argument __escape__ doit être fixé à _True_.
+
+## .:Escape:: .:GetJSON-LD:. ::EndEscape:.
+
+Retourne le document JSON-LD, s'il existe, associé à la première page du fil de publication courant.
+
+Par exemple si l'on est sur la première page d'une catégorie quelconque, le motif renvoie:
+
+.:CodeHighlight::HTML::False::<script type="application/ld+json" src="categories.jsonld"></script>:.

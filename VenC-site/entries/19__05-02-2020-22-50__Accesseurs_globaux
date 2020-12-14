@@ -36,9 +36,9 @@ Retourne le language du blog.
 ## .:Escape:: .:GetAuthorEmail:. ::EndEscape:.
 Retourne l'adresse email de l'auteur du blog.
 
-##  .:Escape:: .:GetBlogMetadata::variable_name:. ::EndEscape:.
+##  .:Escape:: .:GetBlogMetadata::metadata_name:. ::EndEscape:.
 
-Vous pouvez également définir vos propres variables en rajoutant des
+Vous pouvez également définir vos propres métadonnées en rajoutant des
 champs au fichier de configuration blog_configuration.yaml. Par exemple
 en rajoutant la ligne
 
@@ -49,20 +49,19 @@ valeurs de Banner avec
 
 > .:Escape:: .:GetBlogMetadata::Banner:. ::EndEscape:.
 
-Comme pour __GetEntryMetadata__, si la variable référencée n'existe pas,
+Comme pour __GetEntryMetadata__, si la métadonnée référencée n'existe pas,
 VenC générera une erreur et vous en indiquera l'origine.
 
-## .:Escape:: .:GetBlogMetadataIfExists::variable_name[::string][::string2]:. ::EndEscape:.
+## .:Escape:: .:GetBlogMetadataIfExists::metadata_name[::string][::string2]:. ::EndEscape:.
 
-De façon similaire, il est possible d'essayer d'accéder à une variable,
-sans garantie que celle-ci existe. Si la variable existe, il est possible
-alors de formater du texte pour y inclure notre variable.
+De façon similaire, il est possible d'essayer d'accéder à une metadonnée,
+sans garantie que celle-ci existe. Si la métadonnée existe, il est possible
+alors de formater du texte pour y inclure celle-ci.
 
 Le formatage du texte se fait en utilisant des variables contextuelles
 propre à la fonction:
 
-- __{value}__ : La valeur de la variable qu'on référence.
-- __{relative_origidn}__ : Le chemin relatif de la racine du blog.
+- __{value}__ : La valeur de la métadonnée qu'on référence.
 
 Les arguments de ce pattern sont au nombre de trois :
 
@@ -72,9 +71,9 @@ argument n'est pas présent, la fonction renvoie la valeur de la métadonnée sa
 - __string2__ : Le texte non formaté retourné si la condition n'est pas
 rempli. Si cet argument n'est pas présent. Le pattern est ignoré.
 
-## .:Escape:: .:GetBlogMetadataIfNotNull::variable_name[::string][::string2]:. ::EndEscape:.
+## .:Escape:: .:GetBlogMetadataIfNotNull::metadata_name[::string][::string2]:. ::EndEscape:.
 
-Identique à __GetBlogMetadataIfExists__, mais la variable spécifié ne
+Identique à __GetBlogMetadataIfExists__, mais la métadonnée spécifiée ne
 doit pas être vide.
 
 .:CodeHighlightInclude::html::False::GetBlogMetadataIfExists_example:.
@@ -239,7 +238,7 @@ open&#95;branch et close&#95;branch.
 Ce motif est ignoré et supprimé si la génération des catégories est
 désactivée dans le fichier de configuration principal.
 
-## .:Escape:: .:Chapters::open_node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
+## .:Escape:: .:GetChapters::open_node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
 
 Ce motif permet de récupérer l'arborescence des chapitres du blog. En effet,
 VenC permet d'organiser

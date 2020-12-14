@@ -10,7 +10,6 @@ Ce type de motifs s'executent sous condition. Ils permettent une mise en
 page plus fine et spécifique en renvoyant l'un ou l'autre argument selon
 que la condition du teste soit remplie.
 
-
 ## .:Escape:: .:IfCategories::string1[::string2]:. ::EndEscape:.
 
 La fonction teste si des categories existent et si la générations des pages de celles-si est bien activé
@@ -116,9 +115,7 @@ La fonction teste si VenC est configuré pour généré un flux RSS et/ou un flu
 - __string1__ : Texte retourné si la condition est remplie.
 - __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
 
-Ce motif possède une variable contextuelle : 
-
-- __{relative&#95;origin}__ : retourne Le chemin relatif de la racine du blog.
+Ce motif n'a pas de variable contextuelles.
 
 ## .:Escape:: IfRSSEnabled::string1[::string2]:. ::EndEscape:.
 
@@ -127,9 +124,7 @@ La fonction teste si VenC est configuré pour généré un flux RSS.
 - __string1__ : Texte retourné si la condition est remplie.
 - __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
 
-Ce motif possède une variable contextuelle : 
-
-- __{relative&#95;origin}__ : retourne Le chemin relatif de la racine du blog.
+Ce motif n'a pas de variable contextuelles.
 
 ## .:Escape:: IfAtomEnabled::string1[::string2]:. ::EndEscape:.
 
@@ -138,9 +133,7 @@ La fonction teste si VenC est configuré pour généré un flux Atom.
 - __string1__ : Texte retourné si la condition est remplie.
 - __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
 
-Ce motif possède une variable contextuelle : 
-
-- __{relative&#95;origin}__ : retourne Le chemin relatif de la racine du blog.
+Ce motif n'a pas de variable contextuelles.
 
 ## .:Escape:: .:IfInThreadAndHasFeeds::string1[::string2]:. ::EndEscape:.
 
@@ -166,7 +159,7 @@ En outre la fonction teste si le fil de publication courant est un flux RSS ou A
 
 Ce motif n'a pas de variable contextuelles.
 
-## .:Escape:: .:IfInfiniteScrollEnabled::string&#95;1[::string&#95;2]:. ::EndEscape:.
+## .:Escape:: .:IfInfiniteScrollEnabled::string1[::string2]:. ::EndEscape:.
 
 Permet de tester si la variable __disable&#95;infinite&#95;scroll__ est définit 
 dans le fichier de configuration principal et, si c'est le cas, quel en est la valeur booléenne.
@@ -175,3 +168,4 @@ dans le fichier de configuration principal et, si c'est le cas, quel en est la v
 - __string&#95;2__ : Texte retourné si la variable testée vaut __False__ ou
 si elle n'est pas définit. Si le second argument est absent le motif est ignoré et supprimé.
 
+Ce motif n'a pas de variable contextuelles.

@@ -11,14 +11,31 @@ reconnu par VenC ainsi que leurs arguments.
 
 .:Table::
     <b>Pattern</b>::<b>Arguments</b>::<b>Variables contextuelles</b>::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.3:.#escape-disablemarkupcontent-endescape">DisableMarkup</a>::content:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-forblogarchivesstringseparator-endescape">ForBlogArchives</a>::string, separator::value, path, count, weight::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-forentryauthorsstringseparator-endescape">ForEntryAuthors</a>::string, separator::value::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-forentrymetadatavariable_namestringseparator-endescape">ForEntryMetadata</a>::variable_name, string, separator::value::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-forentrytagsstringseparator-endescape">ForEntryTags</a>::string, separator::value::NewLine::    
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getauthordescription-endescape">GetAuthorDescription</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getauthoremail-endescape">GetAuthorEmail</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getauthorname-endescape">GetAuthorName</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getbloglanguage-endescape">GetBlogLanguage</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getbloglicense-endescape">GetBlogLicense</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getblogmetadatametadata_name-endescape">GetBlogMetadata</a>::metadata_name:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getblogmetadataifexistsmetadata_namestringstring2-endescape">GetBlogMetadataIfExists</a>::metadata_name, string, string2::value::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getblogmetadataifnotnullmetadata_namestringstring2-endescape">GetBlogMetadataIfNotNull</a>::metadata_name, string, string2::value::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getblogname-endescape">GetBlogName</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getblogkeywords-endescape">GetBlogKeywords</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getblogdescription-endescape">GetBlogDescription</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getblogurl-endescape">GetBlogURL</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getchaptersopen_nodeopen95branchclose95branchclose95node-endescape">GetChapters</a>::open_node, open_branch, close_branch, clode_node::index, level, title, path::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getchapterattributebyindexattributeindex-endescape">GetChapterAttributeByIndex</a>::attribute, index:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrydate-endescape">GetEntryDate</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrydateurl-endescape">GetEntryDateURL</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentryday-endescape">GetEntryDay</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentryhour-endescape">GetEntryHour</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentryid-endescape">GetEntryID</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getentryattributebyidattributeidentifier-endescape">GetEntryAttributeByID</a>::attribute, identifier:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrymetadatametadata_name-endescape">GetEntryMetadata</a>::metadata_name:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrymetadataifexistsmetadata_namestringstring2-endescape">GetEntryMetadataIfExists::metadata_name,string,string2::value::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrymetadataifnotnullmetadata_namestringstring2-endescape">GetEntryMetadataIfNotNull</a>::metadata_name, string, string::value::NewLine::
@@ -27,52 +44,42 @@ reconnu par VenC ainsi que leurs arguments.
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrytitle-endescape">GetEntryTitle</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentryurl-endescape">GetEntryURL</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentryyear-endescape">GetEntryYear</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.3:.#escape-getjson-ld-endescape">GetJSON-LD</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.3:.#escape-getrandomnumberminmaxprecision-endescape">GetRandomNumber</a>::min, max, precision:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.2:.#escape-getrootpage-endescape">GetRootPage</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.3:.#escape-getstylesheets-endescape">GetStyleSheets</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.3:.#escape-getvencversion-endescape">GetVenCVersion</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifatomenabledstring1string2-endescape">IfAtomEnabled</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifcategoriesstring1string2-endescape">IfCategories</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifchaptersstring1string2-endescape">IfChapters</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-iffeedsenabledstring1string2-endescape">IfFeedsEnabled</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifinarchivesstring1string2-endescape">IfInArchive</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifincategoriesstring1string2-endescape">IfInCategories</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifinentryididstring1string2-endescape">IfInEntryID</a>::id, string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifinfeedstring1string2-endescape">IfInFeed</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifinfinitescrollenabledstring1string2-endescape">IfInfiniteScrollEnabled</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifinfirstpagestring1string2-endescape">IfInFirstPage</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifinmainthreadstring1string2-endescape">IfInMainThread</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifinlastpagestring1string2-endescape">IfInLastPage</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifinthreadstring1string2-endescape">IfInThread</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifinthreadandhasfeedsstring1string2-endescape">IfInThreadAndHasFeeds</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifpagesstring1string2-endescape">IfPages</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-ifrssenabledstring1string2-endescape">IfRSSEnabled</a>::string1, string2:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-leavesforblogcategoriesstringseparator-endescape">LeavesForBlogCategories</a>::string, separator::value, path, branch::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-leavesforentrycategoriesstringseparator-endescape">LeavesForEntryCategories</a>::string, separator::value, path, branch::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-treeforblogcategoriesopen95nodeopen95branchclose95branchclose95node-endescape">TreeForBlogCategories</a>::open_node, open_branch, close_branch, clode_node::value, path, count, weight::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-treeforentrycategoriesopen95nodeopen95branchclose95branchclose95node-endescape">TreeForEntryCategories</a>::open_node, open_branch, close_branch, clode_node::value, path, count, weight::NewLine::
 :.
 
-            "blog": {
-                "GetAuthorName" :               datastore.get_author_name,
-                "GetBlogName" :                 datastore.get_blog_name,
-                "GetBlogDescription" :          datastore.get_blog_description,
-                "GetBlogKeywords" :             datastore.get_blog_keywords,
-                "GetAuthorDescription" :        datastore.get_author_description,
-                "GetBlogLicense" :              datastore.get_blog_license,
-                "GetBlogURL" :                  datastore.get_blog_url,
-                "GetBlogLanguage" :             datastore.get_blog_language,
-                "GetAuthorEmail" :              datastore.get_author_email,
-
-                # Extra metadata getter
-                "GetChapterAttributeByIndex":   datastore.get_chapter_attribute_by_index,
-                "GetEntryAttributeByID":        datastore.get_entry_attribute_by_id,
-                "GetBlogMetadata" :             datastore.get_blog_metadata, 
-                "GetBlogMetadataIfExists" :     datastore.get_blog_metadata_if_exists, 
-                "GetBlogMetadataIfNotNull":     datastore.get_blog_metadata_if_not_null, 
-                "ForBlogArchives" :             datastore.for_blog_archives,
-                "LeavesForBlogCategories" :     datastore.leaves_for_blog_categories,
-                "TreeForBlogCategories" :       datastore.tree_for_blog_categories,
-                "GetChapters" :                 datastore.get_chapters
-            },
             "extra": {
-                "IfInfiniteScrollEnabled":  datastore.if_infinite_scroll_enabled,
-                "IfFeedsEnabled":           datastore.if_feeds_enabled,
-                "IfRSSEnabled":             datastore.if_rss_enabled,
-                "IfAtomEnabled":            datastore.if_atom_enabled,          
-                "IfCategories":             datastore.if_categories,
-                "IfChapters":               datastore.if_chapters,
                 "GetEmbedContent":          datastore.wrapper_embed_content,
                 "GetGenerationTimestamp":   datastore.get_generation_timestamp,
                 "CodeHighlight" :           code_highlight.highlight,
                 "CodeHighlightInclude" :    code_highlight.highlight_include,
                 "Latex2MathML" :            Latex2MathML,
-                "GetVenCVersion" :          get_venc_version,
                 "IncludeFile" :             include_file,
                 "SetColor" :                set_color,
                 "SetStyle" :                set_style,
-                "DisableMarkup":            disable_markup,
                 "Video" :                   theme.get_video,
                 "Audio" :                   theme.get_audio,
                 "Table" :                   table
@@ -80,19 +87,9 @@ reconnu par VenC ainsi que leurs arguments.
             "names" : {
                 # Patterns below are acquired dynamically because they depend on the context
                 "GetJSON-LD" : "GetJSONLD",
-                "IfInThread" : "if_in_thread",
-                "IfInFeed" : "if_in_feed",
-                "IfInThreadAndHasFeeds" : "if_in_thread_and_has_feeds",
-                "IfInMainThread" : "if_in_main_thread",
-                "IfInArchives" : "if_in_archives",
-                "IfInCategories" : "if_in_categories",
-                "IfInFirstPage" : "if_in_first_page",
-                "IfInLastPage" : "if_in_last_page",
-                "IfInEntryID" : "if_in_entry_id",
                 "GetRelativeLocation" : "get_relative_location",
                 "GetRelativeOrigin" : "get_relative_origin",
                 "GetNextPage" : "get_next_page",
                 "GetPreviousPage" : "get_previous_page",
                 "GetThreadName": "get_thread_name",
                 "ForPages" : "for_pages",
-                "IfPages" : "if_pages"

@@ -166,10 +166,22 @@ class ProcessedString():
         if len(escapes) and process_escapes:
             # First removes open and closes indexes which
             # are actually referencing escapes indexes.
-            for e in escapes:
-                self.open_pattern_pos.remove(e[0][0])
-                self.close_pattern_pos.remove(e[1][0]+11)
             
+            # life is a bitch and sometimes escape indexes
+            # aren't escaped properly
+            escapes_murder_list = []
+            
+            for e in escapes:
+                try:
+                    self.open_pattern_pos.remove(e[0][0])
+                    self.close_pattern_pos.remove(e[1][0]+11)
+                    
+                except ValueError:
+                    escapes_murder_list.append(e)
+            
+            for victim in escapes_murder_list:
+                escapes.remove(victim)
+                
             # Remove Escape and EndEscapes, update indexes
             for i in range(0, len(escapes)):
                 o,c = escapes[i]
