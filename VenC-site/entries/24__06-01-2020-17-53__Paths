@@ -1,0 +1,57 @@
+authors: 'Denis Salem'
+categories: ''
+tags: ''
+chapter: 5.2.2
+title: Générateurs de chemins
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+## .:Escape:: .:ForPages::length::string::separator:. ::EndEscape:.
+
+Cet motif permet de générer une liste de liens de pagination.
+
+- __length__ : Définit la longueur de la liste.
+- __string__ : Le texte à formater, contenant les valeurs des variables contextuelles utilisées.
+- __separator__ : Le texte servant de séparateur.
+ 
+Ce motif possède les variables contextuelles suivantes : 
+
+- __entry_id__ : Si le contexte le permet, cette variable contient
+l'identifiant de la publication associée à la page courante. Sinon, la
+variable est ignorée.
+- __entry_title__ : Si le contexte le permet, cette variable contient
+le titre de la publication associée à la page courante. Sinon, la
+variable est ignorée.
+- __page_number__ : Si le contexte le permet, cette variable contient le
+numéro de la page courante. Sinon, la variable est ignorée.
+- __path__ : Contient le chemin relatif de la page courante.
+
+## .:Escape:: .:GetRelativeLocation:. ::EndEscape:.
+
+Ce motif renvoie le chemin depuis la racine du blog vers le répertoire courant.
+
+Par exemple, si la page courante qui est générée se trouve dans le répertoire
+
+> blog/Categories/Cinema/Science-Fiction
+
+alors le motif renverra 
+
+> /Categories/Cinema/Science-Fiction
+
+## .:Escape:: .:GetRelativeOrigin:. ::EndEscape:.
+
+Ce motif renvoie le chemin relatif de la racine du blog.
+
+Par exemple, si la page courante qui est générée se trouve dans le répertoire
+
+> blog/Categories/Cinema/Science-Fiction
+
+alors le motif renverra 
+
+> ../../../
+
+## .:Escape:: .:GetRootPage:. ::EndEscape:.
+
+Ce motif renvoie le chemin relatif vers la page principal du blog qui
+correspond généralement au fichier _index.html_ et qui devrait se trouver
+à la racine de votre site.

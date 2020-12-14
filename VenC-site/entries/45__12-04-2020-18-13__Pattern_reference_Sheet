@@ -12,10 +12,12 @@ reconnu par VenC ainsi que leurs arguments.
 .:Table::
     <b>Pattern</b>::<b>Arguments</b>::<b>Variables contextuelles</b>::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.3:.#escape-disablemarkupcontent-endescape">DisableMarkup</a>::content:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.3:.#-venc-temporary-replacement-0-">Escape</a>::content, EndEscape:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-forblogarchivesstringseparator-endescape">ForBlogArchives</a>::string, separator::value, path, count, weight::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-forentryauthorsstringseparator-endescape">ForEntryAuthors</a>::string, separator::value::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-forentrymetadatavariable_namestringseparator-endescape">ForEntryMetadata</a>::variable_name, string, separator::value::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-forentrytagsstringseparator-endescape">ForEntryTags</a>::string, separator::value::NewLine::    
+    ForPages</a>
     <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getauthordescription-endescape">GetAuthorDescription</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getauthoremail-endescape">GetAuthorEmail</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.2:.#escape-getauthorname-endescape">GetAuthorName</a>:: :: ::NewLine::
@@ -85,11 +87,10 @@ reconnu par VenC ainsi que leurs arguments.
                 "Table" :                   table
 
             "names" : {
-                # Patterns below are acquired dynamically because they depend on the context
-                "GetJSON-LD" : "GetJSONLD",
+
                 "GetRelativeLocation" : "get_relative_location",
                 "GetRelativeOrigin" : "get_relative_origin",
                 "GetNextPage" : "get_next_page",
                 "GetPreviousPage" : "get_previous_page",
                 "GetThreadName": "get_thread_name",
-                "ForPages" : "for_pages",
+                "" : "for_pages",
