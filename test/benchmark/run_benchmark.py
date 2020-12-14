@@ -88,9 +88,6 @@ def benchmark():
             
         vencbenchmark.update_context()
 
-
-        
-
 print("VenC Benchmark v"+vencbenchmark.BENCHMARCH_VERSION)
 
 try:

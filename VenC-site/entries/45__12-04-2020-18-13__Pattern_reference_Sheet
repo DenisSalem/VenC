@@ -12,29 +12,28 @@ reconnu par VenC ainsi que leurs arguments.
 .:Table::
     <b>Pattern</b>::<b>Arguments</b>::<b>Variables contextuelles</b>::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-forentryauthorsstringseparator-endescape">ForEntryAuthors</a>::string, separator::value::NewLine::
-    <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-forentrytagsstringseparator-endescape">ForEntryTags</a>::string, separator::value::NewLine::
-    
+    <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-forentrymetadatavariable_namestringseparator-endescape">ForEntryMetadata</a>::variable_name, string, separator::value::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-forentrytagsstringseparator-endescape">ForEntryTags</a>::string, separator::value::NewLine::    
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrydate-endescape">GetEntryDate</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrydateurl-endescape">GetEntryDateURL</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentryday-endescape">GetEntryDay</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentryhour-endescape">GetEntryHour</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentryid-endescape">GetEntryID</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrymetadatametadata_name-endescape">GetEntryMetadata</a>::metadata_name:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrymetadataifexistsmetadata_namestringstring2-endescape">GetEntryMetadataIfExists::metadata_name,string,string2::value::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrymetadataifnotnullmetadata_namestringstring2-endescape">GetEntryMetadataIfNotNull</a>::metadata_name, string, string::value::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentryminute-endescape">GetEntryMinute</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrymonth-endescape">GetEntryMonth</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentrytitle-endescape">GetEntryTitle</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentryurl-endescape">GetEntryURL</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-getentryyear-endescape">GetEntryYear</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.3:.#escape-getrandomnumberminmaxprecision-endescape">GetRandomNumber</a>::min, max, precision:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.2:.#escape-getrootpage-endescape">GetRootPage</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.3:.#escape-getstylesheets-endescape">GetStyleSheets</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-leavesforentrycategoriesstringseparator-endescape">LeavesForEntryCategories</a>::string, separator::value, path, branch::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.1.1:.#escape-treeforentrycategoriesopen95nodeopen95branchclose95branchclose95node-endescape">TreeForEntryCategories</a>::open_node, open_branch, close_branch, clode_node::value, path, count, weight::NewLine::
 :.
-    
-                # Extra metadata getter
-                "LeavesForEntryCategories" :    datastore.leaves_for_entry_categories,
-                "TreeForEntryCategories" :      datastore.tree_for_entry_categories,
-                "ForEntryMetadata" :            datastore.for_entry_metadata,
-                "ForEntryRange" :               datastore.for_entry_range,
-                "GetEntryMetadata" :            datastore.get_entry_metadata,
-                "GetEntryMetadataIfExists" :    datastore.get_entry_metadata_if_exists,
-                "GetEntryMetadataIfNotNull":    datastore.get_entry_metadata_if_not_null
-            },
+
             "blog": {
                 "GetAuthorName" :               datastore.get_author_name,
                 "GetBlogName" :                 datastore.get_blog_name,
@@ -77,18 +76,7 @@ reconnu par VenC ainsi que leurs arguments.
                 "Video" :                   theme.get_video,
                 "Audio" :                   theme.get_audio,
                 "Table" :                   table
-            }
-            
-        }
 
-        self.non_contextual_entries_keys = self.non_contextual["entries"].keys()
-
-        self.contextual = {
-            "functions" : {
-                "GetStyleSheets" :  code_highlight.get_style_sheets,
-                "GetRootPage" :     datastore.get_root_page,
-                "GetRandomNumber" : get_random_number
-            },
             "names" : {
                 # Patterns below are acquired dynamically because they depend on the context
                 "GetJSON-LD" : "GetJSONLD",

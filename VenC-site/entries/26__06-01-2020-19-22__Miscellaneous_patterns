@@ -11,7 +11,7 @@ title: Motifs divers
 Génére un nombre aléatoire compris entre __min__ et __max__ avec une précision
 décimal définit par __precision__
 
-Par exemple pour générer un nombre décimal compris en zero inclus et dix, avec au plus quatre
+Par exemple pour générer un nombre décimal compris entre zero inclus et dix, avec au plus quatre
 chiffres après la virgule nous ferions
 
 > .:Escape:: .:GetRandomNumber::0::10::4:. ::EndEscape:.
