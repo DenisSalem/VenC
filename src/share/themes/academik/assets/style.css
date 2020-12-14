@@ -247,6 +247,7 @@ footer
 
 .entry-date
     {width: 100%;
+    color: grey;
     display: block;}
     
 .entry-authors

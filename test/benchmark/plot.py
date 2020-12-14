@@ -25,44 +25,27 @@ from bokeh.plotting import figure, output_file, save
 
 data = json.load(open(sys.argv[1], "r"))
 
-p = figure(title="Benchmark: VenC vs Pelican")
+p = figure(title="Benchmark: VenC")
 p.xaxis.axis_label = "Entries count"
 p.yaxis.axis_label = "Time"
 
-
+step = 5
 
 p.line(
-	[c for c in range(0, len(data["benchmark_data"]["VenC"]))],
+	[c*step for c in range(0, len(data["benchmark_data"]["VenC"]))],
 	[v["time"] for v in data["benchmark_data"]["VenC"] ],
     color="#000000",
-    legend_label = "VenC "+ data["environment"]["VenC"] + " (time)"
+    legend_label = "VenC "+ data["environment"]["VenC"]
 )
 
 p.line(
-	[c for c in range(0, len(data["benchmark_data"]["VenC"]))],
-	[v["internal"] for v in data["benchmark_data"]["VenC"] ],
-    color="#000000",
-    legend_label = "VenC "+ data["environment"]["VenC"] + " (internal)",
-    line_dash = "dashed"
-)
-
-p.line(
-	[c for c in range(0, len(data["benchmark_data"]["Pelican"]))],
-	[v["time"] for v in data["benchmark_data"]["Pelican"] ],
-    color="#FF0000",
-    legend_label = "Pelican "+ data["environment"]["Pelican"] + " (time)"
-)
-
-p.line(
-	[c for c in range(0, len(data["benchmark_data"]["Pelican"]))],
-	[v["internal"] for v in data["benchmark_data"]["Pelican"] ],
-    color="#FF0000",
-    legend_label = "Pelican "+ data["environment"]["Pelican"] + " (internal)",
-    line_dash = "dashed"
+	[c*step for c in range(0, len(data["benchmark_data"]["VenC"]))],
+	[v["time_internal"] for v in data["benchmark_data"]["VenC"] ],
+    color="#808080",
+    legend_label = "VenC"+ data["environment"]["VenC"]+" (internal")
 )
 
 p.legend.location = "top_left"
 
-
-output_file("vencvspelican.html", title="")
+output_file("benchmark.html", title="")
 save(p)

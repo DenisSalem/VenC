@@ -34,8 +34,7 @@ Nature of the benchmark:
 # Comment items you want to ignore
 WILL_TESTS = [
     "VenC",
-    "Pelican",
-    "Nikola"
+
 ]
 
 ########################################################################
@@ -44,16 +43,6 @@ import datetime
 import time
 import vencbenchmark
 
-from vencbenchmark.nikola import init_nikola_blog
-from vencbenchmark.nikola import gen_nikola_entry
-from vencbenchmark.nikola import benchmark_nikola
-from vencbenchmark.nikola import clear_nikola_blog
-
-from vencbenchmark.pelican import init_pelican_blog
-from vencbenchmark.pelican import gen_pelican_entry
-from vencbenchmark.pelican import benchmark_pelican
-from vencbenchmark.pelican import clear_pelican_blog
-
 from vencbenchmark.venc import init_venc_blog
 from vencbenchmark.venc import gen_venc_entry
 from vencbenchmark.venc import benchmark_venc
@@ -61,85 +50,54 @@ from vencbenchmark.venc import clear_venc_blog
 
 import json
 
-stages = {
-    "init": {
-        "VenC"    : init_venc_blog,
-        "Pelican" : init_pelican_blog,
-        "Nikola"  : init_nikola_blog,
-    },
-    "gen_entries" : {
-        "VenC"    : gen_venc_entry,
-        "Pelican" : gen_pelican_entry,
-        "Nikola"  : gen_nikola_entry,
-    },
-    "benchmark": {
-        "VenC"    : benchmark_venc,
-        "Pelican" : benchmark_pelican,
-        "Nikola"  : benchmark_nikola,
-    },
-    "clear" : { 
-        "VenC"    : clear_venc_blog,
-        "Pelican" : clear_pelican_blog,
-        "Nikola"  : clear_nikola_blog,
-    }
-}
+benchmark_data = []
 
-benchmark_data = {}
+output_filename = str(time.time())+".json"
 
-def benchmark():
-    print("Benchmark")
-    for i in range(0 , 500):
-        for item in WILL_TESTS:
-            stages["gen_entries"][item]()
-            series = []
-            if i % 10 == 0:
-                print("\tWith {0} entries...".format(vencbenchmark.CONTEXT["ENTRY_ID_COUNTER"]), end=('\r' if i != 999 else '\n'))
-                for j in range(0,5):
-                    series.append(
-                        stages["benchmark"][item]()
-                    )
-                    
-                average = {}
-                average["time"] = sum([ v["time"] for v in series ]) / len(series)
-                if "time_cache" in series[0].keys():
-                    average["time_cache"] = sum([ v["time_cache"] for v in series ]) / len(series)
-                    
-                if series[0]["internal"] != None:
-                    average["internal"] =  sum([ v["internal"] for v in series ]) / len(series)
-            
-                benchmark_data[item].append(average)
-            
-        vencbenchmark.update_context()
-
-def clear():
-    print("Clear: ")
-    for item in WILL_TESTS:
-        print("\t"+item)
-        stages["clear"][item]()
-
-def init():
-    global benchmark_data
-    print("Initialize: ")
-    for item in WILL_TESTS:
-        print("\t"+item)
-        benchmark_data[item] = []
-        stages["init"][item]()
-
-print("VenC Comparative Benchmark v"+vencbenchmark.BENCHMARCH_VERSION)
-
-try:
-    clear()
-    init()
-    benchmark()
-    #clear()
+def save_results():
     results = {
                 "environment"   : vencbenchmark.ENVIRONMENT,
                 "benchmark_data": benchmark_data
     }
     output = json.dumps(results)
-    f = open(str(time.time())+".json","w")
+    f = open(output_filename,"w")
     f.write(output)
     f.close()
+    
+def benchmark():
+    print("Benchmark")
+    for i in range(0, 1000):
+        gen_venc_entry()
+        series = []
+        print("\tWith {0} entries...".format(vencbenchmark.CONTEXT["ENTRY_ID_COUNTER"]), end=('\r' if i != 999 else '\n'))
+        for j in range(0,10):
+            series.append(
+                benchmark_venc()
+            )
+            
+        average = {}
+        average["time"] = sum([ v["time"] for v in series ]) / len(series)
+        if "time_cache" in series[0].keys():
+            average["time_cache"] = sum([ v["time_cache"] for v in series ]) / len(series)
+            
+        if series[0]["internal"] != None:
+            average["internal"] =  sum([ v["internal"] for v in series ]) / len(series)
+    
+        benchmark_data.append(average)
+        save_results()
+            
+        vencbenchmark.update_context()
+
+
+        
+
+print("VenC Benchmark v"+vencbenchmark.BENCHMARCH_VERSION)
+
+try:
+    clear_venc_blog()
+    init_venc_blog()
+    benchmark()
+    clear_venc_blog()
     
 except KeyboardInterrupt:
     pass
