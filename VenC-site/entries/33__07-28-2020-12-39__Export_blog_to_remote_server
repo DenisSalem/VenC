@@ -16,7 +16,7 @@ Pour exporter votre blog, vous devez être dans le répertoire de votre blog.
 Dans celui-ci se trouve un répertoire sobrement intitulé __blog__.
 Avec cette commande, tout le site est re-généré et placé dans le dossier __blog__.
 C'est le contenu de ce répertoire qui sera copié sur
-votre serveur. À ce moment une invite d'authentification apparaîtra dans
+votre serveur. À ce moment, une invite d'authentification apparaîtra dans
 le terminal.
 
 Comme pour l'exportation locale, vous pouvez spécifier un

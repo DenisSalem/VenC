@@ -1,4 +1,4 @@
-authors: ''
+authors: 'Denis Salem'
 categories: ''
 tags: ''
 chapter: 5.4
@@ -8,20 +8,20 @@ title: Motifs divers
 
 ## .:Escape:: .:GetRandomNumber::min::max::precision:. ::EndEscape:.
 
-Génére un nombre aléatoire compris entre __min__ et __max__ avec une précision
-décimal définit par __precision__
+Génère un nombre aléatoire compris entre __min__ et __max__ avec une précision
+décimale définit par __precision__.
 
-Par exemple pour générer un nombre décimal compris entre zero inclus et dix, avec au plus quatre
-chiffres après la virgule nous ferions
+Par exemple, pour générer un nombre décimal compris entre zéro inclus et dix, avec au plus quatre
+chiffres après la virgule nous pouvons utiliser :
 
 > .:Escape:: .:GetRandomNumber::0::10::4:. ::EndEscape:.
 
-Pour générer un nombre entier compris entre zero inclus et cent nous ferions
+Pour générer un nombre entier compris entre zero inclus et cent nous pouvons utiliser :
 
 > .:Escape:: .:GetRandomNumber::0::100::0:. ::EndEscape:.
 
 Enfin pour générer un nombre décimal, par exemple entre 12.25 inclus et 12.5,
-avec au plus 5 chiffres après la virgules, nous ferions
+avec au plus 5 chiffres après la virgules, nous pouvons utiliser :
 
 >  .:Escape:: .:GetRandomNumber::12.25::12.5::5:. ::EndEscape:.
 
@@ -29,60 +29,60 @@ avec au plus 5 chiffres après la virgules, nous ferions
 
 Ce motif renvoie la date formatée à laquelle la page courante a été générée.
 
-Le seul paramétre de ce motif est:
+Le seul paramètre de ce motif est :
 
-- __date&#95;format__ : La chaine de caractére permettant de formatter
-la date courante. Le format utilisé est le même que celui utilisé par python.
-La documentation est disponible [ici](https://strftime.org/)
+- __date&#95;format__ : La chaîne de caractères permettant de formater
+la date courante. Le format utilisé est le même que celui utilisé par Python.
+La documentation est disponible [ici](https://strftime.org/).
 
 ## .:Escape:: .:GetVenCVersion:. ::EndEscape:.
 
-Ce motif retourne la version de VenC avec lequel la page
-courrante est généré et ne prend pas de paramétre.
+Ce motif retourne la version de VenC avec laquelle la page
+courante est générée et il ne prend pas de paramètre.
 
 ## .:Escape:: .:IncludeFile::escape::filename[::arg1][::arg2][...]:. ::EndEscape:.
 
 Ce motif permet d'inclure le contenu d'un fichier dans la publication courante. Celui-ci ne
 doit comporter que des caractères imprimables.
 
-Ce motif prend au minimum deux arguments:
+Ce motif prend au minimum deux arguments :
 
-- __escape__ : Indique à VenC s'il doit chercher des motifs à interpréter
-dans le fichier à inclure. Si _escape_ vaut "true". VenC ignore les motifs dans le fichier. Cette variable n'est pas sensible à la casse.
-- __filename__ : Le chemin du fichier à inclure dans la page. Celui-ci
+- __escape__ : indique à VenC s'il doit chercher des motifs à interpréter
+dans le fichier à inclure. Si _escape_ vaut "true", VenC ignore les motifs dans le fichier. Cette variable n'est pas sensible à la casse.
+- __filename__ : le chemin du fichier à inclure dans la page. Celui-ci
 doit se trouver dans le répertoire __includes__ de votre projet.
-- __arg1__, __arg2__, __...__ : Ces paramètres sont optionnels.
-Il vous permettent de formatter l'intérieur du fichier à inclure en remplaçant
+- __arg1__, __arg2__, __...__ : ces paramètres sont optionnels.
+Il vous permettent de formater l'intérieur du fichier à inclure en remplaçant
 des variables numérotés (venc&#95;arg&#95;1, venc&#95;arg&#95;2, venc&#95;arg&#95;n)
-qui s'y trouverai par la valeurs des paramètres correspondant.
+qui s'y trouverait par la valeur de chacun des paramètres correspondant.
 
 ### Un premier exemple
 
-avec un fichier contenant plein de trucs longs et compliqués
-que nous appellerons
+Avec un fichier contenant plein de trucs longs et compliqués
+que nous appellerons :
 
 > plein-de-truc-longs-et-compliqués.txt
 
-et qui se trouverait dans le répertoire __includes__ de votre projet.
-Nous utiliserions alors le motif comme suit:
+Et qui se trouverait dans le répertoire __includes__ de votre projet.
+Nous utiliserions alors le motif comme suit :
 
 > .:Escape:: .:IncludeFile::True::plein-de-truc-longs-et-compliqués.txt:. ::EndEscape:.
 
-Notons que tous ce qui se trouve à l'intérieur du fichier ainsi inclue n'est
-pas traité par les interpréteur de langage balisé __Markdown__ et
+Notons que tout ce qui se trouve à l'intérieur du fichier ainsi inclus n'est
+pas traité par les interpréteurs de langage balisé __Markdown__ et
 __reStructuredText__. Comme le premier argument, __escape__ vaut "True",
 les motifs VenC sont également ignorés.
 
-### Un Second example
+### Un second exemple
 
-où nous utiliserons les paramètres optionnels pour formatter le contenu
+Nous utiliserons les paramètres optionnels pour formater le contenu
 du fichier à inclure.
 
-Soit le fichier
+Soit le fichier :
 
 > liste&#95;de&#95;choses&#95;à&#95;faire.txt
 
-qui contiendrait
+Qui contiendrait :
 
 .:CodeHighlight::Text::False::
 Voilà les choses qu'il faut que je fasse avant de mourrir
@@ -92,49 +92,49 @@ Voilà les choses qu'il faut que je fasse avant de mourrir
  - {venc_arg_4}
 :.
 
-En utilisant le motif __IncludeFile__ comme suit
+En utilisant le motif __IncludeFile__ comme suit :
 
     .:Escape:: .:IncludeFile::True::liste_de_choses_à_faire.txt::
     Libérer la Corée du Nord::
     Terraformer la lune::
     Découvrir la matière exotique et commercialiser les trous de ver pour le voyage interstellaire::
-    Nourrir Tacos, mon chiens.
+    Nourrir Tacos, mon chien.
     :. ::EndEscape:.
     
-nous obtiendrions
+Nous obtiendrions :
 
 .:CodeHighlight::Text::False::
 .:IncludeFile::True::things_to_do.txt::
 Libérer la Corée du Nord::
 Terraformer la lune::
 Découvrir la matière exotique et commercialiser les trous de ver pour le voyage interstellaire::
-Nourrir Tacos, mon chiens:. :.
+Nourrir Tacos, mon chien:. :.
 
-La portion de texte ci-dessus serait inclus tel quel dans la page généré par VenC.
-Là encore, ni les motifs VenC, ni le langages de balisage courant ne serait interprété.
+La portion de texte ci-dessus serait incluse telle quelle dans la page générée par VenC.
+Là encore, ni les motifs VenC, ni le langage de balisage courant ne sont interprétés.
 
 ## .:Escape:: .:DisableMarkup::content:. ::EndEscape:.
 
-Ce motif permet de désactiver l'interpréteur de langage de balisage.
-pour le texte passé en paramètre. Attention cependant, VenC reconnait
-toujours ses propres motifs documentés ici, dans le chapitre 5 de ce manuel.
+Ce motif permet de désactiver l'interpréteur de langage de balisage
+pour le texte passé en paramètre. Attention cependant, VenC reconnaît
+toujours ses propres motifs (ils sont documentés dans le chapitre 5 de ce manuel).
 
 Ce motif ne prend qu'un seul paramètre.
 
-- __content__ : Le texte pour lequel on veut désactiver l'interpréteur de langage de balisage.
+- __content__ : le texte pour lequel on veut désactiver l'interpréteur de langage de balisage.
 
 ## .:IncludeFile::true::escape:.
 
-Ce motif est traité un peu différement des autres. Il permet d'ignorer les motifs contenus à l'intérieur
+Ce motif est traité un peu différemment des autres. Il permet d'ignorer les motifs contenus à l'intérieur
 du texte de l'unique argument __content__.
 
-Ce motif ne peut pas s'échapter lui même. Pour ignorer ce motif, il doit être inclu dans un fichier avec
+Ce motif ne peut pas s'échapper lui-même. Pour ignorer ce motif, il doit être inclus dans un fichier avec
 le pattern __IncludeFile__ dont l'argument __escape__ doit être fixé à _True_.
 
 ## .:Escape:: .:GetJSON-LD:. ::EndEscape:.
 
 Retourne le document JSON-LD, s'il existe, associé à la première page du fil de publication courant.
 
-Par exemple si l'on est sur la première page d'une catégorie quelconque, le motif renvoie:
+Par exemple, si l'on est sur la première page d'une catégorie quelconque, le motif renvoie :
 
 .:CodeHighlight::HTML::False::<script type="application/ld+json" src="categories.jsonld"></script>:.

@@ -10,7 +10,7 @@ et d'en faire profiter les internautes !
 
 Il y a plusieurs façon de faire. La première approche consiste à copier
 manuellement le contenu du répertoire _blog_ vers le serveur en ligne.
-Mais ce peut-être un peu fastidieux quand on sait que VenC peut
+Mais ce peut être un peu fastidieux quand on sait que VenC peut
 prendre en charge le transfert de votre blog.
 
 Pour que VenC puisse mettre en ligne votre blog, vous devez lui fournir
@@ -22,7 +22,7 @@ copié le contenu de votre blog, sur le serveur en ligne.
 
 __Attention : soyez vigilant en renseignant le champ _ftp_ qui détermine
 le chemin de destination. Au moment de l'exportation en ligne, VenC
-efface le contenu de ce répertoire ! Assurez de savoir ce que vous
+efface le contenu de ce répertoire ! Assurez-vous de savoir ce que vous
 faites !__
 
 Après avoir fournis les informations dont VenC a besoin, vous pouvez
@@ -36,7 +36,7 @@ Vous pouvez aller vous chercher un café, ou un jus de tomate.
 Perso, je préfère le jus de tomate. Avec du parmesan et du Tabasco.
 
 Une autre façon de faire est de compiler le blog et de l'exporter en
-ligne en une seule commande
+ligne en une seule commande :
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --export-via-ftp [thème à préciser en option]
 

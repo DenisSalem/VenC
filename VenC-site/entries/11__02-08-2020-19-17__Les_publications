@@ -6,7 +6,7 @@ title: Les publications
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Une publication est un fichier dans lequel vous allez pouvoir rédiger votre
-contenu. Cela peut-être un billet d'humeur, un article de fond,
+contenu. Cela peut-être un billet d'humeur ou d'opinion, un article de fond,
 une galerie d'images, etc. Pour faciliter l'édition de votre blog avec
 VenC, vous êtes fortement encouragé à utiliser des [templates](.:GetRelativeOrigin:.Les-templates).
 
@@ -38,7 +38,7 @@ C'est la liste des catégories de la publication, séparées par une virgule. Vo
 
 ### tags
 
-C'est la liste des mots clefs de la publication, séparées par une virgule. Par exemple : Libre, Open-source, Linux.
+C'est la liste des mots-clefs de la publication, séparés par une virgule. Par exemple : Libre, Open-source, Linux.
 
 ### title
 
@@ -46,16 +46,12 @@ C'est le nom de votre publication, tel que vous l'avez définit au moment de cr�
 
 ## Métadonnées optionnelles
 
-Il est également possible de rajouter librement des [champs optionnels](.:GetRelativeOrigin:.Metadonnee). Il y a cependant deux
-champs réservés :
+Il est également possible de rajouter librement des [champs optionnels](.:GetRelativeOrigin:.Metadonnee). Il y a cependant deux champs réservés :
 
 ### chapter
 
 Indique à quel chapitre correspond la publication. La convention qu'utilise
-VenC pour reconnaitre les chapitres est la suivante:
-
-Chaque chapitre et chaque sous-partie sont numérotés, et séparé par un
-point. Quelques exemples pour aider à visualiser le truc.
+VenC pour reconnaître les chapitres est la suivante : chaque chapitre et chaque sous-partie sont numérotés, et séparés par un point. Quelques exemples pour aider à visualiser le truc.
 
 - __'2'__ : indique que la publication correspond au chapitre deux.
 - __'1.2'__ : indiquer que la publication correspond au premier chapitre, seconde sous-partie

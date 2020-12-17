@@ -22,4 +22,3 @@ Ce fichier s'appel __config.yaml__ et est structuré de la façon suivante :
 - __override__ : Ce champ est optionnel et contient les propriétés remplaçant ou s'ajoutant au fichier de configuration principal. Typiquement, un thème qui fonctionne avec trois colonnes, par exemple, devra inclure le champ 'columns' ayant la valeur 3.
 - __.:DisableMarkup::assets_dependencies:.__ : il s'agit d'une liste contenant les assets (images, feuilles de styles, scripts) contenu dans .:DisableMarkup::~/.local/share/VenC/themes_assets:.. C'est notamment utile pour inclure des modules VenC Javascript.
 - __.:DisableMarkup::includes_dependencies:.__ : comme pour le champ précédent, il s'agit d'une liste contenant des noms de fichiers. Il s'agit de fichiers HTML à inclure avec __.:Escape:: .:IncludeFile:: ... :. ::EndEscape:.__. Ces fichiers sont installés par défaut avec VenC et se trouve dans .:DisableMarkup::~/.local/share/VenC/themes_includes:..
-

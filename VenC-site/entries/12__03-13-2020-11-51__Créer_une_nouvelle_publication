@@ -31,7 +31,7 @@ C'est un document découpé en trois parties :
 - La seconde peut contenir un résumé de la publication pour la prévisualisation.
 - La troisième contient le corps de votre publication.
 
-__Astuce__ : _par défaut VenC utilise la syntax 
+__Astuce__ : _par défaut VenC utilise la syntaxe 
 [Markdown](https://daringfireball.net/projects/markdown/), 
 vous pouvez cependant changer le langage de balisage. Plus d'informations
 à ce sujet [ici](.:GetRelativeOrigin:.Les-publications/)._

@@ -7,15 +7,15 @@ chapter: 5.1
 ---VENC-END-PREVIEW---
 
 Ce chapitre comporte un tableau récapitulant l'ensemble des patterns
-reconnu par VenC ainsi que leurs arguments.
+reconnus par VenC, ainsi que leurs arguments.
 
 Si vous souhaitez créer ou modifier un thème existant, c'est le bon
 endroit pour étudier les différentes possibilités qui s'offrent à vous.
 
 - La colone des arguments, indique le nom des paramètres qu'il est possible
-(souvent obligatoire) de spécifier à la fonction.
+(et souvent obligatoire) de spécifier à la fonction.
 
-- La colone des variables contextuelles indique le nom des variables qu'il est possible d'utiliser
+- La colonne des variables contextuelles indique le nom des variables qu'il est possible d'utiliser
 __à l'intérieur__ d'un ou plusieurs arguments_. 
 
 .:Table::

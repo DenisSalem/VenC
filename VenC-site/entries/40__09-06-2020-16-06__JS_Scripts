@@ -6,6 +6,6 @@ chapter: 4.6.3
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-VenC fournit quelques modules Javascript qui sont utilisé dans les thèmes
+VenC fournit quelques modules Javascript qui sont utilisés dans les thèmes
 par défaut, mais que vous pouvez utiliser dans vos thèmes à vous. Ce
 chapitre présente ces modules et en explique le fonctionnement.
