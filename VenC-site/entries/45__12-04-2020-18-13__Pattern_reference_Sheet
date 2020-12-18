@@ -29,7 +29,7 @@ __à l'intérieur__ d'un ou plusieurs arguments_.
     <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-forentryauthorsstringseparator-endescape">ForEntryAuthors</a>::string, separator::value::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-forentrymetadatavariable_namestringseparator-endescape">ForEntryMetadata</a>::variable_name, string, separator::value::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#escape-forentrytagsstringseparator-endescape">ForEntryTags</a>::string, separator::value::NewLine::    
-    <a href=".:GetChapterAttributeByIndex::path::5.3.2:.#escape-forpageslengthstringseparator-endescape">ForPages</a>::length, string, separator::entry_id, entry_title, page_number, page::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.3.2:.#escape-forpageslengthstringseparator-endescape">ForPages</a>::length, string, separator::entry_id, entry_title, page_number, path::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.2:.#escape-getauthordescription-endescape">GetAuthorDescription</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.2:.#escape-getauthoremail-endescape">GetAuthorEmail</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.2:.#escape-getauthorname-endescape">GetAuthorName</a>:: :: ::NewLine::

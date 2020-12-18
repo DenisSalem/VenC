@@ -327,12 +327,7 @@ class Processor():
             if include_file:
                 self.include_file_called = True 
                 self.ignore_patterns = argv[0].lower() == "true"
-
-        except KeyError as e:
-            output = self.handle_error(
-                messages.unknown_pattern.format(pattern),
-            )
-            
+          
         except UnknownContextual as e:
                 output = self.handle_error(
                     messages.unknown_contextual.format(e),
@@ -358,8 +353,15 @@ class Processor():
             output = self.handle_error(
                 messages.file_not_found.format(e.filename),
             )
-
+            
+        except KeyError as e:
+            output = self.handle_error(
+                messages.unknown_pattern.format(pattern),
+            )
+            
         return str(output)
+        
+
 
     # Print out notification to user and replace erroneous pattern
     def handle_error(self, error):

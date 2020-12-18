@@ -27,6 +27,7 @@ from venc2.prompt import notify
 from venc2.l10n import messages
 from venc2.patterns.exceptions import PatternInvalidArgument
 from venc2.patterns.exceptions import PatternMissingArguments
+from venc2.patterns.exceptions import UnknownContextual
 from venc2.patterns.processor import Processor
 
 current_source = None
@@ -93,7 +94,7 @@ class Thread:
             return string.format(**params)
             
         except KeyError as e:
-            self.undefined_variable(str(e))
+            raise UnknownContextual(str(e)[1:-1])
             
     # Must be called in child class
     def get_relative_location(self, argv):
@@ -152,7 +153,7 @@ class Thread:
                 return argv[0].format(**params)
                 
             except KeyError as e:
-                undefined_variable(str(e))
+                raise UnknownContextual(str(e)[1:-1])
 
         else:
             return str()
@@ -182,7 +183,7 @@ class Thread:
                 return argv[0].format(**params)
                 
             except KeyError as e:
-                undefined_variable(str(e))
+                raise UnknownContextual(str(e)[1:-1])
                 
         else:
             return str()
@@ -211,7 +212,7 @@ class Thread:
                     ) + separator
                     
                 except KeyError as e:
-                    self.undefined_variable(str(e))
+                    raise UnknownContextual(str(e)[1:-1])
 
             page_number +=1
         
