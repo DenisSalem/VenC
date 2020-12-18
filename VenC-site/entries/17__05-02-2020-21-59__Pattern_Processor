@@ -10,9 +10,9 @@ page facilitée et automatisée, notamment quand vous souhaitez réaliser votre
 propre design pour votre site.
 
 Un motif est en fait une fonction pouvant prendre des paramètres. L'objectif est
-de remplacer un motif par une chaine de caractères formatée. Typiquement,
+de remplacer un motif par une chaîne de caractères formatée. Typiquement,
 les motifs permettent d'accéder aux données du blog ou de faire de la mise
-en page spécifique pour faire, par exemple, un menu déroulant, ou une
+en page spécifique pour faire, par exemple, un menu déroulant ou une
 barre de navigation.
 
 Les motifs pouvant être reconnus dépendent du contexte dans lequel ils

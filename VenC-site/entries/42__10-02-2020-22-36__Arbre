@@ -5,26 +5,26 @@ title: Arbre
 chapter: 4.6.3.3
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Ce module javascript permet d'animer et condenser une liste hierarchique de categorie
-ou une table des matières qui auraient été généré avec un pattern VenC.
+Ce module Javascript permet d'animer et de condenser une liste hiérarchique de catégories
+ou une table des matières qui auraient été générés avec un pattern VenC.
 
-En effet, si la liste d'éléments contenu dans l'un de ces types d'objet
-est très longue, ce peut-être visuellement rédhibitoire. Ce module
-perlet donc de plier / déplier les sous-parties d'une liste comme c'est
+En effet, si la liste d'éléments contenue dans l'un de ces types d'objets
+est très longue, ce peut être visuellement rédhibitoire. Ce module
+permet donc de plier/déplier les sous-parties d'une liste comme c'est
 le cas ici pour la table des matières de cette documentation.
 
 ## Inclure le module arbre dans votre page.
 
-Pour pouvoir utiliser ce module vous devez inclure dans le fichier
+Pour pouvoir utiliser ce module, vous devez inclure dans le fichier
 __header.html__ de votre thème deux scripts : 
 
-- __VenC-Scripts-Bootstrap-x.y.z.js__ : Ce script est obligatoire pour faire
+- __VenC-Scripts-Bootstrap-x.y.z.js__ : ce script est obligatoire pour faire
 fonctionner n'importe quel module.
-- __VenC-Tree-x.y.z.js__ : Il s'agit du script permettant d'animer un arbre d'éléments.
-Il doit être inclu __après__ VenC-Scripts-Bootstrap.
+- __VenC-Tree-x.y.z.js__ : il s'agit du script permettant d'animer un arbre d'éléments.
+Il doit être inclus __après__ VenC-Scripts-Bootstrap.
 
-Pour connaitre la version disponible de ces scripts sur votre système pous pouvez
-jeter un oeil au répertoire où ceux là sont normalement installés.
+Pour connaître la version disponible de ces scripts sur votre système, vous pouvez
+jeter un œil au répertoire où ceux-là sont normalement installés.
 
 > ls ~/.local/share/VenC/themes_assets/
 
@@ -33,14 +33,14 @@ suivante :
 
 .:CodeHighlightInclude::::HTML::False::tree-1:.
 
-Dans cet example on supose que l'on souhaite appliquer le module à une
-liste hierarchique de catégorie. On utilise donc le pattern __IfCategories__ pour
+Dans cet example, on supose que l'on souhaite appliquer le module à une
+liste hiérarchique de catégories. On utilise donc le pattern __IfCategories__ pour
 n'inclure le module que si c'est nécessaire. Si l'on avait souhaité
-utiliser le module pour rendre interactif une table des matières on
+utiliser le module pour rendre interactif une table des matières, on
 aurait utilisé le pattern __IfChapters__.
 
-Précison également que si vous n'avez pas prévu d'utiliser d'autre module
-que __VenC-Tree-x.y.z.js__ dans votre thème vous pouvez passer la ligne
+Précisons également que si vous n'avez pas prévu d'utiliser d'autre module
+que __VenC-Tree-x.y.z.js__ dans votre thème, vous pouvez passer la ligne
 d'inclusion de __VenC-Bootstrap-x.y.z.js__ en paramètre de __IfCategories__
 ou __IfChapters__.
 
@@ -48,43 +48,43 @@ ou __IfChapters__.
 
 Il y a deux façon de procéder :
 
-- Vous pouvez copier le module et sa dépendance dans le repertoire assets
-de votre theme depuis __~/.local/share/VenC/themes_assets__. C'est cette méthode qui est recommandé.
+- Vous pouvez copier le module et sa dépendance dans le répertoire assets
+de votre thème depuis __~/.local/share/VenC/themes_assets__. C'est cette méthode qui est recommandée.
 - Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::4.6.1:.)
 dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
-voir être exporté pendant la génération de votre blog.
+voir être exportés pendant la génération de votre blog.
 
-## Structure d'une liste hierarchique
+## Structure d'une liste hiérarchique
 
-Dans la pratique vous souhaitez appliquer le module arbre à des listes hierarchiques générées par VenC ; soit avec
+Dans la pratique, vous souhaitez appliquer le module arbre à des listes hiérarchiques générées par VenC ; soit avec
 le pattern __[GetChapters](.:GetChapterAttributeByIndex::path::5.2.2:.#escape-chaptersopen_nodeopen95branchclose95branchclose95node-endescape)__
 ou __[TreeForBlogCategories](.:GetChapterAttributeByIndex::path::5.2.2:.#escape-treeforblogcategoriesopen95nodeopen95branchclose95branchclose95node-endescape)__.
 
-Commençons par observer que l'utilisation de ces deux patterns présentes des similarités :
+Commençons par observer que l'utilisation de ces deux patterns présentent des similarités :
 
 .:CodeHighlightInclude::::HTML::False::tree-2:.
 
 Entre autres choses, dans l'un ou l'autre pattern :
 
-- Le premier argument contient toujours le tag __&lt;ul&gt;__ ouvrant le noeud courant.
+- Le premier argument contient toujours le tag __&lt;ul&gt;__ ouvrant le nœud courant.
 - Le second argument contient toujours le tag __&lt;li&gt;__ ouvrant de la branche courante.
 - Le troisième argument contient toujours le tag __&lt;/li&gt;__ fermant de la branche courante.
-- Le quatrième argument contient toujours le tag __&lt;/ul&gt;__ fermant le noeud courant.
+- Le quatrième argument contient toujours le tag __&lt;/ul&gt;__ fermant le nœud courant.
 
-En particulier pour que le module arbre fonctionne sur les listes hierarchiques ciblées :
+En particulier, pour que le module arbre fonctionne sur les listes hiérarchiques ciblées :
 
-- Le pattern générant la liste hierarchique est toujours contenu dans un élément ayant la classe __&#95;&#95;VENC&#95;TREE&#95;ROOT&#95;&#95;___
+- Le pattern générant la liste hiérarchique est toujours contenu dans un élément ayant la classe __&#95;&#95;VENC&#95;TREE&#95;ROOT&#95;&#95;___
 - L'élément __&lt;ul&gt;__ a toujours au moins une classe __&#95;&#95;VENC&#95;TREE&#95;NODE&#95;&#95;___
 
 ## Personnaliser le module arbre
 
-Chaque élément d'une liste hierarchique se voit assigner un petit bouton qu'il est possible de définir soit même.
+Chaque élément d'une liste hiérarchique se voit assigner un petit bouton qu'il est possible de définir soi-même.
 
 - Pour un élément dépliable, par défaut le bouton est le caractère __+__.
 - Pour un élément repliable, par défaut le bouton est le caractère __-__.
-- Pour un élement qui n'est ni dépliable, ni repliable, par défaut le bouton est __○__ et n'est pas clickable.
+- Pour un élement qui n'est ni dépliable, ni repliable, par défaut le bouton est __○__ et n'est pas cliquable.
 
-Vous n'êtes pas obligé de définir un caractère, ce peut-être du texte, ou des éléments HTML.
+Vous n'êtes pas obligé de définir un caractère, ce peut être du texte, ou des éléments HTML.
 
 L'API définit une variable globale appelé VENC_TREE.
 
@@ -94,7 +94,7 @@ L'API définit une variable globale appelé VENC_TREE.
     button_disabled: '○'
 }:.
 
-vous pouvez assigner la valeur que vous souhaitez à l'un de ses trois attributs de la façon suivante : 
+Vous pouvez assigner la valeur que vous souhaitez à l'un de ses trois attributs de la façon suivante : 
 
 .:CodeHighlight::HTML::False::
 <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Scripts-Bootstrap-0.0.0.js"></script>

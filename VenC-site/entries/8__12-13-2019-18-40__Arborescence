@@ -14,4 +14,4 @@ Lorsque vous créez un nouveau projet, VenC produit un certain nombre de répert
 - __theme__ : _contient les templates HTML, les feuilles de style et éventuellement les scripts JS._
 - __templates__ : _contient des modèles vierges pour de futurs publications._
 - __includes__ : _ce répertoire contient des fichiers HTML que vous pouvez inclure n'importe où dans votre projet avec la fonction [IncludeFile]()._
-- __caches__ : _ce répertoire n'est pas généré automatiquement à la création de votre projet. Mais il peut apparaitre plus tard, notamment si vous utilisez la fonction [GetEmbedContent]()._
+- __caches__ : _ce répertoire n'est pas généré automatiquement à la création de votre projet. Mais il peut apparaître plus tard, notamment si vous utilisez la fonction [GetEmbedContent]()._

@@ -16,7 +16,7 @@ Pour exporter votre blog vous devez être dans le répertoire de votre blog.
 
 Dans celui-ci se trouve un répertoire sobrement intitulé __blog__. C'est
 dans ce répertoire que ce sera exporté votre site. Une fois l'exportation
-terminée vous pouvez copier le contenu de ce répertoire vers votre serveur.
+terminée, vous pouvez copier le contenu de ce répertoire vers votre serveur.
 
 Pour en savoir plus sur l'arborescence, rendez-vous [ici](/Arborescence).
 

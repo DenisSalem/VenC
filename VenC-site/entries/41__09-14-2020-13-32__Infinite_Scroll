@@ -6,21 +6,21 @@ chapter: 4.6.3.2
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-Ce module javascript permet de charger automatiquement les pages du blog
+Ce module Javascript permet de charger automatiquement les pages du blog
 quand vous arrivez à la fin de la page courante.
 
 ## Inclure le défilement infini dans votre page
 
-Pour pouvoir utiliser ce module vous devez inclure dans le fichier
+Pour pouvoir utiliser ce module, vous devez inclure dans le fichier
 __header.html__ de votre thème deux scripts : 
 
-- __VenC-Scripts-Bootstrap-x.y.z.js__ : Ce script est obligatoire pour faire
+- __VenC-Scripts-Bootstrap-x.y.z.js__ : ce script est obligatoire pour faire
 fonctionner n'importe quel module.
-- __VenC-Infinite-Scroll-x.y.z.js__ : Il s'agit du script permettant le défilement infini.
-Il doit être inclu __après__ VenC-Scripts-Bootstrap.
+- __VenC-Infinite-Scroll-x.y.z.js__ : il s'agit du script permettant le défilement infini.
+Il doit être inclus __après__ VenC-Scripts-Bootstrap.
 
-Pour connaitre la version disponible de ces scripts sur votre système pous pouvez
-jeter un oeil au répertoire où ceux là sont normalement installés.
+Pour connaître la version disponible de ces scripts sur votre système, vous pouvez
+jeter un œil au répertoire où ceux-là sont normalement installés.
 
 > ls ~/.local/share/VenC/themes_assets/
 
@@ -30,41 +30,41 @@ Une bonne façon de faire est d'inclure ces deux scripts de la façon suivante :
 
 - __IfInThread__ permet de n'inclure le script que si le contexte l'exige,
 ce qui permet de ne pas alourdir la page inutilement. Si dans votre thème
-vous prévoyez de n'utiliser que le module de défilement infini alors vous
+vous prévoyez de n'utiliser que le module de défilement infini, alors vous
 pouvez déplacer le code incluant VenC-Scripts-Bootstrap dans le premier argument
 de __IfInThread__.
-- Si vous prévoyez de distribuer votre thème le pattern __IfInfiniteScrollEnabled__
+- Si vous prévoyez de distribuer votre thème, le pattern __IfInfiniteScrollEnabled__
 permet d'activer / désactiver l'inclusion du module depuis le fichier de
 configuration principal de votre blog à l'aide de la variable booléenne __disable&#95;infinite&#95;scroll__.
 
 ## Inclure le défilement infini dans votre thème.
 
-Il y a deux façon de procéder :
+Il y a deux façons de procéder :
 
-- Vous pouvez copier le module et sa dépendance dans le repertoire assets
-de votre theme depuis __~/.local/share/VenC/themes_assets__. C'est cette méthode qui est recommandé.
+- Vous pouvez copier le module et sa dépendance dans le répertoire assets
+de votre thème depuis __~/.local/share/VenC/themes_assets__. C'est cette méthode qui est recommandée.
 - Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::4.6.1:.)
 dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
 voir être exporté pendant la génération de votre blog.
 
 ## Structure d'une page
 
-Pour que le défilement infini fonctionne votre thème doit être structuré
+Pour que le défilement infini fonctionne, votre thème doit être structuré
 d'une certaine manière que nous allons détailler ici.
 
 _Les exemples ci-dessous constituent un code minimal pour faire fonctionner le défilement infini.
-Il manque, évidemment, de nombreuse chose pour que votre thème soit pleinement opérationnel._
+Il manque, évidemment, de nombreuses choses pour que votre thème soit pleinement opérationnel._
 
 ### header.html
 Comme nous l'avons vu, il faut que les scripts soient inclus dans le fichier __header.html__.
-Idéalement de la façon suivante.
+Idéalement de la façon suivante :
 
 .:CodeHighlightInclude::html::False::inf-scroll-header-html:.
 
 ### entry.html
 
 Chaque bloc contenant une publication __doit__ avoir la _class_ "_entry_".
-Sinon, le script de défilement infini n'est pas capable de reconnaitre
+Sinon, le script de défilement infini n'est pas capable de reconnaître
 les publications qu'il doit charger.
 
 .:CodeHighlightInclude::html::False::inf-scroll-entry-html:.
@@ -72,23 +72,23 @@ les publications qu'il doit charger.
 ### footer.html
 
 Ici il y a trois éléments à considérer qui devrait se trouver dans __footer.html__
-mais qui, si votre design de mise en page l'exige pourrait se trouver dans
+mais qui, si votre design de mise en page l'exige, pourrait se trouver dans
 __header.html__. Chaque élément ne devrait être présent qu'une et une seule fois dans la page.
 
-- __&#95;&#95;VENC&#95;LOADING&#95;&#95;__ : Cet élément est optionnel,
+- __&#95;&#95;VENC&#95;LOADING&#95;&#95;__ : cet élément est optionnel,
 dans notre exemple, il s'agit d'une image, mais ce pourrait être
 n'importe quoi d'autre faisant office d'animation de chargement.
-- __&#95;&#95;VENC&#95;NAVIGATION&#95;&#95;__ : Il s'agit de l'élément
+- __&#95;&#95;VENC&#95;NAVIGATION&#95;&#95;__ : il s'agit de l'élément
 contenant les liens de navigation. Quand le défilement infini est activé,
 par défaut cet élément est rendu invisible.
-- __data-venc-api-infinite-scroll-hook__ : L'élément permettant au script de connaitre
-la page suivante, n'est pas nécessairement un liens, mais dans la pratique, c'est plus commode que ce soit le cas.
-Ce qui compte c'est qu'il ai l'attribut __data-venc-api-infinite-scroll-hook__ dont la valeur
+- __data-venc-api-infinite-scroll-hook__ : l'élément permettant au script de connaître
+la page suivante. Ce n'est pas nécessairement un lien, mais dans la pratique, c'est plus commode que ce soit le cas.
+Ce qui compte c'est qu'il a l'attribut __data-venc-api-infinite-scroll-hook__ dont la valeur
 correspond au chemin de la page suivante. Cette valeur est accessible avec le pattern __GetNextPage__.
 
 .:CodeHighlightInclude::html::False::inf-scroll-footer-html:.
 
-## Customiser le défilement infini
+## Personnaliser le défilement infini
 
 VenC fourni une API pour personnaliser le défilement infini. Pour cela,
 vous pouvez modifier les attributs de la variable globale __VENC&#95;INFINITE&#95;SCROLL__
@@ -98,7 +98,7 @@ vous pouvez modifier les attributs de la variable globale __VENC&#95;INFINITE&#9
 .:CodeHighlight::Javascript::False::hideVenCNavigation: true:.
 
 Normalement, les liens de navigation (numéro de page, page suivante/précédente)
-contenu dans l'élément ayant l'id __&#95;&#95;VENC&#95;NAVIGATION&#95;&#95;__
+contenus dans l'élément ayant l'id __&#95;&#95;VENC&#95;NAVIGATION&#95;&#95;__
 sont désactivés pour le défilement infini. Mais il est possible de ne pas
 le faire et laisser ces éléments visibles en changeant la valeur de cette variable.
 
@@ -108,7 +108,7 @@ le faire et laisser ces éléments visibles en changeant la valeur de cette vari
 
 Cette variable définit le temps, en milliseconde, entre chaque test
 visant à savoir si la fin de la page a été atteinte et donc s'il faut
-charger la suite. La valeur par défaut est 250 milliseconde.
+charger la suite. La valeur par défaut est 250 millisecondes.
 
 ### imageDefaultSetup
 
@@ -126,15 +126,15 @@ entryDefaultSetup: function(entry) {
 }
 :.
 
-Cette méthode permet d'initialiser l'état d'une publication au moment ou elle est chargé
-dans le DOM. Par défaut les publications sont invisibilisées.
+Cette méthode permet d'initialiser l'état d'une publication au moment où elle est chargée
+dans le DOM. Par défaut, les publications sont invisibilisées.
 
 ### onLoadImage
 
 .:CodeHighlight::Javascript::False::onLoadImage : function(img) {}:.
 
-Par défaut cette fonction ne fait rien de particulier, mais permet si
-vous souhaitez la redéfinir de configurer l'état ou l'animation d'apparition
+Par défaut, cette fonction ne fait rien de particulier, mais permet si
+vous souhaitez la redéfinir, de configurer l'état ou l'animation d'apparition
 d'une image au moment où son téléchargement est terminé.
 
 ### onLoadEntry
@@ -150,14 +150,14 @@ onLoadEntry : function(entry){
 
 .:CodeHighlight::Javascript::False::dontWait: false:.
 
-Par défaut VenC attend que la page en cours de chargement soit entièrement téléchargé avant de récupérer la suivante.
-Il est possible en changeant la valeur de cette variable à True, de charger plusieurs page en même temps,
-ça n'est cependant pas recommandé.
+Par défaut, VenC attend que la page en cours de chargement soit entièrement téléchargée avant de récupérer la suivante.
+Il est possible en changeant la valeur de cette variable à True, de charger plusieurs pages en même temps,
+ce n'est cependant pas recommandé.
 
 ### loading
 
 Quand le chargement d'une page est en cours, le script rend par défaut
-visible l'icone de chargement de la page, si l'élément HTML ayant pour id
+visible l'icône de chargement de la page, si l'élément HTML ayant pour id
 __&#95;&#95;VENC&#95;LOADING&#95;&#95;__ existe. Cet élément est passé
 en argument à la fonction suivante, qu'il est possible de
 redéfinir.
@@ -171,7 +171,7 @@ loading : function(loading_image) {
 ### idle
 
 Quand le chargement est inactif, le script rend par défaut
-invisible l'icone de chargement de la page, si l'élément HTML ayant pour id
+invisible l'icône de chargement de la page, si l'élément HTML ayant pour id
 __&#95;&#95;VENC&#95;LOADING&#95;&#95;__ existe. Cet élément est passé
 en argument à la fonction suivante, qu'il est possible de
 redéfinir.

@@ -40,6 +40,6 @@ VenC crée un serveur HTTP local accessible par défaut à l'adresse suivante :
 
 > http://localhost:8888
 
-_(Pour tuer le processus, CTRL+C dans le terminal actif)_
+_(Une fois que vous aurez fini de visualiser le résultat, pour arrêter le serveur HTTP local, il suffit de taper CTRL+C dans le terminal actif)_
 
 Et voilà ! Le moins que l'on puisse dire, c'est que _vous pesez lourd dans le game_ maintenant !

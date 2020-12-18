@@ -5,7 +5,7 @@ title: 'Présentation'
 chapter: 1
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-VenC est une application Python conçue pour Linux et similaire à [Octopress](http://octopress.org)/[Jekyll](http://jekyllrb.com) ou [Pelican](http://docs.getpelican.com/en/stable/) pour gérer et créer vos blogs statiques via la console. Avec VenC, tout est fichier texte, pas de base de données. La configuration de chaque blog repose sur un unique et petit fichier [YAML](http://yaml.org/), les thèmes consistent en une poignée de templates HTML à modifier ou créer soi même, les publications quant à elles, se présentent sous la forme d'une partie [YAML](http://yaml.org/) et d'une autre [Markdown](https://daringfireball.net/projects/markdown/syntax) ou [reStructuredText](http://docutils.sourceforge.net/rst.html).
+VenC est une application Python conçue pour Linux et similaire à [Octopress](http://octopress.org)/[Jekyll](http://jekyllrb.com) ou [Pelican](http://docs.getpelican.com/en/stable/) pour gérer et créer vos blogs statiques via la console. Avec VenC, tout est fichier texte, pas de base de données. La configuration de chaque blog repose sur un unique et petit fichier [YAML](http://yaml.org/), les thèmes consistent en une poignée de templates HTML à modifier ou créer soi même, les publications quant à elles, se présentent sous la forme d'une partie [YAML](http://yaml.org/) et d'une autre en [Markdown](https://daringfireball.net/projects/markdown/syntax) ou en [reStructuredText](http://docutils.sourceforge.net/rst.html).
 
 Les blogs statiques sont tout à fait adaptés aux réseaux de type Deepweb ou aux personnes qui veulent un contrôle total sur leur site sans s'embarrasser de CMS lourds et potentiellement vulnérables en terme de sécurité. Par ailleurs, l'extrême simplicité de l'organisation des sources des blogs issues de VenC garantit une prise en main rapide et efficace.
 
@@ -29,7 +29,7 @@ En outre, voilà ce que VenC propose :
   - La gestion et l'édition du blog peut-être faite entièrement en ligne de commande.
   - Rédaction des publications en [Markdown](https://daringfireball.net/projects/markdown/syntax), [reStructuredText](http://docutils.sourceforge.net/rst.html), ou HTML.
   - Exportation en ligne du blog via FTP.
-  - Coloration Syntaxique grâce à [Pygments](http://pygments.org/).
+  - Coloration syntaxique grâce à [Pygments](http://pygments.org/).
   - Support du protocole oEmbed.
   - Support de contenus audio et vidéo.
   - Balises VenC permettant une mise en page et une intégration de contenus avancés.

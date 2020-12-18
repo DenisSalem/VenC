@@ -6,166 +6,166 @@ title: Motifs conditionnels
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-Ce type de motifs s'executent sous condition. Ils permettent une mise en
+Ce type de motifs s'exécutent sous condition. Ils permettent une mise en
 page plus fine et spécifique en renvoyant l'un ou l'autre argument selon
-que la condition du teste soit remplie.
+que la condition du test est remplie ou non.
 
 ## .:Escape:: .:IfCategories::string1[::string2]:. ::EndEscape:.
 
-La fonction teste si des categories existent et si la générations des pages de celles-si est bien activé
+La fonction teste si des catégories existent et si la génération des pages de celles-ci est bien activée
 dans le fichier de configuration principal.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfChapters::string1[::string2]:. ::EndEscape:.
 
-La fonction teste si des chapitres existent et si la générations des pages de ceux-là est bien activé
+La fonction teste si des chapitres existent et si la génération des pages de ceux-là est bien activée
 dans le fichier de configuration principal.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfInThread::string1[::string2]:. ::EndEscape:.
 
-La fonction teste si la page courante est généré dans le contexte d'un fil de
-publications (categories, archives chapitres, ou fil principal).
+La fonction teste si la page courante est généréee dans le contexte d'un fil de
+publications (catégories, archives de chapitres, ou fil principal).
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfInMainThread::string1[::string2]:. ::EndEscape:.
 
-La fonction teste si la page courante est généré dans le fil de publication principal.
+La fonction teste si la page courante est générée dans le fil de publication principal.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfInArchives::string1[::string2]:. ::EndEscape:.
 
-La fonction teste si la page courante est généré dans le fil des archives.
+La fonction teste si la page courante est générée dans le fil des archives.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfInCategories::string1[::string2]:. ::EndEscape:.
 
-La fonction teste si la page courante est généré dans le fil des categories.
+La fonction teste si la page courante est générée dans le fil des catégories.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfInFirstPage::string1[::string2]:. ::EndEscape:.
 
-La fonction teste si le numero de page courrant correspond à la première
-page du fil de publication courant. Si la page est généré dans le contexte
+La fonction teste si le numéro de page courant correspond à la première
+page du fil de publication courant. Si la page est générée dans le contexte
 d'une page individuelle de publication ou d'un chapitre, le test échoue.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfInLastPage::string1[::string2]:. ::EndEscape:.
 
-La fonction teste si le numero de page courrant correspond à la dernière
+La fonction teste si le numéro de page courant correspond à la dernière
 page du fil de publication courant. Si la page est généré dans le contexte
 d'une page individuelle de publication ou d'un chapitre, le test échoue.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfInEntryID::id::string1[::string2]:. ::EndEscape:.
 
 La fonction teste si l'identifiant de la publication correspond à celui spécifié en argument.
 
-- __id__ : Un nombre entier différent de 0 identifiant une publication.
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+- __id__ : un nombre entier différent de 0 identifiant une publication.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfPages::string1[::string2]:. ::EndEscape:.
 
 La fonction teste si le fil de publication courant à plus d'une page.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition est fausse. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: IfFeedsEnabled::string1[::string2]:. ::EndEscape:.
 
-La fonction teste si VenC est configuré pour généré un flux RSS et/ou un flux Atom.
+La fonction teste si VenC est configuré pour générer un flux RSS et/ou un flux Atom.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition n'est pas remplie. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: IfRSSEnabled::string1[::string2]:. ::EndEscape:.
 
 La fonction teste si VenC est configuré pour généré un flux RSS.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition n'est pas remplie. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: IfAtomEnabled::string1[::string2]:. ::EndEscape:.
 
 La fonction teste si VenC est configuré pour généré un flux Atom.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition n'est pas remplie. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfInThreadAndHasFeeds::string1[::string2]:. ::EndEscape:.
 
 La fonction teste si le fil de publication courant peut produire un flux Atom et/ou RSS.
 Seul les categories et le fil principal valident la condition.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition n'est pas remplie. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfInFeed::string1[::string2]:. ::EndEscape:.
 
-Certains éléments contenue dans une publication ne peuvent pas être présent dans le flux RSS/Atom sous peine
+Certains éléments contenus dans une publication ne peuvent pas être présent dans le flux RSS/Atom sous peine
 que celui-ci ne soit pas valide et ne s'affiche pas correctement dans les lecteurs de flux RSS/Atom.
 
-Vous pouvez utiliser __IfInFeed__ pour remplacer un certains type de contenu par un autre qui lui serait valide dans un flux RSS/Atom.
+Vous pouvez utiliser __IfInFeed__ pour remplacer un certain type de contenus par un autre, qui lui serait valide dans un flux RSS/Atom.
 
-En outre la fonction teste si le fil de publication courant est un flux RSS ou Atom.
+En outre, la fonction teste si le fil de publication courant est un flux RSS ou Atom.
 
-- __string1__ : Texte retourné si la condition est remplie.
-- __string2__ : Texte retourné si la condition n'est pas remplie. Si le second argument est absent le motif est ignoré et supprimé.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition n'est pas remplie. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.
 
 ## .:Escape:: .:IfInfiniteScrollEnabled::string1[::string2]:. ::EndEscape:.
 
-Permet de tester si la variable __disable&#95;infinite&#95;scroll__ est définit 
-dans le fichier de configuration principal et, si c'est le cas, quel en est la valeur booléenne.
+Permet de tester si la variable __disable&#95;infinite&#95;scroll__ est définie 
+dans le fichier de configuration principal et, si c'est le cas, quelle en est la valeur booléenne.
 
-- __string&#95;1__ : Texte retourné si la variable testée vaut __True__.
-- __string&#95;2__ : Texte retourné si la variable testée vaut __False__ ou
-si elle n'est pas définit. Si le second argument est absent le motif est ignoré et supprimé.
+- __string&#95;1__ : texte retourné si la variable testée vaut __True__.
+- __string&#95;2__ : texte retourné si la variable testée vaut __False__ ou
+si elle n'est pas définie. Si le second argument est absent, le motif est ignoré et supprimé.
 
-Ce motif n'a pas de variable contextuelles.
+Ce motif n'a pas de variable contextuelle.

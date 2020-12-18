@@ -12,11 +12,11 @@ Et bien c'est très simple camarade, comme dirait Jean-Pierre Coffe, _Les systè
 
 ## Commande introuvable
 
-VenC devrait être installé avec [pip](https://pypi.python.org/pypi/pip), dans l'environnement Python, côté utilisateur (pas dans le système donc). De cette façon, le système à besoin de connaître l'emplacement de VenC, dont l'exécutable devrait se trouver dans _~/.local/bin_.
+VenC devrait être installé avec [pip](https://pypi.python.org/pypi/pip), dans l'environnement Python, côté utilisateur (pas dans le système donc). De cette façon, le système a besoin de connaître l'emplacement de VenC, dont l'exécutable devrait se trouver dans _~/.local/bin_.
 
 Sur certaines distributions GNU/Linux, comme [Archlinux](https://www.archlinux.org/) ou [Gentoo](https://www.gentoo.org/), la variable d'environnement _PATH_ peut être incomplète par défaut, ce qui produit en effet une erreur type _commande introuvable_.
 
-Dans ce cas, vous pouvez ajouter à votre _~/.bashrc_ la ligne suivante:
+Dans ce cas, vous pouvez ajouter à votre _~/.bashrc_ la ligne suivante :
 
 > export PATH=$PATH:~/.local/bin
 
@@ -51,9 +51,9 @@ Après ça, désinstallez VenC avec la version Python 2 de [pip](https://pypi.py
 
 C'est fort possible en effet, mais ce n'est pas du ressort de VenC dans la mesure où cette fonctionnalité dépend d'une [tierce librairie](https://github.com/Code-ReaQtor/latex2mathml), développée indépendamment de VenC. Cette librairie est jeune et encore en développement. Son développeur étant très réactif, si quelque chose ne fonctionne pas correctement, signalez le problème sur [la page Github du projet](https://github.com/Code-ReaQtor/latex2mathml), cela devrait être alors résolu relativement rapidement !
 
-## Je n'arrive pas à créer de sous catégories dans ma publication !
+## Je n'arrive pas à créer de sous-catégories dans ma publication !
 
-Il se peut qu'il s'agisse d'une erreur de syntaxe. Le séparateur de sous catégorie est " > ", et non pas ">".
+Il se peut qu'il s'agisse d'une erreur de syntaxe. Le séparateur de sous-catégorie est " > ", et non pas ">".
 
 Par exemple, vous devriez avoir quelque chose comme :
 
@@ -92,6 +92,3 @@ Cela signifie que vos locales ne sont pas correctement configurées, la résolut
 ## Où trouver le code source ?
 
 Sur [Github](https://github.com/DenisSalem/VenC) ou sur [Framagit](https://framagit.org/denissalem/VenC/).
-
-
-

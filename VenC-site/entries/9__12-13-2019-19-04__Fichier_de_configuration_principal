@@ -59,7 +59,7 @@ L'éditeur de texte choisi pour éditer une nouvelle publication du blog.
 
 ## .:DisableMarkup::date_format:.
 
-"%A %d. %B %Y" par défaut. Définit le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par python. Pour en savoir plus sur ce format rendez vous [ici](http://strftime.org).
+"%A %d. %B %Y" par défaut. Définit le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par Python. Pour en savoir plus sur ce format, rendez vous [ici](http://strftime.org).
 ## .:DisableMarkup::author_name:.
 
 Le nom de l'administrateur ou l'auteur du blog.
@@ -100,15 +100,14 @@ Votre adresse e-mail.
 
 ## .:DisableMarkup::code_highlight_css_override:.
 
-Régénère le code CSS crée par le module [Pygments](https://pygments.org/languages/). Ce champ est un booléen,
-fixé à *False* par défaut. Attention, si ce champ est fixé à *True*, à chaque exportation
-de votre blog les anciens codes CSS crée par [Pygments](https://pygments.org/languages/) seront écrasés.
+Génère à nouveau le code CSS créé par le module [Pygments](https://pygments.org/languages/). Ce champ est un booléen, fixé à *False* par défaut. Attention si ce champ est fixé à *True*, à chaque exportation
+de votre blog, les anciens codes CSS créés par [Pygments](https://pygments.org/languages/) seront écrasés.
 
 ## path
 
 Il s'agit d'une variable contenant différents chemins,
 vous ne devriez normalement pas avoir besoin d'y toucher.
-La liste de ces chemins est détaillé ci-dessous
+La liste de ces chemins est détaillée ci-dessous.
 
 .:DisableMarkup::<div style="padding-left: 2em;">:.
 
@@ -122,7 +121,7 @@ Le nom de sous-répertoire qui contiendra les publications individuelles.
 
 ### .:DisableMarkup::categories_sub_folders:.
 
-Le nom de sous répertoire qui contiendra les catégories
+Le nom du sous-répertoire qui contiendra les catégories
 
 ### .:DisableMarkup::index_file_name:.
 
@@ -130,11 +129,11 @@ Le nom de sous répertoire qui contiendra les catégories
 
 ### .:DisableMarkup::category_directory_name:.
 
-"{category}" par défaut. Définit le répertoire où sera exporté le fil de publication de la categorie courante. Ce champ devrait donc toujours contenir la variable {category}.
+"{category}" par défaut. Définit le répertoire où sera exporté le fil de publication de la catégorie courante. Ce champ devrait donc toujours contenir la variable {category}.
 
 ### .:DisableMarkup::chapter_directory_name:.
 
-"{chapter_name} par défaut. Définit les noms de répertoire où serons
+"{chapter_name} par défaut. Définit les noms de répertoire où seront
 exportés les chapitres, s'il en existe. Ce champ devrait donc toujours
 contenir la variable .:DisableMarkup::{chapter_name}:..
 
@@ -142,7 +141,7 @@ contenir la variable .:DisableMarkup::{chapter_name}:..
 
 "%Y-%m" par défaut. Définit le format de date utilisé pour les noms de
 répertoires des archives. Le format des dates est en fait le même que
-celui utilisé par Python. Pour en savoir plus sur ce format rendez vous
+celui utilisé par Python. Pour en savoir plus sur ce format, rendez vous
 [ici](http://strftime.org).
 
 ### .:DisableMarkup::entry_file_name:.
@@ -173,7 +172,7 @@ celui utilisé par Python. Pour en savoir plus sur ce format rendez vous
 
 ## .:DisableMarkup::reverse_thread_order:.
 
-Ce champ est un booléen, fixé à *True* par défaut. Définit l'ordre de publication. Du plus récent au plus anciens (*True*), ou l'inverse (*False*). 
+Ce champ est un booléen, fixé à *True* par défaut. Définit l'ordre de publication. Du plus récent au plus ancien (*True*), ou l'inverse (*False*). 
 
 ## .:DisableMarkup::markup_language:.
 
@@ -181,7 +180,7 @@ Ce champ spécifie le langage de balisage par défaut utilisé dans toutes
 les publications. Cette valeur peut cependant être localement écrasée
 dans l'entête d'une [publication]().
 
-Les valeurs possible de ce champ sont
+Les valeurs possibles de ce champ sont :
 
 - Markdown
 - reStructuredText
@@ -206,7 +205,7 @@ la valeur de leur identifiant. C'est pourquoi la valeur de ce champ est
 'id' par défaut. Il est possible de spécifier le nom d'une autre propriété
 pour les publications.
 
-Les valeurs possible sont :
+Les valeurs possibles sont :
 
 - authors
 - date
@@ -216,7 +215,7 @@ Les valeurs possible sont :
 - tags
 - title
 
-Vous pouvez également spécifier le nom d'une métadonnée définit
+Vous pouvez également spécifier le nom d'une métadonnée définie
 manuellement dans l'entête de vos publications.
 
 ## .:DisableMarkup::enable_jsonld:.

@@ -15,13 +15,13 @@ __IncludeFile__. Ce fichier c'est __nsfw.html__. Voilà comment il s'utilise :
 
 .:CodeHighlightInclude::HTML::False::nsfw-example:.
 
-Les paramètres important ici sont le second et le troisième argument,
+Les paramètres importants ici sont le second et le troisième argument,
 respectivement __nsfw.html__ et __.:Escape:: .:GetEntryID:. ::EndEscape:.__.
 
-- __nsfw.html__ : Il s'agit du fichier à inclure. Il contient le code HTML
-nécessaire pour cacher / révéler le contenu sensible.
+- __nsfw.html__ : il s'agit du fichier à inclure. Il contient le code HTML
+nécessaire pour cacher/révéler le contenu sensible.
 
-- __.:Escape:: .:GetEntryID:. ::EndEscape:.__ : Cet argument définit l'identifiant CSS du block html à cacher / révéler.
+- __.:Escape:: .:GetEntryID:. ::EndEscape:.__ : cet argument définit l'identifiant CSS du block html à cacher/révéler.
 Si vous souhaitez dissimuler une publication entière, le mieux c'est d'utiliser, comme ici, l'identifiant de la publication.
 
-Pour plus de détail sur le fonctionnement du pattern rendez-vous [ici](.:GetChapterAttributeByIndex::path::5.3:.#escape-includefileescapefilenamearg951arg952arg95n-endescape)
+Pour plus de détails sur le fonctionnement du pattern, rendez-vous [ici](.:GetChapterAttributeByIndex::path::5.3:.#escape-includefileescapefilenamearg951arg952arg95n-endescape).

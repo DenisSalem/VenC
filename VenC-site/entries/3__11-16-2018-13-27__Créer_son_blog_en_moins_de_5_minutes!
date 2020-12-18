@@ -11,11 +11,11 @@ Dans un terminal, tapez la commande suivante :
 
 > venc --new-blog "MonSuperBlog"
 
-Après cette commande, VenC a créer un répertoire appelé "MonSuperBlog" à l'endroit où vous avez lancé la commande. Ce repertoire contient toutes les informations de votre blog. Il faut donc le garder précieusement, et même en faire des sauvegardes de temps à autre !
+Après cette commande, VenC a créé un répertoire appelé "MonSuperBlog" à l'endroit où vous avez lancé la commande. Ce répertoire contient toutes les informations de votre blog. Il faut donc le garder précieusement, et même en faire des sauvegardes de temps à autre !
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc --new-blog "MonSuperBlog"
 
-> .:SetColor::VenC: Votre blog a été crée!::green:.
+> .:SetColor::VenC: Votre blog a été créé!::green:.
 
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. ls MonSuperBlog/
 
@@ -23,10 +23,10 @@ Après cette commande, VenC a créer un répertoire appelé "MonSuperBlog" à l'
 
 La prochaine étape consiste à paramétrer un peu le blog. Pour ça, il suffit d'éditer le fichier *blog_configuration.yaml* à la racine de ce répertoire. Vous pourrez notamment y définir le nom de votre blog, sa langue, ses mots-clefs, entre autres choses parmi les nombreux paramètres à configurer, ou à laisser par défaut.
 
-.:CodeHighlight::Yaml::False::author_description: 'Je suis Jean Rochefort et je suis mort, mais je reviendrais.'
+.:CodeHighlight::Yaml::False::author_description: 'Je suis Jean Rochefort et je suis mort, mais je reviendrai.'
 author_name: 'Jean Fucking Rochefort'
 blog_description: 'Les tribulations du roy de France Jean Rochefort en direct du paradis.'
-blog_keywords: 'cinema,moustache,punchline,boloss'
+blog_keywords: 'cinéma,moustache,punchline,boloss'
 blog_language: 'fr'
 blog_name: 'Le blog de Jean Rochefort, élu roy de France par les internets.'
 license: 'Licence royale':.
@@ -35,4 +35,4 @@ Pour plus d'informations sur la configuration du blog, rendez-vous [ici](https:/
 
 Et voilà, c'est terminé ! Votre blog est prêt à l'emploi !
 
-_Si vous avez rencontré une difficulté durant ce tutoriel, jetez un oeil à la [FAQ](.:GetBlogURL:./faqFR.md), la solution s'y trouvera certainement !_
+_Si vous avez rencontré une difficulté durant ce tutoriel, jetez un œil à la [FAQ](.:GetBlogURL:./faqFR.md), la solution s'y trouvera certainement !_

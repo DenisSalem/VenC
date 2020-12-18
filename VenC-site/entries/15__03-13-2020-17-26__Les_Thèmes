@@ -44,7 +44,7 @@ façon identique.
 Il n'est pas forcément évident de créer un thème de toute pièce et vous
 n'avez peut-être pas envie de perdre trop de temps à tester le
 fonctionnement de tout ça. Le meilleur moyen de créer un thème soi-même
-est de jeter un oeil au thème __dummy__ normalement installé avec VenC
+est de jeter un œil au thème __dummy__ normalement installé avec VenC
 dans :
 
 > ~/.local/share/VenC/themes/dummy
