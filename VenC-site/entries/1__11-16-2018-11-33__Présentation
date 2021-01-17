@@ -3,6 +3,7 @@ categories: ''
 tags: ''
 title: 'Présentation'
 chapter: 1
+banner: 2021_-_Denis_Salem_-_CC_By_SA_-_VenC_introducing.jpg
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 VenC est une application Python conçue pour Linux et similaire à [Octopress](http://octopress.org)/[Jekyll](http://jekyllrb.com) ou [Pelican](http://docs.getpelican.com/en/stable/) pour gérer et créer vos blogs statiques via la console. Avec VenC, tout est fichier texte, pas de base de données. La configuration de chaque blog repose sur un unique et petit fichier [YAML](http://yaml.org/), les thèmes consistent en une poignée de templates HTML à modifier ou créer soi même, les publications quant à elles, se présentent sous la forme d'une partie [YAML](http://yaml.org/) et d'une autre en [Markdown](https://daringfireball.net/projects/markdown/syntax) ou en [reStructuredText](http://docutils.sourceforge.net/rst.html).
