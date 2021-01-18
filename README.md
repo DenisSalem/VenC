@@ -2,15 +2,15 @@
 
 # Tutorials
 
-- [Français](doc/howtoFR.md)
-- [English](doc/howtoEN.md)
+- [Français](doc/howtoFR.md) (Obsolète)
+- [English](doc/howtoEN.md) (Obsolete)
 
 # Documentations
 
-- [VenC 1.2.1 - Français](doc/FR.md)
-- [VenC 1.2.1 - English](doc/EN.md) (translation by [benben962](https://github.com/benben962) and [denissalem](https://denissalem.tuxfamily.org))
+- [VenC 1.2.1 - Français](doc/FR.md) (Obsolète)
+- [VenC 1.2.1 - English](doc/EN.md) (translation by [benben962](https://github.com/benben962) and [denissalem](https://denissalem.tuxfamily.org), Obsolete)
 
 # FAQ
 
-- [Français](doc/faqFR.md)
-- [English](doc/faqEN.md)
+- [Français](doc/faqFR.md) (Obsolète)
+- [English](doc/faqEN.md) (Obsolete)
