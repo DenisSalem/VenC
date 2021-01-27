@@ -196,7 +196,7 @@ code
 table
 	{margin-left: 15px;}
 
-#content p
+#content p:not(.introducing-icon p)
 	{text-align: justify;}
 
 #content ul
@@ -204,3 +204,19 @@ table
 
 .__VENC_TREE_BUTTON_DISABLED__
     {margin-left:0.5em;}
+
+.introducing-icon
+    {width: 30%;
+    display: block;
+    margin-left: 1.5%;
+    margin-right: 1.5%;
+    float: left;}
+    
+.introducing-icon p
+    {text-align: center;}
+    
+.introducing-icon img
+    {max-height: 200px;
+    margin: auto;
+    max-width: 100%;
+    display: block;}

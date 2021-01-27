@@ -54,7 +54,7 @@ Indique à quel chapitre correspond la publication. La convention qu'utilise
 VenC pour reconnaître les chapitres est la suivante : chaque chapitre et chaque sous-partie sont numérotés, et séparés par un point. Quelques exemples pour aider à visualiser le truc.
 
 - __'2'__ : indique que la publication correspond au chapitre deux.
-- __'1.2'__ : indiquer que la publication correspond au premier chapitre, seconde sous-partie
+- __'1.2'__ : indique que la publication correspond au premier chapitre, seconde sous-partie
 - __'3.3.5'__ : indique que la publication correspond au troisième chapitre, troisième sous-partie, cinquième sous-partie de la partie parente.
 
 **Important : le champ _chapter_ doit explicitement être une chaîne

@@ -12,14 +12,31 @@ Les blogs statiques sont tout à fait adaptés aux réseaux de type Deepweb ou a
 
 En outre, voilà ce que VenC propose :
 
-  - Création de blog statique.
-  - Mise en page simple à personnaliser directement en HTML/CSS.
-  - Possibilité de créer un agencement en nombre arbitraire de colonne.
-  - Module Javascript de défilement infini.
-  - Module Javascript de moteur de recherche décentralisé.
-  - Les publications peuvent être organisées par catégories et sous-catégories.
-  - Les publications peuvent être organisées par période de dates.
-  - Les publications peuvent être organisées par chapitres.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.static-site-icon.gif" />
+    <p>Création de blog statique.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-patterns-icon.gif" />
+    <p>Balises VenC permettant une mise en page et une intégration de contenus avancés.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-many-columns-icon.gif" />
+    <p>Possibilité de créer un agencement en nombre arbitraire de colonne.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-infinite-scroll-icon.gif" />
+    <p>Module Javascript de défilement infini.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-search-engine-icon.gif" />
+    <p>Module Javascript de moteur de recherche distribué.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-content-taxonomy-icon.gif" />
+    <p>Les publications peuvent être organisées par catégories, sous-catégories, par période de dates et par chapitres</p>
+:.
+
   - Possibilité de désactiver des fils de publications spécifiques.
   - Possibilité de définir des sous-répertoires par type de fils de publications.
   - Possibilité d'ajouter des métadonnées au blog et aux publications.
@@ -33,7 +50,7 @@ En outre, voilà ce que VenC propose :
   - Coloration syntaxique grâce à [Pygments](http://pygments.org/).
   - Support du protocole oEmbed.
   - Support de contenus audio et vidéo.
-  - Balises VenC permettant une mise en page et une intégration de contenus avancés.
+  - 
   - Installation via [pip](https://pypi.python.org/pypi/pip).
   - Des thèmes par défaut.
 
