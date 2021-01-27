@@ -13,7 +13,7 @@ Les blogs statiques sont tout à fait adaptés aux réseaux de type Deepweb ou a
 En outre, voilà ce que VenC propose :
 
 .:SetStyle:: ::introducing-icon::
-    <img src=".:GetRelativeOrigin:.static-site-icon.gif" />
+    <img src=".:GetRelativeOrigin:.venc-static-site-icon.gif" />
     <p>Création de blog statique.</p>
 :.
 .:SetStyle:: ::introducing-icon::
@@ -36,16 +36,49 @@ En outre, voilà ce que VenC propose :
     <img src=".:GetRelativeOrigin:.venc-content-taxonomy-icon.gif" />
     <p>Les publications peuvent être organisées par catégories, sous-catégories, par période de dates et par chapitres</p>
 :.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-disable-threads-icon.gif" />
+    <p>Possibilité de désactiver des fils de publications spécifiques.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-sub-dirs-icon.gif" />
+    <p>Possibilité de définir des sous-répertoires par type de fils de publications.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-metadatas-icon.gif" />
+    <p>Possibilité d'ajouter des métadonnées au blog et aux publications.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-sort-by-icon.gif" />
+    <p>Publications triées par ordre chronologique ou par métadonnées. Ordre ascendant ou descendant.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-feeds-icon.gif" />
+    <p>Flux Atom et/ou RSS pour chaque fils de publications.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-permalink-icon.gif" />
+    <p>Permaliens.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-server-icon.gif" />
+    <p>Serveur HTTP simple.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-all-in-tty-icon.gif" />
+    <p>La gestion et l'édition du blog peut-être faite entièrement en ligne de commande.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-markup-icon.gif" />
+    <p>Rédaction des publications en <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>, <a href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>, ou HTML.</p>
+:.
 
-  - Possibilité de désactiver des fils de publications spécifiques.
-  - Possibilité de définir des sous-répertoires par type de fils de publications.
-  - Possibilité d'ajouter des métadonnées au blog et aux publications.
-  - Publications triées par ordre chronologique ou par métadonnées. Ordre ascendant ou descendant.
-  - Flux Atom et/ou RSS pour chaque fils de publications.
-  - Permaliens.
-  - Serveur HTTP simple.
-  - La gestion et l'édition du blog peut-être faite entièrement en ligne de commande.
-  - Rédaction des publications en [Markdown](https://daringfireball.net/projects/markdown/syntax), [reStructuredText](http://docutils.sourceforge.net/rst.html), ou HTML.
+
+
+
+
+
+
   - Exportation en ligne du blog via FTP.
   - Coloration syntaxique grâce à [Pygments](http://pygments.org/).
   - Support du protocole oEmbed.
