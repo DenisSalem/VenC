@@ -72,16 +72,20 @@ En outre, voilà ce que VenC propose :
     <img src=".:GetRelativeOrigin:.venc-markup-icon.gif" />
     <p>Rédaction des publications en <a href="https://daringfireball.net/projects/markdown/syntax">Markdown</a>, <a href="http://docutils.sourceforge.net/rst.html">reStructuredText</a>, ou HTML.</p>
 :.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-ftp-icon.gif" />
+    <p>Exportation en ligne du blog via FTP.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-code-highlight-icon.gif" />
+    <p>Coloration syntaxique grâce à <a href="http://pygments.org/">Pygments</a>.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-oembed-icon.gif" />
+    <p>Support du protocole <a href="https://oembed.com/">oEmbed</a>.</p>
+:.
 
-
-
-
-
-
-
-  - Exportation en ligne du blog via FTP.
-  - Coloration syntaxique grâce à [Pygments](http://pygments.org/).
-  - Support du protocole oEmbed.
+  - 
   - Support de contenus audio et vidéo.
   - 
   - Installation via [pip](https://pypi.python.org/pypi/pip).
