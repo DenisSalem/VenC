@@ -84,12 +84,18 @@ En outre, voilà ce que VenC propose :
     <img src=".:GetRelativeOrigin:.venc-oembed-icon.gif" />
     <p>Support du protocole <a href="https://oembed.com/">oEmbed</a>.</p>
 :.
-
-  - 
-  - Support de contenus audio et vidéo.
-  - 
-  - Installation via [pip](https://pypi.python.org/pypi/pip).
-  - Des thèmes par défaut.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-multimedia-icon.gif" />
+    <p>Support de contenus audio et vidéo.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-pypi-icon.gif" />
+    <p>Installation via <a href="https://pypi.python.org/pypi/pip">pip</a>.</p>
+:.
+.:SetStyle:: ::introducing-icon::
+    <img src=".:GetRelativeOrigin:.venc-has-themes-icon.gif" />
+    <p>Des thèmes par défaut.</p>
+:.
 
 Petites particularités de VenC :
 
