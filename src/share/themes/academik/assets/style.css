@@ -33,6 +33,10 @@ pre {overflow: hidden; overflow-x: auto; clear: both; max-width: 580px;}
 .__VENC_PYGMENTIZE_WRAPPER__ table .code {width: 95%; display: inline-block;vertical-align: top;}
 .__VENC_PYGMENTIZE_WRAPPER__ table td pre {vertical-align: top; margin: 0px;}
 
+.__VENC_TABLE__ table
+    {table-layout: fixed;
+    width: 580px;}
+    
 .note, .footnote
     {float: left;
     margin-top: 1em;
@@ -205,6 +209,26 @@ footer
 #__VENC_FEEDS_HEADER__ a
     {color: white;}
 
+
+/********/
+/* NSFW */
+/********/
+
+.venc_nsfw
+    {clear: both;
+    width: 580px;
+    min-height: 228px;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: center center;}
+    
+.venc_nsfw .venc_nsfw_content
+	{display: none;}
+
+.venc_nsfw:target .venc_nsfw_content
+	{display: block;
+    background-color: white;}
+
 /*************/
 /* E N T R Y */
 /*************/
@@ -234,6 +258,9 @@ footer
     margin-top: 1em;
     clear: both;}
 
+.entry .__VENC_TABLE__ table img
+    {width: 100%;}
+    
 .entry ul
     {clear: both;
     max-width: 580px;}

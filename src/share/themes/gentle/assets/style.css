@@ -97,7 +97,8 @@ math
 	{display: none;}
 
 .venc_nsfw:target .venc_nsfw_content
-	{display: block;}
+	{display: block;
+    background-color: white;}
     
 /***************/
 /* H E A D E R */

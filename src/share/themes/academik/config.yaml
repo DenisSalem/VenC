@@ -3,6 +3,7 @@ info:
     
 override:
     columns: 1
+    nsfw_image: 'VenC_nsfw.png'
     path:
         atom_file_name: 'atom_feed.xml'
         rss_file_name: 'rss_feed.xml'

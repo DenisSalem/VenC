@@ -178,6 +178,7 @@
     DONE | Fix chapters rendering (only first level sub-chapter were rendered)
     
 # version 2.1.x
+    TODO | Override theme config override.
     TODO | venc -xb should also work in subdirectories
     TODO | Replace aside element by nav
     TODO | Improve context / ressource naming for error management
