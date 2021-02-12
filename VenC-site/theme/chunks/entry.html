@@ -1,6 +1,12 @@
       <div id="entry-content">
 	<div class="entry" id="entry.:GetEntryID:." data-venc-keywords=".:ForEntryTags::{value}::,:." data-venc-authors=".:ForEntryAuthors::{value}::,:.">
-          <h1 .:GetEntryMetadataIfExists::banner::class="entry-banner" style="background-image: url('.:GetRelativeOrigin:.{value}');":: :.><a href=".:GetEntryURL:.">.:GetEntryTitle:.</a></h1>
+         .:GetEntryMetadataIfExists::banner::
+            <div class="entry-banner" style="background-image: url('.:GetRelativeOrigin:.{value}');">
+            </div>
+          ::
+          
+          :.
+          <h1 class="entry-title"><a href=".:GetEntryURL:.">.:GetEntryTitle:.</a></h1>
           .:GetEntryContent:.
         </div>
       </div>

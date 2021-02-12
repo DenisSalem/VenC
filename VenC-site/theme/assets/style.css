@@ -26,21 +26,30 @@ body
     {width: 25%;}
 
 .entry-banner
-    {height: 150px;
-    width: calc(100% - 50px);
+    {height: 256px;
+    width: calc(100% + 15px);
     margin-left: 0px;
     margin-right: 0px;
     background-size: cover;
     line-height: 150px;
     text-transform: uppercase;
-    padding-left: 1em;
-    padding-right: 1em;
     letter-spacing: 0.25em;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     box-shadow: 0px 0px 5px black inset;
+    text-shadow: 1px 1px 0px black, -1px -1px 0px black, -1px 1px 0px black, 1px -1px 0px black, 1px 0px 0px black, -1px 0px 0px black, 0px 1px 0px black, 0px -1px 0px black;
     background-position: center center;}
-    
+
+.entry-title
+    {border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    margin-top: -1px;
+    padding-left: 15px;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    width: 100%;
+    box-shadow: -5px 0px 5px black;}
+
 strong
     {font-weight: bold;}
     
@@ -188,7 +197,7 @@ code
     padding-bottom: 1em;
     clear: both;}
 
-#content h1:not(.entry-banner),
+#content h1:not(.entry-title),
 #content h2,
 #content h3,
 #content blockquote,
