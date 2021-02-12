@@ -176,6 +176,7 @@
     WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
     DONE | Documenter le type des métadonnées: list, str ou dict
     DONE | Fix chapters rendering (only first level sub-chapter were rendered)
+    TODO | Fix list CSS in academik
     
 # version 2.1.x
     TODO | Override theme config override.

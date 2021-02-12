@@ -50,7 +50,7 @@ extra_files.append((homedir+"/.local/share/VenC/themes_templates",    ["share/th
 
 setup(
     name='VenC',
-    version='2.0.0',
+    version='2.0.0rc6',
     description='A static blog generator.',
     author='Denis Salem',
     author_email='denissalem@tuxfamily.org',
@@ -68,7 +68,8 @@ setup(
     long_description="A static and light blog generator, Aim to be easy to use.",
     classifiers=[
         "Environment :: Console",
-        "Development Status :: 5 - Production/Stable"
+        "Development Status :: 5 - Production/Stable",
+        "Programming Language :: Python :: 3"
     ],
     install_requires=[
           "docutils",
