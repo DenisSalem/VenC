@@ -173,10 +173,10 @@
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
     WIP  | Add definition in documentation for optional fields in blog configuration.
-    WIP  | Change nomenclature: Most of the usual patterns are changed. Fix doc.
+    DONE | Change nomenclature: Most of the usual patterns are changed. Fix doc.
     DONE | Documenter le type des métadonnées: list, str ou dict
     DONE | Fix chapters rendering (only first level sub-chapter were rendered)
-    TODO | Fix list CSS in academik
+    DONE | Fix list CSS in academik
     
 # version 2.1.x
     TODO | Override theme config override.

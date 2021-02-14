@@ -17,13 +17,20 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from os.path import expanduser, isdir
+from os.path import isdir
 from os import listdir
 from setuptools import setup
 
-homedir = expanduser('~')
+import site
+import sys
 
-dst_themes_path = homedir+"/.local/share/VenC/themes/"
+# Workaround to have both installation procedure from setup.py and pip
+# copying data files in the right place. 
+dst_prefix = ''
+if ' '.join(sys.argv) == "./setup.py install --user":
+    dst_prefix = site.USER_BASE+'/'
+
+dst_themes_path = dst_prefix+"share/VenC/themes/"
 src_themes_path = "share/themes/"
 themes = listdir(src_themes_path)
 
@@ -43,14 +50,14 @@ for theme in themes:
             src_files
         ))
             
-extra_files.append((homedir+"/.local/share/VenC/embed_providers/",  ["share/embed_providers/oembed.json"]))
-extra_files.append((homedir+"/.local/share/VenC/themes_assets",    ["share/themes_assets/"+filename for filename in listdir("share/themes_assets")]) )
-extra_files.append((homedir+"/.local/share/VenC/themes_includes",    ["share/themes_includes/"+filename for filename in listdir("share/themes_includes")]) )
-extra_files.append((homedir+"/.local/share/VenC/themes_templates",    ["share/themes_templates/"+filename for filename in listdir("share/themes_templates")]) )
+extra_files.append((dst_prefix+"share/VenC/embed_providers/", ["share/embed_providers/oembed.json"]))
+extra_files.append((dst_prefix+"share/VenC/themes_assets",    ["share/themes_assets/"+filename for filename in listdir("share/themes_assets")]) )
+extra_files.append((dst_prefix+"share/VenC/themes_includes",  ["share/themes_includes/"+filename for filename in listdir("share/themes_includes")]) )
+extra_files.append((dst_prefix+"share/VenC/themes_templates", ["share/themes_templates/"+filename for filename in listdir("share/themes_templates")]) )
 
 setup(
     name='VenC',
-    version='2.0.0rc6',
+    version='2.0.0',
     description='A static blog generator.',
     author='Denis Salem',
     author_email='denissalem@tuxfamily.org',

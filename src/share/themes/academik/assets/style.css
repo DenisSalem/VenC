@@ -261,7 +261,7 @@ footer
 .entry .__VENC_TABLE__ table img
     {width: 100%;}
     
-.entry ul
+.entry ul, .entry ul li
     {clear: both;
     max-width: 580px;}
     

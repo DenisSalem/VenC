@@ -31,3 +31,4 @@ Petite précision. Les dépendances de VenC ne sont pas désinstallées automati
 - [pyyaml](https://github.com/yaml/pyyaml)
 - [Pygments](https://pygments.org/)
 - [requests](https://2.python-requests.org/en/master/)
+- [unidecode](https://pypi.org/project/Unidecode/)
