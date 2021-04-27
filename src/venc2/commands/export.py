@@ -227,6 +227,9 @@ def export_blog(argv=list()):
         try:
             shutil.copyfile(os.path.expanduser("~")+"/.local/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
         
+        except IsADirectoryError:
+            shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
+
         except FileNotFoundError as e:
             notify(messages.file_not_found.format(e.filename), color="YELLOW")
             

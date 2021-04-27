@@ -2,10 +2,14 @@
 /* G L O B A L */
 /***************/
 
+@font-face {
+    font-family: "DejaVuSans";
+    src: url("dejavu-fonts-ttf-2.37/DejaVuSans-ExtraLight.ttf");
+}
+
 body, html
   {margin: 0px;
-  font-family: sans;
-  font-weight: lighter;
+  font-family: DejaVuSans;
   background-color: white;}
 
 strong
@@ -17,12 +21,17 @@ a
   text-decoration: none;}
 
 h1
-  {font-family: sans;
+  {font-family: DejaVuSans;
   font-size: 3em;
   letter-spacing: 10px;
-  text-transform: uppercase;
-  font-weight: lighter;}
+  text-transform: uppercase;}
 
+h2
+  {font-family: DejaVuSans;
+  font-size: 1.5em;
+  letter-spacing: 0px;
+  text-transform: uppercase;}
+  
 math
     {display:block;}
 
@@ -34,16 +43,19 @@ math
     margin: 0px;
     width: calc(100% - 12px);
     float: none;
-    clear: both;}
+    clear: both;
+    font-family: DejaVuSansOblique}
         
 .footnote
     {height: 0px;
     opacity: 0;
-    transition: 0.25s ease all;}
+    transition: 0.25s ease all;
+    font-family: DejaVuSansOblique}
         
 .footnote:target
     {height: auto;
-    opacity: 1;}
+    opacity: 1;
+    font-family: DejaVuSansOblique}
 
 .__VENC_PYGMENTIZE_WRAPPER__ {clear: both; width: 100%;}
 .__VENC_PYGMENTIZE_WRAPPER__ pre {overflow: hidden; overflow-x: auto;}
@@ -70,7 +82,7 @@ math
     padding-left: 26px;
     margin-top: 1em;
     margin-bottom: 1em;
-    font-style: italic;
+    font-family: DejaVuSansOblique;
     background-image: url('VenC_info_icon1.png');
     background-repeat: no-repeat;
     background-position: center left;
@@ -105,8 +117,9 @@ math
 /***************/
    
 header h2
-  {font-size: 0.8em;
-  font-weight: lighter;
+  {font-family: DejaVuSansBold;
+  font-size: 0.8em;
+  font-weight: normal;
   margin: 0px;
   opacity: 0.5;}
 
@@ -191,8 +204,11 @@ header a:hover
   text-decoration: underline;
 }
 
+.entry h2, .entry h3
+    {text-align: left;}
+
 .entry em {
-  color: grey;
+  color: #303030;
 }
 
 .permalink a
@@ -206,6 +222,9 @@ header a:hover
   margin-bottom: 1em;
   text-align: center;}
 
+.entry .permalink h2
+    {text-align: center;}
+    
 .permalink p
   {font-size: 1em;
   letter-spacing: 5px;

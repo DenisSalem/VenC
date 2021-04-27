@@ -50,10 +50,40 @@ for theme in themes:
             src_files
         ))
             
-extra_files.append((dst_prefix+"share/VenC/embed_providers/", ["share/embed_providers/oembed.json"]))
-extra_files.append((dst_prefix+"share/VenC/themes_assets",    ["share/themes_assets/"+filename for filename in listdir("share/themes_assets")]) )
-extra_files.append((dst_prefix+"share/VenC/themes_includes",  ["share/themes_includes/"+filename for filename in listdir("share/themes_includes")]) )
-extra_files.append((dst_prefix+"share/VenC/themes_templates", ["share/themes_templates/"+filename for filename in listdir("share/themes_templates")]) )
+extra_files.append(
+    (
+        dst_prefix+"share/VenC/embed_providers/", 
+        ["share/embed_providers/oembed.json"]
+    )
+)
+
+extra_files.append(
+    (
+        dst_prefix+"share/VenC/themes_assets/",
+        ["share/themes_assets/"+filename for filename in listdir("share/themes_assets") if not isdir("share/themes_assets/"+filename) ]
+    )
+
+)
+extra_files.append(
+    (
+        dst_prefix+"share/VenC/themes_assets/dejavu-fonts-ttf-2.37/",
+        ["share/themes_assets/dejavu-fonts-ttf-2.37/"+filename for filename in listdir("share/themes_assets/dejavu-fonts-ttf-2.37")]
+    )
+)
+
+extra_files.append(
+    (
+        dst_prefix+"share/VenC/themes_includes/",
+        ["share/themes_includes/"+filename for filename in listdir("share/themes_includes")]
+    )
+)
+
+extra_files.append(
+    (
+        dst_prefix+"share/VenC/themes_templates/",
+        ["share/themes_templates/"+filename for filename in listdir("share/themes_templates")]
+    )
+)
 
 setup(
     name='VenC',

@@ -9,5 +9,5 @@ override:
         atom_file_name: 'atom_feed.xml'
         rss_file_name: 'rss_feed.xml'
 
-assets_dependencies: ['feed-logo.png', 'VenC-Infinite-Scroll-1.2.0.js', 'VenC-Scripts-Bootstrap-0.0.0.js', 'VenC_nsfw.png', 'VenC_info_icon1.png', 'VenC_warning_icon1.png']
+assets_dependencies: ['feed-logo.png', 'VenC-Infinite-Scroll-1.2.0.js', 'VenC-Scripts-Bootstrap-0.0.0.js', 'VenC_nsfw.png', 'VenC_info_icon1.png', 'VenC_warning_icon1.png', 'dejavu-fonts-ttf-2.37']
 includes_dependencies: ['nsfw.html']
