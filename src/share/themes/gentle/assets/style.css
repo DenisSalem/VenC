@@ -33,7 +33,8 @@ h2
   text-transform: uppercase;}
   
 math
-    {display:block;}
+    {display:inline-block;
+    width: min-content;}
 
 .note,
 .footnote

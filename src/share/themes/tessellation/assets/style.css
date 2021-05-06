@@ -63,7 +63,8 @@ pre {overflow: hidden; overflow-x: auto;}
     opacity: 1;}
 
 math
-    {display:block;}
+    {display:inline-block;
+    width: min-content;}
 
 /***************/
 /* H E A D E R */

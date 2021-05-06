@@ -12,7 +12,8 @@ a
     text-decoration: none;}
     
 math
-    {display:block;}
+    {display:inline-block;
+    width: min-content;}
     
 blockquote p
     {border-left: 2px solid grey;
