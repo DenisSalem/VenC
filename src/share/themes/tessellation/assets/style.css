@@ -27,7 +27,8 @@ hr
   height: 1px;}
 
 strong
-    {font-weight: bold;}
+  {font-weight: bold;
+  text-shadow: 1px 0px 0px black;}
     
 pre {overflow: hidden; overflow-x: auto;}
 
