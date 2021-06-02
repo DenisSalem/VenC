@@ -32,8 +32,8 @@ blog_language: 'fr'
 blog_name: 'Le blog de Jean Rochefort, élu roy de France par les internets.'
 license: 'Licence royale':.
 
-Pour plus d'informations sur la configuration du blog, rendez-vous [ici](https://framagit.org/denissalem/VenC/blob/master/doc/FR.md#fichier-de-configuration-principal).
+Pour plus d'informations sur la configuration du blog, rendez-vous [ici](.:GetChapterAttributeByIndex::path::4.2:.).
 
 Et voilà, c'est terminé ! Votre blog est prêt à l'emploi !
 
-_Si vous avez rencontré une difficulté durant ce tutoriel, jetez un œil à la [FAQ](.:GetBlogURL:./faqFR.md), la solution s'y trouvera certainement !_
+_Si vous avez rencontré une difficulté durant ce tutoriel, jetez un œil à la [FAQ](.:GetChapterAttributeByIndex::path::7:.), la solution s'y trouvera certainement !_

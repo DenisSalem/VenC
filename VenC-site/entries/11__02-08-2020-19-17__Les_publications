@@ -16,7 +16,7 @@ Le nom de fichier d'une publication est formaté de la façon suivante :
 <id>__<mois>-<jour>-<année>-<heure>-<minute>__<titre>
 :.
 
-Une publication contient une première partie au format [YAML](https://yaml.org/) contenant [les métadonnées](.:GetRelativeOrigin:.Metadonnee) de la publication, puis une seconde au format Markdown qui contiendra la publication à proprement parler. Cette seconde partie
+Une publication contient une première partie au format [YAML](https://yaml.org/) contenant [les métadonnées](.:GetChapterAttributeByIndex::path::4.4:.) de la publication, puis une seconde au format Markdown qui contiendra la publication à proprement parler. Cette seconde partie
 est elle-même scindée en deux. L'une contiendra la prévisualisation de la
 publication, et l'autre son véritable contenu.
 
@@ -46,7 +46,7 @@ C'est le nom de votre publication, tel que vous l'avez définit au moment de cr�
 
 ## Métadonnées optionnelles
 
-Il est également possible de rajouter librement des [champs optionnels](.:GetRelativeOrigin:.Metadonnee). Il y a cependant deux champs réservés :
+Il est également possible de rajouter librement des [champs optionnels](.:GetChapterAttributeByIndex::path::4.4:.). Il y a cependant deux champs réservés :
 
 ### chapter
 

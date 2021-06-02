@@ -33,5 +33,5 @@ Pour utiliser un template il suffit de passer son nom de fichier (sans le chemin
 > .:SetColor::jeanrochefort@anonymous::green:. .:SetColor::~ $::cyan:. venc -ne "Amanite tue-mouches" champignons_magiques
 
 VenC va d'abord essayer de trouver votre template dans le
-[répertoire templates](.:GetRelativeOrigin:.Arborescence) de votre blog.
+[répertoire templates](.:GetChapterAttributeByIndex::path::4.1:.) de votre blog.
 Sinon, il essayera de le trouver parmi ceux prédéfinis et listés plus haut.
