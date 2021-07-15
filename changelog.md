@@ -179,6 +179,7 @@
     DONE | Fix list CSS in academik
     
 # version 2.1.x
+    TODO | Replace as much as possible usage of list with tuple.
     TODO | Override theme config override.
     TODO | venc -xb should also work in subdirectories
     TODO | Replace aside element by nav
