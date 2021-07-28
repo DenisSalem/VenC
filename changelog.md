@@ -177,6 +177,7 @@
     DONE | Documenter le type des métadonnées: list, str ou dict
     DONE | Fix chapters rendering (only first level sub-chapter were rendered)
     DONE | Fix list CSS in academik
+    TODO | Calling pattern in wrong context should trigger explicit error instead of UnknownPattern
     
 # version 2.1.x
     TODO | Replace as much as possible usage of list with tuple.
