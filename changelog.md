@@ -176,10 +176,12 @@
     DONE | Fix list CSS in academik
     DONE | Add definition in documentation for optional fields in blog configuration.
 
-# ver2.0.1
+# version 2.0.1
+    DONE| (issue #20) Calling pattern in wrong context should trigger explicit error instead of UnknownPattern
+
+# version 2.0.x
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
-    TODO | (issue #20) Calling pattern in wrong context should trigger explicit error instead of UnknownPattern
     
 # version 2.1.x
     TODO | Replace as much as possible usage of list with tuple.
