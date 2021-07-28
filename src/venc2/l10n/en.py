@@ -59,7 +59,7 @@ class Messages:
     for_unknown_value="For: Value {0} isn't defined."
     recursive_for_unknown_value="RecursiveFor: Value {0} isn't defined."
     not_enough_args="Missing arguments (expected {0}, got {1})."
-    unknown_pattern="The pattern '{0}'doesn't exists."
+    unknown_pattern="The pattern '{0}'doesn't exists or isn't used in the right place."
     unknown_contextual="Contextual variable {0} doesn't exists."
     in_ressource="In ressource '{0}'."
     something_goes_wrong_return_empty_string="An error occurs. Replacement with an empty string."

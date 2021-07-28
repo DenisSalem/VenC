@@ -129,7 +129,7 @@ def setup_pattern_processor(pattern_map):
     processor.blacklist.append("Escape")
     return processor
 
-def process_non_contextual_patterns(pattern_processor, theme):
+def process_non_contextual_patterns(pattern_processor, theme, patterns_map):
     for entry in datastore.get_entries():
         if hasattr(entry, "markup_language"):
             markup_language = getattr(entry, "markup_language")
@@ -157,6 +157,9 @@ def process_non_contextual_patterns(pattern_processor, theme):
         for pp in [entry.atom_wrapper.above, entry.atom_wrapper.below]:
             pattern_processor.process(pp)
             pp.replace_needles()
+    
+    for pattern_name in patterns_map.non_contextual["entries"].keys():
+        pattern_processor.del_function(pattern_name)
     
     pattern_processor.process(theme.header)
     theme.header.replace_needles()
@@ -187,7 +190,7 @@ def export_blog(argv=list()):
     
     notify("├─ "+messages.pre_process)
 
-    process_non_contextual_patterns(pattern_processor, theme)
+    process_non_contextual_patterns(pattern_processor, theme, patterns_map)
         
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)

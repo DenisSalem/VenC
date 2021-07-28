@@ -445,7 +445,7 @@ class Processor():
                         self.ignore_patterns = False
                         self.include_file_called = False
             
-                # Why the fuck there is only one pattern here?
+                # TODO: Why the fuck there is only one pattern here?
                 elif current_pattern == "SetColor":
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         False,

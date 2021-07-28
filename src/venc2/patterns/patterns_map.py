@@ -91,7 +91,6 @@ class PatternsMap():
                 "Audio" :                   theme.get_audio,
                 "Table" :                   table
             }
-            
         }
 
         self.non_contextual_entries_keys = self.non_contextual["entries"].keys()

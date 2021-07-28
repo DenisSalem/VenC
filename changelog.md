@@ -170,14 +170,16 @@
     DONE | Add CodeHighlightInclude
     DONE | Reorganize themes dependencies in setup.
     DONE | Print out what's going on while FTP transfert.
-    WIP  | Add relevant templates for themes.
-    WIP  | Client-side search engine.
-    WIP  | Add definition in documentation for optional fields in blog configuration.
     DONE | Change nomenclature: Most of the usual patterns are changed. Fix doc.
     DONE | Documenter le type des métadonnées: list, str ou dict
     DONE | Fix chapters rendering (only first level sub-chapter were rendered)
     DONE | Fix list CSS in academik
-    TODO | Calling pattern in wrong context should trigger explicit error instead of UnknownPattern
+    DONE | Add definition in documentation for optional fields in blog configuration.
+
+# ver2.0.1
+    WIP  | Add relevant templates for themes.
+    WIP  | Client-side search engine.
+    TODO | (issue #20) Calling pattern in wrong context should trigger explicit error instead of UnknownPattern
     
 # version 2.1.x
     TODO | Replace as much as possible usage of list with tuple.
