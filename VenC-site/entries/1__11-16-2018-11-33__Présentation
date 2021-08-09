@@ -120,7 +120,7 @@ moins de code à exécuter et à interpréter.
 ## Quand est-il des librairies tierces ?
 
 Là dessus nous n'avons malheureusement pas le contrôle. Ce que nous pouvons faire
-cependant c'est faire des choix judicieux dans ce qu'il convient de réimplémenter
+cependant c'est réaliser des choix judicieux dans ce qu'il convient de réimplémenter
 et ce qu'il convient d'importer. Nous avons fait le choix de développer notre
 propre microcode pour le formatage des thèmes de VenC. VenC ne dépend donc pas
 d'un moteur de template tier comme [Jinja](https://jinja.palletsprojects.com/en/3.0.x/) et
