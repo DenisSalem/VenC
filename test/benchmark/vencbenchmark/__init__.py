@@ -58,8 +58,9 @@ Sed a magna non magna blandit tristique sed quis augue. Donec lobortis tempus du
 Cras ultrices orci erat, lobortis mollis est pellentesque ut. Morbi convallis consequat massa, vitae interdum lorem. Sed libero velit, commodo a varius eu, convallis in leo. Phasellus quis justo venenatis, semper mi sit amet, gravida mi. In pharetra ipsum a dolor rhoncus accumsan. Sed diam velit, tempus non massa ut, semper pellentesque sem. Suspendisse sagittis, nulla sed sagittis blandit, dolor erat lobortis sem, et elementum mi urna at dui. Duis felis lacus, malesuada sit amet enim ac, egestas malesuada orci. Duis iaculis erat quam, vel fermentum dui pretium quis. Praesent a lectus sem. Nullam est nulla, convallis at sodales et, sodales at nisi."""
 
 def set_python_version():
-    if not "Python" in ENVIRONMENT.keys():
-        ENVIRONMENT["Python"] = sys.version.replace('\n', '')
+    proc = subprocess.Popen("cat /proc/cpuinfo | grep \"model name\" | head -1 | cut -d ':' -f 2", shell=True, stdout = subprocess.PIPE, stderr = subprocess.PIPE, encoding = 'utf8')
+    ENVIRONMENT["CPU"] = proc.stdout.read().strip()
+    ENVIRONMENT["Python"] = sys.version.replace('\n', '')
         
 def be_quiet(fun, args):
     quiet = not "-v" in sys.argv

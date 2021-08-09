@@ -60,6 +60,11 @@ def benchmark_venc():
     start_timestamp = time.time()
     output = subprocess.Popen([PATH_TO_VENC,"-xb"], stdout=subprocess.PIPE)
     output.wait()
+
+    if output.returncode:
+        print(output.stdout.read().decode("utf-8"))
+        exit(-1)
+        
     time_command = time.time() - start_timestamp
     time_internal = None
     readed_output = output.stdout.read().decode("utf-8").split('\n')

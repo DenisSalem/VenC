@@ -370,6 +370,33 @@ class Thread:
 
     def do_iteration(self, entry):
         global current_source
+        wrapper = getattr(entry, self.content_type+"_wrapper").processed_string
+        self.processor.process(wrapper, safe_process = True)
+        self.processor.process(entry.content, safe_process = True)
+        self.processor.process(entry.preview, safe_process = True)
+        
+        output=wrapper.string.replace(
+            "---VENC-GET-ENTRY-CONTENT---",
+            entry.content.string
+        ).replace(
+            "---VENC-GET-ENTRY-PREVIEW---",
+            entry.preview.string
+        ).replace(
+            "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---",
+            entry.preview.string if self.in_thread else entry.content.string
+        )
+            
+        self.columns[self.columns_counter] += output
+        wrapper.restore()
+        entry.content.restore()
+        entry.preview.restore()
+        
+        self.columns_counter +=1
+        if self.columns_counter >= self.columns_number:
+            self.columns_counter = 0
+
+    def old_do_iteration(self, entry):
+        global current_source
         current_source = getattr(entry, self.content_type+"_wrapper").above
         self.processor.process(current_source, safe_process = True)
         

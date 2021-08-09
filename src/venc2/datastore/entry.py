@@ -36,26 +36,19 @@ from venc2.patterns.exceptions import IllegalUseOfEscape
 
 class EntryWrapper:
     def __init__(self, wrapper, filename):
-        self.patterns = [".:GetEntryContent:.", ".:GetEntryPreview:.", ".:PreviewIfInThreadElseContent:."]
-        for pattern in self.patterns:
-            try:
-                w = wrapper.split(pattern)
-                if len(w) > 2:
-                    die(messages.too_much_call_of_content.format(filename))
-                
-                for p in self.patterns:
-                    if p in w[0] or p in w[1]:
-                        die(messages.too_much_call_of_content.format(filename))
+        pattern_replacement = {
+            ".:GetEntryContent:." : "---VENC-GET-ENTRY-CONTENT---", 
+            ".:GetEntryPreview:." : "---VENC-GET-ENTRY-PREVIEW---", 
+            ".:PreviewIfInThreadElseContent:." : "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---"
+        }
+        wrapper_len = len(wrapper)
+        for content_pattern in pattern_replacement.keys():
+            wrapper = wrapper.replace(content_pattern, pattern_replacement[content_pattern])
 
-                self.above = ProcessedString(w[0], filename, True)
-                self.below = ProcessedString(w[1], filename, True)
-                self.required_content_pattern = pattern
-                return
-
-            except IndexError:
-                pass
-        
-        die(messages.missing_entry_content_inclusion.format(filename))
+        if len(wrapper) == wrapper_len:
+            die(messages.missing_entry_content_inclusion.format(filename))
+            
+        self.processed_string = ProcessedString(wrapper, filename, True)
 
 class Entry:
     def __init__(self, filename, paths, jsonld_callback, date_format, encoding="utf-8", ):

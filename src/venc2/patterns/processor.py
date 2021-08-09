@@ -209,6 +209,8 @@ class ProcessedString():
         self.len_close_pattern_pos = len(self.close_pattern_pos)
             
         if self.len_open_pattern_pos != self.len_close_pattern_pos:
+            print(string)
+            print(self.len_open_pattern_pos,self.len_close_pattern_pos)
             raise MalformedPatterns(self.len_open_pattern_pos > self.len_close_pattern_pos, False, ressource)
 
         self.string = string

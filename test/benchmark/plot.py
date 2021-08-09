@@ -25,27 +25,32 @@ from bokeh.plotting import figure, output_file, save
 
 data = json.load(open(sys.argv[1], "r"))
 
-p = figure(title="Benchmark: VenC")
+p = figure(
+    title="VenC Benchmark ({0})".format(data["environment"]["CPU"]),
+    width=1920,
+    height=1080
+)
 p.xaxis.axis_label = "Entries count"
 p.yaxis.axis_label = "Time"
 
-step = 5
+step = 10
 
 p.line(
-	[c*step for c in range(0, len(data["benchmark_data"]["VenC"]))],
-	[v["time"] for v in data["benchmark_data"]["VenC"] ],
+	[c*step for c in range(0, len(data["benchmark_data"]))],
+	[v["time"] for v in data["benchmark_data"] ],
     color="#000000",
-    legend_label = "VenC "+ data["environment"]["VenC"]
+    legend_label = "VenC "+ data["environment"]["VenC"]+"\nPython "+data["environment"]["Python"]
 )
 
 p.line(
-	[c*step for c in range(0, len(data["benchmark_data"]["VenC"]))],
-	[v["time_internal"] for v in data["benchmark_data"]["VenC"] ],
+	[c*step for c in range(0, len(data["benchmark_data"]))],
+	[v["internal"] for v in data["benchmark_data"] ],
     color="#808080",
-    legend_label = "VenC"+ data["environment"]["VenC"]+" (internal")
+    legend_label = "VenC "+data["environment"]["VenC"]+"\nPython "+data["environment"]["Python"]+" (internal)"
 )
 
 p.legend.location = "top_left"
+p.sizing_mode = 'scale_width'
 
-output_file("benchmark.html", title="")
+output_file("benchmark.html", title="VenC Benchmark ({0})".format(data["environment"]["CPU"]))
 save(p)

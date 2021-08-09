@@ -31,15 +31,10 @@ Nature of the benchmark:
     Markup langage is set to markdown
 """
 
-# Comment items you want to ignore
-WILL_TESTS = [
-    "VenC",
-
-]
-
 ########################################################################
 
 import datetime
+import subprocess
 import time
 import vencbenchmark
 
@@ -66,8 +61,11 @@ def save_results():
     
 def benchmark():
     print("Benchmark")
-    for i in range(0, 1000):
-        gen_venc_entry()
+    for i in range(0, 1000, 10):
+        for j in range(0,10):
+            gen_venc_entry()
+            vencbenchmark.update_context()
+
         series = []
         print("\tWith {0} entries...".format(vencbenchmark.CONTEXT["ENTRY_ID_COUNTER"]), end=('\r' if i != 999 else '\n'))
         for j in range(0,10):
@@ -83,11 +81,13 @@ def benchmark():
         if series[0]["internal"] != None:
             average["internal"] =  sum([ v["internal"] for v in series ]) / len(series)
     
+        proc = subprocess.Popen("find venc-benchmark/blog | wc -l", shell=True, stdout = subprocess.PIPE, stderr = subprocess.PIPE, encoding = 'utf8')
+        average["files"] = int(proc.stdout.read())
+
         benchmark_data.append(average)
+        
         save_results()
             
-        vencbenchmark.update_context()
-
 print("VenC Benchmark v"+vencbenchmark.BENCHMARCH_VERSION)
 
 try:
