@@ -901,10 +901,13 @@ class DataStore:
                 
             if not len(argv[2]):
                 argv[2] = ' '
+            try:
+                entry.html_for_metadata[key] = argv[2].join([
+                     argv[1].format(**{"value": item.strip()}) for item in l
+                ])
                 
-            entry.html_for_metadata[key] = argv[2].join([
-                 argv[1].format(**{"value": item.strip()}) for item in l
-            ])
+            except KeyError as e:
+                raise GenericMessage(messages.unknown_contextual.format(e))
             
         return entry.html_for_metadata[key]
             
