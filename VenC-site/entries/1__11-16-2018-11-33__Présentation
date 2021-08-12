@@ -101,3 +101,33 @@ Petites particularités de VenC :
 
   - Il est conçu pour GNU/Linux spécifiquement.
   - C'est un logiciel libre sous licence [GNU/GPLv3](https://www.gnu.org/licenses/gpl-3.0.fr.html).
+  
+# Quand ça tiens sur une disquette, c'est quand même mieux
+
+En l'état, les chiffres nous disent que:
+
+- Le code source applicatif pèse moins de 300Ko
+- Les assets constitués pour l'essentiel des thèmes pèse moins de 900Ko.
+
+Ce que ça signifie c'est qu'il y a peu de code.
+En particulier pour le code applicatif écrit en Python.
+Il y a au moins deux conséquences positives :
+
+- VenC est plus facile à maintenir parce qu'il y a moins de chose à lire et à comprendre.
+- La vitesse d'exécution bénéficie de la petite taille du code source, parce qu'il y a
+moins de code à exécuter et à interpréter.
+
+## Quand est-il des librairies tierces ?
+
+Là dessus nous n'avons malheureusement pas le contrôle. Ce que nous pouvons faire
+cependant c'est réaliser des choix judicieux dans ce qu'il convient de réimplémenter
+et ce qu'il convient d'importer. Nous avons fait le choix de développer notre
+propre microcode pour le formatage des thèmes de VenC. VenC ne dépend donc pas
+d'un moteur de template tier comme [Jinja](https://jinja.palletsprojects.com/en/3.0.x/) et
+voit ses performances amélioriées dans la mesure où le moteur de template interne
+à VenC est fortement couplé avec le reste du code et a bénéficié d'un effort
+d'optimisations substantiel.
+
+Dans les futurs version de VenC, pour minimiser le nombre de composant installé
+sur votre machine, nous ferons en sorte que certaines dépendances soient optionnels.
+Et ouais, parce qu'on est pas là non plus pour dégueulasser votre box !

@@ -58,7 +58,7 @@ class Messages:
     recursive_for_unknown_value="RecursiveFor: La valeur {0} n'existe pas."
     not_enough_args="Paramétres manquants (attendus {0}, reçus {1})."
     unknown_pattern="Le motif '{0}' n'existe pas ou n'est pas utilisé au bon endroit."
-    unknown_contextual="La variable contextuel {0} n'existe pas."
+    unknown_contextual="La variable contextuel {0} n'existe pas ou n'est pas disponible ici."
     in_ressource="Dans la ressource '{0}'."
     something_goes_wrong_return_empty_string="Une erreur s'est produite. Remplacement pas une chaine de caractère vide."
     arg_blog_name="Nom du blog {0}"

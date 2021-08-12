@@ -370,27 +370,40 @@ class Thread:
 
     def do_iteration(self, entry):
         global current_source
-        current_source = getattr(entry, self.content_type+"_wrapper").above
-        self.processor.process(current_source, safe_process = True)
         
-        self.columns[self.columns_counter] += current_source.string
-        current_source.restore()
+        entry_wrapper = getattr(entry, self.content_type+"_wrapper")
         
-        if (entry.html_wrapper.required_content_pattern == ".:GetEntryPreview:.") or (entry.html_wrapper.required_content_pattern == ".:PreviewIfInThreadElseContent:." and self.in_thread):
-            current_source = entry.preview
-                
-        else:
-            current_source = entry.content
+        preprocessed_wrapper = getattr(entry, self.content_type+"_wrapper").processed_string
+        self.processor.process(preprocessed_wrapper, safe_process = True)
+        
+        output=preprocessed_wrapper.string
+        
+        if entry_wrapper.process_get_entry_content:
+            self.processor.process(entry.content, safe_process = True)
+            output=output.replace(
+                "---VENC-GET-ENTRY-CONTENT---",
+                entry.content.string
+            )
+
+        if entry_wrapper.process_get_entry_preview:
+            self.processor.process(entry.preview, safe_process = True)
+            output=output.replace(
+                "---VENC-GET-ENTRY-PREVIEW---",
+                entry.preview.string
+            )
+        
+        output=output.replace(
+            "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---",
+            entry.preview.string if self.in_thread else entry.content.string
+        )
             
-        self.processor.process(current_source, safe_process = True)
-        self.columns[self.columns_counter] += current_source.string
-        current_source.restore()
-
-        current_source = getattr(entry, self.content_type+"_wrapper").below
-        self.processor.process(current_source, safe_process = True)
-        self.columns[self.columns_counter] += current_source.string
-        current_source.restore()
-
+        self.columns[self.columns_counter] += output
+        preprocessed_wrapper.restore()
+        if entry_wrapper.process_get_entry_content:
+            entry.content.restore()
+        if entry_wrapper.process_get_entry_preview:
+            entry.preview.restore()
+        
         self.columns_counter +=1
         if self.columns_counter >= self.columns_number:
             self.columns_counter = 0

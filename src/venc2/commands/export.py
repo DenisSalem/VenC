@@ -144,19 +144,16 @@ def process_non_contextual_patterns(pattern_processor, theme, patterns_map):
         entry.content.process_markup_language(markup_language)
 
         entry.html_wrapper = deepcopy(theme.entry)
-        for pp in [entry.html_wrapper.above, entry.html_wrapper.below]:
-            pattern_processor.process(pp)
-            pp.replace_needles()
+        pattern_processor.process(entry.html_wrapper.processed_string)
+        entry.html_wrapper.processed_string.replace_needles()
         
         entry.rss_wrapper = deepcopy(theme.rss_entry)
-        for pp in [entry.rss_wrapper.above, entry.rss_wrapper.below]:
-            pattern_processor.process(pp)
-            pp.replace_needles()
+        pattern_processor.process(entry.rss_wrapper.processed_string)
+        entry.rss_wrapper.processed_string.replace_needles()
         
         entry.atom_wrapper = deepcopy(theme.atom_entry)
-        for pp in [entry.atom_wrapper.above, entry.atom_wrapper.below]:
-            pattern_processor.process(pp)
-            pp.replace_needles()
+        pattern_processor.process(entry.atom_wrapper.processed_string)
+        entry.atom_wrapper.processed_string.replace_needles()
     
     for pattern_name in patterns_map.non_contextual["entries"].keys():
         pattern_processor.del_function(pattern_name)

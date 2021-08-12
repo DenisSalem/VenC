@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#   Copyright 2016, 2020 Denis Salem
+#   Copyright 2016, 2021 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -20,14 +20,11 @@
 import datetime
 import os
 import random
+import shutil
 import subprocess
 import sys
 
-stdout = sys.stdout
-devnull = open(os.devnull, "w")
-
-ENVIRONMENT = {}
-BENCHMARCH_VERSION = "1.0.0"
+BENCHMARCH_VERSION = "2.0.2"
 
 CONTEXT = {
     "SAMPLE_CATEGORIES" : ["Movie","Computing","Music","Art","Sport","Literature","Diary","Photography","Science"],
@@ -36,6 +33,9 @@ CONTEXT = {
     "ENTRY_ID_COUNTER" : 0,
     "DATETIME" : datetime.datetime(2000, 1, 1, 0, 0).timestamp(),
 }
+
+ENVIRONMENT = {}
+
 LOREM_IPSUM = """Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales, dui ultrices interdum tincidunt, nibh tortor varius arcu, vitae fermentum velit nisl vel elit. Donec at lorem semper, pellentesque velit in, sodales metus. Fusce tempus arcu sit amet dui luctus, id rhoncus augue iaculis. Maecenas laoreet odio sit amet mauris porttitor feugiat. Aliquam nec elit congue, eleifend purus vitae, hendrerit felis. Proin vitae condimentum quam. Praesent suscipit nisl est, ac semper mauris eleifend et. Duis neque lorem, pharetra ut facilisis ac, rutrum et mauris. Pellentesque facilisis ex in metus semper vulputate. Vivamus ultrices justo et eros molestie, quis hendrerit tellus sollicitudin. Aenean id nisl a lacus finibus ullamcorper.
 Cras auctor, dolor ut elementum vulputate, lectus arcu luctus turpis, quis laoreet augue dolor ac ex. Suspendisse molestie vestibulum erat, ut congue neque elementum et. Fusce nisl nulla, blandit ac sapien sed, vehicula vestibulum neque. Ut sit amet elementum urna. Vivamus bibendum commodo sem vel tempor. Donec nec magna sed diam ullamcorper pretium a ut felis. Phasellus elementum aliquet tempor. Proin quis orci non est mollis blandit sit amet vitae neque.
 Aenean urna lacus, interdum ultricies arcu quis, laoreet venenatis orci. Integer mollis massa nec ipsum dignissim, eget vehicula nibh tristique. Cras sagittis sem in ornare tristique. Donec rhoncus massa et sem laoreet viverra. Aenean ultrices, tellus id placerat ultrices, arcu arcu venenatis justo, nec fringilla libero velit sit amet nulla. Mauris convallis sed purus ac consectetur. Fusce accumsan, arcu eget dignissim gravida, justo justo blandit felis, at ultrices ligula quam ac mi. Nulla facilisi. Curabitur erat tortor, molestie vitae sem ut, finibus iaculis risus. Aenean consequat laoreet leo, id auctor neque elementum sed. Etiam ante est, bibendum id dictum non, convallis sit amet ante. Aliquam tortor sem, venenatis vel euismod sed, egestas sit amet nulla. Maecenas magna ipsum, pretium sit amet urna id, tincidunt molestie sapien. Maecenas laoreet lobortis vehicula.
@@ -57,28 +57,60 @@ Vivamus posuere sollicitudin odio at pulvinar. Aenean a ornare sapien. Mauris co
 Sed a magna non magna blandit tristique sed quis augue. Donec lobortis tempus dui vel aliquam. Aliquam leo metus, malesuada in interdum sed, ultricies sit amet eros. Integer luctus ante vel arcu volutpat, vel rhoncus quam commodo. Morbi dapibus eleifend nisl, a vehicula lacus tincidunt vel. Ut molestie fermentum orci, eget eleifend nisi aliquet imperdiet. Vivamus aliquet blandit lectus vitae tincidunt. Donec maximus augue sed ex euismod convallis.
 Cras ultrices orci erat, lobortis mollis est pellentesque ut. Morbi convallis consequat massa, vitae interdum lorem. Sed libero velit, commodo a varius eu, convallis in leo. Phasellus quis justo venenatis, semper mi sit amet, gravida mi. In pharetra ipsum a dolor rhoncus accumsan. Sed diam velit, tempus non massa ut, semper pellentesque sem. Suspendisse sagittis, nulla sed sagittis blandit, dolor erat lobortis sem, et elementum mi urna at dui. Duis felis lacus, malesuada sit amet enim ac, egestas malesuada orci. Duis iaculis erat quam, vel fermentum dui pretium quis. Praesent a lectus sem. Nullam est nulla, convallis at sodales et, sodales at nisi."""
 
-def set_python_version():
-    if not "Python" in ENVIRONMENT.keys():
-        ENVIRONMENT["Python"] = sys.version.replace('\n', '')
+PATH_TO_VENC = os.path.expanduser("~")+"/.local/bin/venc"
+
+def clear_venc_blog():
+    try:
+        shutil.rmtree("venc-benchmark")
         
-def be_quiet(fun, args):
-    quiet = not "-v" in sys.argv
-    if quiet:
-        sys.stdout = devnull
-        
-    fun(args)
-    if quiet:
-        sys.stdout = stdout
+    except FileNotFoundError:
+        pass
+
+def gen_venc_entry():
+    ID = CONTEXT["ENTRY_ID_COUNTER"]
+    entry  = "title: benchmark entry "+str(ID)+'\n'
+    entry += "authors: VenC Comparative Benchmark\n"
+    entry += "categories: "+CONTEXT["SAMPLE_CATEGORIES"][CONTEXT["CATEGORY_INDEX"]]+'\n'
+    entry += "tags: ''"
+    entry += "---VENC-BEGIN-PREVIEW---\n"
+    entry += "---VENC-END-PREVIEW---\n"+(LOREM_IPSUM*CONTEXT["CONTENT_SIZE_MULTIPLIER"])
+    date = datetime.datetime.fromtimestamp(CONTEXT["DATETIME"])
+    entry_date = str(date.month)+'-'+str(date.day)+'-'+str(date.year)+'-'+str(date.hour)+'-'+str(date.minute)
+    output_filename = str(ID)+"__"+entry_date+"__"+"benchmark_entry_"+str(ID)
+    open("venc-benchmark/entries/"+output_filename, 'w').write(entry)
 
 def get_command_output(argv):       
-    output = subprocess.Popen(argv, stdout=subprocess.PIPE, stderr= devnull if not "-v" in sys.argv else sys.stderr)
+    output = subprocess.Popen(argv, STDOUT=subprocess.PIPE, stderr= DEVNULL if not "-v" in sys.argv else sys.stderr)
     output.wait()
     return output.stdout.read().decode("utf-8").strip()
 
+def init_entries():
+    for i in range(0, 1000):
+        gen_venc_entry()
+        update_context()
+
+def init_venc_blog():
+    from venc2.commands.new import new_blog
+    from venc2 import venc_version
+    print("Benckmark VenC", venc_version)
+    ENVIRONMENT["VenC"] = venc_version
+    clear_venc_blog()
+    new_blog(["venc-benchmark"])
+    from distutils.dir_util import copy_tree
+    copy_tree("venc-benchmark-config", "venc-benchmark")
+
+def set_python_version():
+    proc = subprocess.Popen("cat /proc/cpuinfo | grep \"model name\" | head -1 | cut -d ':' -f 2", shell=True, stdout = subprocess.PIPE, stderr = subprocess.PIPE, encoding = 'utf8')
+    ENVIRONMENT["CPU"] = proc.stdout.read().strip()
+    ENVIRONMENT["Python"] = sys.version.replace('\n', '')
+    
 def update_context():
     global CONTEXT
-    
     CONTEXT["ENTRY_ID_COUNTER"] += 1
     CONTEXT["DATETIME"] += 86400
     CONTEXT["CONTENT_SIZE_MULTIPLIER"] = random.randint(0,5)
     CONTEXT["CATEGORY_INDEX"] = random.randint(0, 8)
+
+set_python_version()
+init_venc_blog()
+init_entries()
