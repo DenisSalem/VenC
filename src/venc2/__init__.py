@@ -17,4 +17,4 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-venc_version = "2.0.1"
+venc_version = "2.0.2"

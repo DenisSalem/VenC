@@ -14,10 +14,24 @@ la publication elle-même.
 
 Il est aussi possible d'utiliser ceux-là dans des templates. Pour en savoir plus sur les templates, rendez vous [ici](.:GetRelativeOrigin:.Les-templates)
 
+## .:Escape:: .:GetEntryContent:. ::EndEscape:.
+
+Ce pattern ne peut pas être utilisé dans un template.
+
+Ce pattern renvoie le contenu complet de la publication courante.
+
+## .:Escape:: .:GetEntryPreview:. ::EndEscape:.
+
+Ce pattern ne peut pas être utilisé dans un template.
+
+Ce pattern renvoie le résumé de la publication courante.
+
 ## .:Escape:: .:GetEntryID:. ::EndEscape:.
- Retourne l'identifiant unique de la publication.
+
+Retourne l'identifiant unique de la publication.
 
 ## .:Escape:: .:GetEntryTitle:. ::EndEscape:.
+
 Retourne le nom de la publication.
 
 ## .:Escape:: .:GetEntryMonth:. ::EndEscape:.
@@ -27,12 +41,14 @@ Retourne le mois de création de la publication.
 Retourne l'année de création de la publication.
 
 ## .:Escape:: .:GetEntryDay:. ::EndEscape:.
+
 Retourne le jour de création de la publication.
 
 ## .:Escape:: . :GetEntryHour:. ::EndEscape:.
 Retourne l'heure de création de la publication.
 
 ## .:Escape:: .:GetEntryMinute:. ::EndEscape:.
+
 Retourne la minute de création de la publication.
 
 ## .:Escape:: .:GetEntryDate[::format]:. ::EndEscape:.

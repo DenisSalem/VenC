@@ -177,9 +177,13 @@
     DONE | Add definition in documentation for optional fields in blog configuration.
 
 # version 2.0.1
-    DONE| (issue #20) Calling pattern in wrong context should trigger explicit error instead of UnknownPattern
+    DONE | (issue #20) Calling pattern in wrong context should trigger explicit error instead of UnknownPattern.
 
-# version 2.0.x
+# version 2.0.2
+    DONE | Fix for_entry_metadata; catching unavailable contextual pattern.
+    DONE | Fix github issue #21. Add missing documentation about GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent.
+    
+# version 2.0.0
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
     
