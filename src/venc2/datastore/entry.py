@@ -41,8 +41,16 @@ class EntryWrapper:
             ".:GetEntryPreview:." : "---VENC-GET-ENTRY-PREVIEW---", 
             ".:PreviewIfInThreadElseContent:." : "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---"
         }
+        self.content_type_flag = 0
         wrapper_len = len(wrapper)
-        for content_pattern in pattern_replacement.keys():
+        
+        self.process_get_entry_content = 1  if ".:GetEntryContent:." in wrapper else 0
+        self.process_get_entry_preview = 1  if ".:GetEntryPreview:." in wrapper else 0
+        if ".:PreviewIfInThreadElseContent:." in wrapper:
+            self.process_get_entry_content = 1
+            self.process_get_entry_preview = 1
+        
+        for content_pattern in pattern_replacement.keys():                
             wrapper = wrapper.replace(content_pattern, pattern_replacement[content_pattern])
 
         if len(wrapper) == wrapper_len:
