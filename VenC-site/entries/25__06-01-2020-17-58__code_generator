@@ -72,7 +72,7 @@ Dans l'exemple précédent, le fichier CSS créé serait le suivant :
 Pour adapter le style du formatage à votre mise en page, vous pouvez définir
 un style appliqué aux éléments enfants de la balise.
 
-.:CodeHighlight::HTML::False::<div class="__VENC_PYGMENTIZE_WRAPPER__"></div>:.
+.:CodeHighlight::html::False::<div class="__VENC_PYGMENTIZE_WRAPPER__"></div>:.
 
 Par exemple pour la documentation que vous êtes en train de lire, le style CSS
 suivant est appliqué :
@@ -122,10 +122,9 @@ Ces fichiers peuvent être inclus dans votre thème avec le motif __GetStyleShee
 Par exemple, pour la documentation que vous êtes en train de lire, l'utilisation
 de ce motif produirait le code suivant :
 
-.:CodeHighlight::HTML::False::
+.:CodeHighlight::html::False::
 <link rel="stylesheet" href="../venc_source_Text.css" type="text/css" />
 <link rel="stylesheet" href="../venc_source_html.css" type="text/css" />
-<link rel="stylesheet" href="../venc_source_HTML.css" type="text/css" />
 <link rel="stylesheet" href="../venc_source_CSS.css" type="text/css" />
 :.
 
@@ -149,7 +148,7 @@ Par exemple :
 
 Produirait le code suivant :
 
-.:CodeHighlight::HTML::False::
+.:CodeHighlight::html::False::
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
     <mrow>
         <mover>
@@ -198,7 +197,7 @@ Par exemple
 
 Produira le code HTML suivant :
 
-.:CodeHighlight::HTML::False::
+.:CodeHighlight::html::False::
 <span class="__VENC_TEXT_COLOR__" style="color: red;">Texte de couleur rouge</span>
 :.
 
@@ -222,7 +221,7 @@ Par exemple :
 
 Produirait :
 
-.:CodeHighlight::HTML::False::
+.:CodeHighlight::html::False::
 <span id="ma_class" class="ma_class">Un texte quelconque à formater.</span>
 :.
 
@@ -240,7 +239,7 @@ Par exemple, pour créer un tableau de quatre cellules et deux lignes :
 
 Ce qui produira le code suivant :
 
-.:CodeHighlight::HTML::False::
+.:CodeHighlight::html::False::
 <div class="__VENC_TABLE__">
     <table>
         <tr>

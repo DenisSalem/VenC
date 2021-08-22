@@ -22,7 +22,7 @@ Par exemple, l'utilisation du motif comme ci-dessous :
 
 Produit le code suivant :
 
-.:CodeHighlight::HTML::False::
+.:CodeHighlight::html::False::
 <iframe
     width="459"
     height="344"

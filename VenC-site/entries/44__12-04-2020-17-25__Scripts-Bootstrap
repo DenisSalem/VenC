@@ -29,7 +29,7 @@ window.onload = VENC_ON_LOAD_CALLBACK:.
 Pour fonctionner, __VenC-Scripts-Bootstrap-x.y.z.js__ doit être le
 premier script appelé dans votre page.
 
-.:CodeHighlight::HTML::False::
+.:CodeHighlight::html::False::
 <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Scripts-Bootstrap-x.y.z.js"></script>
 <script type="text/javascript" src=".:GetRelativeOrigin:.Mon-Module-Trop-Badass.js"></script>
 :.

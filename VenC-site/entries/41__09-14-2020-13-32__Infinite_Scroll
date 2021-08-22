@@ -26,7 +26,7 @@ jeter un œil au répertoire où ceux-là sont normalement installés.
 
 Une bonne façon de faire est d'inclure ces deux scripts de la façon suivante : 
 
-.:CodeHighlightInclude::::HTML::False::infinite-scroll-1:.
+.:CodeHighlightInclude::::html::False::infinite-scroll-1:.
 
 - __IfInThread__ permet de n'inclure le script que si le contexte l'exige,
 ce qui permet de ne pas alourdir la page inutilement. Si dans votre thème

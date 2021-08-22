@@ -13,7 +13,7 @@ contient des choses à ne pas regarder en famille, ou au travail avec les collè
 Les thèmes par défaut de VenC propose l'utilisation d'un fichier à inclure avec le pattern
 __IncludeFile__. Ce fichier c'est __nsfw.html__. Voilà comment il s'utilise :
 
-.:CodeHighlightInclude::HTML::False::nsfw-example:.
+.:CodeHighlightInclude::html::False::nsfw-example:.
 
 Les paramètres importants ici sont le second et le troisième argument,
 respectivement __nsfw.html__ et __.:Escape:: .:GetEntryID:. ::EndEscape:.__.

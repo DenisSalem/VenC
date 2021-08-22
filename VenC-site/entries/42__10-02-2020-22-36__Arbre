@@ -31,7 +31,7 @@ jeter un œil au répertoire où ceux-là sont normalement installés.
 Une bonne façon de faire est d'inclure ces deux scripts de la façon
 suivante : 
 
-.:CodeHighlightInclude::::HTML::False::tree-1:.
+.:CodeHighlightInclude::::html::False::tree-1:.
 
 Dans cet example, on supose que l'on souhaite appliquer le module à une
 liste hiérarchique de catégories. On utilise donc le pattern __IfCategories__ pour
@@ -62,7 +62,7 @@ ou __[TreeForBlogCategories](.:GetChapterAttributeByIndex::path::5.2.2:.#escape-
 
 Commençons par observer que l'utilisation de ces deux patterns présentent des similarités :
 
-.:CodeHighlightInclude::::HTML::False::tree-2:.
+.:CodeHighlightInclude::::html::False::tree-2:.
 
 Entre autres choses, dans l'un ou l'autre pattern :
 
@@ -96,7 +96,7 @@ L'API définit une variable globale appelé VENC_TREE.
 
 Vous pouvez assigner la valeur que vous souhaitez à l'un de ses trois attributs de la façon suivante : 
 
-.:CodeHighlight::HTML::False::
+.:CodeHighlight::html::False::
 <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Scripts-Bootstrap-0.0.0.js"></script>
 <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Tree-0.1.0.js"></script>
 <script type="text/javascript">

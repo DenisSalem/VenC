@@ -137,4 +137,4 @@ Retourne le document JSON-LD, s'il existe, associé à la première page du fil 
 
 Par exemple, si l'on est sur la première page d'une catégorie quelconque, le motif renvoie :
 
-.:CodeHighlight::HTML::False::<script type="application/ld+json" src="categories.jsonld"></script>:.
+.:CodeHighlight::html::False::<script type="application/ld+json" src="categories.jsonld"></script>:.

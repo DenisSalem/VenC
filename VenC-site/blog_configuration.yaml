@@ -11,7 +11,7 @@ date_format: '%A %d. %B %Y'
 entries_per_pages: 20
 ftp_host: Nom d'hôte FTP
 license: CC-By-SA
-code_highlight_css_override: true
+code_highlight_css_override: false
 markup_language: 'Markdown'
 path:
   category_directory_name: '{category}'
