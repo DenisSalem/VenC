@@ -58,6 +58,8 @@ De façon similaire, il est possible d'essayer d'accéder à une métadonnée,
 sans garantie que celle-ci existe. Si la métadonnée existe, il est possible
 alors de formater du texte pour y inclure celle-ci.
 
+.:CodeHighlightInclude::html::False::GetBlogMetadataIfExists_example:.
+
 Le formatage du texte se fait en utilisant des variables contextuelles
 propre à la fonction :
 
@@ -76,7 +78,7 @@ remplie. Si cet argument n'est pas présent, le pattern est ignoré.
 Identique à __GetBlogMetadataIfExists__, mais la métadonnée spécifiée ne
 doit pas être vide.
 
-.:CodeHighlightInclude::html::False::GetBlogMetadataIfExists_example:.
+.:CodeHighlightInclude::html::False::GetBlogMetadataIfNotNull_example:.
 
 Dans cet example, on suppose que l'image de l'icône du réseau social se
 trouve à la racine du blog, on a donc besoin de préciser son chemin

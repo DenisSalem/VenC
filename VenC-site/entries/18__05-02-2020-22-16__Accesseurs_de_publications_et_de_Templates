@@ -115,6 +115,9 @@ De façon similaire, il est possible d'essayer d'accéder à une métadonnée,
 sans garantie que celle-ci existe. Si la métadonnée existe, il est possible
 alors de formater du texte pour l'y inclure.
 
+.:CodeHighlightInclude::Text::False::GetEntryMetadataIfExists_example:.
+
+
 Il est possible d'utiliser des variables contextuelles propre à la fonction pour formater le texte :
 
 - __{value}__ : la valeur de la métadonnée qu'on référence.
@@ -131,7 +134,7 @@ rempli. Si cet argument n'est pas présent, le pattern est ignoré.
 
 Identique à __GetEntryMetadataIfExists__, mais la métadonnée spécifié ne doit pas être vide.
 
-.:CodeHighlightInclude::Text::False::GetEntryMetadataIfExists_example:.
+.:CodeHighlightInclude::Text::False::GetEntryMetadataIfNotNull_example:.
 
 Si la variable référencée n'est pas définie, VenC ignore le motif et le supprime.
 
