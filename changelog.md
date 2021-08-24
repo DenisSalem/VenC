@@ -26,7 +26,6 @@
     TODO | Add plural form at the end of blog creation if multiple blog has been made.
     TODO | Fix gvim / -ex.
     TODO | Fix encoding issue in JSON-LD document.
-    TODO | Catch "OSError: [Errno 98] Address already in use".
     TODO | Catch invalid encoding at startup. (???)
     TODO | Create entry with default template, if defined.
     TODO | Make some dependencies optional.
@@ -37,7 +36,6 @@
     TODO | Decrease halt_level to render reStructuredText even if errors occurs.
     TODO | Access {count} and {weight} from LeavesForEntrycategories.
     TODO | Add Yaml comments in blog configuration.
-    TODO | Add nice 404 errors page.
     TODO | Warn about entry title duplicates.
     TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add configuration field type check.
@@ -52,18 +50,24 @@
     TODO | Add CPU threads support.
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Regenerate any missing folders.
-    TODO | Override server port with extra arg.
     TODO | Try to install an up to date oembed providers from https://oembed.com/providers.json with pip
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
 
 # version 2.1.0
-    WIP  | Add custom footer to Tessellation and Gentle theme.
+    DONE | Prevent infinite loop in needles replacement.
     DONE | Fix typos in doc
     DONE | Add InfludeFileIfExists, improve IncludeFile code.
     DONE | Add Explicite error message on what's going on if error occurs.
+    DONE | Catch "OSError: [Errno 98] Address already in use".
+    DONE | Match python locale with system's user defined.
+    DONE | Add custom footer to Tessellation, Academik and Gentle theme.
+    DONE | Fix inconsistencies with override_theme_with_css.
+    TODO | Allow custom CSS in default theme.
+    TODO | Override server port with extra arg.
+    TODO | Add nice 404 errors page.
     TODO | Update doc accordingly.
-     
+
 # version 2.0.2
     DONE | Fix for_entry_metadata; catching unavailable contextual pattern.
     DONE | Fix github issue #21. Add missing documentation about GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent.

@@ -1,13 +1,20 @@
       </div>
       .:GetBlogMetadataIfExists::loading_image::<img id="__VENC_LOADING__" src=".:GetRelativeOrigin:.{value}" />:.
-      <footer id="__VENC_NAVIGATION__">
+      <footer id="__VENC_NAVIGATION__">    
         .:IfInThread::
-      	.:GetPreviousPage:: <a id="previous" href="{path}">←</a>:.
-        <ul id="pagesList">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>
-        .:GetNextPage:: <a id="next" href="{path}" data-venc-api-infinite-scroll-hook="{path}">→</a>:.
+            .:GetPreviousPage:: <a id="previous" href="{path}">←</a>:.
+            <ul id="pagesList">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>
+            .:GetNextPage:: <a id="next" href="{path}" data-venc-api-infinite-scroll-hook="{path}">→</a>:.
         ::
-      	.:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">←</a>:.
-        .:GetNextPage:: <a id="next" href="{path}" title="{entry_title}">→</a>:.        
+            .:GetBlogMetadataIfNotNull::include_in_footer::
+                <hr>
+                .:IncludeFileIfExists::False::
+                    .:GetBlogMetadataIfNotNull::include_in_footer:.        
+                :.
+                <hr>
+            :.
+            .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">←</a>:.
+            .:GetNextPage:: <a id="next" href="{path}" title="{entry_title}">→</a>:.        
         :.
       </footer>
   </body>

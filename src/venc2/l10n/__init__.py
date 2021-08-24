@@ -22,15 +22,14 @@ from venc2.prompt import notify
 
 try:
     current_locale = locale.getlocale()[0]
-    if current_locale != None:
-        current_locale = current_locale.split('_')[0]
-        
-    else:
+    if current_locale == None:
       notify("Your system locale seems to be undefined, VenC fallback to default.", color="YELLOW")
       current_locale = 'en'
-      
+    
+    locale.setlocale(locale.LC_ALL, current_locale)
     locale_err = False
-
+    current_locale = current_locale.split('_')[0]
+    
 except locale.Error as e:
     notify(e.args, color="YELLOW")
     current_locale = 'en'

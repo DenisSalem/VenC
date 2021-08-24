@@ -45,6 +45,9 @@ def serv_blog(argv=list()):
         httpd = http.server.HTTPServer(server_address, VenCServer)
         httpd.serve_forever()
 
+    except OSError as e:
+        die(e.strerror)
+        
     except ValueError:
         die(messages.server_port_is_invalid.format(blog_configuration["server_port"]))
 

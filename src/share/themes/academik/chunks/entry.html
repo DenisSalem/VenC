@@ -9,4 +9,12 @@
                     <div class="entry_content">
                         .:GetEntryContent:.
                     </div>
+                    .:IfInThread::
+                    ::
+                        .:GetBlogMetadataIfNotNull::include_in_footer::
+                            .:IncludeFileIfExists::False::
+                                .:GetBlogMetadataIfNotNull::include_in_footer:.        
+                            :.
+                        :.
+                    :.
                 </div>

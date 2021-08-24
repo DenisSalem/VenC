@@ -6,7 +6,9 @@
     <meta keywords=".:GetBlogKeywords:." />
     <meta description=".:GetBlogDescription:." />
     <title>.:GetBlogName:.</title>
-    <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css">
+    <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css" />
+    .:GetStyleSheets:.
+    .:GetBlogMetadataIfExists::override_theme_css_with::<link rel="stylesheet" href=".:GetRelativeOrigin:.{value}" type="text/css" />:.
     <link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="./feed.xml" />
     .:IfInThread::<link rel="stylesheet" href="./styleThread.css" type="text/css">:: :.
   </head>

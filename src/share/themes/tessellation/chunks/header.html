@@ -14,15 +14,14 @@
             ::
 
             :.
-        :.
-    .:GetStyleSheets:.
-    .:GetBlogMetadataIfExists::override_theme_css_with::<link rel="stylesheet" href=".:GetRelativeOrigin:.{value}" type="text/css" />:.
-    
+        :.    
     .:IfInThread::
         .:IfRSSEnabled::<link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="rss_feed.xml" />:.
         .:IfAtomEnabled::<link rel="alternate" type="application/atom+xml" title=".:GetBlogName:." href="atom_feed.xml" />:.
     :.
     <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css" />
+    .:GetStyleSheets:.
+    .:GetBlogMetadataIfExists::override_theme_css_with::<link rel="stylesheet" href=".:GetRelativeOrigin:.{value}" type="text/css" />:.
     .:IfInThread::<link rel="stylesheet" href=".:GetRelativeOrigin:.styleThread.css" type="text/css" />::<link rel="stylesheet" href=".:GetRelativeOrigin:.styleEntry.css" type="text/css" />:.
     .:GetJSON-LD:.
     </head>
