@@ -19,7 +19,7 @@
 
 from venc2.patterns.contextual import get_random_number
 from venc2.patterns.latex2mathml import Latex2MathML
-from venc2.patterns.non_contextual import get_venc_version, include_file, set_color, set_style, table, disable_markup
+from venc2.patterns.non_contextual import get_venc_version, include_file, include_file_if_exists, set_color, set_style, table, disable_markup
 
 class PatternsMap():
     def __init__(self, datastore, code_highlight, theme):
@@ -84,6 +84,7 @@ class PatternsMap():
                 "Latex2MathML" :            Latex2MathML,
                 "GetVenCVersion" :          get_venc_version,
                 "IncludeFile" :             include_file,
+                "IncludeFileIfExists" :     include_file_if_exists,
                 "SetColor" :                set_color,
                 "SetStyle" :                set_style,
                 "DisableMarkup":            disable_markup,
@@ -128,6 +129,7 @@ class PatternsMap():
             "CodeHighlightInclude",
             "Latex2MathML",
             "IncludeFile",
+            "IncludeFileIfExists",
             "SetStyle",
             "Audio",
             "Video",

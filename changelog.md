@@ -56,7 +56,14 @@
     TODO | Try to install an up to date oembed providers from https://oembed.com/providers.json with pip
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
-        
+
+# version 2.1.0
+    WIP  | Add custom footer to Tessellation and Gentle theme.
+    DONE | Fix typos in doc
+    DONE | Add InfludeFileIfExists, improve IncludeFile code.
+    DONE | Add Explicite error message on what's going on if error occurs.
+    TODO | Update doc accordingly.
+     
 # version 2.0.2
     DONE | Fix for_entry_metadata; catching unavailable contextual pattern.
     DONE | Fix github issue #21. Add missing documentation about GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent.

@@ -249,9 +249,10 @@ class ProcessedString():
         
     def replace_needles(self, in_entry=False):
         meta_escapes = []
-           
-        if in_entry or len(self.keep_appart_from_markup_indexes):            
-            while "Missings triplet is not empty":                
+        if in_entry or len(self.keep_appart_from_markup_indexes):
+            previous_missings = []  
+            missings = [1] # trick to enter loops
+            while previous_missings != missings:                
                 missings = []
     
                 for quadruplet in self.keep_appart_from_markup_indexes:
@@ -299,7 +300,8 @@ class ProcessedString():
                                         
                 if not len(missings):
                     break
-                    
+                
+                previous_missings = missings
                 self.keep_appart_from_markup_indexes = missings
         
         # After markup langage/needles processing done, indexes are messed up.
@@ -324,7 +326,7 @@ class Processor():
     # Run any pattern and catch exception nicely
     def run_pattern(self, pattern, argv):
         try: # TODO: Should be refactored, Create a base PatternException
-            include_file = pattern == "IncludeFile"
+            include_file = pattern in ("IncludeFile", "IncludeFileIfExists")
             output = self.functions[pattern](argv[include_file:])
             if include_file:
                 self.include_file_called = True 

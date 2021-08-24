@@ -19,8 +19,8 @@
 
 import hashlib
 import json
-import os
 import requests
+import shutil
 from venc2 import venc_version
 from venc2.l10n import messages
 from venc2.patterns.exceptions import PatternInvalidArgument
@@ -30,10 +30,6 @@ from venc2.prompt import notify
 from urllib.parse import urlparse
 
 theme_includes_dependencies = []
-
-class MissingKeyDict(dict):
-    def __missing__(self, key): 
-        return key.join("{}")
 
 def disable_markup(argv):
     return '::'.join(argv)
@@ -65,7 +61,7 @@ def try_oembed(providers, url):
         
     try:
         cache_filename = hashlib.md5(url.geturl().encode('utf-8')).hexdigest()
-        os.makedirs("caches/embed", exist_ok=True)
+        shutil.os.makedirs("caches/embed", exist_ok=True)
         f = open("caches/embed/"+cache_filename, "w")
         f.write(html)
         f.close()
@@ -103,42 +99,54 @@ def set_style(argv):
 
 
 # TODO: Must fix dirty try/except structure.
-def include_file(argv):
-    try:
-        filename = argv[0]
-        if argv[0] == '':
-            raise GenericMessage(messages.wrong_pattern_argument.format("path", argv[0], "include_file"))
-            
-        include_string = open("includes/"+filename, 'r').read()
-            
-    except IndexError:
-        raise PatternMissingArguments()
+# TODO: Add explicit message about exception. 
 
-    except PermissionError:
-        raise PatternInvalidArgument("path", filename, messages.wrong_permissions.format(argv[0]))
+def include_file(argv, raise_error=True):
+    if not len(argv):
+        raise PatternMissingArguments()
+        
+    filename = argv[0]
+    if argv[0] == '':
+        if not raise_error:
+            return ""
+            
+        raise GenericMessage(messages.wrong_pattern_argument.format("path", argv[0], "include_file"))
     
-    except FileNotFoundError:
-        try:
-            include_string = open(os.path.expanduser("~/.local/share/VenC/themes_includes/"+filename), 'r').read()
-            
-        except FileNotFoundError:
-            raise PatternInvalidArgument("path", filename, messages.file_not_found.format(filename))
-            
-        except PermissionError:
-            raise PatternInvalidArgument("path", filename, messages.wrong_permissions.format(argv[0]))
+    include_string = None
+    paths = ("includes/"+filename, "~/.local/share/VenC/themes_includes/"+filename)
+    for path in paths:
+        if shutil.os.path.exists(path):
+            try:
+                include_string = open(path, 'r').read()
                 
-    if len(argv) > 1:
-        args = MissingKeyDict({})
-        index = 1
-        for arg in argv[1:]:
-            args["venc_arg_"+str(index)] = arg.strip()
-            index +=1
+            except PermissionError:
+                if not raise_error:
+                    return ""
+                raise PatternInvalidArgument("path", filename, messages.wrong_permissions.format(path))
                 
-        return include_string.format_map(args)
+    if include_string == None:
+        if not raise_error:
+            return ""
+            
+        raise PatternInvalidArgument(
+            "path",
+            filename, 
+            '\n' + '\n'.join(
+                (messages.file_not_found.format(path) for path in paths)
+            )
+        )
+                
+    if len(argv) > 1:               
+        return include_string.format_map({
+            "venc_arg_"+str(index) : argv[index] for index in range(1, len(argv)) 
+        })
             
     else:
         return include_string
-        
+
+def include_file_if_exists(argv):
+    return include_file(argv, raise_error=False)
+
 def table(argv):
     output = "<div class=\"__VENC_TABLE__\"><table>"
     tr = [[]]
