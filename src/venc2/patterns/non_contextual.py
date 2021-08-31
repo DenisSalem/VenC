@@ -22,6 +22,7 @@ import json
 import requests
 import shutil
 from venc2 import venc_version
+from venc2.helpers import SafeFormatDict
 from venc2.l10n import messages
 from venc2.patterns.exceptions import PatternInvalidArgument
 from venc2.patterns.exceptions import PatternMissingArguments
@@ -113,11 +114,13 @@ def include_file(argv, raise_error=True):
         raise GenericMessage(messages.wrong_pattern_argument.format("path", argv[0], "include_file"))
     
     include_string = None
-    paths = ("includes/"+filename, "~/.local/share/VenC/themes_includes/"+filename)
+    paths = ("includes/"+filename, shutil.os.path.expanduser("~/.local/share/VenC/themes_includes/"+filename))
     for path in paths:
+        print(path, shutil.os.path.exists(path));
         if shutil.os.path.exists(path):
             try:
                 include_string = open(path, 'r').read()
+                break
                 
             except PermissionError:
                 if not raise_error:
@@ -136,10 +139,10 @@ def include_file(argv, raise_error=True):
             )
         )
                 
-    if len(argv) > 1:               
-        return include_string.format_map({
+    if len(argv) > 1:            
+        return include_string.format_map(SafeFormatDict(**{
             "venc_arg_"+str(index) : argv[index] for index in range(1, len(argv)) 
-        })
+        }))
             
     else:
         return include_string

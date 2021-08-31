@@ -63,8 +63,7 @@
     DONE | Match python locale with system's user defined.
     DONE | Add custom footer to Tessellation, Academik and Gentle theme.
     DONE | Fix inconsistencies with override_theme_with_css.
-    TODO | Allow custom CSS in default theme.
-    TODO | Override server port with extra arg.
+    DONE | Override server port with extra arg.
     TODO | Add nice 404 errors page.
     TODO | Update doc accordingly.
 

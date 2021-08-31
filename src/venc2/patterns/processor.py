@@ -359,6 +359,7 @@ class Processor():
             )
             
         except KeyError as e:
+            raise e
             output = self.handle_error(
                 messages.unknown_pattern.format(pattern),
             )

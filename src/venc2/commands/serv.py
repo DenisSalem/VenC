@@ -39,7 +39,7 @@ class VenCServer(http.server.CGIHTTPRequestHandler):
 def serv_blog(argv=list()):
     try:
         os.chdir("blog/")
-        PORT = int(blog_configuration["server_port"]) 
+        PORT = int(argv[0]) if len(argv) else int(blog_configuration["server_port"])
         server_address = ("", PORT)
         notify(messages.serving_blog.format(PORT))
         httpd = http.server.HTTPServer(server_address, VenCServer)

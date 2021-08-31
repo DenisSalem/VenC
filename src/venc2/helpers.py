@@ -29,6 +29,11 @@ from venc2.l10n import messages
 from venc2.prompt import die
 from venc2.prompt import notify
 
+# Sometimes format fail with {something} not found in given dict.
+class SafeFormatDict(dict):
+    def __missing__(self, key):
+        return '{'+key+'}'
+
 class GenericMessage(Exception):
     def __init__(self, message):
         self.message = message
