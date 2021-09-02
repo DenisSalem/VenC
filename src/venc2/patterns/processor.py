@@ -303,7 +303,7 @@ class Processor():
         self.ignore_patterns            = False
 
     # Run any pattern and catch exception nicely
-    def run_pattern(self, pattern, argv):
+    def run_pattern(self, pattern, argv, cpu_thread_id):
         try: # TODO: Should be refactored, Create a base PatternException
             include_file = pattern in ("IncludeFile", "IncludeFileIfExists")
             output = self.functions[pattern](argv[include_file:])
@@ -383,7 +383,7 @@ class Processor():
     def set(self, symbol, value):
        self.dictionary[symbol] = value
 
-    def process(self, pre_processed, safe_process=False):
+    def process(self, pre_processed, safe_process=False, cpu_thread_id=0):
         extra_processing_required = []
         op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
         if safe_process and pre_processed.backup == None:
@@ -419,7 +419,7 @@ class Processor():
                 if current_pattern in self.keep_appart_from_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
-                        self.run_pattern(current_pattern, fields)
+                        self.run_pattern(current_pattern, fields, cpu_thread_id)
                     )
                     if self.include_file_called:
                         extra_processing_required.append(
@@ -433,11 +433,11 @@ class Processor():
                 elif current_pattern == "SetColor":
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         False,
-                        self.run_pattern(current_pattern, fields)
+                        self.run_pattern(current_pattern, fields, cpu_thread_id)
                     )
                 
                 else:
-                    new_chunk = self.run_pattern(current_pattern, fields)
+                    new_chunk = self.run_pattern(current_pattern, fields, cpu_thread_id)
                 
                 
                 string = string[0:vop] + new_chunk + string[vcp+2:]

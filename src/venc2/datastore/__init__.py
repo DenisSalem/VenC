@@ -66,7 +66,13 @@ class DataStore:
         self.entries = list()
         self.entries_per_archives = list()
         self.entries_per_categories = list()
-        self.requested_entry_index = 0
+        try:
+            from multiprocessing import cpu_count
+            self.cpu_thread_requested_entry_index = [0]*cpu_count()
+
+        except:
+            self.cpu_thread_requested_entry_index = [0]
+        
         self.max_category_weight = 1
         self.categories_leaves = []
         self.embed_providers = {}

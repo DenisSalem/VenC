@@ -130,32 +130,63 @@ def setup_pattern_processor(pattern_map):
     processor.blacklist.append("Escape")
     return processor
 
-def process_non_contextual_patterns(pattern_processor, theme, patterns_map):
-    for entry in datastore.get_entries():
+def thread_process_non_contextual_entry_patterns(pattern_processor, theme, entries, cpu_thread_id):
+    for entry in entries:
         if hasattr(entry, "markup_language"):
             markup_language = getattr(entry, "markup_language")
 
         else:
             markup_language = datastore.blog_configuration["markup_language"]
         
-        pattern_processor.process(entry.preview)
+        pattern_processor.process(entry.preview, cpu_thread_id)
         process_markup_language(entry.preview, markup_language)
         
-        pattern_processor.process(entry.content)
+        pattern_processor.process(entry.content, cpu_thread_id)
         process_markup_language(entry.content, markup_language, entry)
 
         entry.html_wrapper = deepcopy(theme.entry)
-        pattern_processor.process(entry.html_wrapper.processed_string)
+        pattern_processor.process(entry.html_wrapper.processed_string, cpu_thread_id)
         entry.html_wrapper.processed_string.replace_needles()
         
         entry.rss_wrapper = deepcopy(theme.rss_entry)
-        pattern_processor.process(entry.rss_wrapper.processed_string)
+        pattern_processor.process(entry.rss_wrapper.processed_string, cpu_thread_id)
         entry.rss_wrapper.processed_string.replace_needles()
         
         entry.atom_wrapper = deepcopy(theme.atom_entry)
-        pattern_processor.process(entry.atom_wrapper.processed_string)
+        pattern_processor.process(entry.atom_wrapper.processed_string, cpu_thread_id)
         entry.atom_wrapper.processed_string.replace_needles()
-    
+        
+def process_non_contextual_patterns(pattern_processor, theme, patterns_map):
+    entries = [entry for entry in datastore.get_entries()]
+
+    try:
+        from threading import Thread
+        from multiprocessing import cpu_count
+        slice_len = (len(entries)//cpu_count())+1
+        threads = []
+        for i in range(0, cpu_count()):
+            threads.append(Thread(
+                target=thread_process_non_contextual_entry_patterns,
+                args = (
+                    pattern_processor,
+                    theme,
+                    entries[i*(slice_len):(i+1)*(slice_len)],
+                    i
+                )
+            ))
+            threads[-1].start()
+
+        for thread in threads:
+            thread.join()
+            
+    except ModuleNotFoundError:    
+        thread_process_non_contextual_entry_patterns(
+            pattern_processor,
+            theme,
+            entries,
+            0
+        )
+        
     for pattern_name in patterns_map.non_contextual["entries"].keys():
         pattern_processor.del_function(pattern_name)
     
