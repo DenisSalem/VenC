@@ -97,6 +97,7 @@ setup(
         'venc2.commands',
         'venc2.datastore',
         'venc2.l10n',
+        'venc2.markup_languages',
         'venc2.patterns',
         'venc2.threads'
     ],

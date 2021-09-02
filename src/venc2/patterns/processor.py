@@ -17,11 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import markdown2 as markdown
-
 from copy import deepcopy
-from docutils.core import publish_parts
-from docutils.utils import SystemMessage
 
 from venc2.prompt import get_formatted_message
 from venc2.prompt import highlight_value
@@ -35,8 +31,6 @@ from venc2.patterns.exceptions import UnknownContextual
 from venc2.patterns.exceptions import PatternMissingArguments
 from venc2.patterns.exceptions import PatternInvalidArgument
 from venc2.helpers import GenericMessage
-
-markup_language_errors = []
 
 def get_markers_indexes(string, begin=".:", end=":."):
     op, cp = [], []
@@ -87,30 +81,32 @@ def get_markers_indexes(string, begin=".:", end=":."):
         
     return (op, cp)
 
-def handle_markup_language_error(message, line=None, string=None):
-    if not message in markup_language_errors:
-        notify(message, "RED")
-        markup_language_errors.append(message)
-        if line != None and string != None:
-            lines = string.split('\n')
-            for lineno in range(0,len(lines)):
-                if line - 1 == lineno:
-                    print('\033[91m'+lines[lineno]+'\033[0m')
-                else:
-                    print(lines[lineno])
+# TODO : MOVED / OBSOLETE
+# ~ def handle_markup_language_error(message, line=None, string=None):
+    # ~ if not message in markup_language_errors:
+        # ~ notify(message, "RED")
+        # ~ markup_language_errors.append(message)
+        # ~ if line != None and string != None:
+            # ~ lines = string.split('\n')
+            # ~ for lineno in range(0,len(lines)):
+                # ~ if line - 1 == lineno:
+                    # ~ print('\033[91m'+lines[lineno]+'\033[0m')
+                # ~ else:
+                    # ~ print(lines[lineno])
 
-def parse_markup_language(string, markup_language, ressource):
-    if markup_language == "Markdown":
-        string = markdown.markdown(string, extras=["header-ids"])
+# TODO : OBSOLETE
+# ~ def parse_markup_language(string, markup_language, ressource):
+    # ~ if markup_language == "Markdown":
+        # ~ string = VenCMarkdown(extras=["header-ids"]).convert(string)
         
-    elif markup_language == "reStructuredText":
-        string = publish_parts(string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
+    # ~ elif markup_language == "reStructuredText":
+        # ~ string = publish_parts(string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
 
-    elif markup_language != "none":
-            err = messages.unknown_markup_language.format(markup_language, ressource)
-            handle_markup_language_error(err)
+    # ~ elif markup_language != "none":
+            # ~ err = messages.unknown_markup_language.format(markup_language, ressource)
+            # ~ handle_markup_language_error(err)
 
-    return string
+    # ~ return string
 
 def index_not_in_range(index, ranges, process_escapes):
     for o, c in ranges:
@@ -230,22 +226,6 @@ class ProcessedString():
         output = "---VENC-TEMPORARY-REPLACEMENT-"+str(self.keep_appart_from_markup_inc)+'---'
         self.keep_appart_from_markup_inc +=1
         return output
-
-    def process_markup_language(self, markup_language):
-        try:
-            self.string = parse_markup_language(self.string, markup_language, self.ressource)
-        
-        # catch error from reStructuredText
-        except SystemMessage as e:
-            try:
-                line = int(str(e).split(':')[1])
-                msg = str(e).split(':')[2].strip()
-                handle_markup_language_error(self.ressource+": "+msg, line=line, string=string)
-
-            except Exception as ee: 
-                handle_markup_language_error(self.ressource+", "+str(e))
-        
-        self.replace_needles(in_entry=True)
         
     def replace_needles(self, in_entry=False):
         meta_escapes = []
@@ -281,7 +261,6 @@ class ProcessedString():
                             string = string[:index+len_target]+string[index+len_target+4:]
                             p_offset -=4
     
-                
                     self.string = string[:index]+new_chunk.strip().replace("\x1B\x1B","::")+string[index+len_target:]
                     
                     diff = len_new_chunk - len_target + p_offset

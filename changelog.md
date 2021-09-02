@@ -64,9 +64,14 @@
     DONE | Add custom footer to Tessellation, Academik and Gentle theme.
     DONE | Fix inconsistencies with override_theme_with_css.
     DONE | Override server port with extra arg.
+    DONE | Remove .:Escape:: / ::EndEscape:. from header_id extension.
+    WIP  | Generate entry inner title index.
     TODO | Add nice 404 errors page.
     TODO | Update doc accordingly.
-
+    TODO | Add ForDictMetadata
+    TODO | Split process_markup_langage from pattern processor.
+    TODO | Explicit needles replacement.
+    
 # version 2.0.2
     DONE | Fix for_entry_metadata; catching unavailable contextual pattern.
     DONE | Fix github issue #21. Add missing documentation about GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent.

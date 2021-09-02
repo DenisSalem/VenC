@@ -30,6 +30,7 @@ from venc2.helpers import die
 from venc2.prompt import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
+from venc2.markup_languages import process_markup_language
 from venc2.patterns.non_contextual import theme_includes_dependencies
 from venc2.patterns.code_highlight import CodeHighlight
 from venc2.patterns.exceptions import MalformedPatterns
@@ -138,10 +139,10 @@ def process_non_contextual_patterns(pattern_processor, theme, patterns_map):
             markup_language = datastore.blog_configuration["markup_language"]
         
         pattern_processor.process(entry.preview)
-        entry.preview.process_markup_language(markup_language)
+        process_markup_language(entry.preview, markup_language)
         
         pattern_processor.process(entry.content)
-        entry.content.process_markup_language(markup_language)
+        process_markup_language(entry.content, markup_language, entry)
 
         entry.html_wrapper = deepcopy(theme.entry)
         pattern_processor.process(entry.html_wrapper.processed_string)
