@@ -48,7 +48,7 @@ def handle_markup_language_error(message, line=None, string=None):
 def process_markup_language(source, markup_language, entry=None):
     try:
         if markup_language == "Markdown":
-            venc_markdown = VenCMarkdown(extras=["header-ids"])
+            venc_markdown = VenCMarkdown(extras=["header-ids", "footnotes"])
             string = venc_markdown.convert(source.string)
             if entry != None:
                 entry.toc = tuple(venc_markdown.table_of_content)

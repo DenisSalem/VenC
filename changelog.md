@@ -47,7 +47,6 @@
     TODO | Improve sub folder management in Entry and EntriesThread.
     TODO | Optimize objects dereferencing.
     TODO | Add draft support.
-    TODO | Add CPU threads support.
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Regenerate any missing folders.
     TODO | Try to install an up to date oembed providers from https://oembed.com/providers.json with pip
@@ -66,11 +65,13 @@
     DONE | Override server port with extra arg.
     DONE | Remove .:Escape:: / ::EndEscape:. from header_id extension.
     WIP  | Generate entry inner title index.
+    TODO | Fix locale import exception. (#12)
     TODO | Add nice 404 errors page.
     TODO | Update doc accordingly.
     TODO | Add ForDictMetadata
     TODO | Split process_markup_langage from pattern processor.
     TODO | Explicit needles replacement.
+    TODO | Add CPU threads support.
     
 # version 2.0.2
     DONE | Fix for_entry_metadata; catching unavailable contextual pattern.
