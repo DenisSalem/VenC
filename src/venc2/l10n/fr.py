@@ -121,3 +121,4 @@ class Messages:
     id_must_be_an_integer = "L'identifiant doit-être un nombre entier."
     there_is_no_chapter_with_index = "Il n'y a pas de chapitre ayant l'index \"{0}\"."
     chapter_has_no_attribute_like = "Le chapitre n'a pas d'attribut \"{0}\"."
+    start_thread = "Lancement du fil d'execution n° {0}."

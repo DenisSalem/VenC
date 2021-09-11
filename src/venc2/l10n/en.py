@@ -124,3 +124,4 @@ class Messages:
     chapter_has_a_wrong_index = "Le format de l'index du chapitre n'est pas correct."
     there_is_no_chapter_with_index = "There is no chapter with index \"{0}\"."
     chapter_has_no_attribute_like = "Chapter has no attribute like \"{0}\"."
+    start_thread = "Start CPU thread #{0}."

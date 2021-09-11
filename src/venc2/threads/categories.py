@@ -47,7 +47,7 @@ class CategoriesThread(Thread):
         if not self.disable_atom_feed:
             self.atom_feed = FeedThread(datastore, theme, self.patterns_map, "atom")
  
-    def if_in_categories(self, argv):
+    def if_in_categories(self, cpu_thread_id, argv):
         return argv[0].strip()
 
     def do_feeds(self, entries, node, tree_special_char):
@@ -146,7 +146,7 @@ class CategoriesThread(Thread):
             self.export_path = export_path
             self.category_value = category_value
 
-    def GetJSONLD(self, argv):
+    def GetJSONLD(self, cpu_thread_id, argv):
         if self.current_page == 0 and self.enable_jsonld:
             return '<script type="application/ld+json" src="categories.jsonld"></script>'
         

@@ -23,7 +23,7 @@ from venc2.l10n import messages
 from venc2.patterns.exceptions import PatternInvalidArgument
 from venc2.patterns.exceptions import PatternMissingArguments
 
-def Latex2MathML(argv):
+def Latex2MathML(cpu_thread_id, argv):
     try:
         tex_math_string = argv[0]
         

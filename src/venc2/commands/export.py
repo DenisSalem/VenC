@@ -23,6 +23,8 @@ import shutil
 import subprocess
 import time
 
+from multiprocessing import Process, Manager
+
 from venc2.commands.remote import remote_copy
 from venc2.datastore import DataStore
 from venc2.datastore.theme import Theme
@@ -37,7 +39,7 @@ from venc2.patterns.exceptions import MalformedPatterns
 from venc2.patterns.patterns_map import PatternsMap
 from venc2.patterns.processor import Processor
 from venc2.patterns.processor import ProcessedString
-
+        
 # Initialisation of environment
 start_timestamp = time.time()
 datastore = None
@@ -108,7 +110,9 @@ def init_theme(argv):
         handle_malformed_patterns(e)
 
 def setup_pattern_processor(pattern_map):
-    processor = Processor()
+    cpu_threads = len(datastore.cpu_threads_requested_entry)
+        
+    processor = Processor(cpu_threads)
     for pattern_name in pattern_map.non_contextual["entries"].keys():
         processor.set_function(pattern_name, pattern_map.non_contextual["entries"][pattern_name])
     
@@ -130,63 +134,84 @@ def setup_pattern_processor(pattern_map):
     processor.blacklist.append("Escape")
     return processor
 
-def thread_process_non_contextual_entry_patterns(pattern_processor, theme, entries, cpu_thread_id):
-    for entry in entries:
+def worker_process_non_contextual_entry_patterns(shared_data, worker_id):
+    for entry in shared_data["datastore"].entries[worker_id*(chunks_len):(worker_id+1)*(chunks_len)]:
+        shared_data["datastore"].cpu_threads_requested_entry[worker_id] = entry
+        print(shared_data["datastore"].cpu_threads_requested_entry)
+    
+    return
+    #datastore, pattern_processor, theme, chunks_len
+    workers_count = len(datastore.cpu_threads_requested_entry)
+    notify("│  "+("└─ " if worker_id == workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id))
+
+    for entry in datastore.entries[worker_id*(chunks_len):(worker_id+1)*(chunks_len)]:
+        datastore.cpu_threads_requested_entry[0] = entry
+        
         if hasattr(entry, "markup_language"):
             markup_language = getattr(entry, "markup_language")
 
         else:
             markup_language = datastore.blog_configuration["markup_language"]
         
-        pattern_processor.process(entry.preview, cpu_thread_id)
+        pattern_processor.process(entry.preview, 0)
         process_markup_language(entry.preview, markup_language)
         
-        pattern_processor.process(entry.content, cpu_thread_id)
+        pattern_processor.process(entry.content, 0)
         process_markup_language(entry.content, markup_language, entry)
 
         entry.html_wrapper = deepcopy(theme.entry)
-        pattern_processor.process(entry.html_wrapper.processed_string, cpu_thread_id)
+        pattern_processor.process(entry.html_wrapper.processed_string, 0)
         entry.html_wrapper.processed_string.replace_needles()
         
         entry.rss_wrapper = deepcopy(theme.rss_entry)
-        pattern_processor.process(entry.rss_wrapper.processed_string, cpu_thread_id)
+        pattern_processor.process(entry.rss_wrapper.processed_string, 0)
         entry.rss_wrapper.processed_string.replace_needles()
         
         entry.atom_wrapper = deepcopy(theme.atom_entry)
-        pattern_processor.process(entry.atom_wrapper.processed_string, cpu_thread_id)
+        pattern_processor.process(entry.atom_wrapper.processed_string, 0)
         entry.atom_wrapper.processed_string.replace_needles()
         
 def process_non_contextual_patterns(pattern_processor, theme, patterns_map):
     entries = [entry for entry in datastore.get_entries()]
+    workers_count = 1 # len(datastore.cpu_threads_requested_entry)
 
-    try:
-        from threading import Thread
-        from multiprocessing import cpu_count
-        slice_len = (len(entries)//cpu_count())+1
-        threads = []
-        for i in range(0, cpu_count()):
-            threads.append(Thread(
-                target=thread_process_non_contextual_entry_patterns,
-                args = (
-                    pattern_processor,
-                    theme,
-                    entries[i*(slice_len):(i+1)*(slice_len)],
-                    i
+    chunks_len = (len(entries)//workers_count)+1
+    workers = []
+    manager = Manager()
+    shared_data = manager.dict({
+        "datastore": datastore,
+        "pattern_processor":pattern_processor,
+        "theme":theme,
+        "chunks_len":chunks_len,
+    })
+    
+    if False and workers_count > 1:
+        for i in range(0, workers_count):
+            workers.append(
+                Process(
+                    target=worker_process_non_contextual_entry_patterns,
+                    args=(
+                        shared_data,
+                        i
+                    )
                 )
-            ))
-            threads[-1].start()
-
-        for thread in threads:
-            thread.join()
+            )
+        for worker in workers:
+            worker.start()
             
-    except ModuleNotFoundError:    
-        thread_process_non_contextual_entry_patterns(
+        for worker in workers:
+            worker.join()
+    else:
+        worker_process_non_contextual_entry_patterns(
+            datastore,
             pattern_processor,
             theme,
-            entries,
+            chunks_len,
             0
         )
-        
+
+
+                    
     for pattern_name in patterns_map.non_contextual["entries"].keys():
         pattern_processor.del_function(pattern_name)
     
@@ -220,7 +245,9 @@ def export_blog(argv=list()):
     notify("├─ "+messages.pre_process)
 
     process_non_contextual_patterns(pattern_processor, theme, patterns_map)
-        
+    
+    PRINT("CUT")
+    exit(0)
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
@@ -269,7 +296,8 @@ def export_blog(argv=list()):
 
 def edit_and_export(argv):
     global datastore
-    datastore = DataStore()
+    datastore = manager.DataStore()
+    
     
     if len(argv) != 1:
         die(messages.missing_params.format("--edit-and-export"))

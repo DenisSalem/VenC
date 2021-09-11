@@ -47,6 +47,7 @@ def undefined_variable(match):
 
 class Thread:
     def __init__(self, prompt, datastore, theme, patterns_map):
+        self.workers_count = len(datastore.cpu_threads_requested_entry)
         self.indentation_level = "│  "
         self.patterns_map = patterns_map
         self.datastore = datastore
@@ -75,7 +76,7 @@ class Thread:
         self.rss_feed = None
         self.atom_feed = None
         # Setup pattern processor
-        self.processor = Processor()
+        self.processor = Processor(self.workers_count)
         for pattern_name in patterns_map.contextual["functions"].keys():
             self.processor.set_function(pattern_name, patterns_map.contextual["functions"][pattern_name])
                 
@@ -97,13 +98,13 @@ class Thread:
             raise UnknownContextual(str(e)[1:-1])
             
     # Must be called in child class
-    def get_relative_location(self, argv):
+    def get_relative_location(self, cpu_thread_id, argv):
         return self.export_path[5:]
         
-    def get_relative_origin(self, argv):
+    def get_relative_origin(self, cpu_thread_id, argv):
         return self.relative_origin
 
-    def get_thread_name(self, argv):
+    def get_thread_name(self, cpu_thread_id, argv):
         if len(self.thread_name):
             try:
                 return argv[0].format(**{"value":self.thread_name})
@@ -128,7 +129,7 @@ class Thread:
         self.pages_count = len(self.pages)
 
     # Must be called in child class
-    def get_next_page(self, argv):
+    def get_next_page(self, cpu_thread_id, argv):
         if self.current_page < self.pages_count - 1:
             params = {
                 "page_number" : str(self.current_page + 1),
@@ -159,7 +160,7 @@ class Thread:
             return str()
 
     # Must be called in child class
-    def get_previous_page(self, argv):
+    def get_previous_page(self, cpu_thread_id, argv):
         if self.current_page > 0:
             params = {
                 "page_number" : str(self.current_page - 1) if self.current_page - 1 != 0 else '',
@@ -189,7 +190,7 @@ class Thread:
             return str()
 
     # Must be called in child class
-    def for_pages(self, argv):
+    def for_pages(self, cpu_thread_id, argv):
         list_lenght = int(argv[0])
         string = argv[1]
         separator = argv[2]
@@ -218,10 +219,10 @@ class Thread:
         
         return output[:-len(separator)]
 
-    def JSONLD(self, argv):
+    def JSONLD(self, cpu_thread_id, argv):
         return ''
 
-    def if_pages(self, argv):
+    def if_pages(self, cpu_thread_id, argv):
         if self.pages_count > 1:
             return argv[0].strip()
             
@@ -231,7 +232,7 @@ class Thread:
         else:
             return ''
                     
-    def if_in_first_page(self, argv):
+    def if_in_first_page(self, cpu_thread_id, argv):
         if self.current_page == 0:
             return argv[0].strip()
         
@@ -241,7 +242,7 @@ class Thread:
         else:
             return  ''
 
-    def if_in_last_page(self, argv):
+    def if_in_last_page(self, cpu_thread_id, argv):
         if self.current_page == len(self.pages) -1:
             return argv[0].strip()
         
@@ -251,35 +252,35 @@ class Thread:
         else:
             return ''
 
-    def if_in_entry_id(self, argv):
+    def if_in_entry_id(self, cpu_thread_id, argv):
         if len(argv) >= 3:
             return argv[2].strip()
             
         else:
             return ''
 
-    def if_in_main_thread(self, argv):
+    def if_in_main_thread(self, cpu_thread_id, argv):
         if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
             
-    def if_in_categories(self, argv):
+    def if_in_categories(self, cpu_thread_id, argv):
         if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
             
-    def if_in_archives(self, argv):
+    def if_in_archives(self, cpu_thread_id, argv):
         if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
         
-    def if_in_thread(self, argv):
+    def if_in_thread(self, cpu_thread_id, argv):
         if self.in_thread:
             return argv[0].strip()
 
@@ -290,14 +291,14 @@ class Thread:
             return ''
 
 
-    def if_in_feed(self, argv):
+    def if_in_feed(self, cpu_thread_id, argv):
         if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
                     
-    def if_in_thread_and_has_feeds(self, argv):
+    def if_in_thread_and_has_feeds(self, cpu_thread_id, argv):
         return argv[0] if self.thread_has_feeds else ("" if len(argv) <= 1 else argv[1])
 
     def format_filename(self, value):
@@ -440,4 +441,3 @@ class Thread:
             
         else:
             self.iterate_through_pages()
-
