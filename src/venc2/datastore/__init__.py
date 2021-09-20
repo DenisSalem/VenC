@@ -23,7 +23,6 @@ import json
 import os
 import unidecode
 
-from multiprocessing import cpu_count, Manager
 from urllib.parse import quote as urllib_parse_quote
 
 from venc2.datastore.configuration import get_blog_configuration
@@ -68,11 +67,7 @@ class DataStore:
         self.entries_per_archives = list()
         self.entries_per_categories = list()
         
-        try:
-            self.cpu_threads_requested_entry = [None]*cpu_count()
-            
-        except NotImplementedError:
-            self.cpu_threads_requested_entry = [None]
+        self.requested_entry = None
             
         self.max_category_weight = 1
         self.categories_leaves = []
@@ -581,7 +576,7 @@ class DataStore:
     def get_entry_metadata(self, cpu_thread_id, argv):
         # if exception is raised it will be automatically be catch by processor.
         try:
-            return str(getattr(self.cpu_threads_requested_entry[cpu_thread_id], argv[0]))
+            return str(getattr(self.requested_entry, argv[0]))
             
         except AttributeError:
             raise PatternInvalidArgument(
@@ -592,7 +587,7 @@ class DataStore:
             
     def get_entry_metadata_if_exists(self, cpu_thread_id, argv, ok_if_null=True):
         try:
-            value = str(getattr(self.cpu_threads_requested_entry[cpu_thread_id], argv[0]))
+            value = str(getattr(self.requested_entry, argv[0]))
 
         except AttributeError:
             if len(argv) >= 3:
@@ -639,39 +634,34 @@ class DataStore:
             yield entry
     
     def get_entry_title(self, cpu_thread_id, argv=list()):
-        title = self.cpu_threads_requested_entry[cpu_thread_id].title
+        title = self.requested_entry.title
         return title if title != None else str()
     
     def get_entry_id(self, cpu_thread_id, argv=list()):
-        try:
-            return self.cpu_threads_requested_entry[cpu_thread_id].id
-            
-        except AttributeError as e:
-            print("FAILURE IN THREAD ID", cpu_thread_id, self.cpu_threads_requested_entry, e)
-            raise e
+        return self.requested_entry.id
             
     def get_entry_year(self, cpu_thread_id, argv=list()):
-        return self.cpu_threads_requested_entry[cpu_thread_id].date.year
+        return self.requested_entry.date.year
 
     def get_entry_month(self, cpu_thread_id, argv=list()):
-        return self.cpu_threads_requested_entry[cpu_thread_id].date.month
+        return self.requested_entry.date.month
         
     def get_entry_day(self, cpu_thread_id, argv=list()):
-        return self.cpu_threads_requested_entry[cpu_thread_id].date.day
+        return self.requested_entry.date.day
 
     def get_entry_hour(self, cpu_thread_id, argv=list()):
         return self.cpu_threads_requested_entry[cpu_thread_id].date.hour
     
     def get_entry_minute(self, cpu_thread_id, argv=list()):
-        return self.cpu_threads_requested_entry[cpu_thread_id].date.minute
+        return self.requested_entry.date.minute
 
     def get_entry_date(self, cpu_thread_id, argv=list()):
-        return self.cpu_threads_requested_entry[cpu_thread_id].date.strftime(
+        return self.requested_entry.date.strftime(
             self.blog_configuration["date_format"] if len(argv) < 1 else argv[0]
         )
 
     def get_entry_date_url(self, cpu_thread_id, argv=list()):
-        return self.cpu_threads_requested_entry[cpu_thread_id].date.strftime(
+        return self.requested_entry.date.strftime(
             self.blog_configuration["path"]["archives_directory_name"]
         )
     
@@ -737,7 +727,7 @@ class DataStore:
         if self.blog_configuration["disable_single_entries"]:
             return ''
 
-        return self.cpu_threads_requested_entry[cpu_thread_id].url
+        return self.requested_entry.url
 
     def get_author_name(self, cpu_thread_id, argv=list()):
         return self.blog_configuration["author_name"]
@@ -816,9 +806,9 @@ class DataStore:
 
     def tree_for_entry_categories(self, cpu_thread_id, argv):
         key = ''.join(argv)
-        entry = self.cpu_threads_requested_entry[cpu_thread_id]
+        entry = self.requested_entry
 
-        if not key in self.entries[self.requested_entry_index].html_categories_tree.keys():
+        if not key in self.requested_entry.html_categories_tree.keys():
             if self.blog_configuration["disable_categories"]:
                 entry.html_categories_tree[key] = ''
 
@@ -877,7 +867,7 @@ class DataStore:
         if end_from <= start_from:
             raise GenericMessage(messages.invalid_range.format(start_from, end_to))
         
-        entry = self.cpu_threads_requested_entry[cpu_thread_id]
+        entry = self.requested_entry
         
         output = ""
         #TODO: PREVENT CRASH IN CASE OF WRONG INPUTS
@@ -890,7 +880,7 @@ class DataStore:
         if len(argv) != 3:
             raise PatternMissingArguments(expected=3,got=len(argv))
         
-        entry = self.cpu_threads_requested_entry[cpu_thread_id]
+        entry = self.requested_entry
         key = ''.join(argv)
             
         if not key in entry.html_for_metadata:
@@ -926,7 +916,7 @@ class DataStore:
     # TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.
     def leaves_for_entry_categories(self, cpu_thread_id, argv):
         key = ''.join(argv)
-        entry = self.cpu_threads_requested_entry[cpu_thread_id]
+        entry = self.requested_entry
         if not key in entry.html_categories_leaves.keys():
             if self.blog_configuration["disable_categories"]:
                 entry.html_categories_leaves[key] = ''
