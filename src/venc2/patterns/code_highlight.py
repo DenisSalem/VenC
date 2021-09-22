@@ -33,7 +33,7 @@ class CodeHighlight:
         self._override = override
         self._includes = dict()
 
-    def get_style_sheets(self, cpu_thread_id, argv=list()):
+    def get_style_sheets(self, argv=list()):
         output = str()
         for filename in self._includes.keys():
             output += "<link rel=\"stylesheet\" href=\"\x1a"+filename+"\" type=\"text/css\" />\n"
@@ -47,11 +47,11 @@ class CodeHighlight:
                 stream = open(os.getcwd()+"/extra/"+key,'w')
                 stream.write(self._includes[key])
 
-    def highlight_include(self, cpu_thread_id, argv):
-        string = include_file(cpu_thread_id, [argv[2]])
-        return self.highlight(cpu_thread_id, argv[:2]+[string], included_file=True)
+    def highlight_include(self, argv):
+        string = include_file([argv[2]])
+        return self.highlight(argv[:2]+[string], included_file=True)
         
-    def highlight(self, cpu_thread_id, argv, included_file=False):
+    def highlight(self, argv, included_file=False):
         try:
             name = "venc_source_"+argv[0].replace('+','Plus')
 

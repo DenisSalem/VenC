@@ -32,7 +32,7 @@ from urllib.parse import urlparse
 
 theme_includes_dependencies = []
 
-def disable_markup(cpu_thread_id, argv):
+def disable_markup(argv):
     return '::'.join(argv)
     
 def try_oembed(providers, url):
@@ -81,17 +81,17 @@ def get_embed_content(providers, argv):
         
     return try_oembed(providers, url)
 
-def get_venc_version(cpu_thread_id, argv):
+def get_venc_version(argv):
     return venc_version
     
 """ Need to handle missing args in case of unknown number of args """
-def set_color(cpu_thread_id, argv):
+def set_color(argv):
     if len(argv) < 2:
         raise PatternMissingArguments(expected=2, got=len(argv))
         
     return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+argv[1]+";\">"+argv[0]+"</span>"
 
-def set_style(cpu_thread_id, argv):
+def set_style(argv):
     ID = argv[0].strip()
     CLASS = argv[1].strip()
     ID = "id=\""+ID+"\"" if ID != '' else ''
@@ -102,7 +102,7 @@ def set_style(cpu_thread_id, argv):
 # TODO: Must fix dirty try/except structure.
 # TODO: Add explicit message about exception. 
 
-def include_file(cpu_thread_id, argv, raise_error=True):
+def include_file(argv, raise_error=True):
     if not len(argv):
         raise PatternMissingArguments()
         
@@ -147,10 +147,10 @@ def include_file(cpu_thread_id, argv, raise_error=True):
     else:
         return include_string
 
-def include_file_if_exists(cpu_thread_id, argv):
-    return include_file(cpu_thread_id, argv, raise_error=False)
+def include_file_if_exists(argv):
+    return include_file(argv, raise_error=False)
 
-def table(cpu_thread_id, argv):
+def table(argv):
     output = "<div class=\"__VENC_TABLE__\"><table>"
     tr = [[]]
     append_td = tr[-1].append

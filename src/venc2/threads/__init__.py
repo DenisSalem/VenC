@@ -98,13 +98,13 @@ class Thread:
             raise UnknownContextual(str(e)[1:-1])
             
     # Must be called in child class
-    def get_relative_location(self, cpu_thread_id, argv):
+    def get_relative_location(self, argv):
         return self.export_path[5:]
         
-    def get_relative_origin(self, cpu_thread_id, argv):
+    def get_relative_origin(self, argv):
         return self.relative_origin
 
-    def get_thread_name(self, cpu_thread_id, argv):
+    def get_thread_name(self, argv):
         if len(self.thread_name):
             try:
                 return argv[0].format(**{"value":self.thread_name})
@@ -129,7 +129,7 @@ class Thread:
         self.pages_count = len(self.pages)
 
     # Must be called in child class
-    def get_next_page(self, cpu_thread_id, argv):
+    def get_next_page(self, argv):
         if self.current_page < self.pages_count - 1:
             params = {
                 "page_number" : str(self.current_page + 1),
@@ -160,7 +160,7 @@ class Thread:
             return str()
 
     # Must be called in child class
-    def get_previous_page(self, cpu_thread_id, argv):
+    def get_previous_page(self, argv):
         if self.current_page > 0:
             params = {
                 "page_number" : str(self.current_page - 1) if self.current_page - 1 != 0 else '',
@@ -190,7 +190,7 @@ class Thread:
             return str()
 
     # Must be called in child class
-    def for_pages(self, cpu_thread_id, argv):
+    def for_pages(self, argv):
         list_lenght = int(argv[0])
         string = argv[1]
         separator = argv[2]
@@ -219,10 +219,10 @@ class Thread:
         
         return output[:-len(separator)]
 
-    def JSONLD(self, cpu_thread_id, argv):
+    def JSONLD(self, argv):
         return ''
 
-    def if_pages(self, cpu_thread_id, argv):
+    def if_pages(self, argv):
         if self.pages_count > 1:
             return argv[0].strip()
             
@@ -232,7 +232,7 @@ class Thread:
         else:
             return ''
                     
-    def if_in_first_page(self, cpu_thread_id, argv):
+    def if_in_first_page(self, argv):
         if self.current_page == 0:
             return argv[0].strip()
         
@@ -242,7 +242,7 @@ class Thread:
         else:
             return  ''
 
-    def if_in_last_page(self, cpu_thread_id, argv):
+    def if_in_last_page(self, argv):
         if self.current_page == len(self.pages) -1:
             return argv[0].strip()
         
@@ -252,35 +252,35 @@ class Thread:
         else:
             return ''
 
-    def if_in_entry_id(self, cpu_thread_id, argv):
+    def if_in_entry_id(self, argv):
         if len(argv) >= 3:
             return argv[2].strip()
             
         else:
             return ''
 
-    def if_in_main_thread(self, cpu_thread_id, argv):
+    def if_in_main_thread(self, argv):
         if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
             
-    def if_in_categories(self, cpu_thread_id, argv):
+    def if_in_categories(self, argv):
         if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
             
-    def if_in_archives(self, cpu_thread_id, argv):
+    def if_in_archives(self, argv):
         if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
         
-    def if_in_thread(self, cpu_thread_id, argv):
+    def if_in_thread(self, argv):
         if self.in_thread:
             return argv[0].strip()
 
@@ -291,14 +291,14 @@ class Thread:
             return ''
 
 
-    def if_in_feed(self, cpu_thread_id, argv):
+    def if_in_feed(self, argv):
         if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
                     
-    def if_in_thread_and_has_feeds(self, cpu_thread_id, argv):
+    def if_in_thread_and_has_feeds(self, argv):
         return argv[0] if self.thread_has_feeds else ("" if len(argv) <= 1 else argv[1])
 
     def format_filename(self, value):

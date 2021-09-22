@@ -36,7 +36,7 @@ class ArchivesThread(Thread):
         self.in_thread = True
         self.thread_has_feeds = False
 
-    def if_in_archives(self, cpu_thread_id, argv):
+    def if_in_archives(self, argv):
         return argv[0].strip()
 
     def setup_archive_context(self, i, len_archives):
@@ -90,7 +90,7 @@ class ArchivesThread(Thread):
                 f = open("blog/"+self.sub_folders+'/'+archive.value+"/archives.jsonld", 'w')
                 f.write(dump)
 
-    def GetJSONLD(self, cpu_thread_id, argv):
+    def GetJSONLD(self, argv):
         if self.current_page == 0 and self.enable_jsonld:
             return '<script type="application/ld+json" src="archives.jsonld"></script>'
         

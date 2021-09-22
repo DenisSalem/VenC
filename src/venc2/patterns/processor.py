@@ -293,25 +293,25 @@ class ProcessedString():
         self.__init__(self.string, self.ressource, True, meta_escapes)
 
 class Processor():
-    def __init__(self, cpu_threads):
+    def __init__(self):
         self.functions                  = {}
-        self.current_input_string       = ['']*cpu_threads
-        self.ressource                  = ['']*cpu_threads
-        self.blacklist                  = [[]]*cpu_threads
-        self.keep_appart_from_markup    = [[]]*cpu_threads
-        self.include_file_called        = [False]*cpu_threads
-        self.ignore_patterns            = [False]*cpu_threads
-        self.vop                        = [None]*cpu_threads
-        self.vcp                        = [None]*cpu_threads
+        self.current_input_string       = ''
+        self.ressource                  = ''
+        self.blacklist                  = []
+        self.keep_appart_from_markup    = []
+        self.include_file_called        = False
+        self.ignore_patterns            = False
+        self.vop                        = None
+        self.vcp                        = None
 
     # Run any pattern and catch exception nicely
-    def run_pattern(self, pattern, argv, cpu_thread_id):
+    def run_pattern(self, pattern, argv):
         try: # TODO: Should be refactored, Create a base PatternException
             include_file = pattern in ("IncludeFile", "IncludeFileIfExists")
-            output = self.functions[pattern](cpu_thread_id, argv[include_file:])
+            output = self.functions[pattern](argv[include_file:])
             if include_file:
-                self.include_file_called[cpu_thread_id] = True 
-                self.ignore_patterns[cpu_thread_id] = argv[0].lower() == "true"
+                self.include_file_called = True 
+                self.ignore_patterns = argv[0].lower() == "true"
           
         except UnknownContextual as e:
                 output = self.handle_error(
@@ -352,11 +352,11 @@ class Processor():
         extra= ""
 
         err = get_formatted_message(error, "RED")+"\n"
-        if self.ressource[cpu_thread_id] != str():
-            err = messages.in_ressource.format(self.ressource[cpu_thread_id])+'\n'+err
+        if self.ressource != str():
+            err = messages.in_ressource.format(self.ressource)+'\n'+err
         
-        extra+=(''.join(self.current_input_string[cpu_thread_id]))
-        extra = highlight_value(extra, self.current_input_string[cpu_thread_id][self.vop:self.vcp+2])
+        extra +=''.join(self.current_input_string)
+        extra = highlight_value(extra, self.current_input_string[self.vop:self.vcp+2])
         die(err, "RED", extra)
 
     def set_function(self, key, function):
@@ -384,7 +384,7 @@ class Processor():
     # ~ def set(self, symbol, value):
        # ~ self.dictionary[symbol] = value
 
-    def process(self, pre_processed, safe_process=False, cpu_thread_id=0):
+    def process(self, pre_processed, safe_process=False):
         extra_processing_required = []
         op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
         if safe_process and pre_processed.backup == None:
@@ -394,8 +394,8 @@ class Processor():
             pre_processed.string = pre_processed.string.replace("\x1B\x1B", "::")
             return
         
-        self.current_input_string[cpu_thread_id] = string
-        self.ressource[cpu_thread_id] = pre_processed.ressource
+        self.current_input_string = string
+        self.ressource = pre_processed.ressource
         while lo:
             diff = 18446744073709551616
             i = 0
@@ -408,8 +408,8 @@ class Processor():
                         i = io
                         j = ic
 
-            self.vop[cpu_thread_id], self.vcp[cpu_thread_id] = op[i], cp[j]
-            vop, vcp = self.vop[cpu_thread_id], self.vcp[cpu_thread_id]
+            self.vop, self.vcp = op[i], cp[j]
+            vop, vcp = self.vop, self.vcp
 
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
             current_pattern = fields.pop(0)
@@ -417,32 +417,32 @@ class Processor():
             not_current_pattern_blacklisted = (not current_pattern in self.blacklist)
             
             if (not current_pattern == "Escape") and not_current_pattern_blacklisted:
-                if current_pattern in self.keep_appart_from_markup[cpu_thread_id]:
+                if current_pattern in self.keep_appart_from_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
-                        self.run_pattern(current_pattern, fields, cpu_thread_id)
+                        self.run_pattern(current_pattern, fields)
                     )
-                    if self.include_file_called[cpu_thread_id]:
+                    if self.include_file_called:
                         extra_processing_required.append(
                             pre_processed.keep_appart_from_markup_indexes[-1][:3]+
                             (self.ignore_patterns,)
                         )
-                        self.ignore_patterns[cpu_thread_id] = False
-                        self.include_file_called[cpu_thread_id] = False
+                        self.ignore_patterns = False
+                        self.include_file_called = False
             
                 # TODO: Why the fuck there is only one pattern here?
                 elif current_pattern == "SetColor":
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         False,
-                        self.run_pattern(current_pattern, fields, cpu_thread_id)
+                        self.run_pattern(current_pattern, fields)
                     )
                 
                 else:
-                    new_chunk = self.run_pattern(current_pattern, fields, cpu_thread_id)
+                    new_chunk = self.run_pattern(current_pattern, fields)
                 
                 
                 string = string[0:vop] + new_chunk + string[vcp+2:]
-                self.current_input_string[cpu_thread_id] = string
+                self.current_input_string = string
                 
                 len_new_chunk = len(new_chunk)
                 offset = len_new_chunk - (vcp + 2 - vop)

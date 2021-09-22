@@ -45,11 +45,11 @@ class FeedThread(Thread):
         self.organize_entries(entries)
         super().do()
     
-    def GetJSONLD(self, cpu_thread_id, argv):
+    def GetJSONLD(self, argv):
         # Trigger UnknownPattern.
         raise KeyError
 
-    def if_in_feed(self, cpu_thread_id, argv):
+    def if_in_feed(self, argv):
         return argv[0].strip()
             
 

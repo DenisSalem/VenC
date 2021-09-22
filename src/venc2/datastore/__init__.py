@@ -66,6 +66,12 @@ class DataStore:
         self.entries = list()
         self.entries_per_archives = list()
         self.entries_per_categories = list()
+        try:
+            from multiprocessing import cpu_count
+            self.workers_count = cpu_count()
+            
+        except:
+            self.workers_count = 1
         
         self.requested_entry = None
             
@@ -462,7 +468,7 @@ class DataStore:
                 
                 self.categories_as_jsonld[path]["blogPost"].append(blog_post)
             
-    def get_chapters(self, cpu_thread_id, argv):
+    def get_chapters(self, argv):
         key = ''.join(argv)
         if not key in self.html_chapters.keys():
             self.html_chapters[key] = self.build_html_chapters(argv, self.chapters_index, 0)
@@ -528,14 +534,14 @@ class DataStore:
         self.max_category_weight = value
         return value
 
-    def get_generation_timestamp(self, cpu_thread_id, argv):
+    def get_generation_timestamp(self, argv):
         if len(argv):
             return datetime.datetime.strftime(self.generation_timestamp, argv[0])
         
         else:
             raise PatternMissingArguments
             
-    def get_blog_metadata(self, cpu_thread_id, argv):
+    def get_blog_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
         try:
             return self.blog_configuration[argv[0]]
@@ -547,7 +553,7 @@ class DataStore:
                 messages.blog_has_no_metadata_like.format(argv[0])
             )
             
-    def get_blog_metadata_if_exists(self, cpu_thread_id, argv, ok_if_null=True):
+    def get_blog_metadata_if_exists(self, argv, ok_if_null=True):
         try:
             value = self.blog_configuration[argv[0]]
             
@@ -570,10 +576,10 @@ class DataStore:
         except IndexError:
             return value
 
-    def get_blog_metadata_if_not_null(self, cpu_thread_id, argv):
-        return self.get_blog_metadata_if_exists(cpu_thread_id, argv, ok_if_null=False)
+    def get_blog_metadata_if_not_null(self, argv):
+        return self.get_blog_metadata_if_exists(argv, ok_if_null=False)
 
-    def get_entry_metadata(self, cpu_thread_id, argv):
+    def get_entry_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
         try:
             return str(getattr(self.requested_entry, argv[0]))
@@ -585,7 +591,7 @@ class DataStore:
                 messages.entry_has_no_metadata_like.format(argv[0])
             )
             
-    def get_entry_metadata_if_exists(self, cpu_thread_id, argv, ok_if_null=True):
+    def get_entry_metadata_if_exists(self, argv, ok_if_null=True):
         try:
             value = str(getattr(self.requested_entry, argv[0]))
 
@@ -633,39 +639,39 @@ class DataStore:
         for entry in (self.entries[::-1] if reverse else self.entries):
             yield entry
     
-    def get_entry_title(self, cpu_thread_id, argv=list()):
+    def get_entry_title(self, argv=list()):
         title = self.requested_entry.title
         return title if title != None else str()
     
-    def get_entry_id(self, cpu_thread_id, argv=list()):
+    def get_entry_id(self, argv=list()):
         return self.requested_entry.id
             
-    def get_entry_year(self, cpu_thread_id, argv=list()):
+    def get_entry_year(self, argv=list()):
         return self.requested_entry.date.year
 
-    def get_entry_month(self, cpu_thread_id, argv=list()):
+    def get_entry_month(self, argv=list()):
         return self.requested_entry.date.month
         
-    def get_entry_day(self, cpu_thread_id, argv=list()):
+    def get_entry_day(self, argv=list()):
         return self.requested_entry.date.day
 
-    def get_entry_hour(self, cpu_thread_id, argv=list()):
-        return self.cpu_threads_requested_entry[cpu_thread_id].date.hour
+    def get_entry_hour(self, argv=list()):
+        return self.requested_entry.date.hour
     
-    def get_entry_minute(self, cpu_thread_id, argv=list()):
+    def get_entry_minute(self, argv=list()):
         return self.requested_entry.date.minute
 
-    def get_entry_date(self, cpu_thread_id, argv=list()):
+    def get_entry_date(self, argv=list()):
         return self.requested_entry.date.strftime(
             self.blog_configuration["date_format"] if len(argv) < 1 else argv[0]
         )
 
-    def get_entry_date_url(self, cpu_thread_id, argv=list()):
+    def get_entry_date_url(self, argv=list()):
         return self.requested_entry.date.strftime(
             self.blog_configuration["path"]["archives_directory_name"]
         )
     
-    def get_chapter_attribute_by_index(self, cpu_thread_id, argv=list()):
+    def get_chapter_attribute_by_index(self, argv=list()):
         if len(argv) < 2:
             raise PatternMissingArguments(2, len(argv))
         
@@ -690,7 +696,7 @@ class DataStore:
         return self.cache_get_chapter_attribute_by_index[key]
 
 
-    def get_entry_attribute_by_id(self, cpu_thread_id, argv=list()):
+    def get_entry_attribute_by_id(self, argv=list()):
         if len(argv) < 2:
             raise PatternMissingArguments(2, len(argv))
             
@@ -723,40 +729,40 @@ class DataStore:
             
         return self.cache_get_entry_attribute_by_id[key]
             
-    def get_entry_url(self, cpu_thread_id, argv=list()):
+    def get_entry_url(self, argv=list()):
         if self.blog_configuration["disable_single_entries"]:
             return ''
 
         return self.requested_entry.url
 
-    def get_author_name(self, cpu_thread_id, argv=list()):
+    def get_author_name(self, argv=list()):
         return self.blog_configuration["author_name"]
 
-    def get_blog_name(self, cpu_thread_id, argv=list()):
+    def get_blog_name(self, argv=list()):
         return self.blog_configuration["blog_name"]
         
-    def get_blog_description(self, cpu_thread_id, argv=list()):
+    def get_blog_description(self, argv=list()):
         return self.blog_configuration["blog_description"]
         
-    def get_blog_keywords(self, cpu_thread_id, argv=list()):
+    def get_blog_keywords(self, argv=list()):
         return self.blog_configuration["blog_keywords"]
 
-    def get_author_description(self, cpu_thread_id, argv=list()):
+    def get_author_description(self, argv=list()):
         return self.blog_configuration["author_description"]
         
-    def get_blog_license(self, cpu_thread_id, argv=list()):
+    def get_blog_license(self, argv=list()):
         return self.blog_configuration["license"]
     
-    def get_blog_url(self, cpu_thread_id, argv=list()):
+    def get_blog_url(self, argv=list()):
         return self.blog_configuration["blog_url"]
     
-    def get_blog_language(self, cpu_thread_id, argv=list()):
+    def get_blog_language(self, argv=list()):
         return self.blog_configuration["blog_language"]
     
-    def get_author_email(self, cpu_thread_id, argv=list()):
+    def get_author_email(self, argv=list()):
         return self.blog_configuration["author_email"]
 
-    def for_blog_archives(self, cpu_thread_id, argv):
+    def for_blog_archives(self, argv):
         key = ''.join(argv)
         if not key in self.html_blog_archives.keys():
             if self.blog_configuration["disable_archives"]:
@@ -768,7 +774,7 @@ class DataStore:
 
         return self.html_blog_archives[key]
 
-    def get_root_page(self, cpu_thread_id, argv):
+    def get_root_page(self, argv):
         if self.root_page == None:
             self.root_page =  "\x1a"+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
             
@@ -804,7 +810,7 @@ class DataStore:
 
         return output_string + closing_node
 
-    def tree_for_entry_categories(self, cpu_thread_id, argv):
+    def tree_for_entry_categories(self, argv):
         key = ''.join(argv)
         entry = self.requested_entry
 
@@ -823,7 +829,7 @@ class DataStore:
         
         return entry.html_categories_tree[key]
 
-    def tree_for_blog_categories(self, cpu_thread_id, argv):
+    def tree_for_blog_categories(self, argv):
         key = ''.join(argv)
         # compute once categories tree and deliver baked html
         if not key in self.html_categories_tree.keys():
@@ -842,7 +848,7 @@ class DataStore:
         return self.html_categories_tree[key]
 
     # TODO: NOT FINISHED YET
-    def for_entry_range(self, cpu_thread_id, argv):
+    def for_entry_range(self, argv):
         if len(argv) != 3:
             raise PatternMissingArguments(expected=2,got=len(argv))
             
@@ -876,7 +882,7 @@ class DataStore:
         
         return output
     
-    def for_entry_metadata(self, cpu_thread_id, argv):
+    def for_entry_metadata(self, argv):
         if len(argv) != 3:
             raise PatternMissingArguments(expected=3,got=len(argv))
         
@@ -907,14 +913,14 @@ class DataStore:
             
         return entry.html_for_metadata[key]
             
-    def for_entry_authors(self, cpu_thread_id, argv):
-        return self.for_entry_metadata(cpu_thread_id, ["authors"]+argv)
+    def for_entry_authors(self, argv):
+        return self.for_entry_metadata(["authors"]+argv)
 
-    def for_entry_tags(self, cpu_thread_id, argv):
-        return self.for_entry_metadata(cpu_thread_id, ["tags"]+argv)
+    def for_entry_tags(self, argv):
+        return self.for_entry_metadata(["tags"]+argv)
 
     # TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.
-    def leaves_for_entry_categories(self, cpu_thread_id, argv):
+    def leaves_for_entry_categories(self, argv):
         key = ''.join(argv)
         entry = self.requested_entry
         if not key in entry.html_categories_leaves.keys():
@@ -926,7 +932,7 @@ class DataStore:
         
         return entry.html_categories_leaves[key]
 
-    def leaves_for_blog_categories(self, cpu_thread_id, argv):
+    def leaves_for_blog_categories(self, argv):
         key = ''.join(argv)
 
         if not key in self.html_categories_leaves.keys():
@@ -955,7 +961,7 @@ class DataStore:
         except FileNotFoundError:
             return ""
 
-    def wrapper_embed_content(self, cpu_thread_id, argv):
+    def wrapper_embed_content(self, argv):
         if len(argv) == 0:
             raise PatternMissingArguments
             

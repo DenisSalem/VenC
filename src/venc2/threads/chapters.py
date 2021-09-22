@@ -34,10 +34,10 @@ class ChaptersThread(Thread):
         self.in_thread = True
         self.thread_has_feeds = False
 
-    def if_in_first_page(self, cpu_thread_id, argv):
+    def if_in_first_page(self, argv):
         return argv[1].strip() if len(argv) >= 2 else ''
     
-    def if_in_last_page(self, cpu_thread_id, argv):
+    def if_in_last_page(self, argv):
         return argv[1].strip() if len(argv) >= 2 else ''
         
     def setup_chapters_context(self, i, top, len_top):
@@ -96,7 +96,7 @@ class ChaptersThread(Thread):
                 # Restore states
                 self.indentation_level = self.indentation_level[:-3]
                 
-    def GetJSONLD(self, cpu_thread_id, argv):
+    def GetJSONLD(self, argv):
         if self.current_page == 0 and self.enable_jsonld:
             return '<script type="application/ld+json" src="chapters.jsonld"></script>'
         

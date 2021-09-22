@@ -50,21 +50,21 @@ class EntriesThread(Thread):
         except KeyError as e:
             die(messages.variable_error_in_filename.format(str(e)))
             
-    def if_in_first_page(self, cpu_thread_id, argv):
+    def if_in_first_page(self, argv):
         if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
             
-    def if_in_last_page(self, cpu_thread_id, argv):
+    def if_in_last_page(self, argv):
         if len(argv) >= 2:
             return argv[1].strip()
             
         else:
             return ''
     
-    def if_in_entry_id(self, cpu_thread_id, argv):
+    def if_in_entry_id(self, argv):
         try:
             if argv[0] == str(self.current_entry.id):
                 return argv[1].strip()
@@ -78,7 +78,7 @@ class EntriesThread(Thread):
         except AttributeError:
             return argv[2].strip() if len(argv) >= 3 else ''
 
-    def for_pages(self, cpu_thread_id, argv):
+    def for_pages(self, argv):
         list_lenght = int(argv[0])
         string = argv[1]
         separator = argv[2]
@@ -159,7 +159,7 @@ class EntriesThread(Thread):
                         self.do_jsonld(entry)
 
 
-    def GetJSONLD(self, cpu_thread_id, argv):
+    def GetJSONLD(self, argv):
         if self.datastore.enable_jsonld and self.enable_jsonld:
             return '<script type="application/ld+json" src="entry'+str(self.current_entry.id)+'.jsonld"></script>'
             

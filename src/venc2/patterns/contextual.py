@@ -25,7 +25,7 @@ from venc2.l10n import messages
 
 arg_names=["min","max","decimal_number"]
 
-def get_random_number(cpu_thread_id, in_argv):
+def get_random_number(in_argv):
     try:
         mn, mx, precision = in_argv
     

@@ -23,7 +23,7 @@ import shutil
 import subprocess
 import time
 
-from multiprocessing import Process, Manager
+from multiprocessing import Process
 
 from venc2.commands.remote import remote_copy
 from venc2.datastore import DataStore
@@ -46,6 +46,7 @@ datastore = None
 code_highlight = None
 
 theme_assets_dependencies = []
+# TODO turns global var name into uppercase
 
 def copy_recursively(src, dest):
     import errno
@@ -110,9 +111,9 @@ def init_theme(argv):
         handle_malformed_patterns(e)
 
 def setup_pattern_processor(pattern_map):
-    cpu_threads = len(datastore.cpu_threads_requested_entry)
+    cpu_threads = datastore.workers_count
         
-    processor = Processor(cpu_threads)
+    processor = Processor()
     for pattern_name in pattern_map.non_contextual["entries"].keys():
         processor.set_function(pattern_name, pattern_map.non_contextual["entries"][pattern_name])
     
@@ -135,17 +136,16 @@ def setup_pattern_processor(pattern_map):
     return processor
 
 def worker_process_non_contextual_entry_patterns(shared_data, worker_id):
-    for entry in shared_data["datastore"].entries[worker_id*(chunks_len):(worker_id+1)*(chunks_len)]:
-        shared_data["datastore"].cpu_threads_requested_entry[worker_id] = entry
-        print(shared_data["datastore"].cpu_threads_requested_entry)
-    
-    return
-    #datastore, pattern_processor, theme, chunks_len
-    workers_count = len(datastore.cpu_threads_requested_entry)
+    datastore = shared_data["datastore"]
+    pattern_processor = shared_data["pattern_processor"]
+    theme = shared_data["theme"]
+    chunks_len = shared_data["chunks_len"]
+    workers_count = datastore.workers_count
+
     notify("│  "+("└─ " if worker_id == workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id))
 
     for entry in datastore.entries[worker_id*(chunks_len):(worker_id+1)*(chunks_len)]:
-        datastore.cpu_threads_requested_entry[0] = entry
+        datastore.requested_entry = entry
         
         if hasattr(entry, "markup_language"):
             markup_language = getattr(entry, "markup_language")
@@ -153,39 +153,39 @@ def worker_process_non_contextual_entry_patterns(shared_data, worker_id):
         else:
             markup_language = datastore.blog_configuration["markup_language"]
         
-        pattern_processor.process(entry.preview, 0)
+        pattern_processor.process(entry.preview)
         process_markup_language(entry.preview, markup_language)
         
-        pattern_processor.process(entry.content, 0)
+        pattern_processor.process(entry.content)
         process_markup_language(entry.content, markup_language, entry)
 
         entry.html_wrapper = deepcopy(theme.entry)
-        pattern_processor.process(entry.html_wrapper.processed_string, 0)
+        pattern_processor.process(entry.html_wrapper.processed_string)
         entry.html_wrapper.processed_string.replace_needles()
         
         entry.rss_wrapper = deepcopy(theme.rss_entry)
-        pattern_processor.process(entry.rss_wrapper.processed_string, 0)
+        pattern_processor.process(entry.rss_wrapper.processed_string)
         entry.rss_wrapper.processed_string.replace_needles()
         
         entry.atom_wrapper = deepcopy(theme.atom_entry)
-        pattern_processor.process(entry.atom_wrapper.processed_string, 0)
+        pattern_processor.process(entry.atom_wrapper.processed_string)
         entry.atom_wrapper.processed_string.replace_needles()
         
 def process_non_contextual_patterns(pattern_processor, theme, patterns_map):
     entries = [entry for entry in datastore.get_entries()]
-    workers_count = 1 # len(datastore.cpu_threads_requested_entry)
+    datastore.workers_count = 1 # len(datastore.cpu_threads_requested_entry)
 
-    chunks_len = (len(entries)//workers_count)+1
+    chunks_len = (len(entries)//datastore.workers_count)+1
     workers = []
-    manager = Manager()
-    shared_data = manager.dict({
+
+    shared_data = {
         "datastore": datastore,
         "pattern_processor":pattern_processor,
         "theme":theme,
-        "chunks_len":chunks_len,
-    })
-    
-    if False and workers_count > 1:
+        "chunks_len":chunks_len ,
+    }
+
+    if datastore.workers_count > 1:
         for i in range(0, workers_count):
             workers.append(
                 Process(
@@ -203,15 +203,10 @@ def process_non_contextual_patterns(pattern_processor, theme, patterns_map):
             worker.join()
     else:
         worker_process_non_contextual_entry_patterns(
-            datastore,
-            pattern_processor,
-            theme,
-            chunks_len,
+            shared_data,
             0
         )
 
-
-                    
     for pattern_name in patterns_map.non_contextual["entries"].keys():
         pattern_processor.del_function(pattern_name)
     
