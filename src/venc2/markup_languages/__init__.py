@@ -60,11 +60,11 @@ def process_markup_language(source, markup_language, entry=None):
         elif markup_language == "reStructuredText":
             string = publish_parts(source.string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
     
-        if markup_language != "none":
+        elif markup_language != "none":
             err = messages.unknown_markup_language.format(markup_language, source.ressource)
             handle_markup_language_error(err)
             
-        else:
+        if markup_language != "none":
             source.string = string
             source.replace_needles(in_entry=True)
 

@@ -47,7 +47,7 @@ def undefined_variable(match):
 
 class Thread:
     def __init__(self, prompt, datastore, theme, patterns_map):
-        self.workers_count = len(datastore.cpu_threads_requested_entry)
+        self.workers_count = datastore.workers_count
         self.indentation_level = "│  "
         self.patterns_map = patterns_map
         self.datastore = datastore
@@ -76,7 +76,7 @@ class Thread:
         self.rss_feed = None
         self.atom_feed = None
         # Setup pattern processor
-        self.processor = Processor(self.workers_count)
+        self.processor = Processor()
         for pattern_name in patterns_map.contextual["functions"].keys():
             self.processor.set_function(pattern_name, patterns_map.contextual["functions"][pattern_name])
                 

@@ -143,16 +143,16 @@ def worker_process_non_contextual_entry_patterns(shared_data, worker_id):
     workers_count = datastore.workers_count
 
     notify("│  "+("└─ " if worker_id == workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id))
+    default_markup_language = datastore.blog_configuration["markup_language"]
 
     for entry in datastore.entries[worker_id*(chunks_len):(worker_id+1)*(chunks_len)]:
         datastore.requested_entry = entry
         
         if hasattr(entry, "markup_language"):
             markup_language = getattr(entry, "markup_language")
-
         else:
-            markup_language = datastore.blog_configuration["markup_language"]
-        
+            markup_language = default_markup_language
+
         pattern_processor.process(entry.preview)
         process_markup_language(entry.preview, markup_language)
         
@@ -241,8 +241,6 @@ def export_blog(argv=list()):
 
     process_non_contextual_patterns(pattern_processor, theme, patterns_map)
     
-    PRINT("CUT")
-    exit(0)
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")

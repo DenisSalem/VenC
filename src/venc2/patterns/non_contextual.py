@@ -116,7 +116,6 @@ def include_file(argv, raise_error=True):
     include_string = None
     paths = ("includes/"+filename, shutil.os.path.expanduser("~/.local/share/VenC/themes_includes/"+filename))
     for path in paths:
-        print(path, shutil.os.path.exists(path));
         if shutil.os.path.exists(path):
             try:
                 include_string = open(path, 'r').read()
