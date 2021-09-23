@@ -17,6 +17,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+
+from copy import deepcopy
+
 import datetime
 import hashlib
 import json
@@ -52,6 +55,14 @@ def merge(iterable, argv):
                 
         raise e
         
+def split_datastore(datastore, chunk_len):
+    entries = datastore.entries
+    datastore.entries = []
+    chunk = deepcopy(datastore)
+    chunk.entries = entries[:chunk_len]
+    datastore.entries = entries[chunk_len:]
+    return chunk
+    
 class DataStore:
     def __init__(self):
         notify("┌─ "+messages.loading_data)
@@ -125,9 +136,10 @@ class DataStore:
         
         for entry_index in range(0, len(self.entries)):
             current_entry = self.entries[entry_index]
-            if entry_index > 0:
-                self.entries[entry_index-1].next_entry = current_entry
-                current_entry.previous_entry = self.entries[entry_index-1]
+            # TODO: replace with immutable object
+            # ~ if entry_index > 0:
+                # ~ self.entries[entry_index-1].next_entry = current_entry
+                # ~ current_entry.previous_entry = self.entries[entry_index-1]
 
             # Update entriesPerDates
             if path_archives_directory_name != '':
@@ -231,7 +243,7 @@ class DataStore:
                 "path": "\x1a"+sub_folders+node.value,
                 "count": node.count,
                 "weight": node.weight
-            })
+            })        
 
     def if_categories(self, argv):
         if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:

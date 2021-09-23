@@ -23,10 +23,11 @@ import shutil
 import subprocess
 import time
 
-from multiprocessing import Process
+from multiprocessing import Pool
 
 from venc2.commands.remote import remote_copy
 from venc2.datastore import DataStore
+from venc2.datastore import split_datastore
 from venc2.datastore.theme import Theme
 from venc2.helpers import die
 from venc2.prompt import notify
@@ -43,7 +44,6 @@ from venc2.patterns.processor import ProcessedString
 # Initialisation of environment
 start_timestamp = time.time()
 datastore = None
-code_highlight = None
 
 theme_assets_dependencies = []
 # TODO turns global var name into uppercase
@@ -110,9 +110,7 @@ def init_theme(argv):
         from venc2.helpers import handle_malformed_patterns
         handle_malformed_patterns(e)
 
-def setup_pattern_processor(pattern_map):
-    cpu_threads = datastore.workers_count
-        
+def setup_pattern_processor(pattern_map):        
     processor = Processor()
     for pattern_name in pattern_map.non_contextual["entries"].keys():
         processor.set_function(pattern_name, pattern_map.non_contextual["entries"][pattern_name])
@@ -135,21 +133,25 @@ def setup_pattern_processor(pattern_map):
     processor.blacklist.append("Escape")
     return processor
 
-def worker_process_non_contextual_entry_patterns(shared_data, worker_id):
-    datastore = shared_data["datastore"]
-    pattern_processor = shared_data["pattern_processor"]
-    theme = shared_data["theme"]
-    chunks_len = shared_data["chunks_len"]
+def worker_process_non_contextual_entry_patterns(payload):
+    datastore = payload["datastore"]
+    worker_id = payload["worker_id"]
     workers_count = datastore.workers_count
+    
+    theme, theme_folder = init_theme(payload["init_theme_argv"])
+    code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
+    patterns_map = PatternsMap(datastore, code_highlight, theme)
+    pattern_processor = setup_pattern_processor(patterns_map)
 
     notify("│  "+("└─ " if worker_id == workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id))
     default_markup_language = datastore.blog_configuration["markup_language"]
 
-    for entry in datastore.entries[worker_id*(chunks_len):(worker_id+1)*(chunks_len)]:
+    for entry in datastore.entries:
         datastore.requested_entry = entry
         
         if hasattr(entry, "markup_language"):
             markup_language = getattr(entry, "markup_language")
+            
         else:
             markup_language = default_markup_language
 
@@ -171,41 +173,46 @@ def worker_process_non_contextual_entry_patterns(shared_data, worker_id):
         pattern_processor.process(entry.atom_wrapper.processed_string)
         entry.atom_wrapper.processed_string.replace_needles()
         
-def process_non_contextual_patterns(pattern_processor, theme, patterns_map):
+    return datastore.entries
+        
+def process_non_contextual_patterns(init_theme_argv):
     entries = [entry for entry in datastore.get_entries()]
-    datastore.workers_count = 1 # len(datastore.cpu_threads_requested_entry)
+    
+    theme, theme_folder = init_theme(init_theme_argv)
+    code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
+    patterns_map = PatternsMap(datastore, code_highlight, theme)
+    pattern_processor = setup_pattern_processor(patterns_map)
 
     chunks_len = (len(entries)//datastore.workers_count)+1
     workers = []
-
-    shared_data = {
-        "datastore": datastore,
-        "pattern_processor":pattern_processor,
-        "theme":theme,
-        "chunks_len":chunks_len ,
-    }
-
+    context_chunks = []
+        
     if datastore.workers_count > 1:
-        for i in range(0, workers_count):
-            workers.append(
-                Process(
-                    target=worker_process_non_contextual_entry_patterns,
-                    args=(
-                        shared_data,
-                        i
-                    )
-                )
-            )
-        for worker in workers:
-            worker.start()
-            
-        for worker in workers:
-            worker.join()
-    else:
-        worker_process_non_contextual_entry_patterns(
-            shared_data,
-            0
+        for i in range(0, datastore.workers_count):
+            context_chunks.append({
+                "datastore" : split_datastore(datastore, chunks_len),
+                "init_theme_argv": init_theme_argv,
+                "worker_id": i
+            })
+        pool = Pool(datastore.workers_count)
+        entries = pool.map(
+            worker_process_non_contextual_entry_patterns,
+            context_chunks
         )
+            
+        pool.close()
+        pool.join()
+
+        datastore.entries = []
+        for chunk in entries:
+            datastore.entries += chunk
+            
+    else:
+        worker_process_non_contextual_entry_patterns({
+            "datastore" : datastore,
+            "init_theme_argv": init_theme_argv,
+            "worker_id": 0
+        })
 
     for pattern_name in patterns_map.non_contextual["entries"].keys():
         pattern_processor.del_function(pattern_name)
@@ -224,23 +231,21 @@ def process_non_contextual_patterns(pattern_processor, theme, patterns_map):
     theme.atom_header.replace_needles()
     pattern_processor.process(theme.atom_footer) 
     theme.atom_footer.replace_needles()
-
+    
+    return theme, theme_folder, code_highlight
+    
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(argv=list()):
     global datastore
     if datastore == None:
         datastore = DataStore()
-        
-    global code_highlight
-    code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
-    theme, theme_folder = init_theme(argv)
-    patterns_map = PatternsMap(datastore, code_highlight, theme)
-    pattern_processor = setup_pattern_processor(patterns_map)
     
     notify("├─ "+messages.pre_process)
-
-    process_non_contextual_patterns(pattern_processor, theme, patterns_map)
     
+    theme, theme_folder, code_highlight = process_non_contextual_patterns(argv)
+    
+    patterns_map = PatternsMap(datastore, code_highlight, theme)
+
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
