@@ -165,7 +165,8 @@ def new_blog(argv):
         "server_port":                  8888,
         "sort_by":                      "id",
         "enable_jsonld":                False,
-        "enable_jsonp":					False
+        "enable_jsonp":					False,
+        "parallel_processing": 1
     }
     for folder_name in argv:
         try:

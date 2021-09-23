@@ -128,7 +128,8 @@ new_keys = {
     "feed_lenght": 5,
     "sort_by":'id',
     "enable_jsonld": False,
-    "enable_jsonp": False
+    "enable_jsonp": False,
+    "parallell_processing" : 1
 }
 
 new_path_keys = {

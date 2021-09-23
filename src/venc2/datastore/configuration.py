@@ -65,7 +65,8 @@ def get_blog_configuration():
             "disable_atom_feed",
             "sort_by",
             "enable_jsonld",
-            "enable_jsonp"
+            "enable_jsonp",
+            "parallel_processing"
         ]
 
         everything_is_okay = True

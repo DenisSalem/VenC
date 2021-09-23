@@ -77,12 +77,16 @@ class DataStore:
         self.entries = list()
         self.entries_per_archives = list()
         self.entries_per_categories = list()
+        
         try:
             from multiprocessing import cpu_count
             self.workers_count = cpu_count()
+            if int(self.blog_configuration["parallel_processing"]) < self.workers_count:
+                 self.workers_count  =  int(self.blog_configuration["parallel_processing"])
             
         except:
             self.workers_count = 1
+
         
         self.requested_entry = None
             

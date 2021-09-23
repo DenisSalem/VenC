@@ -173,17 +173,15 @@ def worker_process_non_contextual_entry_patterns(payload):
         pattern_processor.process(entry.atom_wrapper.processed_string)
         entry.atom_wrapper.processed_string.replace_needles()
         
-    return datastore.entries
+    return (datastore.entries, code_highlight)
         
-def process_non_contextual_patterns(init_theme_argv):
-    entries = [entry for entry in datastore.get_entries()]
-    
+def process_non_contextual_patterns(init_theme_argv):    
     theme, theme_folder = init_theme(init_theme_argv)
     code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
     patterns_map = PatternsMap(datastore, code_highlight, theme)
     pattern_processor = setup_pattern_processor(patterns_map)
 
-    chunks_len = (len(entries)//datastore.workers_count)+1
+    chunks_len = (len(datastore.entries)//datastore.workers_count)+1
     workers = []
     context_chunks = []
         
@@ -199,13 +197,13 @@ def process_non_contextual_patterns(init_theme_argv):
             worker_process_non_contextual_entry_patterns,
             context_chunks
         )
-            
+        
         pool.close()
         pool.join()
 
         datastore.entries = []
         for chunk in entries:
-            datastore.entries += chunk
+            datastore.entries += chunk[0]
             
     else:
         worker_process_non_contextual_entry_patterns({
@@ -232,7 +230,7 @@ def process_non_contextual_patterns(init_theme_argv):
     pattern_processor.process(theme.atom_footer) 
     theme.atom_footer.replace_needles()
     
-    return theme, theme_folder, code_highlight
+    return theme, theme_folder, code_highlight, patterns_map
     
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(argv=list()):
@@ -242,10 +240,8 @@ def export_blog(argv=list()):
     
     notify("├─ "+messages.pre_process)
     
-    theme, theme_folder, code_highlight = process_non_contextual_patterns(argv)
+    theme, theme_folder, code_highlight, patterns_map = process_non_contextual_patterns(argv)
     
-    patterns_map = PatternsMap(datastore, code_highlight, theme)
-
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
