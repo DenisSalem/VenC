@@ -30,6 +30,7 @@ from urllib.parse import quote as urllib_parse_quote
 
 from venc2.datastore.configuration import get_blog_configuration
 from venc2.datastore.entry import yield_entries_content
+from venc2.datastore.entry import AdjacentEntryMetadata
 from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
@@ -140,10 +141,9 @@ class DataStore:
         
         for entry_index in range(0, len(self.entries)):
             current_entry = self.entries[entry_index]
-            # TODO: replace with immutable object
-            # ~ if entry_index > 0:
-                # ~ self.entries[entry_index-1].next_entry = current_entry
-                # ~ current_entry.previous_entry = self.entries[entry_index-1]
+            if entry_index > 0:
+                self.entries[entry_index-1].next_entry = AdjacentEntryMetadata(current_entry)
+                current_entry.previous_entry = AdjacentEntryMetadata(self.entries[entry_index-1])
 
             # Update entriesPerDates
             if path_archives_directory_name != '':

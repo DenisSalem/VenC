@@ -32,7 +32,8 @@ class EntriesThread(Thread):
         super().__init__(prompt, datastore, theme, patterns_map)
         self.entries_per_page = 1 #override value
         self.organize_entries(datastore.entries)
-
+        self.current_entry_index=-1
+        self.entries = self.datastore.entries
         self.filename = self.datastore.blog_configuration["path"]["entry_file_name"]
         self.sub_folders = self.datastore.blog_configuration["path"]["entries_sub_folders"]
         self.export_path = "blog/"+self.sub_folders
@@ -91,9 +92,10 @@ class EntriesThread(Thread):
         }
         output += string.format(**params) + separator
 
-        next_entry = self.current_entry.next_entry
-        previous_entry = self.current_entry.previous_entry
         for i in range(0, list_lenght):
+            next_entry =  None if self.current_entry_index >=  len(self.entries) - 2 else self.entries[self.current_entry_index+1]
+            previous_entry = None  if self.current_entry_index == 0 else self.entries[self.current_entry_index-1]
+        
             if next_entry != None:
                 params["entry_id"] = next_entry.id
                 params["entry_title"] = next_entry.title
@@ -112,6 +114,7 @@ class EntriesThread(Thread):
 
     def setup_context(self, entry):
         super().setup_context(entry)
+        self.current_entry_index+=1
         export_path = quirk_encoding(
             self.export_path.format(**{
                     'entry_id': self.current_entry.id,
@@ -122,6 +125,7 @@ class EntriesThread(Thread):
         export_path = self.path_encode(export_path)
         self.relative_origin = str(''.join([ "../" for p in export_path.split('/')[1:] if p != ''])).replace("//",'/')
         os.makedirs(export_path, exist_ok=True)
+
 
     def write_file(self, output, file_id):
         export_path = self.path_encode(self.export_path.format(**{

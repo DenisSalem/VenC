@@ -58,6 +58,12 @@ class EntryWrapper:
             
         self.processed_string = ProcessedString(wrapper, filename, True)
 
+class AdjacentEntryMetadata:
+    def __init__(self, entry):
+        self.id = entry.id
+        self.url = entry.url
+        self.title = entry.title
+
 class Entry:
     def __init__(self, filename, paths, jsonld_callback, date_format, encoding="utf-8", ):
         self.previous_entry = None

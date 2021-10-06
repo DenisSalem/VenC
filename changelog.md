@@ -65,7 +65,7 @@
     DONE | Override server port with extra arg.
     DONE | Remove .:Escape:: / ::EndEscape:. from header_id extension.
     WIP  | Generate entry inner title index.
-    TODO | Fix locale import exception. (#12)
+    DONE | Fix locale import exception. (#12)
     TODO | Add nice 404 errors page.
     TODO | Update doc accordingly.
     TODO | Add ForDictMetadata

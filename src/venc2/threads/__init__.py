@@ -142,13 +142,9 @@ class Thread:
                 params["path"] = self.filename.format(**params)
 
             else:
-                try:
                     params["path"] = self.current_entry.next_entry.url
                     params["entry_id"] = self.current_entry.next_entry.id
                     params["entry_title"] = self.current_entry.next_entry.title
-
-                except AttributeError:
-                    pass
                     
             try:
                 return argv[0].format(**params)
@@ -173,12 +169,9 @@ class Thread:
                 params["path"] = self.filename.format(**params)
 
             else:
-                try:
                     params["entry_id"] = self.current_entry.previous_entry.id
                     params["entry_title"] = self.current_entry.previous_entry.title
                     params["path"] = self.current_entry.previous_entry.url
-                except AttributeError:
-                    pass
 
             try:
                 return argv[0].format(**params)
