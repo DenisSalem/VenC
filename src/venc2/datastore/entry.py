@@ -58,14 +58,17 @@ class EntryWrapper:
             
         self.processed_string = ProcessedString(wrapper, filename, True)
 
-class AdjacentEntryMetadata:
+class MinimalEntryMetadata:
     def __init__(self, entry):
         self.id = entry.id
         self.url = entry.url
         self.title = entry.title
+        self.chapter = entry.chapter
+        self.index = entry.index
 
 class Entry:
-    def __init__(self, filename, paths, jsonld_callback, date_format, encoding="utf-8", ):
+    def __init__(self, index, filename, paths, jsonld_callback, date_format, encoding="utf-8", ):
+        self.index = index
         self.previous_entry = None
         self.next_entry = None
         self.chapter = None

@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2021 Denis Salem
 # 
 #    This file is part of VenC.
 #

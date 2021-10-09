@@ -364,9 +364,7 @@ class Thread:
 
     def do_iteration(self, entry):
         global current_source
-        
-        entry_wrapper = getattr(entry, self.content_type+"_wrapper")
-        
+        entry_wrapper = getattr(entry, self.content_type+"_wrapper")            
         preprocessed_wrapper = getattr(entry, self.content_type+"_wrapper").processed_string
         self.processor.process(preprocessed_wrapper, safe_process = True)
         

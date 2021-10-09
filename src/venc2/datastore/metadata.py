@@ -29,6 +29,7 @@ class Chapter:
         self.sub_chapters = []
         self.index = index
         self.entry = entry
+        self.entry_index = entry.index
         self.path = path
         
 class MetadataNode:

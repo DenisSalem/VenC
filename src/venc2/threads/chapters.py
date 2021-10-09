@@ -27,7 +27,6 @@ class ChaptersThread(Thread):
         super().__init__(prompt, datastore, theme, patterns_map)
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.entries_per_page = self.datastore.blog_configuration["entries_per_pages"]
-
         self.folder_name = self.datastore.blog_configuration["path"]["chapter_directory_name"]
         self.sub_folders = self.datastore.blog_configuration["path"]["chapters_sub_folders"]
         self.relative_origin = str(''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
@@ -48,12 +47,12 @@ class ChaptersThread(Thread):
                 
         else:
             tree_special_char = '├'
-                
-        notify(self.indentation_level+tree_special_char+"─ "+node.index+' '+node.entry.title+"...")
-        self.thread_name = node.entry.title
+        entry = self.datastore.entries[node.entry_index]
+        notify(self.indentation_level+tree_special_char+"─ "+node.index+' '+entry.title+"...")
+        self.thread_name = entry.title
         self.export_path = "blog/"+self.sub_folders+'/'+self.folder_name
         self.export_path = self.export_path.format(**{
-            "chapter_name" : node.entry.title,
+            "chapter_name" : entry.title,
             "chapter_index": node.index
         })
         self.export_path = self.path_encode(self.export_path)
@@ -71,7 +70,7 @@ class ChaptersThread(Thread):
         output = []
         output_append = output.append
         for c in sub_chapters:
-            output_append(c.entry)
+            output_append(self.datastore.entries[c.entry_index])
             if len(c.sub_chapters):
                 for sc_entries in self.extract_sub_chapters(c.sub_chapters):
                     output_append(sc_entries)
@@ -85,7 +84,8 @@ class ChaptersThread(Thread):
             
         for chapter_index in range(0, len(top)):
             chapter = top[chapter_index]
-            self.organize_entries([ chapter.entry ] + self.extract_sub_chapters(chapter.sub_chapters))
+            entry = self.datastore.entries[chapter.entry_index]
+            self.organize_entries([ entry ] + self.extract_sub_chapters(chapter.sub_chapters))
             self.setup_chapters_context(chapter_index, top, len(top))
             super().do()
         

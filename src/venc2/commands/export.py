@@ -135,6 +135,8 @@ def setup_pattern_processor(pattern_map):
 
 def worker_process_non_contextual_entry_patterns(payload):
     datastore = payload["datastore"]
+    datastore.in_child_process = True
+
     worker_id = payload["worker_id"]
     workers_count = datastore.workers_count
     
@@ -158,11 +160,8 @@ def worker_process_non_contextual_entry_patterns(payload):
         pattern_processor.process(entry.preview)
         process_markup_language(entry.preview, markup_language)
 
-        # ~ print(entry.title)        
         pattern_processor.process(entry.content)
         process_markup_language(entry.content, markup_language, entry)
-        # ~ if entry.title == "Notion de limite avec Zénon et Euclide":
-            # ~ print(entry.content.string)
             
         entry.html_wrapper = deepcopy(theme.entry)
         pattern_processor.process(entry.html_wrapper.processed_string)
@@ -184,14 +183,14 @@ def process_non_contextual_patterns(init_theme_argv):
     patterns_map = PatternsMap(datastore, code_highlight, theme)
     pattern_processor = setup_pattern_processor(patterns_map)
 
-    chunks_len = (len(datastore.entries)//datastore.workers_count)+1
+    datastore.chunks_len = (len(datastore.entries)//datastore.workers_count)+1
     workers = []
     context_chunks = []
         
     if datastore.workers_count > 1:
         for i in range(0, datastore.workers_count):
             context_chunks.append({
-                "datastore" : split_datastore(datastore, chunks_len),
+                "datastore" : split_datastore(datastore),
                 "init_theme_argv": init_theme_argv,
                 "worker_id": i
             })
@@ -207,6 +206,7 @@ def process_non_contextual_patterns(init_theme_argv):
         datastore.entries = []
         for chunk in entries:
             datastore.entries += chunk[0]
+            #todo merge codehighlight
             
     else:
         worker_process_non_contextual_entry_patterns({
@@ -244,7 +244,7 @@ def export_blog(argv=list()):
     notify("├─ "+messages.pre_process)
     
     theme, theme_folder, code_highlight, patterns_map = process_non_contextual_patterns(argv)
-    
+
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")

@@ -67,14 +67,13 @@
     DONE | Split process_markup_langage from pattern processor.
     DONE | Fix locale import exception. (#12)
     DONE | Explicit needles replacement.
+    DONE | Add CPU threads support.
     WIP  | Enable / Disable entries title in ForPage for gentle and tessellation
     WIP  | Generate entry inner title index.
     WIP  | Add If*MetadataIsTrue.
-
     TODO | Add nice 404 errors page.
     TODO | Update doc accordingly.
     TODO | Add ForDictMetadata
-    DONE | Add CPU threads support.
 
 # version 2.0.2
     DONE | Fix for_entry_metadata; catching unavailable contextual pattern.

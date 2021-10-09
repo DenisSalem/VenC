@@ -30,7 +30,7 @@ from urllib.parse import quote as urllib_parse_quote
 
 from venc2.datastore.configuration import get_blog_configuration
 from venc2.datastore.entry import yield_entries_content
-from venc2.datastore.entry import AdjacentEntryMetadata
+from venc2.datastore.entry import MinimalEntryMetadata
 from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
@@ -56,16 +56,17 @@ def merge(iterable, argv):
                 
         raise e
         
-def split_datastore(datastore, chunk_len):
+def split_datastore(datastore):
     entries = datastore.entries
     datastore.entries = []
     chunk = deepcopy(datastore)
-    chunk.entries = entries[:chunk_len]
-    datastore.entries = entries[chunk_len:]
+    chunk.entries = entries[:datastore.chunks_len]
+    datastore.entries = entries[datastore.chunks_len:]
     return chunk
     
 class DataStore:
     def __init__(self):
+        self.in_child_process = False
         notify("┌─ "+messages.loading_data)
         self.root_page = None
         self.blog_configuration = get_blog_configuration()
@@ -120,14 +121,17 @@ class DataStore:
         # Build entries
         try:
             jsonld_callback = self.entry_to_jsonld_callback if (self.enable_jsonld or self.enable_jsonp) else None
+            index = 0
             for filename in yield_entries_content():
                 self.entries.append(Entry(
+                    index,
                     filename,
                     self.blog_configuration["path"],
                     jsonld_callback,
                     self.blog_configuration["path"]["archives_directory_name"],
                     self.path_encoding
                 ))
+                index+=1
 
         # Might happen during Entry creation.
         except MalformedPatterns as e:
@@ -142,8 +146,8 @@ class DataStore:
         for entry_index in range(0, len(self.entries)):
             current_entry = self.entries[entry_index]
             if entry_index > 0:
-                self.entries[entry_index-1].next_entry = AdjacentEntryMetadata(current_entry)
-                current_entry.previous_entry = AdjacentEntryMetadata(self.entries[entry_index-1])
+                self.entries[entry_index-1].next_entry = MinimalEntryMetadata(current_entry)
+                current_entry.previous_entry = MinimalEntryMetadata(self.entries[entry_index-1])
 
             # Update entriesPerDates
             if path_archives_directory_name != '':
@@ -167,12 +171,15 @@ class DataStore:
                 notify("\"{0}\": ".format(path_categories_sub_folders)+str(e), color="YELLOW")
             
             sub_folders = sub_folders if sub_folders != '/' else ''
+            
+            # TODO : should not be done unless it's necessary
             build_categories_tree(entry_index, current_entry.raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.path_encoding, sub_folders=sub_folders)
             self.update_chapters(current_entry)
     
         # build chapters index
         path_chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
         path_chapter_folder_name = self.blog_configuration["path"]["chapter_directory_name"]
+        
         #TODO: Might be not safe, must test level if is actually an int. Test as well the whole sequence.
         
         for chapter in sorted(self.raw_chapters.keys(), key = lambda x : int(x.replace('.', ''))):
@@ -196,9 +203,10 @@ class DataStore:
                 except StopIteration:
                     if index in self.raw_chapters.keys():
                         # TODO: Replace this shitty bloc by a function call building path
+                        entry = self.raw_chapters[index]
                         try:
                             path = "\x1a"+((path_chapters_sub_folders+'/' if path_chapters_sub_folders != '' else '')+path_chapter_folder_name).format(**{
-                                "chapter_name" : self.raw_chapters[index].title,
+                                "chapter_name" : entry.title,
                                 "chapter_index" : index
                             })
                             try:
@@ -218,7 +226,7 @@ class DataStore:
                         top.append(
                             Chapter(index, self.raw_chapters[index], path)
                         )
-                        self.raw_chapters[index].chapter = top[-1]
+                        entry.chapter = top[-1]
                         
                     else:
                         top.append(
@@ -497,7 +505,8 @@ class DataStore:
 
         return self.html_chapters[key]
 
-    def build_html_chapters(self, argv, top, level):
+    #TODO : Raise MissingArgs if... missing args.
+    def build_html_chapters(self, argv, top, level):          
         lo, io, ic, lc = argv
         if top == []:
             return ''
@@ -505,7 +514,7 @@ class DataStore:
         path_encoding = self.path_encoding
         output = lo.format(**{"level" :level})
 
-        for sub_chapter in top:                           
+        for sub_chapter in top:
             output += io.format(**{
                 "index": sub_chapter.index,
                 "title": sub_chapter.entry.title,
@@ -539,7 +548,7 @@ class DataStore:
                 chapter
             ))
         else:
-            self.raw_chapters[chapter] = entry
+            self.raw_chapters[chapter] = MinimalEntryMetadata(entry)
 
     def sort(self, entry):
         try:
@@ -699,10 +708,11 @@ class DataStore:
         
         key = ''.join(argv[:2])
         if not key in self.cache_get_chapter_attribute_by_index.keys():
-            try:                    
+            try:
                 self.cache_get_chapter_attribute_by_index[key] = getattr(self.raw_chapters[argv[1]].chapter, argv[0])
-            
+                
             except KeyError as e:
+                
                 raise PatternInvalidArgument(
                     "index",
                     argv[1],
