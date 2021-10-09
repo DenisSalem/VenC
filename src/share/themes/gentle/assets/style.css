@@ -277,6 +277,12 @@ footer a
 footer #pagesList li, #previous, #next
   {display: inline-block;}
 
+#previous
+    {float: left;}
+    
+#next
+    {float: right;}
+    
 /***************/
 /* L A Y O U T */
 /***************/

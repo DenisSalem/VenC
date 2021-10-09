@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2021 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -277,6 +277,12 @@ class DataStore:
     def if_atom_enabled(self, argv):
         return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_atom_feed"] else argv[0].replace("{relative_origin}", "\x1a")
 
+    def if_blog_metadata_is_true(argv):
+        pass
+
+    def if_entry_metadata_is_true(argv):
+        pass
+                
     def if_rss_enabled(self, argv):
         return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_rss_feed"] else argv[0].replace("{relative_origin}", "\x1a")
 

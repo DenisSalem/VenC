@@ -157,10 +157,13 @@ def worker_process_non_contextual_entry_patterns(payload):
 
         pattern_processor.process(entry.preview)
         process_markup_language(entry.preview, markup_language)
-        
+
+        # ~ print(entry.title)        
         pattern_processor.process(entry.content)
         process_markup_language(entry.content, markup_language, entry)
-
+        # ~ if entry.title == "Notion de limite avec Zénon et Euclide":
+            # ~ print(entry.content.string)
+            
         entry.html_wrapper = deepcopy(theme.entry)
         pattern_processor.process(entry.html_wrapper.processed_string)
         entry.html_wrapper.processed_string.replace_needles()

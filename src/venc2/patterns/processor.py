@@ -228,12 +228,16 @@ class ProcessedString():
         return output
         
     def replace_needles(self, in_entry=False):
-        meta_escapes = []
+        meta_escapes = [] 
         if in_entry or len(self.keep_appart_from_markup_indexes):
-            previous_missings = []  
-            missings = [1] # trick to enter loops
-            while previous_missings != missings:                
-                missings = []
+            processessed_needles = []  
+ 
+            while len(self.keep_appart_from_markup_indexes):
+                for needle in processessed_needles:
+                    self.keep_appart_from_markup_indexes.pop(
+                        self.keep_appart_from_markup_indexes.index(needle)
+                    )
+                processessed_needles = []  
     
                 for quadruplet in self.keep_appart_from_markup_indexes:
                     identifier, paragraphe, new_chunk, ignore_patterns = quadruplet
@@ -244,10 +248,11 @@ class ProcessedString():
                     len_new_chunk = len(new_chunk.strip())
                     try:
                         index = string.index(target)
-                    
+                        processessed_needles.append(quadruplet)
+                        
                     # In some case needle may be hidden in another needle.
+                    # Give it a few more round.
                     except:
-                        missings.append(quadruplet)
                         continue
                     
                     p_offset = 0
@@ -276,17 +281,13 @@ class ProcessedString():
                             index,
                             index+len_new_chunk
                         ])
-                                        
-                if not len(missings):
-                    break
+                    
+                if not len(processessed_needles):
+                    break             
                 
-                previous_missings = missings
-                self.keep_appart_from_markup_indexes = missings
-        
         # After markup langage/needles processing done, indexes are messed up.
         # This is the last time entry content is preprocessed, so it must
         # handle escapes pattern now.
-            
         self.fix_indexes(meta_escapes)
         
     def fix_indexes(self, meta_escapes=[]):

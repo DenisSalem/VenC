@@ -40,6 +40,7 @@ class PatternsMap():
                 "ForEntryTags" :    datastore.for_entry_tags,
     
                 # Extra metadata getter
+                "IfEntryMetadataIsTrue":        datastore.if_entry_metadata_is_true,
                 "LeavesForEntryCategories" :    datastore.leaves_for_entry_categories,
                 "TreeForEntryCategories" :      datastore.tree_for_entry_categories,
                 "ForEntryMetadata" :            datastore.for_entry_metadata,
@@ -60,6 +61,7 @@ class PatternsMap():
                 "GetAuthorEmail" :              datastore.get_author_email,
 
                 # Extra metadata getter
+                "IfBlogMetadataIsTrue":         datastore.if_blog_metadata_is_true,
                 "GetChapterAttributeByIndex":   datastore.get_chapter_attribute_by_index,
                 "GetEntryAttributeByID":        datastore.get_entry_attribute_by_id,
                 "GetBlogMetadata" :             datastore.get_blog_metadata, 
@@ -71,16 +73,16 @@ class PatternsMap():
                 "GetChapters" :                 datastore.get_chapters
             },
             "extra": {
-                "IfInfiniteScrollEnabled":  datastore.if_infinite_scroll_enabled,
-                "IfFeedsEnabled":           datastore.if_feeds_enabled,
-                "IfRSSEnabled":             datastore.if_rss_enabled,
+                "CodeHighlight" :           code_highlight.highlight,
+                "CodeHighlightInclude" :    code_highlight.highlight_include,
                 "IfAtomEnabled":            datastore.if_atom_enabled,          
                 "IfCategories":             datastore.if_categories,
                 "IfChapters":               datastore.if_chapters,
+                "IfFeedsEnabled":           datastore.if_feeds_enabled,
+                "IfInfiniteScrollEnabled":  datastore.if_infinite_scroll_enabled,
+                "IfRSSEnabled":             datastore.if_rss_enabled,
                 "GetEmbedContent":          datastore.wrapper_embed_content,
                 "GetGenerationTimestamp":   datastore.get_generation_timestamp,
-                "CodeHighlight" :           code_highlight.highlight,
-                "CodeHighlightInclude" :    code_highlight.highlight_include,
                 "Latex2MathML" :            Latex2MathML,
                 "GetVenCVersion" :          get_venc_version,
                 "IncludeFile" :             include_file,
