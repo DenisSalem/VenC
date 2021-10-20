@@ -71,6 +71,8 @@
     WIP  | Enable / Disable entries title in ForPage for gentle and tessellation
     WIP  | Generate entry inner title index.
     WIP  | Add If*MetadataIsTrue.
+    TODO | Chapters thread is broken.
+    TODO | GetAttributeEntryById is broken.
     TODO | Add nice 404 errors page.
     TODO | Update doc accordingly.
     TODO | Add ForDictMetadata

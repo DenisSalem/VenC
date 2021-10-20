@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2021 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -23,9 +23,6 @@ import shutil
 import subprocess
 import time
 
-from multiprocessing import Pool
-
-from venc2.commands.remote import remote_copy
 from venc2.datastore import DataStore
 from venc2.datastore import split_datastore
 from venc2.datastore.theme import Theme
@@ -34,12 +31,12 @@ from venc2.prompt import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
 from venc2.markup_languages import process_markup_language
+from venc2.parallelism import Parallelism
 from venc2.patterns.non_contextual import theme_includes_dependencies
 from venc2.patterns.code_highlight import CodeHighlight
 from venc2.patterns.exceptions import MalformedPatterns
 from venc2.patterns.patterns_map import PatternsMap
 from venc2.patterns.processor import Processor
-from venc2.patterns.processor import ProcessedString
         
 # Initialisation of environment
 start_timestamp = time.time()
@@ -65,6 +62,7 @@ def copy_recursively(src, dest):
                 notify(messages.directory_not_copied % e, "YELLOW")
                 
 def export_and_remote_copy(argv=list()):
+    from venc2.commands.remote import remote_copy
     export_blog(argv)
     remote_copy()
 
@@ -92,7 +90,7 @@ def init_theme(argv):
                 
                 else:
                     datastore.blog_configuration[param] = config["override"][param]
-    
+
         if "assets_dependencies" in config.keys() and type(config["assets_dependencies"]) == list:
             global theme_assets_dependencies
             theme_assets_dependencies = config["assets_dependencies"]

@@ -122,6 +122,7 @@ class Thread:
     def organize_entries(self, entries):
         self.pages = list()
         for i in range(0, ceil(len(entries)/self.entries_per_page)):
+            # print(len(entries))
             self.pages.append(
                 entries[i*self.entries_per_page:(i+1)*self.entries_per_page]
             )

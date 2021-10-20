@@ -122,7 +122,7 @@ class DataStore:
         try:
             jsonld_callback = self.entry_to_jsonld_callback if (self.enable_jsonld or self.enable_jsonp) else None
             index = 0
-            for filename in yield_entries_content():
+            filename for filename in yield_entries_content()
                 self.entries.append(Entry(
                     index,
                     filename,
