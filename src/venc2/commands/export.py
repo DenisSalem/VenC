@@ -131,87 +131,94 @@ def setup_pattern_processor(pattern_map):
     processor.blacklist.append("Escape")
     return processor
 
-def worker_process_non_contextual_entry_patterns(payload):
-    datastore = payload["datastore"]
-    datastore.in_child_process = True
+def dispatcher(dispatcher_id, sub_chunk_len, send_in, recv_out):
+    output_context = []
+    global datastore
+    send_in.send(datastore)
+    while len(WORKER_CONTEXT_CHUNKS[dispatcher_id]):
+        current = WORKER_CONTEXT_CHUNKS[dispatcher_id][:sub_chunk_len]
+        WORKER_CONTEXT_CHUNKS[dispatcher_id] = WORKER_CONTEXT_CHUNKS[dispatcher_id][sub_chunk_len:]
+        send_in.send(current)
+        output_context += recv_out.recv()
 
-    worker_id = payload["worker_id"]
-    workers_count = datastore.workers_count
+    send_in.send([])
+    WORKER_CONTEXT_CHUNKS[dispatcher_id] = output_context
     
-    theme, theme_folder = init_theme(payload["init_theme_argv"])
+def worker(worker_id, send_out, recv_in):
+    datastore = send_out.recv()
+    notify("│  "+("└─ " if worker_id == datastore.workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id))
+
+    default_markup_language = datastore.blog_configuration["markup_language"]
+    # TODO : could be avoided by sending Theme
+    theme, theme_folder = init_theme(datastore.init_theme_argv)
     code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
     patterns_map = PatternsMap(datastore, code_highlight, theme)
     pattern_processor = setup_pattern_processor(patterns_map)
-
-    notify("│  "+("└─ " if worker_id == workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id))
-    default_markup_language = datastore.blog_configuration["markup_language"]
-
-    for entry in datastore.entries:
-        datastore.requested_entry = entry
-        
-        if hasattr(entry, "markup_language"):
-            markup_language = getattr(entry, "markup_language")
+    
+    chunk = send_out.recv()
+    
+    while len(chunk):
+        for entry in chunk:
+            datastore.requested_entry = entry
             
-        else:
-            markup_language = default_markup_language
-
-        pattern_processor.process(entry.preview)
-        process_markup_language(entry.preview, markup_language)
-
-        pattern_processor.process(entry.content)
-        process_markup_language(entry.content, markup_language, entry)
+            if hasattr(entry, "markup_language"):
+                markup_language = getattr(entry, "markup_language")
+                
+            else:
+                markup_language = default_markup_language
+    
+            pattern_processor.process(entry.preview)
+            process_markup_language(entry.preview, markup_language)
+    
+            pattern_processor.process(entry.content)
+            process_markup_language(entry.content, markup_language, entry)
+                
+            entry.html_wrapper = deepcopy(theme.entry)
+            pattern_processor.process(entry.html_wrapper.processed_string)
+            entry.html_wrapper.processed_string.replace_needles()
             
-        entry.html_wrapper = deepcopy(theme.entry)
-        pattern_processor.process(entry.html_wrapper.processed_string)
-        entry.html_wrapper.processed_string.replace_needles()
-        
-        entry.rss_wrapper = deepcopy(theme.rss_entry)
-        pattern_processor.process(entry.rss_wrapper.processed_string)
-        entry.rss_wrapper.processed_string.replace_needles()
-        
-        entry.atom_wrapper = deepcopy(theme.atom_entry)
-        pattern_processor.process(entry.atom_wrapper.processed_string)
-        entry.atom_wrapper.processed_string.replace_needles()
-        
-    return (datastore.entries, code_highlight)
-        
+            entry.rss_wrapper = deepcopy(theme.rss_entry)
+            pattern_processor.process(entry.rss_wrapper.processed_string)
+            entry.rss_wrapper.processed_string.replace_needles()
+            
+            entry.atom_wrapper = deepcopy(theme.atom_entry)
+            pattern_processor.process(entry.atom_wrapper.processed_string)
+            entry.atom_wrapper.processed_string.replace_needles()
+            
+        recv_in.send(chunk)
+        chunk = send_out.recv()
+
+def finish(worker_id):
+    global datastore
+    datastore.entries += WORKER_CONTEXT_CHUNKS[worker_id]
+    WORKER_CONTEXT_CHUNKS[worker_id] = None
+    #todo merge codehighlight
+
 def process_non_contextual_patterns(init_theme_argv):    
     theme, theme_folder = init_theme(init_theme_argv)
+    datastore.init_theme_argv = init_theme_argv
     code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
     patterns_map = PatternsMap(datastore, code_highlight, theme)
     pattern_processor = setup_pattern_processor(patterns_map)
 
-    datastore.chunks_len = (len(datastore.entries)//datastore.workers_count)+1
-    workers = []
-    context_chunks = []
-        
     if datastore.workers_count > 1:
-        for i in range(0, datastore.workers_count):
-            context_chunks.append({
-                "datastore" : split_datastore(datastore),
-                "init_theme_argv": init_theme_argv,
-                "worker_id": i
-            })
-        pool = Pool(datastore.workers_count)
-        entries = pool.map(
-            worker_process_non_contextual_entry_patterns,
-            context_chunks
+        # There we setup chunks of entries send to workers throught dispatchers
+        datastore.chunks_len = (len(datastore.entries)//datastore.workers_count)+1
+        global WORKER_CONTEXT_CHUNKS
+        WORKER_CONTEXT_CHUNKS = split_datastore(datastore)
+    
+        parallelism = Parallelism(
+            worker,
+            finish,
+            dispatcher,
+            datastore.workers_count,
+            datastore.blog_configuration["pipe_flow"]
         )
-        
-        pool.close()
-        pool.join()
-
-        datastore.entries = []
-        for chunk in entries:
-            datastore.entries += chunk[0]
-            #todo merge codehighlight
-            
+        parallelism.start()
+        parallelism.join()
+                    
     else:
-        worker_process_non_contextual_entry_patterns({
-            "datastore" : datastore,
-            "init_theme_argv": init_theme_argv,
-            "worker_id": 0
-        })
+        die("TODO Single process")
 
     for pattern_name in patterns_map.non_contextual["entries"].keys():
         pattern_processor.del_function(pattern_name)

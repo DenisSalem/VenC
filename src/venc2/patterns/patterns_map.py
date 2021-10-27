@@ -62,8 +62,8 @@ class PatternsMap():
 
                 # Extra metadata getter
                 "IfBlogMetadataIsTrue":         datastore.if_blog_metadata_is_true,
-                "GetChapterAttributeByIndex":   datastore.get_chapter_attribute_by_index,
-                "GetEntryAttributeByID":        datastore.get_entry_attribute_by_id,
+                #"GetChapterAttributeByIndex":   datastore.get_chapter_attribute_by_index,
+                #"GetEntryAttributeByID":        datastore.get_entry_attribute_by_id,
                 "GetBlogMetadata" :             datastore.get_blog_metadata, 
                 "GetBlogMetadataIfExists" :     datastore.get_blog_metadata_if_exists, 
                 "GetBlogMetadataIfNotNull":     datastore.get_blog_metadata_if_not_null, 
@@ -79,7 +79,7 @@ class PatternsMap():
                 "IfCategories":             datastore.if_categories,
                 "IfChapters":               datastore.if_chapters,
                 "IfFeedsEnabled":           datastore.if_feeds_enabled,
-                "IfInfiniteScrollEnabled":  datastore.if_infinite_scroll_enabled,
+                "IfInfiniteScrollEnabled":   datastore.if_infinite_scroll_enabled,
                 "IfRSSEnabled":             datastore.if_rss_enabled,
                 "GetEmbedContent":          datastore.wrapper_embed_content,
                 "GetGenerationTimestamp":   datastore.get_generation_timestamp,

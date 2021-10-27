@@ -21,26 +21,26 @@ from multiprocessing import Process, Pipe
 from threading import Thread
 
 class Parallelism:
-    def __init__(self, worker, dispatcher, n, chunk_len):
+    def __init__(self, worker, finish, dispatcher, n, sub_chunk_len):
         self.threads = []
         self.processes = []
         self.n = n
-        self.chunk_len = chunk_len
-        
+        self.finish = finish
         for i in range(0, n):
             send_in, send_out = Pipe()
             recv_in, recv_out = Pipe()
             self.processes.append(
-                Process(target=worker, args=(send_out,recv_in,))
+                Process(target=worker, args=(i,send_out,recv_in,))
             )
             self.threads.append(
-                Thread(target=dispatcher, args=(send_in, recv_out,))
+                Thread(target=dispatcher, args=(i, sub_chunk_len, send_in, recv_out,))
             )
         
     def join(self):
         for i in range(0, self.n):
             self.processes[i].join()
             self.threads[i].join()
+            self.finish(i)
             
     def start(self):
         for i in range(0, self.n):

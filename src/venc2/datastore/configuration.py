@@ -111,6 +111,10 @@ def get_blog_configuration():
         if not everything_is_okay:
             exit()
 
+        # TODO : ADD in documentation
+        if not "pipe_flow" in blog_configuration.keys():
+            blog_configuration["pipe_flow"] = 512
+            
         return blog_configuration
 
     except FileNotFoundError:

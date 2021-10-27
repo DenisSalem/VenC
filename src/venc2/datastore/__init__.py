@@ -55,15 +55,17 @@ def merge(iterable, argv):
             raise PatternInvalidArgument(name="string", value=argv[0])
                 
         raise e
-        
+
 def split_datastore(datastore):
+    chunks = []
     entries = datastore.entries
     datastore.entries = []
-    chunk = deepcopy(datastore)
-    chunk.entries = entries[:datastore.chunks_len]
-    datastore.entries = entries[datastore.chunks_len:]
-    return chunk
-    
+    for i in range(0, datastore.workers_count):
+        chunks.append(entries[:datastore.chunks_len])
+        entries = entries[datastore.chunks_len:]
+        
+    return chunks
+
 class DataStore:
     def __init__(self):
         self.in_child_process = False
@@ -122,7 +124,7 @@ class DataStore:
         try:
             jsonld_callback = self.entry_to_jsonld_callback if (self.enable_jsonld or self.enable_jsonp) else None
             index = 0
-            filename for filename in yield_entries_content()
+            for filename in yield_entries_content():
                 self.entries.append(Entry(
                     index,
                     filename,
