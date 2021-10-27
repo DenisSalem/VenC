@@ -40,7 +40,8 @@ class Parallelism:
         for i in range(0, self.n):
             self.processes[i].join()
             self.threads[i].join()
-            self.finish(i)
+            if self.finish != None:
+                self.finish(i)
             
     def start(self):
         for i in range(0, self.n):

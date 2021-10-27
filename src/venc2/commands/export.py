@@ -144,19 +144,24 @@ def dispatcher(dispatcher_id, sub_chunk_len, send_in, recv_out):
     send_in.send([])
     WORKER_CONTEXT_CHUNKS[dispatcher_id] = output_context
     
-def worker(worker_id, send_out, recv_in):
-    datastore = send_out.recv()
-    notify("│  "+("└─ " if worker_id == datastore.workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id))
-
+def worker(worker_id, send_out, recv_in, single_process_argv=None):
+    if single_process_argv == None:
+        datastore = send_out.recv()
+    
+        # TODO : could be avoided by sending Theme
+        theme, theme_folder = init_theme(datastore.init_theme_argv)
+        code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
+        patterns_map = PatternsMap(datastore, code_highlight, theme)
+        pattern_processor = setup_pattern_processor(patterns_map)
+        
+        chunk = send_out.recv()
+    else:
+        datastore, theme, theme_folder, code_highlight, pattern_processor = single_process_argv
+        chunk = datastore.entries
+    
+    notify("│  "+("└─ " if worker_id == datastore.workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
     default_markup_language = datastore.blog_configuration["markup_language"]
-    # TODO : could be avoided by sending Theme
-    theme, theme_folder = init_theme(datastore.init_theme_argv)
-    code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
-    patterns_map = PatternsMap(datastore, code_highlight, theme)
-    pattern_processor = setup_pattern_processor(patterns_map)
-    
-    chunk = send_out.recv()
-    
+
     while len(chunk):
         for entry in chunk:
             datastore.requested_entry = entry
@@ -184,9 +189,13 @@ def worker(worker_id, send_out, recv_in):
             entry.atom_wrapper = deepcopy(theme.atom_entry)
             pattern_processor.process(entry.atom_wrapper.processed_string)
             entry.atom_wrapper.processed_string.replace_needles()
+        
+        if single_process_argv == None:
+            recv_in.send(chunk)
+            chunk = send_out.recv()
             
-        recv_in.send(chunk)
-        chunk = send_out.recv()
+        else:
+            break
 
 def finish(worker_id):
     global datastore
@@ -218,8 +227,18 @@ def process_non_contextual_patterns(init_theme_argv):
         parallelism.join()
                     
     else:
-        die("TODO Single process")
-
+        worker(
+            0,
+            None,
+            None,
+            (
+                datastore,
+                theme,
+                theme_folder,
+                code_highlight,
+                pattern_processor
+            )
+        )
     for pattern_name in patterns_map.non_contextual["entries"].keys():
         pattern_processor.del_function(pattern_name)
     
