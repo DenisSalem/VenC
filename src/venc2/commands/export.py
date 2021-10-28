@@ -31,7 +31,6 @@ from venc2.prompt import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
 from venc2.markup_languages import process_markup_language
-from venc2.parallelism import Parallelism
 from venc2.patterns.non_contextual import theme_includes_dependencies
 from venc2.patterns.code_highlight import CodeHighlight
 from venc2.patterns.exceptions import MalformedPatterns
@@ -139,6 +138,7 @@ def dispatcher(dispatcher_id, sub_chunk_len, send_in, recv_out):
         current = WORKER_CONTEXT_CHUNKS[dispatcher_id][:sub_chunk_len]
         WORKER_CONTEXT_CHUNKS[dispatcher_id] = WORKER_CONTEXT_CHUNKS[dispatcher_id][sub_chunk_len:]
         send_in.send(current)
+        current = None
         output_context += recv_out.recv()
 
     send_in.send([])
@@ -216,6 +216,7 @@ def process_non_contextual_patterns(init_theme_argv):
         global WORKER_CONTEXT_CHUNKS
         WORKER_CONTEXT_CHUNKS = split_datastore(datastore)
     
+        from venc2.parallelism import Parallelism
         parallelism = Parallelism(
             worker,
             finish,
@@ -239,6 +240,7 @@ def process_non_contextual_patterns(init_theme_argv):
                 pattern_processor
             )
         )
+        
     for pattern_name in patterns_map.non_contextual["entries"].keys():
         pattern_processor.del_function(pattern_name)
     

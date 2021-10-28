@@ -66,6 +66,22 @@ def split_datastore(datastore):
         
     return chunks
 
+
+def dispatcher(dispatcher_id, sub_chunk_len, send_in, recv_out):
+    output_context = []
+    while len(WORKER_CONTEXT_CHUNKS[dispatcher_id]):
+        current = WORKER_CONTEXT_CHUNKS[dispatcher_id][:sub_chunk_len]
+        WORKER_CONTEXT_CHUNKS[dispatcher_id] = WORKER_CONTEXT_CHUNKS[dispatcher_id][sub_chunk_len:]
+        send_in.send(current)
+        current = None
+        output_context += recv_out.recv()
+
+    send_in.send([])
+    WORKER_CONTEXT_CHUNKS[dispatcher_id] = output_context
+    
+def worker(worker_id, send_out, recv_in, single_process_argv=None):
+    pass
+
 class DataStore:
     def __init__(self):
         self.in_child_process = False
@@ -91,7 +107,6 @@ class DataStore:
         except:
             self.workers_count = 1
 
-        
         self.requested_entry = None
             
         self.max_category_weight = 1
@@ -123,17 +138,31 @@ class DataStore:
         # Build entries
         try:
             jsonld_callback = self.entry_to_jsonld_callback if (self.enable_jsonld or self.enable_jsonp) else None
-            index = 0
-            for filename in yield_entries_content():
+            # There we setup chunks of entries send to workers throught dispatchers
+            filenames = [filename for filename in yield_entries_content()]
+            self.chunks_len = (len(filenames)//self.workers_count)+1
+
+            # ~ if self.workers_count > 1:
+                # ~ from venc2.parallelism import Parallelism
+                # ~ parallelism = Parallelism(
+                    # ~ worker,
+                    # ~ finish,
+                    # ~ dispatcher,
+                    # ~ self.workers_count,
+                    # ~ self.blog_configuration["pipe_flow"]
+                # ~ )
+                
+            # ~ else:
+                # ~ die("ok bye lol")
+
+            for filename in filenames:
                 self.entries.append(Entry(
-                    index,
                     filename,
                     self.blog_configuration["path"],
                     jsonld_callback,
                     self.blog_configuration["path"]["archives_directory_name"],
                     self.path_encoding
                 ))
-                index+=1
 
         # Might happen during Entry creation.
         except MalformedPatterns as e:
@@ -147,6 +176,8 @@ class DataStore:
         
         for entry_index in range(0, len(self.entries)):
             current_entry = self.entries[entry_index]
+            
+            # TODO : Links could be performed in during parallel processing.
             if entry_index > 0:
                 self.entries[entry_index-1].next_entry = MinimalEntryMetadata(current_entry)
                 current_entry.previous_entry = MinimalEntryMetadata(self.entries[entry_index-1])
