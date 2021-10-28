@@ -66,26 +66,52 @@ def split_datastore(datastore):
         
     return chunks
 
-
 def dispatcher(dispatcher_id, sub_chunk_len, send_in, recv_out):
     output_context = []
-    while len(WORKER_CONTEXT_CHUNKS[dispatcher_id]):
-        current = WORKER_CONTEXT_CHUNKS[dispatcher_id][:sub_chunk_len]
-        WORKER_CONTEXT_CHUNKS[dispatcher_id] = WORKER_CONTEXT_CHUNKS[dispatcher_id][sub_chunk_len:]
+    
+    send_in.send(WORKERS_COUNT)
+    send_in.send(FEW_SETTINGS)
+
+    while len(CHUNKED_FILENAMES[dispatcher_id]):
+        current = CHUNKED_FILENAMES[dispatcher_id][:sub_chunk_len]
+        CHUNKED_FILENAMES[dispatcher_id] =CHUNKED_FILENAMES[dispatcher_id][sub_chunk_len:]
         send_in.send(current)
         current = None
         output_context += recv_out.recv()
 
     send_in.send([])
-    WORKER_CONTEXT_CHUNKS[dispatcher_id] = output_context
+    CHUNKED_FILENAMES[dispatcher_id] = output_context
     
-def worker(worker_id, send_out, recv_in, single_process_argv=None):
-    pass
+def worker(worker_id, send_out, recv_in):        
+        workers_count = send_out.recv()  
+        paths, path_encoding = send_out.recv()  
+        
+        notify("│  "+("└─ " if worker_id == workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
+        
+        chunk = send_out.recv()
 
+        output = []
+        while len(chunk):
+            for filename in chunk:
+                output.append(Entry(
+                    filename,
+                    paths,
+                    path_encoding
+                ))
+            
+            recv_in.send(output)
+            output = None
+            chunk = send_out.recv()
+            
+def finish(worker_id):
+    global ENTRIES
+    ENTRIES += CHUNKED_FILENAMES[worker_id]
+    CHUNKED_FILENAMES[worker_id] = None
+    
 class DataStore:
     def __init__(self):
         self.in_child_process = False
-        notify("┌─ "+messages.loading_data)
+        notify("┌─ "+messages.loading_entries)
         self.root_page = None
         self.blog_configuration = get_blog_configuration()
         self.sort_by = self.blog_configuration["sort_by"]
@@ -94,9 +120,9 @@ class DataStore:
         self.blog_url = self.blog_configuration["blog_url"]
         self.path_encoding = self.blog_configuration["path_encoding"]
         self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
-        self.entries = list()
-        self.entries_per_archives = list()
-        self.entries_per_categories = list()
+        self.entries = []
+        self.entries_per_archives = []
+        self.entries_per_categories = []
         
         try:
             from multiprocessing import cpu_count
@@ -137,32 +163,46 @@ class DataStore:
             
         # Build entries
         try:
-            jsonld_callback = self.entry_to_jsonld_callback if (self.enable_jsonld or self.enable_jsonp) else None
-            # There we setup chunks of entries send to workers throught dispatchers
             filenames = [filename for filename in yield_entries_content()]
             self.chunks_len = (len(filenames)//self.workers_count)+1
 
-            # ~ if self.workers_count > 1:
-                # ~ from venc2.parallelism import Parallelism
-                # ~ parallelism = Parallelism(
-                    # ~ worker,
-                    # ~ finish,
-                    # ~ dispatcher,
-                    # ~ self.workers_count,
-                    # ~ self.blog_configuration["pipe_flow"]
-                # ~ )
-                
-            # ~ else:
-                # ~ die("ok bye lol")
-
-            for filename in filenames:
-                self.entries.append(Entry(
-                    filename,
+            if self.workers_count > 1:
+                # There we setup chunks of entries send to workers throught dispatchers
+                global CHUNKED_FILENAMES
+                CHUNKED_FILENAMES = []
+                global WORKERS_COUNT
+                WORKERS_COUNT = self.workers_count
+                global ENTRIES
+                ENTRIES = self.entries
+                global FEW_SETTINGS
+                FEW_SETTINGS = (
                     self.blog_configuration["path"],
-                    jsonld_callback,
-                    self.blog_configuration["path"]["archives_directory_name"],
                     self.path_encoding
-                ))
+                )
+                for i in range(0, self.workers_count):
+                    CHUNKED_FILENAMES.append(filenames[:self.chunks_len])
+                    filenames = filenames[self.chunks_len:]
+                filenames = None
+                
+                from venc2.parallelism import Parallelism
+                parallelism = Parallelism(
+                    worker,
+                    finish,
+                    dispatcher,
+                    self.workers_count,
+                    self.blog_configuration["pipe_flow"]
+                )
+                parallelism.start()
+                parallelism.join()
+                ENTRIES = None
+                
+            else:
+                for filename in filenames:
+                    self.entries.append(Entry(
+                        filename,
+                        self.blog_configuration["path"],
+                        self.path_encoding
+                    ))
 
         # Might happen during Entry creation.
         except MalformedPatterns as e:
@@ -174,8 +214,12 @@ class DataStore:
         path_categories_sub_folders = self.blog_configuration["path"]["categories_sub_folders"]+'/'
         path_archives_directory_name = self.blog_configuration["path"]["archives_directory_name"]
         
+        # Once entries are loaded, build datastore
+        jsonld_callback = self.entry_to_jsonld_callback if (self.enable_jsonld or self.enable_jsonp) else None
         for entry_index in range(0, len(self.entries)):
             current_entry = self.entries[entry_index]
+            if jsonld_callback != None:
+                jsonld_callback(current_entry)
             
             # TODO : Links could be performed in during parallel processing.
             if entry_index > 0:

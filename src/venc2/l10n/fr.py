@@ -97,7 +97,7 @@ class Messages:
     generating_atom = "Génération du flux Atom..."
     malformed_patterns_missing_closing_symbols = "Motifs mal formés dans \"{0}\": Il manque un ou plusieurs symboles de fermeture."
     malformed_patterns_missing_opening_symbols = "Motifs mal formés dans \"{0}\": Il manque un ou plusieurs symboles d'ouverture."
-    loading_data = "Chargement des données..."
+    loading_entries = "Chargement des publications..."
     chapter_already_exists = "Les chapitres \"{0}\" (id = {1}) et \"{2}\" (id = {3}) ont le même index \"{4}\"."
     malformed_escape_patterns_missing_opening_symbols = "Motifs d'échappement mal formés dans \"{0}\": Il manque un ou plusieurs symboles d'ouverture."
     malformed_escape_patterns_missing_closing_symbols = "Motifs d'échappement mal formés dans \"{0}\": Il manque un ou plusieurs symboles de fermeture."

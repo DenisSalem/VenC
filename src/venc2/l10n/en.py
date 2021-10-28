@@ -99,7 +99,7 @@ class Messages:
     generating_atom = "Generating Atom feed..."
     malformed_patterns_missing_closing_symbols = "Malformed patterns in \"{0}\": One or more closing symbols are missing."
     malformed_patterns_missing_opening_symbols = "Malformed patterns in \"{0}\": One or more opening symbols are missing."
-    loading_data = "Loading data..."
+    loading_entries = "Loading entries..."
     chapter_already_exists = "Chapters \"{0}\" (id = {1}) and \"{2}\" (id = {3}) have the same index \"{4}\"."
     malformed_escape_patterns_missing_opening_symbols = "Malformed escaping patterns in \"{0}\": One or more opening symbols are missing."
     malformed_escape_patterns_missing_closing_symbols = "Malformed escaping patterns in \"{0}\": One or more closing symbols are missing."

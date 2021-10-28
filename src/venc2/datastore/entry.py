@@ -67,7 +67,8 @@ class MinimalEntryMetadata:
         self.chapter = entry.chapter
 
 class Entry:
-    def __init__(self, filename, paths, jsonld_callback, date_format, encoding="utf-8", ):
+    def __init__(self, filename, paths, encoding="utf-8", ):
+        date_format = paths["archives_directory_name"]
         self.previous_entry = None
         self.next_entry = None
         self.chapter = None
@@ -208,8 +209,6 @@ class Entry:
         self.html_authors = {}
         self.html_categories_leaves = {}
         self.html_for_metadata = {}
-        if jsonld_callback != None:
-            jsonld_callback(self)
 
 ''' Iterate through entries folder '''
 def yield_entries_content():
