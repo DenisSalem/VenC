@@ -66,27 +66,36 @@ def split_datastore(datastore):
         
     return chunks
 
-def dispatcher(dispatcher_id, sub_chunk_len, send_in, recv_out):
+def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     output_context = []
     
-    send_in.send(WORKERS_COUNT)
-    send_in.send(FEW_SETTINGS)
 
-    while len(CHUNKED_FILENAMES[dispatcher_id]):
-        current = CHUNKED_FILENAMES[dispatcher_id][:sub_chunk_len]
-        CHUNKED_FILENAMES[dispatcher_id] =CHUNKED_FILENAMES[dispatcher_id][sub_chunk_len:]
-        send_in.send(current)
-        current = None
-        output_context += recv_out.recv()
-
+    send_in.send(THREADS_PARAMS)
+    chunked_filenames = THREADS_PARAMS["chunked_filenames"]
+    try:
+        while len(chunked_filenames[dispatcher_id]):
+            if THREADS_PARAMS["cut_threads_kill_workers"]:
+                print("KILL SHIT N STUFF")
+                process.kill()
+                
+            current = chunked_filenames[dispatcher_id][:sub_chunk_len]
+            chunked_filenames[dispatcher_id] = chunked_filenames[dispatcher_id][sub_chunk_len:]
+            send_in.send(current)
+            current = None
+            output_context += recv_out.recv()
+            
+    except EOFError as e:
+        THREADS_PARAMS["cut_threads_kill_workers"] = True
+        process.kill()
+        return
+                
     send_in.send([])
-    CHUNKED_FILENAMES[dispatcher_id] = output_context
+    THREADS_PARAMS["chunked_filenames"][dispatcher_id] = output_context
     
 def worker(worker_id, send_out, recv_in):        
-        workers_count = send_out.recv()  
-        paths, path_encoding = send_out.recv()  
+        worker_params = send_out.recv()
         
-        notify("│  "+("└─ " if worker_id == workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
+        notify("│  "+("└─ " if worker_id == worker_params["workers_count"] - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
         
         chunk = send_out.recv()
 
@@ -95,8 +104,8 @@ def worker(worker_id, send_out, recv_in):
             for filename in chunk:
                 output.append(Entry(
                     filename,
-                    paths,
-                    path_encoding
+                    worker_params["paths"],
+                    worker_params["encoding"]
                 ))
             
             recv_in.send(output)
@@ -104,9 +113,8 @@ def worker(worker_id, send_out, recv_in):
             chunk = send_out.recv()
             
 def finish(worker_id):
-    global ENTRIES
-    ENTRIES += CHUNKED_FILENAMES[worker_id]
-    CHUNKED_FILENAMES[worker_id] = None
+    THREADS_PARAMS["entries"] += THREADS_PARAMS["chunked_filenames"][worker_id]
+    THREADS_PARAMS["chunked_filenames"][worker_id] = None
     
 class DataStore:
     def __init__(self):
@@ -168,19 +176,17 @@ class DataStore:
 
             if self.workers_count > 1:
                 # There we setup chunks of entries send to workers throught dispatchers
-                global CHUNKED_FILENAMES
-                CHUNKED_FILENAMES = []
-                global WORKERS_COUNT
-                WORKERS_COUNT = self.workers_count
-                global ENTRIES
-                ENTRIES = self.entries
-                global FEW_SETTINGS
-                FEW_SETTINGS = (
-                    self.blog_configuration["path"],
-                    self.path_encoding
-                )
+                global THREADS_PARAMS
+                THREADS_PARAMS = {
+                    "chunked_filenames" :[],
+                    "workers_count" : self.workers_count,
+                    "entries": self.entries,
+                    "paths": self.blog_configuration["path"],
+                    "encoding": self.path_encoding,
+                    "cut_threads_kill_workers" : False,
+                }
                 for i in range(0, self.workers_count):
-                    CHUNKED_FILENAMES.append(filenames[:self.chunks_len])
+                    THREADS_PARAMS["chunked_filenames"].append(filenames[:self.chunks_len])
                     filenames = filenames[self.chunks_len:]
                 filenames = None
                 
@@ -195,7 +201,9 @@ class DataStore:
                 parallelism.start()
                 parallelism.join()
                 ENTRIES = None
-                
+                if THREADS_PARAMS["cut_threads_kill_workers"]:
+                    exit(-1)
+                    
             else:
                 for filename in filenames:
                     self.entries.append(Entry(

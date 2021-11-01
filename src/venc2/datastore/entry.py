@@ -147,13 +147,9 @@ class Entry:
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("authors", self.id))
 
-        try:
-            self.tags = [ e.strip() for e in metadata["tags"].split(",")] if type(metadata["tags"]) == str else metadata["tags"]
-            if type(self.tags) != list:
-                raise GenericMessage(messages.entry_metadata_is_not_a_list.format("tags", self.id))
-                
-        except KeyError:
-            die(messages.missing_mandatory_field_in_entry.format("tags", self.id))
+        self.tags = [ e.strip() for e in metadata["tags"].split(",")] if type(metadata["tags"]) == str else metadata["tags"]
+        if type(self.tags) != list:
+            die(messages.entry_metadata_is_not_a_list.format("tags", self.id))
 
         params = {
             "entry_id": self.id,

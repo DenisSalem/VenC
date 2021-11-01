@@ -130,7 +130,7 @@ def setup_pattern_processor(pattern_map):
     processor.blacklist.append("Escape")
     return processor
 
-def dispatcher(dispatcher_id, sub_chunk_len, send_in, recv_out):
+def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     output_context = []
     global datastore
     send_in.send(datastore)

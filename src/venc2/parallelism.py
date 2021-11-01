@@ -33,7 +33,7 @@ class Parallelism:
                 Process(target=worker, args=(i,send_out,recv_in,))
             )
             self.threads.append(
-                Thread(target=dispatcher, args=(i, sub_chunk_len, send_in, recv_out,))
+                Thread(target=dispatcher, args=(i, self.processes[-1], sub_chunk_len, send_in, recv_out,))
             )
         
     def join(self):
