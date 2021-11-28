@@ -281,6 +281,14 @@ def export_blog(argv=list()):
     
     theme, theme_folder, code_highlight, patterns_map = process_non_contextual_patterns(argv)
 
+    # Add required link between entries
+    entries = datastore.entries
+    for entry_index in range(0, len(entries)):
+        current_entry = entries[entry_index]
+        if entry_index > 0:
+            entries[entry_index-1].next_entry = current_entry
+            current_entry.previous_entry = entries[entry_index-1]
+
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
@@ -312,7 +320,7 @@ def export_blog(argv=list()):
         thread.do()
 
     # Copy assets and extra files
-    notify('   '+messages.copy_assets_and_extra_files)
+    notify('└─ '+messages.copy_assets_and_extra_files)
     code_highlight.export_style_sheets()
     copy_recursively("extra/","blog/")
     copy_recursively(theme_folder+"assets/","blog/")

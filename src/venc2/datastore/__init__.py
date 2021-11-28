@@ -220,11 +220,6 @@ class DataStore:
             current_entry = self.entries[entry_index]
             if jsonld_callback != None:
                 jsonld_callback(current_entry)
-            
-            # TODO : Links could be performed in during parallel processing.
-            if entry_index > 0:
-                self.entries[entry_index-1].next_entry = MinimalEntryMetadata(current_entry)
-                current_entry.previous_entry = MinimalEntryMetadata(self.entries[entry_index-1])
 
             # Update entriesPerDates
             if path_archives_directory_name != '':
