@@ -281,6 +281,7 @@ def export_blog(argv=list()):
     
     theme, theme_folder, code_highlight, patterns_map = process_non_contextual_patterns(argv)
 
+    notify("├─ "+messages.link_entries)
     # Add required link between entries
     entries = datastore.entries
     for entry_index in range(0, len(entries)):
