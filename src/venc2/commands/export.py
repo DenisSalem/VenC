@@ -281,14 +281,15 @@ def export_blog(argv=list()):
     
     theme, theme_folder, code_highlight, patterns_map = process_non_contextual_patterns(argv)
 
-    notify("├─ "+messages.link_entries)
-    # Add required link between entries
-    entries = datastore.entries
-    for entry_index in range(0, len(entries)):
-        current_entry = entries[entry_index]
-        if entry_index > 0:
-            entries[entry_index-1].next_entry = current_entry
-            current_entry.previous_entry = entries[entry_index-1]
+    if not datastore.blog_configuration["disable_single_entries"]:
+        notify("├─ "+messages.link_entries)
+        # Add required link between entries
+        entries = datastore.entries
+        for entry_index in range(0, len(entries)):
+            current_entry = entries[entry_index]
+            if entry_index > 0:
+                entries[entry_index-1].next_entry = current_entry
+                current_entry.previous_entry = entries[entry_index-1]
 
     # cleaning directory
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
