@@ -168,46 +168,46 @@ class DataStore:
             self.root_site_to_jsonld()
             
         # Build entries
-          filenames = [filename for filename in yield_entries_content()]
-          self.chunks_len = (len(filenames)//self.workers_count)+1
+        filenames = [filename for filename in yield_entries_content()]
+        self.chunks_len = (len(filenames)//self.workers_count)+1
 
-          if self.workers_count > 1:
-              # There we setup chunks of entries send to workers throught dispatchers
-              global thread_params
-              thread_params = {
-                  "chunked_filenames" :[],
-                  "workers_count" : self.workers_count,
-                  "entries": self.entries,
-                  "paths": self.blog_configuration["path"],
-                  "encoding": self.path_encoding,
-                  "cut_threads_kill_workers" : False,
-              }
-              for i in range(0, self.workers_count):
-                  thread_params["chunked_filenames"].append(filenames[:self.chunks_len])
-                  filenames = filenames[self.chunks_len:]
-              filenames = None
-              
-              from venc2.parallelism import Parallelism
-              parallelism = Parallelism(
-                  worker,
-                  finish,
-                  dispatcher,
-                  self.workers_count,
-                  self.blog_configuration["pipe_flow"]
-              )
-              parallelism.start()
-              parallelism.join()
-              ENTRIES = None
-              if thread_params["cut_threads_kill_workers"]:
-                  exit(-1)
-                  
-          else:
-              for filename in filenames:
-                  self.entries.append(Entry(
-                      filename,
-                      self.blog_configuration["path"],
-                      self.path_encoding
-                  ))
+        if self.workers_count > 1:
+            # There we setup chunks of entries send to workers throught dispatchers
+            global thread_params
+            thread_params = {
+                "chunked_filenames" :[],
+                "workers_count" : self.workers_count,
+                "entries": self.entries,
+                "paths": self.blog_configuration["path"],
+                "encoding": self.path_encoding,
+                "cut_threads_kill_workers" : False,
+            }
+            for i in range(0, self.workers_count):
+                thread_params["chunked_filenames"].append(filenames[:self.chunks_len])
+                filenames = filenames[self.chunks_len:]
+            filenames = None
+            
+            from venc2.parallelism import Parallelism
+            parallelism = Parallelism(
+                worker,
+                finish,
+                dispatcher,
+                self.workers_count,
+                self.blog_configuration["pipe_flow"]
+            )
+            parallelism.start()
+            parallelism.join()
+            ENTRIES = None
+            if thread_params["cut_threads_kill_workers"]:
+                exit(-1)
+                
+        else:
+            for filename in filenames:
+                self.entries.append(Entry(
+                    filename,
+                    self.blog_configuration["path"],
+                    self.path_encoding
+                ))
 
         self.entries = sorted(self.entries, key = lambda entry : self.sort(entry))
 
@@ -332,7 +332,7 @@ class DataStore:
                 "path": "\x1a"+sub_folders+node.value,
                 "count": node.count,
                 "weight": node.weight
-            })        
+            })
 
     def if_categories(self, argv):
         if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:

@@ -286,6 +286,7 @@ def export_blog(argv=list()):
     os.makedirs("blog")
 
     # Starting second pass and exporting
+    import datetime
     from venc2.threads.main import MainThread
     thread = MainThread(messages.export_main_thread, datastore, theme, patterns_map)
     thread.do()
@@ -311,7 +312,7 @@ def export_blog(argv=list()):
         thread.do()
 
     # Copy assets and extra files
-    notify('└─ '+messages.copy_assets_and_extra_files)
+    notify('   '+messages.copy_assets_and_extra_files)
     code_highlight.export_style_sheets()
     copy_recursively("extra/","blog/")
     copy_recursively(theme_folder+"assets/","blog/")
@@ -324,7 +325,7 @@ def export_blog(argv=list()):
 
         except FileNotFoundError as e:
             notify(messages.file_not_found.format(e.filename), color="YELLOW")
-            
+    
     notify(messages.task_done_in_n_seconds.format(round(time.time() - start_timestamp,6)))
 
 def edit_and_export(argv):
