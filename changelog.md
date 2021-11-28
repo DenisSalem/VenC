@@ -76,7 +76,7 @@
     TODO | Add nice 404 errors page.
     TODO | Update doc accordingly.
     TODO | Add ForDictMetadata
-    TODO | /!\ Capture exception in parallel processing
+    WIP  | /!\ Capture exception in parallel processing
     TODO | Check python version compatibility (3.5 min)
     
 # version 2.0.2

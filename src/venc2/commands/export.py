@@ -38,11 +38,9 @@ from venc2.patterns.patterns_map import PatternsMap
 from venc2.patterns.processor import Processor
         
 # Initialisation of environment
-start_timestamp = time.time()
 datastore = None
-
+start_timestamp = time.time()
 theme_assets_dependencies = []
-# TODO turns global var name into uppercase
 
 def copy_recursively(src, dest):
     import errno
@@ -134,15 +132,24 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     output_context = []
     global datastore
     send_in.send(datastore)
-    while len(WORKER_CONTEXT_CHUNKS[dispatcher_id]):
-        current = WORKER_CONTEXT_CHUNKS[dispatcher_id][:sub_chunk_len]
-        WORKER_CONTEXT_CHUNKS[dispatcher_id] = WORKER_CONTEXT_CHUNKS[dispatcher_id][sub_chunk_len:]
-        send_in.send(current)
-        current = None
-        output_context += recv_out.recv()
+    try:
+        while len(thread_params["worker_context_chunks"][dispatcher_id]):
+            if thread_params["cut_threads_kill_workers"]:
+                process.kill()
+                
+            current = thread_params["worker_context_chunks"][dispatcher_id][:sub_chunk_len]
+            thread_params["worker_context_chunks"][dispatcher_id] = thread_params["worker_context_chunks"][dispatcher_id][sub_chunk_len:]
+            send_in.send(current)
+            current = None
+            output_context += recv_out.recv()
 
+    except:
+        thread_params["cut_threads_kill_workers"] = True
+        process.kill()
+        return
+        
     send_in.send([])
-    WORKER_CONTEXT_CHUNKS[dispatcher_id] = output_context
+    thread_params["worker_context_chunks"][dispatcher_id] = output_context
     
 def worker(worker_id, send_out, recv_in, single_process_argv=None):
     if single_process_argv == None:
@@ -153,7 +160,6 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
         code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
         patterns_map = PatternsMap(datastore, code_highlight, theme)
         pattern_processor = setup_pattern_processor(patterns_map)
-        
         chunk = send_out.recv()
     else:
         datastore, theme, theme_folder, code_highlight, pattern_processor = single_process_argv
@@ -199,8 +205,8 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
 
 def finish(worker_id):
     global datastore
-    datastore.entries += WORKER_CONTEXT_CHUNKS[worker_id]
-    WORKER_CONTEXT_CHUNKS[worker_id] = None
+    datastore.entries += thread_params["worker_context_chunks"][worker_id]
+    thread_params["worker_context_chunks"][worker_id] = None
     #todo merge codehighlight
 
 def process_non_contextual_patterns(init_theme_argv):    
@@ -213,8 +219,11 @@ def process_non_contextual_patterns(init_theme_argv):
     if datastore.workers_count > 1:
         # There we setup chunks of entries send to workers throught dispatchers
         datastore.chunks_len = (len(datastore.entries)//datastore.workers_count)+1
-        global WORKER_CONTEXT_CHUNKS
-        WORKER_CONTEXT_CHUNKS = split_datastore(datastore)
+        global thread_params
+        thread_params = {
+          "cut_threads_kill_workers": False
+        }
+        thread_params["worker_context_chunks"] = split_datastore(datastore)
     
         from venc2.parallelism import Parallelism
         parallelism = Parallelism(
@@ -226,7 +235,8 @@ def process_non_contextual_patterns(init_theme_argv):
         )
         parallelism.start()
         parallelism.join()
-                    
+        if thread_params["cut_threads_kill_workers"]:
+            exit(-1)
     else:
         worker(
             0,

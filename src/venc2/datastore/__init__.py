@@ -69,13 +69,11 @@ def split_datastore(datastore):
 def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     output_context = []
     
-
-    send_in.send(THREADS_PARAMS)
-    chunked_filenames = THREADS_PARAMS["chunked_filenames"]
+    send_in.send(thread_params)
+    chunked_filenames = thread_params["chunked_filenames"]
     try:
         while len(chunked_filenames[dispatcher_id]):
-            if THREADS_PARAMS["cut_threads_kill_workers"]:
-                print("KILL SHIT N STUFF")
+            if thread_params["cut_threads_kill_workers"]:
                 process.kill()
                 
             current = chunked_filenames[dispatcher_id][:sub_chunk_len]
@@ -84,37 +82,37 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
             current = None
             output_context += recv_out.recv()
             
-    except EOFError as e:
-        THREADS_PARAMS["cut_threads_kill_workers"] = True
+    except:
+        thread_params["cut_threads_kill_workers"] = True
         process.kill()
         return
                 
     send_in.send([])
-    THREADS_PARAMS["chunked_filenames"][dispatcher_id] = output_context
+    thread_params["chunked_filenames"][dispatcher_id] = output_context
     
 def worker(worker_id, send_out, recv_in):        
-        worker_params = send_out.recv()
-        
-        notify("│  "+("└─ " if worker_id == worker_params["workers_count"] - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
-        
-        chunk = send_out.recv()
+    worker_params = send_out.recv()
+    
+    notify("│  "+("└─ " if worker_id == worker_params["workers_count"] - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
+    
+    chunk = send_out.recv()
 
-        output = []
-        while len(chunk):
-            for filename in chunk:
-                output.append(Entry(
-                    filename,
-                    worker_params["paths"],
-                    worker_params["encoding"]
-                ))
-            
-            recv_in.send(output)
-            output = None
-            chunk = send_out.recv()
+    output = []
+    while len(chunk):
+        for filename in chunk:
+            output.append(Entry(
+                filename,
+                worker_params["paths"],
+                worker_params["encoding"]
+            ))
+        
+        recv_in.send(output)
+        output = None
+        chunk = send_out.recv()
             
 def finish(worker_id):
-    THREADS_PARAMS["entries"] += THREADS_PARAMS["chunked_filenames"][worker_id]
-    THREADS_PARAMS["chunked_filenames"][worker_id] = None
+    thread_params["entries"] += thread_params["chunked_filenames"][worker_id]
+    thread_params["chunked_filenames"][worker_id] = None
     
 class DataStore:
     def __init__(self):
@@ -176,8 +174,8 @@ class DataStore:
 
             if self.workers_count > 1:
                 # There we setup chunks of entries send to workers throught dispatchers
-                global THREADS_PARAMS
-                THREADS_PARAMS = {
+                global thread_params
+                thread_params = {
                     "chunked_filenames" :[],
                     "workers_count" : self.workers_count,
                     "entries": self.entries,
@@ -186,7 +184,7 @@ class DataStore:
                     "cut_threads_kill_workers" : False,
                 }
                 for i in range(0, self.workers_count):
-                    THREADS_PARAMS["chunked_filenames"].append(filenames[:self.chunks_len])
+                    thread_params["chunked_filenames"].append(filenames[:self.chunks_len])
                     filenames = filenames[self.chunks_len:]
                 filenames = None
                 
@@ -201,7 +199,7 @@ class DataStore:
                 parallelism.start()
                 parallelism.join()
                 ENTRIES = None
-                if THREADS_PARAMS["cut_threads_kill_workers"]:
+                if thread_params["cut_threads_kill_workers"]:
                     exit(-1)
                     
             else:

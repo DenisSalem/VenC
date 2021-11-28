@@ -300,7 +300,7 @@ class Processor():
         self.ressource                  = ''
         self.blacklist                  = []
         self.keep_appart_from_markup    = []
-        self.include_file_called        = False
+        self.include_file_called         = False
         self.ignore_patterns            = False
         self.vop                        = None
         self.vcp                        = None
@@ -341,7 +341,6 @@ class Processor():
             )
             
         except KeyError as e:
-            raise e
             output = self.handle_error(
                 messages.unknown_pattern.format(pattern),
             )
@@ -369,21 +368,6 @@ class Processor():
 
         except:
             pass
-
-    # TODO : POSSIBLE LEGACY
-    # ~ def del_value(self, key):
-        # ~ try:
-            # ~ del self.dictionary[key]
-
-        # ~ except:
-            # ~ pass
-
-    # ~ def set_dictionary(self, dictionary):
-        # ~ for key in dictionary:
-            # ~ self.dictionary[key] = dictionary[key]
-
-    # ~ def set(self, symbol, value):
-       # ~ self.dictionary[symbol] = value
 
     def process(self, pre_processed, safe_process=False):
         extra_processing_required = []
