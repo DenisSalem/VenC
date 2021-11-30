@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2021 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -19,6 +19,7 @@
 
 from venc2.patterns.contextual import get_random_number
 from venc2.patterns.latex2mathml import Latex2MathML
+from venc2.patterns.kroki import kroki
 from venc2.patterns.non_contextual import get_venc_version, include_file, include_file_if_exists, set_color, set_style, table, disable_markup
 
 class PatternsMap():
@@ -73,26 +74,27 @@ class PatternsMap():
                 "GetChapters" :                 datastore.get_chapters
             },
             "extra": {
+                "Audio" :                   theme.get_audio,
                 "CodeHighlight" :           code_highlight.highlight,
                 "CodeHighlightInclude" :    code_highlight.highlight_include,
+                "DisableMarkup":            disable_markup,
+                "GetEmbedContent":          datastore.wrapper_embed_content,
+                "GetGenerationTimestamp":   datastore.get_generation_timestamp,
+                "GetVenCVersion" :          get_venc_version,
                 "IfAtomEnabled":            datastore.if_atom_enabled,          
                 "IfCategories":             datastore.if_categories,
                 "IfChapters":               datastore.if_chapters,
                 "IfFeedsEnabled":           datastore.if_feeds_enabled,
                 "IfInfiniteScrollEnabled":   datastore.if_infinite_scroll_enabled,
                 "IfRSSEnabled":             datastore.if_rss_enabled,
-                "GetEmbedContent":          datastore.wrapper_embed_content,
-                "GetGenerationTimestamp":   datastore.get_generation_timestamp,
-                "Latex2MathML" :            Latex2MathML,
-                "GetVenCVersion" :          get_venc_version,
                 "IncludeFile" :             include_file,
                 "IncludeFileIfExists" :     include_file_if_exists,
+                "Kroki":                    kroki,
+                "Latex2MathML" :            Latex2MathML,
                 "SetColor" :                set_color,
                 "SetStyle" :                set_style,
-                "DisableMarkup":            disable_markup,
-                "Video" :                   theme.get_video,
-                "Audio" :                   theme.get_audio,
-                "Table" :                   table
+                "Table" :                   table,
+                "Video" :                   theme.get_video
             }
         }
 
@@ -132,6 +134,7 @@ class PatternsMap():
             "Latex2MathML",
             "IncludeFile",
             "IncludeFileIfExists",
+            "Kroki",
             "SetStyle",
             "Audio",
             "Video",

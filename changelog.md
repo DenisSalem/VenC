@@ -28,7 +28,6 @@
     TODO | Fix encoding issue in JSON-LD document.
     TODO | Catch invalid encoding at startup. (???)
     TODO | Create entry with default template, if defined.
-    TODO | Make some dependencies optional.
     TODO | Split themes from main branch.
     TODO | Add translation for Deutsch and Spanish.
     TODO | Add ForMetadata, ForMetadataIfExists.
@@ -68,15 +67,17 @@
     DONE | Fix locale import exception. (#12)
     DONE | Explicit needles replacement.
     DONE | Add parallelism support.
+    DONE | Capture exception in parallel processing
+    WIP  | Add suppor Kroki
     WIP  | Enable / Disable entries title in ForPage for gentle and tessellation
-    WIP  | Generate entry inner title index.
+    WIP  | Generate entry inner table of content.
     WIP  | Add If*MetadataIsTrue.
     TODO | Chapters thread is broken.
     TODO | GetAttributeEntryById is broken.
     TODO | Add nice 404 errors page.
     TODO | Update doc accordingly.
     TODO | Add ForDictMetadata
-    WIP  | /!\ Capture exception in parallel processing
+    TODO | Make some dependencies optional.
     TODO | Check python version compatibility (3.5 min)
     
 # version 2.0.2
