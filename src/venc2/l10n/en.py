@@ -126,3 +126,4 @@ class Messages:
     chapter_has_no_attribute_like = "Chapter has no attribute like \"{0}\"."
     start_thread = "Start CPU thread #{0}."
     link_entries = "Linking entries..."
+    process_non_parallelizable = "Process non parallelizable patterns..."

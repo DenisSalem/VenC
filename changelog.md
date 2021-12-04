@@ -6,7 +6,7 @@
     TODO | Add support for single pages.
 
 # version 2.1.x
-    TODO | Replace as much as possible usage of list with tuple.
+    WIP | Replace as much as possible usage of list with tuple.
     TODO | Override theme config override.
     TODO | venc -xb should also work in subdirectories
     TODO | Replace aside element by nav
@@ -68,12 +68,11 @@
     DONE | Explicit needles replacement.
     DONE | Add parallelism support.
     DONE | Capture exception in parallel processing
-    WIP  | Add suppor Kroki
+    DONE | Add suppor Kroki
     WIP  | Enable / Disable entries title in ForPage for gentle and tessellation
     WIP  | Generate entry inner table of content.
     WIP  | Add If*MetadataIsTrue.
     TODO | Chapters thread is broken.
-    TODO | GetAttributeEntryById is broken.
     TODO | Add nice 404 errors page.
     TODO | Update doc accordingly.
     TODO | Add ForDictMetadata

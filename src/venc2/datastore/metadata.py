@@ -28,7 +28,6 @@ class Chapter:
     def __init__(self, index, entry, path):
         self.sub_chapters = []
         self.index = index
-        self.entry = entry
         self.entry_index = entry.index
         self.path = path
         

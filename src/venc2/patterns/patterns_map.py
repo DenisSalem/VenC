@@ -63,8 +63,6 @@ class PatternsMap():
 
                 # Extra metadata getter
                 "IfBlogMetadataIsTrue":         datastore.if_blog_metadata_is_true,
-                #"GetChapterAttributeByIndex":   datastore.get_chapter_attribute_by_index,
-                #"GetEntryAttributeByID":        datastore.get_entry_attribute_by_id,
                 "GetBlogMetadata" :             datastore.get_blog_metadata, 
                 "GetBlogMetadataIfExists" :     datastore.get_blog_metadata_if_exists, 
                 "GetBlogMetadataIfNotNull":     datastore.get_blog_metadata_if_not_null, 
@@ -95,6 +93,10 @@ class PatternsMap():
                 "SetStyle" :                set_style,
                 "Table" :                   table,
                 "Video" :                   theme.get_video
+            },
+            "non_parallelizable" : {
+                "GetChapterAttributeByIndex":   datastore.get_chapter_attribute_by_index,
+                "GetEntryAttributeByID":        datastore.get_entry_attribute_by_id            
             }
         }
 

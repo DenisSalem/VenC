@@ -73,7 +73,6 @@ class ChaptersThread(Thread):
             output_append(self.datastore.entries[c.entry_index])
             if len(c.sub_chapters):
                 for sc_entries in self.extract_sub_chapters(c.sub_chapters):
-                    print(sc_entries)
                     output_append(sc_entries)
         
         return output

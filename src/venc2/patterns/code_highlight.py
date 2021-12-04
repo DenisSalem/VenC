@@ -31,21 +31,21 @@ from venc2.prompt import notify
 class CodeHighlight:
     def __init__(self, override):
         self._override = override
-        self._includes = dict()
+        self.includes = dict()
 
     def get_style_sheets(self, argv=list()):
         output = str()
-        for filename in self._includes.keys():
+        for filename in self.includes.keys():
             output += "<link rel=\"stylesheet\" href=\"\x1a"+filename+"\" type=\"text/css\" />\n"
 
         return output
 
     def export_style_sheets(self):
         extra = os.listdir(os.getcwd()+"/extra/")
-        for key in self._includes:
+        for key in self.includes:
             if key not in extra or self._override:    
                 stream = open(os.getcwd()+"/extra/"+key,'w')
-                stream.write(self._includes[key])
+                stream.write(self.includes[key])
 
     def highlight_include(self, argv):
         string = include_file([argv[2]])
@@ -66,8 +66,8 @@ class CodeHighlight:
             result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
             css  = formatter.get_style_defs()
 
-            if not name+".css" in self._includes.keys():
-                self._includes[name+".css"] = css
+            if not name+".css" in self.includes.keys():
+                self.includes[name+".css"] = css
 
             return result
     

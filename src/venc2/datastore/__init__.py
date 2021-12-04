@@ -30,7 +30,7 @@ from urllib.parse import quote as urllib_parse_quote
 
 from venc2.datastore.configuration import get_blog_configuration
 from venc2.datastore.entry import yield_entries_content
-from venc2.datastore.entry import MinimalEntryMetadata
+# DEPRECATED from venc2.datastore.entry import MinimalEntryMetadata
 from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
@@ -197,7 +197,6 @@ class DataStore:
             )
             parallelism.start()
             parallelism.join()
-            ENTRIES = None
             if thread_params["cut_threads_kill_workers"]:
                 exit(-1)
                 
@@ -210,6 +209,8 @@ class DataStore:
                 ))
 
         self.entries = sorted(self.entries, key = lambda entry : self.sort(entry))
+        for i in range(0, len(self.entries)):
+            self.entries[i].index = i
 
         path_categories_sub_folders = self.blog_configuration["path"]["categories_sub_folders"]+'/'
         path_archives_directory_name = self.blog_configuration["path"]["archives_directory_name"]
@@ -246,14 +247,13 @@ class DataStore:
             
             # TODO : should not be done unless it's necessary
             build_categories_tree(entry_index, current_entry.raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.path_encoding, sub_folders=sub_folders)
-            self.update_chapters(current_entry)
     
+    def build_chapter_indexes(self):
         # build chapters index
         path_chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
         path_chapter_folder_name = self.blog_configuration["path"]["chapter_directory_name"]
         
         #TODO: Might be not safe, must test level if is actually an int. Test as well the whole sequence.
-        
         for chapter in sorted(self.raw_chapters.keys(), key = lambda x : int(x.replace('.', ''))):
             top = self.chapters_index
             index = ''
@@ -589,7 +589,7 @@ class DataStore:
         for sub_chapter in top:
             output += io.format(**{
                 "index": sub_chapter.index,
-                "title": sub_chapter.entry.title,
+                "title": self.entries[sub_chapter.entry_index].title,
                 "path":  sub_chapter.path,
                 "level": level
             })
@@ -620,7 +620,7 @@ class DataStore:
                 chapter
             ))
         else:
-            self.raw_chapters[chapter] = MinimalEntryMetadata(entry)
+            self.raw_chapters[chapter] = entry
 
     def sort(self, entry):
         try:
@@ -775,6 +775,9 @@ class DataStore:
         )
     
     def get_chapter_attribute_by_index(self, argv=list()):
+        if self.blog_configuration["disable_chapters"]:
+            return ""
+            
         if len(argv) < 2:
             raise PatternMissingArguments(2, len(argv))
         
@@ -784,12 +787,12 @@ class DataStore:
                 self.cache_get_chapter_attribute_by_index[key] = getattr(self.raw_chapters[argv[1]].chapter, argv[0])
                 
             except KeyError as e:
-                
                 raise PatternInvalidArgument(
                     "index",
                     argv[1],
                     messages.there_is_no_chapter_with_index.format(argv[1])
                 )
+                
             except AttributeError as e:
                 raise PatternInvalidArgument(
                     "attribute",

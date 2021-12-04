@@ -123,3 +123,4 @@ class Messages:
     chapter_has_no_attribute_like = "Le chapitre n'a pas d'attribut \"{0}\"."
     start_thread = "Lancement du fil d'execution n° {0}."
     link_entries = "Mise en liens des publications une à une..."
+    process_non_parallelizable = "Traitement des motifs non parallelisables..."

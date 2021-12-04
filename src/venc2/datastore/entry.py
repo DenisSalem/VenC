@@ -31,6 +31,7 @@ from venc2.prompt import notify
 from venc2.l10n import messages
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
+from venc2.helpers import GenericMessage
 from venc2.patterns.processor import ProcessedString
 from venc2.patterns.exceptions import IllegalUseOfEscape
 
@@ -58,13 +59,13 @@ class EntryWrapper:
             
         self.processed_string = ProcessedString(wrapper, filename, True)
 
-# TODO : Raise memory footprint. It sucks
-class MinimalEntryMetadata:
-    def __init__(self, entry):
-        self.id = entry.id
-        self.url = entry.url
-        self.title = entry.title
-        self.chapter = entry.chapter
+# DEPRECATED : Raise memory footprint. It sucks
+# ~ class MinimalEntryMetadata:
+    # ~ def __init__(self, entry):
+        # ~ self.id = entry.id
+        # ~ self.url = entry.url
+        # ~ self.title = entry.title
+        # ~ self.chapter = entry.chapter
 
 class Entry:
     def __init__(self, filename, paths, encoding="utf-8", ):
@@ -102,7 +103,7 @@ class Entry:
         
         # Setting up optional metadata
         for key in metadata.keys():
-            if not key in ["authors", "tags", "categories", "title"]:
+            if not key in ("authors", "tags", "categories", "title"):
                 if metadata[key] != None:
                     if key == "https://schema.org":
                         self.schemadotorg = metadata[key]
@@ -114,7 +115,7 @@ class Entry:
                     setattr(self, key, '')
 
         # Fix missing or incorrect metadata
-        for key in ["authors", "tags", "categories", "title"]:
+        for key in ("authors", "tags", "categories", "title"):
             if key not in metadata.keys() or metadata[key] == None:
                 notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")
                 metadata[key] = ''
@@ -140,15 +141,15 @@ class Entry:
             die(messages.missing_mandatory_field_in_entry.format("title", self.id))
 
         try:
-            self.authors = [ e.strip() for e in metadata["authors"].split(",")] if type(metadata["authors"]) == str else metadata["authors"]
-            if type(self.authors) != list:
+            self.authors = tuple( e.strip() for e in metadata["authors"].split(",")) if type(metadata["authors"]) == str else tuple(metadata["authors"])
+            if type(self.authors) != tuple:
                 raise GenericMessage(messages.entry_metadata_is_not_a_list.format("authors", self.id))
                 
         except KeyError:
             die(messages.missing_mandatory_field_in_entry.format("authors", self.id))
 
-        self.tags = [ e.strip() for e in metadata["tags"].split(",")] if type(metadata["tags"]) == str else metadata["tags"]
-        if type(self.tags) != list:
+        self.tags = tuple( e.strip() for e in metadata["tags"].split(",")) if type(metadata["tags"]) == str else tuple(metadata["tags"])
+        if type(self.tags) != tuple:
             die(messages.entry_metadata_is_not_a_list.format("tags", self.id))
 
         params = {
@@ -180,7 +181,7 @@ class Entry:
                 notify("\"{0}\": ".format(sf+paths["entry_file_name"].format(**params))+str(e), color="YELLOW")
         
         self.categories_leaves = list()
-        self.raw_categories = [ c.strip() for c in metadata["categories"].split(',')]
+        self.raw_categories = tuple( c.strip() for c in metadata["categories"].split(','))
         try:
             for category in self.raw_categories:
                 category_leaf = category.split(' > ')[-1].strip()
@@ -194,6 +195,8 @@ class Entry:
                         "path": category_leaf_path,
                         "branch" : category
                     })
+                    
+            self.categories_leaves = tuple(self.categories_leaves)
 
         except IndexError : # when list is empty
             pass

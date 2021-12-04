@@ -39,6 +39,8 @@ from venc2.patterns.processor import Processor
         
 # Initialisation of environment
 datastore = None
+code_highlight = None
+
 start_timestamp = time.time()
 theme_assets_dependencies = []
 
@@ -105,27 +107,31 @@ def init_theme(argv):
         from venc2.helpers import handle_malformed_patterns
         handle_malformed_patterns(e)
 
-def setup_pattern_processor(pattern_map):        
+def setup_pattern_processor(patterns_map, parallel=False):        
     processor = Processor()
-    for pattern_name in pattern_map.non_contextual["entries"].keys():
-        processor.set_function(pattern_name, pattern_map.non_contextual["entries"][pattern_name])
     
-    for pattern_name in pattern_map.non_contextual["blog"].keys():
-        processor.set_function(pattern_name, pattern_map.non_contextual["blog"][pattern_name])
+    for pattern_name in patterns_map.non_contextual["blog"].keys():
+        processor.set_function(pattern_name, patterns_map.non_contextual["blog"][pattern_name])
         
-    for pattern_name in pattern_map.non_contextual["extra"].keys():
-        processor.set_function(pattern_name, pattern_map.non_contextual["extra"][pattern_name])
-    
-    for pattern_name in pattern_map.contextual["names"].keys():
-        processor.blacklist.append(pattern_name)
-        
-    for pattern_name in pattern_map.contextual["functions"].keys():
-        processor.blacklist.append(pattern_name)
-        
-    for pattern_name in pattern_map.keep_appart_from_markup:
-        processor.keep_appart_from_markup.append(pattern_name)
+    for pattern_name in patterns_map.non_contextual["extra"].keys():
+        processor.set_function(pattern_name, patterns_map.non_contextual["extra"][pattern_name])
 
+    if parallel:        
+        processor.non_parallelizable += patterns_map.non_contextual["non_parallelizable"].keys()
+        processor.blacklist += patterns_map.non_contextual["non_parallelizable"].keys()
+
+        for pattern_name in patterns_map.non_contextual["entries"].keys():
+            processor.set_function(pattern_name, patterns_map.non_contextual["entries"][pattern_name])
+    
+    for pattern_name in patterns_map.non_contextual["non_parallelizable"].keys():
+        processor.set_function(pattern_name, patterns_map.non_contextual["non_parallelizable"][pattern_name])
+
+    processor.blacklist += patterns_map.contextual["names"].keys()
+    processor.blacklist += patterns_map.contextual["functions"].keys()
     processor.blacklist.append("Escape")
+        
+    processor.keep_appart_from_markup += patterns_map.keep_appart_from_markup
+
     return processor
 
 def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
@@ -146,9 +152,11 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     except:
         thread_params["cut_threads_kill_workers"] = True
         process.kill()
+        raise Exception
         return
         
     send_in.send([])
+    thread_params["code_highlight_includes"][dispatcher_id], thread_params["non_parallelizable"][dispatcher_id]= recv_out.recv()
     thread_params["worker_context_chunks"][dispatcher_id] = output_context
     
 def worker(worker_id, send_out, recv_in, single_process_argv=None):
@@ -159,7 +167,7 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
         theme, theme_folder = init_theme(datastore.init_theme_argv)
         code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
         patterns_map = PatternsMap(datastore, code_highlight, theme)
-        pattern_processor = setup_pattern_processor(patterns_map)
+        pattern_processor = setup_pattern_processor(patterns_map, parallel = True if single_process_argv == None else False)
         chunk = send_out.recv()
     else:
         datastore, theme, theme_folder, code_highlight, pattern_processor = single_process_argv
@@ -168,8 +176,12 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
     notify("│  "+("└─ " if worker_id == datastore.workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
     default_markup_language = datastore.blog_configuration["markup_language"]
 
+    non_parallelizable = []
+    non_parallelizable_append = non_parallelizable.append
+
     while len(chunk):
         for entry in chunk:
+            entry_has_non_parallelizable = False
             datastore.requested_entry = entry
             
             if hasattr(entry, "markup_language"):
@@ -178,50 +190,82 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
             else:
                 markup_language = default_markup_language
     
-            pattern_processor.process(entry.preview)
+            entry_has_non_parallelizable |= pattern_processor.process(entry.preview)
             process_markup_language(entry.preview, markup_language)
     
-            pattern_processor.process(entry.content)
+            entry_has_non_parallelizable |= pattern_processor.process(entry.content)
             process_markup_language(entry.content, markup_language, entry)
                 
             entry.html_wrapper = deepcopy(theme.entry)
-            pattern_processor.process(entry.html_wrapper.processed_string)
+            entry_has_non_parallelizable |= pattern_processor.process(entry.html_wrapper.processed_string)
             entry.html_wrapper.processed_string.replace_needles()
             
             entry.rss_wrapper = deepcopy(theme.rss_entry)
-            pattern_processor.process(entry.rss_wrapper.processed_string)
+            entry_has_non_parallelizable |= pattern_processor.process(entry.rss_wrapper.processed_string)
             entry.rss_wrapper.processed_string.replace_needles()
             
             entry.atom_wrapper = deepcopy(theme.atom_entry)
-            pattern_processor.process(entry.atom_wrapper.processed_string)
+            entry_has_non_parallelizable |= pattern_processor.process(entry.atom_wrapper.processed_string)
             entry.atom_wrapper.processed_string.replace_needles()
-        
+            
+            if entry_has_non_parallelizable:
+                non_parallelizable_append(entry.index)
+
         if single_process_argv == None:
             recv_in.send(chunk)
             chunk = send_out.recv()
             
         else:
             break
+            
+    if single_process_argv == None:
+        recv_in.send((code_highlight.includes, non_parallelizable))
 
 def finish(worker_id):
     global datastore
     datastore.entries += thread_params["worker_context_chunks"][worker_id]
     thread_params["worker_context_chunks"][worker_id] = None
-    #todo merge codehighlight
+    global code_highlight
+    for key in thread_params["code_highlight_includes"][worker_id].keys():
+        if not key in code_highlight.includes.keys():
+            code_highlight.includes[key] = thread_params["code_highlight_includes"][worker_id][key]
+    thread_params["code_highlight_includes"][worker_id] = None
+        
+def process_non_parallelizable(datastore, patterns_map, thread_params):
+    notify("├─ "+messages.process_non_parallelizable)
+    pattern_processor = Processor()
+    for pattern_name in patterns_map.non_contextual["non_parallelizable"].keys():
+        pattern_processor.set_function(pattern_name, patterns_map.non_contextual["non_parallelizable"][pattern_name])
+        
+    pattern_processor.blacklist += patterns_map.contextual["names"].keys()
+    pattern_processor.blacklist += patterns_map.contextual["functions"].keys()
+    pattern_processor.blacklist.append("Escape")
+    
+    for l in thread_params["non_parallelizable"]:
+        for entry_index in l:
+            entry = datastore.entries[entry_index]
+
+            pattern_processor.process(entry.preview)
+            pattern_processor.process(entry.content)
+            pattern_processor.process(entry.html_wrapper.processed_string)
+            pattern_processor.process(entry.rss_wrapper.processed_string)
+            pattern_processor.process(entry.atom_wrapper.processed_string)
 
 def process_non_contextual_patterns(init_theme_argv):    
     theme, theme_folder = init_theme(init_theme_argv)
     datastore.init_theme_argv = init_theme_argv
+    global code_highlight
     code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
     patterns_map = PatternsMap(datastore, code_highlight, theme)
-    pattern_processor = setup_pattern_processor(patterns_map)
 
     if datastore.workers_count > 1:
         # There we setup chunks of entries send to workers throught dispatchers
         datastore.chunks_len = (len(datastore.entries)//datastore.workers_count)+1
         global thread_params
         thread_params = {
-          "cut_threads_kill_workers": False
+          "cut_threads_kill_workers": False,
+          "code_highlight_includes": [None for i in range(0, datastore.workers_count)],
+          "non_parallelizable": [None for i in range(0, datastore.workers_count)]
         }
         thread_params["worker_context_chunks"] = split_datastore(datastore)
     
@@ -237,6 +281,7 @@ def process_non_contextual_patterns(init_theme_argv):
         parallelism.join()
         if thread_params["cut_threads_kill_workers"]:
             exit(-1)
+                
     else:
         worker(
             0,
@@ -250,25 +295,36 @@ def process_non_contextual_patterns(init_theme_argv):
                 pattern_processor
             )
         )
-        
-    for pattern_name in patterns_map.non_contextual["entries"].keys():
-        pattern_processor.del_function(pattern_name)
+
+    if not datastore.blog_configuration["disable_chapters"]:
+        for entry in datastore.entries:
+            datastore.update_chapters(entry)
     
+        datastore.build_chapter_indexes()
+
+    if datastore.workers_count > 1:
+        process_non_parallelizable(datastore, patterns_map, thread_params)
+            
+    pattern_processor = setup_pattern_processor(patterns_map)
+
     pattern_processor.process(theme.header)
     theme.header.replace_needles()
-
+    
     pattern_processor.process(theme.footer)    
     theme.footer.replace_needles()
     
     pattern_processor.process(theme.rss_header) 
     theme.rss_header.replace_needles()
+    
     pattern_processor.process(theme.rss_footer)
     theme.rss_footer.replace_needles()
+    
     pattern_processor.process(theme.atom_header)
     theme.atom_header.replace_needles()
+    
     pattern_processor.process(theme.atom_footer) 
     theme.atom_footer.replace_needles()
-    
+        
     return theme, theme_folder, code_highlight, patterns_map
     
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom

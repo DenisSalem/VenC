@@ -81,33 +81,6 @@ def get_markers_indexes(string, begin=".:", end=":."):
         
     return (op, cp)
 
-# TODO : MOVED / OBSOLETE
-# ~ def handle_markup_language_error(message, line=None, string=None):
-    # ~ if not message in markup_language_errors:
-        # ~ notify(message, "RED")
-        # ~ markup_language_errors.append(message)
-        # ~ if line != None and string != None:
-            # ~ lines = string.split('\n')
-            # ~ for lineno in range(0,len(lines)):
-                # ~ if line - 1 == lineno:
-                    # ~ print('\033[91m'+lines[lineno]+'\033[0m')
-                # ~ else:
-                    # ~ print(lines[lineno])
-
-# TODO : OBSOLETE
-# ~ def parse_markup_language(string, markup_language, ressource):
-    # ~ if markup_language == "Markdown":
-        # ~ string = VenCMarkdown(extras=["header-ids"]).convert(string)
-        
-    # ~ elif markup_language == "reStructuredText":
-        # ~ string = publish_parts(string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
-
-    # ~ elif markup_language != "none":
-            # ~ err = messages.unknown_markup_language.format(markup_language, ressource)
-            # ~ handle_markup_language_error(err)
-
-    # ~ return string
-
 def index_not_in_range(index, ranges, process_escapes):
     for o, c in ranges:
         try:
@@ -299,6 +272,7 @@ class Processor():
         self.current_input_string       = ''
         self.ressource                  = ''
         self.blacklist                  = []
+        self.non_parallelizable         = []
         self.keep_appart_from_markup    = []
         self.include_file_called         = False
         self.ignore_patterns            = False
@@ -370,6 +344,7 @@ class Processor():
             pass
 
     def process(self, pre_processed, safe_process=False):
+        has_non_parallelizable = False
         extra_processing_required = []
         op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
         if safe_process and pre_processed.backup == None:
@@ -377,7 +352,7 @@ class Processor():
 
         if lo == 0 and lc == 0:
             pre_processed.string = pre_processed.string.replace("\x1B\x1B", "::")
-            return
+            return has_non_parallelizable
         
         self.current_input_string = string
         self.ressource = pre_processed.ressource
@@ -399,8 +374,9 @@ class Processor():
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
             current_pattern = fields.pop(0)
             
-            not_current_pattern_blacklisted = (not current_pattern in self.blacklist)
-            
+            has_non_parallelizable |= current_pattern in self.non_parallelizable
+            not_current_pattern_blacklisted = not current_pattern in self.blacklist
+                
             if (not current_pattern == "Escape") and not_current_pattern_blacklisted:
                 if current_pattern in self.keep_appart_from_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
@@ -454,12 +430,14 @@ class Processor():
         pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.open_pattern_pos, pre_processed.close_pattern_pos = lo, lc, op, cp
         pre_processed.string = string
 
-        self.process(pre_processed, safe_process)
+        has_non_parallelizable |=  self.process(pre_processed, safe_process)
         
         for extra in extra_processing_required:
             index, paragraphe, new_chunk, ignore_patterns = extra
             if not ignore_patterns:
                 extra_pre_processed = ProcessedString(new_chunk, pre_processed.ressource, True)
-                self.process(extra_pre_processed, safe_process)
+                has_non_parallelizable |= self.process(extra_pre_processed, safe_process)
                 
             pre_processed.keep_appart_from_markup_indexes[index] = (index, paragraphe, extra_pre_processed.string if not ignore_patterns else new_chunk, ignore_patterns)
+
+        return has_non_parallelizable

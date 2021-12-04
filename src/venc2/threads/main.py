@@ -21,9 +21,6 @@ from venc2.threads import Thread
 
 class MainThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns_map):
-        if datastore.blog_configuration["disable_main_thread"]:
-            prompt = ""
-
         super().__init__(prompt, datastore, theme, patterns_map)
         
         if datastore.blog_configuration["disable_main_thread"]:
