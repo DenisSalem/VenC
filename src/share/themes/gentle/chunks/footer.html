@@ -12,11 +12,16 @@
                     .:GetBlogMetadataIfNotNull::include_in_footer:.        
                 :.
             :.
-                <hr>
-                .:GetBlogMetadataIfNotNull::include_in_footer:.        
+            <hr>
+            .:GetBlogMetadataIfNotNull::include_in_footer:.        
 
-            .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">←</a>:.
-            .:GetNextPage:: <a id="next" href="{path}" title="{entry_title}">→</a>:.        
+            .:IfBlogMetadataIsTrue::enable_entry_title_in_navigation::
+                .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">{entry_title} ←</a>:.
+                .:GetNextPage:: <a id="next" href="{path}" title="{entry_title}">→ {entry_title}</a>:.    
+            ::
+                .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">←</a>:.
+                .:GetNextPage:: <a id="next" href="{path}" title="{entry_title}">→</a>:.    
+            ::    
         :.
       </footer>
   </body>

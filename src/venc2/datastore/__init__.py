@@ -247,7 +247,30 @@ class DataStore:
             
             # TODO : should not be done unless it's necessary
             build_categories_tree(entry_index, current_entry.raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.path_encoding, sub_folders=sub_folders)
-    
+                    
+        # Setup BlogArchives Data
+        self.blog_archives = list()
+        
+        path_archives_sub_folders = self.blog_configuration["path"]["archives_sub_folders"]+'/'
+        for node in self.entries_per_archives:
+            try:
+                if self.path_encoding == '':
+                    sub_folders = quirk_encoding(unidecode.unidecode(path_archives_sub_folders))
+                else:
+                    sub_folders = urllib_parse_quote(path_archives_sub_folders, encoding=self.path_encoding)
+
+            except UnicodeEncodeError as e:
+                notify("\"{0}\": ".format(path_archives_sub_folders)+str(e), color="YELLOW")
+
+            sub_folders = sub_folders if sub_folders != '/' else ''
+
+            self.blog_archives.append({
+                "value":node.value,
+                "path": "\x1a"+sub_folders+node.value,
+                "count": node.count,
+                "weight": node.weight
+            })
+            
     def build_chapter_indexes(self):
         # build chapters index
         path_chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
@@ -305,30 +328,7 @@ class DataStore:
                             Chapter(index, None, '')
                         )
                         top = top[-1].sub_chapters
-                    
-        # Setup BlogArchives Data
-        self.blog_archives = list()
-        
-        path_archives_sub_folders = self.blog_configuration["path"]["archives_sub_folders"]+'/'
-        for node in self.entries_per_archives:
-            try:
-                if self.path_encoding == '':
-                    sub_folders = quirk_encoding(unidecode.unidecode(path_archives_sub_folders))
-                else:
-                    sub_folders = urllib_parse_quote(path_archives_sub_folders, encoding=self.path_encoding)
-
-            except UnicodeEncodeError as e:
-                notify("\"{0}\": ".format(path_archives_sub_folders)+str(e), color="YELLOW")
-
-            sub_folders = sub_folders if sub_folders != '/' else ''
-
-            self.blog_archives.append({
-                "value":node.value,
-                "path": "\x1a"+sub_folders+node.value,
-                "count": node.count,
-                "weight": node.weight
-            })
-
+                        
     def if_categories(self, argv):
         if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:
             return argv[0]
@@ -357,11 +357,40 @@ class DataStore:
     def if_atom_enabled(self, argv):
         return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_atom_feed"] else argv[0].replace("{relative_origin}", "\x1a")
 
-    def if_blog_metadata_is_true(argv):
-        pass
 
-    def if_entry_metadata_is_true(argv):
-        pass
+    def if_metadata_is_true(self, argv, source):
+        try:
+            key = argv[0]
+            ret_if_true = argv[1]
+            
+        except IndexError:
+            raise PatternMissingArguments(expected=2, got=len(argv))
+
+        try:
+            ret_if_false = argv[2]
+            
+        except:
+            ret_if_false = ""
+            
+        try:
+            
+            if type(source) == Entry:
+                if getattr(source, key):
+                    return ret_if_true.strip()
+
+            elif source[key]:
+                return ret_if_true.strip()
+        
+        except:
+            pass
+        
+        return ret_if_false.strip()
+          
+    def if_blog_metadata_is_true(self, argv):
+        return self.if_metadata_is_true(argv, self.blog_configuration)
+
+    def if_entry_metadata_is_true(self, argv):
+        return self.if_metadata_is_true(argv, self.requested_entry)
                 
     def if_rss_enabled(self, argv):
         return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_rss_feed"] else argv[0].replace("{relative_origin}", "\x1a")

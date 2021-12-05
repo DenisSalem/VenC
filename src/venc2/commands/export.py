@@ -264,8 +264,8 @@ def process_non_contextual_patterns(init_theme_argv):
         global thread_params
         thread_params = {
           "cut_threads_kill_workers": False,
-          "code_highlight_includes": [None for i in range(0, datastore.workers_count)],
-          "non_parallelizable": [None for i in range(0, datastore.workers_count)]
+          "code_highlight_includes": [{} for i in range(0, datastore.workers_count)],
+          "non_parallelizable": [[] for i in range(0, datastore.workers_count)]
         }
         thread_params["worker_context_chunks"] = split_datastore(datastore)
     

@@ -10,10 +10,16 @@
             :.
         :.
       :.
-        <hr>
-      	.:GetPreviousPage:: <a id="previous" href="{path} ">{entry_title} ←</a>:.
+      <hr>
+      .:IfBlogMetadataIsTrue::enable_entry_title_in_navigation::
+        .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">{entry_title} ←</a>:.
         .:IfInThread::<ul id="pagesList">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>:: :.
-        .:GetNextPage:: <a id="next" href="{path} " data-venc-api-infinite-scroll-hook="{path}">→ {entry_title}</a>:.
+        .:GetNextPage:: <a id="next" href="{path} " data-venc-api-infinite-scroll-hook="{path}" title="{entry_title}">→ {entry_title}</a>:.
+      ::
+        .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">←</a>:.
+        .:IfInThread::<ul id="pagesList">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>:: :.
+        .:GetNextPage:: <a id="next" href="{path} " data-venc-api-infinite-scroll-hook="{path}" title="{entry_title}">→</a>:.
+      :.
       </footer>
   </body>
 </html>

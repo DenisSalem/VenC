@@ -69,16 +69,17 @@
     DONE | Add parallelism support.
     DONE | Capture exception in parallel processing
     DONE | Add suppor Kroki
-    WIP  | Enable / Disable entries title in ForPage for gentle and tessellation
+    DONE | Add If*MetadataIsTrue.
+    DONE | Enable / Disable entries title in entry header for gentle and tessellation.
+    DONE | Enable / Disable entries title in Navigation for gentle and tessellation
     WIP  | Generate entry inner table of content.
-    WIP  | Add If*MetadataIsTrue.
-    TODO | Chapters thread is broken.
     TODO | Add nice 404 errors page.
-    TODO | Update doc accordingly.
     TODO | Add ForDictMetadata
     TODO | Make some dependencies optional.
     TODO | Check python version compatibility (3.5 min)
-    
+    TODO | Update doc accordingly.
+    TODO | document display_title_in_threads and display_title_in_entry tessellation theme.
+
 # version 2.0.2
     DONE | Fix for_entry_metadata; catching unavailable contextual pattern.
     DONE | Fix github issue #21. Add missing documentation about GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent.

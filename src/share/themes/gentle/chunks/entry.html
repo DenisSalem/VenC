@@ -1,7 +1,14 @@
 <div class="entry .:GetEntryMetadataIfExists::CSS:." id="entry.:GetEntryID:." data-venc-tags=".:ForEntryTags::{value}:: :.">
   <div class="permalink">
-    <h1><a href=".:GetEntryURL:.">.:GetEntryTitle:.</a></h1>
-    <p>.:GetEntryDate:.</p>
+    .:IfBlogMetadataIsTrue::disable_entry_title::
+
+    ::
+        .:IfEntryMetadataIsTrue::disable_entry_title::
+        ::
+        <h1><a href=".:GetEntryURL:.">.:GetEntryTitle:.</a></h1>
+        :.
+    :.
+    <p><a href=".:GetEntryURL:.">.:GetEntryDate:.</a></p>
   </div>
   .:GetEntryContent:.
 </div>
