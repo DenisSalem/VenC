@@ -38,7 +38,7 @@ def kroki(argv):
     
     code=base64.urlsafe_b64encode(zlib.compress(code.encode("utf-8"), 9)).decode("utf-8")
     
-    if not os.path.isfile("extra/"+code+".svg","w"):
+    if not os.path.isfile("extra/"+code+".svg"):
         with open("extra/"+code+".svg","w") as f:
           f.write(requests.get(provider+'/'+endpoint+'/svg/'+code).text)
       

@@ -124,3 +124,4 @@ class Messages:
     start_thread = "Lancement du fil d'execution n° {0}."
     link_entries = "Mise en liens des publications une à une..."
     process_non_parallelizable = "Traitement des motifs non parallelisables..."
+    module_not_found = "La dépendance optionnelle \"{0}\" n'est pas installé."

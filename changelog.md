@@ -6,7 +6,7 @@
     TODO | Add support for single pages.
 
 # version 2.1.x
-    WIP | Replace as much as possible usage of list with tuple.
+    WIP  | Replace as much as possible usage of list with tuple.
     TODO | Override theme config override.
     TODO | venc -xb should also work in subdirectories
     TODO | Replace aside element by nav

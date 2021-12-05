@@ -109,7 +109,10 @@ def init_theme(argv):
 
 def setup_pattern_processor(patterns_map, parallel=False):        
     processor = Processor()
-    
+
+    for pattern_name in patterns_map.non_contextual["entries"].keys():
+        processor.set_function(pattern_name, patterns_map.non_contextual["entries"][pattern_name])
+
     for pattern_name in patterns_map.non_contextual["blog"].keys():
         processor.set_function(pattern_name, patterns_map.non_contextual["blog"][pattern_name])
         
@@ -119,9 +122,6 @@ def setup_pattern_processor(patterns_map, parallel=False):
     if parallel:        
         processor.non_parallelizable += patterns_map.non_contextual["non_parallelizable"].keys()
         processor.blacklist += patterns_map.non_contextual["non_parallelizable"].keys()
-
-        for pattern_name in patterns_map.non_contextual["entries"].keys():
-            processor.set_function(pattern_name, patterns_map.non_contextual["entries"][pattern_name])
     
     for pattern_name in patterns_map.non_contextual["non_parallelizable"].keys():
         processor.set_function(pattern_name, patterns_map.non_contextual["non_parallelizable"][pattern_name])
@@ -257,6 +257,7 @@ def process_non_contextual_patterns(init_theme_argv):
     global code_highlight
     code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
     patterns_map = PatternsMap(datastore, code_highlight, theme)
+    pattern_processor = setup_pattern_processor(patterns_map)
 
     if datastore.workers_count > 1:
         # There we setup chunks of entries send to workers throught dispatchers
@@ -305,8 +306,6 @@ def process_non_contextual_patterns(init_theme_argv):
     if datastore.workers_count > 1:
         process_non_parallelizable(datastore, patterns_map, thread_params)
             
-    pattern_processor = setup_pattern_processor(patterns_map)
-
     pattern_processor.process(theme.header)
     theme.header.replace_needles()
     

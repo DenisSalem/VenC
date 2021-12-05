@@ -127,3 +127,4 @@ class Messages:
     start_thread = "Start CPU thread #{0}."
     link_entries = "Linking entries..."
     process_non_parallelizable = "Process non parallelizable patterns..."
+    module_not_found = "Optional dependency \"{0}\"is not installed."
