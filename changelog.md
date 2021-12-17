@@ -68,10 +68,11 @@
     DONE | Explicit needles replacement.
     DONE | Add parallelism support.
     DONE | Capture exception in parallel processing
-    DONE | Add suppor Kroki
     DONE | Add If*MetadataIsTrue.
     DONE | Enable / Disable entries title in entry header for gentle and tessellation.
     DONE | Enable / Disable entries title in Navigation for gentle and tessellation
+    DONE | Add support for AsciiDoc3
+    DONE | Add suppor Kroki
     WIP  | Generate entry inner table of content.
     TODO | Add nice 404 errors page.
     TODO | Add ForDictMetadata

@@ -19,23 +19,9 @@
 
 from docutils.core import publish_parts
 from docutils.utils import SystemMessage
-import markdown2 as markdown
 
 from venc2.l10n import messages
 from venc2.prompt import notify
-
-class VenCMarkdown(markdown.Markdown):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.table_of_content = []
-        
-    def header_id_from_text(self, text, prefix, n):
-        text = text.replace(".:Escape::","").replace("::EndEscape:.","")
-        self.table_of_content.append((
-            text,
-            n
-        ))
-        return super().header_id_from_text(text, prefix, n)
 
 def handle_markup_language_error(message, line=None, string=None):
     notify(message, "RED")
@@ -47,45 +33,20 @@ def handle_markup_language_error(message, line=None, string=None):
             else:
                 print(lines[lineno])
     exit(-1)
-
-def VenCAsciiDoc3(source, attributes):
-    try:
-        import asciidoc3.asciidoc3api as AsciiDoc3API
-        from asciidoc3.asciidoc3api import AsciiDoc3Error
-    except:
-        from venc2.prompt import die
-        die(messages.module_not_found.format('asciidoc3'))
-        
-    import importlib
-    import io
-    
-    ms = importlib.util.find_spec('asciidoc3.asciidoc3api')
-    
-    infile = io.StringIO(source.string)
-    outfile = io.StringIO()
-    
-    ad = AsciiDoc3API.AsciiDoc3API(ms.origin)
-    ad.options('--no-header-footer')
-    for key in attributes.keys():
-        ad.attributes[key] = attributes.keys()
-    try:    
-        ad.execute(infile, outfile, backend='html4')
-        return outfile.getvalue()
-    
-    except AsciiDoc3Error as e:
-            handle_markup_language_error(source.ressource+": "+str(e))
             
 def process_markup_language(source, markup_language, entry=None):
     try:
         if markup_language == "Markdown":
+            from venc2.markup_languages.markdown import VenCMarkdown
             venc_markdown = VenCMarkdown(extras=["header-ids", "footnotes"])
             string = venc_markdown.convert(source.string)
             if entry != None:
                 entry.toc = tuple(venc_markdown.table_of_content)
 
         elif markup_language == "asciidoc":
-            # TODO: support for attribute
-            string = VenCAsciiDoc3(source, {})
+            #support metadata parametrisation
+            from venc2.markup_languages.asciidoc import VenCAsciiDoc
+            string = VenCAsciiDoc(source, {})
             
         elif markup_language == "reStructuredText":
             string = publish_parts(source.string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
