@@ -70,7 +70,7 @@ def init_theme(argv):
     themes_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"
     if len(argv) == 1:
         if os.path.isdir(themes_folder+argv[0]):
-            theme_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0]+"/"
+            theme_folder = themes_folder+argv[0]+"/"
             
         else:
             die(messages.theme_doesnt_exists.format(argv[0]))

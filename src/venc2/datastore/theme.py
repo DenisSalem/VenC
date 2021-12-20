@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2021 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -18,11 +18,12 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc2.datastore.entry import EntryWrapper
+
 from venc2.prompt import die
 from venc2.l10n import messages
 from venc2.patterns.processor import ProcessedString
 from venc2.patterns.exceptions import IllegalUseOfEscape
-
+            
 class Theme:
     def __init__(self, theme_folder):
         try:

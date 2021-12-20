@@ -25,22 +25,28 @@ from venc2.datastore.configuration import get_blog_configuration
 from venc2.prompt import die
 from venc2.prompt import notify
 from venc2.l10n import messages
+from venc2.datastore.hardcoded_assets import default_error_page
 
 blog_configuration = get_blog_configuration()
 
 class VenCServer(http.server.CGIHTTPRequestHandler):
     def __init__(self, request, client_address, server):
         super().__init__(request, client_address, server)
-        
+    
     def do_GET(self):
         self.path = urllib.parse.unquote(self.path, encoding=blog_configuration["path_encoding"])
         super().do_GET()
 
-def serv_blog(argv=list()):
+    def send_error(self, code, message=None, explain=None):
+        self.error_message_format = default_error_page
+        super().send_error(code, message, explain)
+
+def serv_blog(argv=list()):            
     try:
         os.chdir("blog/")
         PORT = int(argv[0]) if len(argv) else int(blog_configuration["server_port"])
         server_address = ("", PORT)
+        notify("For security reason do not use in production!", color="YELLOW")        
         notify(messages.serving_blog.format(PORT))
         httpd = http.server.HTTPServer(server_address, VenCServer)
         httpd.serve_forever()

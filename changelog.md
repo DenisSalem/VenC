@@ -73,8 +73,9 @@
     DONE | Enable / Disable entries title in Navigation for gentle and tessellation
     DONE | Add support for AsciiDoc3
     DONE | Add suppor Kroki
+    DONE | Add nice 404 errors page.
+    DONE | Add security notice.
     WIP  | Generate entry inner table of content.
-    TODO | Add nice 404 errors page.
     TODO | Add ForDictMetadata
     TODO | Make some dependencies optional.
     TODO | Check python version compatibility (3.5 min)
