@@ -110,11 +110,7 @@ setup(
         "Programming Language :: Python :: 3"
     ],
     install_requires=[
-          "docutils",
-          "latex2mathml",
-          'markdown2',
           'pyyaml',
-          'Pygments',
           'requests',
           'unidecode'
     ],

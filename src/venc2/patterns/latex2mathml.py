@@ -17,23 +17,29 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import latex2mathml.converter
-
-from venc2.l10n import messages
-from venc2.patterns.exceptions import PatternInvalidArgument
-from venc2.patterns.exceptions import PatternMissingArguments
 
 def Latex2MathML(argv):
+    try:
+        import latex2mathml.converter
+        
+    except:
+        from venc2.prompt import die
+        from venc2.l10n import messages
+        die(messages.module_not_found.format('latex2mathml'))
+
     try:
         tex_math_string = argv[0]
         
     except IndexError:
+        from venc2.patterns.exceptions import PatternMissingArguments
         raise PatternMissingArguments()
     
     try:    
         return latex2mathml.converter.convert(tex_math_string)
 
     except:
+        from venc2.l10n import messages
+        from venc2.patterns.exceptions import PatternInvalidArgument
         raise PatternInvalidArgument(
             "LaTex math string",
             tex_math_string,

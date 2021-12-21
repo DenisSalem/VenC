@@ -49,6 +49,7 @@
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Regenerate any missing folders.
     TODO | Try to install an up to date oembed providers from https://oembed.com/providers.json with pip
+    TODO | Automatically import messages when importing die and notify.
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
 
@@ -75,9 +76,9 @@
     DONE | Add suppor Kroki
     DONE | Add nice 404 errors page.
     DONE | Add security notice.
+    DONE | Make some dependencies optional.
     WIP  | Generate entry inner table of content.
     TODO | Add ForDictMetadata
-    TODO | Make some dependencies optional.
     TODO | Check python version compatibility (3.5 min)
     TODO | Update doc accordingly.
     TODO | document display_title_in_threads and display_title_in_entry tessellation theme.

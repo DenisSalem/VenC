@@ -152,7 +152,6 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     except:
         thread_params["cut_threads_kill_workers"] = True
         process.kill()
-        raise Exception
         return
         
     send_in.send([])

@@ -17,9 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from docutils.core import publish_parts
-from docutils.utils import SystemMessage
-
 from venc2.l10n import messages
 from venc2.prompt import notify
 
@@ -35,22 +32,28 @@ def handle_markup_language_error(message, line=None, string=None):
     exit(-1)
             
 def process_markup_language(source, markup_language, entry=None):
-    try:
         if markup_language == "Markdown":
-            from venc2.markup_languages.markdown import VenCMarkdown
+            try:
+                from venc2.markup_languages.markdown import VenCMarkdown
+                
+            except ModuleNotFoundError:
+                from venc2.prompt import die
+                die(messages.module_not_found.format('markdown2'))
+
             venc_markdown = VenCMarkdown(extras=["header-ids", "footnotes"])
             string = venc_markdown.convert(source.string)
             if entry != None:
                 entry.toc = tuple(venc_markdown.table_of_content)
 
         elif markup_language == "asciidoc":
-            #support metadata parametrisation
+            #TODO: support metadata parametrisation
             from venc2.markup_languages.asciidoc import VenCAsciiDoc
             string = VenCAsciiDoc(source, {})
             
         elif markup_language == "reStructuredText":
-            string = publish_parts(source.string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
-    
+            from venc2.markup_languages.restructuredtext import VenCreStructuredText
+            string = VenCreStructuredText(source)
+                    
         elif markup_language != "none":
             err = messages.unknown_markup_language.format(markup_language, source.ressource)
             handle_markup_language_error(err)
@@ -59,12 +62,4 @@ def process_markup_language(source, markup_language, entry=None):
             source.string = string
             source.replace_needles(in_entry=True)
 
-    # catch error from reStructuredText
-    except SystemMessage as e:
-        try:
-            line = int(str(e).split(':')[1])
-            msg = str(e).split(':')[2].strip()
-            handle_markup_language_error( source.ressource+": "+msg, line=line, string= source.string)
 
-        except Exception as e: 
-            handle_markup_language_error(source.ressource+", "+str(e))

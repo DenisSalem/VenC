@@ -17,33 +17,25 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import importlib
-import io
-
-def VenCAsciiDoc(source, attributes):
+def VenCreStructuredText(source):
     try:
-        ms = importlib.util.find_spec('asciidoc3.asciidoc3api')
-        import asciidoc3.asciidoc3api as AsciiDoc3API
-        from asciidoc3.asciidoc3api import AsciiDoc3Error
-        ad = AsciiDoc3API.AsciiDoc3API(ms.origin)
-    
+        from docutils.core import publish_parts
+        from docutils.utils import SystemMessage
+        string = publish_parts(source.string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
+        return string
+
     except ModuleNotFoundError:
         from venc2.prompt import die
         from venc2.l10n import messages
-        die(messages.module_not_found.format('asciidoc3'))
-    
-    infile = io.StringIO(source.string)
-    outfile = io.StringIO()
-    
-    ad.options('--no-header-footer')
-    
-    for key in attributes.keys():
-        ad.attributes[key] = attributes.keys()
-        
-    try:    
-        ad.execute(infile, outfile, backend='html4')
-        return outfile.getvalue()
-    
-    except Exception as e:
+        die(messages.module_not_found.format('docutils'))
+            
+    except SystemMessage as e:
         from venc2.markup_languages import handle_markup_language_error
-        handle_markup_language_error(source.ressource+": "+str(e))
+        try:
+            line = int(str(e).split(':')[1])
+            msg = str(e).split(':')[2].strip()
+            handle_markup_language_error( source.ressource+": "+msg, line=line, string=source.string)
+
+        except Exception as e: 
+            handle_markup_language_error(source.ressource+", "+str(e))
+            

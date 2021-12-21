@@ -18,16 +18,9 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-
-import pygments.lexers
-import pygments.formatters
-
-from venc2.l10n import messages
 from venc2.patterns.non_contextual import include_file
-from venc2.prompt import die
-from venc2.prompt import notify
 
-""" Need to handle missing args in case of unknown number of args """
+# TODO: Need to handle missing args in case of unknown number of args
 class CodeHighlight:
     def __init__(self, override):
         self._override = override
@@ -53,6 +46,15 @@ class CodeHighlight:
         
     def highlight(self, argv, included_file=False):
         try:
+            import pygments.lexers
+            import pygments.formatters
+            
+        except:
+            from venc2.prompt import die
+            from venc2.l10n import messages
+            die(messages.module_not_found.format('pygments'))
+
+        try:
             name = "venc_source_"+argv[0].replace('+','Plus')
 
             lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=False)
@@ -72,7 +74,10 @@ class CodeHighlight:
             return result
     
         except pygments.util.ClassNotFound:
+            from venc2.prompt import die
+            from venc2.l10n import messages
             die(messages.unknown_language.format(argv[0]))
 
         except Exception as e:
-            print(e)
+            from venc2.prompt import die
+            die(str(e))
