@@ -59,14 +59,6 @@ class EntryWrapper:
             
         self.processed_string = ProcessedString(wrapper, filename, True)
 
-# DEPRECATED : Raise memory footprint. It sucks
-# ~ class MinimalEntryMetadata:
-    # ~ def __init__(self, entry):
-        # ~ self.id = entry.id
-        # ~ self.url = entry.url
-        # ~ self.title = entry.title
-        # ~ self.chapter = entry.chapter
-
 class Entry:
     def __init__(self, filename, paths, encoding="utf-8", ):
         date_format = paths["archives_directory_name"]

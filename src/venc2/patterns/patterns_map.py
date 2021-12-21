@@ -69,7 +69,6 @@ class PatternsMap():
                 "ForBlogArchives" :             datastore.for_blog_archives,
                 "LeavesForBlogCategories" :     datastore.leaves_for_blog_categories,
                 "TreeForBlogCategories" :       datastore.tree_for_blog_categories,
-                "GetChapters" :                 datastore.get_chapters
             },
             "extra": {
                 "Audio" :                   theme.get_audio,
@@ -96,7 +95,8 @@ class PatternsMap():
             },
             "non_parallelizable" : {
                 "GetChapterAttributeByIndex":   datastore.get_chapter_attribute_by_index,
-                "GetEntryAttributeByID":        datastore.get_entry_attribute_by_id            
+                "GetChapters" :                 datastore.get_chapters,
+                "GetEntryAttributeByID":        datastore.get_entry_attribute_by_id
             }
         }
 

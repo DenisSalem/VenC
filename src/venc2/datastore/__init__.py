@@ -30,7 +30,6 @@ from urllib.parse import quote as urllib_parse_quote
 
 from venc2.datastore.configuration import get_blog_configuration
 from venc2.datastore.entry import yield_entries_content
-# DEPRECATED from venc2.datastore.entry import MinimalEntryMetadata
 from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
@@ -328,7 +327,31 @@ class DataStore:
                             Chapter(index, None, '')
                         )
                         top = top[-1].sub_chapters
+    
+    def build_entry_html_toc(self, entry, open_ul, open_li, content_format, close_li, close_ul):
+        output = ""
+        for i in range(0, len(entry.toc)):
+            current = entry.toc[i]
+            if i == 0 or current[0] > entry.toc[i-1][0]:
+                output += open_ul
+            
+            output += open_li
+            output += (content_format).format(**{
+                "level": current[0],
+                "text": current[1],
+                "id":current[2]
+            })
+            
+            if i <= len(entry.toc)-2 and current[0] >= entry.toc[i+1][0]:
+                output += close_li
+            
+            if i <= len(entry.toc)-2 and current[0] > entry.toc[i+1][0]:
+                output += close_ul
+        
+        return output
+            
                         
+    
     def if_categories(self, argv):
         if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:
             return argv[0]
@@ -356,7 +379,6 @@ class DataStore:
         
     def if_atom_enabled(self, argv):
         return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_atom_feed"] else argv[0].replace("{relative_origin}", "\x1a")
-
 
     def if_metadata_is_true(self, argv, source):
         try:
@@ -606,6 +628,19 @@ class DataStore:
 
         return self.html_chapters[key]
 
+    def get_entry_toc(self, argv):
+        try:
+            open_ul = argv[0]
+            open_li = argv[1]
+            content_format = argv[2]
+            close_li = argv[3]
+            close_ul = argv[4]
+            
+        except IndexError:
+            raise PatternMissingArguments(expected=5,got=len(argv))
+            
+        return self.build_entry_html_toc(self.requested_entry, open_ul, open_li, content_format, close_li, close_ul)
+        
     #TODO : Raise MissingArgs if... missing args.
     def build_html_chapters(self, argv, top, level):          
         lo, io, ic, lc = argv

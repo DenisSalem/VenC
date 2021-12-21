@@ -189,11 +189,11 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
             else:
                 markup_language = default_markup_language
     
-            entry_has_non_parallelizable |= pattern_processor.process(entry.preview)
-            process_markup_language(entry.preview, markup_language)
-    
             entry_has_non_parallelizable |= pattern_processor.process(entry.content)
             process_markup_language(entry.content, markup_language, entry)
+            
+            entry_has_non_parallelizable |= pattern_processor.process(entry.preview)
+            process_markup_language(entry.preview, markup_language, None)
                 
             entry.html_wrapper = deepcopy(theme.entry)
             entry_has_non_parallelizable |= pattern_processor.process(entry.html_wrapper.processed_string)
