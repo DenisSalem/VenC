@@ -198,7 +198,7 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
             entry.html_wrapper = deepcopy(theme.entry)
             entry_has_non_parallelizable |= pattern_processor.process(entry.html_wrapper.processed_string)
             entry.html_wrapper.processed_string.replace_needles()
-            
+           
             entry.rss_wrapper = deepcopy(theme.rss_entry)
             entry_has_non_parallelizable |= pattern_processor.process(entry.rss_wrapper.processed_string)
             entry.rss_wrapper.processed_string.replace_needles()
@@ -243,13 +243,21 @@ def process_non_parallelizable(datastore, patterns_map, thread_params):
     for l in thread_params["non_parallelizable"]:
         for entry_index in l:
             entry = datastore.entries[entry_index]
-
-            pattern_processor.process(entry.preview)
-            pattern_processor.process(entry.content)
-            pattern_processor.process(entry.html_wrapper.processed_string)
-            pattern_processor.process(entry.rss_wrapper.processed_string)
-            pattern_processor.process(entry.atom_wrapper.processed_string)
-
+            if entry.id == 11:
+                entry.content.debug = 11
+                print(entry.content.len_open_pattern_pos, entry.content.len_close_pattern_pos)
+                for i in range(0, len(entry.content.open_pattern_pos)):
+                    print(entry.content.string[entry.content.open_pattern_pos[i]:entry.content.close_pattern_pos[i]])
+            pattern_processor.process(entry.preview, dont_pop_blacklisted=True)
+            pattern_processor.process(entry.content, dont_pop_blacklisted=True)
+            pattern_processor.process(entry.html_wrapper.processed_string, dont_pop_blacklisted=True)
+            pattern_processor.process(entry.rss_wrapper.processed_string, dont_pop_blacklisted=True)
+            pattern_processor.process(entry.atom_wrapper.processed_string, dont_pop_blacklisted=True)
+            if entry.id == 11:
+                print(entry.content.string)
+                delattr(entry.content,"debug")
+    die("DEBUG")
+                    
 def process_non_contextual_patterns(init_theme_argv):    
     theme, theme_folder = init_theme(init_theme_argv)
     datastore.init_theme_argv = init_theme_argv

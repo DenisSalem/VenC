@@ -182,6 +182,23 @@ class ProcessedString():
             print(self.len_open_pattern_pos,self.len_close_pattern_pos)
             raise MalformedPatterns(self.len_open_pattern_pos > self.len_close_pattern_pos, False, ressource)
 
+        # to avoing unnessary computation indexes are then ordered and ready to use by Processor.
+        self.sorted_pattern_coordinates = []
+        while len(self.open_pattern_pos):
+            diff = 18446744073709551616
+            i = 0
+            j = 0
+            for io in range(0, len(self.open_pattern_pos)):
+                for ic in range(0, len(self.close_pattern_pos)):
+                    d = self.close_pattern_pos[ic] - self.open_pattern_pos[io]
+                    if d > 0 and d < diff:
+                        diff = d
+                        self.sorted_pattern_coordinates.append((
+                            self.open_pattern_pos.pop(io),
+                            self.close_pattern_pos.pop(ic)
+                            
+                        ))
+        
         self.string = string
         self.ressource = ressource
         self.process_escapes = process_escapes
@@ -343,7 +360,7 @@ class Processor():
         except:
             pass
 
-    def process(self, pre_processed, safe_process=False):
+    def process(self, pre_processed, safe_process=False, dont_pop_blacklisted=False):
         has_non_parallelizable = False
         extra_processing_required = []
         op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
@@ -356,6 +373,7 @@ class Processor():
         
         self.current_input_string = string
         self.ressource = pre_processed.ressource
+        blc, blo = (0, 0)
         while lo:
             diff = 18446744073709551616
             i = 0
@@ -376,8 +394,13 @@ class Processor():
             
             has_non_parallelizable |= current_pattern in self.non_parallelizable
             not_current_pattern_blacklisted = not current_pattern in self.blacklist
+            if hasattr(pre_processed, "debug"):
+                print("HERE1", pre_processed.debug, current_pattern, lo)
                 
             if (not current_pattern == "Escape") and not_current_pattern_blacklisted:
+                if hasattr(pre_processed, "debug"):
+                    print("HERE2", pre_processed.debug, current_pattern, self.blacklist)
+                    
                 if current_pattern in self.keep_appart_from_markup:
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
@@ -403,6 +426,9 @@ class Processor():
                 
                 
                 string = string[0:vop] + new_chunk + string[vcp+2:]
+                if hasattr(pre_processed, "debug"):
+                    print("HERE3", pre_processed.debug, new_chunk)
+                    
                 self.current_input_string = string
                 
                 len_new_chunk = len(new_chunk)
@@ -418,26 +444,40 @@ class Processor():
             elif current_pattern == "Escape":
                 op.pop(i)
                 cp.pop(j)
-
+                
+            # After non parallelizable pass we don't want to pop
+            elif not not_current_pattern_blacklisted and dont_pop_blacklisted:
+                if hasattr(pre_processed, "debug"):
+                    print("HERE4", pre_processed.debug, current_pattern)
+                blo+=1
+                blc+=1
+                
             else:                  
                 string = string[:op[i]]+(string[op[i]:cp[j]].replace("::","\x1B\x1B"))+string[cp[j]:]
                 op.pop(i)
                 cp.pop(j)
-
+            if hasattr(pre_processed, "debug"):
+                print("HERE5", pre_processed.debug, current_pattern)
+                
             lo -= 1
             lc -= 1
 
         pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.open_pattern_pos, pre_processed.close_pattern_pos = lo, lc, op, cp
         pre_processed.string = string
 
-        has_non_parallelizable |=  self.process(pre_processed, safe_process)
+        has_non_parallelizable |=  self.process(pre_processed, safe_process, dont_pop_blacklisted)
         
         for extra in extra_processing_required:
             index, paragraphe, new_chunk, ignore_patterns = extra
             if not ignore_patterns:
                 extra_pre_processed = ProcessedString(new_chunk, pre_processed.ressource, True)
-                has_non_parallelizable |= self.process(extra_pre_processed, safe_process)
+                has_non_parallelizable |= self.process(extra_pre_processed, safe_process, dont_pop_blacklisted)
                 
             pre_processed.keep_appart_from_markup_indexes[index] = (index, paragraphe, extra_pre_processed.string if not ignore_patterns else new_chunk, ignore_patterns)
 
+        # trick to process later blacklisted pattern that we want to preserve.
+        if dont_pop_blacklisted:
+            pre_processed.len_close_pattern_pos += blc
+            pre_processed.len_open_pattern_pos += blo
+            
         return has_non_parallelizable

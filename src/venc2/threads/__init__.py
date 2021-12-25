@@ -367,8 +367,9 @@ class Thread:
         global current_source
         entry_wrapper = getattr(entry, self.content_type+"_wrapper")            
         preprocessed_wrapper = getattr(entry, self.content_type+"_wrapper").processed_string
+
         self.processor.process(preprocessed_wrapper, safe_process = True)
-        
+
         output=preprocessed_wrapper.string
         
         if entry_wrapper.process_get_entry_content:
@@ -407,7 +408,7 @@ class Thread:
             for entry in page:
                 self.setup_context(entry)
                 self.do_iteration(entry)
-
+                
             self.post_iteration()
     
     # Must be called in child class           
