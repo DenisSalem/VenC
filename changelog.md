@@ -77,6 +77,7 @@
     DONE | Add nice 404 errors page.
     DONE | Add security notice.
     DONE | Make some dependencies optional.
+    WIP  | Pattern processor improvement.
     WIP  | Generate entry inner table of content.
     TODO | Add ForDictMetadata
     TODO | Check python version compatibility (3.5 min)

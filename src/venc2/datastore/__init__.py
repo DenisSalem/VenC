@@ -851,6 +851,8 @@ class DataStore:
                 self.cache_get_chapter_attribute_by_index[key] = getattr(self.raw_chapters[argv[1]].chapter, argv[0])
                 
             except KeyError as e:
+                print(e, self.cache_get_chapter_attribute_by_index, self.raw_chapters)
+
                 raise PatternInvalidArgument(
                     "index",
                     argv[1],

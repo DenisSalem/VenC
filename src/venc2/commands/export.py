@@ -289,8 +289,14 @@ def process_non_contextual_patterns(init_theme_argv):
         parallelism.join()
         if thread_params["cut_threads_kill_workers"]:
             exit(-1)
-                
-    else:
+      
+    if not datastore.blog_configuration["disable_chapters"]:
+        for entry in datastore.entries:
+            datastore.update_chapters(entry)
+    
+        datastore.build_chapter_indexes()      
+
+    if datastore.workers_count == 1:
         worker(
             0,
             None,
@@ -304,11 +310,6 @@ def process_non_contextual_patterns(init_theme_argv):
             )
         )
 
-    if not datastore.blog_configuration["disable_chapters"]:
-        for entry in datastore.entries:
-            datastore.update_chapters(entry)
-    
-        datastore.build_chapter_indexes()
 
     if datastore.workers_count > 1:
         process_non_parallelizable(datastore, patterns_map, thread_params)
