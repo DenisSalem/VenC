@@ -221,10 +221,13 @@ class ProcessedString():
         self.backup = None
             
     def restore(self):
-        # ~ self.open_pattern_pos, self.close_pattern_pos, self.len_open_pattern_pos, self.len_close_pattern_pos, self.string = self.backup
-        self.sorted_pattern_coordinates, self.string = self.backup
-        self.backup = None
-
+        try:
+          self.sorted_pattern_coordinates, self.string = self.backup
+          self.backup = None
+          
+        except TypeError: # A case when the current ressource has no pattern at all.
+          pass
+          
     def keep_appart_from_markup_indexes_append(self, paragraphe, new_chunk):
         self.keep_appart_from_markup_indexes.append((self.keep_appart_from_markup_inc, paragraphe, new_chunk, False))
         output = "---VENC-TEMPORARY-REPLACEMENT-"+str(self.keep_appart_from_markup_inc)+'---'
@@ -367,34 +370,21 @@ class Processor():
     def set_function(self, key, function):
         self.functions[key] = function
 
-    def process(self, pre_processed, safe_process=False, dont_pop_blacklisted=False):
+    def process(self, pre_processed, safe_process=False):
         has_non_parallelizable = False
         extra_processing_required = []
-        # ~ op, cp, lo, lc, string = pre_processed.open_pattern_pos, pre_processed.close_pattern_pos, pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.string
         sorted_pattern_coordinates, string = pre_processed.sorted_pattern_coordinates, pre_processed.string
-        if safe_process and pre_processed.backup == None:
-            pre_processed.backup = (sorted_pattern_coordinates, pre_processed.string)
-
+        
         if len([e for e in sorted_pattern_coordinates if not (e.b or e.p)]) == 0:
-            pre_processed.string = pre_processed.string.replace("\x1B\x1B", "::")
+            string = pre_processed.string.replace("\x1B\x1B", "::")
             return has_non_parallelizable
         
+        if safe_process:
+            pre_processed.backup = (deepcopy(sorted_pattern_coordinates), pre_processed.string)
+                
         # For user debugging
         self.current_input_string = string # the current state of the input string
         self.ressource = pre_processed.ressource # the name of the input string
-        
-        # ~ blc, blo = (0, 0)
-        # ~ while lo:
-            # ~ diff = 18446744073709551616
-            # ~ i = 0
-            # ~ j = 0
-            # ~ for io in range(0, lo):
-                # ~ for ic in range(0, lc):
-                    # ~ d = cp[ic] - op[io]
-                    # ~ if d > 0 and d < diff:
-                        # ~ diff = d
-                        # ~ i = io
-                        # ~ j = ic
                         
         for pc in sorted_pattern_coordinates:
             # Pattern is already marked as blacklisted or processed
@@ -407,20 +397,16 @@ class Processor():
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
             current_pattern = fields.pop(0)
             has_non_parallelizable |= current_pattern in self.non_parallelizable
-            # ~ not_current_pattern_blacklisted = not current_pattern in self.blacklist
             if current_pattern in self.blacklist:
                 pc.b = True
                 continue
                 
             if not current_pattern == "Escape":                    
                 if current_pattern in self.keep_appart_from_markup:
-                    # ~ print(">", current_pattern); print(string)
                     new_chunk = pre_processed.keep_appart_from_markup_indexes_append(
                         True,
                         self.run_pattern(current_pattern, fields)
                     )
-                    # ~ print("--------------------------------------------------------------------------------------")
-                    # ~ print(">", new_chunk); print(string)
 
                     if self.include_file_called:
                         extra_processing_required.append(
@@ -439,12 +425,8 @@ class Processor():
                 else:
                     new_chunk = self.run_pattern(current_pattern, fields)
                 
-                # ~ print(">>>", string[vop:vcp+2], vop, vcp+2)
                 string = string[:vop] + new_chunk + string[vcp+2:]
-                # ~ print("--------------------------------------------------------------------------------------")
-                # ~ print("=======>", new_chunk); print(string)
                 self.current_input_string = string
-                # ~ exit()
 
                 len_new_chunk = len(new_chunk)
                 offset = len_new_chunk - (vcp + 2 - vop)
@@ -457,50 +439,26 @@ class Processor():
                       
                   if e.c > vcp:
                     e.c+=offset
-                    
-                # ~ op = [ (v+offset if v > vop else v) for v in op]
-                # ~ cp = [ (v+offset if v > vcp else v) for v in cp]
 
                 pc.p = True
-                # ~ op.pop(i)
-                # ~ cp.pop(j)
                 
             elif current_pattern == "Escape":
                 pc.p = True
-                # ~ op.pop(i)
-                # ~ cp.pop(j)
-                
-            # ~ # After non parallelizable pass we don't want to pop pattern
-            # ~ elif not not_current_pattern_blacklisted and dont_pop_blacklisted:
-                # ~ blo+=1
-                # ~ blc+=1
                 
             else:                  
                 string = string[:vop]+(string[vop:vcp].replace("::","\x1B\x1B"))+string[vcp:]
-                # ~ op.pop(i)
-                # ~ cp.pop(j)
                 pc.p = True
 
-                
-            # ~ lo -= 1
-            # ~ lc -= 1
-
-        #pre_processed.len_open_pattern_pos, pre_processed.len_close_pattern_pos, pre_processed.open_pattern_pos, pre_processed.close_pattern_pos = lo, lc, op, cp
         pre_processed.sorted_pattern_coordinates, pre_processed.string = sorted_pattern_coordinates, string
 
-        has_non_parallelizable |=  self.process(pre_processed, safe_process, dont_pop_blacklisted)
+        has_non_parallelizable |=  self.process(pre_processed, False)
         
         for extra in extra_processing_required:
             index, paragraphe, new_chunk, ignore_patterns = extra
             if not ignore_patterns:
                 extra_pre_processed = ProcessedString(new_chunk, pre_processed.ressource, True)
-                has_non_parallelizable |= self.process(extra_pre_processed, safe_process, dont_pop_blacklisted)
+                has_non_parallelizable |= self.process(extra_pre_processed, False)
                 
             pre_processed.keep_appart_from_markup_indexes[index] = (index, paragraphe, extra_pre_processed.string if not ignore_patterns else new_chunk, ignore_patterns)
-
-        # ~ # trick to process later blacklisted pattern that we want to preserve.
-        # ~ if dont_pop_blacklisted:
-            # ~ pre_processed.len_close_pattern_pos += blc
-            # ~ pre_processed.len_open_pattern_pos += blo
             
         return has_non_parallelizable

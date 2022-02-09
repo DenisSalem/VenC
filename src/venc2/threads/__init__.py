@@ -334,6 +334,7 @@ class Thread:
         stream.write(output.replace("\x1a", self.relative_origin))
         stream.close()
 
+    # QUESTION : Why the fuck using global current_source ?
     def pre_iteration(self):
         global current_source
         self.processor.blacklist = self.forbidden
@@ -341,6 +342,7 @@ class Thread:
         self.processor.process(current_source, safe_process = True)
         self.output = current_source.string
         current_source.restore()
+
         self.processor.blacklist = []
         self.columns_counter = 0
         self.columns = [ '' for i in range(0, self.columns_number) ]
@@ -356,7 +358,7 @@ class Thread:
         current_source = self.footer
         self.processor.process(current_source, safe_process = True)
         self.output += current_source.string
-        self.footer.restore()
+        current_source.restore()
         
         self.write_file(self.output.replace("\x1a",self.relative_origin), self.page_number)
 
@@ -393,8 +395,10 @@ class Thread:
             
         self.columns[self.columns_counter] += output
         preprocessed_wrapper.restore()
+        
         if entry_wrapper.process_get_entry_content:
             entry.content.restore()
+            
         if entry_wrapper.process_get_entry_preview:
             entry.preview.restore()
         
@@ -405,6 +409,7 @@ class Thread:
     def iterate_through_pages(self):
         for page in self.pages:
             self.pre_iteration()
+
             for entry in page:
                 self.setup_context(entry)
                 self.do_iteration(entry)
@@ -417,6 +422,8 @@ class Thread:
         self.current_page = 0
         self.page_number = 0
         if self.pages_count == 0:
+            # TODO : why the fuck header and footer aren't restored into there initial state ?!
+            # TODO : It works so far... But why?
             current_source = self.header
             self.processor.process(current_source)
             output = current_source.string
@@ -431,6 +438,5 @@ class Thread:
             )
             stream.write(output.replace("\x1a", self.relative_origin))
             stream.close()
-            
         else:
             self.iterate_through_pages()

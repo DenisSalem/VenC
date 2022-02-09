@@ -78,7 +78,7 @@ class ChaptersThread(Thread):
         return output
         
         
-    def do(self, top=None):
+    def do(self, top=None):          
         if top == None:
             top = self.datastore.chapters_index
             

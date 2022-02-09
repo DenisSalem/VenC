@@ -248,11 +248,11 @@ def process_non_parallelizable(datastore, patterns_map, thread_params):
                 print(entry.content.len_open_pattern_pos, entry.content.len_close_pattern_pos)
                 for i in range(0, len(entry.content.open_pattern_pos)):
                     print(entry.content.string[entry.content.open_pattern_pos[i]:entry.content.close_pattern_pos[i]])
-            pattern_processor.process(entry.preview, dont_pop_blacklisted=True)
-            pattern_processor.process(entry.content, dont_pop_blacklisted=True)
-            pattern_processor.process(entry.html_wrapper.processed_string, dont_pop_blacklisted=True)
-            pattern_processor.process(entry.rss_wrapper.processed_string, dont_pop_blacklisted=True)
-            pattern_processor.process(entry.atom_wrapper.processed_string, dont_pop_blacklisted=True)
+            pattern_processor.process(entry.preview)
+            pattern_processor.process(entry.content)
+            pattern_processor.process(entry.html_wrapper.processed_string,)
+            pattern_processor.process(entry.rss_wrapper.processed_string)
+            pattern_processor.process(entry.atom_wrapper.processed_string)
             if entry.id == 11:
                 print(entry.content.string)
                 delattr(entry.content,"debug")
@@ -343,7 +343,8 @@ def export_blog(argv=list()):
     notify("├─ "+messages.pre_process)
     
     theme, theme_folder, code_highlight, patterns_map = process_non_contextual_patterns(argv)
-
+     
+    # ~ die("DEBUG")
     if not datastore.blog_configuration["disable_single_entries"]:
         notify("├─ "+messages.link_entries)
         # Add required link between entries
@@ -359,7 +360,6 @@ def export_blog(argv=list()):
     os.makedirs("blog")
 
     # Starting second pass and exporting
-    import datetime
     from venc2.threads.main import MainThread
     thread = MainThread(messages.export_main_thread, datastore, theme, patterns_map)
     thread.do()
