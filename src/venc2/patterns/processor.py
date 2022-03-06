@@ -435,6 +435,9 @@ class Processor():
                     ))
                     
                 else:
+                    if current_pattern == "IfInfiniteScrollEnabled":
+                        print(current_pattern, fields)
+                        
                     new_chunk = self.run_pattern(current_pattern, fields)
                 
                 string = string[:vop] + new_chunk + string[vcp+2:]
@@ -453,9 +456,9 @@ class Processor():
 
                 pc.p = True
                 
-            else : # current_pattern == "Escape":
+            else: # current_pattern == "Escape":
                 pc.p = True
-
+                
         pre_processed.sorted_pattern_coordinates, pre_processed.string = sorted_pattern_coordinates, string
 
         #TODO : investigate the necessity of this

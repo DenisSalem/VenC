@@ -319,6 +319,7 @@ def process_non_contextual_patterns(init_theme_argv):
     if datastore.workers_count > 1:
         process_non_parallelizables(datastore, patterns_map, thread_params)
     
+    notify("DEBUG")
     pattern_processor.process(theme.header)
     theme.header.replace_needles()
     
