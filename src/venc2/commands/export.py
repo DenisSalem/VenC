@@ -121,7 +121,6 @@ def setup_pattern_processor(patterns_map, parallel=False):
 
     if parallel:        
         processor.non_parallelizable += patterns_map.non_contextual["non_parallelizable"].keys()
-        processor.blacklist += patterns_map.non_contextual["non_parallelizable"].keys()
     
     for pattern_name in patterns_map.non_contextual["non_parallelizable"].keys():
         processor.set_function(pattern_name, patterns_map.non_contextual["non_parallelizable"][pattern_name])
@@ -188,10 +187,10 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
                 
             else:
                 markup_language = default_markup_language
-    
+                
             entry_has_non_parallelizable |= pattern_processor.process(entry.content)
             process_markup_language(entry.content, markup_language, entry)
-            
+
             entry_has_non_parallelizable |= pattern_processor.process(entry.preview)
             process_markup_language(entry.preview, markup_language, None)
                 
@@ -229,8 +228,23 @@ def finish(worker_id):
         if not key in code_highlight.includes.keys():
             code_highlight.includes[key] = thread_params["code_highlight_includes"][worker_id][key]
     thread_params["code_highlight_includes"][worker_id] = None
-        
-def process_non_parallelizable(datastore, patterns_map, thread_params):
+
+
+def process_non_parallelizables_pre_processed(run_pattern, entry_pre_processed):
+    for np in entry_pre_processed.non_parallelizables:
+        index = entry_pre_processed.string.index(np[0])
+        new_chunk = run_pattern(np[1], np[2])
+        entry_pre_processed.string = entry_pre_processed.string.replace(np[0], new_chunk)
+        offset = len(new_chunk) - len(np[0])
+        for e in entry_pre_processed.sorted_pattern_coordinates:
+            if e.o > index:
+                e.o+=offset
+                
+            if e.c > index:
+              e.c+=offset
+            
+def process_non_parallelizables(datastore, patterns_map, thread_params):
+  
     notify("├─ "+messages.process_non_parallelizable)
     pattern_processor = Processor()
     for pattern_name in patterns_map.non_contextual["non_parallelizable"].keys():
@@ -243,20 +257,11 @@ def process_non_parallelizable(datastore, patterns_map, thread_params):
     for l in thread_params["non_parallelizable"]:
         for entry_index in l:
             entry = datastore.entries[entry_index]
-            if entry.id == 11:
-                entry.content.debug = 11
-                print(entry.content.len_open_pattern_pos, entry.content.len_close_pattern_pos)
-                for i in range(0, len(entry.content.open_pattern_pos)):
-                    print(entry.content.string[entry.content.open_pattern_pos[i]:entry.content.close_pattern_pos[i]])
-            pattern_processor.process(entry.preview)
-            pattern_processor.process(entry.content)
-            pattern_processor.process(entry.html_wrapper.processed_string,)
-            pattern_processor.process(entry.rss_wrapper.processed_string)
-            pattern_processor.process(entry.atom_wrapper.processed_string)
-            if entry.id == 11:
-                print(entry.content.string)
-                delattr(entry.content,"debug")
-    die("DEBUG")
+            process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.preview)
+            process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.content)
+            process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.html_wrapper.processed_string,)
+            process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.rss_wrapper.processed_string)
+            process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.atom_wrapper.processed_string)
                     
 def process_non_contextual_patterns(init_theme_argv):    
     theme, theme_folder = init_theme(init_theme_argv)
@@ -312,8 +317,8 @@ def process_non_contextual_patterns(init_theme_argv):
 
 
     if datastore.workers_count > 1:
-        process_non_parallelizable(datastore, patterns_map, thread_params)
-            
+        process_non_parallelizables(datastore, patterns_map, thread_params)
+    
     pattern_processor.process(theme.header)
     theme.header.replace_needles()
     
@@ -344,7 +349,6 @@ def export_blog(argv=list()):
     
     theme, theme_folder, code_highlight, patterns_map = process_non_contextual_patterns(argv)
      
-    # ~ die("DEBUG")
     if not datastore.blog_configuration["disable_single_entries"]:
         notify("├─ "+messages.link_entries)
         # Add required link between entries

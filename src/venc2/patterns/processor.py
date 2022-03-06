@@ -103,7 +103,7 @@ def index_not_in_range(index, ranges, process_escapes):
     return True
 
 class ProcessedString():
-    def __init__(self, string, ressource, process_escapes=False, meta_escapes=[]):
+    def __init__(self, string, ressource, process_escapes=False, meta_escapes=list(), non_parallelizables=None):
         self.open_pattern_pos, self.close_pattern_pos = get_markers_indexes(string)
         if len(meta_escapes):
             self.open_pattern_pos = [ v for v in self.open_pattern_pos if index_not_in_range(v, meta_escapes, False)]
@@ -188,7 +188,7 @@ class ProcessedString():
         self.len_close_pattern_pos = len(self.close_pattern_pos)
             
         if self.len_open_pattern_pos != self.len_close_pattern_pos:
-            print(string)
+            print(string.replace(".:", '\033[91m'+".:"+'\033[0m').replace(":.", '\033[91m'+":."+'\033[0m'))
             raise MalformedPatterns(self.len_open_pattern_pos > self.len_close_pattern_pos, False, ressource)
 
         # to avoing unnessary computation indexes are then ordered and ready to use by Processor.
@@ -219,13 +219,14 @@ class ProcessedString():
         self.keep_appart_from_markup_indexes = list()
         self.keep_appart_from_markup_inc = 0
         self.backup = None
+        self.non_parallelizables = list() if non_parallelizables == None else non_parallelizables
             
     def restore(self):
         try:
           self.sorted_pattern_coordinates, self.string = self.backup
           self.backup = None
           
-        except TypeError: # A case when the current ressource has no pattern at all.
+        except TypeError: # The case when the current ressource has no pattern at all: process method exit before performing backup
           pass
           
     def keep_appart_from_markup_indexes_append(self, paragraphe, new_chunk):
@@ -298,7 +299,7 @@ class ProcessedString():
         self.fix_indexes(meta_escapes)
         
     def fix_indexes(self, meta_escapes=[]):
-        self.__init__(self.string, self.ressource, True, meta_escapes)
+        self.__init__(self.string, self.ressource, True, meta_escapes, self.non_parallelizables)
 
 class Processor():
     def __init__(self):
@@ -396,7 +397,9 @@ class Processor():
 
             fields = [field.strip() for field in string[vop+2:vcp].split("::") if field != '']
             current_pattern = fields.pop(0)
-            has_non_parallelizable |= current_pattern in self.non_parallelizable
+            is_non_parallelizable = current_pattern in self.non_parallelizable
+            has_non_parallelizable |= is_non_parallelizable
+            
             if current_pattern in self.blacklist:
                 pc.b = True
                 continue
@@ -422,6 +425,15 @@ class Processor():
                         self.run_pattern(current_pattern, fields)
                     )
                 
+                elif is_non_parallelizable:
+                    new_chunk = "---VENC-NON-PARALLELIZABLE-"+str(len(pre_processed.non_parallelizables))+"---"
+                    pre_processed.non_parallelizables.append((
+                        new_chunk,
+                        # ~ string[vop:vcp+2]
+                        current_pattern,
+                        fields   
+                    ))
+                    
                 else:
                     new_chunk = self.run_pattern(current_pattern, fields)
                 
@@ -433,7 +445,6 @@ class Processor():
             
                 # Adjust indexes
                 for e in sorted_pattern_coordinates:
-                  
                   if e.o > vop:
                       e.o+=offset
                       
@@ -442,16 +453,13 @@ class Processor():
 
                 pc.p = True
                 
-            elif current_pattern == "Escape":
-                pc.p = True
-                
-            else:                  
-                string = string[:vop]+(string[vop:vcp].replace("::","\x1B\x1B"))+string[vcp:]
+            else : # current_pattern == "Escape":
                 pc.p = True
 
         pre_processed.sorted_pattern_coordinates, pre_processed.string = sorted_pattern_coordinates, string
 
-        has_non_parallelizable |=  self.process(pre_processed, False)
+        #TODO : investigate the necessity of this
+        has_non_parallelizable |=  self.process(pre_processed, False) 
         
         for extra in extra_processing_required:
             index, paragraphe, new_chunk, ignore_patterns = extra

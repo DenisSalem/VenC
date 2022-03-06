@@ -77,6 +77,7 @@ class Entry:
                 try:
                     self.preview = ProcessedString(entry_parted[1], filename)
                     self.content = ProcessedString(entry_parted[2], filename)
+
                 except IllegalUseOfEscape:
                     die(messages.illegal_use_of_escape.format(filename))
                     
@@ -148,6 +149,7 @@ class Entry:
             "entry_id": self.id,
             "entry_title": self.title
         }
+
         # TODO MAY BE OPTIMIZED
         sf = paths["entries_sub_folders"].format(**params)
         if encoding == '':
@@ -200,6 +202,9 @@ class Entry:
         self.html_authors = {}
         self.html_categories_leaves = {}
         self.html_for_metadata = {}
+        if self.id == 3:
+          if id(self.preview.non_parallelizables) == id(self.content.non_parallelizables):
+              die("entry: "+"list are the same")
 
 ''' Iterate through entries folder '''
 def yield_entries_content():
