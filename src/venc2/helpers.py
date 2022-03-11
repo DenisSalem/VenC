@@ -34,22 +34,8 @@ class SafeFormatDict(dict):
     def __missing__(self, key):
         return '{'+key+'}'
 
-class GenericMessage(Exception):
-    def __init__(self, message):
-        self.message = message
-
 # hold error messages
 errors=list()
-
-def handle_malformed_patterns(e):
-    if e.escape:
-        if e.too_many_opening_symbols:
-            die(messages.malformed_escape_patterns_missing_closing_symbols.format(e.ressource))
-        die(messages.malformed_escape_patterns_missing_opening_symbols.format(e.ressource))
-    
-    if e.too_many_opening_symbols:
-        die(messages.malformed_patterns_missing_closing_symbols.format(e.ressource))
-    die(messages.malformed_patterns_missing_opening_symbols.format(e.ressource))
 
 def orderable_str_to_int(string):
     try:

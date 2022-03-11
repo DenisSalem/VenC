@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -18,7 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-def Latex2MathML(argv):
+def latex_2_mathml(argv):
     try:
         import latex2mathml.converter
         

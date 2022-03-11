@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -19,6 +19,34 @@
 
 from venc2.l10n import messages
 
+class VenCException(Exception):
+    def __init__(self, message, context=None):
+        self.message = message
+        self.context = context
+    
+    def __str__(self):
+        return self.message
+        
+    def __repr__(self):
+        return (type(self).__name__, message, value, context)
+
+    def die(self):
+        from venc2.prompt import die
+        die(self.message)
+        
+class MalformedPatterns(VenCException):
+    def __init__(self, string_under_processing):
+        len_op = len(string_under_processing.op)
+        len_cp = len(string_under_processing.cp)
+        too_many_opening_symbols = len_op > len_cp
+        if too_many_opening_symbols:
+            m = messages.malformed_patterns_missing_closing_symbols.format(string_under_processing.context, len_op - len_cp)
+        else:
+            m = messages.malformed_patterns_missing_opening_symbols.format(string_under_processing.context, len_cp - len_op)
+        
+        super().__init__(m, string_under_processing.context)
+        self.too_many_opening_symbols = too_many_opening_symbols
+        
 # Special case of KeyError
 class UnknownContextual(KeyError):
     pass
@@ -27,12 +55,6 @@ class IllegalUseOfEscape(Exception):
     def __init__(self, ressource):
         self.ressource = ressource
         pass
-               
-class MalformedPatterns(Exception):
-    def __init__(self, too_many_opening_symbols, escape, ressource):
-        self.too_many_opening_symbols = too_many_opening_symbols
-        self.escape = escape
-        self.ressource = ressource
 
 class PatternInvalidArgument(Exception):
     def __init__(self, name, value, message=''):
