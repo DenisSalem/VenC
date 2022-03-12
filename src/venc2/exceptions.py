@@ -56,7 +56,6 @@ class MalformedPatterns(VenCException):
         self.too_many_opening_symbols = too_many_opening_symbols
         self.extra = s
 
-        
 # Special case of KeyError
 # ~ class UnknownContextual(KeyError):
     # ~ pass

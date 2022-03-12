@@ -24,8 +24,8 @@ class PatternNode:
         self.o = o
         self.c = c
         self.__str = string[o:c+2]
-        # ~ self.np = np
-        # ~ self.nc = nc
+        # ~ self.non_parallelizable =
+        # ~ self.non_contextual =
         self.childs = []
         
     def __str__(self):
@@ -66,7 +66,19 @@ class StringUnderProcessing:
             pattern_nodes_append(PatternNode(string, op[i],cp[j]))            
             op_pop(i)
             cp_pop(j)
-            
+          
+        # Make a tree
+        i = 0
+        pattern_nodes = self.pattern_nodes
+        while i < len(pattern_nodes):
+            for pattern in pattern_nodes[i+1:]:
+                if pattern_nodes[i].o > pattern.o and pattern_nodes[i].c < pattern.c:
+                    pattern.childs.append( pattern_nodes.pop(i) )
+                    i =-1
+                    break
+                    
+            i+=1
+              
     @staticmethod
     def find_pattern_boundaries(string, symbol):
       op = list()
