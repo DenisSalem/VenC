@@ -90,6 +90,9 @@ class StringUnderProcessing:
             if parent != None:
                 pattern.o = pattern.o - parent.o
                 pattern.c = pattern.c - parent.o
+                
+        if parent != None:
+            parent.childs = sorted(nodes, key = n:n.o)
     
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
