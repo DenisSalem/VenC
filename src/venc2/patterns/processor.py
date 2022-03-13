@@ -41,8 +41,8 @@ class StringUnderProcessing:
         self.context = context
 
         # This block get indexes of opening and closing patterns.
-        self.op = StringUnderProcessing.find_pattern_boundaries(string, '.:')
-        self.cp = StringUnderProcessing.find_pattern_boundaries(string, ':.')
+        self.op = StringUnderProcessing.__find_pattern_boundaries(string, '.:')
+        self.cp = StringUnderProcessing.__find_pattern_boundaries(string, ':.')
         
         # This block sort pattern by nest order AND position in input string.
         self.pattern_nodes = []
@@ -78,17 +78,29 @@ class StringUnderProcessing:
                     break
                     
             i+=1
-              
+            
+        # Make nested patterns indexes relatives to upper pattern and replace 
+        StringUnderProcessing.__finalize_patterns_tree(pattern_nodes)
+                
+    
     @staticmethod
-    def find_pattern_boundaries(string, symbol):
-      op = list()
-      op_append = op.append
+    def __finalize_patterns_tree(nodes, parent=None):
+        for pattern in nodes:
+            StringUnderProcessing.__finalize_patterns_tree(pattern.childs, pattern)
+            if parent != None:
+                pattern.o = pattern.o - parent.o
+                pattern.c = pattern.c - parent.o
+    
+    @staticmethod
+    def __find_pattern_boundaries(string, symbol):
+      l = list()
+      l_append = l.append
       index=0
       while '∞':
           index = string.find(symbol, index)
           if index == -1:
-            return op
-          op_append(index)
+            return l
+          l_append(index)
           index+=1
           
     def __str__(self):
