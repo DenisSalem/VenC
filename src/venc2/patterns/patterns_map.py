@@ -17,9 +17,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc2.patterns.contextual import get_random_number
+# ~ from venc2.patterns.contextual import get_random_number
 
-from venc2.patterns.non_contextual import get_venc_version, include_file, include_file_if_exists, set_color, set_style, table, disable_markup
+# ~ from venc2.patterns.non_contextual import get_venc_version, include_file, include_file_if_exists, set_color, set_style, table, disable_markup
 
 ### ALL OF THE ABOVE MIGHT BE OBSOLETE
 ### ALL OF THE ABOVE MIGHT BE OBSOLETE
@@ -29,121 +29,119 @@ from venc2.patterns.third_party_wrapped_features.latex2mathml import latex_2_mat
 from venc2.patterns.third_party_wrapped_features.kroki import kroki
 
 class PatternsMap():
-    def __init__(self, datastore, code_highlight, theme):
-        self.non_contextual = {
-            "entries" : {
-                "ForEntryAuthors" : "datastore.for_entry_authors", 
-                "ForEntryTags" :    "datastore.for_entry_tags",
-                "GetEntryTitle" :   "datastore.get_entry_title",
-                "GetEntryID" :      "datastore.get_entry_id",
-                "GetEntryYear" :    "datastore.get_entry_year",
-                "GetEntryMonth" :   "datastore.get_entry_month",
-                "GetEntryDay" :     "datastore.get_entry_day",
-                "GetEntryHour" :    "datastore.get_entry_hour", 
-                "GetEntryMinute" :  "datastore.get_entry_minute",
-                "GetEntryDate" :    "datastore.get_entry_date",
-                "GetEntryDateURL" : "datastore.get_entry_date_url",
-                "GetEntryURL" :     "datastore.get_entry_url",
+    CONTEXTUALS = {
+        "ForPages":	                      "for_pages",
+        "GetJSON-LD":	                    "GetJSONLD",
+        "GetNextPage":	                  "get_next_page",
+        "GetPreviousPage":	              "get_previous_page",
+        "GetRandomNumber":	              "get_random_number",
+        "GetRelativeLocation":	          "get_relative_location",
+        "GetRelativeOrigin":	            "get_relative_origin",
+        "GetRootPage":	                  "datastore.get_root_page",
+        "GetStyleSheets":	                "code_highlight.get_style_sheets",
+        "GetThreadName":	                "get_thread_name",
+        "IfInArchives":	                  "if_in_archives",
+        "IfInCategories":	                "if_in_categories",
+        "IfInEntryID":	                  "if_in_entry_id",
+        "IfInFeed":	                      "if_in_feed",
+        "IfInFirstPage":	                "if_in_first_page",
+        "IfInLastPage":	                  "if_in_last_page",
+        "IfInMainThread":	                "if_in_main_thread",
+        "IfInThread":	                    "if_in_thread",
+        "IfInThreadAndHasFeeds":	        "if_in_thread_and_has_feeds",
+        "IfPages":	                      "if_pages",
+    }
 
-                "IfEntryMetadataIsTrue":        "datastore.if_entry_metadata_is_true",
+    NON_CONTEXTUALS = {
+        "entries" : {
+            "ForEntryAuthors":	          "datastore.for_entry_authors",
+            "ForEntryMetadata":	          "datastore.for_entry_metadata",
+            "ForEntryRange":	            "datastore.for_entry_range",
+            "ForEntryTags":	              "datastore.for_entry_tags",
+            "GetEntryDate":	              "datastore.get_entry_date",
+            "GetEntryDateURL":	          "datastore.get_entry_date_url",
+            "GetEntryDay":	              "datastore.get_entry_day",
+            "GetEntryHour":	              "datastore.get_entry_hour",
+            "GetEntryID":	                "datastore.get_entry_id",
+            "GetEntryMetadata":	          "datastore.get_entry_metadata",
+            "GetEntryMetadataIfExists":   "datastore.get_entry_metadata_if_exists",
+            "GetEntryMetadataIfNotNull":	"datastore.get_entry_metadata_if_not_null",
+            "GetEntryMinute":	            "datastore.get_entry_minute",
+            "GetEntryMonth":	            "datastore.get_entry_month",
+            "GetEntryTitle":	            "datastore.get_entry_title",
+            "GetEntryURL":	              "datastore.get_entry_url",
+            "GetEntryYear":	              "datastore.get_entry_year",
+            "IfEntryMetadataIsTrue":	    "datastore.if_entry_metadata_is_true",
+            "LeavesForEntryCategories":	  "datastore.leaves_for_entry_categories",
+            "TreeForEntryCategories":	    "datastore.tree_for_entry_categories",
+        },
+        "blog": {
+            "ForBlogArchives":	          "datastore.for_blog_archives",
+            "GetAuthorDescription":	      "datastore.get_author_description",
+            "GetAuthorEmail":             "datastore.get_author_email",
+            "GetAuthorName":	            "datastore.get_author_name",
+            "GetBlogDescription":	        "datastore.get_blog_description",
+            "GetBlogKeywords":	          "datastore.get_blog_keywords",
+            "GetBlogLanguage":	          "datastore.get_blog_language",
+            "GetBlogLicense":	            "datastore.get_blog_license",
+            "GetBlogMetadata":	          "datastore.get_blog_metadata",
+            "GetBlogMetadataIfExists":	  "datastore.get_blog_metadata_if_exists",
+            "GetBlogMetadataIfNotNull":	  "datastore.get_blog_metadata_if_not_null",
+            "GetBlogName":	              "datastore.get_blog_name",
+            "GetBlogURL":	                "datastore.get_blog_url",
+            "IfBlogMetadataIsTrue":	      "datastore.if_blog_metadata_is_true",
+            "LeavesForBlogCategories":	  "datastore.leaves_for_blog_categories",
+            "TreeForBlogCategories":	    "datastore.tree_for_blog_categories",
+        },
+        "extra": {
+            "Audio":	                    "theme.get_audio",
+            "CodeHighlight":	            "code_highlight.highlight",
+            "CodeHighlightInclude":	      "code_highlight.highlight_include",
+            "DisableMarkup":	            "disable_markup",
+            "GetEmbedContent":	          "datastore.wrapper_embed_content",
+            "GetGenerationTimestamp":	    "datastore.get_generation_timestamp",
+            "GetVenCVersion":	            "get_venc_version",
+            "IfAtomEnabled":	            "datastore.if_atom_enabled",
+            "IfCategories":	              "datastore.if_categories",
+            "IfChapters":	                "datastore.if_chapters",
+            "IfFeedsEnabled":	            "datastore.if_feeds_enabled",
+            "IfInfiniteScrollEnabled":	    "datastore.if_infinite_scroll_enabled",
+            "IfRSSEnabled":	              "datastore.if_rss_enabled",
+            "IncludeFile":	              "include_file",
+            "IncludeFileIfExists":	      "include_file_if_exists",
+            "Kroki":	                    "kroki",
+            "Latex2MathML":	              "latex_2_mathml",
+            "SetColor":	                  "set_color",
+            "SetStyle":	                  "set_style",
+            "Table":	                    "table",
+            "Video":	                    "theme.get_video",
+        },
+    }
 
-                "LeavesForEntryCategories" :    "datastore.leaves_for_entry_categories",
-                "TreeForEntryCategories" :      "datastore.tree_for_entry_categories",
-                "ForEntryMetadata" :            "datastore.for_entry_metadata",
-                "ForEntryRange" :               "datastore.for_entry_range",
-                "GetEntryMetadata" :            "datastore.get_entry_metadata",
-                "GetEntryMetadataIfExists" :    "datastore.get_entry_metadata_if_exists",
-                "GetEntryMetadataIfNotNull":    "datastore.get_entry_metadata_if_not_null"
-            },
-            "blog": {
-                "GetAuthorName" :               datastore.get_author_name,
-                "GetBlogName" :                 datastore.get_blog_name,
-                "GetBlogDescription" :          datastore.get_blog_description,
-                "GetBlogKeywords" :             datastore.get_blog_keywords,
-                "GetAuthorDescription" :        datastore.get_author_description,
-                "GetBlogLicense" :              datastore.get_blog_license,
-                "GetBlogURL" :                  datastore.get_blog_url,
-                "GetBlogLanguage" :             datastore.get_blog_language,
-                "GetAuthorEmail" :              datastore.get_author_email,
+    SHIELD_FROM_MARKUP = [
+        "Audio",
+        "CodeHighlight",
+        "CodeHighlightInclude",
+        "DisableMarkup",
+        "GetEmbedContent",
+        "IncludeFile",
+        "IncludeFileIfExists",
+        "Kroki",
+        "Latex2MathML",
+        "SetStyle",
+        "Table",
+        "Video",
+    ]
 
-                # Extra metadata getter
-                "IfBlogMetadataIsTrue":         datastore.if_blog_metadata_is_true,
-                "GetBlogMetadata" :             datastore.get_blog_metadata, 
-                "GetBlogMetadataIfExists" :     datastore.get_blog_metadata_if_exists, 
-                "GetBlogMetadataIfNotNull":     datastore.get_blog_metadata_if_not_null, 
-                "ForBlogArchives" :             datastore.for_blog_archives,
-                "LeavesForBlogCategories" :     datastore.leaves_for_blog_categories,
-                "TreeForBlogCategories" :       datastore.tree_for_blog_categories,
-            },
-            "extra": {
-                "Audio" :                   theme.get_audio,
-                "CodeHighlight" :           code_highlight.highlight,
-                "CodeHighlightInclude" :    code_highlight.highlight_include,
-                "DisableMarkup":            disable_markup,
-                "GetEmbedContent":          datastore.wrapper_embed_content,
-                "GetGenerationTimestamp":   datastore.get_generation_timestamp,
-                "GetVenCVersion" :          get_venc_version,
-                "IfAtomEnabled":            datastore.if_atom_enabled,          
-                "IfCategories":             datastore.if_categories,
-                "IfChapters":               datastore.if_chapters,
-                "IfFeedsEnabled":           datastore.if_feeds_enabled,
-                "IfInfiniteScrollEnabled":   datastore.if_infinite_scroll_enabled,
-                "IfRSSEnabled":             datastore.if_rss_enabled,
-                "IncludeFile" :             include_file,
-                "IncludeFileIfExists" :     include_file_if_exists,
-                "Kroki":                    kroki,
-                "Latex2MathML" :            latex_2_mathml,
-                "SetColor" :                set_color,
-                "SetStyle" :                set_style,
-                "Table" :                   table,
-                "Video" :                   theme.get_video
-            },
+    NON_PARALLELIZABLES = {
+        "GetChapterAttributeByIndex":     "datastore.get_chapter_attribute_by_index",
+        "GetChapters" :                   "datastore.get_chapters",
+        "GetEntryAttributeByID":          "datastore.get_entry_attribute_by_id",
+    }
+    
 
-        }
-
-        self.non_parallelizable : {
-            "GetChapterAttributeByIndex":   "datastore.get_chapter_attribute_by_index"
-            "GetChapters" :                 "datastore.get_chapters"
-            "GetEntryAttributeByID":        "datastore.get_entry_attribute_by_id"
-        }
-        self.contextual = {
-                "GetStyleSheets" :  code_highlight.get_style_sheets,
-                "GetRootPage" :     datastore.get_root_page,
-                "GetRandomNumber" : get_random_number
-
-                "GetJSON-LD" : "GetJSONLD",
-                "IfInThread" : "if_in_thread",
-                "IfInFeed" : "if_in_feed",
-                "IfInThreadAndHasFeeds" : "if_in_thread_and_has_feeds",
-                "IfInMainThread" : "if_in_main_thread",
-                "IfInArchives" : "if_in_archives",
-                "IfInCategories" : "if_in_categories",
-                "IfInFirstPage" : "if_in_first_page",
-                "IfInLastPage" : "if_in_last_page",
-                "IfInEntryID" : "if_in_entry_id",
-                "GetRelativeLocation" : "get_relative_location",
-                "GetRelativeOrigin" : "get_relative_origin",
-                "GetNextPage" : "get_next_page",
-                "GetPreviousPage" : "get_previous_page",
-                "GetThreadName": "get_thread_name",
-                "ForPages" : "for_pages",
-                "IfPages" : "if_pages"
-        }
-        
-        self.keep_appart_from_markup = [
-            "CodeHighlight",
-            "CodeHighlightInclude",
-            "Latex2MathML",
-            "IncludeFile",
-            "IncludeFileIfExists",
-            "Kroki",
-            "SetStyle",
-            "Audio",
-            "Video",
-            "GetEmbedContent",
-            "Table",
-            "DisableMarkup",
-        ]
+    # ~ def __init__(self, datastore, code_highlight, theme):
+        # ~ pass
 
 
 ### ALL OF THE BELOW MIGHT BE OBSOLETE

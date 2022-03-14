@@ -99,6 +99,7 @@ setup(
         'venc2.l10n',
         'venc2.markup_languages',
         'venc2.patterns',
+        'venc2.patterns.third_party_wrapped_features',
         'venc2.threads'
     ],
     license="GNU/GPLv3",

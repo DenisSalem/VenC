@@ -18,14 +18,18 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc2.exceptions import MalformedPatterns
+from venc2.patterns.patterns_map import PatternsMap
 
 class PatternNode:
+    FLAG_NONE = 0
+    FLAG_NON_CONTEXTUAL = 1
+    FLAG_NON_PARALLELIZABLE = 2
+    FLAG_SHIELD_FROM_MARKUP = 4
     def __init__(self, string, o, c):
         self.o = o
         self.c = c
+        self.flags = 
         self.__str = string[o:c+2]
-        # ~ self.non_parallelizable =
-        # ~ self.non_contextual =
         self.childs = []
         
     def __str__(self):
