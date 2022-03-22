@@ -25,16 +25,28 @@ class PatternNode:
     FLAG_NON_CONTEXTUAL = 1
     FLAG_NON_PARALLELIZABLE = 2
     FLAG_SHIELD_FROM_MARKUP = 4
+    
     def __init__(self, string, o, c):
         self.o = o
         self.c = c
-        self.flags = 
+        self.flags = PatternNode.FLAG_NONE
         self.__str = string[o:c+2]
+        self.name = None
+        self.args = []
         self.childs = []
         
     def __str__(self):
         return self.__str
-        
+
+    def update(self, new_chunk, child):
+        self.__str = self.__str[:child.o]+new_chunk+self.__str[child.c+2:]
+        offset = len(new_chunk) - (child.c + 2 - child.o)
+        child.c += offset
+        for pattern in self.childs:
+            if pattern.o > child.o:
+                pattern.o += offset
+                pattern.c += offset
+                
 class ProcessorContext:
     def __init__(self):
         self.functions = {}
@@ -83,20 +95,30 @@ class StringUnderProcessing:
                     
             i+=1
             
-        # Make nested patterns indexes relatives to upper pattern and replace 
+        # - Make nested patterns indexes relatives to upper pattern.
+        # - Set patterns name and args.
+        # - Set pattern flags.
+        # - Replace patterns by their unique identifier.
         StringUnderProcessing.__finalize_patterns_tree(pattern_nodes)
-                
     
     @staticmethod
     def __finalize_patterns_tree(nodes, parent=None):
+        if parent != None:
+            parent.childs = sorted(nodes, key = lambda n:n.o)
+            nodes = parent.childs
+            
         for pattern in nodes:
             StringUnderProcessing.__finalize_patterns_tree(pattern.childs, pattern)
             if parent != None:
                 pattern.o = pattern.o - parent.o
                 pattern.c = pattern.c - parent.o
+                parent.update("\x00"+str(id(pattern))+"\x00", pattern)
+            else:
                 
-        if parent != None:
-            parent.childs = sorted(nodes, key = n:n.o)
+            l = str(pattern)[2:-2].split('::')
+            pattern.name = l[0]
+            pattern.args += l[1:]
+            
     
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
@@ -113,5 +135,11 @@ class StringUnderProcessing:
     def __str__(self):
         return self.string
         
-    def __repr__(self):
-        return "\x00"+str(id(self))+"\x00"       
+    def update(self, new_chunk, child):
+        self.__str = self.__str[:child.o]+new_chunk+self.__str[child.c+2:]
+        offset = len(new_chunk) - (child.c + 2 - child.o)
+        child.c += offset
+        for pattern in self.pattern_nodes:
+            if pattern.o > child.o:
+                pattern.o += offset
+                pattern.c += offset
