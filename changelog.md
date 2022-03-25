@@ -80,7 +80,7 @@
     WIP  | Pattern processor improvement.
     WIP  | Generate entry inner table of content.
     TODO | Add ForDictMetadata
-    TODO | Check python version compatibility (3.5 min)
+    TODO | If python version below 3.5 disable parallel processing.
     TODO | Update doc accordingly.
     TODO | document display_title_in_threads and display_title_in_entry tessellation theme.
 

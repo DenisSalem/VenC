@@ -21,28 +21,12 @@ from venc2.patterns.processor import StringUnderProcessing  # The object holding
 # from venc2.patterns.processor import Processor              # The actual string processor, holding binded methods.
 
 def print_tree(nodes, parent=None, indent=''):
-  for pattern in sorted(nodes, key=lambda x:x.o):
-    if parent != None:
-      print(indent, str(parent)[pattern.o:pattern.c+2])
-    else:
-      print(indent, str(pattern))
+    for pattern in sorted(nodes, key=lambda x:x.o):
+        print(indent, str(parent)[pattern.o:pattern.c+2], pattern)
+        print_tree(pattern.sub_strings, parent=pattern, indent=indent+'\t')
 
-    print_tree(pattern.childs, parent=pattern, indent=indent+'\t')
-
-s = """
-    .:FUNC1:. 
-    .:FUNC2::
-        .:FUNC3::
-            ARG3_1
-        :.
-    ::
-        .:FUNC4::
-            ARG_41
-        ::
-            ARG4_2
-        :. 
-    :.
-"""
+s = ".:FUNC1:. .:FUNC2:: .:FUNC3::ARG3_1:. :: .:FUNC4::ARG4_1::ARG4_2:. .:FUNC5::ARG5_1::ARG5_2:. :. .:FUNC6:."
 print("INPUT:", s)
 sup = StringUnderProcessing(s, "test")
+print_tree(sup.sub_strings, sup)
 print(sup)

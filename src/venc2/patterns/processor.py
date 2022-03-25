@@ -29,7 +29,20 @@ class VenCString:
             if pattern.o > child.o:
                 pattern.o += offset
                 pattern.c += offset
+                self.__apply_offset(pattern.sub_strings, offset)
                 
+        if hasattr(self, "c"):
+            self.c += offset
+            
+    def __apply_offset(self, sub_strings, offset):
+        for pattern in sub_strings:
+            pattern.o += offset
+            pattern.c += offset
+            self.__apply_offset(pattern.sub_strings, offset)
+            
+    def __str__(self):
+        return self._str
+                        
 class PatternNode(VenCString):
     FLAG_NONE = 0
     FLAG_NON_CONTEXTUAL = 1
@@ -44,9 +57,6 @@ class PatternNode(VenCString):
         self.name = None
         self.args = []
         self.sub_strings = []
-        
-    def __str__(self):
-        return self._str
                 
 class ProcessorContext:
     def __init__(self):
@@ -109,12 +119,7 @@ class StringUnderProcessing(VenCString):
             nodes = parent.sub_strings
         
         for pattern in nodes:
-            try:
-                self.__finalize_patterns_tree(pattern.sub_strings, pattern)
-            except Exception as e:
-                print(str(pattern), str(pattern.sub_strings), parent, e)
-                raise e
-                
+            self.__finalize_patterns_tree(pattern.sub_strings, pattern)
             if parent != None:
                 pattern.o -= parent.o
                 pattern.c -= parent.o
@@ -139,6 +144,3 @@ class StringUnderProcessing(VenCString):
             return l
           l_append(index)
           index+=1
-          
-    def __str__(self):
-        return self._str
