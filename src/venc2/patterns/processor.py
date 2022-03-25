@@ -20,7 +20,17 @@
 from venc2.exceptions import MalformedPatterns
 from venc2.patterns.patterns_map import PatternsMap
 
-class PatternNode:
+class VenCString:
+    def update_child(self, new_chunk, child):
+        self._str = self._str[:child.o]+new_chunk+self._str[child.c+2:]
+        offset = len(new_chunk) - (child.c + 2 - child.o)
+        child.c += offset
+        for pattern in self.sub_strings:
+            if pattern.o > child.o:
+                pattern.o += offset
+                pattern.c += offset
+                
+class PatternNode(VenCString):
     FLAG_NONE = 0
     FLAG_NON_CONTEXTUAL = 1
     FLAG_NON_PARALLELIZABLE = 2
@@ -30,30 +40,21 @@ class PatternNode:
         self.o = o
         self.c = c
         self.flags = PatternNode.FLAG_NONE
-        self.__str = string[o:c+2]
+        self._str = string[o:c+2]
         self.name = None
         self.args = []
-        self.childs = []
+        self.sub_strings = []
         
     def __str__(self):
-        return self.__str
-
-    def update(self, new_chunk, child):
-        self.__str = self.__str[:child.o]+new_chunk+self.__str[child.c+2:]
-        offset = len(new_chunk) - (child.c + 2 - child.o)
-        child.c += offset
-        for pattern in self.childs:
-            if pattern.o > child.o:
-                pattern.o += offset
-                pattern.c += offset
+        return self._str
                 
 class ProcessorContext:
     def __init__(self):
         self.functions = {}
 
-class StringUnderProcessing:
+class StringUnderProcessing(VenCString):
     def __init__(self, string, context):
-        self.string = string
+        self._str = string
         self.context = context
 
         # This block get indexes of opening and closing patterns.
@@ -61,8 +62,8 @@ class StringUnderProcessing:
         self.cp = StringUnderProcessing.__find_pattern_boundaries(string, ':.')
         
         # This block sort pattern by nest order AND position in input string.
-        self.pattern_nodes = []
-        pattern_nodes_append = self.pattern_nodes.append
+        self.sub_strings = []
+        sub_strings_append = self.sub_strings.append
         op, cp, op_pop, cp_pop = self.op, self.cp, self.op.pop, self.cp.pop
         while len(op) or len(cp):
             if ((not len(op)) or (not len(cp))) and len(op) != len(cp):
@@ -79,17 +80,18 @@ class StringUnderProcessing:
                         i = io
                         j = ic
                         
-            pattern_nodes_append(PatternNode(string, op[i],cp[j]))            
+            sub_strings_append(PatternNode(string, op[i],cp[j]))            
             op_pop(i)
             cp_pop(j)
           
         # Make a tree
         i = 0
-        pattern_nodes = self.pattern_nodes
-        while i < len(pattern_nodes):
-            for pattern in pattern_nodes[i+1:]:
-                if pattern_nodes[i].o > pattern.o and pattern_nodes[i].c < pattern.c:
-                    pattern.childs.append( pattern_nodes.pop(i) )
+        sub_strings = self.sub_strings
+        sub_strings_pop = sub_strings.pop
+        while i < len(sub_strings):
+            for pattern in sub_strings[i+1:]:
+                if sub_strings[i].o > pattern.o and sub_strings[i].c < pattern.c:
+                    pattern.sub_strings.append(sub_strings_pop(i) )
                     i =-1
                     break
                     
@@ -99,21 +101,27 @@ class StringUnderProcessing:
         # - Set patterns name and args.
         # - Set pattern flags.
         # - Replace patterns by their unique identifier.
-        StringUnderProcessing.__finalize_patterns_tree(pattern_nodes)
+        self.__finalize_patterns_tree(sub_strings)
     
-    @staticmethod
-    def __finalize_patterns_tree(nodes, parent=None):
+    def __finalize_patterns_tree(self, nodes, parent=None):
         if parent != None:
-            parent.childs = sorted(nodes, key = lambda n:n.o)
-            nodes = parent.childs
-            
+            parent.sub_strings = sorted(nodes, key = lambda n:n.o)
+            nodes = parent.sub_strings
+        
         for pattern in nodes:
-            StringUnderProcessing.__finalize_patterns_tree(pattern.childs, pattern)
+            try:
+                self.__finalize_patterns_tree(pattern.sub_strings, pattern)
+            except Exception as e:
+                print(str(pattern), str(pattern.sub_strings), parent, e)
+                raise e
+                
             if parent != None:
-                pattern.o = pattern.o - parent.o
-                pattern.c = pattern.c - parent.o
-                parent.update("\x00"+str(id(pattern))+"\x00", pattern)
+                pattern.o -= parent.o
+                pattern.c -= parent.o
+                parent.update_child("\x00"+str(id(pattern))+"\x00", pattern)
+                
             else:
+                self.update_child("\x00"+str(id(pattern))+"\x00", pattern)
                 
             l = str(pattern)[2:-2].split('::')
             pattern.name = l[0]
@@ -133,13 +141,4 @@ class StringUnderProcessing:
           index+=1
           
     def __str__(self):
-        return self.string
-        
-    def update(self, new_chunk, child):
-        self.__str = self.__str[:child.o]+new_chunk+self.__str[child.c+2:]
-        offset = len(new_chunk) - (child.c + 2 - child.o)
-        child.c += offset
-        for pattern in self.pattern_nodes:
-            if pattern.o > child.o:
-                pattern.o += offset
-                pattern.c += offset
+        return self._str
