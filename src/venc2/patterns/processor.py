@@ -25,20 +25,15 @@ class VenCString:
         self._str = self._str[:child.o]+new_chunk+self._str[child.c+2:]
         offset = len(new_chunk) - (child.c + 2 - child.o)
         child.c += offset
-        for pattern in self.sub_strings:
-            if pattern.o > child.o:
-                pattern.o += offset
-                pattern.c += offset
-                self.__apply_offset(pattern.sub_strings, offset)
-                
-        if hasattr(self, "c"):
-            self.c += offset
-            
-    def __apply_offset(self, sub_strings, offset):
+        VenCString.__apply_offset(self.sub_strings, offset, child.o)
+                  
+    @staticmethod
+    def __apply_offset(sub_strings, offset, o):
         for pattern in sub_strings:
-            pattern.o += offset
-            pattern.c += offset
-            self.__apply_offset(pattern.sub_strings, offset)
+            if pattern.o > o:
+              pattern.o += offset
+              pattern.c += offset
+              VenCString.__apply_offset(pattern.sub_strings, offset, -1)
             
     def __str__(self):
         return self._str
@@ -117,11 +112,11 @@ class StringUnderProcessing(VenCString):
         if parent != None:
             parent.sub_strings = sorted(nodes, key = lambda n:n.o)
             nodes = parent.sub_strings
-        
+            
         for pattern in nodes:
             self.__finalize_patterns_tree(pattern.sub_strings, pattern)
             if parent != None:
-                pattern.o -= parent.o
+                pattern.o -= parent.o 
                 pattern.c -= parent.o
                 parent.update_child("\x00"+str(id(pattern))+"\x00", pattern)
                 
@@ -131,8 +126,7 @@ class StringUnderProcessing(VenCString):
             l = str(pattern)[2:-2].split('::')
             pattern.name = l[0]
             pattern.args += l[1:]
-            
-    
+                
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
       l = list()
