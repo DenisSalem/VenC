@@ -119,6 +119,7 @@ class StringUnderProcessing(VenCString):
         if parent != None:
             parent.sub_strings = sorted(nodes, key = lambda n:n.o)
             nodes = parent.sub_strings
+            
         else:
             self.sub_strings = sorted(nodes, key = lambda node:node.o)
             nodes = self.sub_strings
