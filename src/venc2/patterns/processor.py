@@ -19,8 +19,9 @@
 
 from venc2.exceptions import MalformedPatterns
 from venc2.patterns.patterns_map import PatternsMap
+from venc2.prompt import die
 
-class VenCString:
+class VenCString:    
     def update_child(self, new_chunk, child):
         self._str = self._str[:child.o]+new_chunk+self._str[child.c+2:]
         offset = len(new_chunk) - (child.c + 2 - child.o)
@@ -42,7 +43,6 @@ class PatternNode(VenCString):
     FLAG_NONE = 0
     FLAG_NON_CONTEXTUAL = 1
     FLAG_NON_PARALLELIZABLE = 2
-    FLAG_SHIELD_FROM_MARKUP = 4
     
     def __init__(self, string, o, c):
         self.o = o
@@ -53,9 +53,58 @@ class PatternNode(VenCString):
         self.args = []
         self.sub_strings = []
                 
-class ProcessorContext:
+class Processor:
     def __init__(self):
         self.functions = {}
+        self.set_patterns = self.functions.update
+    
+    def process(self, string_under_processing, contextual, parallelizable):
+        branch = [ string_under_processing ]
+        branch_append = branch.append
+        branch_pop = branch.pop
+        
+        if not len(string_under_processing.sub_strings):
+            return
+        
+        # Yes, we're walking a tree with an iterative implementation.
+        while '∞':
+            if len(branch[-1].sub_strings):
+                branch_append(branch[-1].sub_strings[-1])
+                continue
+                
+            try:
+                node = branch_pop()
+                if hasattr(branch[-1], "args"):
+                    chunk = self.functions[node.name](*node.args)
+                    parent_args = branch[-1].args
+                    i = 2 + len(branch[-1].name)
+                    args_index = 0
+                    print('>', node.name, parent_args, node.o, node.c)
+                    die()
+                    while '∞':                      
+                        if  i + 2 < node.o and i + 2 + len(parent_args[args_index]) > node.c:
+                            o = node.o - (i + 2)
+                            c = node.c - (i + 2)
+                            parent_args[args_index] = parent_args[args_index][:o]+chunk+parent_args[args_index][c+2:]
+                            break
+                          
+                        i += 2 + len(parent_args[args_index])
+                        args_index+=1
+                        
+                    branch[-1].sub_strings.pop()
+
+                else:
+                    # ~ chunk = self.functions[node.name](*node.args)
+                    # ~ branch[-1]._str = str(branch[-1])[:node.o]+chunk+str(branch[-1])[node.c+2:]
+                    # ~ print(branch[-1].sub_strings[-1].name, [ss.name for ss in branch[-1].sub_strings])
+                    break
+                
+            except Exception as e:
+                raise e
+                die(str(e))
+            
+    def load_patterns_map(self):
+        return self
 
 class StringUnderProcessing(VenCString):
     def __init__(self, string, context):
@@ -106,6 +155,7 @@ class StringUnderProcessing(VenCString):
         # - Set patterns name and args.
         # - Set pattern flags.
         # - Replace patterns by their unique identifier.
+        self.sub_strings = sorted(sub_strings, key = lambda n:n.o)
         self.__finalize_patterns_tree(sub_strings)
     
     def __finalize_patterns_tree(self, nodes, parent=None):
@@ -126,7 +176,16 @@ class StringUnderProcessing(VenCString):
             l = str(pattern)[2:-2].split('::')
             pattern.name = l[0]
             pattern.args += l[1:]
-                
+            StringUnderProcessing.__set_pattern_flags(pattern)
+            
+    @staticmethod
+    def __set_pattern_flags(pattern):
+        if not pattern.name in PatternsMap.CONTEXTUALS.keys():
+            pattern.flags |= PatternNode.FLAG_NON_CONTEXTUAL
+            
+        if pattern.name in PatternsMap.NON_PARALLELIZABLES.keys():
+            pattern.flags |= PatternNode.FLAG_NON_PARALLELIZABLE
+       
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
       l = list()
