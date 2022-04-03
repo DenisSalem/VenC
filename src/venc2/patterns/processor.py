@@ -59,49 +59,7 @@ class Processor:
         self.set_patterns = self.functions.update
     
     def process(self, string_under_processing, contextual, parallelizable):
-        branch = [ string_under_processing ]
-        branch_append = branch.append
-        branch_pop = branch.pop
-        
-        if not len(string_under_processing.sub_strings):
-            return
-        
-        # Yes, we're walking a tree with an iterative implementation.
-        while '∞':
-            if len(branch[-1].sub_strings):
-                branch_append(branch[-1].sub_strings[-1])
-                continue
-                
-            try:
-                node = branch_pop()
-                if hasattr(branch[-1], "args"):
-                    chunk = self.functions[node.name](*node.args)
-                    parent_args = branch[-1].args
-                    i = 2 + len(branch[-1].name)
-                    args_index = 0
-                    print('>', node.name, parent_args, node.o, node.c)
-                    die()
-                    while '∞':                      
-                        if  i + 2 < node.o and i + 2 + len(parent_args[args_index]) > node.c:
-                            o = node.o - (i + 2)
-                            c = node.c - (i + 2)
-                            parent_args[args_index] = parent_args[args_index][:o]+chunk+parent_args[args_index][c+2:]
-                            break
-                          
-                        i += 2 + len(parent_args[args_index])
-                        args_index+=1
-                        
-                    branch[-1].sub_strings.pop()
-
-                else:
-                    # ~ chunk = self.functions[node.name](*node.args)
-                    # ~ branch[-1]._str = str(branch[-1])[:node.o]+chunk+str(branch[-1])[node.c+2:]
-                    # ~ print(branch[-1].sub_strings[-1].name, [ss.name for ss in branch[-1].sub_strings])
-                    break
-                
-            except Exception as e:
-                raise e
-                die(str(e))
+        pass
             
     def load_patterns_map(self):
         return self
@@ -150,18 +108,20 @@ class StringUnderProcessing(VenCString):
                     break
                     
             i+=1
-            
+
         # - Make nested patterns indexes relatives to upper pattern.
         # - Set patterns name and args.
         # - Set pattern flags.
         # - Replace patterns by their unique identifier.
-        self.sub_strings = sorted(sub_strings, key = lambda n:n.o)
         self.__finalize_patterns_tree(sub_strings)
     
     def __finalize_patterns_tree(self, nodes, parent=None):
         if parent != None:
             parent.sub_strings = sorted(nodes, key = lambda n:n.o)
             nodes = parent.sub_strings
+        else:
+            self.sub_strings = sorted(nodes, key = lambda node:node.o)
+            nodes = self.sub_strings
             
         for pattern in nodes:
             self.__finalize_patterns_tree(pattern.sub_strings, pattern)
