@@ -53,5 +53,5 @@ def test_process():
     print(sup)
 
 test_datastructure()
-# ~ test_process()
+test_process()
 

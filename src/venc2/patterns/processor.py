@@ -19,7 +19,6 @@
 
 from venc2.exceptions import MalformedPatterns
 from venc2.patterns.patterns_map import PatternsMap
-from venc2.prompt import die
 
 class VenCString:    
     def update_child(self, new_chunk, child):
@@ -59,10 +58,48 @@ class Processor:
         self.set_patterns = self.functions.update
     
     def process(self, string_under_processing, contextual, parallelizable):
-        pass
+        branch = [ string_under_processing ]
+        branch_append = branch.append
+        branch_pop = branch.pop
+        
+        # Yes, we're walking a tree with an iterative implementation ...
+        while '∞':
+            if not len(string_under_processing.sub_strings):
+                return
+                
+            if len(branch[-1].sub_strings):
+                branch_append(branch[-1].sub_strings[-1])
+                continue
+                
+            try:
+                node = branch_pop()
+                if hasattr(branch[-1], "args"):
+                    chunk = self.functions[node.name](*node.args)
+                    parent_args = branch[-1].args
+                    i = 2 + len(branch[-1].name)
+                    args_index = 0
+                    while '∞':                      
+                        if  i + 2 < node.o and i + 2 + len(parent_args[args_index]) > node.c:
+                            o = node.o - (i + 2)
+                            c = node.c - (i + 2)
+                            parent_args[args_index] = parent_args[args_index][:o]+chunk+parent_args[args_index][c+2:]
+                            break
+                          
+                        i += 2 + len(parent_args[args_index])
+                        args_index+=1
+                        
+                else:
+                    chunk = self.functions[node.name](*node.args)
+                    branch[-1]._str = str(branch[-1])[:node.o]+chunk+str(branch[-1])[node.c+2:]
+                    
+                branch[-1].sub_strings.pop()
+                
+            except Exception as e:
+                e.die()
             
     def load_patterns_map(self):
         return self
+
 
 class StringUnderProcessing(VenCString):
     def __init__(self, string, context):
