@@ -19,39 +19,55 @@
 
 from venc2.patterns.processor import StringUnderProcessing  # The object holding the string and its states.
 from venc2.patterns.processor import Processor              # The actual string processor, holding binded methods.
+from venc2.prompt import die
+from venc2.prompt import notify
 
-def test_datastructure():
+def test_datastructure(verbose=False):  
+    ref = [ "FUNC"+str(i) for i in range(1,9) ]
     def print_tree(nodes, parent=None, indent='\t'):
+        output = []
         for pattern in nodes:
-            print(indent, str(parent)[pattern.o:pattern.c+2], pattern, pattern.name, pattern.args)
-            print_tree(pattern.sub_strings, parent=pattern, indent=indent+'\t')
+            if verbose:
+                print(indent, str(parent)[pattern.o:pattern.c+2], pattern, pattern.name, pattern.args)
+            if str(parent)[pattern.o:pattern.c+2] != "\x00"+str(id(pattern))+"\x00":
+                die("test_datastructure: identifier mismatch with extracted identifier string from parent.")
+            output += [pattern.name] + print_tree(pattern.sub_strings, parent=pattern, indent=indent+'\t')
             
+        return output
     s = ".:FUNC1:. .:FUNC2:: .:FUNC3::ARG3_1:. :: .:FUNC4::ARG4_1::ARG4_2:. .:FUNC5::ARG5_1::ARG5_2 .:FUNC6:. :. :. .:FUNC7::ARG7_1::ARG7_2 .:FUNC8::ARG8_1::ARG8_2:. :."
 
-    print("INPUT:", s)
     sup = StringUnderProcessing(s, "test")
-    print_tree(sup.sub_strings, sup)
-    print("OUTPUT:", sup)
-    print()
+    if ref != print_tree(sup.sub_strings, sup):
+        die("test_datastructure: patterns aren't sorted.")
+        
+    if verbose:
+        print("OUTPUT:", sup)
 
-def test_process():
+def test_full_process(verbose=False):
     def ADD(a,b,c=0):
         return str(int(a)+int(b)+int(c))
         
     def MUL(a,b,c=1):
         return str(int(a)*int(b)*int(c))
   
-    s = " Simple math: .:ADD:: .:MUL:: 2 :: 6 :. :: .:MUL::4::4:. :. !! .:MUL::3:: .:ADD::3::6:. :."
+    s = "Simple math: .:ADD:: .:MUL:: 2 :: 6 :. :: .:MUL::4::4:. :. .:MUL::3:: .:ADD::3::6:. :."
     sup = StringUnderProcessing(s, "test")
     p = Processor()
     p.set_patterns({
         "ADD": ADD,
         "MUL": MUL
     })
-    print(s)
+    
+    if verbose:
+        print(s)
+    
     p.process(sup, True, True)
-    print(sup)
+    
+    if verbose:
+        print(sup)
+        
+    if str(sup) != "Simple math: 28 27":
+        die("test_full_process: expected string mismatch with output")
 
 test_datastructure()
-test_process()
-
+test_full_process()

@@ -34,7 +34,7 @@ class VenCString:
               pattern.o += offset
               pattern.c += offset
               VenCString.__apply_offset(pattern.sub_strings, offset, -1)
-            
+    
     def __str__(self):
         return self._str
                         
