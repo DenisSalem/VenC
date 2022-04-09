@@ -45,10 +45,10 @@ def test_datastructure(verbose=False):
         print("OUTPUT:", sup)
 
 def test_full_process(verbose=False):
-    def ADD(a,b,c=0):
+    def ADD(node, a,b,c=0):
         return str(int(a)+int(b)+int(c))
         
-    def MUL(a,b,c=1):
+    def MUL(node, a,b,c=1):
         return str(int(a)*int(b)*int(c))
   
     s = "Simple math: .:ADD:: .:MUL:: 2 :: 6 :. :: .:MUL::4::4:. :. .:MUL::3:: .:ADD::3::6:. :."
@@ -70,26 +70,28 @@ def test_full_process(verbose=False):
     if str(sup) != "Simple math: 28 27":
         die("test_full_process: expected string mismatch with output")
 
-def test_filter_process():
-    def ADD(a,b,c=0):
-        return str(int(a)+int(b)+int(c))
+def test_filter_process(verbose=False):
+    def CAPITALIZE(node, a):
+        return a.capitalize()
+    
+    def IF_SOMETHING(node, a,b):
+        return a.strip()
         
-    def MUL(a,b,c=1):
-        return str(int(a)*int(b)*int(c))
-        
-    def IF_SOMETHING(a,b):
-        return a
-        
-    s = ".:ADD:: .:MUL:: 2 :: 6 :. :: .:IF_SOMETHING:: .:MUL::4::4:. :: .:ADD::-1::-9:. :. :."
+    s = ".:IF_SOMETHING::As Above::So Below:. .:CAPITALIZE::[.:IF_SOMETHING::lololol::moo foo bar:.]:. .:IF_SOMETHING::True::False:."
     sup = StringUnderProcessing(s, "test_filter_process")
-    sup.sub_strings[0].sub_strings[1].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[0].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[1].sub_strings[0].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[2].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
+
     p = Processor()
     p.set_patterns({
-        "ADD":          ADD,
-        "MUL":          MUL,
+        "CAPITALIZE":   CAPITALIZE,
         "IF_SOMETHNG" : IF_SOMETHING
     })
-    p.process(sup, True, False)    
-test_datastructure()
-test_full_process()
-test_filter_process()
+    p.process(sup, True, False)
+    if verbose:
+        print("Step 1:", sup, [str(pattern) for pattern in sup.sub_strings])
+        
+# ~ test_datastructure()
+# ~ test_full_process()
+test_filter_process(True)

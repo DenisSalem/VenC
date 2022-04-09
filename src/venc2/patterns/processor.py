@@ -45,6 +45,7 @@ class PatternNode(VenCString):
     FLAG_NONE = 0
     FLAG_NON_CONTEXTUAL = 1
     FLAG_NON_PARALLELIZABLE = 2
+    FLAG_WAIT_FOR_CHILDREN_TO_PROCESSED = 4
     
     def __init__(self, string, o, c):
         super().__init__()
@@ -75,6 +76,7 @@ class Processor:
                 if  branch[-1].sub_strings[-1-branch[-1].filtered_offset].flags & PatternNode.FLAG_NON_CONTEXTUAL == non_contextual and \
                     branch[-1].sub_strings[-1-branch[-1].filtered_offset].flags & PatternNode.FLAG_NON_PARALLELIZABLE == non_parallelizable :
                     branch_append(branch[-1].sub_strings[-1-branch[-1].filtered_offset])
+                    
                 else:
                     branch[-1].filtered_offset+=1
                     
@@ -83,7 +85,7 @@ class Processor:
             try:
                 node = branch_pop()
                 if hasattr(branch[-1], "args"):
-                    chunk = self.functions[node.name](*node.args)
+                    chunk = self.functions[node.name](node, *node.args)
                     parent_args = branch[-1].args
                     i = 2 + len(branch[-1].name)
                     args_index = 0
@@ -98,10 +100,16 @@ class Processor:
                         args_index+=1
                         
                 else:
-                    chunk = self.functions[node.name](*node.args)
+                    chunk = self.functions[node.name](node, *node.args)
                     branch[-1]._str = str(branch[-1])[:node.o]+chunk+str(branch[-1])[node.c+2:]
-                    
-                branch[-1].sub_strings.pop()
+                
+                print(">>>", node, [str(p) for p in node.sub_strings], [str(p) for p in branch[-1].sub_strings])
+                if len(node.sub_strings):
+                  branch[-1].sub_strings = branch[-1].sub_strings[:-1-branch[-1].filtered_offset]+node.sub_strings+branch[-1].sub_strings[-branch[-1].filtered_offset:]
+                  print("+++", node, [str(p) for p in node.sub_strings], [str(p) for p in branch[-1].sub_strings])
+  
+                else:
+                    branch[-1].sub_strings.pop(-1-branch[-1].filtered_offset)
                 
             except Exception as e:
                 raise e
