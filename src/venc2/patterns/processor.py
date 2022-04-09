@@ -20,7 +20,10 @@
 from venc2.exceptions import MalformedPatterns
 from venc2.patterns.patterns_map import PatternsMap
 
-class VenCString:    
+class VenCString:
+    def __init__(self):
+        self.filtered_offset = 0
+        
     def update_child(self, new_chunk, child):
         self._str = self._str[:child.o]+new_chunk+self._str[child.c+2:]
         offset = len(new_chunk) - (child.c + 2 - child.o)
@@ -44,6 +47,7 @@ class PatternNode(VenCString):
     FLAG_NON_PARALLELIZABLE = 2
     
     def __init__(self, string, o, c):
+        super().__init__()
         self.o = o
         self.c = c
         self.flags = PatternNode.FLAG_NONE
@@ -57,18 +61,23 @@ class Processor:
         self.functions = {}
         self.set_patterns = self.functions.update
     
-    def process(self, string_under_processing, contextual, parallelizable):
+    def process(self, string_under_processing, non_contextual, non_parallelizable):
         branch = [ string_under_processing ]
         branch_append = branch.append
         branch_pop = branch.pop
         
         # Yes, we're walking a tree with an iterative implementation ...
         while '∞':
-            if not len(string_under_processing.sub_strings):
+            if len(string_under_processing.sub_strings) == string_under_processing.filtered_offset:
                 return
-                
-            if len(branch[-1].sub_strings):
-                branch_append(branch[-1].sub_strings[-1])
+            
+            if len(branch[-1].sub_strings) - branch[-1].filtered_offset:
+                if  branch[-1].sub_strings[-1-branch[-1].filtered_offset].flags & PatternNode.FLAG_NON_CONTEXTUAL == non_contextual and \
+                    branch[-1].sub_strings[-1-branch[-1].filtered_offset].flags & PatternNode.FLAG_NON_PARALLELIZABLE == non_parallelizable :
+                    branch_append(branch[-1].sub_strings[-1-branch[-1].filtered_offset])
+                else:
+                    branch[-1].filtered_offset+=1
+                    
                 continue
                 
             try:
@@ -95,14 +104,15 @@ class Processor:
                 branch[-1].sub_strings.pop()
                 
             except Exception as e:
+                raise e
                 e.die()
             
     def load_patterns_map(self):
         return self
 
-
 class StringUnderProcessing(VenCString):
     def __init__(self, string, context):
+        super().__init__()
         self._str = string
         self.context = context
 

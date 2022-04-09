@@ -17,8 +17,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc2.patterns.processor import StringUnderProcessing  # The object holding the string and its states.
+from venc2.patterns.processor import PatternNode
 from venc2.patterns.processor import Processor              # The actual string processor, holding binded methods.
+from venc2.patterns.processor import StringUnderProcessing  # The object holding the string and its states.
 from venc2.prompt import die
 from venc2.prompt import notify
 
@@ -36,7 +37,7 @@ def test_datastructure(verbose=False):
         return output
     s = ".:FUNC1:. .:FUNC2:: .:FUNC3::ARG3_1:. :: .:FUNC4::ARG4_1::ARG4_2:. .:FUNC5::ARG5_1::ARG5_2 .:FUNC6:. :. :. .:FUNC7::ARG7_1::ARG7_2 .:FUNC8::ARG8_1::ARG8_2:. :."
 
-    sup = StringUnderProcessing(s, "test")
+    sup = StringUnderProcessing(s, "test_datastructure")
     if ref != print_tree(sup.sub_strings, sup):
         die("test_datastructure: patterns aren't sorted.")
         
@@ -51,7 +52,7 @@ def test_full_process(verbose=False):
         return str(int(a)*int(b)*int(c))
   
     s = "Simple math: .:ADD:: .:MUL:: 2 :: 6 :. :: .:MUL::4::4:. :. .:MUL::3:: .:ADD::3::6:. :."
-    sup = StringUnderProcessing(s, "test")
+    sup = StringUnderProcessing(s, "test_full_process")
     p = Processor()
     p.set_patterns({
         "ADD": ADD,
@@ -61,7 +62,7 @@ def test_full_process(verbose=False):
     if verbose:
         print(s)
     
-    p.process(sup, True, True)
+    p.process(sup, True, False)
     
     if verbose:
         print(sup)
@@ -69,5 +70,26 @@ def test_full_process(verbose=False):
     if str(sup) != "Simple math: 28 27":
         die("test_full_process: expected string mismatch with output")
 
+def test_filter_process():
+    def ADD(a,b,c=0):
+        return str(int(a)+int(b)+int(c))
+        
+    def MUL(a,b,c=1):
+        return str(int(a)*int(b)*int(c))
+        
+    def IF_SOMETHING(a,b):
+        return a
+        
+    s = ".:ADD:: .:MUL:: 2 :: 6 :. :: .:IF_SOMETHING:: .:MUL::4::4:. :: .:ADD::-1::-9:. :. :."
+    sup = StringUnderProcessing(s, "test_filter_process")
+    sup.sub_strings[0].sub_strings[1].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
+    p = Processor()
+    p.set_patterns({
+        "ADD":          ADD,
+        "MUL":          MUL,
+        "IF_SOMETHNG" : IF_SOMETHING
+    })
+    p.process(sup, True, False)    
 test_datastructure()
 test_full_process()
+test_filter_process()
