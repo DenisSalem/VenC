@@ -90,8 +90,10 @@ def test_filter_process(verbose=False):
     })
     p.process(sup, True, False)
     if verbose:
-        print("Step 1:", sup, [str(pattern) for pattern in sup.sub_strings])
+        for pattern in sup.sub_strings:
+            print(pattern.o, pattern.c, str(sup)[pattern.o:pattern.c+2], id(pattern))
+        #print("Step 1:", sup, [ (pattern,str(pattern)) for pattern in sup.sub_strings])
         
-# ~ test_datastructure()
-# ~ test_full_process()
+test_datastructure()
+test_full_process()
 test_filter_process(True)

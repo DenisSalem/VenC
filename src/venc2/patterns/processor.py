@@ -23,6 +23,7 @@ from venc2.patterns.patterns_map import PatternsMap
 class VenCString:
     def __init__(self):
         self.filtered_offset = 0
+        self.id = "\x00"+str(id(self))+"\x00"
         
     def update_child(self, new_chunk, child):
         self._str = self._str[:child.o]+new_chunk+self._str[child.c+2:]
@@ -38,6 +39,8 @@ class VenCString:
               pattern.c += offset
               VenCString.__apply_offset(pattern.sub_strings, offset, -1)
     
+    def __repr__(self):
+        return 
     def __str__(self):
         return self._str
                         
@@ -72,10 +75,14 @@ class Processor:
             if len(string_under_processing.sub_strings) == string_under_processing.filtered_offset:
                 return
             
+            # looping until sub_string is empty of non filtered pattern
             if len(branch[-1].sub_strings) - branch[-1].filtered_offset:
-                if  branch[-1].sub_strings[-1-branch[-1].filtered_offset].flags & PatternNode.FLAG_NON_CONTEXTUAL == non_contextual and \
-                    branch[-1].sub_strings[-1-branch[-1].filtered_offset].flags & PatternNode.FLAG_NON_PARALLELIZABLE == non_parallelizable :
-                    branch_append(branch[-1].sub_strings[-1-branch[-1].filtered_offset])
+                tail_filtered_offset = branch[-1].filtered_offset
+                tail_sub_strings = branch[-1].sub_strings
+                # pick the right node or skip it.
+                if  tail_sub_strings[-1-tail_filtered_offset].flags & PatternNode.FLAG_NON_CONTEXTUAL == non_contextual and \
+                    tail_sub_strings[-1-tail_filtered_offset].flags & PatternNode.FLAG_NON_PARALLELIZABLE == non_parallelizable :
+                    branch_append(tail_sub_strings[-1-tail_filtered_offset])
                     
                 else:
                     branch[-1].filtered_offset+=1
@@ -84,16 +91,22 @@ class Processor:
                 
             try:
                 node = branch_pop()
-                if hasattr(branch[-1], "args"):
+                tail = branch[-1]
+
+                if hasattr(tail, "args"):
                     chunk = self.functions[node.name](node, *node.args)
-                    parent_args = branch[-1].args
-                    i = 2 + len(branch[-1].name)
+                    parent_args = tail.args
+                    i = 2 + len(tail.name)
                     args_index = 0
                     while '∞':                      
                         if  i + 2 < node.o and i + 2 + len(parent_args[args_index]) > node.c:
                             o = node.o - (i + 2)
                             c = node.c - (i + 2)
+                            old_parent_arg_len = len(parent_args[args_index])
                             parent_args[args_index] = parent_args[args_index][:o]+chunk+parent_args[args_index][c+2:]
+                            new_parent_arg_len = len(parent_args[args_index])
+                            offset = new_parent_arg_len - old_parent_arg_len
+                        
                             break
                           
                         i += 2 + len(parent_args[args_index])
@@ -101,15 +114,29 @@ class Processor:
                         
                 else:
                     chunk = self.functions[node.name](node, *node.args)
-                    branch[-1]._str = str(branch[-1])[:node.o]+chunk+str(branch[-1])[node.c+2:]
+                    offset = len(chunk) - len(node.id)
+                    branch[-1]._str = str(tail)[:node.o]+chunk+str(tail)[node.c+2:]
+                    
+                # adjusting filtered indexes
+                tail_sub_strings = tail.sub_strings
+                for j in range(-tail.filtered_offset, 0):
+                    tail_sub_strings[j].o += offset
+                    tail_sub_strings[j].c += offset
                 
-                print(">>>", node, [str(p) for p in node.sub_strings], [str(p) for p in branch[-1].sub_strings])
                 if len(node.sub_strings):
-                  branch[-1].sub_strings = branch[-1].sub_strings[:-1-branch[-1].filtered_offset]+node.sub_strings+branch[-1].sub_strings[-branch[-1].filtered_offset:]
-                  print("+++", node, [str(p) for p in node.sub_strings], [str(p) for p in branch[-1].sub_strings])
-  
+                  tail_filtered_offset = tail.filtered_offset
+                  #adjusting inner filtered indexes
+                  for sub_string in node.sub_strings:
+                      o = str(branch[-1]).find(sub_string.id)
+                      print("dring dring", o)
+                      if o > 0:
+                          print("dring dring")
+                          sub_string.c += o - sub_string.o
+                          sub_string.o = o
+                  tail.sub_strings = tail_sub_strings[:-1-tail_filtered_offset]+node.sub_strings+tail_sub_strings[-tail_filtered_offset:]
+                  
                 else:
-                    branch[-1].sub_strings.pop(-1-branch[-1].filtered_offset)
+                    tail_sub_strings.pop(-1-tail.filtered_offset)
                 
             except Exception as e:
                 raise e
@@ -184,10 +211,10 @@ class StringUnderProcessing(VenCString):
             if parent != None:
                 pattern.o -= parent.o 
                 pattern.c -= parent.o
-                parent.update_child("\x00"+str(id(pattern))+"\x00", pattern)
+                parent.update_child(pattern.id, pattern)
                 
             else:
-                self.update_child("\x00"+str(id(pattern))+"\x00", pattern)
+                self.update_child(pattern.id, pattern)
                 
             l = str(pattern)[2:-2].split('::')
             pattern.name = l[0]
