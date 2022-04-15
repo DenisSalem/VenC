@@ -72,28 +72,37 @@ def test_full_process(verbose=False):
 
 def test_filter_process(verbose=False):
     def CAPITALIZE(node, a):
-        return a.capitalize()
+        return a.upper()
     
     def IF_SOMETHING(node, a,b):
         return a.strip()
         
-    s = ".:IF_SOMETHING::As Above::So Below:. .:CAPITALIZE::[.:IF_SOMETHING::lololol::moo foo bar:.]:. .:IF_SOMETHING::True::False:."
+    s = ".:IF_SOMETHING::As Above::So Below:. .:CAPITALIZE::[ bla .:IF_SOMETHING:: .:IF_SOMETHING::lololol::moo foo bar:. :: moo foo bar:. bla]:. .:IF_SOMETHING::True::False:."
     sup = StringUnderProcessing(s, "test_filter_process")
     sup.sub_strings[0].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
     sup.sub_strings[1].sub_strings[0].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[1].sub_strings[0].sub_strings[0].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
     sup.sub_strings[2].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
 
     p = Processor()
     p.set_patterns({
         "CAPITALIZE":   CAPITALIZE,
-        "IF_SOMETHNG" : IF_SOMETHING
+        "IF_SOMETHING": IF_SOMETHING
     })
     p.process(sup, True, False)
     if verbose:
         for pattern in sup.sub_strings:
-            print(pattern.o, pattern.c, str(sup)[pattern.o:pattern.c+2], id(pattern))
-        #print("Step 1:", sup, [ (pattern,str(pattern)) for pattern in sup.sub_strings])
+            print(str(sup)[pattern.o:pattern.c+2], pattern.id)
+            if pattern.id != str(sup)[pattern.o:pattern.c+2]:
+                die("test_filter_process: expected string mismatch with output")
+        print(sup)
+    p.process(sup, False, False)
+    if verbose:
+        print(sup)
         
+    if str(sup) != "As Above [ BLA lololol BLA] True":
+        die("test_filter_process: expected string mismatch with output")
+
 test_datastructure()
 test_full_process()
 test_filter_process(True)

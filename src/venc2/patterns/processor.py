@@ -23,6 +23,7 @@ from venc2.patterns.patterns_map import PatternsMap
 class VenCString:
     def __init__(self):
         self.filtered_offset = 0
+        self.filtered_patterns = []
         self.id = "\x00"+str(id(self))+"\x00"
         
     def update_child(self, new_chunk, child):
@@ -39,8 +40,6 @@ class VenCString:
               pattern.c += offset
               VenCString.__apply_offset(pattern.sub_strings, offset, -1)
     
-    def __repr__(self):
-        return 
     def __str__(self):
         return self._str
                         
@@ -70,6 +69,11 @@ class Processor:
         branch_append = branch.append
         branch_pop = branch.pop
         
+        for pattern in string_under_processing.filtered_patterns:
+            pattern.filtered_offset = 0
+            
+        string_under_processing.filtered_patterns = []
+        
         # Yes, we're walking a tree with an iterative implementation ...
         while '∞':
             if len(string_under_processing.sub_strings) == string_under_processing.filtered_offset:
@@ -85,6 +89,9 @@ class Processor:
                     branch_append(tail_sub_strings[-1-tail_filtered_offset])
                     
                 else:
+                    if not branch[-1] in string_under_processing.filtered_patterns:
+                        string_under_processing.filtered_patterns.append(branch[-1])
+                        
                     branch[-1].filtered_offset+=1
                     
                 continue
@@ -127,10 +134,8 @@ class Processor:
                   tail_filtered_offset = tail.filtered_offset
                   #adjusting inner filtered indexes
                   for sub_string in node.sub_strings:
-                      o = str(branch[-1]).find(sub_string.id)
-                      print("dring dring", o)
+                      o = str(branch[-1]).find(sub_string.id) # possible bottleneck
                       if o > 0:
-                          print("dring dring")
                           sub_string.c += o - sub_string.o
                           sub_string.o = o
                   tail.sub_strings = tail_sub_strings[:-1-tail_filtered_offset]+node.sub_strings+tail_sub_strings[-tail_filtered_offset:]
@@ -150,6 +155,7 @@ class StringUnderProcessing(VenCString):
         super().__init__()
         self._str = string
         self.context = context
+        self.filtered_pattern = []
 
         # This block get indexes of opening and closing patterns.
         self.op = StringUnderProcessing.__find_pattern_boundaries(string, '.:')
@@ -196,7 +202,7 @@ class StringUnderProcessing(VenCString):
         # - Set pattern flags.
         # - Replace patterns by their unique identifier.
         self.__finalize_patterns_tree(sub_strings)
-    
+        
     def __finalize_patterns_tree(self, nodes, parent=None):
         if parent != None:
             parent.sub_strings = sorted(nodes, key = lambda n:n.o)

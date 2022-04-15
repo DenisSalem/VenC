@@ -46,7 +46,7 @@ class MalformedPatterns(VenCException):
             m = messages.malformed_patterns_missing_opening_symbols.format(string_under_processing.context, len_cp - len_op)
             
         leftovers = string_under_processing.op if too_many_opening_symbols else string_under_processing.cp
-        s = string_under_processing.string
+        s = str(string_under_processing)
         for leftover in leftovers:
             s = s[:leftover]+"\x00\x00"+s[leftover+2:]
         
