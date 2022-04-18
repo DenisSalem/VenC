@@ -19,8 +19,8 @@
 
 import os
 from venc2.patterns.non_contextual import include_file
+from venc2.datastore
 
-# TODO: Need to handle missing args in case of unknown number of args
 class CodeHighlight:
     def __init__(self, override):
         self._override = override
@@ -40,44 +40,41 @@ class CodeHighlight:
                 stream = open(os.getcwd()+"/extra/"+key,'w')
                 stream.write(self.includes[key])
 
-    def highlight_include(self, argv):
-        string = include_file([argv[2]])
-        return self.highlight(argv[:2]+[string], included_file=True)
-        
-    def highlight(self, argv, included_file=False):
+    def highlight_include(self, langage, display_line_numbers, filename):
+        string = include_file(filename)
+        return self.highlight(langage, display_line_numbers, filename, string, included_file=True)
+    
+    def highlight(self,  *pattern_args, included_file=False):
+        langage, display_line_numbers = pattern_args[2:]
+        input_code =  "::".join(pattern_args[:2]) if not included_file else pattern_args[:2]
+
         try:
             import pygments.lexers
             import pygments.formatters
-            
+        
         except:
             from venc2.prompt import die
             from venc2.l10n import messages
             die(messages.module_not_found.format('pygments'))
 
         try:
-            name = "venc_source_"+argv[0].replace('+','Plus')
-
-            lexer = pygments.lexers.get_lexer_by_name(argv[0], stripall=False)
-
-            formatter = pygments.formatters.HtmlFormatter(linenos=(True if argv[1]=="True" else False), cssclass=name)
-            if not included_file:
-                code = "::".join(argv[2:])
-            else:
-                code = argv[2]
+            name = "venc_source_"+langage.replace('+','Plus')
+  
+            lexer = pygments.lexers.get_lexer_by_name(langage, stripall=False)
+            formatter = pygments.formatters.HtmlFormatter(linenos=(True if display_line_numbers=="True" else False), cssclass=name)
                                 
             result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
             css  = formatter.get_style_defs()
-
+    
             if not name+".css" in self.includes.keys():
                 self.includes[name+".css"] = css
-
+    
             return result
     
         except pygments.util.ClassNotFound:
             from venc2.prompt import die
             from venc2.l10n import messages
             die(messages.unknown_language.format(argv[0]))
+  
+code_highlight = CodeHighlight(datastore
 
-        except Exception as e:
-            from venc2.prompt import die
-            die(str(e))

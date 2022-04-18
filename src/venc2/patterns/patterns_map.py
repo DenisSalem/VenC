@@ -20,10 +20,6 @@
 # ~ from venc2.patterns.contextual import get_random_number
 # ~ from venc2.patterns.non_contextual import get_venc_version, include_file, include_file_if_exists, set_color, set_style, table, disable_markup
 
-### ALL OF THE ABOVE MIGHT BE OBSOLETE
-### ALL OF THE ABOVE MIGHT BE OBSOLETE
-### ALL OF THE ABOVE MIGHT BE OBSOLETE
-
 from venc2.patterns.third_party_wrapped_features.latex2mathml import latex_2_mathml
 from venc2.patterns.third_party_wrapped_features.kroki import kroki
 
