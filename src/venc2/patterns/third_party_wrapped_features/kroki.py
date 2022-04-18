@@ -22,20 +22,7 @@ import os
 import requests
 import zlib;
 
-def kroki(argv):
-    try:
-        code = argv[0]
-        endpoint = argv[1]
-        
-    except IndexError:
-        raise PatternMissingArguments()
-        
-    try:
-        provider = argv[2]
-        
-    except:
-        provider = "https://kroki.io/"
-    
+def kroki(code, endpoint, provider = "https://kroki.io/"):   
     code=base64.urlsafe_b64encode(zlib.compress(code.encode("utf-8"), 9)).decode("utf-8")
     
     if not os.path.isfile("extra/"+code+".svg"):
