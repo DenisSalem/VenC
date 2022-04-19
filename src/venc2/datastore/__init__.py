@@ -298,88 +298,70 @@ class DataStore:
             
                         
     
-    def if_categories(self, argv):
+    def if_categories(self, if_true, if_false=''):
         if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:
-            return argv[0]
+            return if_true
             
         else:
-            try:
-                return argv[1]
-                
-            except:
-                return ''
+            return if_false
     
-    def if_chapters(self, argv):
+    def if_chapters(self, if_true, if_false=''):
         if self.chapters_index != [] and not self.blog_configuration["disable_chapters"]:
-            return argv[0]
+            return if_true
             
         else:
-            try:
-                return argv[1]
-                
-            except:
-                return ''
+            return if_false
     
-    def if_feeds_enabled(self, argv):
-        return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_atom_feed"] and self.blog_configuration["disable_rss_feed"] else argv[0].replace("{relative_origin}", "\x1a")
+    def if_feeds_enabled(self, if_true, if_false=''):
+        if self.blog_configuration["disable_atom_feed"] and self.blog_configuration["disable_rss_feed"]:
+            return if_false.replace("{relative_origin}", "\x1a")
+            
+        else: 
+            return if_true.replace("{relative_origin}", "\x1a")
         
-    def if_atom_enabled(self, argv):
-        return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_atom_feed"] else argv[0].replace("{relative_origin}", "\x1a")
+    def if_atom_enabled(self, if_true, if_false=''):
+        if self.blog_configuration["disable_atom_feed"]:
+            return if_false.replace("{relative_origin}", "\x1a")
 
-    def if_metadata_is_true(self, argv, source):
-        try:
-            key = argv[0]
-            ret_if_true = argv[1]
-            
-        except IndexError:
-            raise PatternMissingArguments(expected=2, got=len(argv))
+        else: 
+            return if_true.replace("{relative_origin}", "\x1a")
 
+    def if_metadata_is_true(self, key, if_true, if_false, source):            
         try:
-            ret_if_false = argv[2]
-            
-        except:
-            ret_if_false = ""
-            
-        try:
-            
-            if type(source) == Entry:
-                if getattr(source, key):
-                    return ret_if_true.strip()
+            if type(source) == Entry and getattr(source, key):
+                return if_true.strip()
 
             elif source[key]:
-                return ret_if_true.strip()
+                return if_true.strip()
         
         except:
             pass
         
-        return ret_if_false.strip()
+        return if_false.strip()
           
-    def if_blog_metadata_is_true(self, argv):
-        return self.if_metadata_is_true(argv, self.blog_configuration)
+    def if_blog_metadata_is_true(self, key, if_true, if_false=''):
+        return self.if_metadata_is_true(key, if_true, if_false, self.blog_configuration)
 
-    def if_entry_metadata_is_true(self, argv):
-        return self.if_metadata_is_true(argv, self.requested_entry)
+    def if_entry_metadata_is_true(self, key, if_true, if_false=''):
+        return self.if_metadata_is_true(key, if_true, if_false, self.requested_entry)
                 
-    def if_rss_enabled(self, argv):
-        return ("" if len(argv) <= 1 else argv[1]) if self.blog_configuration["disable_rss_feed"] else argv[0].replace("{relative_origin}", "\x1a")
-
-    def if_infinite_scroll_enabled(self, argv):
-        if not len(argv):
-            raise PatternMissingArguments(expected=1, got=0)
+    def if_rss_enabled(self, if_true, if_false=''):
+        if self.blog_configuration["disable_rss_feed"]:
+            return if_false.replace("{relative_origin}", "\x1a")
             
+        else:
+            return if_true.replace("{relative_origin}", "\x1a")
+
+    def if_infinite_scroll_enabled(self, if_true, if_false=''):            
         try:
             if self.blog_configuration["disable_infinite_scroll"]:
-                try:
-                    return argv[1]
-                    
-                except IndexError:
-                    return ""
+                return if_false
                                     
             else:
-                return argv[0]
+                return if_true
                     
         except KeyError:
-            return argv[0]
+            return if_true
                     
 
     def root_site_to_jsonld(self):
@@ -567,29 +549,21 @@ class DataStore:
                 
                 self.categories_as_jsonld[path]["blogPost"].append(blog_post)
             
-    def get_chapters(self, argv):
-        key = ''.join(argv)
+    def get_chapters(self, lo, io, ic, lc):
+        key = lo+io+ic+lc
         if not key in self.html_chapters.keys():
-            self.html_chapters[key] = self.build_html_chapters(argv, self.chapters_index, 0)
+            self.html_chapters[key] = self.build_html_chapters(lo, io, ic, lc, self.chapters_index, 0)
 
         return self.html_chapters[key]
 
-    def get_entry_toc(self, argv):
-        try:
-            open_ul = argv[0]
-            open_li = argv[1]
-            content_format = argv[2]
-            close_li = argv[3]
-            close_ul = argv[4]
-            
-        except IndexError:
-            raise PatternMissingArguments(expected=5,got=len(argv))
-            
-        return self.build_entry_html_toc(self.requested_entry, open_ul, open_li, content_format, close_li, close_ul)
+    def get_entry_toc(self, open_ul, open_li, content, close_li, close_ul):
+        key = open_ul+open_li+content+close_li+close_ul
+        if not key in self.html_entry_tocs.keys():
+            self.html_entry_tocs[key] = self.build_entry_html_toc(self.requested_entry, open_ul, open_li, content_format, close_li, close_ul)
+        return self.html_entry_tocs[key]
         
     #TODO : Raise MissingArgs if... missing args.
-    def build_html_chapters(self, argv, top, level):          
-        lo, io, ic, lc = argv
+    def build_html_chapters(self, lo, io, ic, lc, top, level):          
         if top == []:
             return ''
             
@@ -647,12 +621,8 @@ class DataStore:
         self.max_category_weight = value
         return value
 
-    def get_generation_timestamp(self, argv):
-        if len(argv):
-            return datetime.datetime.strftime(self.generation_timestamp, argv[0])
-        
-        else:
-            raise PatternMissingArguments
+    def get_generation_timestamp(self, time_format):
+            return datetime.datetime.strftime(self.generation_timestamp, time_format)
             
     def get_blog_metadata(self, argv):
         # if exception is raised it will be automatically be catch by processor.
