@@ -296,8 +296,6 @@ class DataStore:
         
         return output
             
-                        
-    
     def if_categories(self, if_true, if_false=''):
         if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:
             return if_true
@@ -624,54 +622,44 @@ class DataStore:
     def get_generation_timestamp(self, time_format):
             return datetime.datetime.strftime(self.generation_timestamp, time_format)
             
-    def get_blog_metadata(self, argv):
+    def get_blog_metadata(self, field_name):
         # if exception is raised it will be automatically be catch by processor.
         try:
-            return self.blog_configuration[argv[0]]
+            return str(self.blog_configuration[field_name])
             
         except KeyError:
-            raise PatternInvalidArgument(
-                "GetBlogMetadata",
-                argv[0],
-                messages.blog_has_no_metadata_like.format(argv[0])
+            raise VenCException(
+                messages.blog_has_no_metadata_like.format(field_name)
             )
             
-    def get_blog_metadata_if_exists(self, argv, ok_if_null=True):
+    def get_blog_metadata_if_exists(self, field_name, if_true='', if_false='', ok_if_null=True):
         try:
-            value = self.blog_configuration[argv[0]]
+            value = self.blog_configuration[field_name]
             
         except KeyError:
-            if len(argv) >= 3:
-                return argv[2]
-            else:
-                return ""
+            return if_false
         
-        try:
-            if ok_if_null or len(value):
-                return argv[1].format(**{"value" : value,"{relative_origin}":"\x1a"})
-            
-            elif len(argv) >= 3:
-                return argv[2]
-                
-            else:
-                return ""
-                
-        except IndexError:
+        if len(if_true)
+             if ok_if_null or len(value):
+                  return if_true.format(**{"value" : value,"{relative_origin}":"\x1a"})
+                  
+              else:
+                  return if_false
+        else:
             return value
 
-    def get_blog_metadata_if_not_null(self, argv):
-        return self.get_blog_metadata_if_exists(argv, ok_if_null=False)
+    def get_blog_metadata_if_not_null(self, field_name, if_true='', if_false='', ):
+        return self.get_blog_metadata_if_exists(field_name, if_true, if_false, ok_if_null=False)
 
-    def get_entry_metadata(self, argv):
+    def get_entry_metadata(self, metadata_name):
         # if exception is raised it will be automatically be catch by processor.
         try:
-            return str(getattr(self.requested_entry, argv[0]))
+            return str(getattr(self.requested_entry, metadata_name))
             
         except AttributeError:
-            raise PatternInvalidArgument(
-                "GetEntryMetadata",
-                argv[0],
-                messages.entry_has_no_metadata_like.format(argv[0])
+            raise VenCException(
+                messages.entry_has_no_metadata_like.format(argv[0]),
+                self.requested_entry
             )
             
     def get_entry_metadata_if_exists(self, argv, ok_if_null=True):
@@ -722,34 +710,33 @@ class DataStore:
         for entry in (self.entries[::-1] if reverse else self.entries):
             yield entry
     
-    def get_entry_title(self, argv=list()):
-        title = self.requested_entry.title
-        return title if title != None else str()
+    def get_entry_title(self):
+        return self.requested_entry.title
     
-    def get_entry_id(self, argv=list()):
+    def get_entry_id(self):
         return self.requested_entry.id
             
-    def get_entry_year(self, argv=list()):
+    def get_entry_year(self):
         return self.requested_entry.date.year
 
-    def get_entry_month(self, argv=list()):
+    def get_entry_month(self):
         return self.requested_entry.date.month
         
-    def get_entry_day(self, argv=list()):
+    def get_entry_day(self):
         return self.requested_entry.date.day
 
-    def get_entry_hour(self, argv=list()):
+    def get_entry_hour(self):
         return self.requested_entry.date.hour
     
-    def get_entry_minute(self, argv=list()):
+    def get_entry_minute(self):
         return self.requested_entry.date.minute
 
-    def get_entry_date(self, argv=list()):
+    def get_entry_date(self, date_format=''):
         return self.requested_entry.date.strftime(
-            self.blog_configuration["date_format"] if len(argv) < 1 else argv[0]
+            date_format if len(date_format) else self.blog_configuration["date_format"]
         )
 
-    def get_entry_date_url(self, argv=list()):
+    def get_entry_date_url(self):
         return self.requested_entry.date.strftime(
             self.blog_configuration["path"]["archives_directory_name"]
         )
@@ -938,6 +925,7 @@ class DataStore:
 
     # TODO: NOT FINISHED YET
     def for_entry_range(self, argv):
+        return ""     # BECAUSE TODO
         if len(argv) != 3:
             raise PatternMissingArguments(expected=2,got=len(argv))
             
@@ -971,42 +959,37 @@ class DataStore:
         
         return output
     
-    def for_entry_metadata(self, argv):
-        if len(argv) != 3:
-            raise PatternMissingArguments(expected=3,got=len(argv))
-        
+    def for_entry_metadata(self, variable_name, string, separator=' '):        
         entry = self.requested_entry
-        key = ''.join(argv)
+        key = variable_name+string+separator
             
         if not key in entry.html_for_metadata:
             try:
-                l = getattr(entry, argv[0])
+                l = getattr(entry, variable_name)
                 if type(l) == dict:
-                    raise GenericMessage(messages.entry_metadata_is_not_a_list.format(argv[0], entry.id))
+                    raise VenCException(messages.entry_metadata_is_not_a_list.format(variable_name, entry))
                     
                 elif type(l) == str:
                     l = l.split(",")
                 
             except AttributeError as e:
-                raise GenericMessage(messages.entry_has_no_metadata_like.format(argv[0]))
+                raise VenCException(messages.entry_has_no_metadata_like.format(variable_name), entry)
                 
-            if not len(argv[2]):
-                argv[2] = ' '
             try:
-                entry.html_for_metadata[key] = argv[2].join([
-                     argv[1].format(**{"value": item.strip()}) for item in l
+                entry.html_for_metadata[key] = separator.join([
+                     string.format(**{"value": item.strip()}) for item in l
                 ])
                 
             except KeyError as e:
-                raise GenericMessage(messages.unknown_contextual.format(e))
+                raise VenCException(messages.unknown_contextual.format(e), entry)
             
         return entry.html_for_metadata[key]
             
-    def for_entry_authors(self, argv):
-        return self.for_entry_metadata(["authors"]+argv)
+    def for_entry_authors(self, string, separator=' '):
+        return self.for_entry_metadata("authors", string, separator)
 
-    def for_entry_tags(self, argv):
-        return self.for_entry_metadata(["tags"]+argv)
+    def for_entry_tags(self, string, separator=' '):
+        return self.for_entry_metadata("tags", string, separator)
 
     # TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.
     def leaves_for_entry_categories(self, argv):

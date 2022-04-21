@@ -66,6 +66,7 @@ class Entry:
         self.next_entry = None
         self.chapter = None
         self.schemadotorg = {}
+        self.title = ''
 
         # Loading
         raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()

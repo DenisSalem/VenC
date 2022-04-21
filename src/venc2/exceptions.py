@@ -65,7 +65,7 @@ class MalformedPatterns(VenCException):
         # ~ self.ressource = ressource
         # ~ pass
 
-# ~ class PatternInvalidArgument(Exception):
+# ~ class PatternInvalidArgument(VenCException):
     # ~ def __init__(self, name, value, message=''):
         # ~ self.name = name
         # ~ self.value = value

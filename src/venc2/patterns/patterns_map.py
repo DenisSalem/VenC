@@ -49,23 +49,24 @@ class PatternsMap():
 
     NON_CONTEXTUALS = {
         "entries" : {
-            "ForEntryAuthors":	        "datastore.for_entry_authors",
-            "ForEntryMetadata":	        "datastore.for_entry_metadata",
-            "ForEntryRange":	          "datastore.for_entry_range",
-            "ForEntryTags":	            "datastore.for_entry_tags",
-            "GetEntryDate":	            "datastore.get_entry_date",
-            "GetEntryDateURL":	        "datastore.get_entry_date_url",
-            "GetEntryDay":	            "datastore.get_entry_day",
-            "GetEntryHour":	            "datastore.get_entry_hour",
-            "GetEntryID":	              "datastore.get_entry_id",
+            "ForEntryAuthors":	        "datastore.for_entry_authors",                #
+            "ForEntryMetadata":	        "datastore.for_entry_metadata",               #
+            #"ForEntryRange":	          "datastore.for_entry_range",                  # TODO: NOT FINISHED YET
+            "ForEntryTags":	            "datastore.for_entry_tags",                   #
+            "GetEntryDate":	            "datastore.get_entry_date",                   #
+            "GetEntryDateURL":	        "datastore.get_entry_date_url",               #
+            "GetEntryDay":	            "datastore.get_entry_day",                    #
+            "GetEntryHour":	            "datastore.get_entry_hour",                   #
+            "GetEntryID":	              "datastore.get_entry_id",                     #
             "GetEntryMetadata":	        "datastore.get_entry_metadata",
             "GetEntryMetadataIfExists": "datastore.get_entry_metadata_if_exists",
             "GetEntryMetadataIfNotNull":"datastore.get_entry_metadata_if_not_null",
             "GetEntryMinute":	          "datastore.get_entry_minute",
-            "GetEntryMonth":	          "datastore.get_entry_month",
-            "GetEntryTitle":	          "datastore.get_entry_title",
+            "GetEntryMonth":	          "datastore.get_entry_month",                  #
+            "GetEntryTitle":	          "datastore.get_entry_title",                  #
+            "GetEntryToC":              "datastore.get_entry_toc",                    #
             "GetEntryURL":	            "datastore.get_entry_url",
-            "GetEntryYear":	            "datastore.get_entry_year",
+            "GetEntryYear":	            "datastore.get_entry_year",                   #
             "IfEntryMetadataIsTrue":	  "datastore.if_entry_metadata_is_true",
             "LeavesForEntryCategories":	"datastore.leaves_for_entry_categories",
             "TreeForEntryCategories":	  "datastore.tree_for_entry_categories",
@@ -79,12 +80,12 @@ class PatternsMap():
             "GetBlogKeywords":	        "datastore.get_blog_keywords",
             "GetBlogLanguage":	        "datastore.get_blog_language",
             "GetBlogLicense":	          "datastore.get_blog_license",
-            "GetBlogMetadata":	        "datastore.get_blog_metadata",
-            "GetBlogMetadataIfExists":	"datastore.get_blog_metadata_if_exists",
-            "GetBlogMetadataIfNotNull":	"datastore.get_blog_metadata_if_not_null",
+            "GetBlogMetadata":	        "datastore.get_blog_metadata",              #
+            "GetBlogMetadataIfExists":	"datastore.get_blog_metadata_if_exists",    #
+            "GetBlogMetadataIfNotNull":	"datastore.get_blog_metadata_if_not_null",  #
             "GetBlogName":	            "datastore.get_blog_name",
             "GetBlogURL":	              "datastore.get_blog_url",
-            "IfBlogMetadataIsTrue":	    "datastore.if_blog_metadata_is_true",
+            "IfBlogMetadataIsTrue":	    "datastore.if_blog_metadata_is_true",       #
             "LeavesForBlogCategories":	"datastore.leaves_for_blog_categories",
             "TreeForBlogCategories":	  "datastore.tree_for_blog_categories",
         },
@@ -94,14 +95,14 @@ class PatternsMap():
             "CodeHighlightInclude":	    "code_highlight.highlight_include",
             "DisableMarkup":	          "disable_markup",
             "GetEmbedContent":	        "datastore.wrapper_embed_content",
-            "GetGenerationTimestamp":	  "datastore.get_generation_timestamp",
+            "GetGenerationTimestamp":	  "datastore.get_generation_timestamp",       #
             "GetVenCVersion":	          "get_venc_version",
-            "IfAtomEnabled":	          "datastore.if_atom_enabled",
-            "IfCategories":	            "datastore.if_categories",
-            "IfChapters":	              "datastore.if_chapters",
-            "IfFeedsEnabled":	          "datastore.if_feeds_enabled",
-            "IfInfiniteScrollEnabled":	  "datastore.if_infinite_scroll_enabled",
-            "IfRSSEnabled":	            "datastore.if_rss_enabled",
+            "IfAtomEnabled":	          "datastore.if_atom_enabled",                #
+            "IfCategories":	            "datastore.if_categories",                  #
+            "IfChapters":	              "datastore.if_chapters",                    #
+            "IfFeedsEnabled":	          "datastore.if_feeds_enabled",               #
+            "IfInfiniteScrollEnabled":	  "datastore.if_infinite_scroll_enabled",      #
+            "IfRSSEnabled":	            "datastore.if_rss_enabled",                 #
             "IncludeFile":	            "include_file",
             "IncludeFileIfExists":	    "include_file_if_exists",
             "Kroki":	                  "kroki",
@@ -115,7 +116,7 @@ class PatternsMap():
 
     NON_PARALLELIZABLES = {
         "GetChapterAttributeByIndex":     "datastore.get_chapter_attribute_by_index",
-        "GetChapters" :                   "datastore.get_chapters",
+        "GetChapters" :                   "datastore.get_chapters",                     #
         "GetEntryAttributeByID":          "datastore.get_entry_attribute_by_id",
     }
 
