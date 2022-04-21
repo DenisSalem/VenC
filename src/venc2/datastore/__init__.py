@@ -43,17 +43,8 @@ from venc2.patterns.exceptions import PatternMissingArguments
 from venc2.patterns.exceptions import PatternInvalidArgument
 from venc2.patterns.non_contextual import get_embed_content
 
-def merge(iterable, argv):
-    if len(argv) != 2:
-        raise PatternMissingArguments(expected=2,got=len(argv))
-    try:
-        return argv[1].join([argv[0].format(**something) for something in iterable])
-        
-    except IndexError as e:
-        if e.args == ('tuple index out of range',):
-            raise PatternInvalidArgument(name="string", value=argv[0])
-                
-        raise e
+def merge(iterable, string, separator):
+    return separator.join([string.format(**something) for something in iterable])
     
 class DataStore:
     def __init__(self):
@@ -652,42 +643,33 @@ class DataStore:
         return self.get_blog_metadata_if_exists(field_name, if_true, if_false, ok_if_null=False)
 
     def get_entry_metadata(self, metadata_name):
-        # if exception is raised it will be automatically be catch by processor.
         try:
             return str(getattr(self.requested_entry, metadata_name))
             
         except AttributeError:
             raise VenCException(
-                messages.entry_has_no_metadata_like.format(argv[0]),
+                messages.entry_has_no_metadata_like.format(matadata_name),
                 self.requested_entry
             )
             
-    def get_entry_metadata_if_exists(self, argv, ok_if_null=True):
+    def get_entry_metadata_if_exists(self, metadata_name, string='', string2='', ok_if_null=True):
         try:
-            value = str(getattr(self.requested_entry, argv[0]))
+            value = str(getattr(self.requested_entry,metadata_name ))
 
         except AttributeError:
-            if len(argv) >= 3:
-                return argv[2]
-                
-            else:
-                return str()
-            
-        try:
-            if len(value) or ok_if_null:
-                return argv[1].format(**{"value" : value, "relative_origin": "\x1a"})
-            
-            elif len(argv) >= 3:
-                return argv[2]
-                
-            else:
-                return ""
-                
-        except IndexError:
+            return string2
+        
+        if string == '':
             return value
+
+        if len(value) or ok_if_null:
+            return string.format(**{"value" : value, "relative_origin": "\x1a"})
             
-    def get_entry_metadata_if_not_null(self, argv):
-        return self.get_entry_metadata_if_exists(argv, ok_if_null=False)
+        else:
+            return string2
+            
+    def get_entry_metadata_if_not_null(self, metadata_name, string='', string2=''):
+        return self.get_entry_metadata_if_exists(metadata_name, string, string2, ok_if_null=False)
         
     def get_entries_index_for_given_date(self, value):
         index = 0
@@ -805,52 +787,49 @@ class DataStore:
             
         return self.cache_get_entry_attribute_by_id[key]
             
-    def get_entry_url(self, argv=list()):
-        if self.blog_configuration["disable_single_entries"]:
-            return ''
+    def get_entry_url(self):
+        return '' if self.blog_configuration["disable_single_entries"] else self.requested_entry.url
 
-        return self.requested_entry.url
-
-    def get_author_name(self, argv=list()):
+    def get_author_name(self):
         return self.blog_configuration["author_name"]
 
-    def get_blog_name(self, argv=list()):
+    def get_blog_name(self):
         return self.blog_configuration["blog_name"]
         
-    def get_blog_description(self, argv=list()):
+    def get_blog_description(self):
         return self.blog_configuration["blog_description"]
         
-    def get_blog_keywords(self, argv=list()):
+    def get_blog_keywords(self):
         return self.blog_configuration["blog_keywords"]
 
-    def get_author_description(self, argv=list()):
+    def get_author_description(self):
         return self.blog_configuration["author_description"]
         
-    def get_blog_license(self, argv=list()):
+    def get_blog_license(self):
         return self.blog_configuration["license"]
     
-    def get_blog_url(self, argv=list()):
+    def get_blog_url(self):
         return self.blog_configuration["blog_url"]
     
-    def get_blog_language(self, argv=list()):
+    def get_blog_language(self):
         return self.blog_configuration["blog_language"]
     
-    def get_author_email(self, argv=list()):
+    def get_author_email(self):
         return self.blog_configuration["author_email"]
 
-    def for_blog_archives(self, argv):
-        key = ''.join(argv)
+    def for_blog_archives(self, string, separator):
+        key = string+separator
         if not key in self.html_blog_archives.keys():
             if self.blog_configuration["disable_archives"]:
                 self.html_blog_archives[key] = ''
 
             else:
                 archives = [o for o in self.blog_archives if o["value"] not in self.disable_threads]
-                self.html_blog_archives[key] = merge(archives, argv)
+                self.html_blog_archives[key] = merge(archives, string, separator)
 
         return self.html_blog_archives[key]
 
-    def get_root_page(self, argv):
+    def get_root_page(self):
         if self.root_page == None:
             self.root_page =  "\x1a"+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
             
@@ -886,8 +865,8 @@ class DataStore:
 
         return output_string + closing_node
 
-    def tree_for_entry_categories(self, argv):
-        key = ''.join(argv)
+    def tree_for_entry_categories(self, open_node, open_branch, close_branch, clode_node):
+        key = open_node+open_branch+close_branch+clode_node
         entry = self.requested_entry
 
         if not key in self.requested_entry.html_categories_tree.keys():
@@ -896,17 +875,17 @@ class DataStore:
 
             else:
                 entry.html_categories_tree[key] = self.build_html_categories_tree(
-                    argv[0], #opening_node
-                    argv[1], #opening_branch
-                    argv[2], #closing_branch
-                    argv[3], #closing_node
+                    open_node,
+                    open_branch,
+                    close_branch,
+                    clode_node,
                     entry.categories_tree
                 )
         
         return entry.html_categories_tree[key]
 
-    def tree_for_blog_categories(self, argv):
-        key = ''.join(argv)
+    def tree_for_blog_categories(self, open_node, open_branch, close_branch, clode_node):
+        key = open_node+open_branch+close_branch+clode_node
         # compute once categories tree and deliver baked html
         if not key in self.html_categories_tree.keys():
             if self.blog_configuration["disable_categories"]:
@@ -914,10 +893,10 @@ class DataStore:
 
             else:
                 self.html_categories_tree[key] = self.build_html_categories_tree(
-                    argv[0], #opening_node
-                    argv[1], #opening_branch
-                    argv[2], #closing_branch
-                    argv[3], #closing_node
+                    open_node,
+                    open_branch,
+                    close_branch,
+                    clode_node,
                     self.entries_per_categories
                 )
 
@@ -992,20 +971,20 @@ class DataStore:
         return self.for_entry_metadata("tags", string, separator)
 
     # TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.
-    def leaves_for_entry_categories(self, argv):
-        key = ''.join(argv)
+    def leaves_for_entry_categories(self, string, separator):
+        key = string+separator
         entry = self.requested_entry
         if not key in entry.html_categories_leaves.keys():
             if self.blog_configuration["disable_categories"]:
                 entry.html_categories_leaves[key] = ''
 
             else:
-                entry.html_categories_leaves[key] = merge(entry.categories_leaves, argv)
+                entry.html_categories_leaves[key] = merge(entry.categories_leaves, string, separator)
         
         return entry.html_categories_leaves[key]
 
-    def leaves_for_blog_categories(self, argv):
-        key = ''.join(argv)
+    def leaves_for_blog_categories(self, string, separator):
+        key = string+separator
 
         if not key in self.html_categories_leaves.keys():
             if self.blog_configuration["disable_categories"]:
@@ -1021,7 +1000,7 @@ class DataStore:
                         "path" : node.path
                     })
     
-                self.html_categories_leaves[key] = merge(items, argv)
+                self.html_categories_leaves[key] = merge(items, string, separator)
         
         return self.html_categories_leaves[key]
         
@@ -1033,11 +1012,8 @@ class DataStore:
         except FileNotFoundError:
             return ""
 
-    def wrapper_embed_content(self, argv):
-        if len(argv) == 0:
-            raise PatternMissingArguments
-            
-        cache = self.cache_embed_exists(argv[0])
+    def wrapper_embed_content(self, content_url):
+        cache = self.cache_embed_exists(content_url)
         if cache != "":
             return cache
 
@@ -1051,4 +1027,4 @@ class DataStore:
                     for e in p["endpoints"]:
                         self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
 
-        return get_embed_content(self.embed_providers, argv)
+        return get_embed_content(self.embed_providers, content_url)

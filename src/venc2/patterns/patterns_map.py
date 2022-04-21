@@ -32,7 +32,7 @@ class PatternsMap():
         "GetRandomNumber":	            "get_random_number",
         "GetRelativeLocation":	        "get_relative_location",
         "GetRelativeOrigin":	          "get_relative_origin",
-        "GetRootPage":	                "datastore.get_root_page",
+        "GetRootPage":	                "datastore.get_root_page",                     #
         "GetStyleSheets":	              "code_highlight.get_style_sheets",
         "GetThreadName":	              "get_thread_name",
         "IfInArchives":	                "if_in_archives",
@@ -58,51 +58,51 @@ class PatternsMap():
             "GetEntryDay":	            "datastore.get_entry_day",                    #
             "GetEntryHour":	            "datastore.get_entry_hour",                   #
             "GetEntryID":	              "datastore.get_entry_id",                     #
-            "GetEntryMetadata":	        "datastore.get_entry_metadata",
-            "GetEntryMetadataIfExists": "datastore.get_entry_metadata_if_exists",
-            "GetEntryMetadataIfNotNull":"datastore.get_entry_metadata_if_not_null",
-            "GetEntryMinute":	          "datastore.get_entry_minute",
+            "GetEntryMetadata":	        "datastore.get_entry_metadata",               #
+            "GetEntryMetadataIfExists": "datastore.get_entry_metadata_if_exists",     #
+            "GetEntryMetadataIfNotNull":"datastore.get_entry_metadata_if_not_null",   #
+            "GetEntryMinute":	          "datastore.get_entry_minute",                 #
             "GetEntryMonth":	          "datastore.get_entry_month",                  #
             "GetEntryTitle":	          "datastore.get_entry_title",                  #
             "GetEntryToC":              "datastore.get_entry_toc",                    #
-            "GetEntryURL":	            "datastore.get_entry_url",
+            "GetEntryURL":	            "datastore.get_entry_url",                    #
             "GetEntryYear":	            "datastore.get_entry_year",                   #
-            "IfEntryMetadataIsTrue":	  "datastore.if_entry_metadata_is_true",
-            "LeavesForEntryCategories":	"datastore.leaves_for_entry_categories",
-            "TreeForEntryCategories":	  "datastore.tree_for_entry_categories",
+            "IfEntryMetadataIsTrue":	  "datastore.if_entry_metadata_is_true",        #
+            "LeavesForEntryCategories":	"datastore.leaves_for_entry_categories",      #
+            "TreeForEntryCategories":	  "datastore.tree_for_entry_categories",        #
         },
         "blog": {
-            "ForBlogArchives":	        "datastore.for_blog_archives",
-            "GetAuthorDescription":	    "datastore.get_author_description",
-            "GetAuthorEmail":           "datastore.get_author_email",
-            "GetAuthorName":	          "datastore.get_author_name",
-            "GetBlogDescription":	      "datastore.get_blog_description",
-            "GetBlogKeywords":	        "datastore.get_blog_keywords",
-            "GetBlogLanguage":	        "datastore.get_blog_language",
-            "GetBlogLicense":	          "datastore.get_blog_license",
-            "GetBlogMetadata":	        "datastore.get_blog_metadata",              #
-            "GetBlogMetadataIfExists":	"datastore.get_blog_metadata_if_exists",    #
-            "GetBlogMetadataIfNotNull":	"datastore.get_blog_metadata_if_not_null",  #
-            "GetBlogName":	            "datastore.get_blog_name",
-            "GetBlogURL":	              "datastore.get_blog_url",
-            "IfBlogMetadataIsTrue":	    "datastore.if_blog_metadata_is_true",       #
-            "LeavesForBlogCategories":	"datastore.leaves_for_blog_categories",
-            "TreeForBlogCategories":	  "datastore.tree_for_blog_categories",
+            "ForBlogArchives":	        "datastore.for_blog_archives",                #
+            "GetAuthorDescription":	    "datastore.get_author_description",           #
+            "GetAuthorEmail":           "datastore.get_author_email",                 #
+            "GetAuthorName":	          "datastore.get_author_name",                  #
+            "GetBlogDescription":	      "datastore.get_blog_description",             #
+            "GetBlogKeywords":	        "datastore.get_blog_keywords",                #
+            "GetBlogLanguage":	        "datastore.get_blog_language",                #
+            "GetBlogLicense":	          "datastore.get_blog_license",                 #
+            "GetBlogMetadata":	        "datastore.get_blog_metadata",                #
+            "GetBlogMetadataIfExists":	"datastore.get_blog_metadata_if_exists",      #
+            "GetBlogMetadataIfNotNull":	"datastore.get_blog_metadata_if_not_null",    #
+            "GetBlogName":	            "datastore.get_blog_name",                    #
+            "GetBlogURL":	              "datastore.get_blog_url",                     #
+            "IfBlogMetadataIsTrue":	    "datastore.if_blog_metadata_is_true",         #
+            "LeavesForBlogCategories":	"datastore.leaves_for_blog_categories",       #
+            "TreeForBlogCategories":	  "datastore.tree_for_blog_categories",         #
         },
         "extra": {
             "Audio":	                  "theme.get_audio",
             "CodeHighlight":	          "code_highlight.highlight",
             "CodeHighlightInclude":	    "code_highlight.highlight_include",
             "DisableMarkup":	          "disable_markup",
-            "GetEmbedContent":	        "datastore.wrapper_embed_content",
-            "GetGenerationTimestamp":	  "datastore.get_generation_timestamp",       #
+            "GetEmbedContent":	        "datastore.wrapper_embed_content",            #
+            "GetGenerationTimestamp":	  "datastore.get_generation_timestamp",         #
             "GetVenCVersion":	          "get_venc_version",
-            "IfAtomEnabled":	          "datastore.if_atom_enabled",                #
-            "IfCategories":	            "datastore.if_categories",                  #
-            "IfChapters":	              "datastore.if_chapters",                    #
-            "IfFeedsEnabled":	          "datastore.if_feeds_enabled",               #
-            "IfInfiniteScrollEnabled":	  "datastore.if_infinite_scroll_enabled",      #
-            "IfRSSEnabled":	            "datastore.if_rss_enabled",                 #
+            "IfAtomEnabled":	          "datastore.if_atom_enabled",                  #
+            "IfCategories":	            "datastore.if_categories",                    #
+            "IfChapters":	              "datastore.if_chapters",                      #
+            "IfFeedsEnabled":	          "datastore.if_feeds_enabled",                 #
+            "IfInfiniteScrollEnabled":	  "datastore.if_infinite_scroll_enabled",        #
+            "IfRSSEnabled":	            "datastore.if_rss_enabled",                   #
             "IncludeFile":	            "include_file",
             "IncludeFileIfExists":	    "include_file_if_exists",
             "Kroki":	                  "kroki",
