@@ -146,7 +146,7 @@ class CategoriesThread(Thread):
             self.export_path = export_path
             self.category_value = category_value
 
-    def GetJSONLD(self, argv):
+    def get_JSONLD(self):
         if self.current_page == 0 and self.enable_jsonld:
             return '<script type="application/ld+json" src="categories.jsonld"></script>'
         

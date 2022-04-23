@@ -45,9 +45,9 @@ class FeedThread(Thread):
         self.organize_entries(entries)
         super().do()
     
-    def GetJSONLD(self, argv):
-        # Trigger UnknownPattern.
-        raise KeyError
+    def get_JSONLD(self):
+        from venc2.exceptions import VenCException
+        raise VenCException(messages.unknown_pattern.format("GetJSONLD")
 
     def if_in_feed(self, argv):
         return argv[0].strip()

@@ -25,9 +25,6 @@ import unidecode
 from venc2.helpers import quirk_encoding
 from venc2.prompt import notify
 from venc2.l10n import messages
-from venc2.patterns.exceptions import PatternInvalidArgument
-from venc2.patterns.exceptions import PatternMissingArguments
-from venc2.patterns.exceptions import UnknownContextual
 from venc2.patterns.processor import Processor
 
 current_source = None
@@ -130,7 +127,7 @@ class Thread:
         self.pages_count = len(self.pages)
 
     # Must be called in child class
-    def get_next_page(self, argv):
+    def get_next_page(self, string):
         if self.current_page < self.pages_count - 1:
             params = {
                 "page_number" : str(self.current_page + 1),
@@ -148,16 +145,17 @@ class Thread:
                     params["entry_title"] = self.current_entry.next_entry.title
                     
             try:
-                return argv[0].format(**params)
+                return string.format(**params)
                 
             except KeyError as e:
-                raise UnknownContextual(str(e)[1:-1])
+                from venc2.exceptions import VenCException
+                raise VenCException(messages.unknown_contextual.format((str(e)[1:-1]))
 
         else:
             return str()
 
     # Must be called in child class
-    def get_previous_page(self, argv):
+    def get_previous_page(self, string):
         if self.current_page > 0:
             params = {
                 "page_number" : str(self.current_page - 1) if self.current_page - 1 != 0 else '',
@@ -175,20 +173,17 @@ class Thread:
                     params["path"] = self.current_entry.previous_entry.url
 
             try:
-                return argv[0].format(**params)
+                return string.format(**params)
                 
             except KeyError as e:
-                raise UnknownContextual(str(e)[1:-1])
+                from venc2.exceptions import VenCException
+                raise VenCException(messages.unknown_contextual.format((str(e)[1:-1]))
                 
         else:
             return str()
 
     # Must be called in child class
-    def for_pages(self, argv):
-        list_lenght = int(argv[0])
-        string = argv[1]
-        separator = argv[2]
-            
+    def for_pages(self, length, string, separator):           
         if self.pages_count <= 1:
             return str()
 

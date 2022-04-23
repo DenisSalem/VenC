@@ -25,10 +25,10 @@ from venc2.patterns.third_party_wrapped_features.kroki import kroki
 
 class PatternsMap():
     CONTEXTUALS = {
-        "ForPages":	                    "for_pages",
-        "GetJSON-LD":	                  "GetJSONLD",
-        "GetNextPage":	                "get_next_page",
-        "GetPreviousPage":	            "get_previous_page",
+        "ForPages":	                    "for_pages",                                   #
+        "GetJSON-LD":	                  "get_JSONLD",                                  #
+        "GetNextPage":	                "get_next_page",                               #
+        "GetPreviousPage":	            "get_previous_page",                           #
         "GetRandomNumber":	            "get_random_number",
         "GetRelativeLocation":	        "get_relative_location",
         "GetRelativeOrigin":	          "get_relative_origin",

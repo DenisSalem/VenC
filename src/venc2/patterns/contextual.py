@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2019 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -19,27 +19,20 @@
 
 import random
 
-from venc2.patterns.exceptions import PatternInvalidArgument
-from venc2.patterns.exceptions import PatternMissingArguments
-from venc2.l10n import messages
-
-arg_names=["min","max","decimal_number"]
-
-def get_random_number(in_argv):
-    try:
-        mn, mx, precision = in_argv
-    
-    except ValueError as e:
-        raise PatternMissingArguments(e)
-    
-    argv = []
-
-    for i in range(0,3):
+def get_random_number(_min, _max, _precision):    
         try:
-            argv.append(float(in_argv[i]))
-
-        except ValueError:
-            raise PatternInvalidArgument(arg_names[i],in_argv[i], messages.pattern_argument_must_be_integer)
-
-    v = float(mn) + random.random() * (float(mx) - float(mn))
-    return str(int(v)) if int(precision) == 0 else str(round(v, int(precision)))
+            v = float(_min) + random.random() * (float(_max) - float(_min))
+            return str(int(v)) if int(_precision) == 0 else str(round(v, int(_precision)))
+            
+        except ValueError as e:
+            from venc2.exceptions import VenCException
+            from venc2.l10n import messages
+            faulty_arg_name = {v: k for k, v in locals().items()}[e.args[0].split('\'')[1]]
+            
+            raise VenCException(
+                messages.wrong_pattern_argument.format(
+                    faulty_arg_name[1:],
+                    locals()[faulty_arg_name], 
+                    "GetRandomNumber"
+                )+' '+str(e)
+            )

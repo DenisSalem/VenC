@@ -163,7 +163,7 @@ class EntriesThread(Thread):
                         self.do_jsonld(entry)
 
 
-    def GetJSONLD(self, argv):
+    def get_JSONLD(self):
         if self.datastore.enable_jsonld and self.enable_jsonld:
             return '<script type="application/ld+json" src="entry'+str(self.current_entry.id)+'.jsonld"></script>'
             

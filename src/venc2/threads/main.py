@@ -90,7 +90,7 @@ class MainThread(Thread):
         self.do_feeds()
         self.do_jsonld()   
 
-    def GetJSONLD(self, argv):
+    def get_JSONLD(self):
         if self.current_page == 0 and self.datastore.enable_jsonld:
             return '<script type="application/ld+json" src="root.jsonld"></script>'
         
