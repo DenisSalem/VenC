@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -65,19 +65,16 @@ class EntriesThread(Thread):
         else:
             return ''
     
-    def if_in_entry_id(self, argv):
+    def if_in_entry_id(self, entry_id, string1, string2=''):
         try:
-            if argv[0] == str(self.current_entry.id):
-                return argv[1].strip()
-        
-            elif len(argv) >= 3:
-                return argv[2].strip()
+            if entry_id == str(self.current_entry.id):
+                return string1.strip()
                 
             else:
-                return ''
+                return string2.strip()
                 
         except AttributeError:
-            return argv[2].strip() if len(argv) >= 3 else ''
+            return string2.strip()
 
     def for_pages(self, argv):
         list_lenght = int(argv[0])

@@ -305,9 +305,6 @@ pas de nom alors c'est __string2__ qui est renvoyée.
 - __string1__ : premier argument du motif, c'est celui qui est renvoyé si
 le fil de publication a un nom. Pour accéder au nom du fil de publication
 dans l'argument, il faut utiliser la variable contextuelle __{value}__.
-Si c'est cet argument qui doit être utilisé par le motif et qu'il est
-manquant, le motif renvoie simplement le nom du fil de publication, sans
-formatage particuler.
 - __string2__ : second argument du motif, c'est celui qui est renvoyé si
 le fil de publication n'a _pas_ de nom. Cet argument n'a pas de variable
 contextuelle. Si c'est cet argument qui doit être utilisé par le motif

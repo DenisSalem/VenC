@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -23,7 +23,6 @@ import json
 from venc2.prompt import notify
 from venc2.threads import Thread
 
-
 class ArchivesThread(Thread):
     def __init__(self, prompt, datastore, theme, patterns_map):
         super().__init__(prompt, datastore, theme, patterns_map)
@@ -36,8 +35,8 @@ class ArchivesThread(Thread):
         self.in_thread = True
         self.thread_has_feeds = False
 
-    def if_in_archives(self, argv):
-        return argv[0].strip()
+    def if_in_archives(self, string1, string2=''):
+        return string1.strip()
 
     def setup_archive_context(self, i, len_archives):
         archive = self.datastore.entries_per_archives[i]

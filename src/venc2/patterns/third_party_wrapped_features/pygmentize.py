@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -19,19 +19,11 @@
 
 import os
 from venc2.patterns.non_contextual import include_file
-from venc2.datastore
 
 class CodeHighlight:
     def __init__(self, override):
         self._override = override
         self.includes = dict()
-
-    def get_style_sheets(self, argv=list()):
-        output = str()
-        for filename in self.includes.keys():
-            output += "<link rel=\"stylesheet\" href=\"\x1a"+filename+"\" type=\"text/css\" />\n"
-
-        return output
 
     def export_style_sheets(self):
         extra = os.listdir(os.getcwd()+"/extra/")
@@ -40,41 +32,52 @@ class CodeHighlight:
                 stream = open(os.getcwd()+"/extra/"+key,'w')
                 stream.write(self.includes[key])
 
-    def highlight_include(self, langage, display_line_numbers, filename):
-        string = include_file(filename)
-        return self.highlight(langage, display_line_numbers, filename, string, included_file=True)
-    
-    def highlight(self,  *pattern_args, included_file=False):
-        langage, display_line_numbers = pattern_args[2:]
-        input_code =  "::".join(pattern_args[:2]) if not included_file else pattern_args[:2]
+def get_style_sheets():
+    output = str()
+    for filename in code_highlight.includes.keys():
+        output += "<link rel=\"stylesheet\" href=\"\x1a"+filename+"\" type=\"text/css\" />\n"
 
-        try:
-            import pygments.lexers
-            import pygments.formatters
+    return output
         
-        except:
-            from venc2.prompt import die
-            from venc2.l10n import messages
-            die(messages.module_not_found.format('pygments'))
+def highlight_include(langage, display_line_numbers, filename):
+    string = include_file(filename)
+    return code_highlight.highlight(langage, display_line_numbers, filename, string, included_file=True)
+    
+def highlight(*pattern_args, included_file=False):
+    langage, display_line_numbers = pattern_args[2:]
+    input_code =  "::".join(pattern_args[:2]) if not included_file else pattern_args[:2]
 
-        try:
-            name = "venc_source_"+langage.replace('+','Plus')
-  
-            lexer = pygments.lexers.get_lexer_by_name(langage, stripall=False)
-            formatter = pygments.formatters.HtmlFormatter(linenos=(True if display_line_numbers=="True" else False), cssclass=name)
-                                
-            result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
-            css  = formatter.get_style_defs()
+    try:
+        import pygments.lexers
+        import pygments.formatters
     
-            if not name+".css" in self.includes.keys():
-                self.includes[name+".css"] = css
-    
-            return result
-    
-        except pygments.util.ClassNotFound:
-            from venc2.prompt import die
-            from venc2.l10n import messages
-            die(messages.unknown_language.format(argv[0]))
-  
-code_highlight = CodeHighlight(datastore
+    except:
+        from venc2.exceptions import VenCException
+        from venc2.l10n import messages
+        raise VencException(messages.module_not_found.format('pygments'))
+
+    try:
+        name = "venc_source_"+langage.replace('+','Plus')
+
+        lexer = pygments.lexers.get_lexer_by_name(langage, stripall=False)
+        formatter = pygments.formatters.HtmlFormatter(linenos=(True if display_line_numbers=="True" else False), cssclass=name)
+                            
+        result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
+        css  = formatter.get_style_defs()
+
+        if not name+".css" in code_highlight.includes.keys():
+            code_highlight.includes[name+".css"] = css
+
+        return result
+
+    except pygments.util.ClassNotFound:
+        from venc2.exceptions import VenCException
+        from venc2.l10n import messages
+        raise VencException(messages.unknown_language.format(langage))
+
+code_highlight = None
+
+def init_code_highlight(override):
+    global code_highlight
+    code_highlight = CodeHighlight(override)
 

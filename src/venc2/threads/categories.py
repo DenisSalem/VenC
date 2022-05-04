@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -47,8 +47,8 @@ class CategoriesThread(Thread):
         if not self.disable_atom_feed:
             self.atom_feed = FeedThread(datastore, theme, self.patterns_map, "atom")
  
-    def if_in_categories(self, argv):
-        return argv[0].strip()
+    def if_in_categories(self, string1, string2=''):
+        return string1.strip()
 
     def do_feeds(self, entries, node, tree_special_char):
         entries = sorted(entries, key = lambda entry : entry.id, reverse=True)[0:self.datastore.blog_configuration["feed_lenght"]]

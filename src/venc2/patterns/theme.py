@@ -17,24 +17,25 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+from venc2.datastore.theme import theme
 
-def latex_2_mathml(node, tex_math_string):
-    try:
-        import latex2mathml.converter
-        
-    except:
-        from venc2.exceptions import VenCException
-        from venc2.l10n import messages
-        raise VenCException(messages.module_not_found.format('latex2mathml'))
+def get_media(media_type, source, extensions, poster=''):
+    source = ""
+    for ext in extensions.split(','):
+        # Set media once, and get complete path later.
+        source += str("<source src=\"{0}.{1}\" type=\""+media_type+"/{1}\">\n").format(source.strip(), ext.strip())
     
-    try:    
-        return latex2mathml.converter.convert(tex_math_string)
+    f = {}
+    f["source"] = source
+    f["poster"] = ""
+    
+    if media_type == "video":
+        f["poster"] = poster.strip().format(**{"relative_origin" : "\x1a"})
 
-    except:
-        from venc2.l10n import messages
-        from venc2.patterns.exceptions import PatternInvalidArgument
-        raise PatternInvalidArgument(
-            "LaTex math string",
-            tex_math_string,
-            messages.tex_math_error
-        )
+    return getattr(theme, media_type).format(**f)
+
+def get_audio(source, extensions):
+    return get_media("audio", source, extensions)
+
+def get_video(source, extensions, poster=''):
+    return get_media("video", source, extensions, poster)

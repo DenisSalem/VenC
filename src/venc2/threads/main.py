@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -96,6 +96,6 @@ class MainThread(Thread):
         
         return ''
                 
-    def if_in_main_thread(self, argv):
-        return argv[0].strip()
+    def if_in_main_thread(self, string1, string2=''):
+        return string1.strip()
 

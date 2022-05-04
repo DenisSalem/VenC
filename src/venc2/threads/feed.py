@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -49,7 +49,7 @@ class FeedThread(Thread):
         from venc2.exceptions import VenCException
         raise VenCException(messages.unknown_pattern.format("GetJSONLD")
 
-    def if_in_feed(self, argv):
-        return argv[0].strip()
+    def if_in_feed(self, string1, string2=''):
+        return string1.strip()
             
 

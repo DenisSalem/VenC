@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -23,7 +23,7 @@ from venc2.prompt import die
 from venc2.l10n import messages
 from venc2.patterns.processor import ProcessedString
 from venc2.patterns.exceptions import IllegalUseOfEscape
-            
+
 class Theme:
     def __init__(self, theme_folder):
         try:
@@ -47,24 +47,8 @@ class Theme:
         except FileNotFoundError as e:
             die(messages.file_not_found.format(str(e.filename)))
 
-    def get_media(self, media_type, argv):
-        source = ""
-        for ext in argv[1].split(','):
-            # Set media once, and get complete path later.
-            source += str("<source src=\"{0}.{1}\" type=\""+media_type+"/{1}\">\n").format(argv[0].strip(), ext.strip())
-        
-        f = {}
-        f["source"] = source
-        f["poster"] = ""
-        
-        if media_type == "video":
-            f["poster"] = argv[2].strip().format(**{"relative_origin" : "\x1a"}) if len(argv) == 3 else ""
+theme = None
 
-        return getattr(self, media_type).format(**f)
-
-    def get_audio(self, argv):
-        return self.get_media("audio", argv)
-
-    def get_video(self, argv):
-        return self.get_media("video", argv)
-
+def init_theme(theme_folder):
+    global theme
+    theme = Theme(theme_folder)

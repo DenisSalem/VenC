@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -95,25 +95,19 @@ class Thread:
             raise UnknownContextual(str(e)[1:-1])
             
     # Must be called in child class
-    def get_relative_location(self, argv):
+    def get_relative_location(self):
         return self.export_path[5:]
         
-    def get_relative_origin(self, argv):
+    def get_relative_origin(self):
         return self.relative_origin
 
-    def get_thread_name(self, argv):
+    def get_thread_name(self, string1='', string2=''):
         if len(self.thread_name):
-            try:
-                return argv[0].format(**{"value":self.thread_name})
-            except IndexError:
-                return self.thread_name
+            return string1.format(**{"value":self.thread_name})
         
         else:
-            try:
-                return argv[1]
+            return string2
                 
-            except IndexError:
-                return ""
             
     # Must be called in child class
     def organize_entries(self, entries):
@@ -211,84 +205,40 @@ class Thread:
     def JSONLD(self, argv):
         return ''
 
-    def if_pages(self, argv):
+    def if_pages(self, string1, string2=''):
         if self.pages_count > 1:
-            return argv[0].strip()
-            
-        elif len(argv) >= 2:
-            return argv[1].strip()
+            return string1.strip()
             
         else:
-            return ''
+            return string2.strip()
                     
-    def if_in_first_page(self, argv):
-        if self.current_page == 0:
-            return argv[0].strip()
-        
-        elif len(argv) >= 2:
-            return argv[1].strip()
+    def if_in_first_page(self, string1, string2):
+        return string1.strip() if self.current_page == 0 else string2.strip()
             
-        else:
-            return  ''
 
-    def if_in_last_page(self, argv):
-        if self.current_page == len(self.pages) -1:
-            return argv[0].strip()
-        
-        elif len(argv) >= 2:
-            return argv[1].strip()
-            
-        else:
-            return ''
+    def if_in_last_page(self, string1, string2):
+        return string1.strip() if self.current_page == len(self.pages) -1 else string2.strip()
 
-    def if_in_entry_id(self, argv):
-        if len(argv) >= 3:
-            return argv[2].strip()
-            
-        else:
-            return ''
+    def if_in_entry_id(self, entry_id, string1, string2=''):
+        return string2.strip()
 
     def if_in_main_thread(self, argv):
-        if len(argv) >= 2:
-            return argv[1].strip()
+        return string2.strip()
             
-        else:
-            return ''
+    def if_in_categories(self, string1, string2=''):
+        return string2.strip()
             
-    def if_in_categories(self, argv):
-        if len(argv) >= 2:
-            return argv[1].strip()
-            
-        else:
-            return ''
-            
-    def if_in_archives(self, argv):
-        if len(argv) >= 2:
-            return argv[1].strip()
-            
-        else:
-            return ''
+    def if_in_archives(self, string1, string2=''):
+        return string2
         
-    def if_in_thread(self, argv):
-        if self.in_thread:
-            return argv[0].strip()
+    def if_in_thread(self, string1, string2=''):
+        return (string1 if self.in_thread else string2).strip()
 
-        elif len(argv) >= 2:
-            return argv[1].strip()
-            
-        else:
-            return ''
-
-
-    def if_in_feed(self, argv):
-        if len(argv) >= 2:
-            return argv[1].strip()
-            
-        else:
-            return ''
+    def if_in_feed(self, string1, string2=''):
+        return string2.strip()
                     
-    def if_in_thread_and_has_feeds(self, argv):
-        return argv[0] if self.thread_has_feeds else ("" if len(argv) <= 1 else argv[1])
+    def if_in_thread_and_has_feeds(self, string1, string2=''):
+        return (string1 if self.thread_has_feeds else string2).strip()
 
     def format_filename(self, value):
         try:

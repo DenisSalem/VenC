@@ -24,18 +24,18 @@ import shutil
 from venc2 import venc_version
 from venc2.helpers import SafeFormatDict
 from venc2.l10n import messages
-from venc2.patterns.exceptions import PatternInvalidArgument
-from venc2.patterns.exceptions import PatternMissingArguments
+from venc2.exceptions import VenCException
 from venc2.helpers import GenericMessage
 from venc2.prompt import notify
 from urllib.parse import urlparse
 
 theme_includes_dependencies = []
 
-def disable_markup(argv):
-    return '::'.join(argv)
-    
-def try_oembed(providers, url):
+def disable_markup(*argv):
+    return '::'.join(*argv)
+
+
+def get_embed_content(providers, url):        
     try:
         key = [ key for key in providers["oembed"].keys() if url.netloc in key][0]
 
@@ -49,16 +49,16 @@ def try_oembed(providers, url):
         })
 
     except requests.exceptions.ConnectionError as e:
-        raise GenericMessage(messages.connectivity_issue+'\n'+str(e))
+        raise VenCException(messages.connectivity_issue+'\n'+str(e))
 
     if r.status_code != 200:
-        raise GenericMessage(messages.ressource_unavailable.format(url.geturl()))
+        raise VenCException(messages.ressource_unavailable.format(url.geturl()))
 
     try:
         html = json.loads(r.text)["html"]
         
     except Exception as e:
-        raise GenericMessage(messages.response_is_not_json.format(url.geturl()))
+        raise VenCException(messages.response_is_not_json.format(url.geturl()))
         
     try:
         cache_filename = hashlib.md5(url.geturl().encode('utf-8')).hexdigest()
@@ -72,46 +72,28 @@ def try_oembed(providers, url):
 
     return html
 
-def get_embed_content(providers, argv):
-    try:
-        url = urlparse(argv[0])
 
-    except IndexError:
-        raise PatternMissingArguments()
-        
-    return try_oembed(providers, url)
-
-def get_venc_version(argv):
+def get_venc_version():
     return venc_version
     
-""" Need to handle missing args in case of unknown number of args """
-def set_color(argv):
-    if len(argv) < 2:
-        raise PatternMissingArguments(expected=2, got=len(argv))
-        
-    return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+argv[1]+";\">"+argv[0]+"</span>"
+def set_color(string, color):        
+    return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+color+";\">"+string+"</span>"
 
-def set_style(argv):
+def set_style(node, ID='', CLASS='', string):
     ID = argv[0].strip()
     CLASS = argv[1].strip()
-    ID = "id=\""+ID+"\"" if ID != '' else ''
-    CLASS = "class=\""+CLASS+"\"" if CLASS != '' else ''
-    return "<span "+ID+' '+CLASS+">"+('::'.join(argv[2:]).strip())+"</span>"
+    return "<span "+ID.strip()+' '+CLASS.strip()+">"+('::'.join(string).strip())+"</span>"
 
 
 # TODO: Must fix dirty try/except structure.
 # TODO: Add explicit message about exception. 
 
-def include_file(argv, raise_error=True):
-    if not len(argv):
-        raise PatternMissingArguments()
-        
-    filename = argv[0]
-    if argv[0] == '':
+def include_file(node, escape, filename, *argv, raise_error=True):       
+    if filename == '':
         if not raise_error:
             return ""
             
-        raise GenericMessage(messages.wrong_pattern_argument.format("path", argv[0], "include_file"))
+        raise VenCException(messages.wrong_pattern_argument.format("path", filename, "include_file"))
     
     include_string = None
     paths = ("includes/"+filename, shutil.os.path.expanduser("~/.local/share/VenC/themes_includes/"+filename))
@@ -146,10 +128,11 @@ def include_file(argv, raise_error=True):
     else:
         return include_string
 
-def include_file_if_exists(argv):
-    return include_file(argv, raise_error=False)
+# TODO : Not document in pattern cheat sheet
+def include_file_if_exists(node, escape, filename):
+    return include_file(node, escape, filename, raise_error=False)
 
-def table(argv):
+def table(node, *argv):
     output = "<div class=\"__VENC_TABLE__\"><table>"
     tr = [[]]
     append_td = tr[-1].append
