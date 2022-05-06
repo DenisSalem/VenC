@@ -331,7 +331,7 @@ class DataStore:
     def if_blog_metadata_is_true(self, node, key, if_true, if_false=''):
         return self.if_metadata_is_true(key, if_true, if_false, self.blog_configuration)
 
-    def if_entry_metadata_is_true(self, key, if_true, if_false=''):
+    def if_entry_metadata_is_true(self, node, key, if_true, if_false=''):
         return self.if_metadata_is_true(key, if_true, if_false, self.requested_entry)
                 
     def if_rss_enabled(self, node, if_true, if_false=''):
@@ -538,14 +538,14 @@ class DataStore:
                 
                 self.categories_as_jsonld[path]["blogPost"].append(blog_post)
             
-    def get_chapters(self, lo, io, ic, lc):
+    def get_chapters(self, node, lo, io, ic, lc):
         key = lo+io+ic+lc
         if not key in self.html_chapters.keys():
             self.html_chapters[key] = self.build_html_chapters(lo, io, ic, lc, self.chapters_index, 0)
 
         return self.html_chapters[key]
 
-    def get_entry_toc(self, open_ul, open_li, content, close_li, close_ul):
+    def get_entry_toc(self, node, open_ul, open_li, content, close_li, close_ul):
         key = open_ul+open_li+content+close_li+close_ul
         if not key in self.html_entry_tocs.keys():
             self.html_entry_tocs[key] = self.build_entry_html_toc(self.requested_entry, open_ul, open_li, content_format, close_li, close_ul)
@@ -613,7 +613,7 @@ class DataStore:
     def get_generation_timestamp(self, node, time_format):
             return datetime.datetime.strftime(self.generation_timestamp, time_format)
             
-    def get_blog_metadata(self, field_name):
+    def get_blog_metadata(self, node, field_name):
         # if exception is raised it will be automatically be catch by processor.
         try:
             return str(self.blog_configuration[field_name])
@@ -623,7 +623,7 @@ class DataStore:
                 messages.blog_has_no_metadata_like.format(field_name)
             )
             
-    def get_blog_metadata_if_exists(self, field_name, if_true='', if_false='', ok_if_null=True):
+    def get_blog_metadata_if_exists(self, node, field_name, if_true='', if_false='', ok_if_null=True):
         try:
             value = self.blog_configuration[field_name]
             
@@ -639,10 +639,10 @@ class DataStore:
         else:
             return value
 
-    def get_blog_metadata_if_not_null(self, field_name, if_true='', if_false='', ):
-        return self.get_blog_metadata_if_exists(field_name, if_true, if_false, ok_if_null=False)
+    def get_blog_metadata_if_not_null(self, node, field_name, if_true='', if_false='', ):
+        return self.get_blog_metadata_if_exists(node, field_name, if_true, if_false, ok_if_null=False)
 
-    def get_entry_metadata(self, metadata_name):
+    def get_entry_metadata(self, node, metadata_name):
         try:
             return str(getattr(self.requested_entry, metadata_name))
             
@@ -652,7 +652,7 @@ class DataStore:
                 self.requested_entry
             )
             
-    def get_entry_metadata_if_exists(self, metadata_name, string='', string2='', ok_if_null=True):
+    def get_entry_metadata_if_exists(self, node, metadata_name, string='', string2='', ok_if_null=True):
         try:
             value = str(getattr(self.requested_entry,metadata_name ))
 
@@ -668,8 +668,8 @@ class DataStore:
         else:
             return string2
             
-    def get_entry_metadata_if_not_null(self, metadata_name, string='', string2=''):
-        return self.get_entry_metadata_if_exists(metadata_name, string, string2, ok_if_null=False)
+    def get_entry_metadata_if_not_null(self, node, metadata_name, string='', string2=''):
+        return self.get_entry_metadata_if_exists(node, metadata_name, string, string2, ok_if_null=False)
         
     def get_entries_index_for_given_date(self, value):
         index = 0
@@ -692,64 +692,51 @@ class DataStore:
         for entry in (self.entries[::-1] if reverse else self.entries):
             yield entry
     
-    def get_entry_title(self):
+    def get_entry_title(self, node):
         return self.requested_entry.title
     
-    def get_entry_id(self):
+    def get_entry_id(self, node):
         return self.requested_entry.id
             
-    def get_entry_year(self):
+    def get_entry_year(self, node):
         return self.requested_entry.date.year
 
-    def get_entry_month(self):
+    def get_entry_month(self, node):
         return self.requested_entry.date.month
         
-    def get_entry_day(self):
+    def get_entry_day(self, node):
         return self.requested_entry.date.day
 
-    def get_entry_hour(self):
+    def get_entry_hour(self, node):
         return self.requested_entry.date.hour
     
-    def get_entry_minute(self):
+    def get_entry_minute(self, node):
         return self.requested_entry.date.minute
 
-    def get_entry_date(self, date_format=''):
+    def get_entry_date(self, node, date_format=''):
         return self.requested_entry.date.strftime(
             date_format if len(date_format) else self.blog_configuration["date_format"]
         )
 
-    def get_entry_date_url(self):
+    def get_entry_date_url(self, node):
         return self.requested_entry.date.strftime(
             self.blog_configuration["path"]["archives_directory_name"]
         )
     
-    def get_chapter_attribute_by_index(self, argv=list()):
+    def get_chapter_attribute_by_index(self, node, attribute, index):
         if self.blog_configuration["disable_chapters"]:
             return ""
-            
-        if len(argv) < 2:
-            raise PatternMissingArguments(2, len(argv))
         
-        key = ''.join(argv[:2])
+        key = attribute+index
         if not key in self.cache_get_chapter_attribute_by_index.keys():
             try:
-                self.cache_get_chapter_attribute_by_index[key] = getattr(self.raw_chapters[argv[1]].chapter, argv[0])
+                self.cache_get_chapter_attribute_by_index[key] = getattr(self.raw_chapters[index].chapter, attribute)
                 
             except KeyError as e:
-                print(e, self.cache_get_chapter_attribute_by_index, self.raw_chapters)
-
-                raise PatternInvalidArgument(
-                    "index",
-                    argv[1],
-                    messages.there_is_no_chapter_with_index.format(argv[1])
-                )
+                raise VenCException(messages.there_is_no_chapter_with_index.format(index))
                 
             except AttributeError as e:
-                raise PatternInvalidArgument(
-                    "attribute",
-                    argv[0],
-                    messages.chapter_has_no_attribute_like.format(argv[0])
-                )
+                raise VenCException(messages.chapter_has_no_attribute_like.format(attribute))
                 
         return self.cache_get_chapter_attribute_by_index[key]
 
@@ -772,37 +759,37 @@ class DataStore:
             
         return self.cache_get_entry_attribute_by_id[key]
             
-    def get_entry_url(self):
+    def get_entry_url(self, node):
         return '' if self.blog_configuration["disable_single_entries"] else self.requested_entry.url
 
-    def get_author_name(self):
+    def get_author_name(self, node):
         return self.blog_configuration["author_name"]
 
-    def get_blog_name(self):
+    def get_blog_name(self, node):
         return self.blog_configuration["blog_name"]
         
-    def get_blog_description(self):
+    def get_blog_description(self, node):
         return self.blog_configuration["blog_description"]
         
-    def get_blog_keywords(self):
+    def get_blog_keywords(self, node):
         return self.blog_configuration["blog_keywords"]
 
-    def get_author_description(self):
+    def get_author_description(self, node):
         return self.blog_configuration["author_description"]
         
-    def get_blog_license(self):
+    def get_blog_license(self, node):
         return self.blog_configuration["license"]
     
-    def get_blog_url(self):
+    def get_blog_url(self, node):
         return self.blog_configuration["blog_url"]
     
-    def get_blog_language(self):
+    def get_blog_language(self, node):
         return self.blog_configuration["blog_language"]
     
-    def get_author_email(self):
+    def get_author_email(self, node):
         return self.blog_configuration["author_email"]
 
-    def for_blog_archives(self, string, separator):
+    def for_blog_archives(self, node, string, separator):
         key = string+separator
         if not key in self.html_blog_archives.keys():
             if self.blog_configuration["disable_archives"]:
@@ -850,7 +837,7 @@ class DataStore:
 
         return output_string + closing_node
 
-    def tree_for_entry_categories(self, open_node, open_branch, close_branch, clode_node):
+    def tree_for_entry_categories(self, node, open_node, open_branch, close_branch, clode_node):
         key = open_node+open_branch+close_branch+clode_node
         entry = self.requested_entry
 
@@ -888,16 +875,14 @@ class DataStore:
         return self.html_categories_tree[key]
 
     # TODO: NOT FINISHED YET
-    def for_entry_range(self, argv):
+    def for_entry_range(self, node, argv):
         return ""     # BECAUSE TODO
-        if len(argv) != 3:
-            raise PatternMissingArguments(expected=2,got=len(argv))
             
         try:
             start_from= int(argv[0])
             
         except TypeError:
-            raise GenericMessage(
+            raise VenCException(
                 messages.wrong_pattern_argument.format("start_from", argv[0])+' '+
                 messages.pattern_argument_must_be_integer
             )
@@ -906,13 +891,13 @@ class DataStore:
             end_from= int(argv[1])
             
         except TypeError:
-            raise GenericMessage(
+            raise VenCException(
                 messages.wrong_pattern_argument.format("end_to", argv[0])+' '+
                 messages.pattern_argument_must_be_integer
             )
             
         if end_from <= start_from:
-            raise GenericMessage(messages.invalid_range.format(start_from, end_to))
+            raise VenCException(messages.invalid_range.format(start_from, end_to))
         
         entry = self.requested_entry
         
@@ -923,7 +908,7 @@ class DataStore:
         
         return output
     
-    def for_entry_metadata(self, variable_name, string, separator=' '):        
+    def for_entry_metadata(self, node, variable_name, string, separator=' '):        
         entry = self.requested_entry
         key = variable_name+string+separator
             
@@ -949,11 +934,11 @@ class DataStore:
             
         return entry.html_for_metadata[key]
             
-    def for_entry_authors(self, string, separator=' '):
-        return self.for_entry_metadata("authors", string, separator)
+    def for_entry_authors(self, node, string, separator=' '):
+        return self.for_entry_metadata(node, "authors", string, separator)
 
-    def for_entry_tags(self, string, separator=' '):
-        return self.for_entry_metadata("tags", string, separator)
+    def for_entry_tags(self, node, string, separator=' '):
+        return self.for_entry_metadata(node, "tags", string, separator)
 
     # TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.
     def leaves_for_entry_categories(self, node, string, separator):
@@ -997,7 +982,7 @@ class DataStore:
         except FileNotFoundError:
             return ""
 
-    def wrapper_embed_content(self, content_url):
+    def wrapper_embed_content(self, node, content_url):
         cache = self.cache_embed_exists(content_url)
         if cache != "":
             return cache

@@ -24,7 +24,7 @@ import shutil
 from venc2 import venc_version
 from venc2.helpers import SafeFormatDict
 from venc2.l10n import messages
-from venc2.exceptions import VenCException
+from venc2.exceptions import VenCException # TODO: include when needed only
 from venc2.helpers import GenericMessage
 from venc2.prompt import notify
 from urllib.parse import urlparse
@@ -40,7 +40,7 @@ def get_embed_content(providers, url):
         key = [ key for key in providers["oembed"].keys() if url.netloc in key][0]
 
     except IndexError:
-        raise PatternInvalidArgument("url", url.geturl(), messages.unknown_provider.format(url.netloc))
+        raise VenCException(messages.unknown_provider.format(url.netloc))
     
     try:
         r = requests.get(providers["oembed"][key][0], params={

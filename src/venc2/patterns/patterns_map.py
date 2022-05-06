@@ -36,7 +36,6 @@ class PatternsMap():
         "GetRandomNumber":	            "get_random_number",                            #
         "GetRelativeLocation":	        "get_relative_location",                        #
         "GetRelativeOrigin":	          "get_relative_origin",                          #
-        "GetRootPage":	                "datastore.get_root_page",                      #
         "GetStyleSheets":	              "code_highlight.get_style_sheets",              #
         "GetThreadName":	              "get_thread_name",                              # 
         "IfInArchives":	                "if_in_archives",                               #
@@ -53,45 +52,46 @@ class PatternsMap():
 
     NON_CONTEXTUALS = { # all of the below is loaded from datastore
         "entries" : { 
-            "ForEntryAuthors":	          "datastore.for_entry_authors",                #
-            "ForEntryMetadata":	          "datastore.for_entry_metadata",               #
-            #"ForEntryRange":	            "datastore.for_entry_range",                  # TODO: NOT FINISHED YET
-            "ForEntryTags":	              "datastore.for_entry_tags",                   #
-            "GetEntryDate":	              "datastore.get_entry_date",                   #
-            "GetEntryDateURL":	          "datastore.get_entry_date_url",               #
-            "GetEntryDay":	              "datastore.get_entry_day",                    #
-            "GetEntryHour":	              "datastore.get_entry_hour",                   #
-            "GetEntryID":	                "datastore.get_entry_id",                     #
-            "GetEntryMetadata":	          "datastore.get_entry_metadata",               #
-            "GetEntryMetadataIfExists":   "datastore.get_entry_metadata_if_exists",     #
-            "GetEntryMetadataIfNotNull":  "datastore.get_entry_metadata_if_not_null",   #
-            "GetEntryMinute":	            "datastore.get_entry_minute",                 #
-            "GetEntryMonth":	            "datastore.get_entry_month",                  #
-            "GetEntryTitle":	            "datastore.get_entry_title",                  #
-            "GetEntryToC":                "datastore.get_entry_toc",                    #
-            "GetEntryURL":	              "datastore.get_entry_url",                    #
-            "GetEntryYear":	              "datastore.get_entry_year",                   #
-            "IfEntryMetadataIsTrue":	    "datastore.if_entry_metadata_is_true",        #
+            "ForEntryAuthors":	          "datastore.for_entry_authors",                #OE
+            "ForEntryMetadata":	          "datastore.for_entry_metadata",               #OE
+            #"ForEntryRange":	            "datastore.for_entry_range",                  #OE  TODO: NOT FINISHED YET
+            "ForEntryTags":	              "datastore.for_entry_tags",                   #OE
+            "GetEntryDate":	              "datastore.get_entry_date",                   #OE
+            "GetEntryDateURL":	          "datastore.get_entry_date_url",               #OE
+            "GetEntryDay":	              "datastore.get_entry_day",                    #OE
+            "GetEntryHour":	              "datastore.get_entry_hour",                   #OE
+            "GetEntryID":	                "datastore.get_entry_id",                     #OE
+            "GetEntryMetadata":	          "datastore.get_entry_metadata",               #OE
+            "GetEntryMetadataIfExists":   "datastore.get_entry_metadata_if_exists",     #OE
+            "GetEntryMetadataIfNotNull":  "datastore.get_entry_metadata_if_not_null",   #OE
+            "GetEntryMinute":	            "datastore.get_entry_minute",                 #OE
+            "GetEntryMonth":	            "datastore.get_entry_month",                  #OE
+            "GetEntryTitle":	            "datastore.get_entry_title",                  #OE
+            "GetEntryToC":                "datastore.get_entry_toc",                    #OE
+            "GetEntryURL":	              "datastore.get_entry_url",                    #OE
+            "GetEntryYear":	              "datastore.get_entry_year",                   #OE
+            "IfEntryMetadataIsTrue":	    "datastore.if_entry_metadata_is_true",        #OE
             "LeavesForEntryCategories":	  "datastore.leaves_for_entry_categories",      #OE
-            "TreeForEntryCategories":	    "datastore.tree_for_entry_categories",        #
+            "TreeForEntryCategories":	    "datastore.tree_for_entry_categories",        #OE
         },
         "blog": {
-            "ForBlogArchives":	          "datastore.for_blog_archives",                #
-            "GetAuthorDescription":	      "datastore.get_author_description",           #
-            "GetAuthorEmail":             "datastore.get_author_email",                 #
-            "GetAuthorName":	            "datastore.get_author_name",                  #
-            "GetBlogDescription":	        "datastore.get_blog_description",             #
-            "GetBlogKeywords":	          "datastore.get_blog_keywords",                #
-            "GetBlogLanguage":	          "datastore.get_blog_language",                #
-            "GetBlogLicense":	            "datastore.get_blog_license",                 #
-            "GetBlogMetadata":	          "datastore.get_blog_metadata",                #
-            "GetBlogMetadataIfExists":	  "datastore.get_blog_metadata_if_exists",      #
-            "GetBlogMetadataIfNotNull":	  "datastore.get_blog_metadata_if_not_null",    #
-            "GetBlogName":	              "datastore.get_blog_name",                    #
-            "GetBlogURL":	                "datastore.get_blog_url",                     #
-            "GetChapterAttributeByIndex": "datastore.get_chapter_attribute_by_index",
-            "GetChapters" :               "datastore.get_chapters",     
-            "GetEmbedContent":	          "datastore.wrapper_embed_content",            #
+            "ForBlogArchives":	          "datastore.for_blog_archives",                #OE
+            "GetAuthorDescription":	      "datastore.get_author_description",           #OE
+            "GetAuthorEmail":             "datastore.get_author_email",                 #OE
+            "GetAuthorName":	            "datastore.get_author_name",                  #OE
+            "GetBlogDescription":	        "datastore.get_blog_description",             #OE
+            "GetBlogKeywords":	          "datastore.get_blog_keywords",                #OE
+            "GetBlogLanguage":	          "datastore.get_blog_language",                #OE
+            "GetBlogLicense":	            "datastore.get_blog_license",                 #OE
+            "GetBlogMetadata":	          "datastore.get_blog_metadata",                #OE
+            "GetBlogMetadataIfExists":	  "datastore.get_blog_metadata_if_exists",      #OE
+            "GetBlogMetadataIfNotNull":	  "datastore.get_blog_metadata_if_not_null",    #OE
+            "GetBlogName":	              "datastore.get_blog_name",                    #OE
+            "GetBlogURL":	                "datastore.get_blog_url",                     #OE
+            "GetChapterAttributeByIndex": "datastore.get_chapter_attribute_by_index",   #OE
+            "GetChapters" :               "datastore.get_chapters",                     #OE
+            "GetRootPage":	              "datastore.get_root_page",                    #OE
+            "GetEmbedContent":	          "datastore.wrapper_embed_content",            #OE
             "GetEntryAttributeByID":      "datastore.get_entry_attribute_by_id",        #OE
             "GetGenerationTimestamp":	    "datastore.get_generation_timestamp",         #OE
             "IfAtomEnabled":	            "datastore.if_atom_enabled",                  #OE
