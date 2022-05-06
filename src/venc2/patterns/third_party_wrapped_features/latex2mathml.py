@@ -33,8 +33,4 @@ def latex_2_mathml(node, tex_math_string):
     except:
         from venc2.l10n import messages
         from venc2.patterns.exceptions import PatternInvalidArgument
-        raise PatternInvalidArgument(
-            "LaTex math string",
-            tex_math_string,
-            messages.tex_math_error
-        )
+        raise VenCException(messages.tex_math_error)

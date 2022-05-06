@@ -113,6 +113,10 @@ Nourrir Tacos, mon chien:. :.
 La portion de texte ci-dessus serait incluse telle quelle dans la page générée par VenC.
 Là encore, ni les motifs VenC, ni le langage de balisage courant ne sont interprétés.
 
+## .:Escape:: .:IncludeFileIfExists::escape::filename[::arg1][::arg2][...]:. ::EndEscape:.
+
+Comme __IncludeFile__ mais ne produit pas d'erreur et retourne une chaine vide si le fichier n'existe pas.
+
 ## .:Escape:: .:DisableMarkup::content:. ::EndEscape:.
 
 Ce motif permet de désactiver l'interpréteur de langage de balisage

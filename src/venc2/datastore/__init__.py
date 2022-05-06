@@ -287,28 +287,28 @@ class DataStore:
         
         return output
             
-    def if_categories(self, if_true, if_false=''):
+    def if_categories(self, node, if_true, if_false=''):
         if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:
             return if_true
             
         else:
             return if_false
     
-    def if_chapters(self, if_true, if_false=''):
+    def if_chapters(self, node, if_true, if_false=''):
         if self.chapters_index != [] and not self.blog_configuration["disable_chapters"]:
             return if_true
             
         else:
             return if_false
     
-    def if_feeds_enabled(self, if_true, if_false=''):
+    def if_feeds_enabled(self, node, if_true, if_false=''):
         if self.blog_configuration["disable_atom_feed"] and self.blog_configuration["disable_rss_feed"]:
             return if_false.replace("{relative_origin}", "\x1a")
             
         else: 
             return if_true.replace("{relative_origin}", "\x1a")
         
-    def if_atom_enabled(self, if_true, if_false=''):
+    def if_atom_enabled(self, node, if_true, if_false=''):
         if self.blog_configuration["disable_atom_feed"]:
             return if_false.replace("{relative_origin}", "\x1a")
 
@@ -328,20 +328,20 @@ class DataStore:
         
         return if_false.strip()
           
-    def if_blog_metadata_is_true(self, key, if_true, if_false=''):
+    def if_blog_metadata_is_true(self, node, key, if_true, if_false=''):
         return self.if_metadata_is_true(key, if_true, if_false, self.blog_configuration)
 
     def if_entry_metadata_is_true(self, key, if_true, if_false=''):
         return self.if_metadata_is_true(key, if_true, if_false, self.requested_entry)
                 
-    def if_rss_enabled(self, if_true, if_false=''):
+    def if_rss_enabled(self, node, if_true, if_false=''):
         if self.blog_configuration["disable_rss_feed"]:
             return if_false.replace("{relative_origin}", "\x1a")
             
         else:
             return if_true.replace("{relative_origin}", "\x1a")
 
-    def if_infinite_scroll_enabled(self, if_true, if_false=''):            
+    def if_infinite_scroll_enabled(self, node, if_true, if_false=''):            
         try:
             if self.blog_configuration["disable_infinite_scroll"]:
                 return if_false
@@ -610,7 +610,7 @@ class DataStore:
         self.max_category_weight = value
         return value
 
-    def get_generation_timestamp(self, time_format):
+    def get_generation_timestamp(self, node, time_format):
             return datetime.datetime.strftime(self.generation_timestamp, time_format)
             
     def get_blog_metadata(self, field_name):
@@ -754,36 +754,21 @@ class DataStore:
         return self.cache_get_chapter_attribute_by_index[key]
 
 
-    def get_entry_attribute_by_id(self, argv=list()):
-        if len(argv) < 2:
-            raise PatternMissingArguments(2, len(argv))
-            
-        key = ''.join(argv[:2])
+    def get_entry_attribute_by_id(self, node, attribute, identifier):            
+        key = attribute+identifier
         if not key in self.cache_get_entry_attribute_by_id.keys():
             try:
-                entry = [entry for entry in self.entries if entry.id == int(argv[1])][0]
-                self.cache_get_entry_attribute_by_id[key] = getattr(entry, argv[0])
+                entry = [entry for entry in self.entries if entry.id == int(identifier)][0]
+                self.cache_get_entry_attribute_by_id[key] = getattr(entry, attribute)
             
             except ValueError:
-                raise PatternInvalidArgument(
-                    "id",
-                    argv[1],
-                    messages.id_must_be_an_integer
-                )
+                raise VenCException(messages.id_must_be_an_integer)
                 
             except AttributeError as e:
-                raise PatternInvalidArgument(
-                    "attribute",
-                    argv[0],
-                    messages.entry_has_no_metadata_like.format(argv[0])
-                )
+                raise VenCException(messages.entry_has_no_metadata_like.format(argv[0]))
 
             except IndexError:
-                raise PatternInvalidArgument(
-                    "id",
-                    argv[1],
-                    messages.cannot_retrieve_entry_attribute_because_wrong_id
-                )
+                raise VenCException(messages.cannot_retrieve_entry_attribute_because_wrong_id)
             
         return self.cache_get_entry_attribute_by_id[key]
             
@@ -884,7 +869,7 @@ class DataStore:
         
         return entry.html_categories_tree[key]
 
-    def tree_for_blog_categories(self, open_node, open_branch, close_branch, clode_node):
+    def tree_for_blog_categories(self, node, open_node, open_branch, close_branch, clode_node):
         key = open_node+open_branch+close_branch+clode_node
         # compute once categories tree and deliver baked html
         if not key in self.html_categories_tree.keys():
@@ -971,7 +956,7 @@ class DataStore:
         return self.for_entry_metadata("tags", string, separator)
 
     # TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.
-    def leaves_for_entry_categories(self, string, separator):
+    def leaves_for_entry_categories(self, node, string, separator):
         key = string+separator
         entry = self.requested_entry
         if not key in entry.html_categories_leaves.keys():
@@ -983,7 +968,7 @@ class DataStore:
         
         return entry.html_categories_leaves[key]
 
-    def leaves_for_blog_categories(self, string, separator):
+    def leaves_for_blog_categories(self, node, string, separator):
         key = string+separator
 
         if not key in self.html_categories_leaves.keys():

@@ -31,7 +31,7 @@ from urllib.parse import urlparse
 
 theme_includes_dependencies = []
 
-def disable_markup(*argv):
+def disable_markup(node, *argv):
     return '::'.join(*argv)
 
 
@@ -73,10 +73,10 @@ def get_embed_content(providers, url):
     return html
 
 
-def get_venc_version():
+def get_venc_version(node):
     return venc_version
     
-def set_color(string, color):        
+def set_color(node, string, color):        
     return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+color+";\">"+string+"</span>"
 
 def set_style(node, ID='', CLASS='', string):
@@ -106,15 +106,14 @@ def include_file(node, escape, filename, *argv, raise_error=True):
             except PermissionError:
                 if not raise_error:
                     return ""
-                raise PatternInvalidArgument("path", filename, messages.wrong_permissions.format(path))
+                    
+                raise VenCException(messages.wrong_permissions.format(path))
                 
     if include_string == None:
         if not raise_error:
             return ""
             
-        raise PatternInvalidArgument(
-            "path",
-            filename, 
+        raise VenCException(
             '\n' + '\n'.join(
                 (messages.file_not_found.format(path) for path in paths)
             )
@@ -129,8 +128,8 @@ def include_file(node, escape, filename, *argv, raise_error=True):
         return include_string
 
 # TODO : Not document in pattern cheat sheet
-def include_file_if_exists(node, escape, filename):
-    return include_file(node, escape, filename, raise_error=False)
+def include_file_if_exists(node, escape, filename, *argv):
+    return include_file(node, escape, filename, *argv, raise_error=False)
 
 def table(node, *argv):
     output = "<div class=\"__VENC_TABLE__\"><table>"

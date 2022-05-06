@@ -34,8 +34,8 @@ def get_media(media_type, source, extensions, poster=''):
 
     return getattr(theme, media_type).format(**f)
 
-def get_audio(source, extensions):
+def get_audio(node, source, extensions):
     return get_media("audio", source, extensions)
 
-def get_video(source, extensions, poster=''):
+def get_video(node, source, extensions, poster=''):
     return get_media("video", source, extensions, poster)

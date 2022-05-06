@@ -29,26 +29,26 @@ from venc2.patterns.third_party_wrapped_features.kroki import kroki
 
 class PatternsMap():
     CONTEXTUALS = { # All of the below is loaded from Thread instanciated classes
-        "ForPages":	                    "for_pages",                                   #
-        "GetJSON-LD":	                  "get_JSONLD",                                  #
-        "GetNextPage":	                "get_next_page",                               #
-        "GetPreviousPage":	            "get_previous_page",                           #
-        "GetRandomNumber":	            "get_random_number",                           #
-        "GetRelativeLocation":	        "get_relative_location",                       #
-        "GetRelativeOrigin":	          "get_relative_origin",                         #
-        "GetRootPage":	                "datastore.get_root_page",                     #
-        "GetStyleSheets":	              "code_highlight.get_style_sheets",             #
-        "GetThreadName":	              "get_thread_name",                             # 
-        "IfInArchives":	                "if_in_archives",                              #
-        "IfInCategories":	              "if_in_categories",                            #
-        "IfInEntryID":	                "if_in_entry_id",                              #
-        "IfInFeed":	                    "if_in_feed",                                  #
-        "IfInFirstPage":	              "if_in_first_page",                             #
-        "IfInLastPage":	                "if_in_last_page",                             #
-        "IfInMainThread":	              "if_in_main_thread",                           #
-        "IfInThread":	                  "if_in_thread",                                #
-        "IfInThreadAndHasFeeds":	      "if_in_thread_and_has_feeds",                  #
-        "IfPages":	                    "if_pages",                                    #
+        "ForPages":	                    "for_pages",                                    #
+        "GetJSON-LD":	                  "get_JSONLD",                                   #
+        "GetNextPage":	                "get_next_page",                                #
+        "GetPreviousPage":	            "get_previous_page",                            #
+        "GetRandomNumber":	            "get_random_number",                            #
+        "GetRelativeLocation":	        "get_relative_location",                        #
+        "GetRelativeOrigin":	          "get_relative_origin",                          #
+        "GetRootPage":	                "datastore.get_root_page",                      #
+        "GetStyleSheets":	              "code_highlight.get_style_sheets",              #
+        "GetThreadName":	              "get_thread_name",                              # 
+        "IfInArchives":	                "if_in_archives",                               #
+        "IfInCategories":	              "if_in_categories",                             #
+        "IfInEntryID":	                "if_in_entry_id",                               #
+        "IfInFeed":	                    "if_in_feed",                                   #
+        "IfInFirstPage":	              "if_in_first_page",                              #
+        "IfInLastPage":	                "if_in_last_page",                              #
+        "IfInMainThread":	              "if_in_main_thread",                            #
+        "IfInThread":	                  "if_in_thread",                                 #
+        "IfInThreadAndHasFeeds":	      "if_in_thread_and_has_feeds",                   #
+        "IfPages":	                    "if_pages",                                     #
     }
 
     NON_CONTEXTUALS = { # all of the below is loaded from datastore
@@ -72,7 +72,7 @@ class PatternsMap():
             "GetEntryURL":	              "datastore.get_entry_url",                    #
             "GetEntryYear":	              "datastore.get_entry_year",                   #
             "IfEntryMetadataIsTrue":	    "datastore.if_entry_metadata_is_true",        #
-            "LeavesForEntryCategories":	  "datastore.leaves_for_entry_categories",      #
+            "LeavesForEntryCategories":	  "datastore.leaves_for_entry_categories",      #OE
             "TreeForEntryCategories":	    "datastore.tree_for_entry_categories",        #
         },
         "blog": {
@@ -92,32 +92,32 @@ class PatternsMap():
             "GetChapterAttributeByIndex": "datastore.get_chapter_attribute_by_index",
             "GetChapters" :               "datastore.get_chapters",     
             "GetEmbedContent":	          "datastore.wrapper_embed_content",            #
-            "GetEntryAttributeByID":      "datastore.get_entry_attribute_by_id",
-            "GetGenerationTimestamp":	    "datastore.get_generation_timestamp",         #
-            "IfAtomEnabled":	            "datastore.if_atom_enabled",                  #
-            "IfBlogMetadataIsTrue":	      "datastore.if_blog_metadata_is_true",         #
-            "IfCategories":	              "datastore.if_categories",                    #
-            "IfChapters":	                "datastore.if_chapters",                      #
-            "IfFeedsEnabled":	            "datastore.if_feeds_enabled",                 #
-            "IfInfiniteScrollEnabled":	    "datastore.if_infinite_scroll_enabled",        #
-            "IfRSSEnabled":	              "datastore.if_rss_enabled",                   #
-            "LeavesForBlogCategories":	  "datastore.leaves_for_blog_categories",       #
-            "TreeForBlogCategories":	    "datastore.tree_for_blog_categories",         #
+            "GetEntryAttributeByID":      "datastore.get_entry_attribute_by_id",        #OE
+            "GetGenerationTimestamp":	    "datastore.get_generation_timestamp",         #OE
+            "IfAtomEnabled":	            "datastore.if_atom_enabled",                  #OE
+            "IfBlogMetadataIsTrue":	      "datastore.if_blog_metadata_is_true",         #OE
+            "IfCategories":	              "datastore.if_categories",                    #OE
+            "IfChapters":	                "datastore.if_chapters",                      #OE
+            "IfFeedsEnabled":	            "datastore.if_feeds_enabled",                 #OE
+            "IfInfiniteScrollEnabled":	    "datastore.if_infinite_scroll_enabled",        #OE
+            "IfRSSEnabled":	              "datastore.if_rss_enabled",                   #OE
+            "LeavesForBlogCategories":	  "datastore.leaves_for_blog_categories",       #OE
+            "TreeForBlogCategories":	    "datastore.tree_for_blog_categories",         #OE
         },
         "extra": { # Loaded from function localy imported
-            "Audio":	                  "get_audio",                                    #
-            "CodeHighlight":	          "highlight",                                    #
-            "CodeHighlightInclude":	    "highlight_include",                            #
-            "DisableMarkup":	          "disable_markup",                               #
-            "GetVenCVersion":	          "get_venc_version",                             #
-            "IncludeFile":	            "include_file",                                  #O
+            "Audio":	                  "get_audio",                                    #OE
+            "CodeHighlight":	          "highlight",                                    #OE
+            "CodeHighlightInclude":	    "highlight_include",                            #OE
+            "DisableMarkup":	          "disable_markup",                               #OE
+            "GetVenCVersion":	          "get_venc_version",                             #OE
+            "IncludeFile":	            "include_file",                                  #OE
             "IncludeFileIfExists":	    "include_file_if_exists",                        #OE
             "Kroki":	                  "kroki",                                        #OE
-            "Latex2MathML":	            "latex_2_mathml",                               #O
-            "SetColor":	                "set_color",                                    #
-            "SetStyle":	                "set_style",                                    #
-            "Table":	                  "table",                                        #O
-            "Video":	                  "get_video",                                    #
+            "Latex2MathML":	            "latex_2_mathml",                               #OE
+            "SetColor":	                "set_color",                                    #OE
+            "SetStyle":	                "set_style",                                    #OE
+            "Table":	                  "table",                                        #OE
+            "Video":	                  "get_video",                                    #OE
         },
     }
 

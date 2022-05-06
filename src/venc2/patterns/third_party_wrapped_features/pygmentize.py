@@ -39,11 +39,11 @@ def get_style_sheets():
 
     return output
         
-def highlight_include(langage, display_line_numbers, filename):
+def highlight_include(node, langage, display_line_numbers, filename):
     string = include_file(filename)
     return code_highlight.highlight(langage, display_line_numbers, filename, string, included_file=True)
     
-def highlight(*pattern_args, included_file=False):
+def highlight(node, *pattern_args, included_file=False):
     langage, display_line_numbers = pattern_args[2:]
     input_code =  "::".join(pattern_args[:2]) if not included_file else pattern_args[:2]
 
