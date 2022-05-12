@@ -90,12 +90,12 @@ class MainThread(Thread):
         self.do_feeds()
         self.do_jsonld()   
 
-    def get_JSONLD(self):
+    def get_JSONLD(self, node):
         if self.current_page == 0 and self.datastore.enable_jsonld:
             return '<script type="application/ld+json" src="root.jsonld"></script>'
         
         return ''
                 
-    def if_in_main_thread(self, string1, string2=''):
+    def if_in_main_thread(self, node, string1, string2=''):
         return string1.strip()
 

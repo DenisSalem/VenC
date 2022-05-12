@@ -32,7 +32,7 @@ class CodeHighlight:
                 stream = open(os.getcwd()+"/extra/"+key,'w')
                 stream.write(self.includes[key])
 
-def get_style_sheets():
+def get_style_sheets(node):
     output = str()
     for filename in code_highlight.includes.keys():
         output += "<link rel=\"stylesheet\" href=\"\x1a"+filename+"\" type=\"text/css\" />\n"

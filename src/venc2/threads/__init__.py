@@ -95,13 +95,13 @@ class Thread:
             raise UnknownContextual(str(e)[1:-1])
             
     # Must be called in child class
-    def get_relative_location(self):
+    def get_relative_location(self, node):
         return self.export_path[5:]
         
-    def get_relative_origin(self):
+    def get_relative_origin(self, node):
         return self.relative_origin
 
-    def get_thread_name(self, string1='', string2=''):
+    def get_thread_name(self, node, string1='', string2=''):
         if len(self.thread_name):
             return string1.format(**{"value":self.thread_name})
         
@@ -121,7 +121,7 @@ class Thread:
         self.pages_count = len(self.pages)
 
     # Must be called in child class
-    def get_next_page(self, string):
+    def get_next_page(self, node, string):
         if self.current_page < self.pages_count - 1:
             params = {
                 "page_number" : str(self.current_page + 1),
@@ -149,7 +149,7 @@ class Thread:
             return str()
 
     # Must be called in child class
-    def get_previous_page(self, string):
+    def get_previous_page(self, node, string):
         if self.current_page > 0:
             params = {
                 "page_number" : str(self.current_page - 1) if self.current_page - 1 != 0 else '',
@@ -177,7 +177,7 @@ class Thread:
             return str()
 
     # Must be called in child class
-    def for_pages(self, length, string, separator):           
+    def for_pages(self, node, length, string, separator):           
         if self.pages_count <= 1:
             return str()
 
@@ -196,49 +196,48 @@ class Thread:
                     ) + separator
                     
                 except KeyError as e:
-                    raise UnknownContextual(str(e)[1:-1])
+                    raise VenCException(messages.unknown_contextual.format(str(e)[1:-1]))
 
             page_number +=1
         
         return output[:-len(separator)]
 
-    def JSONLD(self, argv):
+    def get_JSONLD(self, node):
         return ''
 
-    def if_pages(self, string1, string2=''):
+    def if_pages(self, node, string1, string2=''):
         if self.pages_count > 1:
             return string1.strip()
             
         else:
             return string2.strip()
                     
-    def if_in_first_page(self, string1, string2):
+    def if_in_first_page(self, node, string1, string2=''):
         return string1.strip() if self.current_page == 0 else string2.strip()
             
-
-    def if_in_last_page(self, string1, string2):
+    def if_in_last_page(self, node, string1, string2=''):
         return string1.strip() if self.current_page == len(self.pages) -1 else string2.strip()
 
-    def if_in_entry_id(self, entry_id, string1, string2=''):
+    def if_in_entry_id(self, node, entry_id, string1, string2=''):
         return string2.strip()
 
-    def if_in_main_thread(self, argv):
+    def if_in_main_thread(self, node, string1, string2=''):
         return string2.strip()
             
-    def if_in_categories(self, string1, string2=''):
+    def if_in_categories(self, node, string1, string2=''):
         return string2.strip()
             
-    def if_in_archives(self, string1, string2=''):
+    def if_in_archives(self, node, string1, string2=''):
         return string2
         
-    def if_in_thread(self, string1, string2=''):
+    def if_in_thread(self, node, string1, string2=''):
         return (string1 if self.in_thread else string2).strip()
 
-    def if_in_feed(self, string1, string2=''):
-        return string2.strip()
-                    
-    def if_in_thread_and_has_feeds(self, string1, string2=''):
+    def if_in_thread_and_has_feeds(self, node, string1, string2=''):
         return (string1 if self.thread_has_feeds else string2).strip()
+        
+    def if_in_feed(self, node, string1, string2=''):
+        return string2.strip()
 
     def format_filename(self, value):
         try:

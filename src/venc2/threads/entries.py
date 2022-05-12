@@ -51,35 +51,23 @@ class EntriesThread(Thread):
         except KeyError as e:
             die(messages.variable_error_in_filename.format(str(e)))
             
-    def if_in_first_page(self, argv):
-        if len(argv) >= 2:
-            return argv[1].strip()
-            
-        else:
-            return ''
-            
-    def if_in_last_page(self, argv):
-        if len(argv) >= 2:
-            return argv[1].strip()
-            
-        else:
-            return ''
+    def if_in_first_page(self, node, string1, string2=''):
+        return string2.strip()
+
+    def if_in_last_page(self, node, string1, string2=''):
+        return string2.strip()
     
-    def if_in_entry_id(self, entry_id, string1, string2=''):
+    def if_in_entry_id(self, node, entry_id, string1, string2=''):
         try:
             if entry_id == str(self.current_entry.id):
                 return string1.strip()
                 
-            else:
-                return string2.strip()
-                
         except AttributeError:
-            return string2.strip()
+            pass
+            
+        return string2.strip()
 
-    def for_pages(self, argv):
-        list_lenght = int(argv[0])
-        string = argv[1]
-        separator = argv[2]
+    def for_pages(self, node, length, string, separator):
         output = ""
         params = {
             "entry_id":str(self.current_entry.id),
@@ -87,8 +75,13 @@ class EntriesThread(Thread):
             "page_number":'',
             "path": self.current_entry.url
         }
-        output += string.format(**params) + separator
-
+        try:
+            output += string.format(**params) + separator
+            
+        except KeyError as e:
+            from venc2.exceptions import VenCException
+            raise VenCException(messages.unknown_contextual.format(str(e)[1:-1]))
+            
         for i in range(0, list_lenght):
             next_entry =  None if self.current_entry_index >=  len(self.entries) - 2 else self.entries[self.current_entry_index+1]
             previous_entry = None  if self.current_entry_index == 0 else self.entries[self.current_entry_index-1]
@@ -160,7 +153,7 @@ class EntriesThread(Thread):
                         self.do_jsonld(entry)
 
 
-    def get_JSONLD(self):
+    def get_JSONLD(self, node):
         if self.datastore.enable_jsonld and self.enable_jsonld:
             return '<script type="application/ld+json" src="entry'+str(self.current_entry.id)+'.jsonld"></script>'
             

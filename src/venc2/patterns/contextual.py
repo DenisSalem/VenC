@@ -19,7 +19,7 @@
 
 import random
 
-def get_random_number(_min, _max, _precision):    
+def get_random_number(node, _min, _max, _precision):    
         try:
             v = float(_min) + random.random() * (float(_max) - float(_min))
             return str(int(v)) if int(_precision) == 0 else str(round(v, int(_precision)))
