@@ -44,6 +44,9 @@ def undefined_variable(match):
 
 class Thread:
     def __init__(self, prompt, datastore, theme, patterns_map):
+        from venc2.patterns.contextual import get_random_number
+        self.get_random_number = get_random_number
+        
         self.workers_count = datastore.workers_count
         self.indentation_level = "│  "
         self.patterns_map = patterns_map

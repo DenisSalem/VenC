@@ -20,9 +20,6 @@
 # ~ from venc2.patterns.contextual import get_random_number
 # ~ from venc2.patterns.non_contextual import get_venc_version, include_file, include_file_if_exists, set_color, set_style, table, disable_markup
 
-from venc2.patterns.third_party_wrapped_features.latex2mathml import latex_2_mathml
-from venc2.patterns.third_party_wrapped_features.kroki import kroki
-
 # # Explicit args naming
 # 0 Receive node data
 # E Remove all old exceptions usage
@@ -52,57 +49,57 @@ class PatternsMap():
 
     NON_CONTEXTUALS = { # all of the below is loaded from datastore
         "entries" : { 
-            "ForEntryAuthors":	          "datastore.for_entry_authors",
-            "ForEntryMetadata":	          "datastore.for_entry_metadata",
-            #"ForEntryRange":	            "datastore.for_entry_range",                  #OE  TODO: NOT FINISHED YET
-            "ForEntryTags":	              "datastore.for_entry_tags",
-            "GetEntryDate":	              "datastore.get_entry_date",
-            "GetEntryDateURL":	          "datastore.get_entry_date_url",
-            "GetEntryDay":	              "datastore.get_entry_day",
-            "GetEntryHour":	              "datastore.get_entry_hour",
-            "GetEntryID":	                "datastore.get_entry_id",
-            "GetEntryMetadata":	          "datastore.get_entry_metadata",
-            "GetEntryMetadataIfExists":   "datastore.get_entry_metadata_if_exists",
-            "GetEntryMetadataIfNotNull":  "datastore.get_entry_metadata_if_not_null",
-            "GetEntryMinute":	            "datastore.get_entry_minute",
-            "GetEntryMonth":	            "datastore.get_entry_month",
-            "GetEntryTitle":	            "datastore.get_entry_title",
-            "GetEntryToC":                "datastore.get_entry_toc",
-            "GetEntryURL":	              "datastore.get_entry_url",
-            "GetEntryYear":	              "datastore.get_entry_year",
-            "IfEntryMetadataIsTrue":	    "datastore.if_entry_metadata_is_true",
-            "LeavesForEntryCategories":	  "datastore.leaves_for_entry_categories",
-            "TreeForEntryCategories":	    "datastore.tree_for_entry_categories",
+            "ForEntryAuthors":	          "for_entry_authors",
+            "ForEntryMetadata":	          "for_entry_metadata",
+            #"ForEntryRange":	            "for_entry_range",                  #OE  TODO: NOT FINISHED YET
+            "ForEntryTags":	              "for_entry_tags",
+            "GetEntryDate":	              "get_entry_date",
+            "GetEntryDateURL":	          "get_entry_date_url",
+            "GetEntryDay":	              "get_entry_day",
+            "GetEntryHour":	              "get_entry_hour",
+            "GetEntryID":	                "get_entry_id",
+            "GetEntryMetadata":	          "get_entry_metadata",
+            "GetEntryMetadataIfExists":   "get_entry_metadata_if_exists",
+            "GetEntryMetadataIfNotNull":  "get_entry_metadata_if_not_null",
+            "GetEntryMinute":	            "get_entry_minute",
+            "GetEntryMonth":	            "get_entry_month",
+            "GetEntryTitle":	            "get_entry_title",
+            "GetEntryToC":                "get_entry_toc",
+            "GetEntryURL":	              "get_entry_url",
+            "GetEntryYear":	              "get_entry_year",
+            "IfEntryMetadataIsTrue":	    "if_entry_metadata_is_true",
+            "LeavesForEntryCategories":	  "leaves_for_entry_categories",
+            "TreeForEntryCategories":	    "tree_for_entry_categories",
         },
         "blog": {
-            "ForBlogArchives":	          "datastore.for_blog_archives",
-            "GetAuthorDescription":	      "datastore.get_author_description",
-            "GetAuthorEmail":             "datastore.get_author_email",
-            "GetAuthorName":	            "datastore.get_author_name",
-            "GetBlogDescription":	        "datastore.get_blog_description",
-            "GetBlogKeywords":	          "datastore.get_blog_keywords",
-            "GetBlogLanguage":	          "datastore.get_blog_language",
-            "GetBlogLicense":	            "datastore.get_blog_license",
-            "GetBlogMetadata":	          "datastore.get_blog_metadata",
-            "GetBlogMetadataIfExists":	  "datastore.get_blog_metadata_if_exists",
-            "GetBlogMetadataIfNotNull":	  "datastore.get_blog_metadata_if_not_null",
-            "GetBlogName":	              "datastore.get_blog_name",
-            "GetBlogURL":	                "datastore.get_blog_url",
-            "GetChapterAttributeByIndex": "datastore.get_chapter_attribute_by_index",
-            "GetChapters" :               "datastore.get_chapters",
-            "GetRootPage":	              "datastore.get_root_page",
-            "GetEmbedContent":	          "datastore.wrapper_embed_content",
-            "GetEntryAttributeByID":      "datastore.get_entry_attribute_by_id",
-            "GetGenerationTimestamp":	    "datastore.get_generation_timestamp",
-            "IfAtomEnabled":	            "datastore.if_atom_enabled",
-            "IfBlogMetadataIsTrue":	      "datastore.if_blog_metadata_is_true",
-            "IfCategories":	              "datastore.if_categories",
-            "IfChapters":	                "datastore.if_chapters",
-            "IfFeedsEnabled":	            "datastore.if_feeds_enabled",
-            "IfInfiniteScrollEnabled":	    "datastore.if_infinite_scroll_enabled",
-            "IfRSSEnabled":	              "datastore.if_rss_enabled",
-            "LeavesForBlogCategories":	  "datastore.leaves_for_blog_categories",
-            "TreeForBlogCategories":	    "datastore.tree_for_blog_categories",
+            "ForBlogArchives":	          "for_blog_archives",
+            "GetAuthorDescription":	      "get_author_description",
+            "GetAuthorEmail":             "get_author_email",
+            "GetAuthorName":	            "get_author_name",
+            "GetBlogDescription":	        "get_blog_description",
+            "GetBlogKeywords":	          "get_blog_keywords",
+            "GetBlogLanguage":	          "get_blog_language",
+            "GetBlogLicense":	            "get_blog_license",
+            "GetBlogMetadata":	          "get_blog_metadata",
+            "GetBlogMetadataIfExists":	  "get_blog_metadata_if_exists",
+            "GetBlogMetadataIfNotNull":	  "get_blog_metadata_if_not_null",
+            "GetBlogName":	              "get_blog_name",
+            "GetBlogURL":	                "get_blog_url",
+            "GetChapterAttributeByIndex": "get_chapter_attribute_by_index",
+            "GetChapters" :               "get_chapters",
+            "GetRootPage":	              "get_root_page",
+            "GetEmbedContent":	          "wrapper_embed_content",
+            "GetEntryAttributeByID":      "get_entry_attribute_by_id",
+            "GetGenerationTimestamp":	    "get_generation_timestamp",
+            "IfAtomEnabled":	            "if_atom_enabled",
+            "IfBlogMetadataIsTrue":	      "if_blog_metadata_is_true",
+            "IfCategories":	              "if_categories",
+            "IfChapters":	                "if_chapters",
+            "IfFeedsEnabled":	            "if_feeds_enabled",
+            "IfInfiniteScrollEnabled":	    "if_infinite_scroll_enabled",
+            "IfRSSEnabled":	              "if_rss_enabled",
+            "LeavesForBlogCategories":	  "leaves_for_blog_categories",
+            "TreeForBlogCategories":	    "tree_for_blog_categories",
         },
         "extra": { # Loaded from function localy imported
             "Audio":	                  "get_audio",
@@ -128,4 +125,28 @@ class PatternsMap():
     )
 
     # TODO
-    WAIT_FOR_CHILDREN_TO_BE_PROCESSED = ()
+    WAIT_FOR_CHILDREN_TO_BE_PROCESSED = tuple()
+    
+    def __init__(self):        
+        # TODO : make dynamic import.
+        from venc2.patterns.theme import get_audio
+        from venc2.patterns.third_party_wrapped_features.pygmentize import highlight
+        from venc2.patterns.third_party_wrapped_features.pygmentize import highlight_include
+        from venc2.patterns.non_contextual import disable_markup
+        from venc2.patterns.non_contextual import venc_version
+        from venc2.patterns.non_contextual import include_file
+        from venc2.patterns.non_contextual import include_file_if_exists
+        from venc2.patterns.third_party_wrapped_features.kroki import kroki
+        from venc2.patterns.third_party_wrapped_features.latex2mathml import latex_2_mathml
+        from venc2.patterns.non_contextual import set_color
+        from venc2.patterns.non_contextual import set_style
+        from venc2.patterns.non_contextual import table
+        from venc2.patterns.theme import get_video
+        
+        self.non_contextual = {"extra": dict()}
+        
+        for pattern_name in PatternsMap.NON_CONTEXTUALS["extra"].keys():
+            self.non_contextual["extra"] = globals()[pattern_name]
+        
+    
+        

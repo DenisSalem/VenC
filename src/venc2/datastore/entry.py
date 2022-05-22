@@ -31,7 +31,7 @@ from venc2.prompt import notify
 from venc2.l10n import messages
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
-from venc2.helpers import GenericMessage
+from venc2.exceptions import VenCException
 from venc2.patterns.processor import ProcessedString
 from venc2.patterns.exceptions import IllegalUseOfEscape
 
@@ -132,15 +132,15 @@ class Entry:
             self.title = metadata["title"].replace(".:GetEntryTitle:.",'')
 
         except KeyError:
-            die(messages.missing_mandatory_field_in_entry.format("title", self.id))
+            VenCException(messages.missing_mandatory_field_in_entry.format("title", self.id))
 
         try:
             self.authors = tuple( e.strip() for e in metadata["authors"].split(",")) if type(metadata["authors"]) == str else tuple(metadata["authors"])
             if type(self.authors) != tuple:
-                raise GenericMessage(messages.entry_metadata_is_not_a_list.format("authors", self.id))
+                raise VenCException(messages.entry_metadata_is_not_a_list.format("authors", self.id))
                 
         except KeyError:
-            die(messages.missing_mandatory_field_in_entry.format("authors", self.id))
+            raise VenCException(messages.missing_mandatory_field_in_entry.format("authors", self.id))
 
         self.tags = tuple( e.strip() for e in metadata["tags"].split(",")) if type(metadata["tags"]) == str else tuple(metadata["tags"])
         if type(self.tags) != tuple:

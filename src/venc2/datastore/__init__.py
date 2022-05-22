@@ -630,12 +630,12 @@ class DataStore:
         except KeyError:
             return if_false
         
-        if len(if_true)
-             if ok_if_null or len(value):
-                  return if_true.format(**{"value" : value,"{relative_origin}":"\x1a"})
+        if len(if_true):
+            if ok_if_null or len(value):
+                return if_true.format(**{"value" : value,"{relative_origin}":"\x1a"})
                   
-              else:
-                  return if_false
+            else:
+                return if_false
         else:
             return value
 
