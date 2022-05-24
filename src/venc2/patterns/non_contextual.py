@@ -25,7 +25,6 @@ from venc2 import venc_version
 from venc2.helpers import SafeFormatDict
 from venc2.l10n import messages
 from venc2.exceptions import VenCException # TODO: include when needed only
-from venc2.helpers import GenericMessage
 from venc2.prompt import notify
 from urllib.parse import urlparse
 
@@ -79,9 +78,7 @@ def get_venc_version(node):
 def set_color(node, string, color):        
     return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+color+";\">"+string+"</span>"
 
-def set_style(node, ID='', CLASS='', string):
-    ID = argv[0].strip()
-    CLASS = argv[1].strip()
+def set_style(node, ID, CLASS, string):
     return "<span "+ID.strip()+' '+CLASS.strip()+">"+('::'.join(string).strip())+"</span>"
 
 

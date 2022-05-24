@@ -32,7 +32,6 @@ from venc2.l10n import messages
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 from venc2.exceptions import VenCException
-from venc2.patterns.processor import ProcessedString
 from venc2.patterns.exceptions import IllegalUseOfEscape
 
 class EntryWrapper:

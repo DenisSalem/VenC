@@ -50,6 +50,7 @@
     TODO | Regenerate any missing folders.
     TODO | Try to install an up to date oembed providers from https://oembed.com/providers.json with pip
     TODO | Automatically import messages when importing die and notify.
+    TODO | Add command to export only extra folder.
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
 

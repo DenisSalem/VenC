@@ -34,7 +34,6 @@ from venc2.datastore.entry import Entry
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 from venc2.datastore.metadata import Chapter
-from venc2.helpers import GenericMessage
 from venc2.helpers import quirk_encoding
 from venc2.prompt import notify
 from venc2.l10n import messages
@@ -105,8 +104,8 @@ class DataStore:
 
         if self.workers_count > 1:
             # There we setup chunks of entries send to workers throught dispatchers
-            global thread_params
-            thread_params = {
+            global multiprocessing_thread_params
+            multiprocessing_thread_params = {
                 "chunked_filenames" :[],
                 "workers_count" : self.workers_count,
                 "entries": self.entries,
@@ -115,14 +114,14 @@ class DataStore:
                 "cut_threads_kill_workers" : False,
             }
             for i in range(0, self.workers_count):
-                thread_params["chunked_filenames"].append(filenames[:self.chunks_len])
+                multiprocessing_thread_params["chunked_filenames"].append(filenames[:self.chunks_len])
                 filenames = filenames[self.chunks_len:]
             filenames = None
             
             from venc2.parallelism import Parallelism
-            from venc2.parallelism.buid_entries import dispatcher
-            from venc2.parallelism.buid_entries import finish
-            from venc2.parallelism.buid_entries import worker
+            from venc2.parallelism.build_entries import dispatcher
+            from venc2.parallelism.build_entries import finish
+            from venc2.parallelism.build_entries import worker
             
             parallelism = Parallelism(
                 worker,
@@ -133,7 +132,7 @@ class DataStore:
             )
             parallelism.start()
             parallelism.join()
-            if thread_params["cut_threads_kill_workers"]:
+            if multiprocessing_thread_params["cut_threads_kill_workers"]:
                 exit(-1)
                 
         else:
@@ -998,3 +997,11 @@ class DataStore:
                         self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
 
         return get_embed_content(self.embed_providers, content_url)
+
+
+datastore = None
+multiprocessing_thread_params = None
+
+def init_datastore():
+    global datastore
+    datastore = DataStore()

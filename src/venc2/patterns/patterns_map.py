@@ -102,19 +102,19 @@ class PatternsMap():
             "TreeForBlogCategories":	    "tree_for_blog_categories",
         },
         "extra": { # Loaded from function localy imported
-            "Audio":	                  "get_audio",
-            "CodeHighlight":	          "highlight",
-            "CodeHighlightInclude":	    "highlight_include",
-            "DisableMarkup":	          "disable_markup",
-            "GetVenCVersion":	          "get_venc_version",
-            "IncludeFile":	            "include_file",
-            "IncludeFileIfExists":	    "include_file_if_exists",
-            "Kroki":	                  "kroki",
-            "Latex2MathML":	            "latex_2_mathml",
-            "SetColor":	                "set_color",
-            "SetStyle":	                "set_style",
-            "Table":	                  "table",
-            "Video":	                  "get_video",
+            "Audio":	                  "venc2.patterns.theme.get_audio",
+            "CodeHighlight":	          "venc2.patterns.third_party_wrapped_features.pygmentize.highlight",
+            "CodeHighlightInclude":	    "venc2.patterns.third_party_wrapped_features.pygmentize.highlight_include",
+            "DisableMarkup":	          "venc2.patterns.non_contextual.disable_markup",
+            "GetVenCVersion":	          "venc2.patterns.non_contextual.get_venc_version",
+            "IncludeFile":	            "venc2.patterns.non_contextual.include_file",
+            "IncludeFileIfExists":	    "venc2.patterns.non_contextual.include_file_if_exists",
+            "Kroki":	                  "venc2.patterns.third_party_wrapped_features.kroki.kroki",
+            "Latex2MathML":	            "venc2.patterns.third_party_wrapped_features.latex2mathml.latex_2_mathml",
+            "SetColor":	                "venc2.patterns.non_contextual.set_color",
+            "SetStyle":	                "venc2.patterns.non_contextual.set_style",
+            "Table":	                  "venc2.patterns.non_contextual.table",
+            "Video":	                  "venc2.patterns.theme.get_video",
         },
     }
 
@@ -127,26 +127,16 @@ class PatternsMap():
     # TODO
     WAIT_FOR_CHILDREN_TO_BE_PROCESSED = tuple()
     
-    def __init__(self):        
-        # TODO : make dynamic import.
-        from venc2.patterns.theme import get_audio
-        from venc2.patterns.third_party_wrapped_features.pygmentize import highlight
-        from venc2.patterns.third_party_wrapped_features.pygmentize import highlight_include
-        from venc2.patterns.non_contextual import disable_markup
-        from venc2.patterns.non_contextual import venc_version
-        from venc2.patterns.non_contextual import include_file
-        from venc2.patterns.non_contextual import include_file_if_exists
-        from venc2.patterns.third_party_wrapped_features.kroki import kroki
-        from venc2.patterns.third_party_wrapped_features.latex2mathml import latex_2_mathml
-        from venc2.patterns.non_contextual import set_color
-        from venc2.patterns.non_contextual import set_style
-        from venc2.patterns.non_contextual import table
-        from venc2.patterns.theme import get_video
-        
+    def __init__(self):                
+        import importlib
         self.non_contextual = {"extra": dict()}
-        
         for pattern_name in PatternsMap.NON_CONTEXTUALS["extra"].keys():
-            self.non_contextual["extra"] = globals()[pattern_name]
+            pattern_location = PatternsMap.NON_CONTEXTUALS["extra"][pattern_name].split('.')
+            function = pattern_location[-1]
+            module = '.'+pattern_location[-2]
+            package = '.'.join(pattern_location[:-2])
+            self.non_contextual["extra"][pattern_name] = getattr(importlib.import_module(module, package), function)
+
         
     
         

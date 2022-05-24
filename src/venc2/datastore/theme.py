@@ -21,7 +21,6 @@ from venc2.datastore.entry import EntryWrapper
 
 from venc2.prompt import die
 from venc2.l10n import messages
-from venc2.patterns.processor import ProcessedString
 from venc2.patterns.exceptions import IllegalUseOfEscape
 
 class Theme:
