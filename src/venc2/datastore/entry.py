@@ -32,7 +32,8 @@ from venc2.l10n import messages
 from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 from venc2.exceptions import VenCException
-from venc2.patterns.exceptions import IllegalUseOfEscape
+from venc2.exceptions import MalformedPatterns
+from venc2.patterns.processor import StringUnderProcessing
 
 class EntryWrapper:
     def __init__(self, wrapper, filename):
@@ -75,11 +76,11 @@ class Entry:
             entry_parted = [entry_parted[0]] + entry_parted[1].split("---VENC-END-PREVIEW---\n")
             if len(entry_parted) == 3:
                 try:
-                    self.preview = ProcessedString(entry_parted[1], filename)
-                    self.content = ProcessedString(entry_parted[2], filename)
+                    self.preview = StringUnderProcessing(entry_parted[1], filename)
+                    self.content = StringUnderProcessing(entry_parted[2], filename)
 
-                except IllegalUseOfEscape:
-                    die(messages.illegal_use_of_escape.format(filename))
+                except MalformedPatterns as e:
+                    e.die()
                     
                 try:
                     metadata = yaml.load(entry_parted[0], Loader=yaml.FullLoader)
@@ -202,9 +203,6 @@ class Entry:
         self.html_authors = {}
         self.html_categories_leaves = {}
         self.html_for_metadata = {}
-        if self.id == 3:
-          if id(self.preview.non_parallelizables) == id(self.content.non_parallelizables):
-              die("entry: "+"list are the same")
 
 ''' Iterate through entries folder '''
 def yield_entries_content():

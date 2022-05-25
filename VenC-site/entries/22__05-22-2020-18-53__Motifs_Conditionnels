@@ -108,7 +108,7 @@ La fonction teste si le fil de publication courant à plus d'une page.
 
 Ce motif n'a pas de variable contextuelle.
 
-## .:Escape:: IfFeedsEnabled::string1[::string2]:. ::EndEscape:.
+## .:Escape:: .:IfFeedsEnabled::string1[::string2]:. ::EndEscape:.
 
 La fonction teste si VenC est configuré pour générer un flux RSS et/ou un flux Atom.
 
@@ -117,7 +117,7 @@ La fonction teste si VenC est configuré pour générer un flux RSS et/ou un flu
 
 Ce motif n'a pas de variable contextuelle.
 
-## .:Escape:: IfRSSEnabled::string1[::string2]:. ::EndEscape:.
+## .:Escape:: .:IfRSSEnabled::string1[::string2]:. ::EndEscape:.
 
 La fonction teste si VenC est configuré pour généré un flux RSS.
 
@@ -126,7 +126,7 @@ La fonction teste si VenC est configuré pour généré un flux RSS.
 
 Ce motif n'a pas de variable contextuelle.
 
-## .:Escape:: IfAtomEnabled::string1[::string2]:. ::EndEscape:.
+## .:Escape:: .:IfAtomEnabled::string1[::string2]:. ::EndEscape:.
 
 La fonction teste si VenC est configuré pour généré un flux Atom.
 

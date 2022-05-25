@@ -44,7 +44,7 @@ Retourne l'année de création de la publication.
 
 Retourne le jour de création de la publication.
 
-## .:Escape:: . :GetEntryHour:. ::EndEscape:.
+## .:Escape:: .:GetEntryHour:. ::EndEscape:.
 Retourne l'heure de création de la publication.
 
 ## .:Escape:: .:GetEntryMinute:. ::EndEscape:.

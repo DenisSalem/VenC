@@ -232,7 +232,7 @@ class StringUnderProcessing(VenCString):
         if not pattern.name in PatternsMap.CONTEXTUALS.keys():
             pattern.flags |= PatternNode.FLAG_NON_CONTEXTUAL
             
-        if pattern.name in PatternsMap.NON_PARALLELIZABLES.keys():
+        if pattern.name in PatternsMap.NON_PARALLELIZABLES:
             pattern.flags |= PatternNode.FLAG_NON_PARALLELIZABLE
        
     @staticmethod
