@@ -47,7 +47,7 @@ class PatternNode(VenCString):
     FLAG_NONE = 0
     FLAG_NON_CONTEXTUAL = 1
     FLAG_NON_PARALLELIZABLE = 2
-    FLAG_WAIT_FOR_CHILDREN_TO_PROCESSED = 4
+    FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 4
     
     def __init__(self, string, o, c):
         super().__init__()
@@ -78,7 +78,7 @@ class Processor:
         while '∞':
             if len(string_under_processing.sub_strings) == string_under_processing.filtered_offset:
                 return
-            
+
             # looping until sub_string is empty of non filtered pattern
             if len(branch[-1].sub_strings) - branch[-1].filtered_offset:
                 tail_filtered_offset = branch[-1].filtered_offset
@@ -145,10 +145,7 @@ class Processor:
                 
             except Exception as e:
                 raise e
-                e.die()
-            
-    def load_patterns_map(self):
-        return self
+                e.die()        
 
 class StringUnderProcessing(VenCString):
     def __init__(self, string, context):

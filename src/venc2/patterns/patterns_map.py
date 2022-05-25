@@ -129,14 +129,31 @@ class PatternsMap():
     
     def __init__(self):                
         import importlib
-        self.non_contextual = {"extra": dict()}
+        self.non_contextual = {
+            "extra":    dict(),
+            "blog" :    dict(),
+            "entries":  dict()
+        }
+        self.contextual = dict()
+        
         for pattern_name in PatternsMap.NON_CONTEXTUALS["extra"].keys():
             pattern_location = PatternsMap.NON_CONTEXTUALS["extra"][pattern_name].split('.')
             function = pattern_location[-1]
             module = '.'+pattern_location[-2]
             package = '.'.join(pattern_location[:-2])
             self.non_contextual["extra"][pattern_name] = getattr(importlib.import_module(module, package), function)
+            
+        from venc2.datastore import datastore
+        for pattern_name in PatternsMap.NON_CONTEXTUALS["blog"].keys():
+            self.non_contextual["blog"][pattern_name] = getattr(datastore, PatternsMap.NON_CONTEXTUALS["blog"][pattern_name])
 
+        for pattern_name in PatternsMap.NON_CONTEXTUALS["entries"].keys():
+            self.non_contextual["blog"][pattern_name] = getattr(datastore, PatternsMap.NON_CONTEXTUALS["entries"][pattern_name])
+
+def init_pattern_map():
+    global patterns_map
+    patterns_map = PatternsMap()
         
-    
+patterns_map = None
+
         

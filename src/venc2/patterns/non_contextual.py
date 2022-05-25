@@ -147,3 +147,5 @@ def table(node, *argv):
         output += "<tr>"+join(row)+"</tr>"
         
     return output + "</table></div>"
+
+def escape(node, string):

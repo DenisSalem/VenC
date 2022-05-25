@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -114,7 +114,6 @@ class Messages:
     blog_has_no_metadata_like = "Blog has no metadata identified by {0}."
     invalid_range = "Invalid range {0}:{1}."
     entry_metadata_is_not_a_list = "Metadata named \"{0}\" from entry {1} is not a list."
-    illegal_use_of_escape = "illegal use of one or more escape pattern in {0}."
     item_deleted_from_server = "Deleted from server: "
     item_uploaded_to_server = "Uploaded to server: "
     cannot_retrieve_entry_attribute_because_wrong_id = "Cannot retrieve entry attribute because the given id is unknown."

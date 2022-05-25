@@ -21,8 +21,9 @@ import os
 from venc2.patterns.non_contextual import include_file
 
 class CodeHighlight:
-    def __init__(self, override):
-        self._override = override
+    def __init__(self):
+        from venc2.datastore import datastore
+        self._override = datastore.blog_configuration["code_highlight_css_override"]
         self.includes = dict()
 
     def export_style_sheets(self):
@@ -77,7 +78,7 @@ def highlight(node, *pattern_args, included_file=False):
 
 code_highlight = None
 
-def init_code_highlight(override):
+def init_code_highlight():
     global code_highlight
-    code_highlight = CodeHighlight(override)
+    code_highlight = CodeHighlight()
 

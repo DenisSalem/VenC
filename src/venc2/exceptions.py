@@ -55,30 +55,3 @@ class MalformedPatterns(VenCException):
         super().__init__(m, string_under_processing.context)
         self.too_many_opening_symbols = too_many_opening_symbols
         self.extra = s
-
-# Special case of KeyError
-# ~ class UnknownContextual(KeyError):
-    # ~ pass
-
-# ~ class IllegalUseOfEscape(Exception):
-    # ~ def __init__(self, ressource):
-        # ~ self.ressource = ressource
-        # ~ pass
-
-# ~ class PatternInvalidArgument(VenCException):
-    # ~ def __init__(self, name, value, message=''):
-        # ~ self.name = name
-        # ~ self.value = value
-        # ~ self.message = message
-
-# ~ class PatternMissingArguments(Exception):
-    # ~ def __init__(self, e=messages.not_enough_args, expected=1, got=0):
-        # ~ if type(e) != str:
-            # ~ v = e.args[0].replace(',',' ').replace(')',' ').split()
-            # ~ self.expected, self.got = tuple([int(s) for s in v if s.isdigit()])
-            # ~ self.info = messages.not_enough_args.format(self.expected, self.got)
-
-        # ~ else:
-            # ~ self.expected = expected
-            # ~ self.got = got
-            # ~ self.info = e.format(expected,got)

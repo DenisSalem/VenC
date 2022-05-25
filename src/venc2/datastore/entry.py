@@ -33,7 +33,7 @@ from venc2.datastore.metadata import build_categories_tree
 from venc2.datastore.metadata import MetadataNode
 from venc2.exceptions import VenCException
 from venc2.exceptions import MalformedPatterns
-from venc2.patterns.processor import StringUnderProcessing
+from venc2.patterns.processor import StringUnderProcessing    
 
 class EntryWrapper:
     def __init__(self, wrapper, filename):
@@ -57,7 +57,7 @@ class EntryWrapper:
         if len(wrapper) == wrapper_len:
             die(messages.missing_entry_content_inclusion.format(filename))
             
-        self.processed_string = ProcessedString(wrapper, filename, True)
+        self.processed_string = StringUnderProcessing(wrapper, filename)
 
 class Entry:
     def __init__(self, filename, paths, encoding="utf-8", ):

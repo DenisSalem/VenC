@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 # 
 #    This file is part of VenC.
 #
@@ -112,7 +112,6 @@ class Messages:
     blog_has_no_metadata_like = "Le blog ne possède pas la métadonnée identifié par {0}."
     invalid_range = "Plage de nombres invalide {0}:{1}."
     entry_metadata_is_not_a_list = "La métadonné \"{0}\" de la publication {1} n'est pas une liste."
-    illegal_use_of_escape = "Usage illégal d'un ou plusieur motif d'échappement dans le fichier {0}."
     item_deleted_from_server = "Supprimé du serveur: "
     item_uploaded_to_server = "Transféré sur le serveur: "
     cannot_retrieve_entry_attribute_because_wrong_id = "Impossible de récupérer l'attribut de la publication parce que l'id renseigné est inconnu."

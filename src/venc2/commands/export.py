@@ -18,13 +18,12 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from copy import deepcopy
-import os
 import shutil
 import subprocess
 import time
 
-from venc2.datastore import DataStore
-from venc2.datastore import split_datastore
+# ~ MIGHT BE DEPRECATED
+# ~ from venc2.datastore import split_datastore
 from venc2.datastore.theme import Theme
 from venc2.helpers import die
 from venc2.prompt import notify
@@ -37,12 +36,7 @@ from venc2.patterns.exceptions import MalformedPatterns
 from venc2.patterns.patterns_map import PatternsMap
 from venc2.patterns.processor import Processor
         
-# Initialisation of environment
-datastore = None
-code_highlight = None
-
 start_timestamp = time.time()
-theme_assets_dependencies = []
 
 def copy_recursively(src, dest):
     import errno
@@ -61,174 +55,18 @@ def copy_recursively(src, dest):
                 notify(messages.directory_not_copied % e, "YELLOW")
                 
 def export_and_remote_copy(argv=list()):
-    from venc2.commands.remote import remote_copy
     export_blog(argv)
+    from venc2.commands.remote import remote_copy
     remote_copy()
 
-def init_theme(argv):
-    theme_folder = "theme/"
-    themes_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"
-    if len(argv) == 1:
-        if os.path.isdir(themes_folder+argv[0]):
-            theme_folder = themes_folder+argv[0]+"/"
-            
-        else:
-            die(messages.theme_doesnt_exists.format(argv[0]))
-    
-    if not os.path.isdir(theme_folder):
-        die(messages.file_not_found.format(theme_folder))
-        
-    if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(themes_folder+"/config.yaml"):
-        import yaml
-        config = yaml.load(open(theme_folder+"/config.yaml",'r').read(), Loader=yaml.FullLoader)
-        if "override" in config.keys() and type(config["override"]) == dict:
-            # TODO : Be explicit about which value are updated
-            for param in config["override"].keys():
-                if type(config["override"][param]) == dict and param in datastore.blog_configuration.keys() and type(datastore.blog_configuration[param]) == dict:
-                    datastore.blog_configuration[param].update(config["override"][param])
-                
-                else:
-                    datastore.blog_configuration[param] = config["override"][param]
-
-        if "assets_dependencies" in config.keys() and type(config["assets_dependencies"]) == list:
-            global theme_assets_dependencies
-            theme_assets_dependencies = config["assets_dependencies"]
-            
-        if "includes_dependencies" in config.keys() and type(config["includes_dependencies"]) == list:
-            global theme_includes_dependencies
-            append = theme_includes_dependencies.append
-            for include_file in config["includes_dependencies"]:
-                append(include_file)
-                
-    try:
-        return Theme(theme_folder), theme_folder
-        
-    except MalformedPatterns as e:
-        from venc2.helpers import handle_malformed_patterns
-        handle_malformed_patterns(e)
-
-def setup_pattern_processor(patterns_map, parallel=False):        
+def setup_pattern_processor(parallel=False):        
     processor = Processor()
-
-    for pattern_name in patterns_map.non_contextual["entries"].keys():
-        processor.set_function(pattern_name, patterns_map.non_contextual["entries"][pattern_name])
-
-    for pattern_name in patterns_map.non_contextual["blog"].keys():
-        processor.set_function(pattern_name, patterns_map.non_contextual["blog"][pattern_name])
+    from venc2.patterns.patterns_map import patterns_map
+    processor.set_patterns(patterns_map.non_contextual["blog"])
+    processor.set_patterns(patterns_map.non_contextual["entries"])
+    processor.set_patterns(patterns_map.non_contextual["extra"])
         
-    for pattern_name in patterns_map.non_contextual["extra"].keys():
-        processor.set_function(pattern_name, patterns_map.non_contextual["extra"][pattern_name])
-
-    if parallel:        
-        processor.non_parallelizable += patterns_map.non_contextual["non_parallelizable"].keys()
-    
-    for pattern_name in patterns_map.non_contextual["non_parallelizable"].keys():
-        processor.set_function(pattern_name, patterns_map.non_contextual["non_parallelizable"][pattern_name])
-
-    processor.blacklist += patterns_map.contextual["names"].keys()
-    processor.blacklist += patterns_map.contextual["functions"].keys()
-    processor.blacklist.append("Escape")
-        
-    processor.keep_appart_from_markup += patterns_map.keep_appart_from_markup
-
     return processor
-
-def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
-    output_context = []
-    global datastore
-    send_in.send(datastore)
-    try:
-        while len(thread_params["worker_context_chunks"][dispatcher_id]):
-            if thread_params["cut_threads_kill_workers"]:
-                process.kill()
-                
-            current = thread_params["worker_context_chunks"][dispatcher_id][:sub_chunk_len]
-            thread_params["worker_context_chunks"][dispatcher_id] = thread_params["worker_context_chunks"][dispatcher_id][sub_chunk_len:]
-            send_in.send(current)
-            current = None
-            output_context += recv_out.recv()
-
-    except:
-        thread_params["cut_threads_kill_workers"] = True
-        process.kill()
-        return
-        
-    send_in.send([])
-    thread_params["code_highlight_includes"][dispatcher_id], thread_params["non_parallelizable"][dispatcher_id]= recv_out.recv()
-    thread_params["worker_context_chunks"][dispatcher_id] = output_context
-    
-def worker(worker_id, send_out, recv_in, single_process_argv=None):
-    if single_process_argv == None:
-        datastore = send_out.recv()
-    
-        # TODO : could be avoided by sending Theme
-        theme, theme_folder = init_theme(datastore.init_theme_argv)
-        code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
-        patterns_map = PatternsMap(datastore, code_highlight, theme)
-        pattern_processor = setup_pattern_processor(patterns_map, parallel = True if single_process_argv == None else False)
-        chunk = send_out.recv()
-    else:
-        datastore, theme, theme_folder, code_highlight, pattern_processor = single_process_argv
-        chunk = datastore.entries
-    
-    notify("│  "+("└─ " if worker_id == datastore.workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
-    default_markup_language = datastore.blog_configuration["markup_language"]
-
-    non_parallelizable = []
-    non_parallelizable_append = non_parallelizable.append
-
-    while len(chunk):
-        for entry in chunk:
-            entry_has_non_parallelizable = False
-            datastore.requested_entry = entry
-            
-            if hasattr(entry, "markup_language"):
-                markup_language = getattr(entry, "markup_language")
-                
-            else:
-                markup_language = default_markup_language
-                
-            entry_has_non_parallelizable |= pattern_processor.process(entry.content)
-            process_markup_language(entry.content, markup_language, entry)
-
-            entry_has_non_parallelizable |= pattern_processor.process(entry.preview)
-            process_markup_language(entry.preview, markup_language, None)
-                
-            entry.html_wrapper = deepcopy(theme.entry)
-            entry_has_non_parallelizable |= pattern_processor.process(entry.html_wrapper.processed_string)
-            entry.html_wrapper.processed_string.replace_needles()
-           
-            entry.rss_wrapper = deepcopy(theme.rss_entry)
-            entry_has_non_parallelizable |= pattern_processor.process(entry.rss_wrapper.processed_string)
-            entry.rss_wrapper.processed_string.replace_needles()
-            
-            entry.atom_wrapper = deepcopy(theme.atom_entry)
-            entry_has_non_parallelizable |= pattern_processor.process(entry.atom_wrapper.processed_string)
-            entry.atom_wrapper.processed_string.replace_needles()
-            
-            if entry_has_non_parallelizable:
-                non_parallelizable_append(entry.index)
-
-        if single_process_argv == None:
-            recv_in.send(chunk)
-            chunk = send_out.recv()
-            
-        else:
-            break
-            
-    if single_process_argv == None:
-        recv_in.send((code_highlight.includes, non_parallelizable))
-
-def finish(worker_id):
-    global datastore
-    datastore.entries += thread_params["worker_context_chunks"][worker_id]
-    thread_params["worker_context_chunks"][worker_id] = None
-    global code_highlight
-    for key in thread_params["code_highlight_includes"][worker_id].keys():
-        if not key in code_highlight.includes.keys():
-            code_highlight.includes[key] = thread_params["code_highlight_includes"][worker_id][key]
-    thread_params["code_highlight_includes"][worker_id] = None
-
 
 def process_non_parallelizables_pre_processed(run_pattern, entry_pre_processed):
     for np in entry_pre_processed.non_parallelizables:
@@ -244,7 +82,6 @@ def process_non_parallelizables_pre_processed(run_pattern, entry_pre_processed):
               e.c+=offset
             
 def process_non_parallelizables(datastore, patterns_map, thread_params):
-  
     notify("├─ "+messages.process_non_parallelizable)
     pattern_processor = Processor()
     for pattern_name in patterns_map.non_contextual["non_parallelizable"].keys():
@@ -263,13 +100,10 @@ def process_non_parallelizables(datastore, patterns_map, thread_params):
             process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.rss_wrapper.processed_string)
             process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.atom_wrapper.processed_string)
                     
-def process_non_contextual_patterns(init_theme_argv):    
-    theme, theme_folder = init_theme(init_theme_argv)
-    datastore.init_theme_argv = init_theme_argv
-    global code_highlight
-    code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
-    patterns_map = PatternsMap(datastore, code_highlight, theme)
-    pattern_processor = setup_pattern_processor(patterns_map)
+def process_non_contextual_patterns():    
+    pattern_processor = setup_pattern_processor()
+
+    die("INTEGRATION IN PROGRESS")
 
     if datastore.workers_count > 1:
         # There we setup chunks of entries send to workers throught dispatchers
@@ -319,7 +153,6 @@ def process_non_contextual_patterns(init_theme_argv):
     if datastore.workers_count > 1:
         process_non_parallelizables(datastore, patterns_map, thread_params)
     
-    notify("DEBUG")
     pattern_processor.process(theme.header)
     theme.header.replace_needles()
     
@@ -341,15 +174,21 @@ def process_non_contextual_patterns(init_theme_argv):
     return theme, theme_folder, code_highlight, patterns_map
     
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
-def export_blog(argv=list()):
-    global datastore
-    if datastore == None:
-        datastore = DataStore()
+def export_blog(theme_name=''):
+    from venc2.datastore import init_datastore
+    init_datastore()
     
     notify("├─ "+messages.pre_process)
     
-    theme, theme_folder, code_highlight, patterns_map = process_non_contextual_patterns(argv)
-     
+    from venc2.datastore.theme import init_theme
+    init_theme(theme_name)
+    from venc2.patterns.third_party_wrapped_features.pygmentize import init_code_highlight
+    init_code_highlight()
+    from venc2.patterns.patterns_map import init_pattern_map
+    init_pattern_map()
+    
+    process_non_contextual_patterns()
+
     if not datastore.blog_configuration["disable_single_entries"]:
         notify("├─ "+messages.link_entries)
         # Add required link between entries
@@ -406,11 +245,7 @@ def export_blog(argv=list()):
     
     notify(messages.task_done_in_n_seconds.format(round(time.time() - start_timestamp,6)))
 
-def edit_and_export(argv):
-    global datastore
-    datastore = manager.DataStore()
-    
-    
+def edit_and_export(argv):    
     if len(argv) != 1:
         die(messages.missing_params.format("--edit-and-export"))
     
