@@ -148,4 +148,15 @@ def table(node, *argv):
         
     return output + "</table></div>"
 
-def escape(node, string):
+def escape(node, string, legacy_end_escape='', root_call=True):
+    # TODO: when too much args are given
+        
+    while len(node.sub_strings):
+        sub_node = node.sub_strings.pop()
+        if len(sub_node.sub_strings) == 0:
+            node.update_child(".:"+sub_node.name+"::"+("::".join(sub_node.args))+":.", sub_node, apply_offset=False)
+        else:
+            node.update_child(escape(sub_node, string, root_call=False), sub_node, apply_offset=False)
+
+    # LEGACY TO DROP in 3.x.x
+    return ( str(node)[10:-13] if len(legacy_end_escape) else str(node)[10:-2]) if root_call else str(node)

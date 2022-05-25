@@ -26,11 +26,12 @@ class VenCString:
         self.filtered_patterns = []
         self.id = "\x00"+str(id(self))+"\x00"
         
-    def update_child(self, new_chunk, child):
+    def update_child(self, new_chunk, child, apply_offset=True):
         self._str = self._str[:child.o]+new_chunk+self._str[child.c+2:]
-        offset = len(new_chunk) - (child.c + 2 - child.o)
-        child.c += offset
-        VenCString.__apply_offset(self.sub_strings, offset, child.o)
+        if apply_offset:
+            offset = len(new_chunk) - (child.c + 2 - child.o)
+            child.c += offset
+            VenCString.__apply_offset(self.sub_strings, offset, child.o)
                   
     @staticmethod
     def __apply_offset(sub_strings, offset, o):
@@ -73,13 +74,13 @@ class Processor:
             pattern.filtered_offset = 0
             
         string_under_processing.filtered_patterns = []
-        
         # Yes, we're walking a tree with an iterative implementation ...
+        # Because I want the code to run so fast it actualy has to break causality principle.
         while '∞':
             if len(string_under_processing.sub_strings) == string_under_processing.filtered_offset:
                 return
 
-            # looping until sub_string is empty of non filtered pattern
+            # looping until sub_string is empty of non filtered pattern            
             if len(branch[-1].sub_strings) - branch[-1].filtered_offset:
                 tail_filtered_offset = branch[-1].filtered_offset
                 tail_sub_strings = branch[-1].sub_strings
@@ -88,14 +89,13 @@ class Processor:
                     tail_sub_strings[-1-tail_filtered_offset].flags & PatternNode.FLAG_NON_PARALLELIZABLE == non_parallelizable :
                     branch_append(tail_sub_strings[-1-tail_filtered_offset])
                     
+                    if branch[-1].name != "Escape":
+                        continue
                 else:
-                    if not branch[-1] in string_under_processing.filtered_patterns:
-                        string_under_processing.filtered_patterns.append(branch[-1])
-                        
+                    string_under_processing.filtered_patterns.append(branch[-1])
                     branch[-1].filtered_offset+=1
-                    
-                continue
-                
+                    continue
+            
             try:
                 node = branch_pop()
                 tail = branch[-1]
@@ -113,7 +113,6 @@ class Processor:
                             parent_args[args_index] = parent_args[args_index][:o]+chunk+parent_args[args_index][c+2:]
                             new_parent_arg_len = len(parent_args[args_index])
                             offset = new_parent_arg_len - old_parent_arg_len
-                        
                             break
                           
                         i += 2 + len(parent_args[args_index])
@@ -145,13 +144,13 @@ class Processor:
                 
             except Exception as e:
                 raise e
-                e.die()        
 
 class StringUnderProcessing(VenCString):
     def __init__(self, string, context):
         super().__init__()
         self._str = string
         self.context = context
+
         self.filtered_pattern = []
 
         # This block get indexes of opening and closing patterns.

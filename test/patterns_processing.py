@@ -103,6 +103,27 @@ def test_filter_process(verbose=False):
     if str(sup) != "As Above [ BLA lololol BLA] True":
         die("test_filter_process: expected string mismatch with output")
 
+def test_escape(verbose=False):
+    s = ".:Escape:: .:BullshitPattern::Bullshit args:. :. .:Escape:: .:Escape:: .:BullshitPattern::Bullshit args:. :. ::EndEscape:."
+    sup = StringUnderProcessing(s, "test_escape")
+    if verbose:
+      print(s)
+      print(sup)
+    p = Processor()
+    from venc2.patterns.non_contextual import escape
+    p.set_patterns({
+        "Escape": escape
+    })
+    if verbose:
+      print(sup)
+
+    p.process(sup, True, False)
+    
+    if str(sup) != " .:BullshitPattern::Bullshit args:.   .:Escape:: .:BullshitPattern::Bullshit args:. :. ":
+        die("test_escape: expected string mismatch with output")    
+
 test_datastructure()
 test_full_process()
-test_filter_process(True)
+test_filter_process()
+test_escape()
+notify("Test passed")

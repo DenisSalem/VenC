@@ -127,13 +127,9 @@ Ce motif ne prend qu'un seul paramètre.
 
 - __content__ : le texte pour lequel on veut désactiver l'interpréteur de langage de balisage.
 
-## .:IncludeFile::true::escape:.
+## .:Escape:: .:Escape::content:. :.
 
-Ce motif est traité un peu différemment des autres. Il permet d'ignorer les motifs contenus à l'intérieur
-du texte de l'unique argument __content__.
-
-Ce motif ne peut pas s'échapper lui-même. Pour ignorer ce motif, il doit être inclus dans un fichier avec
-le pattern __IncludeFile__ dont l'argument __escape__ doit être fixé à _True_.
+Il permet d'ignorer les motifs contenus à l'intérieur du texte de l'unique argument __content__.
 
 ## .:Escape:: .:GetJSON-LD:. ::EndEscape:.
 
