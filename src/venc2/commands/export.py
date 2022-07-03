@@ -23,9 +23,7 @@ import subprocess
 import time
 
 # ~ MIGHT BE DEPRECATED
-# ~ from venc2.datastore import split_datastore
 from venc2.datastore.theme import Theme
-from venc2.helpers import die
 from venc2.prompt import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
@@ -54,8 +52,8 @@ def copy_recursively(src, dest):
             else:
                 notify(messages.directory_not_copied % e, "YELLOW")
                 
-def export_and_remote_copy(argv=list()):
-    export_blog(argv)
+def export_and_remote_copy(theme_name=''):
+    export_blog(theme_name='')
     from venc2.commands.remote import remote_copy
     remote_copy()
 
@@ -100,35 +98,45 @@ def process_non_parallelizables(datastore, patterns_map, thread_params):
             process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.rss_wrapper.processed_string)
             process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.atom_wrapper.processed_string)
                     
-def process_non_contextual_patterns():    
+def process_non_contextual_patterns():
     pattern_processor = setup_pattern_processor()
-
-    die("INTEGRATION IN PROGRESS")
+    from venc2.datastore import datastore
+    from venc2.datastore.theme import theme
 
     if datastore.workers_count > 1:
         # There we setup chunks of entries send to workers throught dispatchers
         datastore.chunks_len = (len(datastore.entries)//datastore.workers_count)+1
-        global thread_params
-        thread_params = {
-          "cut_threads_kill_workers": False,
-          "code_highlight_includes": [{} for i in range(0, datastore.workers_count)],
-          "non_parallelizable": [[] for i in range(0, datastore.workers_count)]
-        }
+
+        from venc2.parallelism.export_entries import split_datastore, thread_params
+
+        thread_params["cut_threads_kill_workers"] = False
+        thread_params["code_highlight_includes"] = [{} for i in range(0, datastore.workers_count)]
+        thread_params["non_parallelizable"] = [[] for i in range(0, datastore.workers_count)]
         thread_params["worker_context_chunks"] = split_datastore(datastore)
     
         from venc2.parallelism import Parallelism
+        from venc2.parallelism.export_entries import worker, finish, dispatcher
         parallelism = Parallelism(
             worker,
             finish,
             dispatcher,
             datastore.workers_count,
-            datastore.blog_configuration["pipe_flow"]
+            datastore.blog_configuration["pipe_flow"],
+            (
+                True,
+                datastore,
+                theme,
+                pattern_processor
+            )
         )
         parallelism.start()
         parallelism.join()
         if thread_params["cut_threads_kill_workers"]:
             exit(-1)
-      
+
+    from venc2.helpers import die    
+    die("INTEGRATION IN PROGRESS!")
+
     if not datastore.blog_configuration["disable_chapters"]:
         for entry in datastore.entries:
             datastore.update_chapters(entry)
@@ -141,10 +149,9 @@ def process_non_contextual_patterns():
             None,
             None,
             (
+                False,
                 datastore,
                 theme,
-                theme_folder,
-                code_highlight,
                 pattern_processor
             )
         )
@@ -247,6 +254,7 @@ def export_blog(theme_name=''):
 
 def edit_and_export(argv):    
     if len(argv) != 1:
+        from venc2.helpers import die
         die(messages.missing_params.format("--edit-and-export"))
     
     try:
@@ -255,6 +263,7 @@ def edit_and_export(argv):
             pass
 
     except TypeError:
+        from venc2.helpers import die
         die(messages.unknown_text_editor.format(datastore.blog_configuration["text_editor"]))
     
     except:

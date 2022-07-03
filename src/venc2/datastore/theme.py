@@ -23,6 +23,7 @@ theme = None
 
 class Theme:
     def __init__(self, theme_folder):
+        self.theme_folder = theme_folder
         from venc2.exceptions import MalformedPatterns
         from venc2.patterns.processor import StringUnderProcessing
         try:

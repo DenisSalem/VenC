@@ -17,16 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-# ~ def split_datastore(datastore):
-    # ~ chunks = []
-    # ~ entries = datastore.entries
-    # ~ datastore.entries = []
-    # ~ for i in range(0, datastore.workers_count):
-        # ~ chunks.append(entries[:datastore.chunks_len])
-        # ~ entries = entries[datastore.chunks_len:]
-        
-    # ~ return chunks
-
 def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     output_context = []
     from venc2.datastore import multiprocessing_thread_params
@@ -51,7 +41,7 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     send_in.send([])
     multiprocessing_thread_params["chunked_filenames"][dispatcher_id] = output_context
     
-def worker(worker_id, send_out, recv_in):
+def worker(worker_id, send_out, recv_in, single_process_argv=None):
     from venc2.datastore.entry import Entry
     from venc2.prompt import notify
     from venc2.l10n import messages

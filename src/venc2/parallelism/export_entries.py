@@ -17,11 +17,23 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+thread_params = {}
+
+def split_datastore(datastore):
+    chunks = []
+    entries = datastore.entries
+    datastore.entries = []
+    for i in range(0, datastore.workers_count):
+        chunks.append(entries[:datastore.chunks_len])
+        entries = entries[datastore.chunks_len:]
+        
+    return chunks
+
 def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     output_context = []
-    global datastore
-    send_in.send(datastore)
+    from venc2.parallelism.export_entries import thread_params
     try:
+
         while len(thread_params["worker_context_chunks"][dispatcher_id]):
             if thread_params["cut_threads_kill_workers"]:
                 process.kill()
@@ -41,20 +53,24 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     thread_params["code_highlight_includes"][dispatcher_id], thread_params["non_parallelizable"][dispatcher_id]= recv_out.recv()
     thread_params["worker_context_chunks"][dispatcher_id] = output_context
     
-def worker(worker_id, send_out, recv_in, single_process_argv=None):
-    if single_process_argv == None:
-        datastore = send_out.recv()
-    
+def worker(worker_id, send_out, recv_in, process_argv=None):
+    if process_argv[0]:
+        #params = send_out.recv()
+        
         # TODO : could be avoided by sending Theme
-        theme, theme_folder = init_theme(datastore.init_theme_argv)
-        code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
-        patterns_map = PatternsMap(datastore, code_highlight, theme)
-        pattern_processor = setup_pattern_processor(patterns_map, parallel = True if single_process_argv == None else False)
+        datastore, theme, pattern_processor = process_argv[1:]
+        # ~ theme, theme_folder = init_theme(datastore.init_theme_argv)
+        # ~ code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
+        # ~ patterns_map = PatternsMap(datastore, code_highlight, theme)
+        #pattern_processor = setup_pattern_processor(patterns_map, parallel = True if single_process_argv == None else False)
         chunk = send_out.recv()
     else:
-        datastore, theme, theme_folder, code_highlight, pattern_processor = single_process_argv
+        datastore, theme, pattern_processor = process_argv[1:]
         chunk = datastore.entries
-    
+        
+    from venc2.prompt import notify
+    from venc2.l10n import messages
+
     notify("│  "+("└─ " if worker_id == datastore.workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
     default_markup_language = datastore.blog_configuration["markup_language"]
 
@@ -72,24 +88,25 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
             else:
                 markup_language = default_markup_language
                 
-            entry_has_non_parallelizable |= pattern_processor.process(entry.content)
+            pattern_processor.process(entry.content, True, False)
             process_markup_language(entry.content, markup_language, entry)
 
-            entry_has_non_parallelizable |= pattern_processor.process(entry.preview)
+            pattern_processor.process(entry.preview, True, False)
             process_markup_language(entry.preview, markup_language, None)
                 
             entry.html_wrapper = deepcopy(theme.entry)
-            entry_has_non_parallelizable |= pattern_processor.process(entry.html_wrapper.processed_string)
-            entry.html_wrapper.processed_string.replace_needles()
+            pattern_processor.process(entry.html_wrapper.processed_string, True, False)
+            # ~ entry.html_wrapper.processed_string.replace_needles()
            
             entry.rss_wrapper = deepcopy(theme.rss_entry)
-            entry_has_non_parallelizable |= pattern_processor.process(entry.rss_wrapper.processed_string)
-            entry.rss_wrapper.processed_string.replace_needles()
+            pattern_processor.process(entry.rss_wrapper.processed_string, True, False)
+            # ~ entry.rss_wrapper.processed_string.replace_needles()
             
             entry.atom_wrapper = deepcopy(theme.atom_entry)
-            entry_has_non_parallelizable |= pattern_processor.process(entry.atom_wrapper.processed_string)
-            entry.atom_wrapper.processed_string.replace_needles()
+            pattern_processor.process(entry.atom_wrapper.processed_string, True, False)
+            # ~ entry.atom_wrapper.processed_string.replace_needles()
             
+            # TODO Extract non parallelizable while StringUnderProcessing is instancing
             if entry_has_non_parallelizable:
                 non_parallelizable_append(entry.index)
 
@@ -104,7 +121,7 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
         recv_in.send((code_highlight.includes, non_parallelizable))
 
 def finish(worker_id):
-    global datastore
+    from venc2.datastore import datastore
     datastore.entries += thread_params["worker_context_chunks"][worker_id]
     thread_params["worker_context_chunks"][worker_id] = None
     global code_highlight

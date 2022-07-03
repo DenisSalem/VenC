@@ -21,14 +21,14 @@
 from venc2.l10n import messages;
 from venc2 import venc_version
 
-def print_version(argv):
+def print_version():
     print("VenC", venc_version)
     import platform
     print("Python", platform.python_version())
 
 
 # Will be removed and replaced by argparse
-def print_help(argv=None):
+def print_help():
     print("-v\t--version")
     print("-nb\t--new-blog <\""+messages.arg_blog_name.format("1")+"\"> [\""+messages.arg_blog_name.format("2")+"\" ... ]")
     print("-ne\t--new-entry <\""+messages.arg_entry_name+"\"> [\""+messages.arg_template_name+"\"]")

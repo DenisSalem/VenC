@@ -85,8 +85,8 @@ class Processor:
                 tail_filtered_offset = branch[-1].filtered_offset
                 tail_sub_strings = branch[-1].sub_strings
                 # pick the right node or skip it.
-                if  tail_sub_strings[-1-tail_filtered_offset].flags & PatternNode.FLAG_NON_CONTEXTUAL == non_contextual and \
-                    tail_sub_strings[-1-tail_filtered_offset].flags & PatternNode.FLAG_NON_PARALLELIZABLE == non_parallelizable :
+                if  (tail_sub_strings[-1-tail_filtered_offset].flags & PatternNode.FLAG_NON_CONTEXTUAL) == non_contextual and \
+                    (tail_sub_strings[-1-tail_filtered_offset].flags & PatternNode.FLAG_NON_PARALLELIZABLE) == non_parallelizable :
                     branch_append(tail_sub_strings[-1-tail_filtered_offset])
                     
                     if branch[-1].name != "Escape":

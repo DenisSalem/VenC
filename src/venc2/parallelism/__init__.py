@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -21,7 +21,7 @@ from multiprocessing import Process, Pipe
 from threading import Thread
 
 class Parallelism:
-    def __init__(self, worker, finish, dispatcher, n, sub_chunk_len):
+    def __init__(self, worker, finish, dispatcher, n, sub_chunk_len, params=None):
         self.threads = []
         self.processes = []
         self.n = n
@@ -30,10 +30,10 @@ class Parallelism:
             send_in, send_out = Pipe()
             recv_in, recv_out = Pipe()
             self.processes.append(
-                Process(target=worker, args=(i,send_out,recv_in,))
+                Process(target=worker, args=(i,send_out,recv_in, params))
             )
             self.threads.append(
-                Thread(target=dispatcher, args=(i, self.processes[-1], sub_chunk_len, send_in, recv_out,))
+                Thread(target=dispatcher, args=(i, self.processes[-1], sub_chunk_len, send_in, recv_out))
             )
         
     def join(self):
