@@ -23,15 +23,11 @@ import subprocess
 import time
 
 # ~ MIGHT BE DEPRECATED
-from venc2.datastore.theme import Theme
 from venc2.prompt import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
-from venc2.markup_languages import process_markup_language
 from venc2.patterns.non_contextual import theme_includes_dependencies
-from venc2.patterns.code_highlight import CodeHighlight
 from venc2.patterns.exceptions import MalformedPatterns
-from venc2.patterns.patterns_map import PatternsMap
 from venc2.patterns.processor import Processor
         
 start_timestamp = time.time()
@@ -92,11 +88,20 @@ def process_non_parallelizables(datastore, patterns_map, thread_params):
     for l in thread_params["non_parallelizable"]:
         for entry_index in l:
             entry = datastore.entries[entry_index]
-            process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.preview)
-            process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.content)
-            process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.html_wrapper.processed_string,)
-            process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.rss_wrapper.processed_string)
-            process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.atom_wrapper.processed_string)
+            if entry.preview.has_non_parallelizables:
+                process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.preview)
+            
+            if entry.content.has_non_parallelizables:
+                process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.content)
+            
+            if entry.html_wrapper.processed_string.preview.has_non_parallelizables:
+                process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.html_wrapper.processed_string)
+                
+            if entry.rss_wrapper.processed_string.has_non_parallelizables:
+                process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.rss_wrapper.processed_string)
+                
+            if entry.atom_wrapper.processed_string.has_non_parallelizables:
+                process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.atom_wrapper.processed_string)
                     
 def process_non_contextual_patterns():
     pattern_processor = setup_pattern_processor()
@@ -160,26 +165,14 @@ def process_non_contextual_patterns():
     if datastore.workers_count > 1:
         process_non_parallelizables(datastore, patterns_map, thread_params)
     
-    pattern_processor.process(theme.header)
-    theme.header.replace_needles()
-    
-    pattern_processor.process(theme.footer)    
-    theme.footer.replace_needles()
-    
-    pattern_processor.process(theme.rss_header) 
-    theme.rss_header.replace_needles()
-    
-    pattern_processor.process(theme.rss_footer)
-    theme.rss_footer.replace_needles()
-    
-    pattern_processor.process(theme.atom_header)
-    theme.atom_header.replace_needles()
-    
-    pattern_processor.process(theme.atom_footer) 
-    theme.atom_footer.replace_needles()
-        
-    return theme, theme_folder, code_highlight, patterns_map
-    
+    # ????????????
+    # ~ pattern_processor.process(theme.header)
+    # ~ pattern_processor.process(theme.footer)    
+    # ~ pattern_processor.process(theme.rss_header) 
+    # ~ pattern_processor.process(theme.rss_footer)
+    # ~ pattern_processor.process(theme.atom_header)
+    # ~ pattern_processor.process(theme.atom_footer) 
+            
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(theme_name=''):
     from venc2.datastore import init_datastore

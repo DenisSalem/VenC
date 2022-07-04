@@ -21,7 +21,7 @@ def VenCreStructuredText(source):
     try:
         from docutils.core import publish_parts
         from docutils.utils import SystemMessage
-        string = publish_parts(source.string, writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
+        string = publish_parts(str(source), writer_name='html', settings_overrides={'doctitle_xform':False, 'halt_level': 2, 'traceback': True, "warning_stream":"/dev/null"})['html_body']
         return string
 
     except ModuleNotFoundError:

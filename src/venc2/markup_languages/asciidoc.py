@@ -32,7 +32,7 @@ def VenCAsciiDoc(source, attributes):
         from venc2.l10n import messages
         die(messages.module_not_found.format('asciidoc3'))
     
-    infile = io.StringIO(source.string)
+    infile = io.StringIO(str(source))
     outfile = io.StringIO()
     
     ad.options('--no-header-footer')

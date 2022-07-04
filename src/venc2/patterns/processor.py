@@ -150,7 +150,7 @@ class StringUnderProcessing(VenCString):
         super().__init__()
         self._str = string
         self.context = context
-
+        self.has_non_parallelizables = False
         self.filtered_pattern = []
 
         # This block get indexes of opening and closing patterns.
@@ -198,7 +198,14 @@ class StringUnderProcessing(VenCString):
         # - Set pattern flags.
         # - Replace patterns by their unique identifier.
         self.__finalize_patterns_tree(sub_strings)
-        
+    
+    def reset_index(self, new_string):
+        self._str = new_string
+        for sub_string in self.sub_strings:
+            print(">",sub_string) # DEBUG
+            
+        exit()
+    
     def __finalize_patterns_tree(self, nodes, parent=None):
         if parent != None:
             parent.sub_strings = sorted(nodes, key = lambda n:n.o)
@@ -221,16 +228,16 @@ class StringUnderProcessing(VenCString):
             l = str(pattern)[2:-2].split('::')
             pattern.name = l[0]
             pattern.args += l[1:]
-            StringUnderProcessing.__set_pattern_flags(pattern)
+            self.__set_pattern_flags(pattern)
             
-    @staticmethod
-    def __set_pattern_flags(pattern):
+    def __set_pattern_flags(self, pattern):
         if not pattern.name in PatternsMap.CONTEXTUALS.keys():
             pattern.flags |= PatternNode.FLAG_NON_CONTEXTUAL
             
         if pattern.name in PatternsMap.NON_PARALLELIZABLES:
             pattern.flags |= PatternNode.FLAG_NON_PARALLELIZABLE
-       
+            self.has_non_parallelizables = True
+    
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
       l = list()

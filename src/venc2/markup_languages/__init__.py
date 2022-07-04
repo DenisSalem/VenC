@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -33,33 +33,32 @@ def handle_markup_language_error(message, line=None, string=None):
 
 #TODO: class name should not be capitalized
 def process_markup_language(source, markup_language, entry=None):
-        if markup_language == "Markdown":
-            #TODO: wrap this in a function
-            try:
-                from venc2.markup_languages.markdown import VenCMarkdown
+    if markup_language == "Markdown":
+        #TODO: wrap this in a function
+        try:
+            from venc2.markup_languages.markdown import VenCMarkdown
+            
+        except ModuleNotFoundError:
+            from venc2.prompt import die
+            die(messages.module_not_found.format('markdown2'))
+
+        venc_markdown = VenCMarkdown(extras=["header-ids", "footnotes","toc"])
+        string = venc_markdown.convert(str(source))
+
+        if entry != None:
+            entry.toc = tuple(venc_markdown.table_of_content)
+
+    elif markup_language == "asciidoc":
+        #TODO: support metadata parametrisation
+        from venc2.markup_languages.asciidoc import VenCAsciiDoc
+        string = VenCAsciiDoc(source, {})
+        
+    elif markup_language == "reStructuredText":
+        from venc2.markup_languages.restructuredtext import VenCreStructuredText
+        string = VenCreStructuredText(source)
                 
-            except ModuleNotFoundError:
-                from venc2.prompt import die
-                die(messages.module_not_found.format('markdown2'))
-
-            venc_markdown = VenCMarkdown(extras=["header-ids", "footnotes","toc"])
-            string = venc_markdown.convert(source.string)
-            if entry != None:
-                entry.toc = tuple(venc_markdown.table_of_content)
-
-        elif markup_language == "asciidoc":
-            #TODO: support metadata parametrisation
-            from venc2.markup_languages.asciidoc import VenCAsciiDoc
-            string = VenCAsciiDoc(source, {})
-            
-        elif markup_language == "reStructuredText":
-            from venc2.markup_languages.restructuredtext import VenCreStructuredText
-            string = VenCreStructuredText(source)
-                    
-        elif markup_language != "none":
-            err = messages.unknown_markup_language.format(markup_language, source.ressource)
-            handle_markup_language_error(err)
-            
-        if markup_language != "none":
-            source.string = string
-            source.replace_needles(in_entry=True)
+    elif markup_language != "none":
+        err = messages.unknown_markup_language.format(markup_language, source.ressource)
+        handle_markup_language_error(err)
+        
+    source.reset_index(string)

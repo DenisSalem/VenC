@@ -54,6 +54,8 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     thread_params["worker_context_chunks"][dispatcher_id] = output_context
     
 def worker(worker_id, send_out, recv_in, process_argv=None):
+    from venc2.markup_languages import process_markup_language
+    
     if process_argv[0]:
         #params = send_out.recv()
         
@@ -96,18 +98,19 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
                 
             entry.html_wrapper = deepcopy(theme.entry)
             pattern_processor.process(entry.html_wrapper.processed_string, True, False)
-            # ~ entry.html_wrapper.processed_string.replace_needles()
            
             entry.rss_wrapper = deepcopy(theme.rss_entry)
             pattern_processor.process(entry.rss_wrapper.processed_string, True, False)
-            # ~ entry.rss_wrapper.processed_string.replace_needles()
             
             entry.atom_wrapper = deepcopy(theme.atom_entry)
             pattern_processor.process(entry.atom_wrapper.processed_string, True, False)
-            # ~ entry.atom_wrapper.processed_string.replace_needles()
             
-            # TODO Extract non parallelizable while StringUnderProcessing is instancing
-            if entry_has_non_parallelizable:
+            if \
+              entry.content.has_non_parallelizables or \
+              entry.preview.has_non_parallelizables or \
+              entry.html_wrapper.processed_string.has_non_parallelizables or \
+              entry.atom_wrapper.processed_string.has_non_parallelizables or \
+              entry.rss_wrapper.processed_string.has_non_parallelizables:
                 non_parallelizable_append(entry.index)
 
         if single_process_argv == None:
