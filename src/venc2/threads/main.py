@@ -20,9 +20,10 @@
 from venc2.threads import Thread
 
 class MainThread(Thread):
-    def __init__(self, prompt, datastore, theme, patterns_map):
-        super().__init__(prompt, datastore, theme, patterns_map)
-        
+    def __init__(self):
+        from venc2.l10n import messages
+        super().__init__(messages.export_main_thread)
+        from venc2.datastore import datastore
         if datastore.blog_configuration["disable_main_thread"]:
             self.pages_count = 0
 

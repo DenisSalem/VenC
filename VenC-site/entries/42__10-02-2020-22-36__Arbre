@@ -31,7 +31,7 @@ jeter un œil au répertoire où ceux-là sont normalement installés.
 Une bonne façon de faire est d'inclure ces deux scripts de la façon
 suivante : 
 
-.:CodeHighlightInclude::::html::False::tree-1:.
+.:CodeHighlightInclude::html::False::tree-1:.
 
 Dans cet example, on supose que l'on souhaite appliquer le module à une
 liste hiérarchique de catégories. On utilise donc le pattern __IfCategories__ pour
@@ -62,7 +62,7 @@ ou __[TreeForBlogCategories](.:GetChapterAttributeByIndex::path::5.2.2:.#escape-
 
 Commençons par observer que l'utilisation de ces deux patterns présentent des similarités :
 
-.:CodeHighlightInclude::::html::False::tree-2:.
+.:CodeHighlightInclude::html::False::tree-2:.
 
 Entre autres choses, dans l'un ou l'autre pattern :
 

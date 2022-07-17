@@ -41,12 +41,11 @@ def get_style_sheets(node):
     return output
         
 def highlight_include(node, langage, display_line_numbers, filename):
-    string = include_file(filename)
-    return code_highlight.highlight(langage, display_line_numbers, filename, string, included_file=True)
+    string = include_file(node, filename)
+    return highlight(node, langage, display_line_numbers, string, included_file=True)
     
-def highlight(node, *pattern_args, included_file=False):
-    langage, display_line_numbers = pattern_args[2:]
-    input_code =  "::".join(pattern_args[:2]) if not included_file else pattern_args[:2]
+def highlight(node, langage, display_line_numbers, *pattern_args, included_file=False):
+    input_code =  "::".join(pattern_args)
 
     try:
         import pygments.lexers
@@ -63,7 +62,7 @@ def highlight(node, *pattern_args, included_file=False):
         lexer = pygments.lexers.get_lexer_by_name(langage, stripall=False)
         formatter = pygments.formatters.HtmlFormatter(linenos=(True if display_line_numbers=="True" else False), cssclass=name)
                             
-        result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
+        result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(input_code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
         css  = formatter.get_style_defs()
 
         if not name+".css" in code_highlight.includes.keys():

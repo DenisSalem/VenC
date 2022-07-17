@@ -28,8 +28,8 @@ from venc2.threads import Thread
 from venc2.l10n import messages
 
 class EntriesThread(Thread):
-    def __init__(self, prompt, datastore, theme, patterns_map):
-        super().__init__(prompt, datastore, theme, patterns_map)
+    def __init__(self):
+        super().__init__(messages.export_single_entries)
         self.entries_per_page = 1 #override value
         self.organize_entries(datastore.entries)
         self.current_entry_index=-1

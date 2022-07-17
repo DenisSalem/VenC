@@ -75,17 +75,19 @@ def get_embed_content(providers, url):
 def get_venc_version(node):
     return venc_version
     
+# TODO : pattern args order is wrong, color should be first so string can be tuple cf set_style
 def set_color(node, string, color):        
     return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+color+";\">"+string+"</span>"
 
-def set_style(node, ID, CLASS, string):
-    return "<span "+ID.strip()+' '+CLASS.strip()+">"+('::'.join(string).strip())+"</span>"
+def set_style(node, ID, CLASS, *string):
+  
+    return "<span "+ID.strip()+' '+CLASS.strip()+">"+('::'.join(string).strip() )+"</span>"
 
 
 # TODO: Must fix dirty try/except structure.
 # TODO: Add explicit message about exception. 
 
-def include_file(node, escape, filename, *argv, raise_error=True):       
+def include_file(node, filename, *argv, raise_error=True):       
     if filename == '':
         if not raise_error:
             return ""
@@ -125,8 +127,8 @@ def include_file(node, escape, filename, *argv, raise_error=True):
         return include_string
 
 # TODO : Not document in pattern cheat sheet
-def include_file_if_exists(node, escape, filename, *argv):
-    return include_file(node, escape, filename, *argv, raise_error=False)
+def include_file_if_exists(node, filename, *argv):
+    return include_file(node, filename, *argv, raise_error=False)
 
 def table(node, *argv):
     output = "<div class=\"__VENC_TABLE__\"><table>"

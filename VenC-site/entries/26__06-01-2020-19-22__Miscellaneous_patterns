@@ -40,15 +40,13 @@ La documentation est disponible [ici](https://strftime.org/).
 Ce motif retourne la version de VenC avec laquelle la page
 courante est générée et il ne prend pas de paramètre.
 
-## .:Escape:: .:IncludeFile::escape::filename[::arg1][::arg2][...]:. ::EndEscape:.
+## .:Escape:: .:IncludeFile::filename[::arg1][::arg2][...]:. ::EndEscape:.
 
 Ce motif permet d'inclure le contenu d'un fichier dans la publication courante. Celui-ci ne
 doit comporter que des caractères imprimables.
 
-Ce motif prend au minimum deux arguments :
+Ce motif prend au minimum un argument :
 
-- __escape__ : indique à VenC s'il doit chercher des motifs à interpréter
-dans le fichier à inclure. Si _escape_ vaut "true", VenC ignore les motifs dans le fichier. Cette variable n'est pas sensible à la casse.
 - __filename__ : le chemin du fichier à inclure dans la page. Celui-ci
 doit se trouver dans le répertoire __includes__ de votre projet.
 - __arg1__, __arg2__, __...__ : ces paramètres sont optionnels.
@@ -66,12 +64,10 @@ que nous appellerons :
 Et qui se trouverait dans le répertoire __includes__ de votre projet.
 Nous utiliserions alors le motif comme suit :
 
-> .:Escape:: .:IncludeFile::True::plein-de-truc-longs-et-compliqués.txt:. ::EndEscape:.
+> .:Escape:: .:IncludeFile::plein-de-truc-longs-et-compliqués.txt:. ::EndEscape:.
 
 Notons que tout ce qui se trouve à l'intérieur du fichier ainsi inclus n'est
-pas traité par les interpréteurs de langage balisé __Markdown__ et
-__reStructuredText__. Comme le premier argument, __escape__ vaut "True",
-les motifs VenC sont également ignorés.
+pas traité par les interpréteurs de langage balisé tier ou celui interne à VenC.
 
 ### Un second exemple
 
@@ -94,7 +90,7 @@ Voilà les choses qu'il faut que je fasse avant de mourrir
 
 En utilisant le motif __IncludeFile__ comme suit :
 
-    .:Escape:: .:IncludeFile::True::liste_de_choses_à_faire.txt::
+    .:Escape:: .:IncludeFile::liste_de_choses_à_faire.txt::
     Libérer la Corée du Nord::
     Terraformer la lune::
     Découvrir la matière exotique et commercialiser les trous de ver pour le voyage interstellaire::
@@ -104,7 +100,7 @@ En utilisant le motif __IncludeFile__ comme suit :
 Nous obtiendrions :
 
 .:CodeHighlight::Text::False::
-.:IncludeFile::True::things_to_do.txt::
+.:IncludeFile::things_to_do.txt::
 Libérer la Corée du Nord::
 Terraformer la lune::
 Découvrir la matière exotique et commercialiser les trous de ver pour le voyage interstellaire::
@@ -113,7 +109,7 @@ Nourrir Tacos, mon chien:. :.
 La portion de texte ci-dessus serait incluse telle quelle dans la page générée par VenC.
 Là encore, ni les motifs VenC, ni le langage de balisage courant ne sont interprétés.
 
-## .:Escape:: .:IncludeFileIfExists::escape::filename[::arg1][::arg2][...]:. ::EndEscape:.
+## .:Escape:: .:IncludeFileIfExists::filename[::arg1][::arg2][...]:. ::EndEscape:.
 
 Comme __IncludeFile__ mais ne produit pas d'erreur et retourne une chaine vide si le fichier n'existe pas.
 

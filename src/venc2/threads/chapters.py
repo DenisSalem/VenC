@@ -23,8 +23,9 @@ from venc2.prompt import notify
 from venc2.threads import Thread
 
 class ChaptersThread(Thread):
-    def __init__(self, prompt, datastore, theme, patterns_map):
-        super().__init__(prompt, datastore, theme, patterns_map)
+    def __init__(self):
+        from venc2.l10n import messages
+        super().__init__(messages.export_chapters)
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.entries_per_page = self.datastore.blog_configuration["entries_per_pages"]
         self.folder_name = self.datastore.blog_configuration["path"]["chapter_directory_name"]

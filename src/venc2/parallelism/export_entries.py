@@ -55,8 +55,7 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     
 def worker(worker_id, send_out, recv_in, process_argv=None):
     from venc2.markup_languages import process_markup_language
-    
-    if process_argv[0]:
+    if send_out != None:
         #params = send_out.recv()
         
         # TODO : could be avoided by sending Theme
@@ -78,9 +77,11 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
 
     non_parallelizable = []
     non_parallelizable_append = non_parallelizable.append
+    from copy import deepcopy
 
     while len(chunk):
         for entry in chunk:
+
             entry_has_non_parallelizable = False
             datastore.requested_entry = entry
             
@@ -113,14 +114,14 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
               entry.rss_wrapper.processed_string.has_non_parallelizables:
                 non_parallelizable_append(entry.index)
 
-        if single_process_argv == None:
+        if recv_in != None and send_out != None:
             recv_in.send(chunk)
             chunk = send_out.recv()
             
         else:
             break
             
-    if single_process_argv == None:
+    if recv_in != None:
         recv_in.send((code_highlight.includes, non_parallelizable))
 
 def finish(worker_id):

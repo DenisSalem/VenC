@@ -26,6 +26,7 @@ from venc2.helpers import quirk_encoding
 from venc2.prompt import notify
 from venc2.l10n import messages
 from venc2.patterns.processor import Processor
+from venc2.patterns.third_party_wrapped_features.pygmentize import get_style_sheets
 
 current_source = None
 
@@ -43,8 +44,12 @@ def undefined_variable(match):
     )
 
 class Thread:
-    def __init__(self, prompt, datastore, theme, patterns_map):
+    def __init__(self, prompt):
         from venc2.patterns.contextual import get_random_number
+        from venc2.datastore import datastore
+        from venc2.datastore.theme import theme
+        from venc2.patterns.patterns_map import patterns_map
+        
         self.get_random_number = get_random_number
         
         self.workers_count = datastore.workers_count
@@ -53,11 +58,10 @@ class Thread:
         self.datastore = datastore
         self.enable_jsonld = datastore.blog_configuration["enable_jsonld"]
         self.path_encoding = datastore.blog_configuration["path_encoding"]
+        
         # Notify wich thread is processed
-        if prompt != "":
-            notify("├─ "+prompt)
+        notify("├─ "+prompt)
 
-        self.forbidden = patterns_map.non_contextual_entries_keys
         self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])
         self.disable_threads = datastore.disable_threads
 
@@ -77,12 +81,13 @@ class Thread:
         self.atom_feed = None
         # Setup pattern processor
         self.processor = Processor()
-        for pattern_name in patterns_map.contextual["functions"].keys():
-            self.processor.set_function(pattern_name, patterns_map.contextual["functions"][pattern_name])
-                
-        for pattern_name in patterns_map.contextual["names"].keys():
-            self.processor.set_function(pattern_name, getattr(self, patterns_map.contextual["names"][pattern_name]))
+        self.processor.set_patterns(
+            { key : getattr(self, value) for key,value, in patterns_map.CONTEXTUALS.items() }
+        )
 
+    def get_style_sheets(self, node):
+        return get_style_sheets(node).replace("\x1a", self.relative_origin)
+        
     def path_encode(self, path):
         if self.path_encoding in ["utf-8",'']:
             return quirk_encoding(unidecode.unidecode(path))
@@ -146,7 +151,11 @@ class Thread:
                 
             except KeyError as e:
                 from venc2.exceptions import VenCException
-                raise VenCException(messages.unknown_contextual.format((str(e)[1:-1]))
+                raise VenCException(
+                    messages.unknown_contextual.format(
+                        (str(e)[1:-1])
+                    )
+                )
 
         else:
             return str()
@@ -174,7 +183,11 @@ class Thread:
                 
             except KeyError as e:
                 from venc2.exceptions import VenCException
-                raise VenCException(messages.unknown_contextual.format((str(e)[1:-1]))
+                raise VenCException(
+                    messages.unknown_contextual.format(
+                        (str(e)[1:-1])
+                    )
+                )
                 
         else:
             return str()

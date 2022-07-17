@@ -695,7 +695,7 @@ class DataStore:
         return self.requested_entry.title
     
     def get_entry_id(self, node):
-        return self.requested_entry.id
+        return str(self.requested_entry.id)
             
     def get_entry_year(self, node):
         return self.requested_entry.date.year
@@ -1005,3 +1005,4 @@ multiprocessing_thread_params = None
 def init_datastore():
     global datastore
     datastore = DataStore()
+    return datastore

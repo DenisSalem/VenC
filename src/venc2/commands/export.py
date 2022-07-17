@@ -17,8 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from copy import deepcopy
-import shutil
 import subprocess
 import time
 
@@ -33,7 +31,7 @@ from venc2.patterns.processor import Processor
 start_timestamp = time.time()
 
 def copy_recursively(src, dest):
-    import errno
+    import errno, os, shutil
     for filename in os.listdir(src):
         try:
             shutil.copytree(src+filename, dest+filename)
@@ -107,6 +105,7 @@ def process_non_contextual_patterns():
     pattern_processor = setup_pattern_processor()
     from venc2.datastore import datastore
     from venc2.datastore.theme import theme
+    from venc2.parallelism.export_entries import worker
 
     if datastore.workers_count > 1:
         # There we setup chunks of entries send to workers throught dispatchers
@@ -120,7 +119,7 @@ def process_non_contextual_patterns():
         thread_params["worker_context_chunks"] = split_datastore(datastore)
     
         from venc2.parallelism import Parallelism
-        from venc2.parallelism.export_entries import worker, finish, dispatcher
+        from venc2.parallelism.export_entries import finish, dispatcher
         parallelism = Parallelism(
             worker,
             finish,
@@ -140,7 +139,7 @@ def process_non_contextual_patterns():
             exit(-1)
 
     from venc2.helpers import die    
-    die("INTEGRATION IN PROGRESS!")
+    # ~ die("INTEGRATION IN PROGRESS!")
 
     if not datastore.blog_configuration["disable_chapters"]:
         for entry in datastore.entries:
@@ -161,7 +160,6 @@ def process_non_contextual_patterns():
             )
         )
 
-
     if datastore.workers_count > 1:
         process_non_parallelizables(datastore, patterns_map, thread_params)
     
@@ -176,7 +174,7 @@ def process_non_contextual_patterns():
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(theme_name=''):
     from venc2.datastore import init_datastore
-    init_datastore()
+    datastore = init_datastore()
     
     notify("├─ "+messages.pre_process)
     
@@ -188,7 +186,6 @@ def export_blog(theme_name=''):
     init_pattern_map()
     
     process_non_contextual_patterns()
-
     if not datastore.blog_configuration["disable_single_entries"]:
         notify("├─ "+messages.link_entries)
         # Add required link between entries
@@ -200,32 +197,33 @@ def export_blog(theme_name=''):
                 current_entry.previous_entry = entries[entry_index-1]
 
     # cleaning directory
+    import os, shutil
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
 
     # Starting second pass and exporting
     from venc2.threads.main import MainThread
-    thread = MainThread(messages.export_main_thread, datastore, theme, patterns_map)
+    thread = MainThread()
     thread.do()
 
     if not datastore.blog_configuration["disable_archives"]:
         from venc2.threads.archives import ArchivesThread
-        thread = ArchivesThread(messages.export_archives, datastore, theme, patterns_map)
+        thread = ArchivesThread()
         thread.do()
 
     if not datastore.blog_configuration["disable_categories"]:
         from venc2.threads.categories import CategoriesThread
-        thread = CategoriesThread(messages.export_categories, datastore, theme, patterns_map)
+        thread = CategoriesThread()
         thread.do()
 
     if not datastore.blog_configuration["disable_single_entries"]:
         from venc2.threads.entries import EntriesThread
-        thread = EntriesThread(messages.export_single_entries, datastore, theme, patterns_map)
+        thread = EntriesThread()
         thread.do()
 
     if not datastore.blog_configuration["disable_chapters"]:
         from venc2.threads.chapters import ChaptersThread
-        thread = ChaptersThread(messages.export_chapters, datastore, theme, patterns_map)
+        thread = ChaptersThread()
         thread.do()
 
     # Copy assets and extra files

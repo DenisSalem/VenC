@@ -21,7 +21,7 @@ from multiprocessing import Process, Pipe
 from threading import Thread
 
 class Parallelism:
-    def __init__(self, worker, finish, dispatcher, n, sub_chunk_len, params=None):
+    def __init__(self, worker, finish, dispatcher, n, sub_chunk_len, params=None, debug=False):
         self.threads = []
         self.processes = []
         self.n = n

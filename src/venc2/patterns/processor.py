@@ -119,10 +119,14 @@ class Processor:
                         args_index+=1
                         
                 else:
-                    chunk = self.functions[node.name](node, *node.args)
+                    try:
+                        chunk = self.functions[node.name](node, *node.args)
+                    except Exception as e: # TODO Handle type error with too much or not enough args
+                        print(node.name, node.args)
+                        raise e
                     offset = len(chunk) - len(node.id)
                     branch[-1]._str = str(tail)[:node.o]+chunk+str(tail)[node.c+2:]
-                    
+                
                 # adjusting filtered indexes
                 tail_sub_strings = tail.sub_strings
                 for j in range(-tail.filtered_offset, 0):
@@ -137,8 +141,9 @@ class Processor:
                       if o > 0:
                           sub_string.c += o - sub_string.o
                           sub_string.o = o
-                  tail.sub_strings = tail_sub_strings[:-1-tail_filtered_offset]+node.sub_strings+tail_sub_strings[-tail_filtered_offset:]
-                  
+
+                  tail.sub_strings = tail_sub_strings[:-1-tail_filtered_offset] + node.sub_strings + (tail_sub_strings[-tail_filtered_offset:] if tail_filtered_offset > 0 else [])
+
                 else:
                     tail_sub_strings.pop(-1-tail.filtered_offset)
                 
@@ -201,11 +206,7 @@ class StringUnderProcessing(VenCString):
     
     def reset_index(self, new_string):
         self._str = new_string
-        for sub_string in self.sub_strings:
-            print(">",sub_string) # DEBUG
-            
-        exit()
-    
+                
     def __finalize_patterns_tree(self, nodes, parent=None):
         if parent != None:
             parent.sub_strings = sorted(nodes, key = lambda n:n.o)

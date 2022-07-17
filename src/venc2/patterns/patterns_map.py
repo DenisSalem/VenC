@@ -106,6 +106,7 @@ class PatternsMap():
             "CodeHighlight":	          "venc2.patterns.third_party_wrapped_features.pygmentize.highlight",
             "CodeHighlightInclude":	    "venc2.patterns.third_party_wrapped_features.pygmentize.highlight_include",
             "DisableMarkup":	          "venc2.patterns.non_contextual.disable_markup",
+            "Escape":                   "venc2.patterns.non_contextual.escape",
             "GetVenCVersion":	          "venc2.patterns.non_contextual.get_venc_version",
             "IncludeFile":	            "venc2.patterns.non_contextual.include_file",
             "IncludeFileIfExists":	    "venc2.patterns.non_contextual.include_file_if_exists",
@@ -134,7 +135,6 @@ class PatternsMap():
             "blog" :    dict(),
             "entries":  dict()
         }
-        self.contextual = dict()
         
         for pattern_name in PatternsMap.NON_CONTEXTUALS["extra"].keys():
             pattern_location = PatternsMap.NON_CONTEXTUALS["extra"][pattern_name].split('.')
