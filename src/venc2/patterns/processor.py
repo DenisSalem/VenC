@@ -47,8 +47,9 @@ class VenCString:
 class PatternNode(VenCString):
     FLAG_NONE = 0
     FLAG_NON_CONTEXTUAL = 1
-    FLAG_NON_PARALLELIZABLE = 2
-    FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 4
+    FLAG_CONTEXTUAL = 2
+    FLAG_NON_PARALLELIZABLE = 4
+    FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 8 # NOT IMPLEMENTED YET
     
     def __init__(self, string, o, c):
         super().__init__()
@@ -65,7 +66,7 @@ class Processor:
         self.functions = {}
         self.set_patterns = self.functions.update
     
-    def process(self, string_under_processing, non_contextual, non_parallelizable):
+    def process(self, string_under_processing, flags):
         branch = [ string_under_processing ]
         branch_append = branch.append
         branch_pop = branch.pop
@@ -85,8 +86,7 @@ class Processor:
                 tail_filtered_offset = branch[-1].filtered_offset
                 tail_sub_strings = branch[-1].sub_strings
                 # pick the right node or skip it.
-                if  (tail_sub_strings[-1-tail_filtered_offset].flags & PatternNode.FLAG_NON_CONTEXTUAL) == non_contextual and \
-                    (tail_sub_strings[-1-tail_filtered_offset].flags & PatternNode.FLAG_NON_PARALLELIZABLE) == non_parallelizable :
+                if  flags & tail_sub_strings[-1-tail_filtered_offset].flags :
                     branch_append(tail_sub_strings[-1-tail_filtered_offset])
                     
                     if branch[-1].name != "Escape":
@@ -234,6 +234,8 @@ class StringUnderProcessing(VenCString):
     def __set_pattern_flags(self, pattern):
         if not pattern.name in PatternsMap.CONTEXTUALS.keys():
             pattern.flags |= PatternNode.FLAG_NON_CONTEXTUAL
+        else:
+            pattern.flags |= PatternNode.FLAG_CONTEXTUAL
             
         if pattern.name in PatternsMap.NON_PARALLELIZABLES:
             pattern.flags |= PatternNode.FLAG_NON_PARALLELIZABLE

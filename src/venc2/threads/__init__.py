@@ -25,10 +25,10 @@ import unidecode
 from venc2.helpers import quirk_encoding
 from venc2.prompt import notify
 from venc2.l10n import messages
-from venc2.patterns.processor import Processor
+from venc2.patterns.processor import Processor, PatternNode
 from venc2.patterns.third_party_wrapped_features.pygmentize import get_style_sheets
 
-current_source = None
+pattern_processor_match = PatternNode.FLAG_CONTEXTUAL
 
 def undefined_variable(match):
     from venc2.prompt import die
@@ -296,29 +296,22 @@ class Thread:
 
     # QUESTION : Why the fuck using global current_source ?
     def pre_iteration(self):
-        global current_source
-        self.processor.blacklist = self.forbidden
-        current_source = self.header
-        self.processor.process(current_source, safe_process = True)
-        self.output = current_source.string
-        current_source.restore()
+        header = deepcopy(self.header)
+        self.processor.process(header, pattern_processor_match)
+        self.output = str(header)
 
         self.processor.blacklist = []
         self.columns_counter = 0
         self.columns = [ '' for i in range(0, self.columns_number) ]
     
     def post_iteration(self):
-        global current_source
         self.columns_counter = 0
         for column in self.columns:
             self.output += self.column_opening.format(self.columns_counter)+column+self.column_closing
-            
-        self.processor.blacklist = self.forbidden
-        
-        current_source = self.footer
-        self.processor.process(current_source, safe_process = True)
-        self.output += current_source.string
-        current_source.restore()
+                  
+        footer = deepcopy(self.footer)
+        self.processor.process(footer, pattern_processor_match)
+        self.output += str(footer)
         
         self.write_file(self.output.replace("\x1a",self.relative_origin), self.page_number)
 
@@ -326,41 +319,35 @@ class Thread:
         self.current_page = self.page_number
 
     def do_iteration(self, entry):
-        global current_source
-        entry_wrapper = getattr(entry, self.content_type+"_wrapper")            
-        preprocessed_wrapper = getattr(entry, self.content_type+"_wrapper").processed_string
+        entry_wrapper = deepcopy(getattr(entry, self.content_type+"_wrapper"))
+        preprocessed_wrapper = deepcopy(getattr(entry, self.content_type+"_wrapper").processed_string)
+        content = deepcopy(entry.content)
+        preview = deepcopy(entry.preview)
 
-        self.processor.process(preprocessed_wrapper, safe_process = True)
+        self.processor.process(preprocessed_wrapper, pattern_processor_match)
 
-        output=preprocessed_wrapper.string
+        output= str(preprocessed_wrapper)
         
         if entry_wrapper.process_get_entry_content:
-            self.processor.process(entry.content, safe_process = True)
+            self.processor.process(content, pattern_processor_match)
             output=output.replace(
                 "---VENC-GET-ENTRY-CONTENT---",
-                entry.content.string
+                str(content)
             )
 
         if entry_wrapper.process_get_entry_preview:
-            self.processor.process(entry.preview, safe_process = True)
+            self.processor.process(preview, pattern_processor_match)
             output=output.replace(
                 "---VENC-GET-ENTRY-PREVIEW---",
-                entry.preview.string
+                str(preview)
             )
         
         output=output.replace(
             "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---",
-            entry.preview.string if self.in_thread else entry.content.string
+            str(preview) if self.in_thread else str(content)
         )
-            
-        self.columns[self.columns_counter] += output
-        preprocessed_wrapper.restore()
-        
-        if entry_wrapper.process_get_entry_content:
-            entry.content.restore()
-            
-        if entry_wrapper.process_get_entry_preview:
-            entry.preview.restore()
+           
+        self.columns[self.columns_counter] += output        
         
         self.columns_counter +=1
         if self.columns_counter >= self.columns_number:
@@ -385,12 +372,11 @@ class Thread:
             # TODO : why the fuck header and footer aren't restored into there initial state ?!
             # TODO : It works so far... But why?
             current_source = self.header
-            self.processor.process(current_source)
-            output = current_source.string
-
+            self.processor.process(current_source, pattern_processor_match)
+            output = str(current_source)
             current_source = self.footer
-            self.processor.process(current_source)
-            output += current_source.string
+            self.processor.process(current_source, pattern_processor_match)
+            output += str(current_source)
             stream = codecs.open(
                 self.export_path +'/'+ self.format_filename(0),
                 'w',

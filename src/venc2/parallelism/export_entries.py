@@ -79,6 +79,9 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
     non_parallelizable_append = non_parallelizable.append
     from copy import deepcopy
 
+    from venc2.patterns.processor import PatternNode
+    pattern_processor_match = PatternNode.FLAG_NON_CONTEXTUAL
+
     while len(chunk):
         for entry in chunk:
 
@@ -91,20 +94,20 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
             else:
                 markup_language = default_markup_language
                 
-            pattern_processor.process(entry.content, True, False)
+            pattern_processor.process(entry.content, pattern_processor_match)
             process_markup_language(entry.content, markup_language, entry)
 
-            pattern_processor.process(entry.preview, True, False)
+            pattern_processor.process(entry.preview, pattern_processor_match)
             process_markup_language(entry.preview, markup_language, None)
                 
             entry.html_wrapper = deepcopy(theme.entry)
-            pattern_processor.process(entry.html_wrapper.processed_string, True, False)
+            pattern_processor.process(entry.html_wrapper.processed_string, pattern_processor_match)
            
             entry.rss_wrapper = deepcopy(theme.rss_entry)
-            pattern_processor.process(entry.rss_wrapper.processed_string, True, False)
+            pattern_processor.process(entry.rss_wrapper.processed_string, pattern_processor_match)
             
             entry.atom_wrapper = deepcopy(theme.atom_entry)
-            pattern_processor.process(entry.atom_wrapper.processed_string, True, False)
+            pattern_processor.process(entry.atom_wrapper.processed_string, pattern_processor_match)
             
             if \
               entry.content.has_non_parallelizables or \

@@ -17,13 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-# ~ from venc2.patterns.contextual import get_random_number
-# ~ from venc2.patterns.non_contextual import get_venc_version, include_file, include_file_if_exists, set_color, set_style, table, disable_markup
-
-# # Explicit args naming
-# 0 Receive node data
-# E Remove all old exceptions usage
-
 class PatternsMap():
     CONTEXTUALS = { # All of the below is loaded from Thread instanciated classes
         "ForPages":	                    "for_pages",

@@ -26,7 +26,7 @@ from venc2.helpers import rm_tree_error_handler
 from venc2.l10n import messages
 from venc2.patterns.non_contextual import theme_includes_dependencies
 from venc2.patterns.exceptions import MalformedPatterns
-from venc2.patterns.processor import Processor
+from venc2.patterns.processor import Processor, PatternNode
         
 start_timestamp = time.time()
 
@@ -138,9 +138,6 @@ def process_non_contextual_patterns():
         if thread_params["cut_threads_kill_workers"]:
             exit(-1)
 
-    from venc2.helpers import die    
-    # ~ die("INTEGRATION IN PROGRESS!")
-
     if not datastore.blog_configuration["disable_chapters"]:
         for entry in datastore.entries:
             datastore.update_chapters(entry)
@@ -163,14 +160,15 @@ def process_non_contextual_patterns():
     if datastore.workers_count > 1:
         process_non_parallelizables(datastore, patterns_map, thread_params)
     
-    # ????????????
-    # ~ pattern_processor.process(theme.header)
-    # ~ pattern_processor.process(theme.footer)    
-    # ~ pattern_processor.process(theme.rss_header) 
-    # ~ pattern_processor.process(theme.rss_footer)
-    # ~ pattern_processor.process(theme.atom_header)
-    # ~ pattern_processor.process(theme.atom_footer) 
-            
+    pattern_processor.process(theme.header, PatternNode.FLAG_NON_CONTEXTUAL)
+    for ss in theme.header.sub_strings:
+        print(ss, ss.flags)
+    pattern_processor.process(theme.footer, PatternNode.FLAG_NON_CONTEXTUAL)    
+    pattern_processor.process(theme.rss_header, PatternNode.FLAG_NON_CONTEXTUAL) 
+    pattern_processor.process(theme.rss_footer, PatternNode.FLAG_NON_CONTEXTUAL)
+    pattern_processor.process(theme.atom_header, PatternNode.FLAG_NON_CONTEXTUAL)
+    pattern_processor.process(theme.atom_footer, PatternNode.FLAG_NON_CONTEXTUAL) 
+
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(theme_name=''):
     from venc2.datastore import init_datastore
@@ -206,31 +204,33 @@ def export_blog(theme_name=''):
     thread = MainThread()
     thread.do()
 
-    if not datastore.blog_configuration["disable_archives"]:
-        from venc2.threads.archives import ArchivesThread
-        thread = ArchivesThread()
-        thread.do()
+    # ~ if not datastore.blog_configuration["disable_archives"]:
+        # ~ from venc2.threads.archives import ArchivesThread
+        # ~ thread = ArchivesThread()
+        # ~ thread.do()
 
-    if not datastore.blog_configuration["disable_categories"]:
-        from venc2.threads.categories import CategoriesThread
-        thread = CategoriesThread()
-        thread.do()
+    # ~ if not datastore.blog_configuration["disable_categories"]:
+        # ~ from venc2.threads.categories import CategoriesThread
+        # ~ thread = CategoriesThread()
+        # ~ thread.do()
 
-    if not datastore.blog_configuration["disable_single_entries"]:
-        from venc2.threads.entries import EntriesThread
-        thread = EntriesThread()
-        thread.do()
+    # ~ if not datastore.blog_configuration["disable_single_entries"]:
+        # ~ from venc2.threads.entries import EntriesThread
+        # ~ thread = EntriesThread()
+        # ~ thread.do()
 
-    if not datastore.blog_configuration["disable_chapters"]:
-        from venc2.threads.chapters import ChaptersThread
-        thread = ChaptersThread()
-        thread.do()
+    # ~ if not datastore.blog_configuration["disable_chapters"]:
+        # ~ from venc2.threads.chapters import ChaptersThread
+        # ~ thread = ChaptersThread()
+        # ~ thread.do()
 
     # Copy assets and extra files
     notify('└─ '+messages.copy_assets_and_extra_files)
+    from venc2.patterns.third_party_wrapped_features.pygmentize import code_highlight
+    from venc2.datastore.theme import theme, theme_assets_dependencies
     code_highlight.export_style_sheets()
     copy_recursively("extra/","blog/")
-    copy_recursively(theme_folder+"assets/","blog/")
+    copy_recursively(theme.theme_folder+"assets/","blog/")
     for depenpency in theme_assets_dependencies:
         try:
             shutil.copyfile(os.path.expanduser("~")+"/.local/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)

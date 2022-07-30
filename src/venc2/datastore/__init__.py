@@ -565,7 +565,7 @@ class DataStore:
                 "path":  sub_chapter.path,
                 "level": level
             })
-            output += self.build_html_chapters(argv, sub_chapter.sub_chapters, level+1)
+            output += self.build_html_chapters(lo, io, ic, lc, sub_chapter.sub_chapters, level+1)
             output += ic
         output += lc
 
@@ -800,13 +800,13 @@ class DataStore:
 
         return self.html_blog_archives[key]
 
-    def get_root_page(self):
+    def get_root_page(self, node):
         if self.root_page == None:
             self.root_page =  "\x1a"+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
             
         return self.root_page
 
-    def build_html_categories_tree(self, opening_node, opening_branch, closing_branch, closing_node, tree):
+    def build_html_categories_tree(self, node, opening_node, opening_branch, closing_branch, closing_node, tree):
         output_string = opening_node
         for node in sorted(tree, key = lambda x : x.value):
             if node.value in self.disable_threads:
