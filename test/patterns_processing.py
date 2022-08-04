@@ -70,9 +70,8 @@ def test_full_process(verbose=False):
     if str(sup) != "Simple math: 28 27":
         die("test_full_process: expected string mismatch with output")
 
-def test_filter_process(verbose=False):
+def test_filter_process_1(verbose=False):
     def CAPITALIZE(node, a):
-        print("WHAT?", a)
         return a.upper()
     
     def IF_SOMETHING(node, a,b):
@@ -81,7 +80,7 @@ def test_filter_process(verbose=False):
     s = ".:IF_SOMETHING::As Above::So Below:. .:CAPITALIZE::[ bla .:IF_SOMETHING:: .:IF_SOMETHING::lololol::moo foo bar:. :: moo foo bar:. bla]:. .:IF_SOMETHING::True::False:."
     sup = StringUnderProcessing(s, "test_filter_process")
     sup.sub_strings[0].flags = PatternNode.FLAG_NON_CONTEXTUAL
-    sup.sub_strings[1].sub_strings[0].flags = PatternNode.FLAG_CONTEXTUAL
+    sup.sub_strings[1].sub_strings[0].flags = PatternNode.FLAG_CONTEXTUAL # if .:IF_SOMETHING:: .:IF_SOMETHING::lololol::moo foo bar:. :: moo foo bar:. 
     sup.sub_strings[1].sub_strings[0].sub_strings[0].flags = PatternNode.FLAG_NON_CONTEXTUAL
     sup.sub_strings[2].flags = PatternNode.FLAG_NON_CONTEXTUAL
 
@@ -95,7 +94,7 @@ def test_filter_process(verbose=False):
         for pattern in sup.sub_strings:
             print(str(sup)[pattern.o:pattern.c+2], pattern.id)
             if pattern.id != str(sup)[pattern.o:pattern.c+2]:
-                die("test_filter_process, first pass: expected string mismatch with output")
+                die("test_filter_process_1, first pass: expected string mismatch with output")
         print(sup)
         
     p.process(sup, PatternNode.FLAG_CONTEXTUAL)
@@ -103,7 +102,7 @@ def test_filter_process(verbose=False):
         print(sup)
         
     if str(sup) != "As Above [ BLA lololol BLA] True":
-        die("test_filter_process, second pass: expected string mismatch with output")
+        die("test_filter_process_1, second pass: expected string mismatch with output")
 
 def test_escape(verbose=False):
     s = ".:Escape:: .:BullshitPattern::Bullshit args:. :. .:Escape:: .:Escape:: .:BullshitPattern::Bullshit args:. :. ::EndEscape:."
@@ -124,7 +123,7 @@ def test_escape(verbose=False):
     if str(sup) != " .:BullshitPattern::Bullshit args:.   .:Escape:: .:BullshitPattern::Bullshit args:. :. ":
         die("test_escape: expected string mismatch with output")    
 
-def test_pass1_pass2():
+def test_filter_process_2():
     def NON_CONTEXTUAL_1(node):
         return "non_contextual_1"
         
@@ -155,12 +154,12 @@ def test_pass1_pass2():
     p.process(sup, PatternNode.FLAG_NON_CONTEXTUAL)
     p.process(sup, PatternNode.FLAG_CONTEXTUAL)
     if str(sup) != "non_contextual_1 non_contextual_2( contextual_1( non_contextual_3 ) )":
-        die("test_pass1_pass2: expected string mismatch with output")
+        die("test_filter_process_2: expected string mismatch with output")
     
 test_datastructure()
 test_full_process()
-test_filter_process(verbose=True)
+test_filter_process_1()
+test_filter_process_2()
 test_escape()
-test_pass1_pass2()
     
 notify("Test passed")
