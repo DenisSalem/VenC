@@ -50,7 +50,7 @@ def test_full_process(verbose=False):
         
     def MUL(node, a,b,c=1):
         return str(int(a)*int(b)*int(c))
-  
+
     s = "Simple math: .:ADD:: .:MUL:: 2 :: 6 :. :: .:MUL::4::4:. :. .:MUL::3:: .:ADD::3::6:. :."
     sup = StringUnderProcessing(s, "test_full_process")
     p = Processor()
@@ -62,7 +62,7 @@ def test_full_process(verbose=False):
     if verbose:
         print(s)
     
-    p.process(sup, True, False)
+    p.process(sup, PatternNode.FLAG_ALL)
     
     if verbose:
         print(sup)
@@ -72,6 +72,7 @@ def test_full_process(verbose=False):
 
 def test_filter_process(verbose=False):
     def CAPITALIZE(node, a):
+        print("WHAT?", a)
         return a.upper()
     
     def IF_SOMETHING(node, a,b):
@@ -79,29 +80,30 @@ def test_filter_process(verbose=False):
         
     s = ".:IF_SOMETHING::As Above::So Below:. .:CAPITALIZE::[ bla .:IF_SOMETHING:: .:IF_SOMETHING::lololol::moo foo bar:. :: moo foo bar:. bla]:. .:IF_SOMETHING::True::False:."
     sup = StringUnderProcessing(s, "test_filter_process")
-    sup.sub_strings[0].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
-    sup.sub_strings[1].sub_strings[0].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
-    sup.sub_strings[1].sub_strings[0].sub_strings[0].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
-    sup.sub_strings[2].flags ^= PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[0].flags = PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[1].sub_strings[0].flags = PatternNode.FLAG_CONTEXTUAL
+    sup.sub_strings[1].sub_strings[0].sub_strings[0].flags = PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[2].flags = PatternNode.FLAG_NON_CONTEXTUAL
 
     p = Processor()
     p.set_patterns({
         "CAPITALIZE":   CAPITALIZE,
         "IF_SOMETHING": IF_SOMETHING
     })
-    p.process(sup, True, False)
+    p.process(sup, PatternNode.FLAG_NON_CONTEXTUAL)
     if verbose:
         for pattern in sup.sub_strings:
             print(str(sup)[pattern.o:pattern.c+2], pattern.id)
             if pattern.id != str(sup)[pattern.o:pattern.c+2]:
-                die("test_filter_process: expected string mismatch with output")
+                die("test_filter_process, first pass: expected string mismatch with output")
         print(sup)
-    p.process(sup, False, False)
+        
+    p.process(sup, PatternNode.FLAG_CONTEXTUAL)
     if verbose:
         print(sup)
         
     if str(sup) != "As Above [ BLA lololol BLA] True":
-        die("test_filter_process: expected string mismatch with output")
+        die("test_filter_process, second pass: expected string mismatch with output")
 
 def test_escape(verbose=False):
     s = ".:Escape:: .:BullshitPattern::Bullshit args:. :. .:Escape:: .:Escape:: .:BullshitPattern::Bullshit args:. :. ::EndEscape:."
@@ -117,13 +119,48 @@ def test_escape(verbose=False):
     if verbose:
       print(sup)
 
-    p.process(sup, True, False)
+    p.process(sup, PatternNode.FLAG_ALL)
     
     if str(sup) != " .:BullshitPattern::Bullshit args:.   .:Escape:: .:BullshitPattern::Bullshit args:. :. ":
         die("test_escape: expected string mismatch with output")    
 
+def test_pass1_pass2():
+    def NON_CONTEXTUAL_1(node):
+        return "non_contextual_1"
+        
+    def NON_CONTEXTUAL_2(node, arg):
+        return 'non_contextual_2('+arg+')'
+        
+    def NON_CONTEXTUAL_3(node):
+        return "non_contextual_3"
+        
+    def CONTEXTUAL_1(node,arg):
+        return 'contextual_1('+arg+')'
+        
+    s = ".:NON_CONTEXTUAL_1:. .:NON_CONTEXTUAL_2:: .:CONTEXTUAL_1:: .:NON_CONTEXTUAL_3:. :. :."
+    sup = StringUnderProcessing(s, "test_pass1_pass2")
+    
+    sup.sub_strings[0].flags = PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[1].flags = PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[1].sub_strings[0].flags = PatternNode.FLAG_CONTEXTUAL
+    sup.sub_strings[1].sub_strings[0].sub_strings[0].flags = PatternNode.FLAG_NON_CONTEXTUAL
+    
+    p = Processor()
+    p.set_patterns({
+        "NON_CONTEXTUAL_1" : NON_CONTEXTUAL_1,
+        "NON_CONTEXTUAL_2" : NON_CONTEXTUAL_2,
+        "NON_CONTEXTUAL_3" : NON_CONTEXTUAL_3,
+        "CONTEXTUAL_1" : CONTEXTUAL_1,
+    })
+    p.process(sup, PatternNode.FLAG_NON_CONTEXTUAL)
+    p.process(sup, PatternNode.FLAG_CONTEXTUAL)
+    if str(sup) != "non_contextual_1 non_contextual_2( contextual_1( non_contextual_3 ) )":
+        die("test_pass1_pass2: expected string mismatch with output")
+    
 test_datastructure()
 test_full_process()
-test_filter_process()
+test_filter_process(verbose=True)
 test_escape()
+test_pass1_pass2()
+    
 notify("Test passed")

@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc2.exceptions import MalformedPatterns
+from venc2.exceptions import VenCException, MalformedPatterns
 from venc2.patterns.patterns_map import PatternsMap
 
 class VenCString:
@@ -43,14 +43,17 @@ class VenCString:
     
     def __str__(self):
         return self._str
-                        
+        
+    def __repr__(self):
+        return self.id
+                            
 class PatternNode(VenCString):
     FLAG_NONE = 0
     FLAG_NON_CONTEXTUAL = 1
     FLAG_CONTEXTUAL = 2
     FLAG_NON_PARALLELIZABLE = 4
     FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 8 # NOT IMPLEMENTED YET
-    
+    FLAG_ALL = 16
     def __init__(self, string, o, c):
         super().__init__()
         self.o = o
@@ -60,95 +63,182 @@ class PatternNode(VenCString):
         self.name = None
         self.args = []
         self.sub_strings = []
-                
+
+class PatternsStack(list):
+    def __init__(self, string_under_processing):
+        super().__init__()
+        self.append(string_under_processing)
+        for pattern in string_under_processing.filtered_patterns:
+            pattern.filtered_offset = 0
+            
+        string_under_processing.filtered_patterns = []
+        string_under_processing.filtered_offset = 0
+        
+    def pop(self, filtered):
+        if not filtered:
+            self[-2].sub_strings.pop(-1-self[-2].filtered_offset)
+            
+        return super().pop(-1)
+        
+    def filter(self):
+        self[0].filtered_patterns.append(self[-1])
+        self[-2].filtered_offset += 1        
+    
 class Processor:
     def __init__(self):
         self.functions = {}
         self.set_patterns = self.functions.update
     
     def process(self, string_under_processing, flags):
-        branch = [ string_under_processing ]
-        branch_append = branch.append
-        branch_pop = branch.pop
-        
-        for pattern in string_under_processing.filtered_patterns:
-            pattern.filtered_offset = 0
-            
-        string_under_processing.filtered_patterns = []
-        # Yes, we're walking a tree with an iterative implementation ...
-        # Because I want the code to run so fast it actualy has to break causality principle.
+        patterns_stack = PatternsStack(string_under_processing)
+        patterns_stack_append = patterns_stack.append
+        patterns_stack_filter = patterns_stack.filter
+        patterns_stack_pop = patterns_stack.pop
+
         while '∞':
-            if len(string_under_processing.sub_strings) == string_under_processing.filtered_offset:
-                return
+            # Nothing left to do. Exiting
+            if not (len(string_under_processing.sub_strings) - string_under_processing.filtered_offset):
+                break
+                
+            # Does the top of the stack has sub strings ?
+            if len(patterns_stack[-1].sub_strings) - patterns_stack[-1].filtered_offset:
+                patterns_stack_append(patterns_stack[-1].sub_strings[-1-patterns_stack[-1].filtered_offset])
 
-            # looping until sub_string is empty of non filtered pattern            
-            if len(branch[-1].sub_strings) - branch[-1].filtered_offset:
-                tail_filtered_offset = branch[-1].filtered_offset
-                tail_sub_strings = branch[-1].sub_strings
-                # pick the right node or skip it.
-                if  flags & tail_sub_strings[-1-tail_filtered_offset].flags :
-                    branch_append(tail_sub_strings[-1-tail_filtered_offset])
+            else:
+                # Does the pattern if okay to be processed ?
+                if flags == PatternNode.FLAG_ALL or patterns_stack[-1].flags & flags:
+                    try:
+                        pattern = patterns_stack_pop(False)
+                        parent = patterns_stack[-1]
+                        if type(parent) == PatternNode:
+                            chunk = self.functions[pattern.name](pattern, *pattern.args)
+                            parent_args = parent.args
+                            i = 2 + len(parent.name)
+                            args_index = 0
+                            while '∞':
+                                current_parent_arg_len = len(parent_args[args_index])
+                                parent_args_current_index = parent_args[args_index]
+                                if  i + 2 < pattern.o and i + 2 + current_parent_arg_len > pattern.c:
+                                    parent_args[args_index] = parent_args_current_index[:pattern.o - (i + 2)]+chunk+parent_args_current_index[pattern.c - i:]
+                                    offset = len(parent_args[args_index]) - current_parent_arg_len
+                                    break
+                                  
+                                i += 2 + len(parent_args[args_index])
+                                args_index+=1
+                        else:
+                            chunk = self.functions[pattern.name](pattern, *pattern.args)
+                            offset = len(chunk) - len(pattern.id)
+                            parent_str = parent._str
+                            parent._str = parent_str[:pattern.o]+chunk+parent_str[pattern.c+2:]
+                        
+                    except VenCException as e:
+                        e.die()
+
+                    # At this point pattern has been processed and we got an new offset                    
+                    parent_sub_strings = parent.sub_strings
+                    for j in range(-parent.filtered_offset, 0): # adjusting parent sub strings indexes
+                        parent_sub_strings[j].o += offset
+                        parent_sub_strings[j].c += offset
                     
-                    if branch[-1].name != "Escape":
-                        continue
-                else:
-                    string_under_processing.filtered_patterns.append(branch[-1])
-                    branch[-1].filtered_offset+=1
-                    continue
-            
-            try:
-                node = branch_pop()
-                tail = branch[-1]
-
-                if hasattr(tail, "args"):
-                    chunk = self.functions[node.name](node, *node.args)
-                    parent_args = tail.args
-                    i = 2 + len(tail.name)
-                    args_index = 0
-                    while '∞':                      
-                        if  i + 2 < node.o and i + 2 + len(parent_args[args_index]) > node.c:
-                            o = node.o - (i + 2)
-                            c = node.c - (i + 2)
-                            old_parent_arg_len = len(parent_args[args_index])
-                            parent_args[args_index] = parent_args[args_index][:o]+chunk+parent_args[args_index][c+2:]
-                            new_parent_arg_len = len(parent_args[args_index])
-                            offset = new_parent_arg_len - old_parent_arg_len
-                            break
-                          
-                        i += 2 + len(parent_args[args_index])
-                        args_index+=1
+                    # pattern may hold some unprocessed patterns they have to be reintegrated
+                    if len(pattern.sub_strings):
+                        parent_filtered_offset = parent.filtered_offset
+                        parent_sub_string = parent.sub_strings
+                        #adjusting inner filtered indexes
+                        for sub_string in pattern.sub_strings:
+                            o = str(parent).find(sub_string.id) # possible bottleneck
+                            if o > 0:
+                                sub_string.c += o - sub_string.o
+                                sub_string.o = o
+                        parent.sub_strings = parent_sub_string[len(parent_sub_string)-parent_filtered_offset-1:] + pattern.sub_strings + parent_sub_string[:len(parent_sub_string)-parent_filtered_offset-1]
                         
                 else:
-                    try:
-                        chunk = self.functions[node.name](node, *node.args)
-                    except Exception as e: # TODO Handle type error with too much or not enough args
-                        print(node.name, node.args)
-                        raise e
-                    offset = len(chunk) - len(node.id)
-                    branch[-1]._str = str(tail)[:node.o]+chunk+str(tail)[node.c+2:]
+                    patterns_stack_filter()
+                    patterns_stack_pop(True)
                 
-                # adjusting filtered indexes
-                tail_sub_strings = tail.sub_strings
-                for j in range(-tail.filtered_offset, 0):
-                    tail_sub_strings[j].o += offset
-                    tail_sub_strings[j].c += offset
-                
-                if len(node.sub_strings):
-                  tail_filtered_offset = tail.filtered_offset
-                  #adjusting inner filtered indexes
-                  for sub_string in node.sub_strings:
-                      o = str(branch[-1]).find(sub_string.id) # possible bottleneck
-                      if o > 0:
-                          sub_string.c += o - sub_string.o
-                          sub_string.o = o
 
-                  tail.sub_strings = tail_sub_strings[:-1-tail_filtered_offset] + node.sub_strings + (tail_sub_strings[-tail_filtered_offset:] if tail_filtered_offset > 0 else [])
+      
+    # ~ def process(self, string_under_processing, flags):
+        # ~ branch = [ string_under_processing ]
+        # ~ branch_append = branch.append
+        # ~ branch_pop = branch.pop
+        
+        # ~ for pattern in string_under_processing.filtered_patterns:
+            # ~ pattern.filtered_offset = 0
+            
+        # ~ string_under_processing.filtered_patterns = []
+        # ~ # Yes, we're walking a tree with an iterative implementation ...
+        # ~ # Because I want the code to run so fast it actualy has to break causality principle.
+        # ~ while '∞':
+            # ~ if len(string_under_processing.sub_strings) == string_under_processing.filtered_offset:
+                # ~ return
 
-                else:
-                    tail_sub_strings.pop(-1-tail.filtered_offset)
+            # ~ # looping until sub_string is empty of non filtered pattern            
+            # ~ if len(branch[-1].sub_strings) - branch[-1].filtered_offset:
+                # ~ tail_filtered_offset = branch[-1].filtered_offset
+                # ~ tail_sub_strings = branch[-1].sub_strings
+                # ~ # pick the right node or skip it.
+                # ~ if flags & tail_sub_strings[-1-tail_filtered_offset].flags:
+                    # ~ branch_append(tail_sub_strings[-1-tail_filtered_offset])
+                    
+                # ~ else:
+                    # ~ string_under_processing.filtered_patterns.append(branch[-1])
+                    # ~ branch[-1].filtered_offset+=1
+                    # ~ continue
+            
+            # ~ try:
+                # ~ node = branch_pop()
+                # ~ tail = branch[-1]
+
+                # ~ if hasattr(tail, "args"):
+                    # ~ chunk = self.functions[node.name](node, *node.args)
+                    # ~ parent_args = tail.args
+                    # ~ i = 2 + len(tail.name)
+                    # ~ args_index = 0
+                    # ~ while '∞':                      
+                        # ~ if  i + 2 < node.o and i + 2 + len(parent_args[args_index]) > node.c:
+                            # ~ o = node.o - (i + 2)
+                            # ~ c = node.c - (i + 2)
+                            # ~ old_parent_arg_len = len(parent_args[args_index])
+                            # ~ parent_args[args_index] = parent_args[args_index][:o]+chunk+parent_args[args_index][c+2:]
+                            # ~ new_parent_arg_len = len(parent_args[args_index])
+                            # ~ offset = new_parent_arg_len - old_parent_arg_len
+                            # ~ break
+                          
+                        # ~ i += 2 + len(parent_args[args_index])
+                        # ~ args_index+=1
+                        
+                # ~ else:
+                    # ~ try:
+                        # ~ chunk = self.functions[node.name](node, *node.args)
+                    # ~ except Exception as e: # TODO Handle type error with too much or not enough args
+                        # ~ print(node.name, node.args)
+                        # ~ raise e
+                    # ~ offset = len(chunk) - len(node.id)
+                    # ~ branch[-1]._str = str(tail)[:node.o]+chunk+str(tail)[node.c+2:]
                 
-            except Exception as e:
-                raise e
+                # ~ # adjusting filtered o,c
+                # ~ tail_sub_strings = tail.sub_strings
+                # ~ for j in range(-tail.filtered_offset, 0):
+                    # ~ tail_sub_strings[j].o += offset
+                    # ~ tail_sub_strings[j].c += offset
+                
+                # ~ if len(node.sub_strings):
+                  # ~ tail_filtered_offset = tail.filtered_offset
+                  # ~ #adjusting inner filtered indexes
+                  # ~ for sub_string in node.sub_strings:
+                      # ~ o = str(branch[-1]).find(sub_string.id) # possible bottleneck
+                      # ~ if o > 0:
+                          # ~ sub_string.c += o - sub_string.o
+                          # ~ sub_string.o = o
+
+                  # ~ tail.sub_strings = tail_sub_strings[:-1-tail_filtered_offset] + node.sub_strings + (tail_sub_strings[-tail_filtered_offset:] if tail_filtered_offset > 0 else [])
+
+                # ~ else:
+                    # ~ tail_sub_strings.pop(-1-tail.filtered_offset)
+                
+            # ~ except VenCException as e:
+                # ~ raise e.die()
 
 class StringUnderProcessing(VenCString):
     def __init__(self, string, context):
