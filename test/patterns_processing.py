@@ -104,7 +104,7 @@ def test_filter_process_1(verbose=False):
     if str(sup) != "As Above [ BLA lololol BLA] True":
         die("test_filter_process_1, second pass: expected string mismatch with output")
 
-def test_escape(verbose=False):
+def test_escape(verbose=False):    
     s = ".:Escape:: .:BullshitPattern::Bullshit args:. :. .:Escape:: .:Escape:: .:BullshitPattern::Bullshit args:. :. ::EndEscape:."
     sup = StringUnderProcessing(s, "test_escape")
     if verbose:
