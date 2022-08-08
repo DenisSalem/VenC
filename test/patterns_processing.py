@@ -155,11 +155,28 @@ def test_filter_process_2():
     p.process(sup, PatternNode.FLAG_CONTEXTUAL)
     if str(sup) != "non_contextual_1 non_contextual_2( contextual_1( non_contextual_3 ) )":
         die("test_filter_process_2: expected string mismatch with output")
-    
+
+def test_sub_patterns_reintegration():
+    s = ".:SetStyle:: :: :: .:GetRelativeOrigin:. :. .:SetStyle:: :: :: .:GetRelativeOrigin:. :. .:SetStyle:: :: :: .:GetRelativeOrigin:. :."
+    from venc2.patterns.non_contextual import set_style
+    sup = StringUnderProcessing(s, "test_sub_patterns_reintegration")
+    p = Processor()
+    p.set_patterns({"SetStyle": set_style})
+    p.process(sup, PatternNode.FLAG_NON_CONTEXTUAL)
+    ref = []
+    for sub_string in sup.sub_strings:
+        if sub_string.name != "GetRelativeOrigin":
+            die("test_sub_patterns_reintegration: reintegrated sub pattern doesn't match.")
+
+        ref.append("<span  >"+sub_string.id+"</span>")
+        
+    if str(sup) != ' '.join(ref):
+        die("test_sub_patterns_reintegration: expected string mismatch with output.")
+
 test_datastructure()
 test_full_process()
 test_filter_process_1()
 test_filter_process_2()
-test_escape()
-    
+test_escape(True)
+test_sub_patterns_reintegration()
 notify("Test passed")

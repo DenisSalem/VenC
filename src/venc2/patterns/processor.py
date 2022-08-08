@@ -112,6 +112,9 @@ class Processor:
                         pattern = patterns_stack_pop(False)
                         parent = patterns_stack[-1]
                         if type(parent) == PatternNode:
+                            if pattern.id != parent._str[pattern.o:pattern.c+2:]:
+                                from venc2.prompt import die
+                                die( str(pattern.id)+" "+str(parent._str[pattern.o:pattern.c+2]))
                             chunk = self.functions[pattern.name](pattern, *pattern.args)
                             parent_args = parent.args
                             i = 2 + len(parent.name)
@@ -133,6 +136,7 @@ class Processor:
                             parent._str = parent_str[:pattern.o]+chunk+parent_str[pattern.c+2:]
                         
                     except VenCException as e:
+                        print(string_under_processing.context)
                         e.die()
 
                     # At this point pattern has been processed and we got an new offset                    
@@ -151,8 +155,9 @@ class Processor:
                             if o > 0:
                                 sub_string.c += o - sub_string.o
                                 sub_string.o = o
-                        parent.sub_strings = parent_sub_string[len(parent_sub_string)-parent_filtered_offset-1:] + pattern.sub_strings + parent_sub_string[:len(parent_sub_string)-parent_filtered_offset-1]
-                        
+                                
+                        parent.sub_strings = parent_sub_string[:len(parent_sub_string)-parent_filtered_offset] + pattern.sub_strings + parent_sub_string[len(parent_sub_string)-parent_filtered_offset:]
+
                 else:
                     patterns_stack_filter()
                     patterns_stack_pop(True)

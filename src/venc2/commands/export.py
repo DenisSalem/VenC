@@ -161,8 +161,6 @@ def process_non_contextual_patterns():
         process_non_parallelizables(datastore, patterns_map, thread_params)
     
     pattern_processor.process(theme.header, PatternNode.FLAG_NON_CONTEXTUAL)
-    for ss in theme.header.sub_strings:
-        print(ss, ss.flags)
     pattern_processor.process(theme.footer, PatternNode.FLAG_NON_CONTEXTUAL)    
     pattern_processor.process(theme.rss_header, PatternNode.FLAG_NON_CONTEXTUAL) 
     pattern_processor.process(theme.rss_footer, PatternNode.FLAG_NON_CONTEXTUAL)
@@ -204,25 +202,25 @@ def export_blog(theme_name=''):
     thread = MainThread()
     thread.do()
 
-    # ~ if not datastore.blog_configuration["disable_archives"]:
-        # ~ from venc2.threads.archives import ArchivesThread
-        # ~ thread = ArchivesThread()
-        # ~ thread.do()
+    if not datastore.blog_configuration["disable_archives"]:
+        from venc2.threads.archives import ArchivesThread
+        thread = ArchivesThread()
+        thread.do()
 
-    # ~ if not datastore.blog_configuration["disable_categories"]:
-        # ~ from venc2.threads.categories import CategoriesThread
-        # ~ thread = CategoriesThread()
-        # ~ thread.do()
+    if not datastore.blog_configuration["disable_categories"]:
+        from venc2.threads.categories import CategoriesThread
+        thread = CategoriesThread()
+        thread.do()
 
-    # ~ if not datastore.blog_configuration["disable_single_entries"]:
-        # ~ from venc2.threads.entries import EntriesThread
-        # ~ thread = EntriesThread()
-        # ~ thread.do()
+    if not datastore.blog_configuration["disable_single_entries"]:
+        from venc2.threads.entries import EntriesThread
+        thread = EntriesThread()
+        thread.do()
 
-    # ~ if not datastore.blog_configuration["disable_chapters"]:
-        # ~ from venc2.threads.chapters import ChaptersThread
-        # ~ thread = ChaptersThread()
-        # ~ thread.do()
+    if not datastore.blog_configuration["disable_chapters"]:
+        from venc2.threads.chapters import ChaptersThread
+        thread = ChaptersThread()
+        thread.do()
 
     # Copy assets and extra files
     notify('└─ '+messages.copy_assets_and_extra_files)

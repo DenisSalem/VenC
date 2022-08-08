@@ -84,7 +84,7 @@ Finalement on obtient le résultat suivant :
 
 .:Audio::http://www.nyan.cat/music/original::mp3,ogg:.
 
-## .:Escape:: .:Video::source::extensions[::poster]:. ::EndEscape:.
+## .:Escape:: .:Video::source::extensions[::poster]:. :.
 
 Ce motif fonctionne comme __Audio__, il possède cependant un argument
 supplémentaire pour ajouter une vignette à la vidéo.
@@ -100,10 +100,7 @@ Ce paramètre contient donc l'URL ou le chemin relatif (vous pouvez également u
 
 ### Exemple d'utilisation
 
-    .:Escape:: .:Video::
-    https://www.w3schools.com/html/mov_bbb::
-    mp4,ogg::
-    .:GetRelativeOrigin:.bbb-poster.jpg:. ::EndEscape:.
+    .:Escape:: .:CATOURNEMAL::https://www.w3schools.com/html/mov_bbb::mp4,ogg:: :. :.
 
 Finalement, on obtient le résultat suivant :
 

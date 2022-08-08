@@ -37,9 +37,8 @@ from venc2.datastore.metadata import Chapter
 from venc2.helpers import quirk_encoding
 from venc2.prompt import notify
 from venc2.l10n import messages
-from venc2.patterns.exceptions import MalformedPatterns
-from venc2.patterns.exceptions import PatternMissingArguments
-from venc2.patterns.exceptions import PatternInvalidArgument
+from venc2.patterns.exceptions import MalformedPatterns, PatternMissingArguments, PatternInvalidArgument
+from venc2.exceptions import VenCException
 from venc2.patterns.non_contextual import get_embed_content
 
 def merge(iterable, string, separator):
