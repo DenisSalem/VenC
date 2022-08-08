@@ -100,7 +100,7 @@ Ce paramètre contient donc l'URL ou le chemin relatif (vous pouvez également u
 
 ### Exemple d'utilisation
 
-    .:Escape:: .:CATOURNEMAL::https://www.w3schools.com/html/mov_bbb::mp4,ogg:: :. :.
+    .:Escape:: .:Video::https://www.w3schools.com/html/mov_bbb::mp4,ogg:: :. :.
 
 Finalement, on obtient le résultat suivant :
 

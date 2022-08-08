@@ -151,6 +151,7 @@ def table(node, *argv):
     return output + "</table></div>"
 
 def escape(node, string, root_call=True):
+    from venc2.prompt import notify
     while len(node.sub_strings):
         sub_node = node.sub_strings.pop()
         if len(sub_node.sub_strings) == 0:

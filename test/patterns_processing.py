@@ -115,12 +115,13 @@ def test_escape(verbose=False):
     p.set_patterns({
         "Escape": escape
     })
-    if verbose:
-      print(sup)
 
-    p.process(sup, PatternNode.FLAG_ALL)
-    
-    if str(sup) != " .:BullshitPattern::Bullshit args:.   .:Escape:: .:BullshitPattern::Bullshit args:. :. ":
+
+    p.process(sup, PatternNode.FLAG_NON_CONTEXTUAL)
+    if verbose:
+      print(str(sup))
+          
+    if str(sup) != " .:BullshitPattern::Bullshit args:.   .:Escape:: .:BullshitPattern::Bullshit args:. :. ::EndEscape":
         die("test_escape: expected string mismatch with output")    
 
 def test_filter_process_2():
@@ -177,6 +178,6 @@ test_datastructure()
 test_full_process()
 test_filter_process_1()
 test_filter_process_2()
-test_escape(True)
+test_escape()
 test_sub_patterns_reintegration()
 notify("Test passed")
