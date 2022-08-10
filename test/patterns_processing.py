@@ -157,7 +157,7 @@ def test_filter_process_2():
     if str(sup) != "non_contextual_1 non_contextual_2( contextual_1( non_contextual_3 ) )":
         die("test_filter_process_2: expected string mismatch with output")
 
-def test_sub_patterns_reintegration():
+def test_sub_patterns_reintegration_pass_1():
     s = ".:SetStyle:: :: :: .:GetRelativeOrigin:. :. .:SetStyle:: :: :: .:GetRelativeOrigin:. :. .:SetStyle:: :: :: .:GetRelativeOrigin:. :."
     from venc2.patterns.non_contextual import set_style
     sup = StringUnderProcessing(s, "test_sub_patterns_reintegration")
@@ -174,10 +174,31 @@ def test_sub_patterns_reintegration():
     if str(sup) != ' '.join(ref):
         die("test_sub_patterns_reintegration: expected string mismatch with output.")
 
+def test_sub_patterns_reintegration_pass_2():
+    def get_relative_origin(node):
+        return "../"
+        
+    s = ".:SetStyle:: :: :: .:GetRelativeOrigin:. :.123.:SetStyle:: :: :: .:GetRelativeOrigin:. :. .:GetRelativeOrigin:. .:SetStyle:: :: :: .:GetRelativeOrigin:. :."
+    from venc2.patterns.non_contextual import set_style
+    sup = StringUnderProcessing(s, "test_sub_patterns_reintegration")
+    p = Processor()
+    p.set_patterns({
+        "SetStyle": set_style,
+        "GetRelativeOrigin":get_relative_origin
+    })
+    
+    p.process(sup, PatternNode.FLAG_NON_CONTEXTUAL)
+
+    p.process(sup, PatternNode.FLAG_CONTEXTUAL)
+        
+    if str(sup) != "<span  >../</span>123<span  >../</span> ../ <span  >../</span>":
+        die("test_sub_patterns_reintegration_pass_2: expected string mismatch with output.")
+
 test_datastructure()
 test_full_process()
 test_filter_process_1()
 test_filter_process_2()
 test_escape()
-test_sub_patterns_reintegration()
+test_sub_patterns_reintegration_pass_1()
+test_sub_patterns_reintegration_pass_2()
 notify("Test passed")
