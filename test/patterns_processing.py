@@ -169,7 +169,7 @@ def test_sub_patterns_reintegration_pass_1():
         if sub_string.name != "GetRelativeOrigin":
             die("test_sub_patterns_reintegration: reintegrated sub pattern doesn't match.")
 
-        ref.append("<span  >"+sub_string.id+"</span>")
+        ref.append("<span id=\"\" class=\"\">"+sub_string.id+"</span>")
         
     if str(sup) != ' '.join(ref):
         die("test_sub_patterns_reintegration: expected string mismatch with output.")
@@ -178,7 +178,7 @@ def test_sub_patterns_reintegration_pass_2():
     def get_relative_origin(node):
         return "../"
         
-    s = ".:SetStyle:: :: :: .:GetRelativeOrigin:. :.123.:SetStyle:: :: :: .:GetRelativeOrigin:. :. .:GetRelativeOrigin:. .:SetStyle:: :: :: .:GetRelativeOrigin:. :."
+    s = ".:SetStyle::blue::red::test:. .:SetStyle:: :: :: .:GetRelativeOrigin:. :.123.:SetStyle:: :: :: .:GetRelativeOrigin:. :. .:GetRelativeOrigin:. .:SetStyle:: :: :: .:GetRelativeOrigin:. :."
     from venc2.patterns.non_contextual import set_style
     sup = StringUnderProcessing(s, "test_sub_patterns_reintegration")
     p = Processor()
@@ -191,7 +191,7 @@ def test_sub_patterns_reintegration_pass_2():
 
     p.process(sup, PatternNode.FLAG_CONTEXTUAL)
         
-    if str(sup) != "<span  >../</span>123<span  >../</span> ../ <span  >../</span>":
+    if str(sup) != "<span id=\"blue\" class=\"red\">test</span> <span id=\"\" class=\"\">../</span>123<span id=\"\" class=\"\">../</span> ../ <span id=\"\" class=\"\">../</span>":
         die("test_sub_patterns_reintegration_pass_2: expected string mismatch with output.")
 
 test_datastructure()

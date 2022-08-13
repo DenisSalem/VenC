@@ -217,7 +217,7 @@ def export_blog(theme_name=''):
         thread = EntriesThread()
         thread.do()
 
-    if not datastore.blog_configuration["disable_chapters"]:
+    if not datastore.blog_configuration["disable_chapters"]:            
         from venc2.threads.chapters import ChaptersThread
         thread = ChaptersThread()
         thread.do()

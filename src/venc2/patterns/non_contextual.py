@@ -80,8 +80,7 @@ def set_color(node, string, color):
     return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+color+";\">"+string+"</span>"
 
 def set_style(node, ID, CLASS, *string):
-  
-    return "<span "+ID.strip()+' '+CLASS.strip()+">"+('::'.join(string).strip() )+"</span>"
+    return "<span id=\""+ID.strip()+"\" class=\""+CLASS.strip()+"\">"+('::'.join(string).strip())+"</span>"
 
 
 # TODO: Must fix dirty try/except structure.

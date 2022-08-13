@@ -15,8 +15,7 @@ En outre, voilà ce que VenC propose :
 .:SetStyle:: ::introducing-icon::
     <img src=".:GetRelativeOrigin:.venc-static-site-icon.gif" />
     <p>Création de blog statique.</p>
-:.
-.:SetStyle:: ::introducing-icon::
+:..:SetStyle:: ::introducing-icon::
     <img src=".:GetRelativeOrigin:.venc-patterns-icon.gif" />
     <p>Balises VenC permettant une mise en page et une intégration de contenus avancés.</p>
 :.

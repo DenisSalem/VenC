@@ -84,7 +84,6 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
 
     while len(chunk):
         for entry in chunk:
-
             entry_has_non_parallelizable = False
             datastore.requested_entry = entry
             
@@ -96,7 +95,7 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
                 
             pattern_processor.process(entry.content, pattern_processor_match)
             process_markup_language(entry.content, markup_language, entry)
-
+                    
             pattern_processor.process(entry.preview, pattern_processor_match)
             process_markup_language(entry.preview, markup_language, None)
                 

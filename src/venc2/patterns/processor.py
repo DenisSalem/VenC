@@ -218,6 +218,10 @@ class StringUnderProcessing(VenCString):
     
     def reset_index(self, new_string):
         self._str = new_string
+        for sub_string in self.sub_strings:
+            o = self._str.find(sub_string.id)
+            sub_string.c += o - sub_string.o
+            sub_string.o = o
                 
     def __finalize_patterns_tree(self, nodes, parent=None):
         if parent != None:
