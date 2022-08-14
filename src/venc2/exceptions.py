@@ -32,7 +32,10 @@ class VenCException(Exception):
         return (type(self).__name__, message, value, context)
 
     def die(self):
-        from venc2.prompt import die
+        from venc2.prompt import die, notify
+        if self.context != None:
+            # TODO rename context to context_name
+            notify(messages.in_.format(self.context.context), color="RED")
         die(self.message, extra=self.extra)
         
 class MalformedPatterns(VenCException):
@@ -55,3 +58,10 @@ class MalformedPatterns(VenCException):
         super().__init__(m, string_under_processing.context)
         self.too_many_opening_symbols = too_many_opening_symbols
         self.extra = s
+
+class UnknownPattern(VenCException):
+    def __init__(self, pattern, string_under_processing):
+        super().__init__(messages.unknown_pattern.format(pattern.name), string_under_processing)
+        self.extra = string_under_processing.flatten(highlight_pattern=pattern)
+
+

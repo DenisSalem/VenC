@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc2.exceptions import VenCException, MalformedPatterns
+from venc2.exceptions import VenCException, MalformedPatterns, UnknownPattern
 from venc2.patterns.patterns_map import PatternsMap
 
 class VenCString:
@@ -110,11 +110,11 @@ class Processor:
                 if flags == PatternNode.FLAG_ALL or patterns_stack[-1].flags & flags:
                     try:
                         pattern = patterns_stack_pop(False)
+                        if not pattern.name in self.functions.keys():
+                            raise UnknownPattern(pattern, string_under_processing)
+                            
                         parent = patterns_stack[-1]
-                        if type(parent) == PatternNode:
-                            if pattern.id != parent._str[pattern.o:pattern.c+2:]:
-                                from venc2.prompt import die
-                                die( str(pattern.id)+" "+str(parent._str[pattern.o:pattern.c+2]))
+                        if type(parent) == PatternNode:                               
                             chunk = self.functions[pattern.name](pattern, *pattern.args)
                             parent_args = parent.args
                             i = 2 + len(parent.name)
@@ -136,7 +136,6 @@ class Processor:
                             parent._str = parent_str[:pattern.o]+chunk+parent_str[pattern.c+2:]
                         
                     except VenCException as e:
-                        print(string_under_processing.context)
                         e.die()
 
                     # At this point pattern has been processed and we got an new offset                    
@@ -215,13 +214,6 @@ class StringUnderProcessing(VenCString):
         # - Set pattern flags.
         # - Replace patterns by their unique identifier.
         self.__finalize_patterns_tree(sub_strings)
-    
-    def reset_index(self, new_string):
-        self._str = new_string
-        for sub_string in self.sub_strings:
-            o = self._str.find(sub_string.id)
-            sub_string.c += o - sub_string.o
-            sub_string.o = o
                 
     def __finalize_patterns_tree(self, nodes, parent=None):
         if parent != None:
@@ -271,3 +263,52 @@ class StringUnderProcessing(VenCString):
             return l
           l_append(index)
           index+=1
+    
+    # Works like processor algorithm without special cases
+    def flatten(self, highlight_pattern=None):
+        patterns_stack = PatternsStack(self)
+        patterns_stack_append = patterns_stack.append
+        patterns_stack_filter = patterns_stack.filter
+        patterns_stack_pop = patterns_stack.pop
+        while '∞':
+            # Nothing left to do. Exiting
+            if not len(self.sub_strings):
+                if highlight_pattern:
+                    self._str = self._str.replace(
+                        highlight_pattern.id,
+                        "\033[91m" + ".:"+highlight_pattern.name+("::" if len(highlight_pattern.args) else "" )+("::".join(highlight_pattern.args))+":." + "\033[0m"
+                    )
+                return self._str
+                
+            if len(patterns_stack[-1].sub_strings):
+                patterns_stack_append(patterns_stack[-1].sub_strings[-1])
+            else:
+                pattern = patterns_stack_pop(False)
+                parent = patterns_stack[-1]
+                match = pattern == highlight_pattern
+                chunk = ".:"+pattern.name+("::" if len(pattern.args) else "" )+("::".join(pattern.args))+":."
+                if type(parent) == PatternNode:
+                    parent_args = parent.args
+                    i = 2 + len(parent.name)
+                    args_index = 0
+                    while '∞':
+                        current_parent_arg_len = len(parent_args[args_index])
+                        parent_args_current_index = parent_args[args_index]
+                        if  i + 2 < pattern.o and i + 2 + current_parent_arg_len > pattern.c:
+                            parent_args[args_index] = parent_args_current_index[:pattern.o - (i + 2)]+chunk+parent_args_current_index[pattern.c - i:]
+                            offset = len(parent_args[args_index]) - current_parent_arg_len
+                            break
+                          
+                        i += 2 + len(parent_args[args_index])
+                        args_index+=1
+                else:
+                    offset = len(chunk) - len(pattern.id)
+                    parent_str = parent._str
+                    parent._str = parent_str[:pattern.o]+chunk+parent_str[pattern.c+2:]
+    
+    def reset_index(self, new_string):
+        self._str = new_string
+        for sub_string in self.sub_strings:
+            o = self._str.find(sub_string.id)
+            sub_string.c += o - sub_string.o
+            sub_string.o = o

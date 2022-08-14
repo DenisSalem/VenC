@@ -122,3 +122,4 @@ class Messages:
     link_entries = "Mise en liens des publications une à une..."
     process_non_parallelizable = "Traitement des motifs non parallelisables..."
     module_not_found = "La dépendance optionnelle \"{0}\" n'est pas installé."
+    in_ = "Dans {0} :"

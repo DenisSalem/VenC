@@ -863,6 +863,7 @@ class DataStore:
 
             else:
                 self.html_categories_tree[key] = self.build_html_categories_tree(
+                    node, 
                     open_node,
                     open_branch,
                     close_branch,
