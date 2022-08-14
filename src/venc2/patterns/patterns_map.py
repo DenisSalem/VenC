@@ -24,7 +24,7 @@ class PatternsMap():
         "GetNextPage":	                "get_next_page",
         "GetPreviousPage":	            "get_previous_page",
         "GetRandomNumber":	            "get_random_number",
-        "GetRelaqtiveLocation":	        "get_relative_location",
+        "GetRelativeLocation":	        "get_relative_location",
         "GetRelativeOrigin":	          "get_relative_origin",
         "GetStyleSheets":	              "get_style_sheets",
         "GetThreadName":	              "get_thread_name",
