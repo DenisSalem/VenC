@@ -197,10 +197,17 @@ class Thread:
         if self.pages_count <= 1:
             return str()
 
+        try:
+            length = int(length)
+
+        except:
+            from venc2.exceptions import VenCException
+            raise VenCException(messages.arg_must_be_an_integer.format("length"))
+            
         output = str()
         page_number = 0
         for page in self.pages:
-            if (not page_number < self.current_page - list_lenght) and (not page_number > self.current_page + list_lenght):
+            if (not page_number < self.current_page - length) and (not page_number > self.current_page + length):
                 try:
                     output += string.format(
                         **{

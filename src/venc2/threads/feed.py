@@ -22,8 +22,8 @@ from venc2.prompt import notify
 from venc2.l10n import messages
 
 class FeedThread(Thread):
-    def __init__(self, datastore, theme, patterns_map, feed_type):
-        super().__init__('', datastore, theme, patterns_map)
+    def __init__(self, feed_type):
+        super().__init__('FEED_THREAD_PLACE_HOLDER')
         self.footer = getattr(self.theme, feed_type+"_footer")
         self.header = getattr(self.theme, feed_type+"_header")
         self.entry = getattr(self.theme, feed_type+"_entry")
@@ -47,7 +47,7 @@ class FeedThread(Thread):
     
     def get_JSONLD(self, node):
         from venc2.exceptions import VenCException
-        raise VenCException(messages.unknown_pattern.format("GetJSONLD")
+        raise VenCException(messages.unknown_pattern.format("GetJSONLD"))
 
     def if_in_feed(self, node, string1, string2=''):
         return string1.strip()

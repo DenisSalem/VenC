@@ -62,6 +62,4 @@ class MalformedPatterns(VenCException):
 class UnknownPattern(VenCException):
     def __init__(self, pattern, string_under_processing):
         super().__init__(messages.unknown_pattern.format(pattern.name), string_under_processing)
-        self.extra = string_under_processing.flatten(highlight_pattern=pattern)
-
 

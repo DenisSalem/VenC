@@ -61,7 +61,6 @@ class Messages:
     not_enough_args="Missing arguments (expected {0}, got {1})."
     unknown_pattern="The pattern '{0}'doesn't exists or isn't used in the right place."
     unknown_contextual="Contextual variable {0} doesn't exists or is not available here."
-    in_ressource="In ressource '{0}'."
     something_goes_wrong_return_empty_string="An error occurs. Replacement with an empty string."
     arg_blog_name="Blog name {0}"
     arg_entry_name="Entry name"
@@ -126,3 +125,4 @@ class Messages:
     process_non_parallelizable = "Process non parallelizable patterns..."
     module_not_found = "Optional dependency \"{0}\"is not installed."
     in_ = "In {0}:"
+    arg_must_be_an_integer = "Argument \"{0}\" must be an integer."

@@ -136,6 +136,10 @@ class Processor:
                             parent._str = parent_str[:pattern.o]+chunk+parent_str[pattern.c+2:]
                         
                     except VenCException as e:
+                        if not e.context:
+                            e.context = string_under_processing
+                            e.extra = string_under_processing.flatten(highlight_pattern=pattern)
+
                         e.die()
 
                     # At this point pattern has been processed and we got an new offset                    

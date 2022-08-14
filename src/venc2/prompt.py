@@ -46,5 +46,3 @@ def notify(msg, color="GREEN"):
 # Take care of setting up colours in printed out message
 def get_formatted_message(msg, color="GREEN", prompt="VenC: "):
     return msg_format[color]+"\033[1m"+prompt+"\033[0m"+msg_format[color]+msg+msg_format["END"]
-
-

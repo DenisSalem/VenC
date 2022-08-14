@@ -31,7 +31,7 @@ class EntriesThread(Thread):
     def __init__(self):
         super().__init__(messages.export_single_entries)
         self.entries_per_page = 1 #override value
-        self.organize_entries(datastore.entries)
+        self.organize_entries(self.datastore.entries)
         self.current_entry_index=-1
         self.entries = self.datastore.entries
         self.filename = self.datastore.blog_configuration["path"]["entry_file_name"]
@@ -75,6 +75,14 @@ class EntriesThread(Thread):
             "page_number":'',
             "path": self.current_entry.url
         }
+        
+        try:
+            length = int(length)
+
+        except:
+            from venc2.exceptions import VenCException
+            raise VenCException(messages.arg_must_be_an_integer.format("length"))        
+        
         try:
             output += string.format(**params) + separator
             
@@ -82,7 +90,7 @@ class EntriesThread(Thread):
             from venc2.exceptions import VenCException
             raise VenCException(messages.unknown_contextual.format(str(e)[1:-1]))
             
-        for i in range(0, list_lenght):
+        for i in range(0, length):
             next_entry =  None if self.current_entry_index >=  len(self.entries) - 2 else self.entries[self.current_entry_index+1]
             previous_entry = None  if self.current_entry_index == 0 else self.entries[self.current_entry_index-1]
         

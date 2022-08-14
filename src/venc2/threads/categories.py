@@ -43,10 +43,10 @@ class CategoriesThread(Thread):
             from venc2.threads.feed import FeedThread
         
         if not self.disable_rss_feed:
-            self.rss_feed = FeedThread(datastore, theme, self.patterns_map, "rss")
+            self.rss_feed = FeedThread("rss")
         
         if not self.disable_atom_feed:
-            self.atom_feed = FeedThread(datastore, theme, self.patterns_map, "atom")
+            self.atom_feed = FeedThread("atom")
  
     def if_in_categories(self, node, string1, string2=''):
         return string1.strip()
