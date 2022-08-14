@@ -102,14 +102,16 @@ class Processor:
                 break
                 
             # Does the top of the stack has sub strings and is not an "Escape" pattern ?
-            if len(patterns_stack[-1].sub_strings) - patterns_stack[-1].filtered_offset and not patterns_stack[-1].escape_pattern:
-                patterns_stack_append(patterns_stack[-1].sub_strings[-1-patterns_stack[-1].filtered_offset])
+            patterns_stack_tail = patterns_stack[-1]
+            if len(patterns_stack_tail.sub_strings) - patterns_stack_tail.filtered_offset and not patterns_stack_tail.escape_pattern:
+                patterns_stack_append(patterns_stack_tail.sub_strings[-1-patterns_stack_tail.filtered_offset])
 
             else:
                 # Does the pattern if okay to be processed ?
-                if flags == PatternNode.FLAG_ALL or patterns_stack[-1].flags & flags:
+                if patterns_stack_tail.flags & flags:
                     try:
                         pattern = patterns_stack_pop(False)
+                        # TODO: Investigate pattern validation in datastructure building
                         if not pattern.name in self.functions.keys():
                             raise UnknownPattern(pattern, string_under_processing)
                             
@@ -119,6 +121,7 @@ class Processor:
                             parent_args = parent.args
                             i = 2 + len(parent.name)
                             args_index = 0
+                            # TODO: instead of searching shit, store data on datastructure building
                             while '∞':
                                 current_parent_arg_len = len(parent_args[args_index])
                                 parent_args_current_index = parent_args[args_index]
