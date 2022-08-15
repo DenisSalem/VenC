@@ -55,20 +55,11 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     
 def worker(worker_id, send_out, recv_in, process_argv=None):
     from venc2.markup_languages import process_markup_language
-    if send_out != None:
-        #params = send_out.recv()
-        
-        # TODO : could be avoided by sending Theme
-        datastore, theme, pattern_processor = process_argv[1:]
-        # ~ theme, theme_folder = init_theme(datastore.init_theme_argv)
-        # ~ code_highlight = CodeHighlight(datastore.blog_configuration["code_highlight_css_override"])
-        # ~ patterns_map = PatternsMap(datastore, code_highlight, theme)
-        #pattern_processor = setup_pattern_processor(patterns_map, parallel = True if single_process_argv == None else False)
-        chunk = send_out.recv()
-    else:
-        datastore, theme, pattern_processor = process_argv[1:]
-        chunk = datastore.entries
-        
+    
+    datastore, theme, code_highlight, patterns_map, pattern_processor = process_argv[1:]
+
+    chunk = send_out.recv() if send_out != None else datastore.entries
+
     from venc2.prompt import notify
     from venc2.l10n import messages
 

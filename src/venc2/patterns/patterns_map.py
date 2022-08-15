@@ -126,7 +126,8 @@ class PatternsMap():
         self.non_contextual = {
             "extra":    dict(),
             "blog" :    dict(),
-            "entries":  dict()
+            "entries":  dict(),
+            "non_parallelizable": dict()
         }
         
         for pattern_name in PatternsMap.NON_CONTEXTUALS["extra"].keys():
@@ -143,6 +144,9 @@ class PatternsMap():
         for pattern_name in PatternsMap.NON_CONTEXTUALS["entries"].keys():
             self.non_contextual["blog"][pattern_name] = getattr(datastore, PatternsMap.NON_CONTEXTUALS["entries"][pattern_name])
 
+        for pattern_name in PatternsMap.NON_PARALLELIZABLES:
+            self.non_contextual["non_parallelizable"][pattern_name] = getattr(datastore, PatternsMap.NON_CONTEXTUALS["blog"][pattern_name])
+            
 def init_pattern_map():
     global patterns_map
     patterns_map = PatternsMap()

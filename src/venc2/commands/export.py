@@ -76,12 +76,7 @@ def process_non_parallelizables_pre_processed(run_pattern, entry_pre_processed):
 def process_non_parallelizables(datastore, patterns_map, thread_params):
     notify("├─ "+messages.process_non_parallelizable)
     pattern_processor = Processor()
-    for pattern_name in patterns_map.non_contextual["non_parallelizable"].keys():
-        pattern_processor.set_function(pattern_name, patterns_map.non_contextual["non_parallelizable"][pattern_name])
-        
-    pattern_processor.blacklist += patterns_map.contextual["names"].keys()
-    pattern_processor.blacklist += patterns_map.contextual["functions"].keys()
-    pattern_processor.blacklist.append("Escape")
+    pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
     
     for l in thread_params["non_parallelizable"]:
         for entry_index in l:
@@ -105,6 +100,8 @@ def process_non_contextual_patterns():
     pattern_processor = setup_pattern_processor()
     from venc2.datastore import datastore
     from venc2.datastore.theme import theme
+    from venc2.patterns.third_party_wrapped_features.pygmentize import code_highlight
+    from venc2.patterns.patterns_map import patterns_map
     from venc2.parallelism.export_entries import worker
 
     if datastore.workers_count > 1:
@@ -130,6 +127,8 @@ def process_non_contextual_patterns():
                 True,
                 datastore,
                 theme,
+                code_highlight,
+                patterns_map,
                 pattern_processor
             )
         )
@@ -153,6 +152,8 @@ def process_non_contextual_patterns():
                 False,
                 datastore,
                 theme,
+                code_highlight,
+                patterns_map,
                 pattern_processor
             )
         )
