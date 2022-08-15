@@ -121,7 +121,7 @@ def finish(worker_id):
     from venc2.datastore import datastore
     datastore.entries += thread_params["worker_context_chunks"][worker_id]
     thread_params["worker_context_chunks"][worker_id] = None
-    global code_highlight
+    from venc2.patterns.third_party_wrapped_features.pygmentize import code_highlight
     for key in thread_params["code_highlight_includes"][worker_id].keys():
         if not key in code_highlight.includes.keys():
             code_highlight.includes[key] = thread_params["code_highlight_includes"][worker_id][key]
