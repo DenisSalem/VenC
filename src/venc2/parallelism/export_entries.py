@@ -55,6 +55,7 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     
 def worker(worker_id, send_out, recv_in, process_argv=None):
     from venc2.markup_languages import process_markup_language
+    from venc2.patterns.exceptions import VenCException
     
     datastore, theme, code_highlight, patterns_map, pattern_processor = process_argv[1:]
 
@@ -72,48 +73,55 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
 
     from venc2.patterns.processor import PatternNode
     pattern_processor_match = PatternNode.FLAG_NON_CONTEXTUAL
-
-    while len(chunk):
-        for entry in chunk:
-            entry_has_non_parallelizable = False
-            datastore.requested_entry = entry
-            
-            if hasattr(entry, "markup_language"):
-                markup_language = getattr(entry, "markup_language")
+    try:
+        while len(chunk):
+            for entry in chunk:
+                entry_has_non_parallelizable = False
+                datastore.requested_entry = entry
+                
+                if hasattr(entry, "markup_language"):
+                    markup_language = getattr(entry, "markup_language")
+                    
+                else:
+                    markup_language = default_markup_language
+                    
+                pattern_processor.process(entry.content, pattern_processor_match)
+                process_markup_language(entry.content, markup_language, entry)
+                        
+                pattern_processor.process(entry.preview, pattern_processor_match)
+                process_markup_language(entry.preview, markup_language, None)
+                    
+                entry.html_wrapper = deepcopy(theme.entry)
+                pattern_processor.process(entry.html_wrapper.processed_string, pattern_processor_match)
+               
+                entry.rss_wrapper = deepcopy(theme.rss_entry)
+                pattern_processor.process(entry.rss_wrapper.processed_string, pattern_processor_match)
+                
+                entry.atom_wrapper = deepcopy(theme.atom_entry)
+                pattern_processor.process(entry.atom_wrapper.processed_string, pattern_processor_match)
+                
+                if \
+                  entry.content.has_non_parallelizables or \
+                  entry.preview.has_non_parallelizables or \
+                  entry.html_wrapper.processed_string.has_non_parallelizables or \
+                  entry.atom_wrapper.processed_string.has_non_parallelizables or \
+                  entry.rss_wrapper.processed_string.has_non_parallelizables:
+                    non_parallelizable_append(entry.index)
+    
+            if recv_in != None and send_out != None:
+                recv_in.send(chunk)
+                chunk = send_out.recv()
                 
             else:
-                markup_language = default_markup_language
-                
-            pattern_processor.process(entry.content, pattern_processor_match)
-            process_markup_language(entry.content, markup_language, entry)
-                    
-            pattern_processor.process(entry.preview, pattern_processor_match)
-            process_markup_language(entry.preview, markup_language, None)
-                
-            entry.html_wrapper = deepcopy(theme.entry)
-            pattern_processor.process(entry.html_wrapper.processed_string, pattern_processor_match)
-           
-            entry.rss_wrapper = deepcopy(theme.rss_entry)
-            pattern_processor.process(entry.rss_wrapper.processed_string, pattern_processor_match)
-            
-            entry.atom_wrapper = deepcopy(theme.atom_entry)
-            pattern_processor.process(entry.atom_wrapper.processed_string, pattern_processor_match)
-            
-            if \
-              entry.content.has_non_parallelizables or \
-              entry.preview.has_non_parallelizables or \
-              entry.html_wrapper.processed_string.has_non_parallelizables or \
-              entry.atom_wrapper.processed_string.has_non_parallelizables or \
-              entry.rss_wrapper.processed_string.has_non_parallelizables:
-                non_parallelizable_append(entry.index)
+                break
+    
+    except VenCException:
+        if not e.context:
+            e.context = string_under_processing
+            e.extra = string_under_processing.flatten(highlight_pattern=pattern)
+    
+        e.die()
 
-        if recv_in != None and send_out != None:
-            recv_in.send(chunk)
-            chunk = send_out.recv()
-            
-        else:
-            break
-            
     if recv_in != None:
         recv_in.send((code_highlight.includes, non_parallelizable))
 

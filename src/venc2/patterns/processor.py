@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc2.exceptions import VenCException, MalformedPatterns, UnknownPattern
 from venc2.patterns.patterns_map import PatternsMap
 
 class VenCString:
@@ -90,7 +89,7 @@ class Processor:
         self.functions = {}
         self.set_patterns = self.functions.update
     
-    def process(self, string_under_processing, flags):
+    def process(self, string_under_processing, flags, parallel_processing=False):
         patterns_stack = PatternsStack(string_under_processing)
         patterns_stack_append = patterns_stack.append
         patterns_stack_filter = patterns_stack.filter
@@ -108,42 +107,38 @@ class Processor:
 
             else:
                 # Does the pattern if okay to be processed ?
-                if patterns_stack_tail.flags & flags:
-                    try:
-                        pattern = patterns_stack_pop(False)
-                        # TODO: Investigate pattern validation in datastructure building
-                        if not pattern.name in self.functions.keys():
-                            raise UnknownPattern(pattern, string_under_processing)
-                            
-                        parent = patterns_stack[-1]
-                        if type(parent) == PatternNode:                               
-                            chunk = self.functions[pattern.name](pattern, *pattern.args)
-                            parent_args = parent.args
-                            i = 2 + len(parent.name)
-                            args_index = 0
-                            # TODO: instead of searching shit, store data on datastructure building
-                            while '∞':
-                                current_parent_arg_len = len(parent_args[args_index])
-                                parent_args_current_index = parent_args[args_index]
-                                if  i + 2 < pattern.o and i + 2 + current_parent_arg_len > pattern.c:
-                                    parent_args[args_index] = parent_args_current_index[:pattern.o - (i + 2)]+chunk+parent_args_current_index[pattern.c - i:]
-                                    offset = len(parent_args[args_index]) - current_parent_arg_len
-                                    break
-                                  
-                                i += 2 + len(parent_args[args_index])
-                                args_index+=1
-                        else:
-                            chunk = self.functions[pattern.name](pattern, *pattern.args)
-                            offset = len(chunk) - len(pattern.id)
-                            parent_str = parent._str
-                            parent._str = parent_str[:pattern.o]+chunk+parent_str[pattern.c+2:]
+                if patterns_stack_tail.flags & flags and not ((patterns_stack_tail.flags & PatternNode.FLAG_NON_CONTEXTUAL and):
+                    pattern = patterns_stack_pop(False)
+                    # TODO: Investigate pattern validation in datastructure building
+                    if not pattern.name in self.functions.keys():
+                        from venc2.exceptions import UnknownPattern
+                        raise UnknownPattern(pattern, string_under_processing)
                         
-                    except VenCException as e:
-                        if not e.context:
-                            e.context = string_under_processing
-                            e.extra = string_under_processing.flatten(highlight_pattern=pattern)
+                    parent = patterns_stack[-1]
+                    if type(parent) == PatternNode:                               
+                        chunk = self.functions[pattern.name](pattern, *pattern.args)
+                        parent_args = parent.args
+                        i = 2 + len(parent.name)
+                        args_index = 0
+                        # TODO: instead of searching shit, store data on datastructure building
+                        while '∞':
+                            current_parent_arg_len = len(parent_args[args_index])
+                            parent_args_current_index = parent_args[args_index]
+                            if  i + 2 < pattern.o and i + 2 + current_parent_arg_len > pattern.c:
+                                parent_args[args_index] = parent_args_current_index[:pattern.o - (i + 2)]+chunk+parent_args_current_index[pattern.c - i:]
+                                offset = len(parent_args[args_index]) - current_parent_arg_len
+                                break
+                              
+                            i += 2 + len(parent_args[args_index])
+                            args_index+=1
+                    else:
+                        chunk = self.functions[pattern.name](pattern, *pattern.args)
+                        offset = len(chunk) - len(pattern.id)
+                        parent_str = parent._str
+                        parent._str = parent_str[:pattern.o]+chunk+parent_str[pattern.c+2:]
+                        
+                    # ~ except VenCException as e:
 
-                        e.die()
 
                     # At this point pattern has been processed and we got an new offset                    
                     parent_sub_strings = parent.sub_strings
@@ -186,6 +181,7 @@ class StringUnderProcessing(VenCString):
         op, cp, op_pop, cp_pop = self.op, self.cp, self.op.pop, self.cp.pop
         while len(op) or len(cp):
             if ((not len(op)) or (not len(cp))) and len(op) != len(cp):
+                from venc2.exceptions import MalformedPatterns
                 raise MalformedPatterns(self)
                 
             diff = 18446744073709551616

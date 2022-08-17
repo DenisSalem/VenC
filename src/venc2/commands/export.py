@@ -25,7 +25,7 @@ from venc2.prompt import notify
 from venc2.helpers import rm_tree_error_handler 
 from venc2.l10n import messages
 from venc2.patterns.non_contextual import theme_includes_dependencies
-from venc2.patterns.exceptions import MalformedPatterns
+from venc2.patterns.exceptions import VenCException, MalformedPatterns
 from venc2.patterns.processor import Processor, PatternNode
         
 start_timestamp = time.time()
@@ -158,15 +158,23 @@ def process_non_contextual_patterns():
             )
         )
 
-    if datastore.workers_count > 1:
-        process_non_parallelizables(datastore, patterns_map, thread_params)
+    try:
+        if datastore.workers_count > 1:
+            process_non_parallelizables(datastore, patterns_map, thread_params)
+        
+        pattern_processor.process(theme.header, PatternNode.FLAG_NON_CONTEXTUAL)
+        pattern_processor.process(theme.footer, PatternNode.FLAG_NON_CONTEXTUAL)    
+        pattern_processor.process(theme.rss_header, PatternNode.FLAG_NON_CONTEXTUAL) 
+        pattern_processor.process(theme.rss_footer, PatternNode.FLAG_NON_CONTEXTUAL)
+        pattern_processor.process(theme.atom_header, PatternNode.FLAG_NON_CONTEXTUAL)
+        pattern_processor.process(theme.atom_footer, PatternNode.FLAG_NON_CONTEXTUAL) 
+
+    except VenCException:
+        if not e.context:
+            e.context = string_under_processing
+            e.extra = string_under_processing.flatten(highlight_pattern=pattern)
     
-    pattern_processor.process(theme.header, PatternNode.FLAG_NON_CONTEXTUAL)
-    pattern_processor.process(theme.footer, PatternNode.FLAG_NON_CONTEXTUAL)    
-    pattern_processor.process(theme.rss_header, PatternNode.FLAG_NON_CONTEXTUAL) 
-    pattern_processor.process(theme.rss_footer, PatternNode.FLAG_NON_CONTEXTUAL)
-    pattern_processor.process(theme.atom_header, PatternNode.FLAG_NON_CONTEXTUAL)
-    pattern_processor.process(theme.atom_footer, PatternNode.FLAG_NON_CONTEXTUAL) 
+        e.die()
 
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(theme_name=''):
@@ -198,31 +206,40 @@ def export_blog(theme_name=''):
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
 
-    # Starting second pass and exporting
-    from venc2.threads.main import MainThread
-    thread = MainThread()
-    thread.do()
 
-    if not datastore.blog_configuration["disable_archives"]:
-        from venc2.threads.archives import ArchivesThread
-        thread = ArchivesThread()
+    try:
+        # Starting second pass and exporting
+        from venc2.threads.main import MainThread
+        thread = MainThread()
         thread.do()
-
-    if not datastore.blog_configuration["disable_categories"]:
-        from venc2.threads.categories import CategoriesThread
-        thread = CategoriesThread()
-        thread.do()
-
-    if not datastore.blog_configuration["disable_single_entries"]:
-        from venc2.threads.entries import EntriesThread
-        thread = EntriesThread()
-        thread.do()
-
-    if not datastore.blog_configuration["disable_chapters"]:            
-        from venc2.threads.chapters import ChaptersThread
-        thread = ChaptersThread()
-        thread.do()
-
+        
+        if not datastore.blog_configuration["disable_archives"]:
+            from venc2.threads.archives import ArchivesThread
+            thread = ArchivesThread()
+            thread.do()
+    
+        if not datastore.blog_configuration["disable_categories"]:
+            from venc2.threads.categories import CategoriesThread
+            thread = CategoriesThread()
+            thread.do()
+    
+        if not datastore.blog_configuration["disable_single_entries"]:
+            from venc2.threads.entries import EntriesThread
+            thread = EntriesThread()
+            thread.do()
+    
+        if not datastore.blog_configuration["disable_chapters"]:            
+            from venc2.threads.chapters import ChaptersThread
+            thread = ChaptersThread()
+            thread.do()
+            
+    except VenCException:
+        if not e.context:
+            e.context = string_under_processing
+            e.extra = string_under_processing.flatten(highlight_pattern=pattern)
+    
+        e.die()
+        
     # Copy assets and extra files
     notify('└─ '+messages.copy_assets_and_extra_files)
     from venc2.patterns.third_party_wrapped_features.pygmentize import code_highlight
