@@ -22,8 +22,8 @@ from venc2.l10n import messages
 class VenCException(Exception):
     def __init__(self, message, context=None):
         self.message = message
-        self.extra = ""
         self.context = context
+        self.extra = ""
     
     def __str__(self):
         return self.message
@@ -34,10 +34,18 @@ class VenCException(Exception):
     def die(self):
         from venc2.prompt import die, notify
         if self.context != None:
+            from venc2.patterns.processor import PatternNode
             # TODO rename context to context_name
-            notify(messages.in_.format(self.context.context), color="RED")
-        die(self.message, extra=self.extra)
+            if type(self.context) != PatternNode:
+                notify(messages.in_.format(self.context.context), color="RED")
+                
+            else:
+                notify(messages.in_.format(self.context.root.context), color="RED")
+                self.extra = self.context.root.flatten(highlight_pattern=self.context)
         
+        die(self.message, extra=self.extra)
+
+      
 class MalformedPatterns(VenCException):
     def __init__(self, string_under_processing):
         len_op = len(string_under_processing.op)
@@ -62,4 +70,4 @@ class MalformedPatterns(VenCException):
 class UnknownPattern(VenCException):
     def __init__(self, pattern, string_under_processing):
         super().__init__(messages.unknown_pattern.format(pattern.name), string_under_processing)
-
+        self.extra = string_under_processing.flatten(highlight_pattern=pattern)

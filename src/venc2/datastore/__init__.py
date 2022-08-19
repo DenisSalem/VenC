@@ -731,10 +731,10 @@ class DataStore:
                 self.cache_get_chapter_attribute_by_index[key] = getattr(self.raw_chapters[index].chapter, attribute)
                 
             except KeyError as e:
-                raise VenCException(messages.there_is_no_chapter_with_index.format(index))
+                raise VenCException(messages.there_is_no_chapter_with_index.format(index), node)
                 
             except AttributeError as e:
-                raise VenCException(messages.chapter_has_no_attribute_like.format(attribute))
+                raise VenCException(messages.chapter_has_no_attribute_like.format(attribute), node)
                 
         return self.cache_get_chapter_attribute_by_index[key]
 

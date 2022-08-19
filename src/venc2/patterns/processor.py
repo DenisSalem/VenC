@@ -54,8 +54,9 @@ class PatternNode(VenCString):
     FLAG_NON_PARALLELIZABLE = 4
     FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 8 # NOT IMPLEMENTED YET
     FLAG_ALL = 16
-    def __init__(self, string, o, c):
+    def __init__(self, root, string, o, c):
         super().__init__()
+        self.root = root
         self.o = o
         self.c = c
         self.flags = PatternNode.FLAG_NONE
@@ -107,7 +108,7 @@ class Processor:
 
             else:
                 # Does the pattern if okay to be processed ?
-                if patterns_stack_tail.flags & flags and not ((patterns_stack_tail.flags & PatternNode.FLAG_NON_CONTEXTUAL and):
+                if patterns_stack_tail.flags & flags:
                     pattern = patterns_stack_pop(False)
                     # TODO: Investigate pattern validation in datastructure building
                     if not pattern.name in self.functions.keys():
@@ -136,9 +137,6 @@ class Processor:
                         offset = len(chunk) - len(pattern.id)
                         parent_str = parent._str
                         parent._str = parent_str[:pattern.o]+chunk+parent_str[pattern.c+2:]
-                        
-                    # ~ except VenCException as e:
-
 
                     # At this point pattern has been processed and we got an new offset                    
                     parent_sub_strings = parent.sub_strings
@@ -195,7 +193,7 @@ class StringUnderProcessing(VenCString):
                         i = io
                         j = ic
                         
-            sub_strings_append(PatternNode(string, op[i],cp[j]))            
+            sub_strings_append(PatternNode(self, string, op[i],cp[j]))            
             op_pop(i)
             cp_pop(j)
           

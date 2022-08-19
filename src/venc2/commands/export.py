@@ -20,14 +20,13 @@
 import subprocess
 import time
 
-# ~ MIGHT BE DEPRECATED
-from venc2.prompt import notify
-from venc2.helpers import rm_tree_error_handler 
+from venc2.exceptions import VenCException, MalformedPatterns
+from venc2.helpers import rm_tree_error_handler
 from venc2.l10n import messages
 from venc2.patterns.non_contextual import theme_includes_dependencies
-from venc2.patterns.exceptions import VenCException, MalformedPatterns
 from venc2.patterns.processor import Processor, PatternNode
-        
+from venc2.prompt import notify
+
 start_timestamp = time.time()
 
 def copy_recursively(src, dest):

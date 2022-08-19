@@ -80,6 +80,7 @@
     DONE | Make some dependencies optional.
     WIP  | Pattern processor improvement.
     WIP  | Generate entry inner table of content.
+/!\ TODO | S'assurer que toutes les VenCException prennent bien en paramètre un context
     TODO | Add ForDictMetadata
     TODO | If python version below 3.5 disable parallel processing.
     TODO | Update doc accordingly.

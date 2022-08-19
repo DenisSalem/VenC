@@ -45,8 +45,7 @@ def process_markup_language(source, markup_language, entry=None):
         venc_markdown = VenCMarkdown(extras=["header-ids", "footnotes","toc"])
         string = venc_markdown.convert(str(source))
 
-        if entry != None:
-            entry.toc = tuple(venc_markdown.table_of_content)
+        entry.toc = tuple(venc_markdown.table_of_content)
 
     elif markup_language == "asciidoc":
         #TODO: support metadata parametrisation
