@@ -20,31 +20,58 @@
 from multiprocessing import Process, Pipe
 from threading import Thread
 
+class SubProcess(Process):
+    def __init__(self, t, a):
+        super().__init__(target=t, args=a)
+        self.r, self.s = Pipe()
+        
+    def run(self):
+        try:
+            super().run()
+            
+        except Exception as e:
+            self.s.send(e)
+            
+        self.s.send(None)
+        
+    def join(self):
+        r = self.r.recv()
+        if r == None:
+            return
+            
+        else:
+            raise r
+
 class Parallelism:
-    def __init__(self, worker, finish, dispatcher, n, sub_chunk_len, params=None, debug=False):
+    def __init__(self, worker, finish, dispatcher, n, sub_chunk_len, params=None, debug=False):       
         self.threads = []
         self.processes = []
         self.n = n
         self.finish = finish
-        for i in range(0, n):
+        self.dispatcher = dispatcher
+        
+        for i in range(0, n):    
             send_in, send_out = Pipe()
             recv_in, recv_out = Pipe()
+
             self.processes.append(
-                Process(target=worker, args=(i,send_out,recv_in, params))
+                SubProcess(worker, (i,send_out,recv_in, params))
             )
             self.threads.append(
                 Thread(target=dispatcher, args=(i, self.processes[-1], sub_chunk_len, send_in, recv_out))
             )
-        
+    
     def join(self):
         for i in range(0, self.n):
             self.processes[i].join()
             self.threads[i].join()
+            
         for i in range(0, self.n):
             if self.finish != None:
                 self.finish(i)
             
     def start(self):
-        for i in range(0, self.n):
+        for i in range(0, self.n):       
             self.processes[i].start()
             self.threads[i].start()
+  

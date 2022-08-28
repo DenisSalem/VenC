@@ -33,26 +33,20 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     output_context = []
     from venc2.parallelism.export_entries import thread_params
     try:
-        while len(thread_params["worker_context_chunks"][dispatcher_id]):
-            if thread_params["cut_threads_kill_workers"]:
-                process.kill()
-                
+        while len(thread_params["worker_context_chunks"][dispatcher_id]):            
             current = thread_params["worker_context_chunks"][dispatcher_id][:sub_chunk_len]
             thread_params["worker_context_chunks"][dispatcher_id] = thread_params["worker_context_chunks"][dispatcher_id][sub_chunk_len:]
             send_in.send(current)
             current = None
             output_context += recv_out.recv()
-
-    except Exception as e:
-        thread_params["cut_threads_kill_workers"] = True
-        process.kill()
-        print("KILL ALL PROCESS", type(e))
-        exit(-1)
+            
+        send_in.send([])
+        thread_params["code_highlight_includes"][dispatcher_id], thread_params["non_parallelizable"][dispatcher_id]= recv_out.recv()
+        thread_params["worker_context_chunks"][dispatcher_id] = output_context
         
-    send_in.send([])
-    thread_params["code_highlight_includes"][dispatcher_id], thread_params["non_parallelizable"][dispatcher_id]= recv_out.recv()
-    thread_params["worker_context_chunks"][dispatcher_id] = output_context
-    
+    except EOFError as e:
+        return 
+        
 def worker(worker_id, send_out, recv_in, process_argv=None):
     from venc2.markup_languages import process_markup_language
     from venc2.exceptions import VenCException
@@ -73,7 +67,6 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
 
     from venc2.patterns.processor import PatternNode
     pattern_processor_match = PatternNode.FLAG_NON_CONTEXTUAL
-    
     while len(chunk):
         for entry in chunk:
             entry_has_non_parallelizable = False
@@ -114,7 +107,7 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
             
         else:
             break
-
+        
     if recv_in != None:
         recv_in.send((code_highlight.includes, non_parallelizable))
 

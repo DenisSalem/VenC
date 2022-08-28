@@ -110,11 +110,12 @@ class DataStore:
                 "entries": self.entries,
                 "paths": self.blog_configuration["path"],
                 "encoding": self.path_encoding,
-                "cut_threads_kill_workers" : False,
+                "cut_threads_kill_workers" : False
             }
             for i in range(0, self.workers_count):
                 multiprocessing_thread_params["chunked_filenames"].append(filenames[:self.chunks_len])
                 filenames = filenames[self.chunks_len:]
+                
             filenames = None
             
             from venc2.parallelism import Parallelism
@@ -129,6 +130,7 @@ class DataStore:
                 self.workers_count,
                 self.blog_configuration["pipe_flow"]
             )
+            
             parallelism.start()
             parallelism.join()
             if multiprocessing_thread_params["cut_threads_kill_workers"]:

@@ -109,7 +109,6 @@ def process_non_contextual_patterns():
 
         from venc2.parallelism.export_entries import split_datastore, thread_params
 
-        thread_params["cut_threads_kill_workers"] = False
         thread_params["code_highlight_includes"] = [{} for i in range(0, datastore.workers_count)]
         thread_params["non_parallelizable"] = [[] for i in range(0, datastore.workers_count)]
         thread_params["worker_context_chunks"] = split_datastore(datastore)
@@ -132,9 +131,11 @@ def process_non_contextual_patterns():
             )
         )
         parallelism.start()
-        parallelism.join()
-        if thread_params["cut_threads_kill_workers"]:
-            exit(-1)
+        try:
+            parallelism.join()
+            
+        except VenCException as e:
+            e.die()
 
     if not datastore.blog_configuration["disable_chapters"]:
         for entry in datastore.entries:

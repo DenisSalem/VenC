@@ -38,7 +38,8 @@ def die(msg, color="RED", extra=""):
     if len(extra):
         print(extra)
     
-    exit(-1)
+    import os
+    os._exit(-1)
 
 # Being verborse is nice, with colours it's better
 def notify(msg, color="GREEN"):
