@@ -56,53 +56,42 @@ def setup_pattern_processor(parallel=False):
     processor.set_patterns(patterns_map.non_contextual["blog"])
     processor.set_patterns(patterns_map.non_contextual["entries"])
     processor.set_patterns(patterns_map.non_contextual["extra"])
-        
-    return processor
+    if not parallel:
+        processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
 
-def process_non_parallelizables_pre_processed(run_pattern, entry_pre_processed):
-    for np in entry_pre_processed.non_parallelizables:
-        index = entry_pre_processed.string.index(np[0])
-        new_chunk = run_pattern(np[1], np[2])
-        entry_pre_processed.string = entry_pre_processed.string.replace(np[0], new_chunk)
-        offset = len(new_chunk) - len(np[0])
-        for e in entry_pre_processed.sorted_pattern_coordinates:
-            if e.o > index:
-                e.o+=offset
-                
-            if e.c > index:
-              e.c+=offset
+    return processor
             
 def process_non_parallelizables(datastore, patterns_map, thread_params):
     notify("├─ "+messages.process_non_parallelizable)
     pattern_processor = Processor()
     pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
-    
+    from venc2.patterns.processor import PatternNode
     for l in thread_params["non_parallelizable"]:
         for entry_index in l:
             entry = datastore.entries[entry_index]
             if entry.preview.has_non_parallelizables:
-                process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.preview)
+                pattern_processor.process(entry.preview, PatternNode.FLAG_NON_PARALLELIZABLE)
             
             if entry.content.has_non_parallelizables:
-                process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.content)
+                pattern_processor.process(entry.content, PatternNode.FLAG_NON_PARALLELIZABLE)
             
-            if entry.html_wrapper.processed_string.preview.has_non_parallelizables:
-                process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.html_wrapper.processed_string)
+            if entry.html_wrapper.processed_string.has_non_parallelizables:
+                pattern_processor.process(entry.html_wrapper.processed_string, PatternNode.FLAG_NON_PARALLELIZABLE)
                 
             if entry.rss_wrapper.processed_string.has_non_parallelizables:
-                process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.rss_wrapper.processed_string)
+                pattern_processor.process(entry.rss_wrapper.processed_string, PatternNode.FLAG_NON_PARALLELIZABLE)
                 
             if entry.atom_wrapper.processed_string.has_non_parallelizables:
-                process_non_parallelizables_pre_processed(pattern_processor.run_pattern, entry.atom_wrapper.processed_string)
+                pattern_processor.process(entry.atom_wrapper.processed_string, PatternNode.FLAG_NON_PARALLELIZABLE)
                     
 def process_non_contextual_patterns():
-    pattern_processor = setup_pattern_processor()
     from venc2.datastore import datastore
+    pattern_processor = setup_pattern_processor(datastore.workers_count > 1)
     from venc2.datastore.theme import theme
     from venc2.patterns.third_party_wrapped_features.pygmentize import code_highlight
     from venc2.patterns.patterns_map import patterns_map
     from venc2.parallelism.export_entries import worker
-
+    
     if datastore.workers_count > 1:
         # There we setup chunks of entries send to workers throught dispatchers
         datastore.chunks_len = (len(datastore.entries)//datastore.workers_count)+1
@@ -161,15 +150,16 @@ def process_non_contextual_patterns():
     try:
         if datastore.workers_count > 1:
             process_non_parallelizables(datastore, patterns_map, thread_params)
+            pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
         
-        pattern_processor.process(theme.header, PatternNode.FLAG_NON_CONTEXTUAL)
-        pattern_processor.process(theme.footer, PatternNode.FLAG_NON_CONTEXTUAL)    
-        pattern_processor.process(theme.rss_header, PatternNode.FLAG_NON_CONTEXTUAL) 
-        pattern_processor.process(theme.rss_footer, PatternNode.FLAG_NON_CONTEXTUAL)
-        pattern_processor.process(theme.atom_header, PatternNode.FLAG_NON_CONTEXTUAL)
-        pattern_processor.process(theme.atom_footer, PatternNode.FLAG_NON_CONTEXTUAL) 
+        pattern_processor.process(theme.header, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
+        pattern_processor.process(theme.footer, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)    
+        pattern_processor.process(theme.rss_header, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE) 
+        pattern_processor.process(theme.rss_footer, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
+        pattern_processor.process(theme.atom_header, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
+        pattern_processor.process(theme.atom_footer, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE) 
 
-    except VenCException:
+    except VenCException as e:
         if not e.context:
             e.context = string_under_processing
             e.extra = string_under_processing.flatten(highlight_pattern=pattern)

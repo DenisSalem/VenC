@@ -67,6 +67,9 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
 
     from venc2.patterns.processor import PatternNode
     pattern_processor_match = PatternNode.FLAG_NON_CONTEXTUAL
+    if recv_in == None:
+        pattern_processor_match |= PatternNode.FLAG_NON_PARALLELIZABLE
+        
     while len(chunk):
         for entry in chunk:
             entry_has_non_parallelizable = False

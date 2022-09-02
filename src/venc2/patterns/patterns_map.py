@@ -78,11 +78,8 @@ class PatternsMap():
             "GetBlogMetadataIfNotNull":	  "get_blog_metadata_if_not_null",
             "GetBlogName":	              "get_blog_name",
             "GetBlogURL":	                "get_blog_url",
-            "GetChapterAttributeByIndex": "get_chapter_attribute_by_index",
-            "GetChapters" :               "get_chapters",
             "GetRootPage":	              "get_root_page",
             "GetEmbedContent":	          "wrapper_embed_content",
-            "GetEntryAttributeByID":      "get_entry_attribute_by_id",
             "GetGenerationTimestamp":	    "get_generation_timestamp",
             "IfAtomEnabled":	            "if_atom_enabled",
             "IfBlogMetadataIsTrue":	      "if_blog_metadata_is_true",
@@ -112,11 +109,11 @@ class PatternsMap():
         },
     }
 
-    NON_PARALLELIZABLES = (
-        "GetChapterAttributeByIndex",
-        "GetChapters",
-        "GetEntryAttributeByID",
-    )
+    NON_PARALLELIZABLES = {
+        "GetChapterAttributeByIndex" : "get_chapter_attribute_by_index",
+        "GetChapters" : "get_chapters",
+        "GetEntryAttributeByID" : "get_entry_attribute_by_id",
+    }
 
     # TODO
     WAIT_FOR_CHILDREN_TO_BE_PROCESSED = tuple()
@@ -144,8 +141,8 @@ class PatternsMap():
         for pattern_name in PatternsMap.NON_CONTEXTUALS["entries"].keys():
             self.non_contextual["blog"][pattern_name] = getattr(datastore, PatternsMap.NON_CONTEXTUALS["entries"][pattern_name])
 
-        for pattern_name in PatternsMap.NON_PARALLELIZABLES:
-            self.non_contextual["non_parallelizable"][pattern_name] = getattr(datastore, PatternsMap.NON_CONTEXTUALS["blog"][pattern_name])
+        for pattern_name in PatternsMap.NON_PARALLELIZABLES.keys():
+            self.non_contextual["non_parallelizable"][pattern_name] = getattr(datastore, PatternsMap.NON_PARALLELIZABLES[pattern_name])
             
 def init_pattern_map():
     global patterns_map

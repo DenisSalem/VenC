@@ -243,14 +243,15 @@ class StringUnderProcessing(VenCString):
 
             self.__set_pattern_flags(pattern)
             
-    def __set_pattern_flags(self, pattern):
+    def __set_pattern_flags(self, pattern):            
         if not pattern.name in PatternsMap.CONTEXTUALS.keys():
-            pattern.flags |= PatternNode.FLAG_NON_CONTEXTUAL
+            pattern.flags = PatternNode.FLAG_NON_CONTEXTUAL
+            
         else:
-            pattern.flags |= PatternNode.FLAG_CONTEXTUAL
+            pattern.flags = PatternNode.FLAG_CONTEXTUAL
             
         if pattern.name in PatternsMap.NON_PARALLELIZABLES:
-            pattern.flags |= PatternNode.FLAG_NON_PARALLELIZABLE
+            pattern.flags = PatternNode.FLAG_NON_PARALLELIZABLE
             self.has_non_parallelizables = True
     
     @staticmethod
