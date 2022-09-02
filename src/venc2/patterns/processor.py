@@ -64,6 +64,7 @@ class PatternNode(VenCString):
         self.name = None
         self.args = []
         self.sub_strings = []
+        self.args_index = 0
 
 class PatternsStack(list):
     def __init__(self, string_under_processing):
@@ -107,7 +108,7 @@ class Processor:
                 patterns_stack_append(patterns_stack_tail.sub_strings[-1-patterns_stack_tail.filtered_offset])
 
             else:
-                # Does the pattern if okay to be processed ?
+                # Does the pattern is okay to be processed ?
                 if patterns_stack_tail.flags & flags:
                     pattern = patterns_stack_pop(False)
                     # TODO: Investigate pattern validation in datastructure building
@@ -119,19 +120,12 @@ class Processor:
                     if type(parent) == PatternNode:                               
                         chunk = self.functions[pattern.name](pattern, *pattern.args)
                         parent_args = parent.args
-                        i = 2 + len(parent.name)
-                        args_index = 0
-                        # TODO: instead of searching shit, store data on datastructure building
-                        while '∞':
-                            current_parent_arg_len = len(parent_args[args_index])
-                            parent_args_current_index = parent_args[args_index]
-                            if  i + 2 < pattern.o and i + 2 + current_parent_arg_len > pattern.c:
-                                parent_args[args_index] = parent_args_current_index[:pattern.o - (i + 2)]+chunk+parent_args_current_index[pattern.c - i:]
-                                offset = len(parent_args[args_index]) - current_parent_arg_len
-                                break
-                              
-                            i += 2 + len(parent_args[args_index])
-                            args_index+=1
+                        current_parent_arg_len = len(parent_args[pattern.args_index])
+                        parent_args_current_index = parent_args[pattern.args_index]
+                        i = sum([2+len(item) for item in parent_args[0:pattern.args_index]])+ 2 + len(parent.name)
+                        parent_args[pattern.args_index] = parent_args[pattern.args_index][:pattern.o - (i + 2)]+chunk+parent_args[pattern.args_index][pattern.c - i:]
+                        offset = len(parent_args[pattern.args_index]) - current_parent_arg_len
+
                     else:
                         chunk = self.functions[pattern.name](pattern, *pattern.args)
                         offset = len(chunk) - len(pattern.id)
@@ -215,34 +209,61 @@ class StringUnderProcessing(VenCString):
         # - Set pattern flags.
         # - Replace patterns by their unique identifier.
         self.__finalize_patterns_tree(sub_strings)
-                
+        
+        # - Get pattern it's index in parent argument list
+        self.__get_pattern_parent_arg_index(sub_strings)
+    
+    def __get_pattern_parent_arg_index(self, sub_strings, parent=None):
+        if parent:
+            parent_args = parent.args
+            args_string_index = 2+len(parent.name)
+            args_index = 0
+        
+        for pattern in sub_strings:
+            if parent:
+                while args_string_index < pattern.o :                        
+                    pattern.args_index = args_index
+                    args_string_index += 2+len(parent_args[args_index])
+                    # ~ print(">",
+                      # ~ "len(parent_args):",len(parent_args),
+                      # ~ "pattern.id:",pattern.id,
+                      # ~ "pattern.o:",pattern.o,
+                      # ~ "args_string_index:",args_string_index,
+                      # ~ "pattern.args_index:",pattern.args_index,
+                      # ~ "parent_args", parent_args
+                    # ~ )
+                    args_index += 1
+                    
+            self.__get_pattern_parent_arg_index(pattern.sub_strings, pattern)
+            
     def __finalize_patterns_tree(self, nodes, parent=None):
-        if parent != None:
+        if parent:
             parent.sub_strings = sorted(nodes, key = lambda n:n.o)
             nodes = parent.sub_strings
-            
+    
         else:
             self.sub_strings = sorted(nodes, key = lambda node:node.o)
             nodes = self.sub_strings
             
-        for pattern in nodes:
+        for pattern in nodes:            
             self.__finalize_patterns_tree(pattern.sub_strings, pattern)
-            if parent != None:
+                
+            if parent:
                 pattern.o -= parent.o 
-                pattern.c -= parent.o
+                pattern.c -= parent.o                    
                 parent.update_child(pattern.id, pattern)
                 
             else:
                 self.update_child(pattern.id, pattern)
-                
+
             l = str(pattern)[2:-2].split('::')
             pattern.name = l[0]
             pattern.args += l[1:]
             if pattern.name == "Escape":
                 pattern.escape_pattern = True
-
+                                            
             self.__set_pattern_flags(pattern)
-            
+                                
     def __set_pattern_flags(self, pattern):            
         if not pattern.name in PatternsMap.CONTEXTUALS.keys():
             pattern.flags = PatternNode.FLAG_NON_CONTEXTUAL
@@ -284,6 +305,7 @@ class StringUnderProcessing(VenCString):
                 
             if len(patterns_stack[-1].sub_strings):
                 patterns_stack_append(patterns_stack[-1].sub_strings[-1])
+                
             else:
                 pattern = patterns_stack_pop(False)
                 parent = patterns_stack[-1]
