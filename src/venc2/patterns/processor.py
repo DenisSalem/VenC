@@ -213,15 +213,35 @@ class StringUnderProcessing(VenCString):
         
         # - Get pattern it's index in parent argument list
         self.__get_pattern_parent_arg_index(self)
+        # ~ self.__get_pattern_parent_arg_index(sub_strings)
+
+    # ~ def __get_pattern_parent_arg_index(self, sub_strings, parent=None):
+        # ~ if parent:
+            # ~ parent_args = parent.args
+            # ~ args_string_index = 2+len(parent.name)
+            # ~ args_index = 0
+        
+        # ~ for pattern in sub_strings:
+            # ~ if parent:
+                # ~ while args_string_index < pattern.o :                        
+                    # ~ pattern.args_index = args_index
+                    # ~ args_string_index += 2+len(parent_args[args_index])
+                    # ~ args_index += 1
+                    
+            # ~ self.__get_pattern_parent_arg_index(pattern.sub_strings, pattern)
+
     
-    # TODO: translate to iterative
     def __get_pattern_parent_arg_index(self, root):
         indexes_stack = [0]
         stack = [root]
+        stack_append = stack.append
+        stack_pop = stack.pop
+        indexes_stack_append = indexes_stack.append
+        indexes_stack_pop = indexes_stack.pop
         while '∞':
             if len(stack[-1].sub_strings) - indexes_stack[-1]:
-                stack.append(stack[-1].sub_strings[indexes_stack[-1]])
-                indexes_stack.append(0)
+                stack_append(stack[-1].sub_strings[indexes_stack[-1]])
+                indexes_stack_append(0)
                 
             else:
                 if len(stack) >= 2 :
@@ -236,8 +256,8 @@ class StringUnderProcessing(VenCString):
                             args_string_index += 2+len(parent_args[args_index])
                             args_index += 1                    
                 
-                indexes_stack.pop()
-                stack.pop()
+                indexes_stack_pop()
+                stack_pop()
                 if not len(stack):
                     break
                 indexes_stack[-1] += 1
