@@ -65,6 +65,7 @@ class PatternNode(VenCString):
         self.args = []
         self.sub_strings = []
         self.args_index = 0
+        self.args_string_index = 0
 
 class PatternsStack(list):
     def __init__(self, string_under_processing):
@@ -122,8 +123,8 @@ class Processor:
                         parent_args = parent.args
                         current_parent_arg_len = len(parent_args[pattern.args_index])
                         parent_args_current_index = parent_args[pattern.args_index]
-                        i = sum([2+len(item) for item in parent_args[0:pattern.args_index]])+ 2 + len(parent.name)
-                        parent_args[pattern.args_index] = parent_args[pattern.args_index][:pattern.o - (i + 2)]+chunk+parent_args[pattern.args_index][pattern.c - i:]
+                        i = pattern.args_string_index
+                        parent_args[pattern.args_index] = parent_args_current_index[:pattern.o - (i + 2)]+chunk+parent_args_current_index[pattern.c - i:]
                         offset = len(parent_args[pattern.args_index]) - current_parent_arg_len
 
                     else:
@@ -211,31 +212,37 @@ class StringUnderProcessing(VenCString):
         self.__finalize_patterns_tree(sub_strings)
         
         # - Get pattern it's index in parent argument list
-        self.__get_pattern_parent_arg_index(sub_strings)
+        self.__get_pattern_parent_arg_index(self)
     
-    def __get_pattern_parent_arg_index(self, sub_strings, parent=None):
-        if parent:
-            parent_args = parent.args
-            args_string_index = 2+len(parent.name)
-            args_index = 0
-        
-        for pattern in sub_strings:
-            if parent:
-                while args_string_index < pattern.o :                        
-                    pattern.args_index = args_index
-                    args_string_index += 2+len(parent_args[args_index])
-                    # ~ print(">",
-                      # ~ "len(parent_args):",len(parent_args),
-                      # ~ "pattern.id:",pattern.id,
-                      # ~ "pattern.o:",pattern.o,
-                      # ~ "args_string_index:",args_string_index,
-                      # ~ "pattern.args_index:",pattern.args_index,
-                      # ~ "parent_args", parent_args
-                    # ~ )
-                    args_index += 1
-                    
-            self.__get_pattern_parent_arg_index(pattern.sub_strings, pattern)
+    # TODO: translate to iterative
+    def __get_pattern_parent_arg_index(self, root):
+        indexes_stack = [0]
+        stack = [root]
+        while '∞':
+            if len(stack[-1].sub_strings) - indexes_stack[-1]:
+                stack.append(stack[-1].sub_strings[indexes_stack[-1]])
+                indexes_stack.append(0)
+                
+            else:
+                if len(stack) >= 2 :
+                    parent = stack[-1]
+                    parent_args = parent.args
+                    args_string_index = 2+len(parent.name)
+                    args_index = 0
+                    for pattern in parent.sub_strings:
+                        while args_string_index < pattern.o :                        
+                            pattern.args_index = args_index
+                            pattern.args_string_index = args_string_index
+                            args_string_index += 2+len(parent_args[args_index])
+                            args_index += 1                    
+                
+                indexes_stack.pop()
+                stack.pop()
+                if not len(stack):
+                    break
+                indexes_stack[-1] += 1
             
+    # TODO: translate to iterative
     def __finalize_patterns_tree(self, nodes, parent=None):
         if parent:
             parent.sub_strings = sorted(nodes, key = lambda n:n.o)
@@ -257,8 +264,7 @@ class StringUnderProcessing(VenCString):
                 self.update_child(pattern.id, pattern)
 
             l = str(pattern)[2:-2].split('::')
-            pattern.name = l[0]
-            pattern.args += l[1:]
+            pattern.name, pattern.args = l[0], l[1:]
             if pattern.name == "Escape":
                 pattern.escape_pattern = True
                                             
