@@ -53,6 +53,12 @@ def test_full_process(verbose=False):
 
     s = "Simple math: .:ADD:: .:MUL:: 2 :: 6 :. :: .:MUL::4::4:. :. .:MUL::3:: .:ADD::3::6:. :."
     sup = StringUnderProcessing(s, "test_full_process")
+    sup.sub_strings[0].flags = PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[0].sub_strings[0].flags = PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[0].sub_strings[1].flags = PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[1].flags = PatternNode.FLAG_NON_CONTEXTUAL
+    sup.sub_strings[1].sub_strings[0].flags = PatternNode.FLAG_NON_CONTEXTUAL
+
     p = Processor()
     p.set_patterns({
         "ADD": ADD,
@@ -62,7 +68,7 @@ def test_full_process(verbose=False):
     if verbose:
         print(s)
     
-    p.process(sup, PatternNode.FLAG_ALL)
+    p.process(sup, PatternNode.FLAG_NON_CONTEXTUAL)
     
     if verbose:
         print(sup)

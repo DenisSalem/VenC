@@ -126,6 +126,9 @@ class Processor:
                         i = 2 + len(parent.name) + sum([2+len(item) for item in parent_args[0:pattern_args_index]])
                         parent_args[pattern_args_index] = parent_args_current_index[:pattern.o - (i + 2)] + chunk + parent_args_current_index[pattern.c - i:]
                         offset = len(parent_args[pattern_args_index]) - current_parent_arg_len
+                        if string_under_processing.context == "debug":
+                            print(">",parent_args[pattern_args_index])
+                            print()
 
                     else:
                         chunk = self.functions[pattern.name](pattern, *pattern.args)

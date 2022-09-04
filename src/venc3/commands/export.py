@@ -153,7 +153,7 @@ def process_non_contextual_patterns():
             pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
         
         pattern_processor.process(theme.header, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
-        pattern_processor.process(theme.footer, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)    
+        pattern_processor.process(theme.footer, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
         pattern_processor.process(theme.rss_header, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE) 
         pattern_processor.process(theme.rss_footer, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
         pattern_processor.process(theme.atom_header, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
@@ -202,7 +202,6 @@ def export_blog(theme_name=''):
         from venc3.threads.main import MainThread
         thread = MainThread()
         thread.do()
-        
         if not datastore.blog_configuration["disable_archives"]:
             from venc3.threads.archives import ArchivesThread
             thread = ArchivesThread()

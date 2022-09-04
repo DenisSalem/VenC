@@ -318,6 +318,7 @@ class Thread:
                   
         footer = deepcopy(self.footer)
         self.processor.process(footer, pattern_processor_match)
+        
         self.output += str(footer)
         
         self.write_file(self.output.replace("\x1a",self.relative_origin), self.page_number)
@@ -376,8 +377,6 @@ class Thread:
         self.current_page = 0
         self.page_number = 0
         if self.pages_count == 0:
-            # TODO : why the fuck header and footer aren't restored into there initial state ?!
-            # TODO : It works so far... But why?
             current_source = self.header
             self.processor.process(current_source, pattern_processor_match)
             output = str(current_source)

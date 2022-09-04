@@ -45,7 +45,6 @@ class VenCException(Exception):
         
         die(self.message, extra=self.extra)
 
-      
 class MalformedPatterns(VenCException):
     def __init__(self, string_under_processing):
         len_op = len(string_under_processing.op)
