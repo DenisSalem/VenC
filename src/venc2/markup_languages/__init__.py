@@ -59,5 +59,7 @@ def process_markup_language(source, markup_language, entry=None):
     elif markup_language != "none":
         err = messages.unknown_markup_language.format(markup_language, source.ressource)
         handle_markup_language_error(err)
+    else:
+        return
         
     source.reset_index(string)

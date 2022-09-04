@@ -65,7 +65,6 @@ class PatternNode(VenCString):
         self.args = []
         self.sub_strings = []
         self.args_index = 0
-        self.args_string_index = 0
 
 class PatternsStack(list):
     def __init__(self, string_under_processing):
@@ -124,7 +123,7 @@ class Processor:
                         pattern_args_index = pattern.args_index
                         current_parent_arg_len = len(parent_args[pattern_args_index])
                         parent_args_current_index = parent_args[pattern_args_index]
-                        i = pattern.args_string_index
+                        i = 2 + len(parent.name) + sum([2+len(item) for item in parent_args[0:pattern_args_index]])
                         
                         parent_args[pattern_args_index] = parent_args_current_index[:pattern.o - (i + 2)] + chunk + parent_args_current_index[pattern.c - i:]
                         offset = len(parent_args[pattern_args_index]) - current_parent_arg_len
@@ -135,7 +134,7 @@ class Processor:
                         parent_str = parent._str
                         parent._str = parent_str[:pattern.o]+chunk+parent_str[pattern.c+2:]
 
-                    # At this point pattern has been processed and we got an new offset                    
+                    # At this point pattern has been processed and we got a new offset                    
                     parent_sub_strings = parent.sub_strings
                     for j in range(-parent.filtered_offset, 0): # adjusting parent sub strings indexes
                         parent_sub_strings[j].o += offset
@@ -242,7 +241,7 @@ class StringUnderProcessing(VenCString):
             for children in pattern.sub_strings:
                 while args_string_index < children.o :                        
                     children.args_index = args_index
-                    children.args_string_index = args_string_index
+                    # ~ children.args_string_index = args_string_index
                     args_string_index += 2+len(pattern_args[args_index])
                     args_index += 1
                             
