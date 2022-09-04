@@ -124,7 +124,6 @@ class Processor:
                         current_parent_arg_len = len(parent_args[pattern_args_index])
                         parent_args_current_index = parent_args[pattern_args_index]
                         i = 2 + len(parent.name) + sum([2+len(item) for item in parent_args[0:pattern_args_index]])
-                        
                         parent_args[pattern_args_index] = parent_args_current_index[:pattern.o - (i + 2)] + chunk + parent_args_current_index[pattern.c - i:]
                         offset = len(parent_args[pattern_args_index]) - current_parent_arg_len
 
@@ -143,15 +142,14 @@ class Processor:
                     # pattern may hold some unprocessed patterns they have to be reintegrated
                     if len(pattern.sub_strings):
                         parent_filtered_offset = parent.filtered_offset
-                        parent_sub_string = parent.sub_strings
                         #adjusting inner filtered indexes
                         for sub_string in pattern.sub_strings:
                             o = str(parent).find(sub_string.id) # possible bottleneck
                             if o > 0:
                                 sub_string.c += o - sub_string.o
                                 sub_string.o = o
-                                
-                        parent.sub_strings = parent_sub_string[:len(parent_sub_string)-parent_filtered_offset] + pattern.sub_strings + parent_sub_string[len(parent_sub_string)-parent_filtered_offset:]
+                        slice_index = len(parent_sub_strings)-parent_filtered_offset
+                        parent.sub_strings = parent_sub_strings[:slice_index] + pattern.sub_strings + parent_sub_strings[slice_index:]
 
                 else:
                     patterns_stack_filter()
@@ -241,7 +239,6 @@ class StringUnderProcessing(VenCString):
             for children in pattern.sub_strings:
                 while args_string_index < children.o :                        
                     children.args_index = args_index
-                    # ~ children.args_string_index = args_string_index
                     args_string_index += 2+len(pattern_args[args_index])
                     args_index += 1
                             
