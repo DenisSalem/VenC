@@ -64,7 +64,7 @@ class PatternNode(VenCString):
         self.name = None
         self.args = []
         self.sub_strings = []
-        self.args_index = 0
+        self.parent_argument_index = 0
 
 class PatternsStack(list):
     def __init__(self, string_under_processing):
@@ -201,66 +201,77 @@ class StringUnderProcessing(VenCString):
         while i < len(sub_strings):
             for pattern in sub_strings[i+1:]:
                 if sub_strings[i].o > pattern.o and sub_strings[i].c < pattern.c:
-                    pattern.sub_strings.append(sub_strings_pop(i) )
+                    pattern.sub_strings.append(sub_strings_pop(i))
                     i =-1
                     break
                     
             i+=1
 
-        # - Make nested patterns indexes relatives to upper pattern.
+        # - Make nested patterns indexes relatives to their parent.
         # - Set patterns name and args.
         # - Set pattern flags.
         # - Replace patterns by their unique identifier.
-        self.__finalize_patterns_tree(sub_strings)
-                
-    # TODO: translate to iterative
-    def __finalize_patterns_tree(self, nodes, parent=None):
-        if parent:
-            parent.sub_strings = sorted(nodes, key = lambda n:n.o)
-            nodes = parent.sub_strings
-    
-        else:
-            self.sub_strings = sorted(nodes, key = lambda node:node.o)
-            nodes = self.sub_strings
-            
-        for pattern in nodes:
-            self.__finalize_patterns_tree(pattern.sub_strings, pattern)
-            if parent:
-                pattern.o -= parent.o 
-                pattern.c -= parent.o                    
-                parent.update_child(pattern.id, pattern)
-                
-            else:
-                self.update_child(pattern.id, pattern)
+        self.__finalize_patterns_tree_pass_1(sub_strings)
+        # ~ Make nested patterns indexes relatives to their parent arguments.
+        self.__finalize_patterns_tree_pass_2(sub_strings)
 
+    def __finalize_patterns_tree_pass_1(self, nodes, parent=None):
+        target = parent if parent else self
+        target.sub_strings = sorted(nodes, key = lambda n:n.o)
+        nodes = target.sub_strings
+        
+        for pattern in nodes:
+            self.__finalize_patterns_tree_pass_1(pattern.sub_strings, pattern) 
+
+            if parent:
+                pattern.o -= parent.o
+                pattern.c -= parent.o
+
+            target.update_child(pattern.id, pattern)
+            
             l = str(pattern)[2:-2].split('::')
             pattern.name, pattern.args = l[0], l[1:]
-            # get children pattern's parent's arg index
-            pattern_args = pattern.args
-            args_string_index = 2+len(pattern.name)
-            args_index = 0
-            for children in pattern.sub_strings:
-                while args_string_index < children.o :                        
-                    children.args_index = args_index
-                    args_string_index += 2+len(pattern_args[args_index])
-                    args_index += 1
-                            
-            if pattern.name == "Escape":
-                pattern.escape_pattern = True
-                
             self.__set_pattern_flags(pattern)
-
+      
+    def __finalize_patterns_tree_pass_2(self, nodes, parent=None):
+        if parent:
+            parent_args = parent.args
+            relative_index = 0
+            parent_argument_index = 0
+            
+        for pattern in nodes:
+            self.__finalize_patterns_tree_pass_2(pattern.sub_strings, pattern)
+            if parent:             
+                pattern.o -= 4 + len(parent.name)
+                pattern.c -= 4 + len(parent.name)
+                o, c,has_iterated = pattern.o, pattern.c, False
+                
+                while relative_index < o:
+                    has_iterated = True
+                    pattern.o, pattern.c = o - relative_index, c -relative_index
+                    pattern.parent_argument_index = parent_argument_index
+                    relative_index += 2+len(parent_args[parent_argument_index])
+                    parent_argument_index += 1
+                
+                if has_iterated:
+                    relative_index -= 2+len(parent_args[parent_argument_index-1])
+                    parent_argument_index-=1
+            
     def __set_pattern_flags(self, pattern):            
-        if not pattern.name in PatternsMap.CONTEXTUALS.keys():
+        pattern_name = pattern.name
+        if not pattern_name in PatternsMap.CONTEXTUALS.keys():
             pattern.flags = PatternNode.FLAG_NON_CONTEXTUAL
             
         else:
             pattern.flags = PatternNode.FLAG_CONTEXTUAL
             
-        if pattern.name in PatternsMap.NON_PARALLELIZABLES:
+        if pattern_name in PatternsMap.NON_PARALLELIZABLES:
             pattern.flags = PatternNode.FLAG_NON_PARALLELIZABLE
             self.has_non_parallelizables = True
-    
+            
+        if pattern_name == "Escape":
+            pattern.escape_pattern = True    
+            
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
       l = list()
