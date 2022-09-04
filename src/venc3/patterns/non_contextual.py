@@ -149,12 +149,5 @@ def table(node, *argv):
         
     return output + "</table></div>"
 
-def escape(node, string, root_call=True):
-    from venc3.prompt import notify
-    while len(node.sub_strings):
-        sub_node = node.sub_strings.pop()
-        if len(sub_node.sub_strings) == 0:
-            node.update_child(".:"+sub_node.name+"::"+("::".join(sub_node.args))+":.", sub_node, apply_offset=False)
-        else:
-            node.update_child(escape(sub_node, string, root_call=False), sub_node, apply_offset=False)
-    return str(node)[10:-2] if root_call else str(node)
+def escape(node, string):
+    return node.flatten()
