@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 from multiprocessing import cpu_count
-from venc2.parallelism import Parallelism
+from venc3.parallelism import Parallelism
 
 from datetime import datetime
 

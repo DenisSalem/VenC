@@ -87,25 +87,25 @@ extra_files.append(
 
 setup(
     name='VenC',
-    version='2.1.0',
+    version='3.0.0',
     description='A static blog generator.',
     author='Denis Salem',
     author_email='denissalem@tuxfamily.org',
     url='https://github.com/DenisSalem/VenC',
     packages=[
-        'venc2',
-        'venc2.commands',
-        'venc2.datastore',
-        'venc2.l10n',
-        'venc2.markup_languages',
-        'venc2.parallelism',
-        'venc2.patterns',
-        'venc2.patterns.third_party_wrapped_features',
-        'venc2.threads'
+        'venc3',
+        'venc3.commands',
+        'venc3.datastore',
+        'venc3.l10n',
+        'venc3.markup_languages',
+        'venc3.parallelism',
+        'venc3.patterns',
+        'venc3.patterns.third_party_wrapped_features',
+        'venc3.threads'
     ],
     license="GNU/GPLv3",
     platforms="Linux",
-    long_description="A static and light blog generator, Aim to be easy to use.",
+    long_description="A static and light blog generator, that aim to be damn fast and easy to use.",
     classifiers=[
         "Environment :: Console",
         "Development Status :: 5 - Production/Stable",

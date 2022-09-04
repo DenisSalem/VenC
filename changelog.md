@@ -1,11 +1,11 @@
-# version 3.x.x
+# version 4.x.x
     TODO | Replace categories with taxonomy support.
     TODO | Add support for plugin.
     TODO | Add Incremental blog update.
     TODO | Add support for sub-sites within main site.
     TODO | Add support for single pages.
 
-# version 2.1.x
+# version 3.1.x
     WIP  | Replace as much as possible usage of list with tuple.
     TODO | Override theme config override.
     TODO | venc -xb should also work in subdirectories
@@ -54,7 +54,7 @@
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
 
-# version 2.1.0
+# version 3.0.0
     DONE | Prevent infinite loop in needles replacement.
     DONE | Fix typos in doc
     DONE | Add InfludeFileIfExists, improve IncludeFile code.
@@ -78,9 +78,9 @@
     DONE | Add nice 404 errors page.
     DONE | Add security notice.
     DONE | Make some dependencies optional.
-    WIP  | Pattern processor improvement.
+    DONE | Pattern processor improvement.
     WIP  | Generate entry inner table of content.
-/!\ TODO | S'assurer que toutes les VenCException prennent bien en paramètre un context
+/!\ TODO | S'aszsurer que toutes les VenCException prennent bien en paramètre un context
     TODO | Add ForDictMetadata
     TODO | If python version below 3.5 disable parallel processing.
     TODO | Update doc accordingly.

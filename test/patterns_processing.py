@@ -17,11 +17,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc2.patterns.processor import PatternNode
-from venc2.patterns.processor import Processor              # The actual string processor, holding binded methods.
-from venc2.patterns.processor import StringUnderProcessing  # The object holding the string and its states.
-from venc2.prompt import die
-from venc2.prompt import notify
+from venc3.patterns.processor import PatternNode
+from venc3.patterns.processor import Processor              # The actual string processor, holding binded methods.
+from venc3.patterns.processor import StringUnderProcessing  # The object holding the string and its states.
+from venc3.prompt import die
+from venc3.prompt import notify
 
 def test_datastructure(verbose=False):  
     ref = [ "FUNC"+str(i) for i in range(1,9) ]
@@ -111,7 +111,7 @@ def test_escape(verbose=False):
       print(s)
       print(sup)
     p = Processor()
-    from venc2.patterns.non_contextual import escape
+    from venc3.patterns.non_contextual import escape
     p.set_patterns({
         "Escape": escape
     })
@@ -159,7 +159,7 @@ def test_filter_process_2():
 
 def test_sub_patterns_reintegration_pass_1():
     s = ".:SetStyle:: :: :: .:GetRelativeOrigin:. :. .:SetStyle:: :: :: .:GetRelativeOrigin:. :. .:SetStyle:: :: :: .:GetRelativeOrigin:. :."
-    from venc2.patterns.non_contextual import set_style
+    from venc3.patterns.non_contextual import set_style
     sup = StringUnderProcessing(s, "test_sub_patterns_reintegration")
     p = Processor()
     p.set_patterns({"SetStyle": set_style})
@@ -179,7 +179,7 @@ def test_sub_patterns_reintegration_pass_2():
         return "../"
         
     s = ".:SetStyle::blue::red::test:. .:SetStyle:: :: :: .:GetRelativeOrigin:. :.123.:SetStyle:: :: :: .:GetRelativeOrigin:. :. .:GetRelativeOrigin:. .:SetStyle:: :: :: .:GetRelativeOrigin:. :."
-    from venc2.patterns.non_contextual import set_style
+    from venc3.patterns.non_contextual import set_style
     sup = StringUnderProcessing(s, "test_sub_patterns_reintegration")
     p = Processor()
     p.set_patterns({

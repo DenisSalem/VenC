@@ -22,10 +22,10 @@ import yaml
 import codecs
 import shutil
 
-from venc2.helpers import die
-from venc2.helpers import notify
-from venc2.datastore.entry import yield_entries_content
-from venc2.l10n import messages
+from venc3.helpers import die
+from venc3.helpers import notify
+from venc3.datastore.entry import yield_entries_content
+from venc3.l10n import messages
 
 def replace_patterns(string):
     string = string.replace(".:Get::EntryID:.",".:GetEntryID:.")

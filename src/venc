@@ -25,9 +25,9 @@ sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 import importlib
 
-from venc2.helpers import notify
-from venc2.l10n import messages; 
-from venc2.l10n import locale_err;
+from venc3.helpers import notify
+from venc3.l10n import messages; 
+from venc3.l10n import locale_err;
 
 
 #import cProfile, pstats, io
@@ -75,7 +75,7 @@ def argv_handler(argv=None):
                    else:
                        break
 
-           module = importlib.import_module(command_index[argv[0]][0], "venc2.commands")
+           module = importlib.import_module(command_index[argv[0]][0], "venc3.commands")
            command = getattr(module, command_index[argv[0]][1])
            command(*arguments)
            argv_handler(argv[len(arguments)+1:])

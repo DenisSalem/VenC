@@ -90,8 +90,8 @@ def init_entries():
         update_context()
 
 def init_venc_blog():
-    from venc2.commands.new import new_blog
-    from venc2 import venc_version
+    from venc3.commands.new import new_blog
+    from venc3 import venc_version
     print("Benckmark VenC", venc_version)
     ENVIRONMENT["VenC"] = venc_version
     clear_venc_blog()
