@@ -40,19 +40,24 @@ class VenCString:
               
     def flatten(self, parent=None):
         target = parent if parent else self
-        for string in target.sub_strings[::-1]:
-            self.flatten(string)
-            output = string.output if string.output else ".:"+string.name+"::"+('::'.join(string.args))+":."
-            if type(target) == PatternNode:
-                o = target.output.find(string.id)
-                if o > 0:
-                    string.c += o - string.o
-                    string.o = o
-                    target.output = target.output[:string.o] + output +target.output[string.c+2:]
-                
-            else:
-                target._str = target._str[:string.o] + output + target._str[string.c+2:]
+        if len(target.sub_strings):
+            for string in target.sub_strings[::-1]:
+                self.flatten(string)
+                output = string.output if string.output else ".:"+string.name+"::"+('::'.join(string.args))+":."
+                if type(target) == PatternNode:
+                    o = target.output.find(string.id)
+                    if o > 0:
+                        string.c += o - string.o
+                        string.o = o
+                        target.output = target.output[:string.o] + output +target.output[string.c+2:]
                     
+                else:
+                    target._str = target._str[:string.o] + output + target._str[string.c+2:]
+          
+        elif type(target) == PatternNode and target.output == None:
+            target.output = ".:"+target.name+"::"+('::'.join(target.args))+":."
+                    
+                                    
         if parent == None:
             return target.output if type(target) == PatternNode else target._str
             
@@ -142,6 +147,7 @@ class StringUnderProcessing(VenCString):
         self.__finalize_patterns_tree_pass_1(sub_strings)
         
         # ~ Make nested patterns indexes relatives to their parent arguments.
+        # ~ Drop escaped
         self.__finalize_patterns_tree_pass_2(sub_strings)
 
     def __finalize_patterns_tree_pass_1(self, nodes, parent=None):
@@ -155,14 +161,15 @@ class StringUnderProcessing(VenCString):
             if parent:
                 pattern.o -= parent.o
                 pattern.c -= parent.o
-
+                
+            l = pattern._str[2:-2].split('::')
+            pattern.name, pattern.args = l[0], l[1:]
+            
             target._str = target._str[:pattern.o]+pattern.id+target._str[pattern.c+2:]
             offset = len(pattern.id) - (pattern.c + 2 - pattern.o)
             pattern.c += offset
             VenCString.apply_offset(target.sub_strings, offset, pattern.o)
 
-            l = pattern._str[2:-2].split('::')
-            pattern.name, pattern.args = l[0], l[1:]
             self.__set_pattern_flags(pattern)
             
     def __finalize_patterns_tree_pass_2(self, nodes, parent=None):
@@ -172,22 +179,25 @@ class StringUnderProcessing(VenCString):
             parent_argument_index = 0
             
         for pattern in nodes:
-            self.__finalize_patterns_tree_pass_2(pattern.sub_strings, pattern)
-            if parent:             
-                pattern.o -= 4 + len(parent.name)
-                pattern.c -= 4 + len(parent.name)
-                o, c,has_iterated = pattern.o, pattern.c, False
-                
-                while relative_index < o:
-                    has_iterated = True
-                    pattern.o, pattern.c = o - relative_index, c -relative_index
-                    pattern.parent_argument_index = parent_argument_index
-                    relative_index += 2+len(parent_args[parent_argument_index])
-                    parent_argument_index += 1
-                
-                if has_iterated:
-                    relative_index -= 2+len(parent_args[parent_argument_index-1])
-                    parent_argument_index-=1
+            if pattern.name != "Escape":
+                self.__finalize_patterns_tree_pass_2(pattern.sub_strings, pattern)
+                if parent:             
+                    pattern.o -= 4 + len(parent.name)
+                    pattern.c -= 4 + len(parent.name)
+                    o, c,has_iterated = pattern.o, pattern.c, False
+                    
+                    while relative_index < o:
+                        has_iterated = True
+                        pattern.o, pattern.c = o - relative_index, c -relative_index
+                        pattern.parent_argument_index = parent_argument_index
+                        relative_index += 2+len(parent_args[parent_argument_index])
+                        parent_argument_index += 1
+                    
+                    if has_iterated:
+                        relative_index -= 2+len(parent_args[parent_argument_index-1])
+                        parent_argument_index-=1
+            else:
+                print(pattern.flatten())
             
     def __set_pattern_flags(self, pattern):            
         pattern_name = pattern.name

@@ -86,7 +86,8 @@ def set_style(node, ID, CLASS, *string):
 # TODO: Must fix dirty try/except structure.
 # TODO: Add explicit message about exception. 
 
-def include_file(node, filename, *argv, raise_error=True):       
+def include_file(node, filename, *argv, raise_error=True):
+    print(filename, argv)
     if filename == '':
         if not raise_error:
             return ""

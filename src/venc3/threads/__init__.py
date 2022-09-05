@@ -305,7 +305,7 @@ class Thread:
     def pre_iteration(self):
         header = deepcopy(self.header)
         self.processor.process(header, pattern_processor_match)
-        self.output = str(header)
+        self.output = header.flatten()
 
         self.processor.blacklist = []
         self.columns_counter = 0
@@ -319,7 +319,7 @@ class Thread:
         footer = deepcopy(self.footer)
         self.processor.process(footer, pattern_processor_match)
         
-        self.output += str(footer)
+        self.output += footer.flatten()
         
         self.write_file(self.output.replace("\x1a",self.relative_origin), self.page_number)
 
@@ -329,30 +329,30 @@ class Thread:
     def do_iteration(self, entry):
         entry_wrapper = deepcopy(getattr(entry, self.content_type+"_wrapper"))
         preprocessed_wrapper = deepcopy(getattr(entry, self.content_type+"_wrapper").processed_string)
-        content = deepcopy(entry.content)
-        preview = deepcopy(entry.preview)
+        content = deepcopy(entry.content).flatten()
+        preview = deepcopy(entry.preview).flatten()
 
         self.processor.process(preprocessed_wrapper, pattern_processor_match)
 
-        output= str(preprocessed_wrapper)
+        output= preprocessed_wrapper.flatten()
         
         if entry_wrapper.process_get_entry_content:
             self.processor.process(content, pattern_processor_match)
             output=output.replace(
                 "---VENC-GET-ENTRY-CONTENT---",
-                str(content)
+                content
             )
 
         if entry_wrapper.process_get_entry_preview:
             self.processor.process(preview, pattern_processor_match)
             output=output.replace(
                 "---VENC-GET-ENTRY-PREVIEW---",
-                str(preview)
+                preview
             )
         
         output=output.replace(
             "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---",
-            str(preview) if self.in_thread else str(content)
+            preview if self.in_thread else content
         )
            
         self.columns[self.columns_counter] += output        
@@ -373,16 +373,16 @@ class Thread:
     
     # Must be called in child class           
     def do(self):
-        global current_source
+        global current_source #what the fuck ???
         self.current_page = 0
         self.page_number = 0
         if self.pages_count == 0:
             current_source = self.header
             self.processor.process(current_source, pattern_processor_match)
-            output = str(current_source)
+            output = current_source.flatten()
             current_source = self.footer
             self.processor.process(current_source, pattern_processor_match)
-            output += str(current_source)
+            output += current_source.flatten()
             stream = codecs.open(
                 self.export_path +'/'+ self.format_filename(0),
                 'w',
