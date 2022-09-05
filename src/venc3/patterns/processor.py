@@ -42,18 +42,19 @@ class VenCString:
         target = parent if parent else self
         for string in target.sub_strings[::-1]:
             self.flatten(string)
-            print(string.name, string.output)
-            if string.output:
-                if type(target) == PatternNode:
-                    o = target.output.find(string.id)
-                    if o > 0:
-                        string.c += o - string.o
-                        string.o = o
-                        target.output = target.output[:string.o] + string.output +target.output[string.c+2:]
+            output = string.output if string.output else ".:"+string.name+"::"+('::'.join(string.args))+":."
+            if type(target) == PatternNode:
+                o = target.output.find(string.id)
+                if o > 0:
+                    string.c += o - string.o
+                    string.o = o
+                    target.output = target.output[:string.o] + output +target.output[string.c+2:]
+                
+            else:
+                target._str = target._str[:string.o] + output + target._str[string.c+2:]
                     
-                else:
-                    target._str = target._str[:string.o] + string.output + target._str[string.c+2:]
-
+        if parent == None:
+            return target.output if type(target) == PatternNode else target._str
             
 class PatternNode(VenCString):
     FLAG_NONE = 0
