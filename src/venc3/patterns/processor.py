@@ -20,14 +20,6 @@
 from venc3.patterns.patterns_map import PatternsMap
 
 class VenCString:
-    @staticmethod
-    def apply_offset(sub_strings, offset, o):
-        for pattern in sub_strings:
-            if pattern.o > o:
-              pattern.o += offset
-              pattern.c += offset
-              VenCString.apply_offset(pattern.sub_strings, offset, -1)
-
     def __init__(self):
         self.id = "\x00"+str(id(self))+"\x00"
         self.output = None
@@ -37,7 +29,32 @@ class VenCString:
         
     def __str__(self):
         return self._str
+
+    @staticmethod
+    def apply_offset(sub_strings, offset, o):
+        for pattern in sub_strings:
+            if pattern.o > o:
+              pattern.o += offset
+              pattern.c += offset
+              VenCString.apply_offset(pattern.sub_strings, offset, -1)
+              
+    def flatten(self, parent=None):
+        target = parent if parent else self
+        for string in target.sub_strings[::-1]:
+            self.flatten(string)
+            print(string.name, string.output)
+            if string.output:
+                if type(target) == PatternNode:
+                    o = target.output.find(string.id)
+                    if o > 0:
+                        string.c += o - string.o
+                        string.o = o
+                        target.output = target.output[:string.o] + string.output +target.output[string.c+2:]
                     
+                else:
+                    target._str = target._str[:string.o] + string.output + target._str[string.c+2:]
+
+            
 class PatternNode(VenCString):
     FLAG_NONE = 0
     FLAG_NON_CONTEXTUAL = 1
@@ -47,14 +64,16 @@ class PatternNode(VenCString):
     FLAG_ALL = 15
     def __init__(self, root, string, o, c):
         super().__init__()
+        self._str = string[o:c+2]
+        self.args = []
         self.escape_pattern = False
-        self.o = o
-        self.c = c
         self.flags = PatternNode.FLAG_NONE
         self.name = None
-        self.args = []
+        self.parent_argument_index = 0
         self.sub_strings = []
-        self._str = string[o:c+2]
+        
+        self.o = o
+        self.c = c
 
 class Processor:
     def __init__(self):

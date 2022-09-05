@@ -23,6 +23,8 @@ from venc3.patterns.processor import StringUnderProcessing  # The object holding
 from venc3.prompt import die
 from venc3.prompt import notify
 
+
+
 def test_datastructure(verbose=False):  
     ref = [ "FUNC"+str(i) for i in range(1,9) ]
     def print_tree(nodes, parent, indent='\t'):
@@ -63,7 +65,7 @@ def test_process_no_flatten(verbose=False):
     p = Processor()
     p.set_patterns({
         "GET_SOME_DATA": GET_SOME_DATA,
-        "GET_ANOTHER_KIND_OF_DATA":  GET_ANOTHER_KIND_OF_DATA
+        "GET_ANOTHER_KIND_OF_DATA": GET_ANOTHER_KIND_OF_DATA
     })
     
     if verbose:
@@ -80,11 +82,19 @@ def test_process_no_flatten(verbose=False):
 
     if verbose:
         print("\t",sup.sub_strings[2].id, sup.sub_strings[2].output)
+        
     ref = "another_kind_of_data(zbim, {0} ,1)".format(sup.sub_strings[2].sub_strings[0].id)
     if sup.sub_strings[2].output != ref:
         die("test_process_no_flatten: expected sub string mismatch with output")
+        
+    return sup
 
+def test_process_flatten(sup, verbose=False):
+    if "some_data(moo,foo,0) some_data(bar,foo,moo) another_kind_of_data(zbim, some_data(zbam,zboom,0) ,1)" != sup.flatten():
+        die("test_process_flatten: expected string mismatch with output")
+    
 test_datastructure()
-test_process_no_flatten()
+sup = test_process_no_flatten()
+test_process_flatten(sup)
 
 notify("Test passed")
