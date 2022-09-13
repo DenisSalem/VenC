@@ -265,7 +265,7 @@ class Legacy_2_0_2_VenCString():
     def fix_indexes(self, meta_escapes=[]):
         self.__init__(self.string, self.ressource, True, meta_escapes)
 
-vs = Legacy_2_0_2_VenCString(".:Escape:: .:TO_REMOVE::SOME_ARG:. ::EndEscape:. .:FUNC11:: .:FUNC12:. :. .:Escape:: .:TO_BE_REMOVED:. ::EndEscape:.  .:Escape:: .:TO_DROP_AS_WELL:. ::EndEscape:. .:FUNC1:: ARG1 .:EMBED::ARG2:. :. .:Escape:: .:FUNC_TO_DROP:. ::EndEscape:. "*100, "test")
+vs = Legacy_2_0_2_VenCString(".:PATTERN1:. .:PATTERN2:: .:PATTERN3:. :. .:PATTERN4:."*1000, "test")
 
 
 for i in range(0, len(vs.open_pattern_pos)):
