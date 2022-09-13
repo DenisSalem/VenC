@@ -31,8 +31,6 @@ class VenCString:
         op = VenCString.__find_pattern_boundaries(string, '.:')
         cp = VenCString.__find_pattern_boundaries(string, ':.')
         
-        
-        print("BOUNDARIES DONE")
         if len(op) != len(cp):
             self.op, self.cp = op, cp
             from venc3.exceptions import MalformedPatterns
@@ -55,13 +53,8 @@ class VenCString:
             patterns_append((o, c+2))
             i = 0
 
-        print("PAIRING DONE")
-
-
         escape_indexes.sort(key=lambda p:p[0], reverse=True)
         self.patterns.sort(key=lambda p:p[0], reverse=True)
-
-        print("SORTING DONE")
 
         # ~ # Drop escaped ... escapes
         i = 0
@@ -75,7 +68,6 @@ class VenCString:
             else:
                 i+=1
 
-        print("DROP ESCAPED ESCAPES DONE")
         # ~ # Drop escaped patterns
         for eo, ec in escape_indexes:
             # ~ # Binary search
@@ -87,18 +79,28 @@ class VenCString:
                     
                 else:
                     lo = mid + 1
-            # TODO: investigate lo preservation
+
+            # updating string
+            escaped = string[eo+10:ec-2].strip()
+            offset = (ec - eo) - len(escaped) 
+            self._str = self._str[:eo] + escaped + self._str[ec:]
+
             while lo >=0:
                 if self.patterns[lo][0] >= eo and self.patterns[lo][1] <= ec:
                     self.patterns.pop(lo)
-                    lo -= 1 if lo >= len(self.patterns) -1 else 0 
+                    if lo >= len(self.patterns) -1 :
+                        lo -= 1 
                     continue
 
                 else: 
-                    pass
+                    o, c = self.patterns[lo]
+                    applied_offset = (offset if o > ec else 0)
+                    self.patterns[lo] = (
+                        o - applied_offset,
+                        c - applied_offset,
+                    )
                     
                 lo -=1
-        print("DROP ESCAPES DONE")
 
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
@@ -117,12 +119,12 @@ class VenCProcessor:
         self.functions = {}
         self.set_patterns = self.functions.update                
 
-vs = VenCString(".:Escape:: :. .:Escape:: .:Escape:: .:DROPED:. :. :. .:Escape:: .:PATTERN1:. :. .:PATTERN2:: .:PATTERN3:. :. .:Escape:: .:PATTERN4:. :."*10000, "test")
+vs = VenCString(".:Escape:: :. .:Escape:: .:Escape:: .:DROPED:. :. :. .:Escape:: .:PATTERN1:. :. .:PATTERN2:: .:PATTERN3:. :. .:Escape:: .:PATTERN4:. :."*1000, "test")
 
 i = 0
 # ~ print(vs._str)
 # ~ print()
 
-# ~ for pattern in vs.patterns:
-    # ~ print(i, pattern[0], pattern[1], ">"+vs._str[pattern[0]:pattern[1]]+"<")
-    # ~ i+=1
+for pattern in vs.patterns:
+    print(i, pattern[0], pattern[1], ">"+vs._str[pattern[0]:pattern[1]]+"<")
+    i+=1
