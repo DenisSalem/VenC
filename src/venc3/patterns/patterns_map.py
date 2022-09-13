@@ -17,7 +17,16 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+
+
 class PatternsMap():
+    FLAG_NONE = 0
+    FLAG_NON_CONTEXTUAL = 1
+    FLAG_CONTEXTUAL = 2
+    FLAG_NON_PARALLELIZABLE = 4
+    FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 8 # NOT IMPLEMENTED YET
+    FLAG_ALL = 15
+    
     CONTEXTUALS = { # All of the below is loaded from Thread instanciated classes
         "ForPages":	                    "for_pages",
         "GetJSON-LD":	                  "get_JSONLD",

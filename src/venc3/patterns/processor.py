@@ -19,52 +19,29 @@
 
 from venc3.patterns.patterns_map import PatternsMap
 
-class Pattern:
-    def __init__(self, vs, o, c, identifier):
-        self.vs = vs
-        self.o  = o
-        self.c  = c
-        self.identifier = identifier
-        self.patterns = []
-        pattern_name = vs[o+2:c-2].split('::')
-        print(pattern_name)
-        # ~ if not pattern_name in PatternsMap.CONTEXTUALS.keys():
-            # ~ pattern.flags = PatternNode.FLAG_NON_CONTEXTUAL
-            
-        # ~ elif pattern_name in PatternsMap.NON_PARALLELIZABLES:
-            # ~ pattern.flags = PatternNode.FLAG_NON_PARALLELIZABLE
-            
-        # ~ else:
-            # ~ pattern.flags = PatternNode.FLAG_CONTEXTUAL
-            
-
-                      
-    def __str__(self):
-        return self.vs[self.o:self.c]
-
 class VenCString:
     def __init__(self, string, context=None):
         self._str = string
         self.context = context
-        self.shield = False
-        self.patterns = []
-        escape_indexes = []
+        self.patterns, escape_indexes = [], []
         pattern_identifier = 0
+        
         # This block get indexes of opening and closing patterns.
         op = VenCString.__find_pattern_boundaries(string, '.:')
         cp = VenCString.__find_pattern_boundaries(string, ':.')
         
+        print("sort pattern by nest order AND position in input string.")
+
         # This block sort pattern by nest order AND position in input string.
         patterns_append, escape_indexes_append = self.patterns.append, escape_indexes.append
         op_pop, cp_pop = op.pop, cp.pop
         while len(op) or len(cp):
             if ((not len(op)) or (not len(cp))) and len(op) != len(cp):
                 from venc3.exceptions import MalformedPatterns
+                self.op, self.cp = op, cp
                 raise MalformedPatterns(self)
                 
-            diff = 18446744073709551616
-            i = 0
-            j = 0
+            i, j, diff= 0, 0, 18446744073709551616
             for io in range(0, len(op)):
                 for ic in range(0, len(cp)):
                     d = cp[ic] - op[io]
@@ -72,61 +49,64 @@ class VenCString:
                         diff = d
                         i = io
                         j = ic
-            
+                            
             if string[op[i]:op[i]+10] == ".:Escape::":    
-                escape_indexes_append((op[i],cp[j]+2))
-                
-            patterns_append((self, op[i], cp[j]+2, "\x00"+str(pattern_identifier)+"\x00" ))
-            pattern_identifier+=1
-            op_pop(i)
-            cp_pop(j)
-                
+                escape_indexes_append((op[i], cp[j]+2))
+            
+            else:    
+                patterns_append((op[i], cp[j]+2, "\x00"+str(pattern_identifier)+"\x00" ))
+
+            pattern_identifier += 1
+            op_pop(i), cp_pop(j)
+        
+        print("DONE")
+        print("SORT BY O")
         escape_indexes = sorted(escape_indexes, key=lambda p:p[0], reverse=True)
-        self.patterns =  sorted(self.patterns,  key=lambda p:p[1], reverse=True)
+        self.patterns =  sorted(self.patterns, key=lambda p:p[0], reverse=True)
+        print("DONE")
+        # Drop escaped ... escapes
+        # ~ i = 0
+        # ~ while i < len(escape_indexes) - 1:
+            # ~ eo, ec = escape_indexes[i]
+            # ~ if escape_indexes[i+1][1] > ec:
+                # ~ escape_indexes.pop(i+1)
+            # ~ else:
+              # ~ i+=1
 
-        # Drop escaped indexes and instanciate pattern
-        for eo, ec in escape_indexes:
-            for i in range(0, len(self.patterns)):
-                o, c = self.patterns[i][1], self.patterns[i][2]
-                if eo == o and ec == c:
-                    # updating string
-                    escaped = string[eo+10:ec].strip()
-                    offset = 12 + len(escaped) - (ec - eo - 10)
-                    self._str = string[:eo] + escaped + string[ec:]
-                    j = 0
-                    # drop patterns and update higher indexes
-                    while j < len(self.patterns):
-                        if self.patterns[j][1] >= eo and self.patterns[j][2] <= ec:
-                            self.patterns.pop(j)
-                            continue
-                        
-                        else:
-                            vs, o, c, identifier = self.patterns[j]
-                            pattern_applied_offset = offset if o > ec else 0
-                            self.patterns[j] = Pattern(
-                                vs,
-                                o - pattern_applied_offset,
-                                c - pattern_applied_offset,
-                                identifier
-                            )
-                        
-                        j+=1
-                  
-                    break
-
-        # Make a tree
-        i = 0
-        patterns = self.patterns
-        patterns_pop = patterns.pop
-        while i < len(patterns):
-            for pattern in patterns[i+1:]:
-                if patterns[i].o > pattern.o and patterns[i].c < pattern.c:
-                    pattern.patterns.append(patterns_pop(i))
-                    i =-1
-                    break
+        # ~ # Drop escaped patterns
+        # ~ for eo, ec in escape_indexes:
+            # ~ # Binary search
+            # ~ lo, hi = 0, len(self.patterns) - 1
+            # ~ while lo < hi:
+                # ~ mid = lo + (hi - lo) // 2
+                # ~ if self.patterns[mid][1] <= eo:
+                    # ~ hi = mid
                     
-            i+=1
-
+                # ~ else:
+                    # ~ lo = mid + 1
+                                        
+            # ~ # updating string
+            # ~ escaped = string[eo+10:ec-2].strip()
+            # ~ offset = (ec - eo) - len(escaped) 
+            # ~ self._str = self._str[:eo] + escaped + self._str[ec:]
+            
+            # ~ while lo >=0:
+                # ~ if self.patterns[lo][0] > eo and self.patterns[lo][1] < ec:
+                    # ~ p = self.patterns.pop(lo)
+                    # ~ # when you pop the highest item index lo must updated
+                    # ~ lo -= 1 if lo >= len(self.patterns) -1 else 0 
+                    # ~ continue
+                    
+                # ~ else:
+                    # ~ o, c, identifier = self.patterns[lo]
+                    # ~ applied_offset = (offset if o > ec else 0)
+                    # ~ self.patterns[lo] = (
+                        # ~ o - applied_offset,
+                        # ~ c - applied_offset,
+                        # ~ identifier
+                    # ~ )
+                # ~ lo -=1
+                
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
       l = list()
@@ -147,13 +127,17 @@ class VenCString:
             return self._str.__getitem__(key)
               
         return self._str[key]
-        
-vs = VenCString(" bla bla blab .:FUNC1:: moo :: foo :: bar :. bla bla bla .:Escape:: .:FUNC2:: zbim :: zbam :: .:FUNC3::zboom:. :. :. .:FUNC4:: BEWARE :: .:FUNC5:: THIS ONE IS TRICKY .:FUNC6::EVEN MORE DEEPER:. :. :.", "test")
+
+class VenCProcessor:
+    def __init__(self):
+        self.functions = {}
+        self.set_patterns = self.functions.update                
+
+vs = VenCString(".:Escape:: .:TO_REMOVE::SOME_ARG:. :. .:FUNC11:: .:FUNC12:. :. .:Escape:: .:Escape:: .:TO_BE_REMOVED:. :. :.  .:Escape:: .:TO_DROP_AS_WELL:. :. .:FUNC1:: ARG1 .:EMBED::ARG2:. :. .:Escape:: .:FUNC_TO_DROP:. :. "*1000, "test")
+
 print(vs)
 
-def print_tree(vs,indent=''):
-    for pattern in vs.patterns:
-        print_tree(pattern, indent+'\t')
-        print(indent+str(pattern))
-
-print_tree(vs)
+i = 0
+for pattern in vs.patterns:
+    print(i, pattern[0], pattern[1], vs[pattern[0]:pattern[1]])
+    i+=1
