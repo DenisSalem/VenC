@@ -17,10 +17,26 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+
+from time import time
+
 from venc3.patterns.patterns_map import PatternsMap
 
+class Pattern:
+    def __init__(self, o, c):
+        self.o, self.c = o, c
+        self.shield = None
+        self.flags = PatternsMap.FLAG_NONE
+        self.payload = None
+        self.patterns = []
+
+    def __iter__(self):
+        return iter((self.o, self.c))
+    
+# TODO : Algorithm is really fast for large number of input string, but slower for the same amount of data in a single input.
+#        Must a investigate a way to chunk préprocessing.
 class VenCString:  
-    def __init__(self, string, context=None):
+    def __init__(self, string, context=None, shield=False):     
         self._str = string
         self.context = context
         self.patterns, escape_indexes = [], []
@@ -50,31 +66,30 @@ class VenCString:
             if string[o:o+10] == ".:Escape::":    
                 escape_indexes_append((o,c+2))
 
-            patterns_append((o, c+2))
+            patterns_append(Pattern(o, c+2))
             i = 0
 
         escape_indexes.sort(key=lambda p:p[0], reverse=True)
-        self.patterns.sort(key=lambda p:p[0], reverse=True)
+        self.patterns.sort(key=lambda p:p.o, reverse=True)
 
-        # ~ # Drop escaped ... escapes
+        # Drop escaped ... escapes
         i = 0
         escape_indexes_pop = escape_indexes.pop
         while i < len(escape_indexes) - 1:
             eo, ec = escape_indexes[i]
-
             if escape_indexes[i+1][1] > ec:
                 escape_indexes_pop(i)
                 
             else:
                 i+=1
 
-        # ~ # Drop escaped patterns
+        # Drop escaped patterns
         for eo, ec in escape_indexes:
-            # ~ # Binary search
+            # Binary search
             lo, hi = 0, len(self.patterns) - 1
             while lo < hi:
                 mid = lo + (hi - lo) // 2
-                if self.patterns[mid][1] <= eo:
+                if self.patterns[mid].c <= eo:
                     hi = mid
                     
                 else:
@@ -86,21 +101,29 @@ class VenCString:
             self._str = self._str[:eo] + escaped + self._str[ec:]
 
             while lo >=0:
-                if self.patterns[lo][0] >= eo and self.patterns[lo][1] <= ec:
+                if self.patterns[lo].o >= eo and self.patterns[lo].c <= ec:
                     self.patterns.pop(lo)
                     if lo >= len(self.patterns) -1 :
                         lo -= 1 
                     continue
 
                 else: 
-                    o, c = self.patterns[lo]
-                    applied_offset = (offset if o > ec else 0)
-                    self.patterns[lo] = (
-                        o - applied_offset,
-                        c - applied_offset,
-                    )
-                    
+                    applied_offset = (offset if self.patterns[lo].o > ec else 0)
+                    self.patterns[lo].o -= applied_offset
+                    self.patterns[lo].c -= applied_offset
+     
                 lo -=1
+                 
+        # Make a tree
+        old_len_patterns = len(self.patterns)
+        while i < len(self.patterns):
+            self.patterns = [ pattern for pattern in self.patterns if VenCString.__pattern_extraction(self.patterns[i], pattern) ]
+            if old_len_patterns == len(self.patterns):
+                i+=1
+              
+            else:
+                old_len_patterns = len(self.patterns)
+
 
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
@@ -113,18 +136,43 @@ class VenCString:
             return l
           l_append(index)
           index+=1
+    
+    @staticmethod
+    def __pattern_extraction(destination, target):
+        if target.o > destination.o and target.c < destination.c:
+            destination.patterns.append(target)
+            return False
+            
+        return True
 
 class VenCProcessor:
     def __init__(self):
         self.functions = {}
-        self.set_patterns = self.functions.update                
+        self.set_patterns = self.functions.update
+        
+from math import log10
+count= 1000
+step = 10**(log10(count)-1)
 
-vs = VenCString(".:Escape:: :. .:Escape:: .:Escape:: .:DROPED:. :. :. .:Escape:: .:PATTERN1:. :. .:PATTERN2:: .:PATTERN3:. :. .:Escape:: .:PATTERN4:. :."*1000, "test")
+for i in range(0,count):
+    if i % step == 0:
+        print(i)
+    vs = VenCString(".:Escape_:: .:ANOTHER_DROPPED_PATTERN:: .:UNDROPED:. :. :. .:Escape_:: .:PATTERN1:. :. .:PATTERN2:: .:PATTERN3:. :. .:Escape_:: .:PATTERN4:. :."*10, "test")
 
-i = 0
+
+# ~ def print_tree(vs, nodes, indent=''):
+    # ~ for pattern in nodes.patterns:
+        # ~ print_tree(vs, pattern, indent+'\t')
+        # ~ print(indent+vs._str[pattern.o:pattern.c])
+
+# ~ print_tree(vs, vs)
+
+
 # ~ print(vs._str)
 # ~ print()
 
-for pattern in vs.patterns:
-    print(i, pattern[0], pattern[1], ">"+vs._str[pattern[0]:pattern[1]]+"<")
-    i+=1
+# ~ i = 0
+# ~ for pattern in vs.patterns:
+    # ~ print(i, pattern.o, pattern.c, ">"+vs._str[pattern.o:pattern.c]+"<")
+    # ~ i+=1
+
