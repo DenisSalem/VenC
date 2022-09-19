@@ -165,14 +165,14 @@ class VenCProcessor:
         self.set_patterns = self.functions.update
         
 from math import log10
-count= 1
+count= 1000
 step = 10**(log10(count)-1)
 
 for i in range(0,count):
     if i % step == 0:
         print(i)
         
-    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:LEVEL1:: .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :."*1, "test")
+    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:LEVEL1:: .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :."*100, "test")
 
 
 def print_tree(vs, nodes, indent=''):
@@ -180,7 +180,7 @@ def print_tree(vs, nodes, indent=''):
         print_tree(vs, pattern, indent+'\t')
         print(indent+vs._str[pattern.o:pattern.c])
 
-print_tree(vs, vs)
+# ~ print_tree(vs, vs)
 
 
 # ~ print(vs._str)
