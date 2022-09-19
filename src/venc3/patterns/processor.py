@@ -33,8 +33,6 @@ class Pattern:
     def __iter__(self):
         return iter((self.o, self.c))
     
-# TODO : Algorithm is really fast for large number of input string, but slower for the same amount of data in a single input.
-#        Must a investigate a way to chunk préprocessing.
 class VenCString:  
     def __init__(self, string, context=None, shield=False):     
         self._str = string
@@ -42,11 +40,11 @@ class VenCString:
         self.patterns, escape_indexes = [], []
         patterns_append, escape_indexes_append = self.patterns.append, escape_indexes.append
         pattern_identifier = 0
-        
+                
         # This block get indexes of opening and closing patterns.
         op = VenCString.__find_pattern_boundaries(string, '.:')
         cp = VenCString.__find_pattern_boundaries(string, ':.')
-        
+                
         if len(op) != len(cp):
             self.op, self.cp = op, cp
             from venc3.exceptions import MalformedPatterns
@@ -71,6 +69,9 @@ class VenCString:
 
         escape_indexes.sort(key=lambda p:p[0], reverse=True)
         self.patterns.sort(key=lambda p:p.o, reverse=True)
+        
+        # Strong bottleneck happen for pattern escaping. But we don't care since there is no real use case
+        # for regular user.
 
         # Drop escaped ... escapes
         i = 0
@@ -113,18 +114,50 @@ class VenCString:
                     self.patterns[lo].c -= applied_offset
      
                 lo -=1
-                 
-        # Make a tree
-        old_len_patterns = len(self.patterns)
-        while i < len(self.patterns):
-            self.patterns = [ pattern for pattern in self.patterns if VenCString.__pattern_extraction(self.patterns[i], pattern) ]
-            if old_len_patterns == len(self.patterns):
-                i+=1
+                
+        # Make a tree by chunking group ou patterns
+        final_set_of_patterns = []
+        while len(self.patterns):
+            current_patterns_block = [self.patterns.pop(0)]
+            print(current_patterns_block)
+            j = 0
+            while j < len(self.patterns):
+                if self.patterns[j].c < current_patterns_block[-1].c:
+                    break
+                    
+                else:
+                    current_patterns_block.append(self.patterns.pop(0))
+                
+                j+=1
+                
+            i, old_len_patterns = 0, len(current_patterns_block)
+            while i < len(current_patterns_block):
+                current_patterns_block = [ pattern for pattern in current_patterns_block if VenCString.__pattern_extraction(current_patterns_block[i], pattern) ]
+                if old_len_patterns == len(current_patterns_block):
+                    i+=1
+                  
+                else:
+                    old_len_patterns = len(current_patterns_block)
+                    
+            final_set_of_patterns += current_patterns_block
+                    
+        self.patterns = final_set_of_patterns
+
+        # ~ t = time()
+        # ~ # Make a tree
+        # ~ final_set_of_patterns = []
+        # ~ old_len_patterns = len(self.patterns)
+        # ~ end_chunk = 0;
+        # ~ while i < len(self.patterns):
+            # ~ self.patterns = [ pattern for pattern in self.patterns if VenCString.__pattern_extraction(self, self.patterns[i], pattern) ]
+            # ~ if old_len_patterns == len(self.patterns):
+                # ~ i+=1
               
-            else:
-                old_len_patterns = len(self.patterns)
-
-
+            # ~ else:
+                # ~ old_len_patterns = len(self.patterns)
+        
+        # ~ print("make a tree", time() -t )
+        
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
       l = list()
@@ -133,7 +166,7 @@ class VenCString:
       while '∞':
           index = string.find(symbol, index)
           if index == -1:
-            return l
+              return l
           l_append(index)
           index+=1
     
@@ -151,21 +184,22 @@ class VenCProcessor:
         self.set_patterns = self.functions.update
         
 from math import log10
-count= 1000
+count= 1
 step = 10**(log10(count)-1)
 
 for i in range(0,count):
     if i % step == 0:
         print(i)
-    vs = VenCString(".:Escape_:: .:ANOTHER_DROPPED_PATTERN:: .:UNDROPED:. :. :. .:Escape_:: .:PATTERN1:. :. .:PATTERN2:: .:PATTERN3:. :. .:Escape_:: .:PATTERN4:. :."*10, "test")
+        
+    vs = VenCString(".:Escape_:: .:ANOTHER_DROPPED_PATTERN:: .:UNDROPED:. :. :. .:Escape_:: .:PATTERN1:: test :: test :. :. .:PATTERN2:: .:PATTERN3:. :. .:Escape_:: .:PATTERN4:. :."*1, "test")
 
 
-# ~ def print_tree(vs, nodes, indent=''):
-    # ~ for pattern in nodes.patterns:
-        # ~ print_tree(vs, pattern, indent+'\t')
-        # ~ print(indent+vs._str[pattern.o:pattern.c])
+def print_tree(vs, nodes, indent=''):
+    for pattern in nodes.patterns:
+        print_tree(vs, pattern, indent+'\t')
+        print(indent+vs._str[pattern.o:pattern.c])
 
-# ~ print_tree(vs, vs)
+print_tree(vs, vs)
 
 
 # ~ print(vs._str)
