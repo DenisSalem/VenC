@@ -53,7 +53,7 @@ class VenCString:
         # Pairing
         i, op_pop, cp_pop = 0, op.pop, cp.pop
         while i < len(op):
-            o, c = op[i], cp[i]
+            o, c = op[i], cp[0]
             if i < len(op)-1:
                 next_o = op[i+1]
                 if o < next_o < c :
@@ -114,22 +114,18 @@ class VenCString:
                     self.patterns[lo].c -= applied_offset
      
                 lo -=1
-                
-        # Make a tree by chunking group ou patterns
+
+        # Make a tree by chunking group of patterns
         final_set_of_patterns = []
         while len(self.patterns):
             current_patterns_block = [self.patterns.pop(0)]
-            print(current_patterns_block)
-            j = 0
-            while j < len(self.patterns):
-                if self.patterns[j].c < current_patterns_block[-1].c:
+
+            while len(self.patterns):
+                if self.patterns[0].c < current_patterns_block[0].c:
                     break
                     
-                else:
-                    current_patterns_block.append(self.patterns.pop(0))
-                
-                j+=1
-                
+                current_patterns_block.append(self.patterns.pop(0))
+                                
             i, old_len_patterns = 0, len(current_patterns_block)
             while i < len(current_patterns_block):
                 current_patterns_block = [ pattern for pattern in current_patterns_block if VenCString.__pattern_extraction(current_patterns_block[i], pattern) ]
@@ -142,21 +138,6 @@ class VenCString:
             final_set_of_patterns += current_patterns_block
                     
         self.patterns = final_set_of_patterns
-
-        # ~ t = time()
-        # ~ # Make a tree
-        # ~ final_set_of_patterns = []
-        # ~ old_len_patterns = len(self.patterns)
-        # ~ end_chunk = 0;
-        # ~ while i < len(self.patterns):
-            # ~ self.patterns = [ pattern for pattern in self.patterns if VenCString.__pattern_extraction(self, self.patterns[i], pattern) ]
-            # ~ if old_len_patterns == len(self.patterns):
-                # ~ i+=1
-              
-            # ~ else:
-                # ~ old_len_patterns = len(self.patterns)
-        
-        # ~ print("make a tree", time() -t )
         
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
@@ -191,7 +172,7 @@ for i in range(0,count):
     if i % step == 0:
         print(i)
         
-    vs = VenCString(".:Escape_:: .:ANOTHER_DROPPED_PATTERN:: .:UNDROPED:. :. :. .:Escape_:: .:PATTERN1:: test :: test :. :. .:PATTERN2:: .:PATTERN3:. :. .:Escape_:: .:PATTERN4:. :."*1, "test")
+    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:LEVEL1:: .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :."*1, "test")
 
 
 def print_tree(vs, nodes, indent=''):
