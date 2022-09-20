@@ -179,7 +179,7 @@ for i in range(0,count):
         print(i, time() - t)
         t = time()
         
-    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. "*1000, "test")
+    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:Escape:: .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. :."*100, "test")
     
 def print_tree(vs, nodes, indent=''):
     for pattern in nodes.patterns:
