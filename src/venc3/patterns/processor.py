@@ -118,14 +118,15 @@ class VenCString:
         # Make a tree by chunking group of patterns
         final_set_of_patterns = []
         while len(self.patterns):
-            current_patterns_block = [self.patterns.pop(0)]
-
+            current_patterns_block = [self.patterns.pop()]
             while len(self.patterns):
-                if self.patterns[0].c < current_patterns_block[0].c:
+                if self.patterns[-1].o > current_patterns_block[0].c:
                     break
                     
-                current_patterns_block.append(self.patterns.pop(0))
-                                
+                current_patterns_block.append(self.patterns.pop())
+                
+            current_patterns_block = current_patterns_block[::-1]
+            
             i, old_len_patterns = 0, len(current_patterns_block)
             while i < len(current_patterns_block):
                 current_patterns_block = [ pattern for pattern in current_patterns_block if VenCString.__pattern_extraction(current_patterns_block[i], pattern) ]
@@ -133,9 +134,13 @@ class VenCString:
                     i+=1
                   
                 else:
+                    diff = old_len_patterns - len(current_patterns_block)
+                    if i - diff >= 0:
+                        i -= diff
+                        
                     old_len_patterns = len(current_patterns_block)
-                    
-            final_set_of_patterns += current_patterns_block
+                                 
+            final_set_of_patterns = current_patterns_block + final_set_of_patterns
                     
         self.patterns = final_set_of_patterns
         
@@ -168,19 +173,20 @@ from math import log10
 count= 1000
 step = 10**(log10(count)-1)
 
+t = time()
 for i in range(0,count):
     if i % step == 0:
-        print(i)
+        print(i, time() - t)
+        t = time()
         
-    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:LEVEL1:: .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :."*100, "test")
-
-
+    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. "*1000, "test")
+    
 def print_tree(vs, nodes, indent=''):
     for pattern in nodes.patterns:
         print_tree(vs, pattern, indent+'\t')
         print(indent+vs._str[pattern.o:pattern.c])
 
-# ~ print_tree(vs, vs)
+print_tree(vs, vs)
 
 
 # ~ print(vs._str)
