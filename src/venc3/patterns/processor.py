@@ -66,9 +66,12 @@ class VenCString:
 
             patterns_append(Pattern(o, c+2))
             i = 0
-
+            
         escape_indexes.sort(key=lambda p:p[0], reverse=True)
         self.patterns.sort(key=lambda p:p.o, reverse=True)
+        
+        # ~ for p in self.patterns:
+            # ~ print("p:", self._str[p.o:p.c])
         
         # Strong bottleneck happen for pattern escaping. But we don't care since there is no real use case
         # for regular user.
@@ -101,26 +104,14 @@ class VenCString:
             offset = (ec - eo) - len(escaped) 
             self._str = self._str[:eo] + escaped + self._str[ec:]
 
-            while lo >=0:
-                if self.patterns[lo].o >= eo and self.patterns[lo].c <= ec:
-                    self.patterns.pop(lo)
-                    if lo >= len(self.patterns) -1 :
-                        lo -= 1 
-                    continue
-
-                else: 
-                    applied_offset = (offset if self.patterns[lo].o > ec else 0)
-                    self.patterns[lo].o -= applied_offset
-                    self.patterns[lo].c -= applied_offset
-     
-                lo -=1
+            self.patterns = [ pattern for pattern in self.patterns[:lo] if VenCString. __drop_escaped_pattern(eo, ec, pattern, offset)] + self.patterns[lo:]
 
         # Make a tree by chunking group of patterns
         final_set_of_patterns = []
         while len(self.patterns):
             current_patterns_block = [self.patterns.pop()]
             while len(self.patterns):
-                if self.patterns[-1].o > current_patterns_block[0].c:
+                if self.patterns[-1].o >= current_patterns_block[0].c:
                     break
                     
                 current_patterns_block.append(self.patterns.pop())
@@ -157,11 +148,22 @@ class VenCString:
           index+=1
     
     @staticmethod
+    def __drop_escaped_pattern(eo, ec, pattern, offset):
+        if pattern.o >= eo and pattern.c <= ec:
+            return False
+                    
+        elif pattern.o > ec: 
+            pattern.o -= offset
+            pattern.c -= offset
+            
+        return True
+        
+    @staticmethod
     def __pattern_extraction(destination, target):
         if target.o > destination.o and target.c < destination.c:
             destination.patterns.append(target)
             return False
-            
+                        
         return True
 
 class VenCProcessor:
@@ -170,7 +172,7 @@ class VenCProcessor:
         self.set_patterns = self.functions.update
         
 from math import log10
-count= 1000
+count= 1
 step = 10**(log10(count)-1)
 
 t = time()
@@ -179,7 +181,8 @@ for i in range(0,count):
         print(i, time() - t)
         t = time()
         
-    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:Escape:: .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. :."*100, "test")
+    # ~ vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:Escape:: .:Escaped:. :. .:Escape:: .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. :."*2, "test")
+    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :..:TEST2:: .:DEEPER2:. :.", "test")
     
 def print_tree(vs, nodes, indent=''):
     for pattern in nodes.patterns:
@@ -188,9 +191,9 @@ def print_tree(vs, nodes, indent=''):
 
 print_tree(vs, vs)
 
-
-# ~ print(vs._str)
-# ~ print()
+print()
+print(vs._str)
+print()
 
 # ~ i = 0
 # ~ for pattern in vs.patterns:

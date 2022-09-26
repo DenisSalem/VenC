@@ -265,9 +265,9 @@ class Legacy_2_0_2_VenCString():
     def fix_indexes(self, meta_escapes=[]):
         self.__init__(self.string, self.ressource, True, meta_escapes)
 
-vs = Legacy_2_0_2_VenCString(".:PATTERN1:. .:PATTERN2:: .:PATTERN3:. :. .:PATTERN4:."*1000, "test")
+for i in range(0,1000):
+    vs = Legacy_2_0_2_VenCString(".:TEST:: .:DEEPER_TEST:. :. .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :."*10, "test")
 
-
-for i in range(0, len(vs.open_pattern_pos)):
-    o, c = vs.open_pattern_pos[i], vs.close_pattern_pos[i]
-    print(i, vs.string[o:c+2])
+# ~ for i in range(0, len(vs.open_pattern_pos)):
+    # ~ o, c = vs.open_pattern_pos[i], vs.close_pattern_pos[i]
+    # ~ print(i, vs.string[o:c+2])
