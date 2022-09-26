@@ -100,8 +100,9 @@ class VenCString:
                     lo = mid + 1
 
             # updating string
-            escaped = string[eo+10:ec-2].strip()
-            offset = (ec - eo) - len(escaped) 
+            # ~ escaped = string[eo+10:ec-2].strip()
+            escaped = string[eo+10:ec-2]
+            offset = 12 #(ec - eo) - len(escaped) 
             self._str = self._str[:eo] + escaped + self._str[ec:]
 
             self.patterns = [ pattern for pattern in self.patterns[:lo] if VenCString. __drop_escaped_pattern(eo, ec, pattern, offset)] + self.patterns[lo:]
@@ -111,6 +112,7 @@ class VenCString:
         while len(self.patterns):
             current_patterns_block = [self.patterns.pop()]
             while len(self.patterns):
+                # greater OR equal because adjacent pattern might have o == c
                 if self.patterns[-1].o >= current_patterns_block[0].c:
                     break
                     
@@ -152,7 +154,7 @@ class VenCString:
         if pattern.o >= eo and pattern.c <= ec:
             return False
                     
-        elif pattern.o > ec: 
+        elif pattern.o >= ec: 
             pattern.o -= offset
             pattern.c -= offset
             
@@ -172,7 +174,7 @@ class VenCProcessor:
         self.set_patterns = self.functions.update
         
 from math import log10
-count= 1
+count= 1000
 step = 10**(log10(count)-1)
 
 t = time()
@@ -181,19 +183,18 @@ for i in range(0,count):
         print(i, time() - t)
         t = time()
         
-    # ~ vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:Escape:: .:Escaped:. :. .:Escape:: .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. :."*2, "test")
-    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :..:TEST2:: .:DEEPER2:. :.", "test")
+    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:Escape_:: .:Escaped:. :. .:Escape_:: .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. :."*10, "test")
     
 def print_tree(vs, nodes, indent=''):
     for pattern in nodes.patterns:
         print_tree(vs, pattern, indent+'\t')
         print(indent+vs._str[pattern.o:pattern.c])
 
-print_tree(vs, vs)
+# ~ print_tree(vs, vs)
 
-print()
-print(vs._str)
-print()
+# ~ print()
+# ~ print(vs._str)
+# ~ print()
 
 # ~ i = 0
 # ~ for pattern in vs.patterns:
