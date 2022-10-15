@@ -25,11 +25,12 @@ from venc3.patterns.patterns_map import PatternsMap
 class Pattern:
     def __init__(self, o, c):
         self.o, self.c = o, c
-        self.shield = None
-        self.flags = PatternsMap.FLAG_NONE
-        self.payload = None
         self.patterns = []
-
+        # TO BE DEFINED LATER
+        # ~ self.payload = None
+        # ~ self.parent_arg_index = None
+        # ~ self.flags = PatternsMap.FLAG_NONE
+        
     def __iter__(self):
         return iter((self.o, self.c))
     
@@ -41,7 +42,7 @@ class VenCString:
         self.context = context
         self.patterns, escape_indexes = [], []
         patterns_append, escape_indexes_append = self.patterns.append, escape_indexes.append
-        pattern_identifier = 0
+        self.pattern_identifier = 0
                 
         # This block get indexes of opening and closing patterns.
         op = VenCString.__find_pattern_boundaries(string, '.:')
@@ -103,7 +104,7 @@ class VenCString:
             offset = (ec - eo) - len(escaped) 
             self._str = self._str[:eo] + escaped + self._str[ec:]
 
-            self.patterns = [ pattern for pattern in self.patterns[:lo] if VenCString. __drop_escaped_pattern(eo, ec, pattern, offset)] + self.patterns[lo:]
+            self.patterns = [ pattern for pattern in self.patterns[:lo] if VenCString.__drop_escaped_pattern(eo, ec, pattern, offset)] + self.patterns[lo:]
 
         # Make a tree by chunking group of patterns
         final_set_of_patterns = []
@@ -137,15 +138,36 @@ class VenCString:
 
         self.__finalize_patterns_tree(self.patterns, self)
 
-    def __finalize_patterns_tree(self, patterns, parent, indent=''):
+    def __finalize_patterns_tree(self, patterns, parent):      
         for pattern in patterns:
-            self.__finalize_patterns_tree(pattern.patterns, pattern, indent+'\t')
+            self.__finalize_patterns_tree(pattern.patterns, pattern)
+            
             pattern.payload = self._str[pattern.o+2:pattern.c-2].split('::')
+
+            # ~ Assign sub_pattern a location in args, updatating index as well
+            if len(pattern.patterns):
+                payload = pattern.payload[1:]
+                for sub_pattern in pattern.patterns:
+                    # locate sub_pattern in args
+                    length = 0
+                    arg_index = 0
+                    for arg in payload:
+                        length += 2+len(arg)
+                        if length > sub_pattern.o:
+                            break
+                            
+                        arg_index += 1
+                        
+                    arg_offset = len('::'.join(payload[:arg_index])) + (2 if arg_index else 0)
+                    sub_pattern.o -= arg_offset 
+                    sub_pattern.c -= arg_offset
+                    sub_pattern.parent_arg_index = arg_index + 1
+                                
             # Make pattern relative to parent's arg
-            offset = parent.o if parent == self else ( parent.o + 4 + len(self._str[parent.o:parent.c][2:self._str[parent.o:parent.c].index('::',0)])   )
+            offset = parent.o if parent == self else ( parent.o + 4 + self._str[parent.o:parent.c].index('::',0) - 2 )
             pattern.o -= offset
             pattern.c -= offset
-            
+                    
     @staticmethod
     def __find_pattern_boundaries(string, symbol):
       l = list()
@@ -183,7 +205,7 @@ class VenCProcessor:
         self.set_patterns = self.functions.update
         
 from math import log10
-count= 1000
+count= 1
 step = 10**(log10(count)-1)
 
 t = time()
@@ -192,20 +214,22 @@ for i in range(0,count):
         print(i, time() - t)
         t = time()
         
-    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:Escape_:: .:Escaped:. :. .:Escape_:: .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. :."*100, "test")
-    # ~ vs = VenCString(".:TEST:: .:DEEPER_TEST:. :."*1, "test")
+    vs = VenCString(".:TEST:: .:DEEPER_TEST:. :. .:Escape_:: .:Escaped:. :. .:Escape_:: .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. :."*1, "test")
+    # ~ vs = VenCString(".:LEVEL1_BIS:. .:LEVEL1:: .:LEVEL2:. :. :: .:LEVEL2_BIS :: .:LEVEL2_BIS_BIS:: .:LEVEL3:. :. :. "*1, "test")
     
 def print_tree(vs, nodes, indent=''):
     for pattern in nodes.patterns:
         print_tree(vs, pattern, indent+'\t')
+        
         if nodes == vs:
-            print("> ", indent, vs._str[pattern.o:pattern.c])
+            print(indent, vs._str[pattern.o:pattern.c])
             
         else:
-            print(">>", indent,'::'.join(nodes.payload[1:])[pattern.o:pattern.c])
+            print(indent, nodes.payload[pattern.parent_arg_index][pattern.o:pattern.c])
+            # ~ print(indent, '::'.join(nodes.payload[1:])[pattern.o:pattern.c])
 
 
-# ~ print_tree(vs, vs)
+print_tree(vs, vs)
 
 # ~ print()
 # ~ print(vs._str)
