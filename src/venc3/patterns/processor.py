@@ -33,10 +33,9 @@ def __find_pattern_boundaries(string, symbol):
       yield Boundary(index, boundary_type)
       index+=1
 
-
 class Boundary:
-    BONDARY_TYPE_OPENING = True
-    BONDARY_TYPE_CLOSING = False
+    BONDARY_TYPE_OPENING = 1
+    BONDARY_TYPE_CLOSING = -1
     
     def __init__(self, index, boundary_type):
         self.index = index
@@ -54,34 +53,37 @@ def __get_boundaries(string):
         from venc3.exceptions import VenCException
         raise VenCException
     
-    return sorted( 
+    return tuple(sorted( 
         o + c,
         key = lambda x: x.index
-    )
+    ))
 
-def __get_boundaries_block(boundaries):
-    if boundaries[0].boundary_type == Boundary.BONDARY_TYPE_CLOSING:
+def __get_boundaries_block(boundaries, start):
+    if boundaries[start].boundary_type == Boundary.BONDARY_TYPE_CLOSING:
         from venc3.exceptions import VenCException
         raise VenCException
     
     level = 0
-    for i in range(0, len(boundaries)):
-        if boundaries[i].boundary_type == Boundary.BONDARY_TYPE_CLOSING:
-          level -= 1
-          
-        else:
-          level += 1
-          
-        if level == 0:
-            block = boundaries[:i+1]
-            del boundaries[:i+1]
-            return block
+    for i in range(start, len(boundaries)):
+        level += boundaries[i].boundary_type
 
-s = ".:LEVEL1:. .:LEVEL2:: .:LEVEL3:. :."*1000
-for i in range(0, 1000):
+        if level == 0:
+            return i
+
+def __build_tree(s, b, start=0, limit=None, indent=''):
+    if not limit:
+        limit = len(b)
+        
+    while start < limit:
+        end = __get_boundaries_block(b, start)
+        # ~ print(indent, s[b[start].index:b[end].index+2])
+        if end - start - 1 > 0:
+            __build_tree(s, b, start+1, end-1, indent+'\t')
+            
+        start = end+1
+
+for i in range(0,1000):
+    s = ".:TEST:: .:DEEPER_TEST:. :. .:Escape_:: .:Escaped:. :. .:Escape_:: .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. :."*1000
+    # ~ s = ".:VOID1:. .:TEST:: .:DEEPER_TEST:. .:DEEPER2:: .:EVEN_DEEPER:. :. :. .:VOID2:."*1
     b = __get_boundaries(s)
-    blocks = []
-    while len(b):
-        blocks.append(
-            __get_boundaries_block(b)
-        )
+    __build_tree(s, b)
