@@ -71,7 +71,7 @@ class Boundary:
 
 class Pattern:
     def __init__(self, s, o, c, sub_patterns):
-        self.o = o
+        self.o, self.c = o,c
         self.payload = s[o:c].split("::")
         self.sub_patterns = sub_patterns
         self.ID = "\x00"+str(id(self))+"\x00"
@@ -119,7 +119,14 @@ class PatternTree:
     
             if level == 0:
                 return i
-                
+
+
+    def __apply_and_compute_offset(self, pattern):
+        self.string = self.string[:pattern.o] + pattern.ID + self.string[pattern.c:]
+        offset = len(pattern.ID) - pattern.c + pattern.o
+        pattern.c = pattern.o + len(pattern.ID)
+        return offset
+        
     def __build_tree(self, boundaries, start=0, limit=None, previous_end=None, offset=0):
         if not limit:
             limit = len(boundaries)
@@ -131,40 +138,40 @@ class PatternTree:
         while start < limit:
             end = PatternTree.__get_boundaries_block(boundaries, start)
             if end - start - 1 > 0:
-                pattern = self.__build_tree(boundaries, start+1, end-1, end, offset)
+                offset_updated, pattern = self.__build_tree(boundaries, start+1, end-1, end, offset)
+                offset += offset_updated
                 sub_patterns_append(pattern)
-                # ~ print("IF  ",s[b[start].index:b[end].index+2], separators)#, "PARENT:", s[b[parent_start-1].index:b[previous_end].index+2] if previous_end else "NONE")
             else:
                 pattern =  Pattern(
                     self.string,
-                    boundaries[start].index+2,
-                    boundaries[end].index,
-                    [],
+                    boundaries[start].index+offset,
+                    boundaries[end].index+2+offset,
+                    []
                 )
+                offset += self.__apply_and_compute_offset(pattern)
                 sub_patterns_append(pattern)
-                
-                self.string = self.string[:boundaries[start].index] + sub_patterns[-1].ID + self.string[boundaries[end].index+2:]
-                sub_patterns[-1].c = sub_patterns[-1].o + len(sub_patterns[-1].ID)
-                # ~ print("ELSE",s[b[start].index:b[end].index+2], separators)#, "PARENT:", s[b[parent_start-1].index:b[previous_end].index+2] if previous_end else "NONE")
                 
             start = end+1
 
         if previous_end:
-            return Pattern(
+            pattern = Pattern(
                 self.string,
-                boundaries[parent_start-1].index+2,
-                boundaries[previous_end].index,
-                sub_patterns,
+                boundaries[parent_start-1].index,
+                boundaries[previous_end].index+2+offset,
+                sub_patterns
             )
+            offset += self.__apply_and_compute_offset(pattern)
+            return offset, pattern
             
         else:
             return sub_patterns
 
 iteration = 1
 n = 1
+
 for i in range(0,iteration):
     # ~ pattern_tree = PatternTree(".:TEST:: .:DEEPER_TEST:. :. .:Escape_:: .:Escaped:. :. .:Escape_:: .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. :."*n)
-    pattern_tree = PatternTree(".:LEVEL1:: .:LEVEL2:. :: .:LEVEL2_BIS:: .:LEVEL3:. :. :."*1)
+    pattern_tree = PatternTree(".:LEVEL1:: .:LEVEL2:. :: .:LEVEL2_BIS:. :. .:LEVEL3:."*1)
     
 def print_tree(tree, indent=''):
     for e in tree:
@@ -172,3 +179,4 @@ def print_tree(tree, indent=''):
         print_tree(e.sub_patterns, indent+'\t')
         
 print_tree(pattern_tree.tree)
+print(pattern_tree.string)
