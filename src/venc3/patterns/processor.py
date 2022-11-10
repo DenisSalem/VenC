@@ -74,6 +74,24 @@ class Pattern:
         self.o, self.c = o, c
         self.payload = s[o+2:c-2].split('::')
         self.sub_patterns = sub_patterns
+        offset = o + len(self.payload[0]) + 4
+        limit = offset
+        i = 0
+        payload_index = 1
+        for item in self.payload[1:]:
+            limit += len(item)
+            while i < len(sub_patterns) and sub_patterns[i].o < limit:
+                sub_patterns[i].o -= offset
+                sub_patterns[i].c -= offset
+                sub_patterns[i].parent = self
+                sub_patterns[i].payload_index = payload_index
+                i+=1
+                
+            limit+=2
+            offset = limit
+            payload_index +=1
+            
+            
         self.ID = '\x00'+str(ID)+'\x00'
 
 class PatternTree:
@@ -168,17 +186,21 @@ class PatternTree:
         else:
             return sub_patterns
 
-iteration = 1000
-n = 100
+iteration = 1
+n = 1
 
 for i in range(0,iteration):
     pattern_tree = PatternTree('.:TEST:: .:DEEPER_TEST:. :. .:Escape_:: .:Escaped:. :. .:Escape_:: .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. :.'*n)
-    # ~ pattern_tree = PatternTree(b'.:LEVEL1::_.:LEVEL2:._::_.:LEVEL2_BIS::_.:LEVEL3:._:._:.'*1)
+    # ~ pattern_tree = PatternTree('.:LEVEL1::_.:LEVEL2:._::_.:LEVEL2_BIS::_.:LEVEL3:._:._:.'*1)
     
-def print_tree(tree, indent=''):
+def print_tree(string, tree, indent=''):
     for e in tree:
-        print(indent, e.ID, e.payload)
-        print_tree(e.sub_patterns, indent+'\t')
+        if hasattr(e, "parent"):
+            print(indent, e.parent.payload[e.payload_index][e.o:e.c].encode("utf-8"), e.payload, e.o, e.c)
+        else:
+            print(indent, string[e.o:e.c].encode("utf-8"), e.payload)
+            
+        print_tree(string, e.sub_patterns, indent+'\t')
         
-# ~ print_tree(pattern_tree.tree)
-# ~ print(pattern_tree.string)
+print_tree(pattern_tree.string, pattern_tree.tree)
+print(pattern_tree.string)
