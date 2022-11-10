@@ -16,19 +16,7 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-#
 
-#
-#
-#
-
-#
-
-#
-#
-##
 ##################
 # POSTERITY      #
 # MUST           #
@@ -45,13 +33,6 @@
 # THE CAUSALITY  #
 # PRINCIPLE.     #
 ##################
-                ##
-                 #
-                 
-                 #
-                 
-                 
-                 #
                  
 from time import time
 
@@ -65,9 +46,6 @@ class Boundary:
         self.index = index
         self.boundary_type = boundary_type
         self.level = 0
-        
-    def __repr__(self):
-        return '.:' if self.boundary_type == Boundary.BONDARY_TYPE_OPENING else ':.'
 
 class Pattern:
     def __init__(self, s, o, c, sub_patterns, ID):
@@ -78,19 +56,20 @@ class Pattern:
         limit = offset
         i = 0
         payload_index = 1
+        len_sub_patterns = len(sub_patterns)
         for item in self.payload[1:]:
             limit += len(item)
-            while i < len(sub_patterns) and sub_patterns[i].o < limit:
-                sub_patterns[i].o -= offset
-                sub_patterns[i].c -= offset
-                sub_patterns[i].parent = self
-                sub_patterns[i].payload_index = payload_index
+            while i < len_sub_patterns and sub_patterns[i].o < limit:
+                sub_pattern = sub_patterns[i]
+                sub_pattern.o -= offset
+                sub_pattern.c -= offset
+                sub_pattern.parent = self
+                sub_pattern.payload_index = payload_index
                 i+=1
                 
             limit+=2
             offset = limit
             payload_index +=1
-            
             
         self.ID = '\x00'+str(ID)+'\x00'
 
@@ -103,9 +82,8 @@ class PatternTree:
             PatternTree.__get_boundaries(string)
         )
               
-    def __find_pattern_boundaries(string, symbol):
+    def __find_pattern_boundaries(string, symbol, boundary_type):
       index = 0
-      boundary_type = Boundary.BONDARY_TYPE_OPENING if symbol == '.:' else Boundary.BONDARY_TYPE_CLOSING
       while '∞':
           index = string.find(symbol, index)
           if index == -1:
@@ -115,8 +93,8 @@ class PatternTree:
           index+=1
           
     def __get_boundaries(string):
-        o = [o for o in PatternTree.__find_pattern_boundaries(string, '.:')]
-        c = [c for c in PatternTree.__find_pattern_boundaries(string, ':.')]
+        o = [o for o in PatternTree.__find_pattern_boundaries(string, '.:', Boundary.BONDARY_TYPE_OPENING)]
+        c = [c for c in PatternTree.__find_pattern_boundaries(string, ':.', Boundary.BONDARY_TYPE_CLOSING)]
         
         if len(o) != len(c):
             from venc3.exceptions import VenCException
@@ -185,22 +163,4 @@ class PatternTree:
             
         else:
             return sub_patterns
-
-iteration = 1
-n = 1
-
-for i in range(0,iteration):
-    pattern_tree = PatternTree('.:TEST:: .:DEEPER_TEST:. :. .:Escape_:: .:Escaped:. :. .:Escape_:: .:LEVEL1:: .:LEVEL2_BIS:: .:LEVEL3:. :. .:LEVEL2:: .:LEVEL3:: .:LEVEL4:. :. :: .:LEVEL3_BIS:. .:LEVEL3_BIS_LE_RETOUR:. :. :. :.'*n)
-    # ~ pattern_tree = PatternTree('.:LEVEL1::_.:LEVEL2:._::_.:LEVEL2_BIS::_.:LEVEL3:._:._:.'*1)
-    
-def print_tree(string, tree, indent=''):
-    for e in tree:
-        if hasattr(e, "parent"):
-            print(indent, e.parent.payload[e.payload_index][e.o:e.c].encode("utf-8"), e.payload, e.o, e.c)
-        else:
-            print(indent, string[e.o:e.c].encode("utf-8"), e.payload)
             
-        print_tree(string, e.sub_patterns, indent+'\t')
-        
-print_tree(pattern_tree.string, pattern_tree.tree)
-print(pattern_tree.string)
