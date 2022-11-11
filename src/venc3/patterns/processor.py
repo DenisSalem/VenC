@@ -102,10 +102,10 @@ class PatternTree:
         self.string = string
         self.context = context
         self.ID = 0
-        self.tree = self.__build_tree(
+        self.sub_patterns = self.__build_tree(
             PatternTree.__get_boundaries(string)
         )
-        for pattern in self.tree:
+        for pattern in self.sub_patterns:
             pattern.parent = self
               
     def __find_pattern_boundaries(string, symbol, boundary_type):
@@ -195,14 +195,51 @@ class Processor:
         self.functions = {}
         self.set_patterns = self.functions.update
     
-    def process(self, parent, flags):
-        offset = 0
-        for pattern in parent.tree:
-            process(pattern.sub_patterns, flags)
-            pattern_name, *args = pattern.payload
-            if (pattern.flags & (flags ^ Pattern.FLAG_NON_PARALLELIZABLE)) and ((flags & Pattern.FLAG_NON_PARALLELIZABLE) or (not(pattern.flags & Pattern.FLAG_NON_PARALLELIZABLE))):
-                chunk = self.functions[pattern_name](pattern, *args)
-                len_chunk = len(chunk)
-                if type(pattern.parent) == Pattern:
+    def apply_pattern(self, parent, pattern, flags, payload_offset):
+        self.process(pattern, flags)
+        pattern_name, *args = pattern.payload
+        if (pattern.flags & (flags ^ Pattern.FLAG_NON_PARALLELIZABLE)) and ((flags & Pattern.FLAG_NON_PARALLELIZABLE) or (not(pattern.flags & Pattern.FLAG_NON_PARALLELIZABLE))):
+            chunk = self.functions[pattern_name](pattern, *args)
+            len_chunk = len(chunk)
+            if type(parent) == Pattern:
+                ss = parent.payload[pattern.payload_index]
+                parent.payload[pattern.payload_index] = ss[:pattern.o + payload_offset[0]] + chunk + ss[:pattern.c+payload_offset[0]:]
+                if payload_offset[1] == pattern.payload_index:
+                    payload_offset[0] += len_chunk - pattern.c + pattern.o
                 else:
-                  
+                    payload_offset[0] = len_chunk - pattern.c + pattern.o
+                    payload_offset[1] = pattern.payload_index
+            else:
+                ss = parent.string          
+                parent.string = ss[:pattern.o + payload_offset[0]] + chunk + ss[pattern.c + payload_offset[0]:]
+                payload_offset[0] += len_chunk - pattern.c + pattern.o
+                return True
+        else:
+            pattern.o += payload_offset[0]
+            pattern.c += payload_offset[0]  
+            return False
+                    
+    def process(self, parent, flags):
+        payload_offset = [
+            0, # offset
+            1 # payload_index
+        ]
+        parent.tree = [ pattern for pattern in parent.sub_patterns if not self.apply_pattern(parent, pattern, flags, payload_offset)]
+
+
+def DUMMY_1(node):
+    return "entry_name"
+
+def DUMMY_2(node, arg):
+    return "-=["+arg.upper()+"]=-"
+    
+pt = PatternTree(".:GetEntryTitle:. .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :.")
+
+p = Processor()
+p.set_patterns({
+    "GetEntryTitle" : DUMMY_1,
+    "GetEntryMetadataIfExists" : DUMMY_2
+})
+
+p.process(pt, Pattern.FLAG_NON_CONTEXTUAL)
+print(pt.string)
