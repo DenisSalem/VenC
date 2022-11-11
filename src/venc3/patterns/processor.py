@@ -48,6 +48,13 @@ class Boundary:
         self.level = 0
 
 class Pattern:
+    FLAG_NONE = 0
+    FLAG_NON_CONTEXTUAL = 1
+    FLAG_CONTEXTUAL = 2
+    FLAG_NON_PARALLELIZABLE = 4
+    FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 8 # NOT IMPLEMENTED YET
+    FLAG_ALL = 15
+    
     def __init__(self, s, o, c, sub_patterns, ID):
         self.o, self.c = o, c
         self.payload = s[o+2:c-2].split('::')
@@ -73,6 +80,23 @@ class Pattern:
             
         self.ID = '\x00'+str(ID)+'\x00'
 
+        pattern_name = self.payload[0]
+        self.flags = Pattern.FLAG_NONE
+        if pattern_name in PatternsMap.CONTEXTUALS.keys():
+            self.flags = Pattern.FLAG_CONTEXTUAL
+        
+        for key in PatternsMap.NON_CONTEXTUALS.keys():
+            if pattern_name in PatternsMap.NON_CONTEXTUALS[key].keys():
+                self.flags = Pattern.FLAG_NON_CONTEXTUAL
+                break
+            
+        if pattern_name in PatternsMap.NON_PARALLELIZABLES:
+            pattern.flags |= Pattern.FLAG_NON_PARALLELIZABLE
+
+        if not self.flags:
+            from venc3.exceptions import VenCException
+            raise VenCException
+            
 class PatternTree:
     def __init__(self, string, context=""):
         self.string = string
@@ -81,6 +105,8 @@ class PatternTree:
         self.tree = self.__build_tree(
             PatternTree.__get_boundaries(string)
         )
+        for pattern in self.tree:
+            pattern.parent = self
               
     def __find_pattern_boundaries(string, symbol, boundary_type):
       index = 0
@@ -164,3 +190,19 @@ class PatternTree:
         else:
             return sub_patterns
             
+class Processor:
+    def __init__(self):
+        self.functions = {}
+        self.set_patterns = self.functions.update
+    
+    def process(self, parent, flags):
+        offset = 0
+        for pattern in parent.tree:
+            process(pattern.sub_patterns, flags)
+            pattern_name, *args = pattern.payload
+            if (pattern.flags & (flags ^ Pattern.FLAG_NON_PARALLELIZABLE)) and ((flags & Pattern.FLAG_NON_PARALLELIZABLE) or (not(pattern.flags & Pattern.FLAG_NON_PARALLELIZABLE))):
+                chunk = self.functions[pattern_name](pattern, *args)
+                len_chunk = len(chunk)
+                if type(pattern.parent) == Pattern:
+                else:
+                  
