@@ -107,6 +107,7 @@ class PatternTree:
         )
         for pattern in self.sub_patterns:
             pattern.parent = self
+            pattern.payload_index = 0
               
     def __find_pattern_boundaries(string, symbol, boundary_type):
       index = 0
@@ -207,7 +208,6 @@ class Processor:
                     payload_offset[1] = pattern.payload_index
                     
                 ss = parent.payload[pattern.payload_index]
-                print(">", ss[pattern.o:pattern.c].encode("utf-8"), payload_offset[0])
                 parent.payload[pattern.payload_index] = ss[:pattern.o + payload_offset[0]] + chunk + ss[pattern.c+payload_offset[0]:]
                 payload_offset[0] += len_chunk - pattern.c + pattern.o
                     
@@ -215,19 +215,40 @@ class Processor:
                 ss = parent.string          
                 parent.string = ss[:pattern.o + payload_offset[0]] + chunk + ss[pattern.c + payload_offset[0]:]
                 payload_offset[0] += len_chunk - pattern.c + pattern.o
-                return True
+                
+            return (True, pattern.sub_patterns)
         else:
             pattern.o += payload_offset[0]
             pattern.c += payload_offset[0]  
-            return False
+            return (False, pattern.sub_patterns)
                     
     def process(self, parent, flags):
         payload_offset = [
             0, # offset
             1 # payload_index
         ]
-        parent.tree = [ pattern for pattern in parent.sub_patterns if not self.apply_pattern(parent, pattern, flags, payload_offset)]
-
+        parent_sub_patterns_filtered = []
+        parent_sub_patterns, parent_sub_patterns_filtered_append = parent.sub_patterns, parent_sub_patterns_filtered.append
+        i = 0
+        while i < len(parent_sub_patterns):
+            pattern = parent_sub_patterns[i]
+            applied, leftovers = self.apply_pattern(parent, pattern, flags, payload_offset)
+            if not applied:
+                parent_sub_patterns_filtered_append(pattern)
+                
+            if len(leftovers):
+                
+                parent_payload = parent.payload[pattern.payload_index] if type(parent) == Pattern else parent.string
+                for leftover in leftovers:
+                    o = parent_payload.find(leftover.ID)
+                    if o > 0:
+                        leftover.c = o + leftover.c - leftover.o
+                        leftover.o = o
+                        leftover.payload_index = pattern.payload_index
+                        parent_sub_patterns_filtered_append(leftover)
+                    
+            i+=1
+        parent.sub_patterns = parent_sub_patterns_filtered
 
 def DUMMY_1(node):
     return "entry_name"
@@ -237,15 +258,22 @@ def DUMMY_2(node, arg1, arg2):
 
 def DUMMY_3(node, arg1, arg2, arg3):
     return "((("+arg1+"//"+arg2+"//"+arg3+")))"
-    
-pt = PatternTree(".:GetEntryTitle:. .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :: .:GetEntryTitle:. :. .:GetEntryMetadataIfNotNull:: moo :: .:GetEntryTitle:. :: .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :: .:GetEntryTitle:. :. :. .:GetEntryTitle:.")
+
+def DUMMY_CONTEXTUAL(node, arg1, arg2):
+    return "++"+arg1+"**"+arg2+"++"
+
+pt = PatternTree(".:GetEntryTitle:. .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :: .:GetEntryTitle:. :. .:GetEntryMetadataIfNotNull:: .:IfInEntryID:: moo :: .:GetEntryTitle:. :. :: .:GetEntryTitle:. :: .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :: .:GetEntryTitle:. :. :. .:GetEntryTitle:.")
 
 p = Processor()
 p.set_patterns({
     "GetEntryTitle" : DUMMY_1,
     "GetEntryMetadataIfExists" : DUMMY_2,
-    "GetEntryMetadataIfNotNull" : DUMMY_3
+    "GetEntryMetadataIfNotNull" : DUMMY_3,
+    "IfInEntryID" : DUMMY_CONTEXTUAL
 })
 
 p.process(pt, Pattern.FLAG_NON_CONTEXTUAL)
+print(pt.string)
+
+p.process(pt, Pattern.FLAG_CONTEXTUAL)
 print(pt.string)
