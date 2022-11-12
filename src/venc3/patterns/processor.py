@@ -103,8 +103,9 @@ class PatternTree:
         self.context = context
         self.ID = 0
         self.sub_patterns = self.__build_tree(
-            PatternTree.__get_boundaries(string)
+            self.__get_boundaries(string)
         )
+        self.has_non_parallelizable = False
         for pattern in self.sub_patterns:
             pattern.parent = self
             pattern.payload_index = 0
@@ -119,13 +120,13 @@ class PatternTree:
           yield Boundary(index, boundary_type)
           index+=1
           
-    def __get_boundaries(string):
+    def __get_boundaries(self, string):
         o = [o for o in PatternTree.__find_pattern_boundaries(string, '.:', Boundary.BONDARY_TYPE_OPENING)]
         c = [c for c in PatternTree.__find_pattern_boundaries(string, ':.', Boundary.BONDARY_TYPE_CLOSING)]
         
         if len(o) != len(c):
-            from venc3.exceptions import VenCException
-            raise VenCException
+            from venc3.exceptions import MalformedPatterns
+            raise MalformedPatterns(self, o, c)
         
         return tuple(sorted( 
             o + c,
@@ -145,6 +146,7 @@ class PatternTree:
                 return i
 
     def __apply_and_compute_offset_and_inc_id(self, pattern):
+        self.has_non_parallelizable |= pattern.flags & Pattern.FLAG_NON_PARALLELIZABLE
         self.string = self.string[:pattern.o] + pattern.ID + self.string[pattern.c:]
         offset = len(pattern.ID) - pattern.c + pattern.o
         pattern.c = pattern.o + len(pattern.ID)
@@ -171,7 +173,7 @@ class PatternTree:
                     boundaries[end].index+2+offset,
                     [],
                     self.ID
-                )
+                )                    
                 offset += self.__apply_and_compute_offset_and_inc_id(pattern)
                 sub_patterns_append(pattern)
                 
@@ -249,3 +251,24 @@ class Processor:
                     
             i+=1
         parent.sub_patterns = parent_sub_patterns_filtered
+
+
+test = """
+      .:IfBlogMetadataIsTrue::enable_entry_title_in_navigation::
+        .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">{entry_title} ←</a>:.
+        .:IfInThread::<ul id="pagesList">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>:: :.
+        .:GetNextPage:: <a id="next" href="{path} " data-venc-api-infinite-scroll-hook="{path}" title="{entry_title}">→ {entry_title}</a>:.
+      ::
+        .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">←</a>:.
+        .:IfInThread::<ul id="pagesList">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>:: :.
+        .:GetNextPage:: <a id="next" href="{path} " data-venc-api-infinite-scroll-hook="{path}" title="{entry_title}">→</a>:. :.
+      :.
+"""
+
+from venc3.exceptions import VenCException
+
+try: 
+    pt = PatternTree(test, "footer.html")
+    
+except VenCException as e:
+    e.die()

@@ -70,19 +70,19 @@ def process_non_parallelizables(datastore, patterns_map, thread_params):
         for entry_index in l:
             entry = datastore.entries[entry_index]
             if entry.preview.has_non_parallelizables:
-                pattern_processor.process(entry.preview, PatternNode.FLAG_NON_PARALLELIZABLE)
+                pattern_processor.process(entry.preview, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
             
             if entry.content.has_non_parallelizables:
-                pattern_processor.process(entry.content, PatternNode.FLAG_NON_PARALLELIZABLE)
+                pattern_processor.process(entry.content, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
             
             if entry.html_wrapper.processed_string.has_non_parallelizables:
-                pattern_processor.process(entry.html_wrapper.processed_string, PatternNode.FLAG_NON_PARALLELIZABLE)
+                pattern_processor.process(entry.html_wrapper.processed_string, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
                 
             if entry.rss_wrapper.processed_string.has_non_parallelizables:
-                pattern_processor.process(entry.rss_wrapper.processed_string, PatternNode.FLAG_NON_PARALLELIZABLE)
+                pattern_processor.process(entry.rss_wrapper.processed_string, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
                 
             if entry.atom_wrapper.processed_string.has_non_parallelizables:
-                pattern_processor.process(entry.atom_wrapper.processed_string, PatternNode.FLAG_NON_PARALLELIZABLE)
+                pattern_processor.process(entry.atom_wrapper.processed_string, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
                     
 def process_non_contextual_patterns():
     from venc3.datastore import datastore
@@ -159,11 +159,7 @@ def process_non_contextual_patterns():
         pattern_processor.process(theme.atom_header, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
         pattern_processor.process(theme.atom_footer, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE) 
 
-    except VenCException as e:
-        if not e.context:
-            e.context = string_under_processing
-            e.extra = string_under_processing.flatten(highlight_pattern=pattern)
-    
+    except VenCException as e:    
         e.die()
 
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom

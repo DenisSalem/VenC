@@ -25,14 +25,14 @@ class Theme:
     def __init__(self, theme_folder):
         self.theme_folder = theme_folder
         from venc3.exceptions import MalformedPatterns
-        from venc3.patterns.processor import StringUnderProcessing
+        from venc3.patterns.processor import PatternTree
         try:
-            self.header = StringUnderProcessing(open(theme_folder+"chunks/header.html",'r').read(), "header.html")
-            self.footer = StringUnderProcessing(open(theme_folder+"chunks/footer.html",'r').read(), "footer.html")
-            self.rss_header = StringUnderProcessing(open(theme_folder+"chunks/rssHeader.xml",'r').read(), "rssHeader.html")
-            self.rss_footer = StringUnderProcessing(open(theme_folder+"chunks/rssFooter.xml",'r').read(), "rssFooter.html")
-            self.atom_header = StringUnderProcessing(open(theme_folder+"chunks/atomHeader.xml",'r').read(), "atomHeader.html")
-            self.atom_footer = StringUnderProcessing(open(theme_folder+"chunks/atomFooter.xml",'r').read(), "atomFooter.html")
+            self.header = PatternTree(open(theme_folder+"chunks/header.html",'r').read(), "header.html")
+            self.footer = PatternTree(open(theme_folder+"chunks/footer.html",'r').read(), "footer.html")
+            self.rss_header = PatternTree(open(theme_folder+"chunks/rssHeader.xml",'r').read(), "rssHeader.html")
+            self.rss_footer = PatternTree(open(theme_folder+"chunks/rssFooter.xml",'r').read(), "rssFooter.html")
+            self.atom_header = PatternTree(open(theme_folder+"chunks/atomHeader.xml",'r').read(), "atomHeader.html")
+            self.atom_footer = PatternTree(open(theme_folder+"chunks/atomFooter.xml",'r').read(), "atomFooter.html")
 
             from venc3.datastore.entry import EntryWrapper
             self.entry = EntryWrapper(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")

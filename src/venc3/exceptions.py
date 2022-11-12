@@ -17,8 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc3.l10n import messages
-
 class VenCException(Exception):
     def __init__(self, message, context=None):
         self.message = message
@@ -34,9 +32,11 @@ class VenCException(Exception):
     def die(self):
         from venc3.prompt import die, notify
         if self.context != None:
-            from venc3.patterns.processor import PatternNode
+            from venc3.patterns.processor import Pattern
+            from venc3.l10n import messages
+
             # TODO rename context to context_name
-            if type(self.context) != PatternNode:
+            if type(self.context) != Pattern:
                 notify(messages.in_.format(self.context.context), color="RED")
                 
             else:
@@ -46,27 +46,31 @@ class VenCException(Exception):
         die(self.message, extra=self.extra)
 
 class MalformedPatterns(VenCException):
-    def __init__(self, string_under_processing):
-        len_op = len(string_under_processing.op)
-        len_cp = len(string_under_processing.cp)
+    def __init__(self, string_under_processing, op, cp):
+        len_op = len(op)
+        len_cp = len(cp)
         too_many_opening_symbols = len_op > len_cp
+        
+        from venc3.l10n import messages
+
         if too_many_opening_symbols:
             m = messages.malformed_patterns_missing_closing_symbols.format(string_under_processing.context, len_op - len_cp)
         else:
             m = messages.malformed_patterns_missing_opening_symbols.format(string_under_processing.context, len_cp - len_op)
             
-        leftovers = string_under_processing.op if too_many_opening_symbols else string_under_processing.cp
-        s = str(string_under_processing)
+        leftovers = op if too_many_opening_symbols else cp
+        s = string_under_processing.string
         for leftover in leftovers:
-            s = s[:leftover]+"\x00\x00"+s[leftover+2:]
+            s = s[:leftover.index]+"\x00\x00"+s[leftover.index+2:]
         
         s = s.replace("\x00\x00", '\033[91m'+( ".:" if too_many_opening_symbols else ":.") +'\033[0m')
         
-        super().__init__(m, string_under_processing.context)
+        super().__init__(m, string_under_processing)
         self.too_many_opening_symbols = too_many_opening_symbols
         self.extra = s
 
 class UnknownPattern(VenCException):
     def __init__(self, pattern, string_under_processing):
+        from venc3.l10n import messages
         super().__init__(messages.unknown_pattern.format(pattern.name), string_under_processing)
         self.extra = string_under_processing.flatten(highlight_pattern=pattern)

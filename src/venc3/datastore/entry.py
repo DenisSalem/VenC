@@ -33,31 +33,7 @@ from venc3.datastore.metadata import build_categories_tree
 from venc3.datastore.metadata import MetadataNode
 from venc3.exceptions import VenCException
 from venc3.exceptions import MalformedPatterns
-from venc3.patterns.processor import StringUnderProcessing    
-
-class EntryWrapper:
-    def __init__(self, wrapper, filename):
-        pattern_replacement = {
-            ".:GetEntryContent:." : "---VENC-GET-ENTRY-CONTENT---", 
-            ".:GetEntryPreview:." : "---VENC-GET-ENTRY-PREVIEW---", 
-            ".:PreviewIfInThreadElseContent:." : "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---"
-        }
-        self.content_type_flag = 0
-        wrapper_len = len(wrapper)
-        
-        self.process_get_entry_content = 1  if ".:GetEntryContent:." in wrapper else 0
-        self.process_get_entry_preview = 1  if ".:GetEntryPreview:." in wrapper else 0
-        if ".:PreviewIfInThreadElseContent:." in wrapper:
-            self.process_get_entry_content = 1
-            self.process_get_entry_preview = 1
-        
-        for content_pattern in pattern_replacement.keys():                
-            wrapper = wrapper.replace(content_pattern, pattern_replacement[content_pattern])
-
-        if len(wrapper) == wrapper_len:
-            die(messages.missing_entry_content_inclusion.format(filename))
-            
-        self.processed_string = StringUnderProcessing(wrapper, filename)
+from venc3.patterns.processor import PatternTree
 
 class Entry:
     def __init__(self, filename, paths, encoding="utf-8", ):
@@ -76,8 +52,8 @@ class Entry:
             entry_parted = [entry_parted[0]] + entry_parted[1].split("---VENC-END-PREVIEW---\n")
             if len(entry_parted) == 3:
                 try:
-                    self.preview = StringUnderProcessing(entry_parted[1], filename)
-                    self.content = StringUnderProcessing(entry_parted[2], filename)
+                    self.preview = PatternTree(entry_parted[1], filename)
+                    self.content = PatternTree(entry_parted[2], filename)
 
                 except MalformedPatterns as e:
                     e.die()
@@ -204,7 +180,31 @@ class Entry:
         self.html_categories_leaves = {}
         self.html_for_metadata = {}
 
-''' Iterate through entries folder '''
+class EntryWrapper:
+    def __init__(self, wrapper, filename):
+        pattern_replacement = {
+            ".:GetEntryContent:." : "---VENC-GET-ENTRY-CONTENT---", 
+            ".:GetEntryPreview:." : "---VENC-GET-ENTRY-PREVIEW---", 
+            ".:PreviewIfInThreadElseContent:." : "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---"
+        }
+        self.content_type_flag = 0
+        wrapper_len = len(wrapper)
+        
+        self.process_get_entry_content = 1  if ".:GetEntryContent:." in wrapper else 0
+        self.process_get_entry_preview = 1  if ".:GetEntryPreview:." in wrapper else 0
+        if ".:PreviewIfInThreadElseContent:." in wrapper:
+            self.process_get_entry_content = 1
+            self.process_get_entry_preview = 1
+        
+        for content_pattern in pattern_replacement.keys():                
+            wrapper = wrapper.replace(content_pattern, pattern_replacement[content_pattern])
+
+        if len(wrapper) == wrapper_len:
+            die(messages.missing_entry_content_inclusion.format(filename))
+            
+        self.processed_string = PatternTree(wrapper, filename)
+        
+# Iterate through entries folder
 def yield_entries_content():
     try:
         for filename in os.listdir(os.getcwd()+"/entries"):
