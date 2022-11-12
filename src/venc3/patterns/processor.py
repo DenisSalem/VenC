@@ -202,15 +202,15 @@ class Processor:
             chunk = self.functions[pattern_name](pattern, *args)
             len_chunk = len(chunk)
             if type(parent) == Pattern:
-                ss = parent.payload[pattern.payload_index]
-                
-                parent.payload[pattern.payload_index] = ss[:pattern.o + payload_offset[0]] + chunk + ss[pattern.c+payload_offset[0]:]
-                if payload_offset[1] == pattern.payload_index:
-                    payload_offset[0] += len_chunk - pattern.c + pattern.o
-                    
-                else:
-                    payload_offset[0] = len_chunk - pattern.c + pattern.o
+                if payload_offset[1] != pattern.payload_index:
+                    payload_offset[0] = 0
                     payload_offset[1] = pattern.payload_index
+                    
+                ss = parent.payload[pattern.payload_index]
+                print(">", ss[pattern.o:pattern.c].encode("utf-8"), payload_offset[0])
+                parent.payload[pattern.payload_index] = ss[:pattern.o + payload_offset[0]] + chunk + ss[pattern.c+payload_offset[0]:]
+                payload_offset[0] += len_chunk - pattern.c + pattern.o
+                    
             else:
                 ss = parent.string          
                 parent.string = ss[:pattern.o + payload_offset[0]] + chunk + ss[pattern.c + payload_offset[0]:]
@@ -234,7 +234,7 @@ def DUMMY_1(node):
 
 def DUMMY_2(node, arg1, arg2):
     
-    return "-=["+arg.upper()+"]=- -=["+arg[::-1].upper()+"]=-
+    return "-=["+arg1.upper()+"]=- -=["+arg2[::-1].upper()+"]=-"
     
 pt = PatternTree(".:GetEntryTitle:. .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :: .:GetEntryTitle:. :.")
 
