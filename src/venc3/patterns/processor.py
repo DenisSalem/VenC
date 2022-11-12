@@ -232,10 +232,11 @@ class Processor:
 def DUMMY_1(node):
     return "entry_name"
 
-def DUMMY_2(node, arg):
-    return "-=["+arg.upper()+"]=-"
+def DUMMY_2(node, arg1, arg2):
     
-pt = PatternTree(".:GetEntryTitle:. .:GetEntryMetadataIfExists:: .:GetEntryTitle:. .:GetEntryTitle:. :.")
+    return "-=["+arg.upper()+"]=- -=["+arg[::-1].upper()+"]=-
+    
+pt = PatternTree(".:GetEntryTitle:. .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :: .:GetEntryTitle:. :.")
 
 p = Processor()
 p.set_patterns({
