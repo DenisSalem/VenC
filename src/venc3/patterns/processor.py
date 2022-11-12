@@ -233,15 +233,18 @@ def DUMMY_1(node):
     return "entry_name"
 
 def DUMMY_2(node, arg1, arg2):
-    
     return "-=["+arg1.upper()+"]=- -=["+arg2[::-1].upper()+"]=-"
+
+def DUMMY_3(node, arg1, arg2, arg3):
+    return "((("+arg1+"//"+arg2+"//"+arg3+")))"
     
-pt = PatternTree(".:GetEntryTitle:. .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :: .:GetEntryTitle:. :.")
+pt = PatternTree(".:GetEntryTitle:. .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :: .:GetEntryTitle:. :. .:GetEntryMetadataIfNotNull:: moo :: .:GetEntryTitle:. :: .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :: .:GetEntryTitle:. :. :. .:GetEntryTitle:.")
 
 p = Processor()
 p.set_patterns({
     "GetEntryTitle" : DUMMY_1,
-    "GetEntryMetadataIfExists" : DUMMY_2
+    "GetEntryMetadataIfExists" : DUMMY_2,
+    "GetEntryMetadataIfNotNull" : DUMMY_3
 })
 
 p.process(pt, Pattern.FLAG_NON_CONTEXTUAL)
