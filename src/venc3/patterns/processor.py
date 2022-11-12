@@ -203,7 +203,8 @@ class Processor:
             len_chunk = len(chunk)
             if type(parent) == Pattern:
                 ss = parent.payload[pattern.payload_index]
-                parent.payload[pattern.payload_index] = ss[:pattern.o + payload_offset[0]] + chunk + ss[:pattern.c+payload_offset[0]:]
+                
+                parent.payload[pattern.payload_index] = ss[:pattern.o + payload_offset[0]] + chunk + ss[pattern.c+payload_offset[0]:]
                 if payload_offset[1] == pattern.payload_index:
                     payload_offset[0] += len_chunk - pattern.c + pattern.o
                     
@@ -232,10 +233,9 @@ def DUMMY_1(node):
     return "entry_name"
 
 def DUMMY_2(node, arg):
-    print(arg.encode("utf-8"))
     return "-=["+arg.upper()+"]=-"
     
-pt = PatternTree(".:GetEntryMetadataIfExists:: .:GetEntryTitle:. :.")
+pt = PatternTree(".:GetEntryTitle:. .:GetEntryMetadataIfExists:: .:GetEntryTitle:. .:GetEntryTitle:. :.")
 
 p = Processor()
 p.set_patterns({
