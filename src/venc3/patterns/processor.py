@@ -249,31 +249,3 @@ class Processor:
                     
             i+=1
         parent.sub_patterns = parent_sub_patterns_filtered
-
-def DUMMY_1(node):
-    return "entry_name"
-
-def DUMMY_2(node, arg1, arg2):
-    return "-=["+arg1.upper()+"]=- -=["+arg2[::-1].upper()+"]=-"
-
-def DUMMY_3(node, arg1, arg2, arg3):
-    return "((("+arg1+"//"+arg2+"//"+arg3+")))"
-
-def DUMMY_CONTEXTUAL(node, arg1, arg2):
-    return "++"+arg1+"**"+arg2+"++"
-
-pt = PatternTree(".:GetEntryTitle:. .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :: .:GetEntryTitle:. :. .:GetEntryMetadataIfNotNull:: .:IfInEntryID:: moo :: .:GetEntryTitle:. :. :: .:GetEntryTitle:. :: .:GetEntryMetadataIfExists:: .:GetEntryTitle:. :: .:GetEntryTitle:. :. :. .:GetEntryTitle:.")
-
-p = Processor()
-p.set_patterns({
-    "GetEntryTitle" : DUMMY_1,
-    "GetEntryMetadataIfExists" : DUMMY_2,
-    "GetEntryMetadataIfNotNull" : DUMMY_3,
-    "IfInEntryID" : DUMMY_CONTEXTUAL
-})
-
-p.process(pt, Pattern.FLAG_NON_CONTEXTUAL)
-print(pt.string)
-
-p.process(pt, Pattern.FLAG_CONTEXTUAL)
-print(pt.string)
