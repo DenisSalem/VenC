@@ -26,6 +26,7 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
         while len(chunked_filenames[dispatcher_id]):
             if multiprocessing_thread_params["cut_threads_kill_workers"]:
                 process.kill()
+                break
                 
             current = chunked_filenames[dispatcher_id][:sub_chunk_len]
             chunked_filenames[dispatcher_id] = chunked_filenames[dispatcher_id][sub_chunk_len:]

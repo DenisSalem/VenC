@@ -36,7 +36,9 @@ def highlight_value(text, value, color="RED"):
 def die(msg, color="RED", extra=""):
     notify(msg, color)
     if len(extra):
+        import sys
         print(extra)
+        sys.stdout.flush()
     
     import os
     os._exit(-1)

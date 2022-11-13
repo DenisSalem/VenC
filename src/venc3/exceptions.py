@@ -35,15 +35,11 @@ class VenCException(Exception):
             from venc3.patterns.processor import Pattern
             from venc3.l10n import messages
 
-            # TODO rename context to context_name
-            if type(self.context) != Pattern:
-                notify(messages.in_.format(self.context.context), color="RED")
-                
-            else:
-                notify(messages.in_.format(self.context.root.context), color="RED")
-                self.extra = self.context.root.flatten(highlight_pattern=self.context)
-        
+            # TODO rename context to context_name            
+            notify(messages.in_.format(self.context.context if type(self.context) != Pattern else self.context.root.context), color="RED")
+            
         die(self.message, extra=self.extra)
+        
         
     def flatten(self, highlight=None):
         # use garbage collector to rebuild original string

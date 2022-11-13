@@ -43,4 +43,4 @@ server_port: 8888
 sort_by: 'chapter'
 enable_jsonld: True
 enable_jsonp: True
-parallel_processing: 1
+parallel_processing: 8

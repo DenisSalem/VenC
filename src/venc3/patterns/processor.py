@@ -91,7 +91,7 @@ class Pattern:
                 break
             
         if pattern_name in PatternsMap.NON_PARALLELIZABLES:
-            pattern.flags |= Pattern.FLAG_NON_PARALLELIZABLE
+            self.flags |= Pattern.FLAG_NON_PARALLELIZABLE
 
         if not self.flags:
             from venc3.exceptions import UnknownPattern

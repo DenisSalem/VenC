@@ -99,49 +99,49 @@ class DataStore:
         # Build entries
         filenames = [filename for filename in yield_entries_content()]
         self.chunks_len = (len(filenames)//self.workers_count)+1
-
-        if self.workers_count > 1:
-            # There we setup chunks of entries send to workers throught dispatchers
-            global multiprocessing_thread_params
-            multiprocessing_thread_params = {
-                "chunked_filenames" :[],
-                "workers_count" : self.workers_count,
-                "entries": self.entries,
-                "paths": self.blog_configuration["path"],
-                "encoding": self.path_encoding,
-                "cut_threads_kill_workers" : False
-            }
-            for i in range(0, self.workers_count):
-                multiprocessing_thread_params["chunked_filenames"].append(filenames[:self.chunks_len])
-                filenames = filenames[self.chunks_len:]
+        try:
+            if self.workers_count > 1:
+                # There we setup chunks of entries send to workers throught dispatchers
+                global multiprocessing_thread_params
+                multiprocessing_thread_params = {
+                    "chunked_filenames" :[],
+                    "workers_count" : self.workers_count,
+                    "entries": self.entries,
+                    "paths": self.blog_configuration["path"],
+                    "encoding": self.path_encoding,
+                    "cut_threads_kill_workers" : False
+                }
+                for i in range(0, self.workers_count):
+                    multiprocessing_thread_params["chunked_filenames"].append(filenames[:self.chunks_len])
+                    filenames = filenames[self.chunks_len:]
+                    
+                filenames = None
                 
-            filenames = None
-            
-            from venc3.parallelism import Parallelism
-            from venc3.parallelism.build_entries import dispatcher
-            from venc3.parallelism.build_entries import finish
-            from venc3.parallelism.build_entries import worker
-            
-            parallelism = Parallelism(
-                worker,
-                finish,
-                dispatcher,
-                self.workers_count,
-                self.blog_configuration["pipe_flow"]
-            )
-            
-            parallelism.start()
-            parallelism.join()
-            if multiprocessing_thread_params["cut_threads_kill_workers"]:
-                exit(-1)
+                from venc3.parallelism import Parallelism
+                from venc3.parallelism.build_entries import dispatcher
+                from venc3.parallelism.build_entries import finish
+                from venc3.parallelism.build_entries import worker
                 
-        else:
-            for filename in filenames:
-                self.entries.append(Entry(
-                    filename,
-                    self.blog_configuration["path"],
-                    self.path_encoding
-                ))
+                parallelism = Parallelism(
+                    worker,
+                    finish,
+                    dispatcher,
+                    self.workers_count,
+                    self.blog_configuration["pipe_flow"]
+                )
+                
+                parallelism.start()
+                parallelism.join()
+                    
+            else:
+                for filename in filenames:
+                    self.entries.append(Entry(
+                        filename,
+                        self.blog_configuration["path"],
+                        self.path_encoding
+                    ))
+        except VenCException as e:
+            e.die()
 
         self.entries = sorted(self.entries, key = lambda entry : self.sort(entry))
         for i in range(0, len(self.entries)):
