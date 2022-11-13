@@ -40,13 +40,11 @@ def get_style_sheets(node):
 
     return output
         
-def highlight_include(node, langage, display_line_numbers, filename):
-    string = include_file(node, filename)
-    return highlight(node, langage, display_line_numbers, string, included_file=True)
+def highlight_include(node, langage, display_line_numbers, filename, *argv):
+    string = include_file(node, filename, argv)
+    return highlight(node, langage, display_line_numbers, string)
     
-def highlight(node, langage, display_line_numbers, *pattern_args, included_file=False):
-    input_code =  "::".join(pattern_args)
-
+def highlight(node, langage, display_line_numbers, input_code):
     try:
         import pygments.lexers
         import pygments.formatters

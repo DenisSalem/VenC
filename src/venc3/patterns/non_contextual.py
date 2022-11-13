@@ -31,7 +31,7 @@ from urllib.parse import urlparse
 theme_includes_dependencies = []
 
 def disable_markup(node, *argv):
-    return '::'.join(*argv)
+    return '::'.join(argv)
 
 
 def get_embed_content(providers, url):        
@@ -91,7 +91,7 @@ def include_file(node, filename, *argv, raise_error=True):
         if not raise_error:
             return ""
             
-        raise VenCException(messages.wrong_pattern_argument.format("path", filename, "include_file"))
+        raise VenCException(messages.wrong_pattern_argument.format("path", filename, "include_file"), node, node.root.string)
     
     include_string = None
     paths = ("includes/"+filename, shutil.os.path.expanduser("~/.local/share/VenC/themes_includes/"+filename))
@@ -105,16 +105,18 @@ def include_file(node, filename, *argv, raise_error=True):
                 if not raise_error:
                     return ""
                     
-                raise VenCException(messages.wrong_permissions.format(path))
+                raise VenCException(messages.wrong_permissions.format(path), node, node.root.string)
                 
     if include_string == None:
         if not raise_error:
             return ""
             
         raise VenCException(
-            '\n' + '\n'.join(
+            node.ID+' '+ str(node.payload) + str(node.parent.payload) +'\n' + '\n'.join(
                 (messages.file_not_found.format(path) for path in paths)
-            )
+            ),
+            node, 
+            node.root.string
         )
                 
     if len(argv) > 1:            
@@ -155,7 +157,8 @@ def escape_walk(root, node):
         node.payload[pattern.payload_index][:pattern.o]+".:"+("::".join(pattern.payload))+":."+node.payload[pattern.payload_index][pattern.c:]
     
     if root == node:
+        node.sub_patterns = []
         return "::".join(pattern.payload)
     
-def escape(node, string):
+def escape(node, *string):
     return escape_walk(node, node)

@@ -57,6 +57,7 @@ class Pattern:
     
     def __init__(self, s, o, c, sub_patterns, root):
         self.o, self.c = o, c
+        self.root = root
         self.payload = s[o+2:c-2].split('::')
         self.sub_patterns = sub_patterns
         offset = o + len(self.payload[0]) + 4
@@ -79,7 +80,6 @@ class Pattern:
             payload_index +=1
             
         self.ID = '\x00'+str(id(self))+'\x00'
-
         pattern_name = self.payload[0]
         self.flags = Pattern.FLAG_NONE
         if pattern_name in PatternsMap.CONTEXTUALS.keys():
@@ -204,7 +204,9 @@ class Processor:
         self.set_patterns = self.functions.update
     
     def apply_pattern(self, parent, pattern, flags, payload_offset):
-        self.process(pattern, flags)
+        if pattern.payload[0] != "Escape":
+            self.process(pattern, flags)
+            
         pattern_name, *args = pattern.payload
         if (pattern.flags & (flags ^ Pattern.FLAG_NON_PARALLELIZABLE)) and ((flags & Pattern.FLAG_NON_PARALLELIZABLE) or (not(pattern.flags & Pattern.FLAG_NON_PARALLELIZABLE))):
             chunk = self.functions[pattern_name](pattern, *args)
