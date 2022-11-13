@@ -291,7 +291,7 @@ La fonction générera alors par exemple le code HTML ci-dessous :
 Si la génération des chapitres est désactivée dans le fichier de
 configuration principal, le motif est ignoré et supprimé.
 
-## .:Escape:: .:GetThreadName[::string1][::string2]:. ::EndEscape:.
+## .&colon;GetThreadName[::string1][::string2]&colon;.
 
 Ce motif permet de récupérer le nom du fil de publication courant.
 

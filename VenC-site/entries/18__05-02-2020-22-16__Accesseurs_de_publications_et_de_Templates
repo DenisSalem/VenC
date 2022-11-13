@@ -14,13 +14,13 @@ la publication elle-même.
 
 Il est aussi possible d'utiliser ceux-là dans des templates. Pour en savoir plus sur les templates, rendez vous [ici](.:GetRelativeOrigin:.Les-templates)
 
-## .:Escape:: .:GetEntryContent:. ::EndEscape:.
+## .&colon;GetEntryContent&colon;.
 
 Ce pattern ne peut pas être utilisé dans un template.
 
 Ce pattern renvoie le contenu complet de la publication courante.
 
-## .:Escape:: .:GetEntryPreview:. ::EndEscape:.
+## .&colon;GetEntryPreview&colon;.
 
 Ce pattern ne peut pas être utilisé dans un template.
 
@@ -51,7 +51,7 @@ Retourne l'heure de création de la publication.
 
 Retourne la minute de création de la publication.
 
-## .:Escape:: .:GetEntryDate[::format]:. ::EndEscape:.
+## .&colon;GetEntryDate[::format]&colon;.
 
 Retourne la date de la publication formatée comme définit dans le fichier de configuration par le champ date_format.
 

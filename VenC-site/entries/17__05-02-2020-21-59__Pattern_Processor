@@ -20,8 +20,8 @@ sont trouvés.
 
 Les motifs sont interprétté de la façon suivante dans VenC
 
-- Chaque motifs commence par .:Escape::'.:'::EndEscape:.
-- Chaque motifs se termine par .:Escape::':.'::EndEscape:.
+- Chaque motifs commence par .&colon;
+- Chaque motifs se termine par &colon;.
 - Le ou les séparateurs d'arguments à l'intérieur d'un motif sont représentés par '::'.
 
 

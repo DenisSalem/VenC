@@ -170,7 +170,7 @@ si elle n'est pas définie. Si le second argument est absent, le motif est ignor
 
 Ce motif n'a pas de variable contextuelle.
 
-## .:Escape:: .:PreviewIfInThreadElseContent:. ::EndEscape:.
+## .&colon;PreviewIfInThreadElseContent.&colon;.
 
 Ce pattern ne peut être utilisé que dans le _chunk_ __entry.html__.
 

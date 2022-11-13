@@ -6,7 +6,7 @@ title: Générateurs de code HTML
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-## .:Escape:: .:CodeHightlight::language::line&#95;numbers::input&#95;code:. ::EndEscape:.
+## .:Escape:: .:CodeHighlight::language::line&#95;numbers::input&#95;code:. ::EndEscape:.
 
 VenC permet de formater du code source pour qu'il soit plus lisible et
 agréable à lire dans vos articles. Cette fonctionnalité dépend de la librairie tierce [Pygments](https://pygments.org/).
@@ -102,7 +102,7 @@ suivant est appliqué :
 Il est important que le style ainsi définit soit inclut dans header.html __APRÈS__
 utilisation du motifs __GetStyleSheets__.
 
-## .:Escape:: .:CodeHightlightInclude::language::line&#95;numbers::input&#95;code&#95;file:. ::EndEscape:.
+## .:Escape:: .:CodeHighlightInclude::language::line&#95;numbers::input&#95;code&#95;file:. ::EndEscape:.
 
 Ce motif fonctionne exactement comme le précédent motif __CodeHighlight__, à la différence que le dernier argument
 ne contient pas de code source mais le nom de fichier dans lequel se trouve celui-ci.
@@ -225,7 +225,7 @@ Produirait :
 <span id="ma_class" class="ma_class">Un texte quelconque à formater.</span>
 :.
 
-## .:Escape:: .:Table[::item1][::item2][...]:. ::EndEscape:.
+## .&colon;Table[::item1][::item2][...]&colon;.
 
 Ce motif permet d'organiser du contenu dans un tableau. Le motif a un
 nombre illimité d'arguments. Chaque argument correspond au contenu d'une cellule.

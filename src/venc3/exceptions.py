@@ -18,10 +18,10 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 class VenCException(Exception):
-    def __init__(self, message, context=None):
+    def __init__(self, message, context=None, extra=""):
         self.message = message
         self.context = context
-        self.extra = ""
+        self.extra = extra
     
     def __str__(self):
         return self.message
@@ -55,7 +55,8 @@ class VenCException(Exception):
             len_before = len(patterns)
             
         if highlight:
-            self.extra = self.extra[:highlight.o+2] + '\033[91m' + highlight.payload[0] + '\033[0m' + self.extra[highlight.o+2+len(highlight.payload[0]):]
+            target = ".:"+highlight.payload[0]+":"
+            self.extra = self.extra.replace(target, '\033[91m' + target + '\033[0m')
             
     def __apply_flatten(self, pattern):
         if self.extra.find(pattern.ID) > 0:
@@ -95,6 +96,7 @@ class VenCSyntaxError(VenCException):
         self.extra = self.extra[:o]+'\033[91m'+self.extra[o:c]+'\033[0m'+self.extra[c:]
         self.flatten(highlight_pattern=pattern)
                     
+# TODO : Find a way to not raise exception if pattern is embed in Escape
 class UnknownPattern(VenCException):
     def __init__(self, pattern, string_under_processing):
         from venc3.l10n import messages
