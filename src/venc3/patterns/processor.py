@@ -55,7 +55,7 @@ class Pattern:
     FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 8 # NOT IMPLEMENTED YET
     FLAG_ALL = 15
     
-    def __init__(self, s, o, c, sub_patterns, ID):
+    def __init__(self, s, o, c, sub_patterns, root):
         self.o, self.c = o, c
         self.payload = s[o+2:c-2].split('::')
         self.sub_patterns = sub_patterns
@@ -78,7 +78,7 @@ class Pattern:
             offset = limit
             payload_index +=1
             
-        self.ID = '\x00'+str(ID)+'\x00'
+        self.ID = '\x00'+str(id(self))+'\x00'
 
         pattern_name = self.payload[0]
         self.flags = Pattern.FLAG_NONE
@@ -94,18 +94,17 @@ class Pattern:
             pattern.flags |= Pattern.FLAG_NON_PARALLELIZABLE
 
         if not self.flags:
-            from venc3.exceptions import VenCException
-            raise VenCException
+            from venc3.exceptions import UnknownPattern
+            raise UnknownPattern(self, root)
             
 class PatternTree:
     def __init__(self, string, context=""):
         self.string = string
         self.context = context
-        self.ID = 0
+        self.has_non_parallelizables = False
         self.sub_patterns = self.__build_tree(
             self.__get_boundaries(string)
         )
-        self.has_non_parallelizable = False
         for pattern in self.sub_patterns:
             pattern.parent = self
             pattern.payload_index = 0
@@ -133,10 +132,10 @@ class PatternTree:
             key = lambda x: x.index
         ))
     
-    def __get_boundaries_block(boundaries, start):
+    def __get_boundaries_block(self, boundaries, start, offset):
         if boundaries[start].boundary_type == Boundary.BONDARY_TYPE_CLOSING:
-            from venc3.exceptions import VenCException
-            raise VenCException
+            from venc3.exceptions import VenCSyntaxError
+            raise VenCSyntaxError(self, boundaries[start].index+offset, boundaries[start].index+2+offset)
         
         level = 0
         for i in range(start, len(boundaries)):
@@ -145,12 +144,11 @@ class PatternTree:
             if level == 0:
                 return i
 
-    def __apply_and_compute_offset_and_inc_id(self, pattern):
-        self.has_non_parallelizable |= pattern.flags & Pattern.FLAG_NON_PARALLELIZABLE
+    def __apply_and_compute_offset_and_check_parallelizable(self, pattern):
+        self.has_non_parallelizables |= pattern.flags & Pattern.FLAG_NON_PARALLELIZABLE
         self.string = self.string[:pattern.o] + pattern.ID + self.string[pattern.c:]
         offset = len(pattern.ID) - pattern.c + pattern.o
         pattern.c = pattern.o + len(pattern.ID)
-        self.ID+=1
         return offset
         
     def __build_tree(self, boundaries, start=0, limit=None, previous_end=None, offset=0):
@@ -161,7 +159,7 @@ class PatternTree:
         sub_patterns_append = sub_patterns.append
         parent_start, parent_offset = start, offset
         while start < limit:
-            end = PatternTree.__get_boundaries_block(boundaries, start)
+            end = self.__get_boundaries_block(boundaries, start, offset)
             if end - start - 1 > 0:
                 offset, pattern = self.__build_tree(boundaries, start+1, end-1, end, offset)
                 sub_patterns_append(pattern)
@@ -172,9 +170,9 @@ class PatternTree:
                     boundaries[start].index+offset,
                     boundaries[end].index+2+offset,
                     [],
-                    self.ID
+                    self
                 )                    
-                offset += self.__apply_and_compute_offset_and_inc_id(pattern)
+                offset += self.__apply_and_compute_offset_and_check_parallelizable(pattern)
                 sub_patterns_append(pattern)
                 
             start = end+1
@@ -185,14 +183,21 @@ class PatternTree:
                 boundaries[parent_start-1].index+parent_offset,
                 boundaries[previous_end].index+2+offset,
                 sub_patterns,
-                self.ID
+                self
             )
-            offset += self.__apply_and_compute_offset_and_inc_id(pattern)
+            offset += self.__apply_and_compute_offset_and_check_parallelizable(pattern)
             return offset, pattern
             
         else:
             return sub_patterns
             
+    def reset_index(self, new_string):
+        self.string = new_string
+        for sub_pattern in self.sub_patterns:
+            o = self.string.find(sub_pattern.ID)
+            sub_pattern.c += o - sub_pattern.o
+            sub_pattern.o = o
+
 class Processor:
     def __init__(self):
         self.functions = {}
@@ -251,24 +256,3 @@ class Processor:
                     
             i+=1
         parent.sub_patterns = parent_sub_patterns_filtered
-
-
-test = """
-      .:IfBlogMetadataIsTrue::enable_entry_title_in_navigation::
-        .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">{entry_title} ←</a>:.
-        .:IfInThread::<ul id="pagesList">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>:: :.
-        .:GetNextPage:: <a id="next" href="{path} " data-venc-api-infinite-scroll-hook="{path}" title="{entry_title}">→ {entry_title}</a>:.
-      ::
-        .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">←</a>:.
-        .:IfInThread::<ul id="pagesList">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>:: :.
-        .:GetNextPage:: <a id="next" href="{path} " data-venc-api-infinite-scroll-hook="{path}" title="{entry_title}">→</a>:. :.
-      :.
-"""
-
-from venc3.exceptions import VenCException
-
-try: 
-    pt = PatternTree(test, "footer.html")
-    
-except VenCException as e:
-    e.die()

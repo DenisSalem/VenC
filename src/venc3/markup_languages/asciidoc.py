@@ -32,7 +32,7 @@ def VenCAsciiDoc(source, attributes):
         from venc3.l10n import messages
         die(messages.module_not_found.format('asciidoc3'))
     
-    infile = io.StringIO(str(source))
+    infile = io.StringIO(source.string)
     outfile = io.StringIO()
     
     ad.options('--no-header-footer')
@@ -46,4 +46,4 @@ def VenCAsciiDoc(source, attributes):
     
     except Exception as e:
         from venc3.markup_languages import handle_markup_language_error
-        handle_markup_language_error(source.ressource+": "+str(e))
+        handle_markup_language_error(source.context+": "+str(e))

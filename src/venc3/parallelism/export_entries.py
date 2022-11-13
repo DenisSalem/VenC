@@ -65,10 +65,10 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
     non_parallelizable_append = non_parallelizable.append
     from copy import deepcopy
 
-    from venc3.patterns.processor import PatternNode
-    pattern_processor_match = PatternNode.FLAG_NON_CONTEXTUAL
+    from venc3.patterns.processor import Pattern
+    pattern_processor_match = Pattern.FLAG_NON_CONTEXTUAL
     if recv_in == None:
-        pattern_processor_match |= PatternNode.FLAG_NON_PARALLELIZABLE
+        pattern_processor_match |= Pattern.FLAG_NON_PARALLELIZABLE
         
     while len(chunk):
         for entry in chunk:

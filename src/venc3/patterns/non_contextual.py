@@ -87,7 +87,6 @@ def set_style(node, ID, CLASS, *string):
 # TODO: Add explicit message about exception. 
 
 def include_file(node, filename, *argv, raise_error=True):
-    print(filename, argv)
     if filename == '':
         if not raise_error:
             return ""
@@ -150,5 +149,13 @@ def table(node, *argv):
         
     return output + "</table></div>"
 
+def escape_walk(root, node):
+    for pattern in node.sub_patterns[::-1]:
+        escape_walk(root, pattern)
+        node.payload[pattern.payload_index][:pattern.o]+".:"+("::".join(pattern.payload))+":."+node.payload[pattern.payload_index][pattern.c:]
+    
+    if root == node:
+        return "::".join(pattern.payload)
+    
 def escape(node, string):
-    return node.flatten()
+    return escape_walk(node, node)

@@ -25,10 +25,10 @@ import unidecode
 from venc3.helpers import quirk_encoding
 from venc3.prompt import notify
 from venc3.l10n import messages
-from venc3.patterns.processor import Processor, PatternNode
+from venc3.patterns.processor import Processor, Pattern
 from venc3.patterns.third_party_wrapped_features.pygmentize import get_style_sheets
 
-pattern_processor_match = PatternNode.FLAG_CONTEXTUAL
+pattern_processor_match = Pattern.FLAG_CONTEXTUAL
 
 def undefined_variable(match):
     from venc3.prompt import die
@@ -121,7 +121,6 @@ class Thread:
     def organize_entries(self, entries):
         self.pages = list()
         for i in range(0, ceil(len(entries)/self.entries_per_page)):
-            # print(len(entries))
             self.pages.append(
                 entries[i*self.entries_per_page:(i+1)*self.entries_per_page]
             )
@@ -305,7 +304,7 @@ class Thread:
     def pre_iteration(self):
         header = deepcopy(self.header)
         self.processor.process(header, pattern_processor_match)
-        self.output = header.flatten()
+        self.output = header.string
 
         self.processor.blacklist = []
         self.columns_counter = 0
@@ -319,7 +318,7 @@ class Thread:
         footer = deepcopy(self.footer)
         self.processor.process(footer, pattern_processor_match)
         
-        self.output += footer.flatten()
+        self.output += footer.string
         
         self.write_file(self.output.replace("\x1a",self.relative_origin), self.page_number)
 
@@ -329,33 +328,32 @@ class Thread:
     def do_iteration(self, entry):
         entry_wrapper = deepcopy(getattr(entry, self.content_type+"_wrapper"))
         preprocessed_wrapper = deepcopy(getattr(entry, self.content_type+"_wrapper").processed_string)
-        content = deepcopy(entry.content).flatten()
-        preview = deepcopy(entry.preview).flatten()
+        content = deepcopy(entry.content)
+        preview = deepcopy(entry.preview)
 
         self.processor.process(preprocessed_wrapper, pattern_processor_match)
 
-        output= preprocessed_wrapper.flatten()
-        
+        output = preprocessed_wrapper.string
         if entry_wrapper.process_get_entry_content:
             self.processor.process(content, pattern_processor_match)
             output=output.replace(
                 "---VENC-GET-ENTRY-CONTENT---",
-                content
+                content.string
             )
 
         if entry_wrapper.process_get_entry_preview:
             self.processor.process(preview, pattern_processor_match)
             output=output.replace(
                 "---VENC-GET-ENTRY-PREVIEW---",
-                preview
+                preview.string
             )
         
         output=output.replace(
             "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---",
-            preview if self.in_thread else content
+            preview.string if self.in_thread else content.string
         )
            
-        self.columns[self.columns_counter] += output        
+        self.columns[self.columns_counter] += output
         
         self.columns_counter +=1
         if self.columns_counter >= self.columns_number:
@@ -379,10 +377,10 @@ class Thread:
         if self.pages_count == 0:
             current_source = self.header
             self.processor.process(current_source, pattern_processor_match)
-            output = current_source.flatten()
+            output = current_source.string
             current_source = self.footer
             self.processor.process(current_source, pattern_processor_match)
-            output += current_source.flatten()
+            output += current_source.string
             stream = codecs.open(
                 self.export_path +'/'+ self.format_filename(0),
                 'w',

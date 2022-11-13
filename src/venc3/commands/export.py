@@ -24,7 +24,7 @@ from venc3.exceptions import VenCException, MalformedPatterns
 from venc3.helpers import rm_tree_error_handler
 from venc3.l10n import messages
 from venc3.patterns.non_contextual import theme_includes_dependencies
-from venc3.patterns.processor import Processor, PatternNode
+from venc3.patterns.processor import Processor, Pattern
 from venc3.prompt import notify
 
 start_timestamp = time.time()
@@ -65,24 +65,24 @@ def process_non_parallelizables(datastore, patterns_map, thread_params):
     notify("├─ "+messages.process_non_parallelizable)
     pattern_processor = Processor()
     pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
-    from venc3.patterns.processor import PatternNode
+    from venc3.patterns.processor import Pattern
     for l in thread_params["non_parallelizable"]:
         for entry_index in l:
             entry = datastore.entries[entry_index]
             if entry.preview.has_non_parallelizables:
-                pattern_processor.process(entry.preview, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
+                pattern_processor.process(entry.preview, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
             
             if entry.content.has_non_parallelizables:
-                pattern_processor.process(entry.content, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
+                pattern_processor.process(entry.content, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
             
             if entry.html_wrapper.processed_string.has_non_parallelizables:
-                pattern_processor.process(entry.html_wrapper.processed_string, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
+                pattern_processor.process(entry.html_wrapper.processed_string, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
                 
             if entry.rss_wrapper.processed_string.has_non_parallelizables:
-                pattern_processor.process(entry.rss_wrapper.processed_string, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
+                pattern_processor.process(entry.rss_wrapper.processed_string, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
                 
             if entry.atom_wrapper.processed_string.has_non_parallelizables:
-                pattern_processor.process(entry.atom_wrapper.processed_string, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
+                pattern_processor.process(entry.atom_wrapper.processed_string, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
                     
 def process_non_contextual_patterns():
     from venc3.datastore import datastore
@@ -152,12 +152,12 @@ def process_non_contextual_patterns():
             process_non_parallelizables(datastore, patterns_map, thread_params)
             pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
         
-        pattern_processor.process(theme.header, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
-        pattern_processor.process(theme.footer, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
-        pattern_processor.process(theme.rss_header, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE) 
-        pattern_processor.process(theme.rss_footer, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
-        pattern_processor.process(theme.atom_header, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE)
-        pattern_processor.process(theme.atom_footer, PatternNode.FLAG_NON_CONTEXTUAL | PatternNode.FLAG_NON_PARALLELIZABLE) 
+        pattern_processor.process(theme.header, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
+        pattern_processor.process(theme.footer, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
+        pattern_processor.process(theme.rss_header, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE) 
+        pattern_processor.process(theme.rss_footer, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
+        pattern_processor.process(theme.atom_header, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
+        pattern_processor.process(theme.atom_footer, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE) 
 
     except VenCException as e:    
         e.die()

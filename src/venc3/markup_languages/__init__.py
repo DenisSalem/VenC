@@ -43,7 +43,7 @@ def process_markup_language(source, markup_language, entry=None):
             die(messages.module_not_found.format('markdown2'))
 
         venc_markdown = VenCMarkdown(extras=["header-ids", "footnotes","toc"])
-        string = venc_markdown.convert(str(source))
+        string = venc_markdown.convert(source.string)
 
         entry.toc = tuple(venc_markdown.table_of_content)
 
@@ -57,7 +57,7 @@ def process_markup_language(source, markup_language, entry=None):
         string = VenCreStructuredText(source)
                 
     elif markup_language != "none":
-        err = messages.unknown_markup_language.format(markup_language, source.ressource)
+        err = messages.unknown_markup_language.format(markup_language, source.context)
         handle_markup_language_error(err)
     else:
         return

@@ -44,7 +44,29 @@ class VenCException(Exception):
                 self.extra = self.context.root.flatten(highlight_pattern=self.context)
         
         die(self.message, extra=self.extra)
-
+        
+    def flatten(self, highlight=None):
+        # use garbage collector to rebuild original string
+        import gc
+        from venc3.patterns.processor import Pattern
+        patterns = [ o for o in gc.get_objects() if type(o) == Pattern]
+        while len(patterns):
+            len_before = len(patterns)
+            patterns = [pattern for pattern in patterns if not self.__apply_flatten(pattern)]
+            if len(patterns) == len_before:
+                break
+                
+            len_before = len(patterns)
+            
+        if highlight:
+            self.extra = self.extra[:highlight.o+2] + '\033[91m' + highlight.payload[0] + '\033[0m' + self.extra[highlight.o+2+len(highlight.payload[0]):]
+            
+    def __apply_flatten(self, pattern):
+        if self.extra.find(pattern.ID) > 0:
+            self.extra = self.extra.replace(pattern.ID, ".:"+("::".join(pattern.payload))+":.")
+            return True
+            
+        return False
 class MalformedPatterns(VenCException):
     def __init__(self, string_under_processing, op, cp):
         len_op = len(op)
@@ -69,8 +91,17 @@ class MalformedPatterns(VenCException):
         self.too_many_opening_symbols = too_many_opening_symbols
         self.extra = s
 
+class VenCSyntaxError(VenCException):  
+    def __init__(self, string_under_processing, o, c):
+        from venc3.l10n import messages
+        super().__init__(messages.syntax_error, string_under_processing)
+        self.extra = string_under_processing.string
+        self.extra = self.extra[:o]+'\033[91m'+self.extra[o:c]+'\033[0m'+self.extra[c:]
+        self.flatten(highlight_pattern=pattern)
+                    
 class UnknownPattern(VenCException):
     def __init__(self, pattern, string_under_processing):
         from venc3.l10n import messages
-        super().__init__(messages.unknown_pattern.format(pattern.name), string_under_processing)
-        self.extra = string_under_processing.flatten(highlight_pattern=pattern)
+        super().__init__(messages.unknown_pattern.format(pattern.payload[0]), string_under_processing)
+        self.extra = string_under_processing.string
+        self.flatten(highlight=pattern)
