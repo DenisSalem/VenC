@@ -127,6 +127,10 @@ Ce motif ne prend qu'un seul paramètre.
 
 Il permet d'ignorer les motifs contenus à l'intérieur du texte de l'unique argument __content__.
 
+__Obsolète depuis la version 3.0.0 de VenC__ : Ce pattern spécial est historique est sert pour la génération
+de la documentation et va tendre à disparaitre. Si vous souhaitez échapper des patterns remplacez les symbols d'ouverture et de 
+fermeture par leur équivalent en html entities.
+
 ## .:Escape:: .:GetJSON-LD:. ::EndEscape:.
 
 Retourne le document JSON-LD, s'il existe, associé à la première page du fil de publication courant.
