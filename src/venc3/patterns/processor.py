@@ -90,7 +90,7 @@ class Pattern:
                 self.flags = Pattern.FLAG_NON_CONTEXTUAL
                 break
             
-        if pattern_name in PatternsMap.NON_PARALLELIZABLES:
+        if pattern_name in PatternsMap.NON_PARALLELIZABLES.keys():
             self.flags |= Pattern.FLAG_NON_PARALLELIZABLE
 
         if not self.flags:

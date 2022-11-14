@@ -55,6 +55,7 @@ class PatternsMap():
             "ForEntryMetadata":	          "for_entry_metadata",
             #"ForEntryRange":	            "for_entry_range",                  #OE  TODO: NOT FINISHED YET
             "ForEntryTags":	              "for_entry_tags",
+            "GetEntryAttributeByID" :     "get_entry_attribute_by_id",
             "GetEntryDate":	              "get_entry_date",
             "GetEntryDateURL":	          "get_entry_date_url",
             "GetEntryDay":	              "get_entry_day",
@@ -87,6 +88,8 @@ class PatternsMap():
             "GetBlogMetadataIfNotNull":	  "get_blog_metadata_if_not_null",
             "GetBlogName":	              "get_blog_name",
             "GetBlogURL":	                "get_blog_url",
+            "GetChapterAttributeByIndex" :"get_chapter_attribute_by_index",
+            "GetChapters" :               "get_chapters",
             "GetRootPage":	              "get_root_page",
             "GetEmbedContent":	          "wrapper_embed_content",
             "GetGenerationTimestamp":	    "get_generation_timestamp",
