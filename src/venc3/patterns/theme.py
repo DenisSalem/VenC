@@ -19,11 +19,11 @@
 
 from venc3.datastore.theme import theme
 
-def get_media(media_type, source, extensions, poster=''):
+def get_media(media_type, target, extensions, poster=''):
     source = ""
     for ext in extensions.split(','):
         # Set media once, and get complete path later.
-        source += str("<source src=\"{0}.{1}\" type=\""+media_type+"/{1}\">\n").format(source.strip(), ext.strip())
+        source += str("<source src=\"{0}.{1}\" type=\""+media_type+"/{1}\">\n").format(target.strip(), ext.strip())
     
     f = {}
     f["source"] = source

@@ -79,7 +79,7 @@
     DONE | Add security notice.
     DONE | Make some dependencies optional.
     DONE | Pattern processor run with tree data structure.
-    WIP  | Making pattern relative to local arg instead of using absolute arg should speed up the mess.
+    DONE | Making pattern relative to local arg instead of using absolute arg should speed up the mess.
     WIP  | Generate entry inner table of content.
 /!\ TODO | S'assurer que toutes les VenCException prennent bien en paramètre un context
     TODO | Add ForDictMetadata
