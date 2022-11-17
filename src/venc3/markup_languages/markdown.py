@@ -25,7 +25,6 @@ class VenCMarkdown(markdown.Markdown):
         self.table_of_content = []
         
     def header_id_from_text(self, text, prefix, n):
-        text = text.replace(".:Escape::","").replace("::EndEscape:.","")
         self.table_of_content.append((
             n,
             text,

@@ -24,7 +24,7 @@ __à l'intérieur__ d'un ou plusieurs arguments_.
     <a href=".:GetChapterAttributeByIndex::path::5.3.3:.#codehightlightlanguageline95numbersinput95code">CodeHighlight</a>::language, line_numbers, input_code:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.3.3:.#codehightlightincludelanguageline95numbersinput95code95file">CodeHighlightInclude</a>::language, line_numbers, input_code_file:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.4:.#disablemarkupcontent">DisableMarkup</a>::content:: ::NewLine::
-    <a href=".:GetChapterAttributeByIndex::path::5.4:.#-venc-temporary-replacement-0-">Escape</a>::content, EndEscape:: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.4:.#escapecontent">Escape</a>::content:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.2:.#forblogarchivesstringseparator">ForBlogArchives</a>::string, separator::value, path, count, weight::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#forentryauthorsstringseparator">ForEntryAuthors</a>::string, separator::value::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#forentrymetadatavariable_namestringseparator">ForEntryMetadata</a>::variable_name, string, separator::value::NewLine::
@@ -88,8 +88,8 @@ __à l'intérieur__ d'un ou plusieurs arguments_.
     <a href=".:GetChapterAttributeByIndex::path::5.3.1:.#ifinthreadandhasfeedsstring1string2">IfInThreadAndHasFeeds</a>::string1, string2:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.3.1:.#ifpagesstring1string2">IfPages</a>::string1, string2:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.3.1:.#ifrssenabledstring1string2">IfRSSEnabled</a>::string1, string2:: ::NewLine::
-    <a href=".:GetChapterAttributeByIndex::path::5.4:.#includefileescapefilenamearg1arg2">IncludeFile</a>::escape,filename,arg1, arg2, ... :: ::NewLine::
-    <a href=".:GetChapterAttributeByIndex::path::5.4:.#includefileifexistsescapefilenamearg1arg2">IncludeFileIfExists</a>::escape,filename,arg1, arg2, ... :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.4:.#includefilefilenamearg1arg2">IncludeFile</a>::filename,arg1, arg2, ... :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.4:.#includefileifexistsfilenamearg1arg2">IncludeFileIfExists</a>:: filename,arg1, arg2, ... :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.3.3:.#latex2mathmllatex_code">Latex2MathML</a>::latex_code:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.2:.#leavesforblogcategoriesstringseparator">LeavesForBlogCategories</a>::string, separator::value, path, branch::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#leavesforentrycategoriesstringseparator">LeavesForEntryCategories</a>::string, separator::value, path, branch::NewLine::
