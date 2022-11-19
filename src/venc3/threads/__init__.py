@@ -348,31 +348,9 @@ class Thread:
     def do_iteration(self, entry):
         entry_wrapper = deepcopy(getattr(entry, self.content_type+"_wrapper"))
 
-        self.processor.process(entry_wrapper, Pattern.FLAG_CONTEXTUAL)
-
-        output = entry_wrapper.string
-        
-        # ~ # deprecated
-        # ~ if entry_wrapper.process_get_entry_content:
-            # ~ self.processor.process(content, Pattern.FLAG_CONTEXTUAL)
-            # ~ output=output.replace(
-                # ~ "---VENC-GET-ENTRY-CONTENT---",
-                # ~ content.string
-            # ~ )
-
-        # ~ if entry_wrapper.process_get_entry_preview:
-            # ~ self.processor.process(preview, Pattern.FLAG_CONTEXTUAL)
-            # ~ output=output.replace(
-                # ~ "---VENC-GET-ENTRY-PREVIEW---",
-                # ~ preview.string
-            # ~ )
-        
-        # ~ output=output.replace(
-            # ~ "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---",
-            # ~ preview.string if self.in_thread else content.string
-        # ~ )
+        self.processor.process(entry_wrapper, Pattern.FLAG_CONTEXTUAL)        
            
-        self.columns[self.columns_counter] += output
+        self.columns[self.columns_counter] += entry_wrapper.string
         
         self.columns_counter +=1
         if self.columns_counter >= self.columns_number:
