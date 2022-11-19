@@ -88,20 +88,20 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
             process_markup_language(entry.preview, markup_language, entry)
                 
             entry.html_wrapper = deepcopy(theme.entry)
-            pattern_processor.process(entry.html_wrapper.processed_string, pattern_processor_match)
+            pattern_processor.process(entry.html_wrapper, pattern_processor_match)
            
             entry.rss_wrapper = deepcopy(theme.rss_entry)
-            pattern_processor.process(entry.rss_wrapper.processed_string, pattern_processor_match)
+            pattern_processor.process(entry.rss_wrapper, pattern_processor_match)
             
             entry.atom_wrapper = deepcopy(theme.atom_entry)
-            pattern_processor.process(entry.atom_wrapper.processed_string, pattern_processor_match)
+            pattern_processor.process(entry.atom_wrapper, pattern_processor_match)
             
             if \
               entry.content.has_non_parallelizables or \
               entry.preview.has_non_parallelizables or \
-              entry.html_wrapper.processed_string.has_non_parallelizables or \
-              entry.atom_wrapper.processed_string.has_non_parallelizables or \
-              entry.rss_wrapper.processed_string.has_non_parallelizables:
+              entry.html_wrapper.has_non_parallelizables or \
+              entry.atom_wrapper.has_non_parallelizables or \
+              entry.rss_wrapper.has_non_parallelizables:
                 non_parallelizable_append(entry.index)
 
         if recv_in != None and send_out != None:

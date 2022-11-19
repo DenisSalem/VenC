@@ -29,6 +29,8 @@ class PatternsMap():
     
     CONTEXTUALS = { # All of the below is loaded from Thread instanciated classes
         "ForPages":	                    "for_pages",
+        "GetEntryContent":              "get_entry_content",
+        "GetEntryPreview":              "get_entry_preview",
         "GetJSON-LD":	                  "get_JSONLD",
         "GetNextPage":	                "get_next_page",
         "GetPreviousPage":	            "get_previous_page",
@@ -47,6 +49,7 @@ class PatternsMap():
         "IfInThread":	                  "if_in_thread",
         "IfInThreadAndHasFeeds":	      "if_in_thread_and_has_feeds",
         "IfPages":	                    "if_pages",
+        "PreviewIfInThreadElseContent": "preview_if_in_thread_else_content",
     }
 
     NON_CONTEXTUALS = { # all of the below is loaded from datastore

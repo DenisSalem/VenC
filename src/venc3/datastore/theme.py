@@ -34,10 +34,10 @@ class Theme:
             self.atom_header = PatternTree(open(theme_folder+"chunks/atomHeader.xml",'r').read(), "atomHeader.html")
             self.atom_footer = PatternTree(open(theme_folder+"chunks/atomFooter.xml",'r').read(), "atomFooter.html")
 
-            from venc3.datastore.entry import EntryWrapper
-            self.entry = EntryWrapper(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
-            self.rss_entry = EntryWrapper(open(theme_folder+"chunks/rssEntry.xml",'r').read(),"rssEntry.xml")
-            self.atom_entry = EntryWrapper(open(theme_folder+"chunks/atomEntry.xml",'r').read(),"atomEntry.xml")
+            # ~ from venc3.datastore.entry import EntryWrapper
+            self.entry = PatternTree(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
+            self.rss_entry = PatternTree(open(theme_folder+"chunks/rssEntry.xml",'r').read(),"rssEntry.xml")
+            self.atom_entry = PatternTree(open(theme_folder+"chunks/atomEntry.xml",'r').read(),"atomEntry.xml")
             
             self.audio = open(theme_folder+"chunks/audio.html",'r').read()
             self.video = open(theme_folder+"chunks/video.html",'r').read()

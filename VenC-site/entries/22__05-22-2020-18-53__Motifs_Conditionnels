@@ -170,9 +170,9 @@ si elle n'est pas définie. Si le second argument est absent, le motif est ignor
 
 Ce motif n'a pas de variable contextuelle.
 
-## .&colon;PreviewIfInThreadElseContent.&colon;.
+## .:Escape:: .:PreviewIfInThreadElseContent:. :.
 
-Ce pattern ne peut être utilisé que dans le _chunk_ __entry.html__.
+Ce pattern ne peut être utilisé que dans le fichier de thème __entry.html__.
 
 Il renvoie le résumé de la publication courante si VenC génère la
 page dans un fil de publication. Sinon, VenC renvoie le

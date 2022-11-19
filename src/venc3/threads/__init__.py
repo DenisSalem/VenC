@@ -28,8 +28,6 @@ from venc3.l10n import messages
 from venc3.patterns.processor import Processor, Pattern
 from venc3.patterns.third_party_wrapped_features.pygmentize import get_style_sheets
 
-pattern_processor_match = Pattern.FLAG_CONTEXTUAL
-
 def undefined_variable(match):
     from venc3.prompt import die
     die(
@@ -82,7 +80,9 @@ class Thread:
         # Setup pattern processor
         self.processor = Processor()
         self.processor.set_patterns(
-            { key : getattr(self, value) for key,value, in patterns_map.CONTEXTUALS.items() }
+            # TODO : Remove this ugly hack.
+            # Value is None for GetEntryContent, GetEntryPreview, PreviewIfInThreadElseContent
+            { key : (getattr(self, value) if value else None) for key,value, in patterns_map.CONTEXTUALS.items()}
         )
 
     def get_style_sheets(self, node):
@@ -227,6 +227,26 @@ class Thread:
     def get_JSONLD(self, node):
         return ''
 
+    def get_entry_content(self, node):
+        content = deepcopy(self.current_entry.content)
+        self.processor.process(content, Pattern.FLAG_CONTEXTUAL)
+        return content.string
+        
+    def get_entry_preview(self, node):
+        preview = deepcopy(self.current_entry.preview)
+        self.processor.process(content, Pattern.FLAG_CONTEXTUAL)
+        return preview.string
+      
+    def preview_if_in_thread_else_content(self, node):
+        if self.in_thread:
+            preview = deepcopy(self.current_entry.preview)
+            self.processor.process(content, Pattern.FLAG_CONTEXTUAL)
+            return preview.string
+        else:
+            content = deepcopy(self.current_entry.content)
+            self.processor.process(content, Pattern.FLAG_CONTEXTUAL)
+            return content.string            
+        
     def if_pages(self, node, string1, string2=''):
         if self.pages_count > 1:
             return string1.strip()
@@ -303,7 +323,7 @@ class Thread:
     # QUESTION : Why the fuck using global current_source ?
     def pre_iteration(self):
         header = deepcopy(self.header)
-        self.processor.process(header, pattern_processor_match)
+        self.processor.process(header, Pattern.FLAG_CONTEXTUAL)
         self.output = header.string
 
         self.processor.blacklist = []
@@ -316,7 +336,7 @@ class Thread:
             self.output += self.column_opening.format(self.columns_counter)+column+self.column_closing
                   
         footer = deepcopy(self.footer)
-        self.processor.process(footer, pattern_processor_match)
+        self.processor.process(footer, Pattern.FLAG_CONTEXTUAL)
         
         self.output += footer.string
         
@@ -324,34 +344,33 @@ class Thread:
 
         self.page_number += 1
         self.current_page = self.page_number
-
+    
     def do_iteration(self, entry):
         entry_wrapper = deepcopy(getattr(entry, self.content_type+"_wrapper"))
-        preprocessed_wrapper = deepcopy(getattr(entry, self.content_type+"_wrapper").processed_string)
-        content = deepcopy(entry.content)
-        preview = deepcopy(entry.preview)
 
-        self.processor.process(preprocessed_wrapper, pattern_processor_match)
+        self.processor.process(entry_wrapper, Pattern.FLAG_CONTEXTUAL)
 
-        output = preprocessed_wrapper.string
-        if entry_wrapper.process_get_entry_content:
-            self.processor.process(content, pattern_processor_match)
-            output=output.replace(
-                "---VENC-GET-ENTRY-CONTENT---",
-                content.string
-            )
-
-        if entry_wrapper.process_get_entry_preview:
-            self.processor.process(preview, pattern_processor_match)
-            output=output.replace(
-                "---VENC-GET-ENTRY-PREVIEW---",
-                preview.string
-            )
+        output = entry_wrapper.string
         
-        output=output.replace(
-            "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---",
-            preview.string if self.in_thread else content.string
-        )
+        # ~ # deprecated
+        # ~ if entry_wrapper.process_get_entry_content:
+            # ~ self.processor.process(content, Pattern.FLAG_CONTEXTUAL)
+            # ~ output=output.replace(
+                # ~ "---VENC-GET-ENTRY-CONTENT---",
+                # ~ content.string
+            # ~ )
+
+        # ~ if entry_wrapper.process_get_entry_preview:
+            # ~ self.processor.process(preview, Pattern.FLAG_CONTEXTUAL)
+            # ~ output=output.replace(
+                # ~ "---VENC-GET-ENTRY-PREVIEW---",
+                # ~ preview.string
+            # ~ )
+        
+        # ~ output=output.replace(
+            # ~ "---VENC-PREVIEW-IF-IN-THREAD-ELSE-CONTENT---",
+            # ~ preview.string if self.in_thread else content.string
+        # ~ )
            
         self.columns[self.columns_counter] += output
         
@@ -376,11 +395,13 @@ class Thread:
         self.page_number = 0
         if self.pages_count == 0:
             current_source = self.header
-            self.processor.process(current_source, pattern_processor_match)
+            self.processor.process(current_source, Pattern.FLAG_CONTEXTUAL)
             output = current_source.string
+            
             current_source = self.footer
-            self.processor.process(current_source, pattern_processor_match)
+            self.processor.process(current_source, Pattern.FLAG_CONTEXTUAL)
             output += current_source.string
+            
             stream = codecs.open(
                 self.export_path +'/'+ self.format_filename(0),
                 'w',

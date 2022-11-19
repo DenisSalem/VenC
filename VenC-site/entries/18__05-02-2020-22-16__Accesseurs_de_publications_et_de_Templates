@@ -14,19 +14,19 @@ la publication elle-même.
 
 Il est aussi possible d'utiliser ceux-là dans des templates. Pour en savoir plus sur les templates, rendez vous [ici](.:GetRelativeOrigin:.Les-templates)
 
-## .&colon;GetEntryContent&colon;.
+## .:Escape:: .:GetEntryContent:. :.
 
-Ce pattern ne peut pas être utilisé dans un template.
+Ce pattern ne peut être utilisé que dans le fichier de thème __entry.html__.
 
 Ce pattern renvoie le contenu complet de la publication courante.
 
-## .&colon;GetEntryPreview&colon;.
+## .:Escape:: .:GetEntryPreview:. :.
 
-Ce pattern ne peut pas être utilisé dans un template.
+Ce pattern ne peut être utilisé que dans le fichier de thème __entry.html__.
 
 Ce pattern renvoie le résumé de la publication courante.
 
-## .:Escape:: .:GetEntryID:. ::EndEscape:.
+## .:Escape:: .:GetEntryID:. :.
 
 Retourne l'identifiant unique de la publication.
 
