@@ -55,7 +55,6 @@ class Messages:
     export_categories="Exporting local entries grouped by categories..."
     export_chapters="Exporting local chapters..."
     export_categoriesRss="Exporting local entries RSS feed thread from category '{0}'."
-    missing_mandatory_field_in_entry="Field '{0}' in entry number {1} is missing."
     for_unknown_value="For: Value {0} isn't defined."
     recursive_for_unknown_value="RecursiveFor: Value {0} isn't defined."
     not_enough_args="Missing arguments (expected {0}, got {1})."

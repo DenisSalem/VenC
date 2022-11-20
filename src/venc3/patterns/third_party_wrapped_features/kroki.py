@@ -32,6 +32,6 @@ def kroki(node, code, endpoint, provider = "https://kroki.io/"):
                 
             except Exception as e:
                 from venc3.exceptions import VenCException
-                raise VencException(str(e))
+                raise VencException(str(e), node)
               
     return "<img class=\"__VENC_KROKI__\" src=\".:GetRelativeOrigin:."+code+".svg"+"\" />"

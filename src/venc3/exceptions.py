@@ -35,8 +35,16 @@ class VenCException(Exception):
             from venc3.patterns.processor import Pattern
             from venc3.l10n import messages
 
-            # TODO rename context to context_name            
-            notify(messages.in_.format(self.context.context if type(self.context) != Pattern else self.context.root.context), color="RED")
+            if type(self.context) == Pattern:
+                context_name == self.context.root.context
+                
+            elif type(self.context) == str:
+                context_name = self.context
+                
+            else:
+                context_name = self.context.context
+                
+            notify(messages.in_.format(context_name), color="RED")
             
         die(self.message, extra=self.extra)
         

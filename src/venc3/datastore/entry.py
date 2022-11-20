@@ -104,23 +104,17 @@ class Entry:
         )
         self.formatted_date = self.date.strftime(date_format)
 
-        try:
-            self.title = metadata["title"].replace(".:GetEntryTitle:.",'')
+        self.title = metadata["title"].replace(".:GetEntryTitle:.",'') # sanitize
 
-        except KeyError:
-            VenCException(messages.missing_mandatory_field_in_entry.format("title", self.id))
+        if not type(metadata["authors"]) in [str, list]:
+            raise VenCException(messages.entry_metadata_is_not_a_list.format("authors", self.id), context=filename)
+            
+        self.authors = tuple( e.strip() for e in metadata["authors"].split(",")) if type(metadata["authors"]) == str else tuple(metadata["authors"])              
 
-        try:
-            self.authors = tuple( e.strip() for e in metadata["authors"].split(",")) if type(metadata["authors"]) == str else tuple(metadata["authors"])
-            if type(self.authors) != tuple:
-                raise VenCException(messages.entry_metadata_is_not_a_list.format("authors", self.id))
-                
-        except KeyError:
-            raise VenCException(messages.missing_mandatory_field_in_entry.format("authors", self.id))
-
+        if not type(metadata["tags"]) in [str, list]:
+            raise VenCException(messages.entry_metadata_is_not_a_list.format("tags", self.id), context=filename)
+            
         self.tags = tuple( e.strip() for e in metadata["tags"].split(",")) if type(metadata["tags"]) == str else tuple(metadata["tags"])
-        if type(self.tags) != tuple:
-            die(messages.entry_metadata_is_not_a_list.format("tags", self.id))
 
         params = {
             "entry_id": self.id,

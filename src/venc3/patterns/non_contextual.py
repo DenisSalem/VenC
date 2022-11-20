@@ -34,12 +34,12 @@ def disable_markup(node, *argv):
     return '::'.join(argv)
 
 
-def get_embed_content(providers, url):        
+def get_embed_content(node, providers, url):        
     try:
         key = [ key for key in providers["oembed"].keys() if url.netloc in key][0]
 
     except IndexError:
-        raise VenCException(messages.unknown_provider.format(url.netloc))
+        raise VenCException(messages.unknown_provider.format(url.netloc), node)
     
     try:
         r = requests.get(providers["oembed"][key][0], params={
@@ -48,16 +48,16 @@ def get_embed_content(providers, url):
         })
 
     except requests.exceptions.ConnectionError as e:
-        raise VenCException(messages.connectivity_issue+'\n'+str(e))
+        raise VenCException(messages.connectivity_issue+'\n'+str(e), node)
 
     if r.status_code != 200:
-        raise VenCException(messages.ressource_unavailable.format(url.geturl()))
+        raise VenCException(messages.ressource_unavailable.format(url.geturl()), node)
 
     try:
         html = json.loads(r.text)["html"]
         
     except Exception as e:
-        raise VenCException(messages.response_is_not_json.format(url.geturl()))
+        raise VenCException(messages.response_is_not_json.format(url.geturl()), node)
         
     try:
         cache_filename = hashlib.md5(url.geturl().encode('utf-8')).hexdigest()

@@ -81,8 +81,10 @@
     DONE | Make some dependencies optional.
     DONE | Pattern processor run with tree data structure.
     DONE | Making pattern relative to local arg instead of using absolute arg should speed up the mess.
+    DONE | Remove EntryWrapper, all replaced with brand new Pattern Processor!
     WIP  | Generate entry inner table of content.
 /!\ TODO | S'assurer que toutes les VenCException prennent bien en paramètre un context
+/!\ TODO | No more die() outside exception handling
     TODO | Add ForDictMetadata
     TODO | If python version below 3.5 disable parallel processing.
     TODO | Update doc accordingly.

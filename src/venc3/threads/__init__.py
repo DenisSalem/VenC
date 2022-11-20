@@ -153,7 +153,8 @@ class Thread:
                 raise VenCException(
                     messages.unknown_contextual.format(
                         (str(e)[1:-1])
-                    )
+                    ),
+                    node
                 )
 
         else:
@@ -185,7 +186,8 @@ class Thread:
                 raise VenCException(
                     messages.unknown_contextual.format(
                         (str(e)[1:-1])
-                    )
+                    ),
+                    node
                 )
                 
         else:
@@ -201,7 +203,7 @@ class Thread:
 
         except:
             from venc3.exceptions import VenCException
-            raise VenCException(messages.arg_must_be_an_integer.format("length"))
+            raise VenCException(messages.arg_must_be_an_integer.format("length"), node)
             
         output = str()
         page_number = 0
@@ -218,7 +220,7 @@ class Thread:
                     ) + separator
                     
                 except KeyError as e:
-                    raise VenCException(messages.unknown_contextual.format(str(e)[1:-1]))
+                    raise VenCException(messages.unknown_contextual.format(str(e)[1:-1]), node)
 
             page_number +=1
         

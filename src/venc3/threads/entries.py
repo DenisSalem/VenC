@@ -81,14 +81,14 @@ class EntriesThread(Thread):
 
         except:
             from venc3.exceptions import VenCException
-            raise VenCException(messages.arg_must_be_an_integer.format("length"))        
+            raise VenCException(messages.arg_must_be_an_integer.format("length"), node)        
         
         try:
             output += string.format(**params) + separator
             
         except KeyError as e:
             from venc3.exceptions import VenCException
-            raise VenCException(messages.unknown_contextual.format(str(e)[1:-1]))
+            raise VenCException(messages.unknown_contextual.format(str(e)[1:-1]), node)
             
         for i in range(0, length):
             next_entry =  None if self.current_entry_index >=  len(self.entries) - 2 else self.entries[self.current_entry_index+1]

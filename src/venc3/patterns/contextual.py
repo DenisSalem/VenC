@@ -34,5 +34,6 @@ def get_random_number(node, _min, _max, _precision):
                     faulty_arg_name[1:],
                     locals()[faulty_arg_name], 
                     "GetRandomNumber"
-                )+' '+str(e)
+                )+' '+str(e),
+                node
             )

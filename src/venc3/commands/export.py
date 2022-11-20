@@ -218,11 +218,7 @@ def export_blog(theme_name=''):
             thread = ChaptersThread()
             thread.do()
             
-    except VenCException:
-        if not e.context:
-            e.context = string_under_processing
-            e.extra = string_under_processing.flatten(highlight_pattern=pattern)
-    
+    except VenCException:    
         e.die()
         
     # Copy assets and extra files

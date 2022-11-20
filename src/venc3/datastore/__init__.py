@@ -474,7 +474,7 @@ class DataStore:
             "@context": "http://schema.org",
             "@type" : ["BlogPosting", "WebPage"],
             "@id" : entry_url+'/'+filename,
-            "keywords" : ','.join(list(set( [keyword.strip() for keyword in (entry.raw_metadata["tags"]+", "+entry.raw_metadata["categories"]).split(',')] ))),
+            "keywords" : ','.join(tuple(set( [keyword.strip() for keyword in entry.tags + entry.raw_categories] ))),
             "headline" : entry.title,
             "name" : entry.title,
             "datePublished" : entry.date.isoformat(),
@@ -619,7 +619,8 @@ class DataStore:
             
         except KeyError:
             raise VenCException(
-                messages.blog_has_no_metadata_like.format(field_name)
+                messages.blog_has_no_metadata_like.format(field_name),
+                context=self
             )
             
     def get_blog_metadata_if_exists(self, node, field_name, if_true='', if_false='', ok_if_null=True):
@@ -648,7 +649,7 @@ class DataStore:
         except AttributeError:
             raise VenCException(
                 messages.entry_has_no_metadata_like.format(matadata_name),
-                self.requested_entry
+                node
             )
             
     def get_entry_metadata_if_exists(self, node, metadata_name, string='', string2='', ok_if_null=True):
@@ -748,13 +749,13 @@ class DataStore:
                 self.cache_get_entry_attribute_by_id[key] = getattr(entry, attribute)
             
             except ValueError:
-                raise VenCException(messages.id_must_be_an_integer)
+                raise VenCException(messages.id_must_be_an_integer, node)
                 
             except AttributeError as e:
-                raise VenCException(messages.entry_has_no_metadata_like.format(argv[0]))
+                raise VenCException(messages.entry_has_no_metadata_like.format(argv[0]), node)
 
             except IndexError:
-                raise VenCException(messages.cannot_retrieve_entry_attribute_because_wrong_id)
+                raise VenCException(messages.cannot_retrieve_entry_attribute_because_wrong_id, node)
             
         return self.cache_get_entry_attribute_by_id[key]
             
@@ -884,7 +885,8 @@ class DataStore:
         except TypeError:
             raise VenCException(
                 messages.wrong_pattern_argument.format("start_from", argv[0])+' '+
-                messages.pattern_argument_must_be_integer
+                messages.pattern_argument_must_be_integer,
+                node
             )
         
         try:
@@ -893,11 +895,12 @@ class DataStore:
         except TypeError:
             raise VenCException(
                 messages.wrong_pattern_argument.format("end_to", argv[0])+' '+
-                messages.pattern_argument_must_be_integer
+                messages.pattern_argument_must_be_integer,
+                node
             )
             
         if end_from <= start_from:
-            raise VenCException(messages.invalid_range.format(start_from, end_to))
+            raise VenCException(messages.invalid_range.format(start_from, end_to), node)
         
         entry = self.requested_entry
         
@@ -916,13 +919,13 @@ class DataStore:
             try:
                 l = getattr(entry, variable_name)
                 if type(l) == dict:
-                    raise VenCException(messages.entry_metadata_is_not_a_list.format(variable_name, entry))
+                    raise VenCException(messages.entry_metadata_is_not_a_list.format(variable_name, entry), node)
                     
                 elif type(l) == str:
                     l = l.split(",")
                 
             except AttributeError as e:
-                raise VenCException(messages.entry_has_no_metadata_like.format(variable_name), entry)
+                raise VenCException(messages.entry_has_no_metadata_like.format(variable_name), node)
                 
             try:
                 entry.html_for_metadata[key] = separator.join([
@@ -930,7 +933,7 @@ class DataStore:
                 ])
                 
             except KeyError as e:
-                raise VenCException(messages.unknown_contextual.format(e), entry)
+                raise VenCException(messages.unknown_contextual.format(e), node)
             
         return entry.html_for_metadata[key]
             
@@ -997,7 +1000,7 @@ class DataStore:
                     for e in p["endpoints"]:
                         self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
 
-        return get_embed_content(self.embed_providers, content_url)
+        return get_embed_content(node, self.embed_providers, content_url)
 
 
 datastore = None

@@ -1,6 +1,7 @@
 authors: 'Denis Salem'
 categories: ''
-tags: 'yaml'
+tags:
+  - 'yaml'
 chapter: 4.2
 title: Fichier de configuration principal
 ---VENC-BEGIN-PREVIEW---
