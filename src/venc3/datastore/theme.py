@@ -42,7 +42,7 @@ class Theme:
             self.audio = open(theme_folder+"chunks/audio.html",'r').read()
             self.video = open(theme_folder+"chunks/video.html",'r').read()
     
-        except MalformedPatterns as e:
+        except VenCException as e:
             e.die()
 
         except FileNotFoundError as e:

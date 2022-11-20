@@ -55,21 +55,21 @@ class Entry:
                     self.preview = PatternTree(entry_parted[1], filename)
                     self.content = PatternTree(entry_parted[2], filename)
 
-                except MalformedPatterns as e:
+                except VenCException as e:
                     e.die()
                     
                 try:
                     metadata = yaml.load(entry_parted[0], Loader=yaml.FullLoader)
 
                 except yaml.scanner.ScannerError as e:
-                    die(messages.possible_malformed_entry.format(filename, ''), extra=str(e))
+                    raise VenCException(messages.possible_malformed_entry.format(filename, ''), context=filename, extra=str(e))
 
             else:
                 cause = messages.missing_separator_in_entry.format("---VENC-END-PREVIEW---")
-                die(messages.possible_malformed_entry.format(filename, cause))
+                raise VenCException(messages.possible_malformed_entry.format(filename, cause), context=filename)
         else:
             cause = messages.missing_separator_in_entry.format("---VENC-BEGIN-PREVIEW---")
-            die(messages.possible_malformed_entry.format(filename, cause))
+            raise VenCException(messages.possible_malformed_entry.format(filename, cause), context=filename)
         
         # Setting up optional metadata
         for key in metadata.keys():
