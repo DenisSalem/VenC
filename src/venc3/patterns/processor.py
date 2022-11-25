@@ -197,6 +197,10 @@ class PatternTree:
             o = self.string.find(sub_pattern.ID)
             sub_pattern.c += o - sub_pattern.o
             sub_pattern.o = o
+            
+        # markup syntax might also change order of patterns in string
+        # so it has to be reordered.
+        self.sub_patterns = sorted(self.sub_patterns, key = lambda x: x.o)
 
 class Processor:
     def __init__(self):

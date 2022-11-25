@@ -7,6 +7,8 @@
 
 # version 3.1.x
     WIP  | Replace as much as possible usage of list with tuple.
+    WIP  | Add relevant templates for themes.
+    WIP  | Client-side search engine.
     TODO | Override theme config override.
     TODO | venc -xb should also work in subdirectories
     TODO | Replace aside element by nav
@@ -52,9 +54,9 @@
     TODO | Automatically import messages when importing die and notify.
     TODO | Add command to export only extra folder.
     TODO | GetEntryContent, GetEntryPreview and Get
-    WIP  | Add relevant templates for themes.
-    WIP  | Client-side search engine.
-
+    TODO | Isolate Entry metadata so Entry getters cannot grab non str object.
+    TODO | Do not trigger process_markup_language / pattern_processor if not necessary (if content or preview or both)
+    
 # version 3.0.0
     DONE | Prevent infinite loop in needles replacement.
     DONE | Fix typos in doc

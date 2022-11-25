@@ -651,10 +651,15 @@ class DataStore:
         return self.get_blog_metadata_if_exists(node, field_name, if_true, if_false, ok_if_null=False)
 
     def get_entry_metadata(self, node, metadata_name):
+        if "preview" in node.payload:
+            print(node.payload)
+            print(node.sub_patterns)
+            
         try:
             return str(getattr(self.requested_entry, metadata_name))
             
         except AttributeError:
+            print("!!!!", node.payload)
             raise VenCException(
                 messages.entry_has_no_metadata_like.format(matadata_name),
                 node

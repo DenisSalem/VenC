@@ -81,11 +81,11 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
             else:
                 markup_language = default_markup_language
 
-            pattern_processor.process(entry.content, pattern_processor_match)
             process_markup_language(entry.content, markup_language, entry)
-                    
-            pattern_processor.process(entry.preview, pattern_processor_match)
             process_markup_language(entry.preview, markup_language, entry)
+                
+            pattern_processor.process(entry.content, pattern_processor_match)
+            pattern_processor.process(entry.preview, pattern_processor_match)                   
                 
             entry.html_wrapper = deepcopy(theme.entry)
             pattern_processor.process(entry.html_wrapper, pattern_processor_match)
