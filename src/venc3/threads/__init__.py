@@ -236,7 +236,7 @@ class Thread:
         
     def get_entry_preview(self, node):
         preview = deepcopy(self.current_entry.preview)
-        self.processor.process(content, Pattern.FLAG_CONTEXTUAL)
+        self.processor.process(preview, Pattern.FLAG_CONTEXTUAL)
         return preview.string
       
     def preview_if_in_thread_else_content(self, node):

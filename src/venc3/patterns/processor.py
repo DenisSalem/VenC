@@ -213,7 +213,11 @@ class Processor:
             
         pattern_name, *args = pattern.payload
         if (pattern.flags & (flags ^ Pattern.FLAG_NON_PARALLELIZABLE)) and ((flags & Pattern.FLAG_NON_PARALLELIZABLE) or (not(pattern.flags & Pattern.FLAG_NON_PARALLELIZABLE))):
-            chunk = self.functions[pattern_name](pattern, *args)
+            try:
+                chunk = self.functions[pattern_name](pattern, *args)
+            except Exception as e:
+                print(pattern.root.context)
+                raise e
             len_chunk = len(chunk)
             if type(parent) == Pattern:
                 if payload_offset[1] != pattern.payload_index:
