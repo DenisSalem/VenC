@@ -37,7 +37,8 @@ class VenCException(Exception):
 
             if type(self.context) == Pattern:
                 context_name = self.context.root.context
-                
+                self.flatten(highlight=self.context)
+                print(self.extra, self.context)
             elif type(self.context) == str:
                 context_name = self.context
                 
@@ -72,6 +73,7 @@ class VenCException(Exception):
             return True
             
         return False
+        
 class MalformedPatterns(VenCException):
     def __init__(self, string_under_processing, op, cp):
         len_op = len(op)
@@ -102,7 +104,6 @@ class VenCSyntaxError(VenCException):
         super().__init__(messages.syntax_error, string_under_processing)
         self.extra = string_under_processing.string
         self.extra = self.extra[:o]+'\033[91m'+self.extra[o:c]+'\033[0m'+self.extra[c:]
-        self.flatten(highlight_pattern=pattern)
                     
 # TODO : Find a way to not raise exception if pattern is embed in Escape
 class UnknownPattern(VenCException):
@@ -110,4 +111,3 @@ class UnknownPattern(VenCException):
         from venc3.l10n import messages
         super().__init__(messages.unknown_pattern.format(pattern.payload[0]), string_under_processing)
         self.extra = string_under_processing.string
-        self.flatten(highlight=pattern)

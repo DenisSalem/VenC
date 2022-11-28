@@ -112,10 +112,10 @@ def include_file(node, filename, *argv, raise_error=True):
             return ""
             
         raise VenCException(
-            node.ID+' '+ str(node.payload) + str(node.parent.payload) +'\n' + '\n'.join(
+            ".:"+("::".join(node.payload))+":.\n" + '\n'.join(
                 (messages.file_not_found.format(path) for path in paths)
             ),
-            node, 
+            node,
             node.root.string
         )
                 
