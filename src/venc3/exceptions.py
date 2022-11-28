@@ -36,7 +36,7 @@ class VenCException(Exception):
             from venc3.l10n import messages
 
             if type(self.context) == Pattern:
-                context_name == self.context.root.context
+                context_name = self.context.root.context
                 
             elif type(self.context) == str:
                 context_name = self.context
