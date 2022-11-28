@@ -656,7 +656,7 @@ class DataStore:
             
         except AttributeError:
             raise VenCException(
-                messages.entry_has_no_metadata_like.format(matadata_name),
+                messages.entry_has_no_metadata_like.format(metadata_name),
                 node
             )
             
