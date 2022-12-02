@@ -61,6 +61,11 @@ class Parallelism:
                 Thread(target=dispatcher, args=(i, self.processes[-1], sub_chunk_len, send_in, recv_out))
             )
     
+    def kill(self):
+        for i in range(0, self.n):
+            self.processes[i].kill()
+            self.threads[i].join()
+
     def join(self):
         for i in range(0, self.n):
             self.processes[i].join()

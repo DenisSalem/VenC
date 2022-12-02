@@ -37,15 +37,13 @@ class MinimalEntry:
         for key in data.keys():
             setattr(self, key, data["key"])
 
-def new_entry(argv):
-    if len(argv) < 1:
-        die(messages.missing_params.format("--new-entry"))
-        
+def new_entry(entry_name, template_name=""):        
     blog_configuration = get_blog_configuration()            
-    content =   {"authors":	"",
-		"tags":		"",
-		"categories":	"",
-                "title":argv[0]}
+    content =   {
+        "authors":	"",
+		    "tags":		"",
+		    "categories":	"",
+        "title":entry_name}
 
     try:
         wd = os.listdir(os.getcwd())
@@ -63,7 +61,7 @@ def new_entry(argv):
     except ValueError:
         entry["ID"] = 1
 
-    entry["title"] = argv[0]
+    entry["title"] = entry_name
     entry["month"] = raw_entry_date.month
     entry["year"] = raw_entry_date.year
     entry["day"] = raw_entry_date.day
@@ -75,18 +73,18 @@ def new_entry(argv):
     output_filename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entry_date+"__"+entry["title"].replace(' ','_')
 
     stream = codecs.open(output_filename, 'w', encoding="utf-8")
-    if len(argv) == 1:
+    if not len(template_name):
         output = yaml.dump(content, default_flow_style=False, allow_unicode=True) + "---VENC-BEGIN-PREVIEW---\n---VENC-END-PREVIEW---\n"
    
     else:
         found_template = False
         templates_paths = [
-            os.getcwd()+'/templates/'+argv[1],
-            os.path.expanduser("~/.local/share/VenC/themes_templates/"+argv[1])
+            os.getcwd()+'/templates/'+template_name,
+            os.path.expanduser("~/.local/share/VenC/themes_templates/"+template_name)
         ]
         for template_path in templates_paths:
             try:
-                output = open(template_path, 'r').read().replace(".:GetEntryTitle:.", argv[0])
+                output = open(template_path, 'r').read().replace(".:GetEntryTitle:.", entry_name)
                 found_template = True
                 break
                 

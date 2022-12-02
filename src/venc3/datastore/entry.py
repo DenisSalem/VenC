@@ -51,12 +51,8 @@ class Entry:
         if len(entry_parted) == 2:
             entry_parted = [entry_parted[0]] + entry_parted[1].split("---VENC-END-PREVIEW---\n")
             if len(entry_parted) == 3:
-                try:
-                    self.preview = PatternTree(entry_parted[1], filename)
-                    self.content = PatternTree(entry_parted[2], filename)
-
-                except VenCException as e:
-                    e.die()
+                self.preview = PatternTree(entry_parted[1], filename)
+                self.content = PatternTree(entry_parted[2], filename)
                     
                 try:
                     metadata = yaml.load(entry_parted[0], Loader=yaml.FullLoader)

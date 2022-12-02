@@ -148,7 +148,11 @@ class DataStore:
                         self.blog_configuration["path"],
                         self.path_encoding
                     ))
+                    
         except VenCException as e:
+            if self.workers_count > 1:
+                parallelism.kill()
+                
             e.die()
 
         self.entries = sorted(self.entries, key = lambda entry : self.sort(entry))
