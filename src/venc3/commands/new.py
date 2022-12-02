@@ -114,8 +114,8 @@ def new_entry(entry_name, template_name=""):
 
     notify(messages.entry_written)
 
-def new_blog(argv):
-    if len(argv) < 1:
+def new_blog(*blog_names):
+    if len(blog_names) < 1:
         die(messages.missing_params.format("--new-blog"))
 
     default_configuration =	{
@@ -166,7 +166,7 @@ def new_blog(argv):
         "enable_jsonp":					False,
         "parallel_processing": 1
     }
-    for folder_name in argv:
+    for folder_name in blog_names:
         try:
             os.mkdir(folder_name)
 
@@ -182,4 +182,4 @@ def new_blog(argv):
         stream = codecs.open(folder_name+'/'+'blog_configuration.yaml', 'w',encoding="utf-8")
         yaml.dump(default_configuration, stream, default_flow_style=False, allow_unicode=True)
 
-    notify(messages.blog_created)
+        notify(messages.blog_created)
