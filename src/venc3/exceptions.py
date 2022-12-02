@@ -38,12 +38,14 @@ class VenCException(Exception):
             if type(self.context) == Pattern:
                 context_name = self.context.root.context
                 self.flatten(highlight=self.context)
-                print(self.extra, self.context)
+                
             elif type(self.context) == str:
                 context_name = self.context
                 
             else:
                 context_name = self.context.context
+                self.flatten(highlight=self.context)
+
                 
             notify(messages.in_.format(context_name), color="RED")
             
@@ -109,5 +111,5 @@ class VenCSyntaxError(VenCException):
 class UnknownPattern(VenCException):
     def __init__(self, pattern, string_under_processing):
         from venc3.l10n import messages
-        super().__init__(messages.unknown_pattern.format(pattern.payload[0]), string_under_processing)
+        super().__init__(messages.unknown_pattern.format(pattern.payload[0]), pattern)
         self.extra = string_under_processing.string
