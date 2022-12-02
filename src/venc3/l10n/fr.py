@@ -50,7 +50,7 @@ class Messages:
     export_single_entries="Exportation locale des publications individuelles..."
     export_archives="Exportation locale des publications groupées par dates..."
     export_main_thread="Exportation locale du fil de publications principal."
-    export_main_rhread_rss="Exportation locale du flux RSS du fil de publications principal."
+    export_main_thread_rss="Exportation locale du flux RSS du fil de publications principal."
     export_categories="Exportation locale des publications groupées par categories..."
     export_chapters="Exportation locale des chapitres..."
     export_categories_rss="Exportation locale du flux RSS du fil de publications de la categorie '{0}'."

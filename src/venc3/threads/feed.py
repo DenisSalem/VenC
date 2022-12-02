@@ -22,8 +22,8 @@ from venc3.prompt import notify
 from venc3.l10n import messages
 
 class FeedThread(Thread):
-    def __init__(self, feed_type):
-        super().__init__('FEED_THREAD_PLACE_HOLDER')
+    def __init__(self, feed_type, prompt, indentation_type):
+        super().__init__(prompt+"─ "+getattr(messages, "generating_"+feed_type), indentation_type)
         self.footer = getattr(self.theme, feed_type+"_footer")
         self.header = getattr(self.theme, feed_type+"_header")
         self.entry = getattr(self.theme, feed_type+"_entry")
@@ -32,14 +32,12 @@ class FeedThread(Thread):
         self.column_opening = ''
         self.column_closing = ''
         self.columns_number = 1
-        
         self.filename = self.datastore.blog_configuration["path"][feed_type+"_file_name"]
         self.entries_per_page = self.datastore.blog_configuration["feed_lenght"]
         self.in_thread = True
         self.content_type = feed_type
 
-    def do(self, entries, export_path, relative_origin, indentation_level, tree_special_char):
-        notify(indentation_level+tree_special_char+"─ "+getattr(messages, "generating_"+self.content_type))
+    def do(self, entries, export_path, relative_origin):
         self.export_path = export_path
         self.relative_origin = relative_origin
         self.organize_entries(entries)

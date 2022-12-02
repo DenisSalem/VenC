@@ -61,10 +61,10 @@ class MainThread(Thread):
             from venc3.threads.feed import FeedThread
         
         if not disable_atom_feed:
-            FeedThread("atom").do(entries, self.export_path, self.relative_origin, "│  ", '└' if disable_atom_feed and not self.datastore.enable_jsonld else '├')
+            FeedThread("atom", '└' if disable_rss_feed and not self.enable_jsonld else '├', "│  ").do(entries, self.export_path, self.relative_origin )
             
         if not disable_rss_feed:
-            FeedThread("rss").do(entries, self.export_path, self.relative_origin, "│  ", '└' if not self.datastore.enable_jsonld else '├')
+            FeedThread("rss", '└' if not self.enable_jsonld else '├', "│  ").do(entries, self.export_path, self.relative_origin)
  
     def do_jsonld(self):
         if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
@@ -89,7 +89,7 @@ class MainThread(Thread):
     def do(self):
         super().do()
         self.do_feeds()
-        self.do_jsonld()   
+        self.do_jsonld()
 
     def get_JSONLD(self, node):
         if self.current_page == 0 and self.datastore.enable_jsonld:

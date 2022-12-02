@@ -819,7 +819,7 @@ class DataStore:
             
         return self.root_page
 
-    def build_html_categories_tree(self, node, opening_node, opening_branch, closing_branch, closing_node, tree):
+    def build_html_categories_tree(self, pattern, opening_node, opening_branch, closing_branch, closing_node, tree):
         output_string = opening_node
         for node in sorted(tree, key = lambda x : x.value):
             if node.value in self.disable_threads:
@@ -837,6 +837,7 @@ class DataStore:
 
             else:
                 output_string += opening_branch.format(**variables) + self.build_html_categories_tree(
+                    pattern,
                     opening_node,
                     opening_branch,
                     closing_branch,

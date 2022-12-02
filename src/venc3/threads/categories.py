@@ -38,31 +38,25 @@ class CategoriesThread(Thread):
 
         self.disable_rss_feed = self.datastore.blog_configuration["disable_rss_feed"]
         self.disable_atom_feed = self.datastore.blog_configuration["disable_atom_feed"]
-        
-        if (not self.disable_rss_feed) or (not self.disable_atom_feed):
-            from venc3.threads.feed import FeedThread
-        
-        if not self.disable_rss_feed:
-            self.rss_feed = FeedThread("rss")
-        
-        if not self.disable_atom_feed:
-            self.atom_feed = FeedThread("atom")
  
     def if_in_categories(self, node, string1, string2=''):
         return string1.strip()
 
-    def do_feeds(self, entries, node, tree_special_char):
+    def do_feeds(self, entries, node, indentation_type):
         entries = sorted(entries, key = lambda entry : entry.id, reverse=True)[0:self.datastore.blog_configuration["feed_lenght"]]
+
+        if (not self.disable_rss_feed) or (not self.disable_atom_feed):
+            from venc3.threads.feed import FeedThread
+              
         if not self.disable_rss_feed:
-            self.rss_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', ' ├' if not self.disable_atom_feed or self.datastore.enable_jsonld or len(node.childs) else ' └')
+            FeedThread("rss", '├' if not self.disable_atom_feed or self.enable_jsonld or len(node.childs) else '└', self.indentation_level+indentation_type).do(entries, self.export_path, self.relative_origin)
     
         if not self.disable_atom_feed:
-            self.atom_feed.do(entries, self.export_path, self.relative_origin,self.indentation_level+tree_special_char+' ', ' ├' if len(node.childs) or self.datastore.enable_jsonld else ' └')
+            FeedThread("atom", '├' if len(node.childs) or self.enable_jsonld else '└', self.indentation_level+indentation_type).do(entries, self.export_path, self.relative_origin)
             
-    def do_jsonld(self, node, tree_special_char):
+    def do_jsonld(self, node, indentation_type):
         from venc3.l10n import messages
         import json
-        notify(self.indentation_level+tree_special_char+' '+ (' ├─ ' if len(node.childs) else ' └─ ')+messages.generating_jsonld_doc)
         blog_url = self.datastore.blog_configuration["blog_url"]
         category_as_jsonld = self.datastore.categories_as_jsonld[self.category_value]
         position = 2
@@ -82,8 +76,10 @@ class CategoriesThread(Thread):
         category_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+self.category_value+"categories.jsonld"
         category_as_jsonld["url"] = blog_url+'/'+self.sub_folders+self.category_value
         dump = json.dumps(category_as_jsonld)
-        f = open((self.export_path+"categories.jsonld"), 'w')
-        f.write(dump)
+        if self.datastore.enable_jsonld:
+            notify(self.indentation_level+indentation_type+ ('├─ ' if len(node.childs) or self.datastore.enable_jsonp else '└─ ')+messages.generating_jsonld_doc)
+            f = open(self.export_path+"categories.jsonld", 'w')
+            f.write(dump)
 
     def setup_category_context(self, i, root, len_root):
         node = root[i]
@@ -102,7 +98,7 @@ class CategoriesThread(Thread):
                 
         else:
             tree_special_char = '├'
-                
+        
         notify(self.indentation_level+tree_special_char+"─ "+node.value+"...")
 
         export_path = self.export_path
@@ -133,13 +129,13 @@ class CategoriesThread(Thread):
             entries = [self.datastore.entries[entry_index] for entry_index in node.related_to]
             self.organize_entries( entries[::-1] if self.datastore.blog_configuration["reverse_thread_order"] else entries )
             super().do()
-            tree_special_char = ' ' if i == len_root-1 else '│'
-            self.do_feeds(entries, node, tree_special_char)
+            indentation_type = "   " if len_root - 1  == i else "│  "
+            self.do_feeds(entries, node, indentation_type)
             if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
-                self.do_jsonld(node, tree_special_char)
+                self.do_jsonld(node, indentation_type)
             
             # jump to branchs
-            self.indentation_level += "   " if len_root - 1 == i else "│  "
+            self.indentation_level += indentation_type
             self.do(root=node.childs)
             
             # Restore states

@@ -42,7 +42,7 @@ def undefined_variable(match):
     )
 
 class Thread:
-    def __init__(self, prompt):
+    def __init__(self, prompt, indentation_type = "├─ "):
         from venc3.patterns.contextual import get_random_number
         from venc3.datastore import datastore
         from venc3.datastore.theme import theme
@@ -54,11 +54,10 @@ class Thread:
         self.indentation_level = "│  "
         self.patterns_map = patterns_map
         self.datastore = datastore
-        self.enable_jsonld = datastore.blog_configuration["enable_jsonld"]
+        self.enable_jsonld = datastore.blog_configuration["enable_jsonld"] or datastore.blog_configuration["enable_jsonp"]
         self.path_encoding = datastore.blog_configuration["path_encoding"]
-        
         # Notify wich thread is processed
-        notify("├─ "+prompt)
+        notify(indentation_type+prompt)
 
         self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])
         self.disable_threads = datastore.disable_threads
