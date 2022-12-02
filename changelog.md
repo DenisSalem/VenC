@@ -88,7 +88,6 @@
     DONE | Disable parallel processing if not available.
     WIP  | Generate entry inner table of content.
     TODO | (regression) handle missing or too much argument.
-    TODO | (regression) Exception handling is still fucked up when parallism is enabled.
     TODO | Add ForDictMetadata
     TODO | Update doc accordingly.
     TODO | document display_title_in_threads and display_title_in_entry tessellation theme.

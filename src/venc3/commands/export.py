@@ -124,6 +124,7 @@ def process_non_contextual_patterns():
             parallelism.join()
             
         except VenCException as e:
+            parallelism.kill()
             e.die()
 
     if not datastore.blog_configuration["disable_chapters"]:
