@@ -75,13 +75,13 @@ def process_non_parallelizables(datastore, patterns_map, thread_params):
             if entry.content.has_non_parallelizables:
                 pattern_processor.process(entry.content, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
             
-            if entry.html_wrapper.processed_string.has_non_parallelizables:
+            if entry.html_wrapper.has_non_parallelizables:
                 pattern_processor.process(entry.html_wrapper.processed_string, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
                 
-            if entry.rss_wrapper.processed_string.has_non_parallelizables:
+            if entry.rss_wrapper.has_non_parallelizables:
                 pattern_processor.process(entry.rss_wrapper.processed_string, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
                 
-            if entry.atom_wrapper.processed_string.has_non_parallelizables:
+            if entry.atom_wrapper.has_non_parallelizables:
                 pattern_processor.process(entry.atom_wrapper.processed_string, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
                     
 def process_non_contextual_patterns():

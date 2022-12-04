@@ -4,48 +4,40 @@
     TODO | Add Incremental blog update.
     TODO | Add support for sub-sites within main site.
     TODO | Add support for single pages.
-
+    TODO | Add folder for blog_configuration, with multiple configuration file (for splitting the actual one).
+    TODO | Automatically merge all known entry authors into blog authors.
+    
 # version 3.1.x
     WIP  | Replace as much as possible usage of list with tuple.
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
     TODO | Override theme config override.
     TODO | venc -xb should also work in subdirectories
-    TODO | Replace aside element by nav
     TODO | Improve context / ressource naming for error management
-    TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
     TODO | SetBackgroundColor for text
     TODO | Include threads preview in entry
     TODO | Add command for reorder entries by criteria
-    TODO | Use built in list in yaml instead to turn str to list.
     TODO | Allow markdown2 setup.
     TODO | Add --insert-chapter command.
-    TODO | Warn about metadata that should be list but are str.
-    TODO | Add folder for blog_configuration, with multiple configuration file (for splitting the actual one).
-    TODO | Automatically merge all known entry authors into blog authors.
     TODO | Force preview / full content in thread, for single entry.
     TODO | If previous theme empty, juste remove it.
     TODO | Add plural form at the end of blog creation if multiple blog has been made.
-    TODO | Fix gvim / -ex.
     TODO | Fix encoding issue in JSON-LD document.
     TODO | Catch invalid encoding at startup. (???)
     TODO | Create entry with default template, if defined.
     TODO | Split themes from main branch.
     TODO | Add translation for Deutsch and Spanish.
-    TODO | Add ForMetadata, ForMetadataIfExists.
     TODO | Add docutils reStructuredText parser settings override.
     TODO | Decrease halt_level to render reStructuredText even if errors occurs.
     TODO | Access {count} and {weight} from LeavesForEntrycategories.
     TODO | Add Yaml comments in blog configuration.
-    TODO | Warn about entry title duplicates.
     TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add configuration field type check.
     TODO | Optimize modules importation.
-    TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Add more informations into JSON-LD document.
     TODO | Optimize and refine JSON-LD processing.
     TODO | Embed as much as possible microdata/JSON-LD into blog.
-    TODO | Improve sub folder management in Entry and EntriesThread.
+    TODO | Improve sub folder management in Entry and EntriesThread. (???)
     TODO | Optimize objects dereferencing.
     TODO | Add draft support.
     TODO | Enhance FTP transfert with multiple connections.
@@ -55,7 +47,6 @@
     TODO | Add command to export only extra folder.
     TODO | GetEntryContent, GetEntryPreview and Get
     TODO | Isolate Entry metadata so Entry getters cannot grab non str object.
-    TODO | Do not trigger process_markup_language / pattern_processor if not necessary (if content or preview or both)
     
 # version 3.0.0
     DONE | Prevent infinite loop in needles replacement.
@@ -86,11 +77,20 @@
     DONE | Remove EntryWrapper, all replaced with brand new Pattern Processor!
     DONE | provide context to every VenCException.
     DONE | Disable parallel processing if not available.
+    DONE | document display_title_in_threads and display_title_in_entry tessellation theme.
     WIP  | Generate entry inner table of content.
     TODO | (regression) handle missing or too much argument.
     TODO | Add ForDictMetadata
+    TODO | Add ForMetadata, ForMetadataIfExists.
     TODO | Update doc accordingly.
-    TODO | document display_title_in_threads and display_title_in_entry tessellation theme.
+    TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
+    TODO | Fix gvim / -ex.
+    TODO | Warn about entry title duplicates.
+    TODO | Do not trigger process_markup_language / pattern_processor if not necessary (if content or preview or both)
+    TODO | Concatenate user defined blog keywords with entries keywords.
+    TODO | Warn about metadata that should be list but are str.
+    TODO | Replace aside element by nav
+    TODO | Use built in list in yaml instead to turn str to list.
 
 # version 2.0.2
     DONE | Fix for_entry_metadata; catching unavailable contextual pattern.

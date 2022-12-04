@@ -42,3 +42,7 @@ L'image doit être localisée à la racine du blog.
 - __override&#95;theme&#95;css&#95;with__ : nom d'un fichier css à placer dans __extra/__ (il sera automatiquement exporté à
 la racine de votre blog). Si cette variable est définie, le fichier ainsi référencé sera utilisé comme style CSS
 en plus de l'existant.
+- __display&#95;title&#95;in&#95;entry__ : Vous pouvez utiliser cette variable booléenne pour indiquer à VenC d'afficher le titre de la publication dans la page individuel de celle-ci.
+Cette variable peut-être global (utilisé dans blog_configuration.yaml) ou local (dans la partie Yaml du fichier source de votre publication).
+- __display&#95;title&#95;in&#95;threads__ : Vous pouvez utiliser cette variable booléenne pour indiquer à VenC d'afficher le titre de la publication dans les fils de publications.
+Cette variable peut-être global (utilisé dans blog_configuration.yaml) ou local (dans la partie Yaml du fichier source de votre publication).
