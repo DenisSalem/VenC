@@ -18,9 +18,10 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 class Messages:
-    blog_created = "Votre blog a été créé!"
-    theme_installed = "Le thème a bien été installé!"
-    entry_written = "La publication a bien été ajouté!"
+    blog_created = "Votre blog a été créé !"
+    blogs_created = "Vos blogs ont été crée !"
+    theme_installed = "Le thème a bien été installé !"
+    entry_written = "La publication a bien été ajouté !"
     file_not_found = "{0} : Ce fichier ou ce dossier n'existe pas."
     file_already_exists = "{0} : {1}: Le fichier existe déjà."
     invalid_entry_filename = "{0} : Nom de fichier invalide pour une publication"

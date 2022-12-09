@@ -21,7 +21,6 @@
     TODO | Add --insert-chapter command.
     TODO | Force preview / full content in thread, for single entry.
     TODO | If previous theme empty, juste remove it.
-    TODO | Add plural form at the end of blog creation if multiple blog has been made.
     TODO | Fix encoding issue in JSON-LD document.
     TODO | Catch invalid encoding at startup. (???)
     TODO | Create entry with default template, if defined.
@@ -78,6 +77,7 @@
     DONE | provide context to every VenCException.
     DONE | Disable parallel processing if not available.
     DONE | document display_title_in_threads and display_title_in_entry tessellation theme.
+    DONE | Add plural form at the end of blog creation if multiple blog has been made.
     WIP  | Generate entry inner table of content.
     TODO | (regression) handle missing or too much argument.
     TODO | Add ForDictMetadata

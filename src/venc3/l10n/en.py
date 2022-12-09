@@ -20,6 +20,7 @@
 class Messages:
     cannot_get_current_locale = "Cannot get current locale. Language set to english."
     blog_created = "Your blog has been created!"
+    blogs_created = "Your blogs have been created!"
     theme_installed = "Theme has been installed!"
     entry_written = "Entry has been saved!"
     file_not_found = "{0}: This file or directory does not exists."
