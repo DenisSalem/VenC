@@ -81,8 +81,11 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
             else:
                 markup_language = default_markup_language
 
-            process_markup_language(entry.content, markup_language, entry)
-            process_markup_language(entry.preview, markup_language, entry)
+            if theme.enable_entry_content:
+                process_markup_language(entry.content, markup_language, entry)
+                
+            if theme.enable_entry_preview:
+                process_markup_language(entry.preview, markup_language, entry)
                 
             pattern_processor.process(entry.content, pattern_processor_match)
             pattern_processor.process(entry.preview, pattern_processor_match)                   

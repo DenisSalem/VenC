@@ -34,8 +34,15 @@ class Theme:
             self.atom_header = PatternTree(open(theme_folder+"chunks/atomHeader.xml",'r').read(), "atomHeader.html")
             self.atom_footer = PatternTree(open(theme_folder+"chunks/atomFooter.xml",'r').read(), "atomFooter.html")
 
-            # ~ from venc3.datastore.entry import EntryWrapper
             self.entry = PatternTree(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
+            
+            for pattern in self.entry.sub_patterns:
+                self.enable_entry_content = True if pattern.payload[0] == "GetEntryContent" else False
+                self.enable_entry_preview = True if pattern.payload[0] == "GetEntryPreview" else False
+                if "PreviewIfInThreadElseContent" == pattern.payload[0]:
+                    self.enable_entry_content = True
+                    self.enable_entry_preview = True
+            
             self.rss_entry = PatternTree(open(theme_folder+"chunks/rssEntry.xml",'r').read(),"rssEntry.xml")
             self.atom_entry = PatternTree(open(theme_folder+"chunks/atomEntry.xml",'r').read(),"atomEntry.xml")
             
