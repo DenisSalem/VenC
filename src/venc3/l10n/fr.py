@@ -56,7 +56,7 @@ class Messages:
     export_chapters="Exportation locale des chapitres..."
     export_categories_rss="Exportation locale du flux RSS du fil de publications de la categorie '{0}'."
     recursive_for_unknown_value="RecursiveFor: La valeur {0} n'existe pas."
-    not_enough_args="Paramétres manquants (attendus {0}, reçus {1})."
+    wrong_args_number="Mauvais nombre d'arguments : attendus {0}, reçus {1}."
     unknown_pattern="Le motif '{0}' n'existe pas."
     unknown_contextual="La variable contextuel {0} n'existe pas ou n'est pas disponible ici."
     arg_blog_name="Nom du blog {0}"

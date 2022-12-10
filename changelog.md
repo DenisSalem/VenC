@@ -46,6 +46,7 @@
     TODO | Add command to export only extra folder.
     TODO | GetEntryContent, GetEntryPreview and Get
     TODO | Isolate Entry metadata so Entry getters cannot grab non str object.
+    TODO | Get input bytes and output bytes so not only we know the times but also the bandwidth
     
 # version 3.0.0
     DONE | Prevent infinite loop in needles replacement.
@@ -78,19 +79,18 @@
     DONE | Disable parallel processing if not available.
     DONE | document display_title_in_threads and display_title_in_entry tessellation theme.
     DONE | Add plural form at the end of blog creation if multiple blog has been made.
+    DONE | (regression) handle missing or too much argument.
     WIP  | Generate entry inner table of content.
-    TODO | (regression) handle missing or too much argument.
     TODO | Add ForDictMetadata
     TODO | Add ForMetadata, ForMetadataIfExists.
-    TODO | Update doc accordingly.
     TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
     TODO | Fix gvim / -ex.
     TODO | Warn about entry title duplicates.
     TODO | Do not trigger process_markup_language / pattern_processor if not necessary (if content or preview or both)
     TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Warn about metadata that should be list but are str.
-    TODO | Replace aside element by nav
     TODO | Use built in list in yaml instead to turn str to list.
+    TODO | Update doc accordingly.
 
 # version 2.0.2
     DONE | Fix for_entry_metadata; catching unavailable contextual pattern.

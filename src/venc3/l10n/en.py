@@ -58,7 +58,7 @@ class Messages:
     export_categoriesRss="Exporting local entries RSS feed thread from category '{0}'."
     for_unknown_value="For: Value {0} isn't defined."
     recursive_for_unknown_value="RecursiveFor: Value {0} isn't defined."
-    not_enough_args="Missing arguments (expected {0}, got {1})."
+    wrong_args_number="Wrong arguments number : expected {0}, got {1}."
     unknown_pattern="The pattern '{0}'doesn't exists."
     unknown_contextual="Contextual variable {0} doesn't exists or is not available here."
     arg_blog_name="Blog name {0}"

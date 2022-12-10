@@ -66,8 +66,8 @@ class VenCException(Exception):
             len_before = len(patterns)
             
         if highlight:
-            target = ".:"+highlight.payload[0]+":"
-            self.extra = self.extra.replace(target, '\033[91m' + target + '\033[0m')
+            faulty_pattern =  ".:"+("::".join(highlight.payload))+":."
+            self.extra = self.extra.replace(faulty_pattern, '\033[91m' + faulty_pattern + '\033[0m')
             
     def __apply_flatten(self, pattern):
         if self.extra.find(pattern.ID) > 0:
@@ -113,3 +113,16 @@ class UnknownPattern(VenCException):
         from venc3.l10n import messages
         super().__init__(messages.unknown_pattern.format(pattern.payload[0]), pattern)
         self.extra = string_under_processing.string
+
+class WrongPatternArgumentsNumber(VenCException):
+      def __init__(self, pattern, string_under_processing, function, args):
+        from inspect import signature
+        from venc3.l10n import messages
+        sig = signature(function)
+        super().__init__(
+            messages.wrong_args_number.format(len(sig.parameters)-1, len(args)),
+            pattern
+        )
+        self.extra = string_under_processing.string
+
+    

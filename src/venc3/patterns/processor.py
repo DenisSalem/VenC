@@ -213,8 +213,15 @@ class Processor:
             
         pattern_name, *args = pattern.payload
         if (pattern.flags & (flags ^ Pattern.FLAG_NON_PARALLELIZABLE)) and ((flags & Pattern.FLAG_NON_PARALLELIZABLE) or (not(pattern.flags & Pattern.FLAG_NON_PARALLELIZABLE))):
-            chunk = self.functions[pattern_name](pattern, *args)
+            try:
+                chunk = self.functions[pattern_name](pattern, *args)
+                
+            except TypeError as e:
+                from venc3.exceptions import WrongPatternArgumentsNumber
+                raise WrongPatternArgumentsNumber(pattern, pattern.root, self.functions[pattern_name], args)
+            
             len_chunk = len(chunk)
+            
             if type(parent) == Pattern:
                 if payload_offset[1] != pattern.payload_index:
                     payload_offset[0] = 0
