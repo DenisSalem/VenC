@@ -40,9 +40,14 @@ from venc3.l10n import messages
 from venc3.exceptions import MalformedPatterns, VenCException
 from venc3.patterns.non_contextual import get_embed_content
 
-def merge(iterable, string, separator):
-    return separator.join([string.format(**something) for something in iterable])
+def merge(iterable, string, separator, node):
+    try:
+        return separator.join([string.format(**something) for something in iterable])
     
+    except KeyError as e:
+        from venc3.l10n import messages
+        raise VenCException(messages.unknown_contextual.format(str(e)), node)
+        
 class DataStore:
     def __init__(self):
         self.in_child_process = False
@@ -84,6 +89,7 @@ class DataStore:
         self.html_categories_tree = {}
         self.html_categories_leaves = {}
         self.html_blog_archives = {}
+        self.html_for_metadata = {}
         self.cache_get_entry_attribute_by_id = {}
         self.cache_get_chapter_attribute_by_index = {}
         self.generation_timestamp = datetime.datetime.now()
@@ -801,18 +807,6 @@ class DataStore:
     def get_author_email(self, node):
         return self.blog_configuration["author_email"]
 
-    def for_blog_archives(self, node, string, separator):
-        key = string+separator
-        if not key in self.html_blog_archives.keys():
-            if self.blog_configuration["disable_archives"]:
-                self.html_blog_archives[key] = ''
-
-            else:
-                archives = [o for o in self.blog_archives if o["value"] not in self.disable_threads]
-                self.html_blog_archives[key] = merge(archives, string, separator)
-
-        return self.html_blog_archives[key]
-
     def get_root_page(self, node):
         if self.root_page == None:
             self.root_page =  "\x1a"+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
@@ -923,7 +917,44 @@ class DataStore:
             output += argv[2].replace("[index]}", '['+str(i)+']}').format(**entry.raw_metadata)
         
         return output
-    
+
+    def for_blog_archives(self, node, string, separator):
+        key = string+','+separator
+        if not key in self.html_blog_archives.keys():
+            if self.blog_configuration["disable_archives"]:
+                self.html_blog_archives[key] = ''
+
+            else:
+                archives = [o for o in self.blog_archives if o["value"] not in self.disable_threads]
+                self.html_blog_archives[key] = merge(archives, string, separator, node)
+
+        return self.html_blog_archives[key]
+
+    def for_blog_metadata(self, node, metadata_name, string, separator):
+        return self.for_blog_metadata_if_exists(node, metadata_name, string, separator, raise_exception=True)
+
+    def for_blog_metadata_if_exists(self, node, metadata_name, string, separator, raise_exception=False):
+        key = metadata_name+','+string+','+separator+','+str(raise_exception)
+        if not key in self.html_for_metadata:
+            if not metadata_name in self.blog_configuration.keys():
+                if raise_exception:
+                    from venc3.l10n import messages
+                    raise VenCException(messages. blog_has_no_metadata_like.format(metadata_name), node)
+                    
+                self.html_for_metadata[key] = ""
+                return ""
+                
+            if type(self.blog_configuration[metadata_name]) != list:
+                if raise_exception:
+                    from venc3.l10n import messages
+                    raise VenCException(messages)
+                    
+                self.html_for_metadata[key] = ""
+                
+            self.html_for_metadata[key] = merge([{"value": v} for v in self.blog_configuration[metadata_name]], string, separator, node)
+        
+        return self.html_for_metadata[key]
+
     def for_entry_metadata(self, node, variable_name, string, separator=' '):        
         entry = self.requested_entry
         key = variable_name+string+separator
@@ -965,7 +996,7 @@ class DataStore:
                 entry.html_categories_leaves[key] = ''
 
             else:
-                entry.html_categories_leaves[key] = merge(entry.categories_leaves, string, separator)
+                entry.html_categories_leaves[key] = merge(entry.categories_leaves, string, separator, node)
         
         return entry.html_categories_leaves[key]
 
@@ -986,7 +1017,7 @@ class DataStore:
                         "path" : node.path
                     })
     
-                self.html_categories_leaves[key] = merge(items, string, separator)
+                self.html_categories_leaves[key] = merge(items, string, separator, node)
         
         return self.html_categories_leaves[key]
         

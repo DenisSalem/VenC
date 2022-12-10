@@ -134,20 +134,23 @@ def process_non_contextual_patterns():
         datastore.build_chapter_indexes()      
 
     if datastore.workers_count == 1:
-        worker(
-            0,
-            None,
-            None,
-            (
-                False,
-                datastore,
-                theme,
-                code_highlight,
-                patterns_map,
-                pattern_processor
+        try:
+            worker(
+                0,
+                None,
+                None,
+                (
+                    False,
+                    datastore,
+                    theme,
+                    code_highlight,
+                    patterns_map,
+                    pattern_processor
+                )
             )
-        )
-
+        except VenCException as e:    
+            e.die()
+            
     try:
         if datastore.workers_count > 1:
             process_non_parallelizables(datastore, patterns_map, thread_params)

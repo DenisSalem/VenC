@@ -80,9 +80,10 @@
     DONE | document display_title_in_threads and display_title_in_entry tessellation theme.
     DONE | Add plural form at the end of blog creation if multiple blog has been made.
     DONE | (regression) handle missing or too much argument.
+    DONE | Add ForBlogMetadata, ForBlogMetadataIfExists.
     WIP  | Generate entry inner table of content.
+    TODO | Add ForEntryMetadataIfExists.
     TODO | Add ForDictMetadata
-    TODO | Add ForMetadata, ForMetadataIfExists.
     TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
     TODO | Fix gvim / -ex.
     TODO | Warn about entry title duplicates.

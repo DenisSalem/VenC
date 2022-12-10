@@ -54,6 +54,8 @@ class PatternsMap():
 
     NON_CONTEXTUALS = { # all of the below is loaded from datastore
         "entries" : { 
+            "ForBlogMetadata":            "for_blog_metadata",
+            "ForBlogMetadataIfExists":    "for_blog_metadata_if_exists",
             "ForEntryAuthors":	          "for_entry_authors",
             "ForEntryMetadata":	          "for_entry_metadata",
             #"ForEntryRange":	            "for_entry_range",                  #OE  TODO: NOT FINISHED YET

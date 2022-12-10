@@ -37,6 +37,7 @@ class VenCException(Exception):
 
             if type(self.context) == Pattern:
                 context_name = self.context.root.context
+                self.extra = self.context.root.string
                 self.flatten(highlight=self.context)
                 
             elif type(self.context) == str:
@@ -45,7 +46,6 @@ class VenCException(Exception):
             else:
                 context_name = self.context.context
                 self.flatten(highlight=self.context)
-
                 
             notify(messages.in_.format(context_name), color="RED")
             

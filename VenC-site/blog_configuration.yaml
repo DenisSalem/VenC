@@ -43,4 +43,10 @@ server_port: 8888
 sort_by: 'chapter'
 enable_jsonld: True
 enable_jsonp: True
-parallel_processing: sdsdf
+parallel_processing: 1
+test_de_liste:
+        - qsqsd
+        - qqsdqd
+        - qsdqsd
+        - haha
+        - 42

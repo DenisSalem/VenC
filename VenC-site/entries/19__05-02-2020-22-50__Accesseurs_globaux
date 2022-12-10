@@ -111,6 +111,22 @@ par le nombre maximal de publications par période.
 
 Si la génération des archives est désactivée, le motif est ignoré et supprimé.
 
+## .:Escape:: .:ForBlogMetadata::metadata_name::string::separator:. ::EndEscape:.
+
+Ce motif permet de récupérer la liste identifiée par "metadata_name" est défnit dans le fichier de configuration du blog.
+
+- Le premier argument __metadata_name__ indique le nom de la métadonnée qu'on souhaite récupérer. Si la métadonnée n'existe pas, VenC lève une exception
+- Le second argument __string__ contient le texte à formater pour chaque élément de la liste de période.
+- Le troisième argument __separator__ contient le texte utilisé comme séparateur.
+
+Les variables contextuelles de la fonction sont les suivantes :
+
+- {value} : Correspond à l'item courant de l'iteration.
+
+## .:Escape:: .:ForBlogMetadataIfExists::metadata_name::string::separator:. ::EndEscape:.
+
+Identique à __ForBlogMetadata__ mais retourne une chaine vide, si le nom de métadonnée indiqué n'existe pas.
+
 ## .:Escape:: .:LeavesForBlogCategories::string::separator:. ::EndEscape:. 
 
 Les catégories sont organisées sous la forme d'un arbre. Il est
