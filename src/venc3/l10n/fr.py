@@ -124,3 +124,4 @@ class Messages:
     in_ = "Dans {0} :"
     arg_must_be_an_integer = "L'argument \"{0}\" doit être un nombre entier."
     syntax_error = "Erreur de syntaxe : Un motif ne peut pas commencer par \":.\"."
+    current_entry_is_overriding_the_following = "La publication #{0} écrase les publications suivantes:\n{1}"

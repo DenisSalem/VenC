@@ -153,12 +153,13 @@ def process_non_contextual_patterns():
             process_non_parallelizables(datastore, patterns_map, thread_params)
             pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
         
-        pattern_processor.process(theme.header, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
-        pattern_processor.process(theme.footer, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
-        pattern_processor.process(theme.rss_header, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE) 
-        pattern_processor.process(theme.rss_footer, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
-        pattern_processor.process(theme.atom_header, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE)
-        pattern_processor.process(theme.atom_footer, Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE) 
+        flags = Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE
+        pattern_processor.process(theme.header, flags)
+        pattern_processor.process(theme.footer, flags)
+        pattern_processor.process(theme.rss_header, flags)
+        pattern_processor.process(theme.rss_footer, flags)
+        pattern_processor.process(theme.atom_header, flags)
+        pattern_processor.process(theme.atom_footer, flags)
 
     except VenCException as e:    
         e.die()

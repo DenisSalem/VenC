@@ -40,6 +40,7 @@ class EntriesThread(Thread):
         self.relative_origin = str(''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = False
         self.thread_has_feeds = False
+        self.known_written_path = []
 
     def format_filename(self, value=None): #value ignored
         try:
@@ -130,14 +131,33 @@ class EntriesThread(Thread):
             'entry_id': self.current_entry.id,
             'entry_title': self.current_entry.title
         }))
+        written_path = export_path+'/'+self.format_filename()
         stream = codecs.open(
-            export_path+'/'+self.format_filename(),
+            written_path,
             'w',
             encoding="utf-8"
         )
         stream.write(output)
         stream.close()
         self.current_export_path = export_path
+        if not written_path in [t[2] for t in self.known_written_path]:
+            self.known_written_path.append((
+                self.current_entry.id,
+                self.current_entry.title,
+                written_path
+            ))
+            
+        else:
+            from venc3.l10n import messages
+            from venc3.prompt import die
+            die(
+              messages.current_entry_is_overriding_the_following.format(
+                self.current_entry.id,
+                '\n'.join(
+                    ["\t- #"+str(t[0])+" "+t[1] for t in self.known_written_path if t[2] == written_path]
+                )
+              )
+            )
     
     def do_jsonld(self, entry):
         dump = json.dumps(self.datastore.entries_as_jsonld[self.current_entry.id])

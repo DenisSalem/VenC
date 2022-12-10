@@ -127,3 +127,4 @@ class Messages:
     in_ = "In {0}:"
     arg_must_be_an_integer = "Argument \"{0}\" must be an integer."
     syntax_error = "Syntax error : Pattern cannot start with \":.\"."
+    current_entry_is_overriding_the_following = "Entry #{0} is overriding the following entries:\n{1}"

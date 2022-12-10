@@ -83,12 +83,12 @@
     DONE | (regression) handle missing or too much argument.
     DONE | Add ForBlogMetadata, ForBlogMetadataIfExists.
     DONE | Handling text editor forking, text_editor is now defined as a list of command+args (documented).
+    DONE | Fail if written entry path is duplicates.
 /!\ TODO | (regression) markdown header carrying patterns are fucked up.
     WIP  | Generate entry inner table of content.
     TODO | Add ForEntryMetadataIfExists.
     TODO | Add ForDictMetadata
     TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
-    TODO | Warn about entry title duplicates.
     TODO | Do not trigger process_markup_language / pattern_processor if not necessary (if content or preview or both)
     TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Warn about metadata that should be list but are str.
