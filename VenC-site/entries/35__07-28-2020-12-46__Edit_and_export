@@ -15,3 +15,10 @@ ou
 Cette commande ouvre le fichier passé en paramètre avec l'éditeur de
 texte de votre choix, définit dans **blog_configuration.yaml** puis,
 une fois l'édition terminée, recompile l'ensemble du blog.
+
+À noter que certains éditeurs fonctionnent sur le principe d'instance :
+
+Si une instance __A__ existe déjà, l'instance __B__ que tentera d'appeler
+VenC se fermera et lancera l'exportation du blog alors même que la publication est
+encore ouverte par la toute première instance de l'éditeur (__A__). Assurer vous
+donc dans [blog_configuration](.:GetChapterAttributeByIndex::path::4.2:.#text_editor)

@@ -53,10 +53,18 @@ Empêche VenC de générer un flux RSS. Ce champ est un booléen, fixé à *Fals
 
 Empêche VenC de générer un flux Atom. Ce champ est un booléen, fixé à *False* par défaut.
 
-## .:DisableMarkup::text_editor:.
+## text_editor
 
 L'éditeur de texte choisi pour éditer une nouvelle publication du blog.
+Cette variable est une liste dont le premier élément est le nom de la commande et le reste ses arguments.
 
+Par exemple:
+
+.:CodeHighlight::Yaml::False::
+text_editor:
+  - geany
+  - -i
+:.
 
 ## .:DisableMarkup::date_format:.
 

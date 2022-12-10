@@ -18,7 +18,6 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import subprocess
-import time
 
 from venc3.exceptions import VenCException, MalformedPatterns
 from venc3.helpers import rm_tree_error_handler
@@ -26,8 +25,6 @@ from venc3.l10n import messages
 from venc3.patterns.non_contextual import theme_includes_dependencies
 from venc3.patterns.processor import Processor, Pattern
 from venc3.prompt import notify
-
-start_timestamp = time.time()
 
 def copy_recursively(src, dest):
     import errno, os, shutil
@@ -168,6 +165,8 @@ def process_non_contextual_patterns():
 
 # TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(theme_name=''):
+    import time
+    start_timestamp = time.time()
     from venc3.datastore import init_datastore
     datastore = init_datastore()
     
@@ -244,21 +243,27 @@ def export_blog(theme_name=''):
     
     notify(messages.task_done_in_n_seconds.format(round(time.time() - start_timestamp,6)))
 
-def edit_and_export(argv):    
-    if len(argv) != 1:
+def edit_and_export(entry_filename=''):    
+    if not len(entry_filename):
         from venc3.helpers import die
         die(messages.missing_params.format("--edit-and-export"))
     
+    from venc3.datastore import init_datastore
+    datastore = init_datastore()
+        
     try:
-        proc = subprocess.Popen([datastore.blog_configuration["text_editor"], argv[0]])
-        while proc.poll() == None:
-            pass
+        if type(datastore.blog_configuration["text_editor"]) != list:
+            from venc3.helpers import die
+            die(messages.blog_metadata_is_not_a_list.format("text_editor"))
+
+        proc = subprocess.Popen(datastore.blog_configuration["text_editor"]+[entry_filename])
+        proc.wait()
 
     except TypeError:
         from venc3.helpers import die
         die(messages.unknown_text_editor.format(datastore.blog_configuration["text_editor"]))
     
-    except:
-        raise
+    except Exception as e:
+        raise e
     
     export_blog()

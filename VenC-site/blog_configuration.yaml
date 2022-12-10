@@ -28,7 +28,9 @@ path:
   chapters_sub_folders: ""
 reverse_thread_order: false
 feed_lenght: 5
-text_editor: geany
+text_editor:
+  - geany
+  - -i 
 disable_rss_feed: true
 disable_atom_feed: true
 disable_main_thread: true
@@ -44,9 +46,3 @@ sort_by: 'chapter'
 enable_jsonld: True
 enable_jsonp: True
 parallel_processing: 1
-test_de_liste:
-        - qsqsd
-        - qqsdqd
-        - qsdqsd
-        - haha
-        - 42

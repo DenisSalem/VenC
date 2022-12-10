@@ -47,6 +47,7 @@
     TODO | GetEntryContent, GetEntryPreview and Get
     TODO | Isolate Entry metadata so Entry getters cannot grab non str object.
     TODO | Get input bytes and output bytes so not only we know the times but also the bandwidth
+    TODO | Auto reload blog/ when server is running if blog is modified
     
 # version 3.0.0
     DONE | Prevent infinite loop in needles replacement.
@@ -81,16 +82,17 @@
     DONE | Add plural form at the end of blog creation if multiple blog has been made.
     DONE | (regression) handle missing or too much argument.
     DONE | Add ForBlogMetadata, ForBlogMetadataIfExists.
+    DONE | Handling text editor forking, text_editor is now defined as a list of command+args (documented).
+/!\ TODO | (regression) markdown header carrying patterns are fucked up.
     WIP  | Generate entry inner table of content.
     TODO | Add ForEntryMetadataIfExists.
     TODO | Add ForDictMetadata
     TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
-    TODO | Fix gvim / -ex.
     TODO | Warn about entry title duplicates.
     TODO | Do not trigger process_markup_language / pattern_processor if not necessary (if content or preview or both)
     TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Warn about metadata that should be list but are str.
-    TODO | Use built in list in yaml instead to turn str to list.
+    TODO | Use built in list and dict in yaml instead to parsing string.
     TODO | Update doc accordingly.
 
 # version 2.0.2

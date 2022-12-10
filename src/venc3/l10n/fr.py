@@ -110,6 +110,7 @@ class Messages:
     blog_has_no_metadata_like = "Le blog ne possède pas la métadonnée identifié par {0}."
     invalid_range = "Plage de nombres invalide {0}:{1}."
     entry_metadata_is_not_a_list = "La métadonné \"{0}\" de la publication {1} n'est pas une liste."
+    blog_metadata_is_not_a_list = "La métadonné \"{0}\" dans le fichier de configuration du blog n'est pas une liste."
     item_deleted_from_server = "Supprimé du serveur: "
     item_uploaded_to_server = "Transféré sur le serveur: "
     cannot_retrieve_entry_attribute_because_wrong_id = "Impossible de récupérer l'attribut de la publication parce que l'id renseigné est inconnu."

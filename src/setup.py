@@ -116,6 +116,6 @@ setup(
           'requests',
           'unidecode'
     ],
-    scripts=['venc','venc-blog-migration'],
+    scripts=['venc'],
     data_files = extra_files
 )
