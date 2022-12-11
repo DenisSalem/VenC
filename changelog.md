@@ -80,12 +80,14 @@
     DONE | Disable parallel processing if not available.
     DONE | document display_title_in_threads and display_title_in_entry tessellation theme.
     DONE | Add plural form at the end of blog creation if multiple blog has been made.
-    DONE | (regression) handle missing or too much argument.
+    DONE | (regression fixed) handle missing or too much argument.
     DONE | Add ForBlogMetadata, ForBlogMetadataIfExists.
     DONE | Handling text editor forking, text_editor is now defined as a list of command+args (documented).
     DONE | Fail if written entry path is duplicates.
     DONE | Do not trigger process_markup_language / pattern_processor if not necessary (if content or preview or both)
-/!\ TODO | (regression) markdown header carrying patterns are fucked up.
+    DONE | (regression) Markdown header carrying patterns are fucked up. It's too much cpu time expensive to make it right.
+    DONE | Add warning when chapter index format is wrong.
+    DONE | Clean up l10n.
     WIP  | Generate entry inner table of content.
     TODO | Add ForEntryMetadataIfExists.
     TODO | Add ForDictMetadata

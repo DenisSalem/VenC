@@ -223,13 +223,13 @@ class DataStore:
                 "count": node.count,
                 "weight": node.weight
             })
-            
+        
     def build_chapter_indexes(self):
         # build chapters index
         path_chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
         path_chapter_folder_name = self.blog_configuration["path"]["chapter_directory_name"]
         
-        #TODO: Might be not safe, must test level if is actually an int. Test as well the whole sequence.
+        #TODO: IS not safe, must test level if is actually an int. Test as well the whole sequence.
         for chapter in sorted(self.raw_chapters.keys(), key = lambda x : int(x.replace('.', ''))):
             top = self.chapters_index
             index = ''
@@ -595,6 +595,7 @@ class DataStore:
             [ int(level) for level in chapter.split('.') if level != '']
 
         except ValueError as e: # weak test to check attribute conformity
+            notify(messages.chapter_has_a_wrong_index.format(entry.id, chapter), color="YELLOW")
             return
 
         except AttributeError as e: # does entry has chapter?
