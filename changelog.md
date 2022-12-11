@@ -89,12 +89,12 @@
     DONE | Add warning when chapter index format is wrong.
     DONE | Clean up l10n.
     WIP  | Generate entry inner table of content.
+    WIP  | Use built in list and dict in yaml instead to parsing string.
     TODO | Add ForEntryMetadataIfExists.
     TODO | Add ForDictMetadata
     TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
     TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Warn about metadata that should be list but are str.
-    TODO | Use built in list and dict in yaml instead to parsing string.
     TODO | Update doc accordingly.
 
 # version 2.0.2

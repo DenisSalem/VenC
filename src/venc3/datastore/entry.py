@@ -35,7 +35,7 @@ from venc3.exceptions import VenCException
 from venc3.exceptions import MalformedPatterns
 from venc3.patterns.processor import PatternTree
 
-class Entry:
+class Entry:  
     def __init__(self, filename, paths, encoding="utf-8", ):
         date_format = paths["archives_directory_name"]
         self.previous_entry = None
@@ -102,15 +102,15 @@ class Entry:
 
         self.title = metadata["title"].replace(".:GetEntryTitle:.",'') # sanitize
 
-        if not type(metadata["authors"]) in [str, list]:
+        if type(metadata["authors"]) != list:
             raise VenCException(messages.entry_metadata_is_not_a_list.format("authors", self.id), context=filename)
             
-        self.authors = tuple( e.strip() for e in metadata["authors"].split(",")) if type(metadata["authors"]) == str else tuple(metadata["authors"])              
+        self.authors = tuple(metadata["authors"])              
 
-        if not type(metadata["tags"]) in [str, list]:
+        if type(metadata["tags"]) != list:
             raise VenCException(messages.entry_metadata_is_not_a_list.format("tags", self.id), context=filename)
             
-        self.tags = tuple( e.strip() for e in metadata["tags"].split(",")) if type(metadata["tags"]) == str else tuple(metadata["tags"])
+        self.tags = tuple(metadata["tags"])
 
         params = {
             "entry_id": self.id,
@@ -141,27 +141,11 @@ class Entry:
                 self.url = "\x1a"+self.sub_folder+paths["entry_file_name"].format(**params)
                 notify("\"{0}\": ".format(sf+paths["entry_file_name"].format(**params))+str(e), color="YELLOW")
         
-        self.categories_leaves = list()
-        self.raw_categories = tuple( c.strip() for c in metadata["categories"].split(','))
-        try:
-            for category in self.raw_categories:
-                category_leaf = category.split(' > ')[-1].strip()
-                if len(category_leaf) != 0:
-                    category_leaf_path = "\x1a"
-                    for sub_category in category.split(' > '):
-                        category_leaf_path +=sub_category.strip()+'/'
-                
-                    self.categories_leaves.append({
-                        "value": category_leaf,
-                        "path": category_leaf_path,
-                        "branch" : category
-                    })
-                    
-            self.categories_leaves = tuple(self.categories_leaves)
+        if type(metadata["categories"]) != list:
+            raise VenCException(messages.entry_metadata_is_not_a_list.format("categories", self.id), context=filename)
 
-        except IndexError : # when list is empty
-            pass
-
+        self.raw_categories = metadata["categories"]
+        self.categories_leaves = None
         self.categories_tree = []
         build_categories_tree(-1, self.raw_categories, self.categories_tree, None, -1, encoding=encoding, sub_folders=paths["categories_sub_folders"])
         self.html_categories_tree = {}
