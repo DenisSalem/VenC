@@ -13,13 +13,11 @@
     WIP  | Client-side search engine.
     TODO | Override theme config override.
     TODO | venc -xb should also work in subdirectories
-    TODO | Improve context / ressource naming for error management
     TODO | SetBackgroundColor for text
     TODO | Include threads preview in entry
     TODO | Add command for reorder entries by criteria
     TODO | Allow markdown2 setup.
     TODO | Add --insert-chapter command.
-    TODO | Force preview / full content in thread, for single entry.
     TODO | If previous theme empty, juste remove it.
     TODO | Fix encoding issue in JSON-LD document.
     TODO | Catch invalid encoding at startup. (???)
@@ -28,28 +26,27 @@
     TODO | Add translation for Deutsch and Spanish.
     TODO | Add docutils reStructuredText parser settings override.
     TODO | Decrease halt_level to render reStructuredText even if errors occurs.
-    TODO | Access {count} and {weight} from LeavesForEntrycategories.
     TODO | Add Yaml comments in blog configuration.
-    TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add configuration field type check.
-    TODO | Optimize modules importation.
     TODO | Add more informations into JSON-LD document.
     TODO | Optimize and refine JSON-LD processing.
     TODO | Embed as much as possible microdata/JSON-LD into blog.
     TODO | Improve sub folder management in Entry and EntriesThread. (???)
-    TODO | Optimize objects dereferencing.
     TODO | Add draft support.
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Regenerate any missing folders.
     TODO | Try to install an up to date oembed providers from https://oembed.com/providers.json with pip
     TODO | Automatically import messages when importing die and notify.
     TODO | Add command to export only extra folder.
-    TODO | GetEntryContent, GetEntryPreview and Get
     TODO | Isolate Entry metadata so Entry getters cannot grab non str object.
     TODO | Get input bytes and output bytes so not only we know the times but also the bandwidth
     TODO | Auto reload blog/ when server is running if blog is modified
-    
+
 # version 3.0.0
+    DONE | Optimize modules importation.
+    DONE | GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent
+    DONE | Force preview / full content in thread, for single entry.
+    DONE | Improve context / ressource naming for error management
     DONE | Prevent infinite loop in needles replacement.
     DONE | Fix typos in doc
     DONE | Add InfludeFileIfExists, improve IncludeFile code.
@@ -88,13 +85,20 @@
     DONE | (regression) Markdown header carrying patterns are fucked up. It's too much cpu time expensive to make it right.
     DONE | Add warning when chapter index format is wrong.
     DONE | Clean up l10n.
-    WIP  | Generate entry inner table of content.
+    
+    WIP  | build_categories_tree should not be called by default, only if it's required.
     WIP  | Use built in list and dict in yaml instead to parsing string.
+    WIP  | In build_categories_tree, shitty encoding must be notified properly.
+    WIP  | Advanced error handling on tree data structure format.
+    WIP  | Access {count} and {weight} from LeavesForEntrycategories.
+
+    TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add ForEntryMetadataIfExists.
     TODO | Add ForDictMetadata
     TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
     TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Warn about metadata that should be list but are str.
+    WIP  | Generate entry inner table of content.
     TODO | Update doc accordingly.
 
 # version 2.0.2

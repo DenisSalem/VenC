@@ -988,7 +988,7 @@ class DataStore:
     def for_entry_tags(self, node, string, separator=' '):
         return self.for_entry_metadata(node, "tags", string, separator)
 
-    # TODO in 2.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.
+    # TODO in 3.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.
     def leaves_for_entry_categories(self, node, string, separator):
         key = string+separator
         entry = self.requested_entry

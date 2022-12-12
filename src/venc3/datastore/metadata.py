@@ -40,7 +40,22 @@ class MetadataNode:
         self.related_to = [entry_index]
         self.childs = list()
 
-def build_categories_tree(entry_index, input_list, output_tree, output_leaves, max_weight, set_max_weight=None, encoding="utf-8", sub_folders=''):
+def flatten_current_level(items)
+    for item in items:
+        if type(item) == dict:
+            for key in item.key():
+                if type(item[key]) != list:
+                    raise VenCException("PAS UNE LISTE")
+                yield key, item[key]
+        else:
+            yield item, []
+
+def build_categories_tree(entry_index, input_list, output_tree, output_leaves, max_weight, set_max_weight, encoding="utf-8", sub_folders=''):
+    for item, sub_items in flattend_current_level(input_list):
+        print(item, sub_items)
+
+## DEPRECATED
+# ~ def build_categories_tree(entry_index, input_list, output_tree, output_leaves, max_weight, set_max_weight=None, encoding="utf-8", sub_folders=''):
     for category in input_list:
         branch = category.split(' > ')
         if not len(branch):
