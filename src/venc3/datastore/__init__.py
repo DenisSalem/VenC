@@ -31,9 +31,9 @@ from urllib.parse import quote as urllib_parse_quote
 from venc3.datastore.configuration import get_blog_configuration
 from venc3.datastore.entry import yield_entries_content
 from venc3.datastore.entry import Entry
-from venc3.datastore.metadata import build_categories_tree
 from venc3.datastore.metadata import MetadataNode
 from venc3.datastore.metadata import Chapter
+from venc3.datastore.metadata import categories_to_keywords
 from venc3.helpers import quirk_encoding
 from venc3.prompt import notify
 from venc3.l10n import messages
@@ -199,7 +199,16 @@ class DataStore:
             sub_folders = sub_folders if sub_folders != '/' else ''
             
             # TODO : should not be done unless it's necessary
-            build_categories_tree(entry_index, current_entry.raw_categories, self.entries_per_categories, self.categories_leaves, self.max_category_weight, self.set_max_category_weight, encoding=self.path_encoding, sub_folders=sub_folders)
+            from venc3.datastore.metadata import build_categories_tree
+            build_categories_tree(
+              entry_index,
+              current_entry.raw_categories,
+              self.entries_per_categories,
+              self.categories_leaves,
+              None,
+              encoding=self.path_encoding,
+              sub_folders=sub_folders
+            )
                     
         # Setup BlogArchives Data
         self.blog_archives = list()
@@ -492,7 +501,7 @@ class DataStore:
             "@context": "http://schema.org",
             "@type" : ["BlogPosting", "WebPage"],
             "@id" : entry_url+'/'+filename,
-            "keywords" : ','.join(tuple(set( [keyword.strip() for keyword in entry.tags + entry.raw_categories] ))),
+            "keywords" : ','.join(tuple(set( [keyword.strip() for keyword in entry.tags + tuple(categories_to_keywords(entry.raw_categories))] ))),
             "headline" : entry.title,
             "name" : entry.title,
             "datePublished" : entry.date.isoformat(),
@@ -520,7 +529,8 @@ class DataStore:
                     }
                 }]
             },
-            "relatedLink" : [ c["path"] for c in entry.categories_leaves],
+            # TODO: BROKEN
+            # ~ "relatedLink" : [ c["path"] for c in entry.categories_leaves],
             **optionals
         }
         self.entries_as_jsonld[entry.id] = doc
@@ -545,15 +555,16 @@ class DataStore:
         self.archives_as_jsonld[entry.formatted_date]["blogPost"].append(blog_post)
 
         # Setup categories as jsonld if any
-        for category in entry.categories_leaves:
-            complete_path = category["path"].replace('\x1a','')
-            path = ''
-            for sub_path in complete_path.split('/')[:-1]:
-                path += sub_path+'/'
-                if path not in self.categories_as_jsonld.keys():
-                    self.categories_to_jsonld(path, sub_path)
+        # TODO: BROKEN
+        # ~ for category in entry.categories_leaves:
+            # ~ complete_path = category["path"].replace('\x1a','')
+            # ~ path = ''
+            # ~ for sub_path in complete_path.split('/')[:-1]:
+                # ~ path += sub_path+'/'
+                # ~ if path not in self.categories_as_jsonld.keys():
+                    # ~ self.categories_to_jsonld(path, sub_path)
                 
-                self.categories_as_jsonld[path]["blogPost"].append(blog_post)
+                # ~ self.categories_as_jsonld[path]["blogPost"].append(blog_post)
             
     def get_chapters(self, node, lo, io, ic, lc):
         key = lo+io+ic+lc

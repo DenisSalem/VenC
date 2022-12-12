@@ -29,7 +29,6 @@ from venc3.prompt import die
 from venc3.prompt import notify
 
 from venc3.l10n import messages
-from venc3.datastore.metadata import build_categories_tree
 from venc3.datastore.metadata import MetadataNode
 from venc3.exceptions import VenCException
 from venc3.exceptions import MalformedPatterns
@@ -147,7 +146,11 @@ class Entry:
         self.raw_categories = metadata["categories"]
         self.categories_leaves = None
         self.categories_tree = []
-        build_categories_tree(-1, self.raw_categories, self.categories_tree, None, -1, encoding=encoding, sub_folders=paths["categories_sub_folders"])
+        
+        # TODO : BUIL ON DEMAND
+        # ~ from venc3.datastore.metadata import build_categories_tree
+        # ~ build_categories_tree(-1, self.raw_categories, self.categories_tree, None, -1, encoding=encoding, sub_folders=paths["categories_sub_folders"])
+        
         self.html_categories_tree = {}
         self.html_tags = {}
         self.html_authors = {}

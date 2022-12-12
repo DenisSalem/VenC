@@ -91,6 +91,7 @@
     WIP  | In build_categories_tree, shitty encoding must be notified properly.
     WIP  | Advanced error handling on tree data structure format.
     WIP  | Access {count} and {weight} from LeavesForEntrycategories.
+    TODO | Fix broken jsonld according to new categories tree building strategies
 
     TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add ForEntryMetadataIfExists.

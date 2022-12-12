@@ -17,12 +17,10 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
-import urllib.parse
-import unidecode
+from unidecode import unidecode
+from urllib.parse import quote
 
 from venc3.helpers import quirk_encoding
-from venc3.prompt import notify
 
 class Chapter:
     def __init__(self, index, entry, path):
@@ -32,65 +30,66 @@ class Chapter:
         self.path = path
         
 class MetadataNode:
-    def __init__(self, value, entry_index):
+    def __init__(self, value, entry_index, path=""):
         self.count = 1
         self.weight = 1 # computed later
-        self.path = str()
+        self.path = path
         self.value = value
         self.related_to = [entry_index]
         self.childs = list()
 
-def flatten_current_level(items)
+def categories_to_keywords(branch):
+    for item, sub_items in flatten_current_level(branch):
+        if len(sub_items):
+            for sub_item in catecories_to_keyword(sub_items):
+                yield sub_item
+        else:
+            yield item
+    
+def flatten_current_level(items):
     for item in items:
         if type(item) == dict:
-            for key in item.key():
+            for key in item.keys():
                 if type(item[key]) != list:
+                    from venc3.exceptions import VenCException
                     raise VenCException("PAS UNE LISTE")
+                    
                 yield key, item[key]
         else:
             yield item, []
 
-def build_categories_tree(entry_index, input_list, output_tree, output_leaves, max_weight, set_max_weight, encoding="utf-8", sub_folders=''):
-    for item, sub_items in flattend_current_level(input_list):
-        print(item, sub_items)
-
-## DEPRECATED
-# ~ def build_categories_tree(entry_index, input_list, output_tree, output_leaves, max_weight, set_max_weight=None, encoding="utf-8", sub_folders=''):
-    for category in input_list:
-        branch = category.split(' > ')
-        if not len(branch):
-            continue
-
-        leave = branch[-1]
+# TODO define Max Weight object and attach it to everynode
+def build_categories_tree(entry_index, input_list, output_branch, output_leaves, max_weight, encoding="utf-8", sub_folders=''):
+    for item, sub_items in flatten_current_level(input_list):
+        match = None
         path = sub_folders
-        root = output_tree
-        for node_name in branch:
-            if node_name == '':
-                continue
-
-            path += quirk_encoding(str(node_name+'/'))
-            if not node_name in [metadata.value for metadata in root]:
-                root.append(MetadataNode(node_name, entry_index))
-                if output_leaves != None and node_name == leave:
-                    output_leaves.append(root[-1])
+        for node in output_branch:
+            if node.value == item:
+                node.count +=1
                 
-                try:
-                    if encoding == '':
-                        root[-1].path = "\x1a"+quirk_encoding(unidecode.unidecode(path))
-                    else:
-                        root[-1].path = "\x1a"+urllib.parse.quote(path, encoding=encoding)
-                        
-                except UnicodeEncodeError as e:
-                    root[-1].path = "\x1a"+path
-                    notify("\"{0}\": ".format(root[-1].path)+str(e), color="YELLOW")
-                root = root[-1].childs
+                # broken
+                # ~ if set_max_weight != None and node.count > max_weight:
+                    # ~ max_weight = set_max_weight(node.count)
+        
+                node.related_to.append(entry_index)
+                match = node
+                break
 
-            else:
-                for node in root:
-                    if node.value == node_name:
-                        node.count +=1
-                        if set_max_weight != None and node.count > max_weight:
-                            max_weight = set_max_weight(node.count)
+        if not match:
+            path += quirk_encoding(str(item)+'/')
+            try:
+                metadata = MetadataNode(
+                    item, 
+                    entry_index,
+                    "\x1a" + ( quote(path, encoding=encoding) if len(encoding) else quirk_encoding(unidecode(path)))
+                  )
 
-                        node.related_to.append(entry_index)
-                        root = node.childs
+            except UnicodeEncodeError as e:
+                from venc3.exceptions import VenCException
+                raise VenCException("ERREUR D'ENCODAGE DANS LA CATEGORIE")
+        
+            output_branch.append(metadata)
+            output_leaves.append(metadata)
+            
+        if len(sub_items):
+            build_categories_tree(entry_index, sub_items, node.childs if match else metadata.childs, output_leaves, max_weight, encoding="utf-8", sub_folders=path)
