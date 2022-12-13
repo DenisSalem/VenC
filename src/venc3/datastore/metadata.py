@@ -30,9 +30,10 @@ class Chapter:
         self.path = path
         
 class MetadataNode:
-    def __init__(self, value, entry_index, path=""):
+    def __init__(self, value, entry_index, path="", weight_tracker = None):
         self.count = 1
-        self.weight = 1 # computed later
+        weight_tracker.update()
+        self.weight_tracker = weight_tracker
         self.path = path
         self.value = value
         self.related_to = [entry_index]
@@ -58,19 +59,22 @@ def flatten_current_level(items):
         else:
             yield item, []
 
+class WeightTracker:
+    def __init__(self):
+        self.value = 0
+        
+    def update(self):
+        self.value+=1
+
 # TODO define Max Weight object and attach it to everynode
-def build_categories_tree(entry_index, input_list, output_branch, output_leaves, max_weight, encoding="utf-8", sub_folders=''):
+def build_categories_tree(entry_index, input_list, output_branch, output_leaves, weight_tracker, encoding="utf-8", sub_folders=''):
     for item, sub_items in flatten_current_level(input_list):
         match = None
         path = sub_folders
         for node in output_branch:
             if node.value == item:
                 node.count +=1
-                
-                # broken
-                # ~ if set_max_weight != None and node.count > max_weight:
-                    # ~ max_weight = set_max_weight(node.count)
-        
+                node.weight_tracker.update()        
                 node.related_to.append(entry_index)
                 match = node
                 break
@@ -81,7 +85,8 @@ def build_categories_tree(entry_index, input_list, output_branch, output_leaves,
                 metadata = MetadataNode(
                     item, 
                     entry_index,
-                    "\x1a" + ( quote(path, encoding=encoding) if len(encoding) else quirk_encoding(unidecode(path)))
+                    "\x1a" + ( quote(path, encoding=encoding) if len(encoding) else quirk_encoding(unidecode(path))),
+                    weight_tracker
                   )
 
             except UnicodeEncodeError as e:
@@ -92,4 +97,4 @@ def build_categories_tree(entry_index, input_list, output_branch, output_leaves,
             output_leaves.append(metadata)
             
         if len(sub_items):
-            build_categories_tree(entry_index, sub_items, node.childs if match else metadata.childs, output_leaves, max_weight, encoding="utf-8", sub_folders=path)
+            build_categories_tree(entry_index, sub_items, node.childs if match else metadata.childs, output_leaves, weight_tracker, encoding="utf-8", sub_folders=path)

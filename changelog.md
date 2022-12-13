@@ -85,14 +85,17 @@
     DONE | (regression) Markdown header carrying patterns are fucked up. It's too much cpu time expensive to make it right.
     DONE | Add warning when chapter index format is wrong.
     DONE | Clean up l10n.
+    DONE | Move pattern features from datastore in a parent class
+    DONE | (Blog) build_categories_tree should not be called by default, only if it's required.
+    TODO | Prevent build_categories_tree to be called more than once.
     
-    WIP  | build_categories_tree should not be called by default, only if it's required.
+    WIP  | (Entry build_categories_tree should not be called by default, only if it's required.
     WIP  | Use built in list and dict in yaml instead to parsing string.
     WIP  | In build_categories_tree, shitty encoding must be notified properly.
     WIP  | Advanced error handling on tree data structure format.
     WIP  | Access {count} and {weight} from LeavesForEntrycategories.
+    
     TODO | Fix broken jsonld according to new categories tree building strategies
-
     TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add ForEntryMetadataIfExists.
     TODO | Add ForDictMetadata
