@@ -25,7 +25,9 @@ class Theme:
     def __init__(self, theme_folder):
         self.theme_folder = theme_folder
         from venc3.exceptions import MalformedPatterns
+        from venc3.exceptions import VenCException
         from venc3.patterns.processor import PatternTree
+        
         try:
             self.header = PatternTree(open(theme_folder+"chunks/header.html",'r').read(), "header.html")
             self.footer = PatternTree(open(theme_folder+"chunks/footer.html",'r').read(), "footer.html")

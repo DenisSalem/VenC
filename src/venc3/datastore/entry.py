@@ -27,15 +27,15 @@ import yaml
 from venc3.helpers import quirk_encoding
 from venc3.prompt import die
 from venc3.prompt import notify
-
 from venc3.l10n import messages
 from venc3.datastore.metadata import MetadataNode
+from venc3.datastore.metadata import build_categories_tree
 from venc3.exceptions import VenCException
 from venc3.exceptions import MalformedPatterns
 from venc3.patterns.processor import PatternTree
 
 class Entry:  
-    def __init__(self, filename, paths, encoding="utf-8", ):
+    def __init__(self, filename, paths, build_internal_categories_tree, encoding):
         date_format = paths["archives_directory_name"]
         self.previous_entry = None
         self.next_entry = None
@@ -147,9 +147,21 @@ class Entry:
         self.categories_leaves = None
         self.categories_tree = []
         
-        # TODO : BUIL ON DEMAND
-        # ~ from venc3.datastore.metadata import build_categories_tree
-        # ~ build_categories_tree(-1, self.raw_categories, self.categories_tree, None, -1, encoding=encoding, sub_folders=paths["categories_sub_folders"])
+        if build_internal_categories_tree:
+            self.categories_tree = []
+            self.categories_leaves = []
+            build_categories_tree(
+                None,
+                self.raw_categories,
+                self.categories_tree,
+                self.categories_leaves,
+                None,
+                encoding=encoding,
+                sub_folders=paths["categories_sub_folders"]
+            )
+        else:
+            self.categories_tree = None
+            self.categories_leaves = None
         
         self.html_categories_tree = {}
         self.html_tags = {}

@@ -32,7 +32,8 @@ class Chapter:
 class MetadataNode:
     def __init__(self, value, entry_index, path="", weight_tracker = None):
         self.count = 1
-        weight_tracker.update()
+        if weight_tracker != None:
+            weight_tracker.update()
         self.weight_tracker = weight_tracker
         self.path = path
         self.value = value
@@ -74,7 +75,8 @@ def build_categories_tree(entry_index, input_list, output_branch, output_leaves,
         for node in output_branch:
             if node.value == item:
                 node.count +=1
-                node.weight_tracker.update()        
+                if weight_tracker != None:
+                    node.weight_tracker.update()        
                 node.related_to.append(entry_index)
                 match = node
                 break
@@ -93,7 +95,8 @@ def build_categories_tree(entry_index, input_list, output_branch, output_leaves,
                 from venc3.exceptions import VenCException
                 raise VenCException("ERREUR D'ENCODAGE DANS LA CATEGORIE")
         
-            output_branch.append(metadata)
+            output_branch.append(metadata) 
+            #TODO : BROKEN
             output_leaves.append(metadata)
             
         if len(sub_items):

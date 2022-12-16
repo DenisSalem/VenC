@@ -56,8 +56,10 @@ class DataStore(DatastorePatterns):
         self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
         self.entries = []
         self.entries_per_archives = []
-        self.entries_per_categories = []
-        
+        self.entries_per_categories = None
+        self.categories_leaves = None
+        self.archives_weight_tracker = WeightTracker()
+        self.categories_weight_tracker = WeightTracker()
         self.workers_count = 1
 
         try:
@@ -78,7 +80,6 @@ class DataStore(DatastorePatterns):
         self.requested_entry = None
             
         self.max_category_weight = 1
-        self.categories_leaves = []
         self.embed_providers = {}
         self.html_categories_tree = {}
         self.html_categories_leaves = {}
@@ -107,6 +108,7 @@ class DataStore(DatastorePatterns):
         # Build entries
         filenames = [filename for filename in yield_entries_content()]
         self.chunks_len = (len(filenames)//self.workers_count)+1
+        jsonld_required = self.blog_configuration["enable_jsonld"] or self.blog_configuration["enable_jsonp"]
         try:
             if self.workers_count > 1:
                 # There we setup chunks of entries send to workers throught dispatchers
@@ -117,6 +119,7 @@ class DataStore(DatastorePatterns):
                     "entries": self.entries,
                     "paths": self.blog_configuration["path"],
                     "encoding": self.path_encoding,
+                    "jsonld_required" : jsonld_required,
                     "cut_threads_kill_workers" : False
                 }
                 for i in range(0, self.workers_count):
@@ -146,6 +149,7 @@ class DataStore(DatastorePatterns):
                     self.entries.append(Entry(
                         filename,
                         self.blog_configuration["path"],
+                        jsonld_required,
                         self.path_encoding
                     ))
                     
@@ -169,6 +173,7 @@ class DataStore(DatastorePatterns):
                 jsonld_callback(current_entry)
 
             # Update entriesPerDates
+            # TODO could be done only if necessary
             if path_archives_directory_name != '':
                 formatted_date = current_entry.formatted_date
                 entries_index = self.get_entries_index_for_given_date(formatted_date)
@@ -178,19 +183,23 @@ class DataStore(DatastorePatterns):
                     self.entries_per_archives[entries_index].related_to.append(entry_index)
 
                 else:
-                    self.entries_per_archives.append(MetadataNode(formatted_date, entry_index,weight_tracker=WeightTracker()))
-            
-            if self.blog_configuration["enable_jsonld"] or self.blog_configuration["enable_jsonp"]:
+                    self.entries_per_archives.append(MetadataNode(formatted_date, entry_index,weight_tracker=self.archives_weight_tracker))
+                    
+            # Update categories tree           
+            if jsonld_required:
+                if self.entries_per_categories == None:
+                    self.entries_per_categories = []
+                    self.categories_leaves = []
                 self.setup_categories_tree_base_sub_folder()
                 from venc3.datastore.metadata import build_categories_tree
                 build_categories_tree(
-                  entry_index,
-                  current_entry.raw_categories,
-                  self.entries_per_categories,
-                  self.categories_leaves,
-                  WeightTracker(),
-                  encoding=self.path_encoding,
-                  sub_folders=self.categories_tree_base_sub_folders
+                    entry_index,
+                    current_entry.raw_categories,
+                    self.entries_per_categories,
+                    self.categories_leaves,
+                    self.categories_weight_tracker,
+                    encoding=self.path_encoding,
+                    sub_folders=self.categories_tree_base_sub_folders
                 )
                     
         # Setup BlogArchives Data
@@ -446,12 +455,11 @@ class DataStore(DatastorePatterns):
                     }
                 }]
             },
-            # TODO: BROKEN
-            # ~ "relatedLink" : [ c["path"] for c in entry.categories_leaves],
+            "relatedLink" : [ c.path for c in entry.categories_leaves],
             **optionals
         }
         self.entries_as_jsonld[entry.id] = doc
-        # TODO 2.x.x : TRY AVOID DEREFERENCE HERE
+        # TODO 3.x.x : TRY AVOID DEREFERENCE HERE
         
         blog_post = {
             "@type": doc["@type"],
@@ -471,17 +479,16 @@ class DataStore(DatastorePatterns):
             self.archives_to_jsonld(entry_formatted_date)            
         self.archives_as_jsonld[entry.formatted_date]["blogPost"].append(blog_post)
 
-        # Setup categories as jsonld if any
-        # TODO: BROKEN
-        # ~ for category in entry.categories_leaves:
-            # ~ complete_path = category["path"].replace('\x1a','')
-            # ~ path = ''
-            # ~ for sub_path in complete_path.split('/')[:-1]:
-                # ~ path += sub_path+'/'
-                # ~ if path not in self.categories_as_jsonld.keys():
-                    # ~ self.categories_to_jsonld(path, sub_path)
+        # ~ # Setup categories as jsonld if any
+        for category in entry.categories_leaves:
+            complete_path = category.path.replace('\x1a','')
+            path = ''
+            for sub_path in complete_path.split('/')[:-1]:
+                path += sub_path+'/'
+                if path not in self.categories_as_jsonld.keys():
+                    self.categories_to_jsonld(path, sub_path)
                 
-                # ~ self.categories_as_jsonld[path]["blogPost"].append(blog_post)
+                self.categories_as_jsonld[path]["blogPost"].append(blog_post)
         
     #TODO : Raise MissingArgs if... missing args.
     def build_html_chapters(self, lo, io, ic, lc, top, level):          

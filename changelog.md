@@ -87,14 +87,15 @@
     DONE | Clean up l10n.
     DONE | Move pattern features from datastore in a parent class
     DONE | (Blog) build_categories_tree should not be called by default, only if it's required.
-    TODO | Prevent build_categories_tree to be called more than once.
-    
-    WIP  | (Entry build_categories_tree should not be called by default, only if it's required.
-    WIP  | Use built in list and dict in yaml instead to parsing string.
+    DONE | (Blog) Prevent build_categories_tree to be called more than once.
+    DONE  | (Entry build_categories_tree should not be called by default, only if it's required.
+    DONE  | Access {count} and {weight} from LeavesForEntrycategories.
+
+    CHECK| Use built in list and dict in yaml instead to parsing string.
     WIP  | In build_categories_tree, shitty encoding must be notified properly.
     WIP  | Advanced error handling on tree data structure format.
-    WIP  | Access {count} and {weight} from LeavesForEntrycategories.
     
+    TODO | default entry metdata must not be mandatory
     TODO | Fix broken jsonld according to new categories tree building strategies
     TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add ForEntryMetadataIfExists.
@@ -104,6 +105,8 @@
     TODO | Warn about metadata that should be list but are str.
     WIP  | Generate entry inner table of content.
     TODO | Update doc accordingly.
+    
+    TODO | Search for any TODO, DEPRECATED, BROKEN comment in code
 
 # version 2.0.2
     DONE | Fix for_entry_metadata; catching unavailable contextual pattern.

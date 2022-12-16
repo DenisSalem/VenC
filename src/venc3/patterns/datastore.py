@@ -19,6 +19,8 @@
 
 import datetime
 
+from venc3.datastore.metadata import build_categories_tree
+
 def merge(iterable, string, separator, node):
     try:
         return separator.join([string.format(**something) for something in iterable])
@@ -279,6 +281,7 @@ class DatastorePatterns:
                 entry.html_categories_tree[key] = ''
 
             else:
+                DatastorePatterns.build_entry_entry_categories_tree(entry)
                 entry.html_categories_tree[key] = self.build_html_categories_tree(
                     open_node,
                     open_branch,
@@ -289,6 +292,39 @@ class DatastorePatterns:
         
         return entry.html_categories_tree[key]
 
+    def build_entry_entry_categories_tree(self, entry):
+        if entry.categories_leaves == None:
+            entry.categories_tree = []
+            entry.categories_leaves = []
+            build_categories_tree(
+                None,
+                entry.raw_categories,
+                entry.categories_tree,
+                entry.categories_leaves,
+                None,
+                encoding=self.path_encoding,
+                sub_folders=self.blog_configuration["path"]["categories_sub_folders"]
+            )
+            entry.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
+
+    def build_blog_categories_tree(self):
+        if self.entries_per_categories == None:
+            self.entries_per_categories = []
+            self.categories_leaves = []
+            self.setup_categories_tree_base_sub_folder()
+            for entry_index in range(0, len(self.entries)):
+                current_entry = self.entries[entry_index]
+                build_categories_tree(
+                  entry_index,
+                  current_entry.raw_categories,
+                  self.entries_per_categories,
+                  self.categories_leaves,
+                  self.categories_weight_tracker,
+                  encoding=self.path_encoding,
+                  sub_folders=self.categories_tree_base_sub_folders
+                )
+            self.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
+                
     def tree_for_blog_categories(self, node, open_node, open_branch, close_branch, clode_node):
         key = open_node+open_branch+close_branch+clode_node
         # compute once categories tree and deliver baked html
@@ -297,22 +333,7 @@ class DatastorePatterns:
                 self.html_categories_tree[key] = ''
 
             else:
-                if (not self.blog_configuration["enable_jsonld"]) and (not self.blog_configuration["enable_jsonp"]):
-                    from venc3.datastore.metadata import WeightTracker
-                    from venc3.datastore.metadata import build_categories_tree
-                    self.setup_categories_tree_base_sub_folder()
-                    for entry_index in range(0, len(self.entries)):
-                        current_entry = self.entries[entry_index]
-                        build_categories_tree(
-                          entry_index,
-                          current_entry.raw_categories,
-                          self.entries_per_categories,
-                          self.categories_leaves,
-                          WeightTracker(),
-                          encoding=self.path_encoding,
-                          sub_folders=self.categories_tree_base_sub_folders
-                        )
-                        
+                self.build_blog_categories_tree()
                 self.html_categories_tree[key] = self.build_html_categories_tree(
                     node, 
                     open_node,
@@ -438,7 +459,20 @@ class DatastorePatterns:
                 entry.html_categories_leaves[key] = ''
 
             else:
-                entry.html_categories_leaves[key] = merge(entry.categories_leaves, string, separator, node)
+                self.build_entry_entry_categories_tree(entry)
+                entry.html_categories_leaves[key] = merge(
+                    [ {
+                        "value" : node.value,
+                        "count" : node.count,
+                        "weight" : round(node.count / self.categories_weight_tracker.value,2),
+                        "path" : node.path
+                    } for node in entry.categories_leaves],
+                    string,
+                    separator,
+                    node
+                )
+
+
         
         return entry.html_categories_leaves[key]
 
@@ -450,16 +484,18 @@ class DatastorePatterns:
                 self.html_categories_leaves[key] = ''
 
             else:
-                items = []
-                for node in self.categories_leaves:
-                    items.append({
+                self.build_blog_categories_tree()
+                self.html_categories_leaves[key] = merge(
+                    [ {
                         "value" : node.value,
                         "count" : node.count,
-                        "weight" : round(node.weight / self.max_category_weight,2),
+                        "weight" : round(node.count / self.categories_weight_tracker.value,2),
                         "path" : node.path
-                    })
-    
-                self.html_categories_leaves[key] = merge(items, string, separator, node)
+                    } for node in self.categories_leaves],
+                    string,
+                    separator,
+                    node
+                )
         
         return self.html_categories_leaves[key]
         
