@@ -329,6 +329,7 @@ class DataStore(DatastorePatterns):
             **self.optionals_schemadotorg
         }
 
+    # BROKEN
     def categories_to_jsonld(self, category_value, leaf_name):
         blog_url = self.blog_configuration["blog_url"]
         blog_name = self.blog_configuration["blog_name"]

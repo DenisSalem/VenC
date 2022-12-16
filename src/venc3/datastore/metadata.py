@@ -67,7 +67,6 @@ class WeightTracker:
     def update(self):
         self.value+=1
 
-# TODO define Max Weight object and attach it to everynode
 def build_categories_tree(entry_index, input_list, output_branch, output_leaves, weight_tracker, encoding="utf-8", sub_folders=''):
     for item, sub_items in flatten_current_level(input_list):
         match = None
@@ -96,7 +95,6 @@ def build_categories_tree(entry_index, input_list, output_branch, output_leaves,
                 raise VenCException("ERREUR D'ENCODAGE DANS LA CATEGORIE")
         
             output_branch.append(metadata) 
-            #TODO : BROKEN
             output_leaves.append(metadata)
             
         if len(sub_items):
