@@ -103,3 +103,20 @@ def quirk_encoding(string):
         '%',
         '-'
     )
+    
+def setup_categories_tree_base_sub_folder(categories_sub_folders):
+    sub_folders = "\x1a"+categories_sub_folders
+
+    try:
+        if self.path_encoding == '':
+            sub_folders = quirk_encoding(unidecode.unidecode(sub_folders))
+        else:
+            sub_folders = urllib_parse_quote(sub_folders, encoding=self.path_encoding)
+
+    except UnicodeEncodeError as e:
+        from venc3.exceptions import VenCException
+        from venc3.l10n import messages
+        raise VenCException(messages.encoding_error_in_categories_sub_folder_path)
+                    
+    self.categories_tree_base_sub_folders = (sub_folders if sub_folders[-1] == '/' else sub_folders+'/' )if sub_folders != '/' else ''
+    return self.categories_tree_base_sub_folders

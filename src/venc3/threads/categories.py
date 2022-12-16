@@ -58,7 +58,7 @@ class CategoriesThread(Thread):
         from venc3.l10n import messages
         import json
         blog_url = self.datastore.blog_configuration["blog_url"]
-        category_as_jsonld = self.datastore.categories_as_jsonld[self.category_value]
+        category_as_jsonld = self.datastore.categories_as_jsonld[node.path]
         position = 2
         category_breadcrumb_path = ''
         for sub_category in self.category_value.split('/'):

@@ -69,6 +69,9 @@ class WeightTracker:
 
 def build_categories_tree(entry_index, input_list, output_branch, output_leaves, weight_tracker, encoding="utf-8", sub_folders=''):
     for item, sub_items in flatten_current_level(input_list):
+        if not len(item):
+            continue
+
         match = None
         path = sub_folders
         for node in output_branch:
@@ -86,7 +89,7 @@ def build_categories_tree(entry_index, input_list, output_branch, output_leaves,
                 metadata = MetadataNode(
                     item, 
                     entry_index,
-                    "\x1a" + ( quote(path, encoding=encoding) if len(encoding) else quirk_encoding(unidecode(path))),
+                    quote(path, encoding=encoding) if len(encoding) else quirk_encoding(unidecode(path)),
                     weight_tracker
                   )
 

@@ -20,6 +20,7 @@
 import datetime
 
 from venc3.datastore.metadata import build_categories_tree
+from venc3.helpers import setup_categories_tree_base_sub_folder
 
 def merge(iterable, string, separator, node):
     try:
@@ -303,7 +304,7 @@ class DatastorePatterns:
                 entry.categories_leaves,
                 None,
                 encoding=self.path_encoding,
-                sub_folders=self.blog_configuration["path"]["categories_sub_folders"]
+                sub_folders="\x1a" + self.blog_configuration["path"]["categories_sub_folders"]
             )
             entry.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
 
@@ -311,7 +312,8 @@ class DatastorePatterns:
         if self.entries_per_categories == None:
             self.entries_per_categories = []
             self.categories_leaves = []
-            self.setup_categories_tree_base_sub_folder()
+            path = setup_categories_tree_base_sub_folder(self.blog_configuration["path"]["categories_sub_folders"])
+
             for entry_index in range(0, len(self.entries)):
                 current_entry = self.entries[entry_index]
                 build_categories_tree(
@@ -321,7 +323,7 @@ class DatastorePatterns:
                   self.categories_leaves,
                   self.categories_weight_tracker,
                   encoding=self.path_encoding,
-                  sub_folders=self.categories_tree_base_sub_folders
+                  sub_folders=path
                 )
             self.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
                 

@@ -112,6 +112,7 @@ class Messages:
     arg_must_be_an_integer = "L'argument \"{0}\" doit être un nombre entier."
     syntax_error = "Erreur de syntaxe : Un motif ne peut pas commencer par \":.\"."
     current_entry_is_overriding_the_following = "La publication #{0} écrase les publications suivantes:\n{1}"
+    encoding_error_in_categories_sub_folder_path = "Erreur d'encodage dans le nom du sous répertoire des categories."
     # Will not be hooked by l10n_cleanup
     theme_description_academik = "Thème mono colonne, avec note de bas de page. Idéal pour un blog."
     theme_description_dummy = "Le thème vide. Il donne une bonne base pour concevoir le votre."
@@ -119,3 +120,4 @@ class Messages:
     theme_description_tessellation = "Thème comportant trois colonnes, très clair, aéré et élégant. Idéal pour une galerie."
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."
+    

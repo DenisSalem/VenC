@@ -329,16 +329,15 @@ class DataStore(DatastorePatterns):
             **self.optionals_schemadotorg
         }
 
-    # BROKEN
-    def categories_to_jsonld(self, category_value, leaf_name):
+    def category_to_jsonld(self, category_path, category_value):
         blog_url = self.blog_configuration["blog_url"]
         blog_name = self.blog_configuration["blog_name"]
-        self.categories_as_jsonld[category_value] = {
+        self.categories_as_jsonld[category_path] = {
             "@context": "http://schema.org",
             "@type": ["Blog","WebPage"],
-            "@id" : blog_url+'/'+category_value+"/categories.jsonld",
-            "url": blog_url+'/'+category_value,
-            "name": blog_name + ' | ' + leaf_name,
+            "@id" : blog_url+'/'+category_path+"/categories.jsonld",
+            "url": blog_url+'/'+category_path,
+            "name": blog_name + ' | ' + category_value,
             "description": self.blog_configuration["blog_description"],
             "author": {
                 "@type" : "Person",
@@ -398,7 +397,16 @@ class DataStore(DatastorePatterns):
             "blogPost" : [],
             **self.optionals_schemadotorg
         }
-        
+    
+    # TODO 3.x.x it may be possible to factorize code with a unique tree walking function
+    def walk_entry_categories_tree_and_make_jsonld(self, categories_branch, blog_post):
+        for category in categories_branch:
+            if not category.path in self.categories_as_jsonld.keys():
+                self.category_to_jsonld(category.path, category.value)
+            
+            self.categories_as_jsonld[category.path]["blogPost"].append(blog_post)
+            self.walk_entry_categories_tree_and_make_jsonld(category.childs, blog_post)
+                
     def entry_to_jsonld_callback(self, entry):
         if hasattr(entry, "schemadotorg"):
             optionals = entry.schemadotorg
@@ -460,6 +468,7 @@ class DataStore(DatastorePatterns):
             **optionals
         }
         self.entries_as_jsonld[entry.id] = doc
+        
         # TODO 3.x.x : TRY AVOID DEREFERENCE HERE
         
         blog_post = {
@@ -477,19 +486,11 @@ class DataStore(DatastorePatterns):
         # Setup archives as jsonld if any
         entry_formatted_date = entry.formatted_date
         if entry_formatted_date not in self.archives_as_jsonld.keys():
-            self.archives_to_jsonld(entry_formatted_date)            
+            self.archives_to_jsonld(entry_formatted_date)
         self.archives_as_jsonld[entry.formatted_date]["blogPost"].append(blog_post)
 
         # ~ # Setup categories as jsonld if any
-        for category in entry.categories_leaves:
-            complete_path = category.path.replace('\x1a','')
-            path = ''
-            for sub_path in complete_path.split('/')[:-1]:
-                path += sub_path+'/'
-                if path not in self.categories_as_jsonld.keys():
-                    self.categories_to_jsonld(path, sub_path)
-                
-                self.categories_as_jsonld[path]["blogPost"].append(blog_post)
+        self.walk_entry_categories_tree_and_make_jsonld(entry.categories_tree, blog_post)
         
     #TODO : Raise MissingArgs if... missing args.
     def build_html_chapters(self, lo, io, ic, lc, top, level):          
@@ -606,20 +607,6 @@ class DataStore(DatastorePatterns):
 
         except FileNotFoundError:
             return ""
-
-    def setup_categories_tree_base_sub_folder(self):
-        path_categories_sub_folders = self.blog_configuration["path"]["categories_sub_folders"]+'/'
-        try:
-            if self.path_encoding == '':
-                sub_folders = quirk_encoding(unidecode.unidecode(path_categories_sub_folders))
-            else:
-                sub_folders = urllib_parse_quote(path_categories_sub_folders, encoding=self.path_encoding)
-
-        except UnicodeEncodeError as e:
-            from venc3.exceptions import VenCException
-            raise VenCException("ERREUR D'ENCODAGE DANS LE SOUS DOSSIER DES CATEGORIES")
-                        
-        self.categories_tree_base_sub_folders = sub_folders if sub_folders != '/' else ''
 
 datastore = None
 multiprocessing_thread_params = None
