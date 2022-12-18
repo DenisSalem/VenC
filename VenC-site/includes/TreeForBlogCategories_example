@@ -1,6 +1,6 @@
 .:TreeForBlogCategories::
     <ul>::
     <li><a href="{path}" title="{count} publications">{value}</a>::
-    </li>::
+    {childs}</li>::
     </ul>
 :.

@@ -199,8 +199,8 @@ Les variables contextuelles de ce motif sont les suivantes :
 - __{value}__ : le nom de la catégorie courante.
 - __{path}__ : le chemin relatif de la catégorie courante.
 - __{count}__ : le nombre de publications dans la catégorie courante.
-- __{weight}__ : le nombre de publications dans la catégorie courante divisé
-par le nombre maximal de publications par catégorie.
+- __{weight}__ : le nombre de publication dans la catégorie courante divisé par le total des publications.
+- __{childs}__ : contient la récursion suivante dans le traitement de l'arbre de donnée.
 
 Par exemple, pour créer un menu déroulant on peut utiliser le motif comme ci-dessous :
 

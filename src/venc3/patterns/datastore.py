@@ -517,3 +517,6 @@ class DatastorePatterns:
                         self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
 
         return get_embed_content(node, self.embed_providers, content_url)
+        
+
+    def for_dict_metadata(self, node, source, open_node, open_branch, close_branch, close_node):

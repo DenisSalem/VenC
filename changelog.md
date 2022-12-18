@@ -99,8 +99,7 @@
     DONE | Fix broken jsonld according to new categories tree building strategies
     DONE | default entry metdata are not mandatory anymore.
     DONE | Add ForEntryMetadataIfExists.
-    TODO | Handle missing args in case of unknown number of args (Pattern).
-    TODO | Add ForDictMetadata
+    TODO | Add For*DictMetadata and For*DictMetadataIfExists
     TODO | Concatenate user defined blog keywords with entries keywords.
     WIP  | Generate entry inner table of content.
     TODO | Update doc accordingly.

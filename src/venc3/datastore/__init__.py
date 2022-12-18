@@ -557,20 +557,17 @@ class DataStore(DatastorePatterns):
                 "count" : node.count,
                 "weight" : round(node.count / node.weight_tracker.value,2),
                 "path" : node.path
-            }
-
-            if len(node.childs) == 0:
-                output_string += opening_branch.format(**variables) + closing_branch.format(**variables)
-
-            else:
-                output_string += opening_branch.format(**variables) + self.build_html_categories_tree(
+                "childs" : self.build_html_categories_tree(
                     pattern,
                     opening_node,
                     opening_branch,
                     closing_branch,
                     closing_node,
                     node.childs
-                ) + closing_branch.format(**variables)
+                ) if len(node.childs) else : ''
+            }
+
+            output_string += opening_branch.format(**variables) +closing_branch.format(**variables)
 
         if output_string == opening_node+closing_node:
             return ""
