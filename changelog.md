@@ -44,6 +44,7 @@
     TODO | Get input bytes and output bytes so not only we know the times but also the bandwidth
     TODO | Auto reload blog/ when server is running if blog is modified
     TODO | Because of fully recursive pattern, some contextual variable might be useless, like {relative_origin}
+    TODO | Concatenate user defined blog keywords with entries keywords.
 
 # version 3.0.0
 
@@ -99,8 +100,7 @@
     DONE | Fix broken jsonld according to new categories tree building strategies
     DONE | default entry metdata are not mandatory anymore.
     DONE | Add ForEntryMetadataIfExists.
-    TODO | Add For*DictMetadata and For*DictMetadataIfExists
-    TODO | Concatenate user defined blog keywords with entries keywords.
+    WIP  | Add For*DictMetadata and For*DictMetadataIfExists
     WIP  | Generate entry inner table of content.
     TODO | Update doc accordingly.
     TODO | Search for any TODO, DEPRECATED, BROKEN comment in code

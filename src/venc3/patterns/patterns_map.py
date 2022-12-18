@@ -134,9 +134,6 @@ class PatternsMap():
         "GetChapters" : "get_chapters",
         "GetEntryAttributeByID" : "get_entry_attribute_by_id",
     }
-
-    # TODO
-    WAIT_FOR_CHILDREN_TO_BE_PROCESSED = tuple()
     
     def __init__(self):                
         import importlib
