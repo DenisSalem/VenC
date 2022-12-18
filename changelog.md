@@ -1,4 +1,5 @@
 # version 4.x.x
+
     TODO | Replace categories with taxonomy support.
     TODO | Add support for plugin.
     TODO | Add Incremental blog update.
@@ -8,6 +9,7 @@
     TODO | Automatically merge all known entry authors into blog authors.
     
 # version 3.1.x
+
     WIP  | Replace as much as possible usage of list with tuple.
     WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
@@ -41,8 +43,10 @@
     TODO | Isolate Entry metadata so Entry getters cannot grab non str object.
     TODO | Get input bytes and output bytes so not only we know the times but also the bandwidth
     TODO | Auto reload blog/ when server is running if blog is modified
+    TODO | Because of fully recursive pattern, some contextual variable might be useless, like {relative_origin}
 
 # version 3.0.0
+
     DONE | Optimize modules importation.
     DONE | GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent
     DONE | Force preview / full content in thread, for single entry.
@@ -82,7 +86,7 @@
     DONE | Handling text editor forking, text_editor is now defined as a list of command+args (documented).
     DONE | Fail if written entry path is duplicates.
     DONE | Do not trigger process_markup_language / pattern_processor if not necessary (if content or preview or both)
-    DONE | (regression) Markdown header carrying patterns are fucked up. It's too much cpu time expensive to make it right.
+    DONE | (DROPPED) Markdown header carrying patterns are fucked up. CPU time is too much expensive to make it right.
     DONE | Add warning when chapter index format is wrong.
     DONE | Clean up l10n.
     DONE | Move pattern features from datastore in a parent class
@@ -93,23 +97,23 @@
     DONE | Centralize path encoding and reduce codebloat.
     DONE | Use built in list and dict in yaml instead to parsing string.
     DONE | Fix broken jsonld according to new categories tree building strategies
-    TODO | default entry metdata are not mandatory anymore.
+    DONE | default entry metdata are not mandatory anymore.
+    DONE | Add ForEntryMetadataIfExists.
     TODO | Handle missing args in case of unknown number of args (Pattern).
-    TODO | Add ForEntryMetadataIfExists.
     TODO | Add ForDictMetadata
-    TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
     TODO | Concatenate user defined blog keywords with entries keywords.
-    TODO | Warn about metadata that should be list but are str.
     WIP  | Generate entry inner table of content.
     TODO | Update doc accordingly.
-    
     TODO | Search for any TODO, DEPRECATED, BROKEN comment in code
+    TODO | Split doc from main branch.
 
 # version 2.0.2
+
     DONE | Fix for_entry_metadata; catching unavailable contextual pattern.
     DONE | Fix github issue #21. Add missing documentation about GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent.
 
 # version 2.0.1
+
     DONE | (issue #20) Calling pattern in wrong context should trigger explicit error instead of UnknownPattern.
 
 # version 2.0.0

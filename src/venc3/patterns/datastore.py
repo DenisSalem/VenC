@@ -416,21 +416,25 @@ class DatastorePatterns:
         
         return self.html_for_metadata[key]
 
-    def for_entry_metadata(self, node, variable_name, string, separator=' '):        
+    def for_entry_metadata(self, node, variable_name, string, separator):
+        return self.for_entry_metadata_if_exists(node, variable_name, string, separator, raise_exception=True)
+
+    def for_entry_metadata_if_exists(self, node, variable_name, string, separator, raise_exception=False):        
         entry = self.requested_entry
         key = variable_name+string+separator
             
         if not key in entry.html_for_metadata:
             try:
                 l = getattr(entry, variable_name)
-                if type(l) == dict:
+                if type(l) != list:
                     raise VenCException(messages.entry_metadata_is_not_a_list.format(variable_name, entry), node)
-                    
-                elif type(l) == str:
-                    l = l.split(",")
                 
             except AttributeError as e:
-                raise VenCException(messages.entry_has_no_metadata_like.format(variable_name), node)
+                if raise_exception:
+                    raise VenCException(messages.entry_has_no_metadata_like.format(variable_name), node)
+                else:
+                    entry.html_for_metadata[key] = ""
+                    return ""
                 
             try:
                 entry.html_for_metadata[key] = separator.join([

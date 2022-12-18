@@ -99,6 +99,10 @@ variable contextuelle __{value}__ contenant l'élément courant de la liste.
 
 Le second paramètre est une chaîne de caractères servant de séparateur.
 
+## .:Escape:: .:ForEntryMetadataIfExists::variable_name::string::separator:. ::EndEscape:.
+
+Identique à __ForEntryMetadata__ mais n'arrête pas VenC si la métadonné identifiée par variable_name n'existe pas.
+
 ## .:Escape:: .:GetEntryMetadata::metadata_name:. ::EndEscape:.
 
 Il est possible de définir ses propres champs dans les métadonnées de la publication ou du template.

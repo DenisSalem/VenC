@@ -58,6 +58,7 @@ class PatternsMap():
             "ForBlogMetadataIfExists":    "for_blog_metadata_if_exists",
             "ForEntryAuthors":	          "for_entry_authors",
             "ForEntryMetadata":	          "for_entry_metadata",
+            "ForEntryMetadataIfExists":	  "for_entry_metadata_if_exists",
             #"ForEntryRange":	            "for_entry_range",                  #OE  TODO: NOT FINISHED YET
             "ForEntryTags":	              "for_entry_tags",
             "GetEntryAttributeByID" :     "get_entry_attribute_by_id",
