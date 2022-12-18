@@ -518,5 +518,31 @@ class DatastorePatterns:
 
         return get_embed_content(node, self.embed_providers, content_url)
         
+        
+    def for_entry_tree_metadata(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node):
+        return for_entry_dict_metadata_if_exists(node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=True)
+        
+    def for_entry_tree_metadata_if_exists(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=False):
+        entry = self.requested_entry
+        if not hasattr(entry, source):
+            if raise_exception:
+                raise VenCException(messages.entry_has_no_metadata_like.format(source), node)
+            else:
+                return ""
+                
+        return for_dict_metadata(node, getattr(entry, source), open_node, open_branch, key_value, value, close_branch, close_node)
+                    
+    def for_tree_metadata(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node):
+        items = [
+            open_branch+value.format(
+                **{"value":item}
+            )+close_branch if type(item) == str else open_branch+key_value.format(
+                **{
+                    "key" : tuple(item.keys())[0],
+                    "value": for_tree_metadata(node, tuple(item.values())[0], open_node, open_branch, key_value, value, close_branch, close_node)
+                }
+            )+close_branch for item in source
+        ]
+        return open_node + (''.join(items))+ close_node
 
-    def for_dict_metadata(self, node, source, open_node, open_branch, close_branch, close_node):
+            

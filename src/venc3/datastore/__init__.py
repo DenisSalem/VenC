@@ -556,7 +556,7 @@ class DataStore(DatastorePatterns):
                 "value" : node.value,
                 "count" : node.count,
                 "weight" : round(node.count / node.weight_tracker.value,2),
-                "path" : node.path
+                "path" : node.path,
                 "childs" : self.build_html_categories_tree(
                     pattern,
                     opening_node,
@@ -564,11 +564,12 @@ class DataStore(DatastorePatterns):
                     closing_branch,
                     closing_node,
                     node.childs
-                ) if len(node.childs) else : ''
+                ) if len(node.childs) else ''
             }
 
             output_string += opening_branch.format(**variables) +closing_branch.format(**variables)
-
+        
+        # TODO: WTF ???
         if output_string == opening_node+closing_node:
             return ""
 
