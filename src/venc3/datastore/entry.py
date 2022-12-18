@@ -35,7 +35,7 @@ from venc3.exceptions import MalformedPatterns
 from venc3.patterns.processor import PatternTree
 
 class Entry:  
-    def __init__(self, filename, paths, build_internal_categories_tree, encoding):
+    def __init__(self, filename, paths, build_internal_categories_tree):
         date_format = paths["archives_directory_name"]
         self.previous_entry = None
         self.next_entry = None
@@ -83,7 +83,7 @@ class Entry:
         for key in ("authors", "tags", "categories", "title"):
             if key not in metadata.keys() or metadata[key] == None:
                 notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")
-                metadata[key] = ''
+                metadata[key] = '' if key == "title" else []
     
         self.raw_metadata = metadata
         self.filename = filename
@@ -117,28 +117,11 @@ class Entry:
         }
 
         # TODO MAY BE OPTIMIZED
-        sf = paths["entries_sub_folders"].format(**params)
-        if encoding == '':
-            self.sub_folder = quirk_encoding(unidecode.unidecode(sf))+'/' if sf != '' else ''
-            self.url = "\x1a"+self.sub_folder
-            if self.sub_folder == '' or paths["entry_file_name"] != "index.html":
-                self.url += quirk_encoding(
-                    unidecode.unidecode(
-                        paths["entry_file_name"].format(**params)
-                    )
-                )
-            
-        else:
-            try:
-                self.sub_folder = urllib.parse.quote(sf, encoding=encoding)+'/' if sf != '' else ''
-                self.url = "\x1a"+self.sub_folder
-                if self.sub_folder == '' or paths["entry_file_name"] != "index.html":
-                    self.url += urllib.parse.quote(paths["entry_file_name"].format(**params), encoding=encoding)
-
-
-            except UnicodeEncodeError as e:
-                self.url = "\x1a"+self.sub_folder+paths["entry_file_name"].format(**params)
-                notify("\"{0}\": ".format(sf+paths["entry_file_name"].format(**params))+str(e), color="YELLOW")
+        sf = quirk_encoding(paths["entries_sub_folders"].format(**params))
+        self.sub_folder = (sf+'/' if sf[-1] != '/' else sf) if len(sf) else ''
+        self.url = "\x1a"+self.sub_folder+quirk_encoding(
+            paths["entry_file_name"].format(**params)
+        )
         
         if type(metadata["categories"]) != list:
             raise VenCException(messages.entry_metadata_is_not_a_list.format("categories", self.id), context=filename)
@@ -155,7 +138,6 @@ class Entry:
                 self.categories_tree,
                 self.categories_leaves,
                 None,
-                encoding=encoding,
                 sub_folders="\x1a"+paths["categories_sub_folders"]
             )
         else:

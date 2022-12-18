@@ -60,7 +60,6 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
                 filename,
                 worker_params["paths"],
                 worker_params["jsonld_required"],
-                worker_params["encoding"],
             ))
         
         recv_in.send(output)

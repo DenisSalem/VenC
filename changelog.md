@@ -88,16 +88,12 @@
     DONE | Move pattern features from datastore in a parent class
     DONE | (Blog) build_categories_tree should not be called by default, only if it's required.
     DONE | (Blog) Prevent build_categories_tree to be called more than once.
-    DONE  | (Entry build_categories_tree should not be called by default, only if it's required.
-    DONE  | Access {count} and {weight} from LeavesForEntrycategories.
-
-    CHECK| Use built in list and dict in yaml instead to parsing string.
-    WIP  | In build_categories_tree, shitty encoding must be notified properly.
-    WIP  | Advanced error handling on tree data structure format.
-    WIP  | Centralize path encoding and reduce codebloat.
-    TODO | Fix broken jsonld according to new categories tree building strategies
-
-    TODO | default entry metdata must not be mandatory
+    DONE | (Entry build_categories_tree should not be called by default, only if it's required.
+    DONE | Access {count} and {weight} from LeavesForEntrycategories.
+    DONE | Centralize path encoding and reduce codebloat.
+    DONE | Use built in list and dict in yaml instead to parsing string.
+    DONE | Fix broken jsonld according to new categories tree building strategies
+    TODO | default entry metdata are not mandatory anymore.
     TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add ForEntryMetadataIfExists.
     TODO | Add ForDictMetadata

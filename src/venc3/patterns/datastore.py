@@ -302,7 +302,6 @@ class DatastorePatterns:
                 entry.categories_tree,
                 entry.categories_leaves,
                 None,
-                encoding=self.path_encoding,
                 sub_folders="\x1a" + path
             )
             entry.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
@@ -311,7 +310,7 @@ class DatastorePatterns:
         if self.entries_per_categories == None:
             self.entries_per_categories = []
             self.categories_leaves = []
-            path = self.blog_configuratio["path"]["categories_sub_folders"]
+            path = self.blog_configuration["path"]["categories_sub_folders"]
             for entry_index in range(0, len(self.entries)):
                 current_entry = self.entries[entry_index]
                 build_categories_tree(
@@ -320,7 +319,6 @@ class DatastorePatterns:
                   self.entries_per_categories,
                   self.categories_leaves,
                   self.categories_weight_tracker,
-                  encoding=self.path_encoding,
                   sub_folders="\x1a"+path
                 )
             self.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]

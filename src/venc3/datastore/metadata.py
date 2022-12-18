@@ -67,7 +67,7 @@ class WeightTracker:
     def update(self):
         self.value+=1
 
-def build_categories_tree(entry_index, input_list, output_branch, output_leaves, weight_tracker, encoding="utf-8", sub_folders=''):
+def build_categories_tree(entry_index, input_list, output_branch, output_leaves, weight_tracker, sub_folders=''):
     for item, sub_items in flatten_current_level(input_list):
         if not len(item):
             continue
@@ -85,20 +85,15 @@ def build_categories_tree(entry_index, input_list, output_branch, output_leaves,
 
         if not match:
             path += quirk_encoding(str(item)+'/')
-            try:
-                metadata = MetadataNode(
-                    item, 
-                    entry_index,
-                    quote(path, encoding=encoding) if len(encoding) else quirk_encoding(unidecode(path)),
-                    weight_tracker
-                  )
+            metadata = MetadataNode(
+                item, 
+                entry_index,
+                quirk_encoding(path),
+                weight_tracker
+              )
 
-            except UnicodeEncodeError as e:
-                from venc3.exceptions import VenCException
-                raise VenCException("ERREUR D'ENCODAGE DANS LA CATEGORIE")
-        
             output_branch.append(metadata) 
             output_leaves.append(metadata)
             
         if len(sub_items):
-            build_categories_tree(entry_index, sub_items, node.childs if match else metadata.childs, output_leaves, weight_tracker, encoding="utf-8", sub_folders=path)
+            build_categories_tree(entry_index, sub_items, node.childs if match else metadata.childs, output_leaves, weight_tracker, sub_folders=path)

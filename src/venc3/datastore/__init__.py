@@ -52,7 +52,6 @@ class DataStore(DatastorePatterns):
         self.enable_jsonld = self.blog_configuration["enable_jsonld"]
         self.enable_jsonp =  self.blog_configuration["enable_jsonp"]
         self.blog_url = self.blog_configuration["blog_url"]
-        self.path_encoding = self.blog_configuration["path_encoding"]
         self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
         self.entries = []
         self.entries_per_archives = []
@@ -118,7 +117,6 @@ class DataStore(DatastorePatterns):
                     "workers_count" : self.workers_count,
                     "entries": self.entries,
                     "paths": self.blog_configuration["path"],
-                    "encoding": self.path_encoding,
                     "jsonld_required" : jsonld_required,
                     "cut_threads_kill_workers" : False
                 }
@@ -150,7 +148,6 @@ class DataStore(DatastorePatterns):
                         filename,
                         self.blog_configuration["path"],
                         jsonld_required,
-                        self.path_encoding
                     ))
                     
         except VenCException as e:
@@ -197,7 +194,6 @@ class DataStore(DatastorePatterns):
                     self.entries_per_categories,
                     self.categories_leaves,
                     self.categories_weight_tracker,
-                    encoding=self.path_encoding,
                     sub_folders="\x1a"+self.blog_configuration["path"]["categories_sub_folders"]
                 )
                     
@@ -411,12 +407,12 @@ class DataStore(DatastorePatterns):
                 "name":self.blog_configuration["author_name"]
             }
         blog_url = self.blog_configuration["blog_url"]
-        entry_url = '/'.join(entry.url.split('/')[:-1]).replace("\x1a", self.blog_configuration["blog_url"]+'/')
-        filename = "entry"+str(entry.id)+".jsonld"
+        blog_url = blog_url+'/' if blog_url[-1] != '/' else blog_url
+        entry_url = entry.url.replace("\x1a", blog_url)
         doc = {
             "@context": "http://schema.org",
             "@type" : ["BlogPosting", "WebPage"],
-            "@id" : entry_url+'/'+filename,
+            "@id" : blog_url+entry.sub_folder+str(entry.id)+".jsonld",
             "keywords" : ','.join(tuple(set( [keyword.strip() for keyword in entry.tags + tuple(categories_to_keywords(entry.raw_categories))] ))),
             "headline" : entry.title,
             "name" : entry.title,
@@ -424,13 +420,13 @@ class DataStore(DatastorePatterns):
             "inLanguage" : self.blog_configuration["blog_language"],
             "author" : authors if authors != [] else self.blog_configuration["author_name"],
             "publisher" : publisher,
-            "url" : entry.url.replace("\x1a", self.blog_configuration["blog_url"]+"/"),
+            "url" : entry_url,
             "breadcrumb" : {
                 "itemListElement": [{
                     "@type": "ListItem",
                     "position": 1,
                     "item": {
-                        "@id": blog_url+"/root.jsonld",
+                        "@id": blog_url+"root.jsonld",
                         "url": blog_url,
                         "name": self.blog_configuration["blog_name"]
                     }
@@ -439,7 +435,7 @@ class DataStore(DatastorePatterns):
                     "@type": "ListItem",
                     "position": 2,
                     "item": {
-                        "@id": blog_url+entry.sub_folder+filename,
+                        "@id": blog_url+entry.sub_folder+str(entry.id)+".jsonld",
                         "url": entry_url,
                         "name": entry.title
                     }

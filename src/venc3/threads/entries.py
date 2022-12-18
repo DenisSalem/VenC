@@ -121,13 +121,12 @@ class EntriesThread(Thread):
             })
         )
         self.thread_name = self.current_entry.title
-        export_path = self.path_encode(export_path)
         self.relative_origin = str(''.join([ "../" for p in export_path.split('/')[1:] if p != ''])).replace("//",'/')
         os.makedirs(export_path, exist_ok=True)
 
 
     def write_file(self, output, file_id):
-        export_path = self.path_encode(self.export_path.format(**{
+        export_path = quirk_encoding(self.export_path.format(**{
             'entry_id': self.current_entry.id,
             'entry_title': self.current_entry.title
         }))
@@ -161,7 +160,7 @@ class EntriesThread(Thread):
     
     def do_jsonld(self, entry):
         dump = json.dumps(self.datastore.entries_as_jsonld[self.current_entry.id])
-        f = open(self.current_export_path+"/entry"+str(entry.id)+".jsonld", 'w')
+        f = open(self.current_export_path+"/"+str(entry.id)+".jsonld", 'w')
         f.write(dump.replace("\\u001a", self.relative_origin))
             
     def do(self):
