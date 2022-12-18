@@ -20,6 +20,7 @@
 import os
 import json
 
+from venc3.helpers import quirk_encoding
 from venc3.prompt import notify
 from venc3.threads import Thread
 
@@ -50,8 +51,7 @@ class ArchivesThread(Thread):
 
                 
         notify("│\t "+tree_special_char+"─ "+archive.value+"...")
-        self.export_path = str("blog/"+self.sub_folders+'/'+archive.value+'/')
-        self.export_path = self.path_encode(self.export_path)            
+        self.export_path = str("blog/"+self.sub_folders+'/'+quirk_encoding(archive.value)+'/')
         os.makedirs(self.export_path)
         self.organize_entries([
             entry for entry in self.datastore.get_entries_for_given_date(

@@ -1,8 +1,11 @@
-authors: 'Denis Salem'
-categories: ''
-tags: ''
-title: Publier
+authors:
+- Denis Salem
+categories:
+- ''
 chapter: 3.3
+tags:
+- ''
+title: Publier
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Vous avez donc écrit un ou plusieurs articles et vous voulez voir ce que ça donne ! Placez-vous dans le répertoire de votre blog et lancez la commande

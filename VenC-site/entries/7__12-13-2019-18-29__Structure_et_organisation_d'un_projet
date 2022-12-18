@@ -1,7 +1,10 @@
-authors: 'Denis Salem'
-categories: ''
+authors:
+- Denis Salem
+categories:
+- ''
 chapter: 4
-tags: ''
+tags:
+- ''
 title: Structure et configuration d'un projet
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---

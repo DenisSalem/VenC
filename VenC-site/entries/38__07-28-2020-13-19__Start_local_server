@@ -1,8 +1,11 @@
-authors: 'Denis Salem'
-categories: ''
-tags: ''
-title: Démarrer le serveur local
+authors:
+- Denis Salem
+categories:
+- ''
 chapter: '6.10'
+tags:
+- ''
+title: Démarrer le serveur local
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 

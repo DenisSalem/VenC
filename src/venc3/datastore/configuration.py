@@ -20,9 +20,21 @@
 import os
 import yaml
 
+from venc3.exceptions import VenCException
+from venc3.helpers import quirk_encoding
 from venc3.prompt import die
 from venc3.prompt import notify
 from venc3.l10n import messages
+
+def setup_sub_folder(blog_configuration, key):
+    try:
+        path = quirk_encoding(blog_configuration["path"][key])
+            
+    except UnicodeEncodeError as e:
+        from venc3.l10n import messages
+        raise VenCException(messages.encoding_error_in_sub_folder_path.format(key))
+                    
+    blog_configuration["path"][key] = (path if path[-1] == '/' else path+'/' ) if (path != '/' and len(path)) else ''
 
 def get_blog_configuration():
     try:
@@ -58,7 +70,6 @@ def get_blog_configuration():
             "disable_categories",
             "disable_chapters",
             "disable_single_entries",
-            "path_encoding",
             "code_highlight_css_override",
             "server_port",
             "disable_rss_feed",
@@ -94,7 +105,10 @@ def get_blog_configuration():
             if not field in blog_configuration["path"].keys():
                 everything_is_okay = False
                 notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
-
+                
+            elif not field in ["index_file_name","ftp","rss_file_name","atom_file_name","entry_file_name","archives_directory_name"]:
+                setup_sub_folder(blog_configuration, field)
+                
         if not "https://schema.org" in blog_configuration.keys():
             blog_configuration["https://schema.org"] = {}
             
@@ -125,3 +139,6 @@ def get_blog_configuration():
 
     except yaml.scanner.ScannerError:
         die(messages.possible_malformed_blogC_configuration)
+
+    except VenCException as e:
+        e.die()

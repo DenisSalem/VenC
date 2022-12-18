@@ -19,6 +19,7 @@
 
 import os
 
+from venc3.helpers import quirk_encoding
 from venc3.prompt import notify
 from venc3.threads import Thread
 
@@ -51,13 +52,14 @@ class ChaptersThread(Thread):
         entry = self.datastore.entries[node.entry_index]
         notify(self.indentation_level+tree_special_char+"─ "+node.index+' '+entry.title+"...")
         self.thread_name = entry.title
-        self.export_path = "blog/"+self.sub_folders+'/'+self.folder_name
-        self.export_path = self.export_path.format(**{
-            "chapter_name" : entry.title,
-            "chapter_index": node.index
-        })
-        self.export_path = self.path_encode(self.export_path)
-        self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
+        folder_name = quirk_encoding(
+            self.folder_name.format(**{
+              "chapter_name" : entry.title,
+              "chapter_index": node.index
+          })
+        )
+        self.export_path = "blog/"+self.sub_folders+'/'+folder_name
+        self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ])
 
         try:
             os.makedirs(self.export_path)

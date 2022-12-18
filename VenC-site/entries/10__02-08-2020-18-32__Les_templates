@@ -1,7 +1,10 @@
-authors: 'Denis Salem'
-categories: ''
-tags: ''
+authors:
+- Denis Salem
+categories:
+- ''
 chapter: 4.5
+tags:
+- ''
 title: Les templates
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---

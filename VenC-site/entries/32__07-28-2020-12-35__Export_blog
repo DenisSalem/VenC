@@ -1,8 +1,11 @@
-authors: 'Denis Salem'
-categories: ''
-tags: ''
-title: Exporter le blog
+authors:
+- Denis Salem
+categories:
+- ''
 chapter: 6.4
+tags:
+- ''
+title: Exporter le blog
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 

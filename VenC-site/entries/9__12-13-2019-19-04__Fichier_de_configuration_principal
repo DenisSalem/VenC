@@ -1,8 +1,10 @@
-authors: 'Denis Salem'
-categories: ''
-tags:
-  - 'yaml'
+authors:
+- Denis Salem
+categories:
+- ''
 chapter: 4.2
+tags:
+- yaml
 title: Fichier de configuration principal
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -194,13 +196,6 @@ Les valeurs possibles de ce champ sont :
 - Markdown
 - reStructuredText
 - none
-
-# .:DisableMarkup::path_encoding:.
-
-Permet de spécifier l'encodage des chemins générés par VenC.
-Utile dans certains cas, quand un ou plusieurs liens internes contiennent
-des accents ou des caractères spéciaux mal supportés par le serveur hôte.
-Ce champ n'a pas de valeur par défaut.
 
 ## .:DisableMarkup::server_port:.
 

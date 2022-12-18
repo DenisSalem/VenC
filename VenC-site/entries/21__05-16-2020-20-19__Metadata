@@ -1,8 +1,11 @@
-authors: 'Denis Salem'
-categories: ''
-tags: 'yaml'
-title: Métadonnée
+authors:
+- Denis Salem
+categories:
+- ''
 chapter: 4.4
+tags:
+- yaml
+title: Métadonnée
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 

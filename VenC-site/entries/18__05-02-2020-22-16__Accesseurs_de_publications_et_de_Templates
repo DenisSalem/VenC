@@ -1,7 +1,12 @@
-authors: 'Denis Salem'
-categories: Material > Metal > Copper, Material Metal > Steel, Science
-tags: ''
+authors:
+- Denis Salem
+categories:
+- Material > Metal > Copper
+- Material Metal > Steel
+- Science
 chapter: 5.2.1
+tags:
+- ''
 title: Accesseur de publications
 variable_name: pif, paf, pouf
 ---VENC-BEGIN-PREVIEW---

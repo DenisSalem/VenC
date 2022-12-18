@@ -1,9 +1,12 @@
-authors: 'Denis Salem'
-categories: ''
-chapter: 3
-tags: ''
-title: Tutoriels
+authors:
+- Denis Salem
 banner: 2021_-_Denis_Salem_-_CC_By_SA_-_VenC_Tutorials.jpg
+categories:
+- ''
+chapter: 3
+tags:
+- ''
+title: Tutoriels
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Ce chapitre a pour but de prendre en main rapidement les fonctionnalités de base de VenC.

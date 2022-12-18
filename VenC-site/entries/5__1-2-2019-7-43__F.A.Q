@@ -1,8 +1,11 @@
-authors: 'Denis Salem'
-categories: ''
-tags: ''
-title: Foire aux questions
+authors:
+- Denis Salem
+categories:
+- ''
 chapter: 7
+tags:
+- ''
+title: Foire aux questions
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 

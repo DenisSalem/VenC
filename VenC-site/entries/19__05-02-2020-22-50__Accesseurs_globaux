@@ -1,7 +1,10 @@
-authors: 'Denis Salem'
-categories: ''
-tags: ''
+authors:
+- Denis Salem
+categories:
+- ''
 chapter: 5.2.2
+tags:
+- ''
 title: Accesseurs globaux
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---

@@ -20,7 +20,6 @@
 import datetime
 
 from venc3.datastore.metadata import build_categories_tree
-from venc3.helpers import setup_categories_tree_base_sub_folder
 
 def merge(iterable, string, separator, node):
     try:
@@ -293,7 +292,7 @@ class DatastorePatterns:
         
         return entry.html_categories_tree[key]
 
-    def build_entry_entry_categories_tree(self, entry):
+    def build_entry_entry_categories_tree(self, entry, path):
         if entry.categories_leaves == None:
             entry.categories_tree = []
             entry.categories_leaves = []
@@ -304,16 +303,15 @@ class DatastorePatterns:
                 entry.categories_leaves,
                 None,
                 encoding=self.path_encoding,
-                sub_folders="\x1a" + self.blog_configuration["path"]["categories_sub_folders"]
+                sub_folders="\x1a" + path
             )
             entry.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
 
-    def build_blog_categories_tree(self):
+    def build_blog_categories_tree(self, path):
         if self.entries_per_categories == None:
             self.entries_per_categories = []
             self.categories_leaves = []
-            path = setup_categories_tree_base_sub_folder(self.blog_configuration["path"]["categories_sub_folders"])
-
+            path = self.blog_configuratio["path"]["categories_sub_folders"]
             for entry_index in range(0, len(self.entries)):
                 current_entry = self.entries[entry_index]
                 build_categories_tree(
@@ -323,7 +321,7 @@ class DatastorePatterns:
                   self.categories_leaves,
                   self.categories_weight_tracker,
                   encoding=self.path_encoding,
-                  sub_folders=path
+                  sub_folders="\x1a"+path
                 )
             self.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
                 
@@ -335,7 +333,7 @@ class DatastorePatterns:
                 self.html_categories_tree[key] = ''
 
             else:
-                self.build_blog_categories_tree()
+                self.build_blog_categories_tree(self.blog_configuration["path"]["categories_sub_folders"])
                 self.html_categories_tree[key] = self.build_html_categories_tree(
                     node, 
                     open_node,

@@ -1,7 +1,10 @@
-authors: 'Denis Salem'
-categories: ''
-tags: 'yaml'
-chapter: "4.3"
+authors:
+- Denis Salem
+categories:
+- ''
+chapter: '4.3'
+tags:
+- yaml
 title: Les publications
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---

@@ -35,12 +35,12 @@ from venc3.datastore.metadata import MetadataNode
 from venc3.datastore.metadata import Chapter
 from venc3.datastore.metadata import categories_to_keywords
 from venc3.datastore.metadata import WeightTracker
-from venc3.helpers import quirk_encoding
 from venc3.prompt import notify
 from venc3.l10n import messages
 from venc3.exceptions import MalformedPatterns, VenCException
 from venc3.patterns.non_contextual import get_embed_content
 from venc3.patterns.datastore import DatastorePatterns
+from venc3.helpers import quirk_encoding
         
 class DataStore(DatastorePatterns):
     def __init__(self):
@@ -190,7 +190,6 @@ class DataStore(DatastorePatterns):
                 if self.entries_per_categories == None:
                     self.entries_per_categories = []
                     self.categories_leaves = []
-                self.setup_categories_tree_base_sub_folder()
                 from venc3.datastore.metadata import build_categories_tree
                 build_categories_tree(
                     entry_index,
@@ -199,28 +198,17 @@ class DataStore(DatastorePatterns):
                     self.categories_leaves,
                     self.categories_weight_tracker,
                     encoding=self.path_encoding,
-                    sub_folders=self.categories_tree_base_sub_folders
+                    sub_folders="\x1a"+self.blog_configuration["path"]["categories_sub_folders"]
                 )
                     
         # Setup BlogArchives Data
         self.blog_archives = list()
         
-        path_archives_sub_folders = self.blog_configuration["path"]["archives_sub_folders"]+'/'
+        path_archives_sub_folders = self.blog_configuration["path"]["archives_sub_folders"]
         for node in self.entries_per_archives:
-            try:
-                if self.path_encoding == '':
-                    sub_folders = quirk_encoding(unidecode.unidecode(path_archives_sub_folders))
-                else:
-                    sub_folders = urllib_parse_quote(path_archives_sub_folders, encoding=self.path_encoding)
-
-            except UnicodeEncodeError as e:
-                notify("\"{0}\": ".format(path_archives_sub_folders)+str(e), color="YELLOW")
-
-            sub_folders = sub_folders if sub_folders != '/' else ''
-
             self.blog_archives.append({
                 "value":node.value,
-                "path": "\x1a"+sub_folders+node.value,
+                "path": "\x1a"+path_archives_sub_folders+quirk_encoding(node.value),
                 "count": node.count,
                 "weight": round(node.count / node.weight_tracker.value,2)
             })
@@ -254,19 +242,12 @@ class DataStore(DatastorePatterns):
                         # TODO: Replace this shitty bloc by a function call building path
                         entry = self.raw_chapters[index]
                         try:
-                            path = "\x1a"+((path_chapters_sub_folders+'/' if path_chapters_sub_folders != '' else '')+path_chapter_folder_name).format(**{
-                                "chapter_name" : entry.title,
-                                "chapter_index" : index
-                            })
-                            try:
-                                if self.path_encoding == '':
-                                    path = quirk_encoding(unidecode.unidecode(path))
-                                    
-                                else:
-                                    path = urllib_parse_quote(path, encoding=self.path_encoding)
-                                    
-                            except UnicodeEncodeError as e:
-                                notify("\"{0}\": ".format(path_chapters_sub_folders)+str(e), color="YELLOW")
+                            path = "\x1a"+path_chapters_sub_folders+quirk_encoding(
+                                path_chapter_folder_name.format(**{
+                                    "chapter_name" : entry.title,
+                                    "chapter_index" : index
+                                })
+                            )
                             
                         except KeyError as e:
                             from venc3.helpers import die
@@ -607,7 +588,7 @@ class DataStore(DatastorePatterns):
 
         except FileNotFoundError:
             return ""
-
+    
 datastore = None
 multiprocessing_thread_params = None
 

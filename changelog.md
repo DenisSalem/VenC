@@ -94,6 +94,7 @@
     CHECK| Use built in list and dict in yaml instead to parsing string.
     WIP  | In build_categories_tree, shitty encoding must be notified properly.
     WIP  | Advanced error handling on tree data structure format.
+    WIP  | Centralize path encoding and reduce codebloat.
     TODO | Fix broken jsonld according to new categories tree building strategies
 
     TODO | default entry metdata must not be mandatory

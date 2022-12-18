@@ -1,7 +1,10 @@
-authors: 'Denis Salem'
-categories: ''
-tags: ''
+authors:
+- Denis Salem
+categories:
+- ''
 chapter: 4.6.1
+tags:
+- ''
 title: Configuration d'un thème
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---

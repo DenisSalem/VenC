@@ -1,9 +1,12 @@
-authors: 'Denis Salem'
-categories: ''
-chapter: 2
-tags: ''
-title: Installation
+authors:
+- Denis Salem
 banner: 2021_-_Denis_Salem_-_CC_By_SA_-_VenC_Install_Party.jpg
+categories:
+- ''
+chapter: 2
+tags:
+- ''
+title: Installation
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Depuis la version 1.2.0 VenC s'installe avec [pip](https://pypi.python.org/pypi/pip), ce qui rend le processus substantiellement plus simple !

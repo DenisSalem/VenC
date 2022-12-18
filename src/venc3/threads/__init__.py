@@ -55,7 +55,6 @@ class Thread:
         self.patterns_map = patterns_map
         self.datastore = datastore
         self.enable_jsonld = datastore.blog_configuration["enable_jsonld"] or datastore.blog_configuration["enable_jsonp"]
-        self.path_encoding = datastore.blog_configuration["path_encoding"]
         # Notify wich thread is processed
         notify(indentation_type+prompt)
 
@@ -86,13 +85,6 @@ class Thread:
 
     def get_style_sheets(self, node):
         return get_style_sheets(node).replace("\x1a", self.relative_origin)
-        
-    def path_encode(self, path):
-        if self.path_encoding in ["utf-8",'']:
-            return quirk_encoding(unidecode.unidecode(path))
-            
-        else:
-            return path
 
     def return_page_around(self, string, params):
         try:
@@ -140,9 +132,9 @@ class Thread:
                 params["path"] = self.filename.format(**params)
 
             else:
-                    params["path"] = self.current_entry.next_entry.url
-                    params["entry_id"] = self.current_entry.next_entry.id
-                    params["entry_title"] = self.current_entry.next_entry.title
+                params["path"] = self.current_entry.next_entry.url
+                params["entry_id"] = self.current_entry.next_entry.id
+                params["entry_title"] = self.current_entry.next_entry.title
                     
             try:
                 return string.format(**params)
@@ -284,19 +276,11 @@ class Thread:
 
     def format_filename(self, value):
         try:
-            if value == 0:
-                return self.path_encode(
-                    self.filename.format(**{
-                        'page_number':''
-                    })
-                )
-        
-            else:
-                return self.path_encode(
-                    self.filename.format(**{
-                        'page_number':value
-                    })
-                )
+            return quirk_encoding(
+                self.filename.format(**{
+                    'page_number': value if value != 0 else ''
+                })
+            )
 
         except KeyError as e:
             from venc3.prompt import die

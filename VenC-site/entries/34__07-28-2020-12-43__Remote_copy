@@ -1,7 +1,10 @@
-authors: 'Denis Salem'
-categories: ''
-tags: ''
+authors:
+- Denis Salem
+categories:
+- ''
 chapter: 6.6
+tags:
+- ''
 title: Copie du blog vers un serveur FTP
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---

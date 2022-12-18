@@ -25,7 +25,6 @@ import urllib.parse
 import yaml
 
 from venc3.helpers import quirk_encoding
-from venc3.helpers import setup_categories_tree_base_sub_folder
 from venc3.prompt import die
 from venc3.prompt import notify
 from venc3.l10n import messages
@@ -157,7 +156,7 @@ class Entry:
                 self.categories_leaves,
                 None,
                 encoding=encoding,
-                sub_folders=setup_categories_tree_base_sub_folder(paths["categories_sub_folders"]) # TODO : NOT EFFICIENT !!! PATH Should be prepared once for all
+                sub_folders="\x1a"+paths["categories_sub_folders"]
             )
         else:
             self.categories_tree = None

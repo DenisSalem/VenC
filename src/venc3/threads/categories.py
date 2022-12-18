@@ -19,6 +19,7 @@
 
 import os
 
+from venc3.helpers import quirk_encoding
 from venc3.prompt import notify
 from venc3.threads import Thread
 
@@ -28,8 +29,6 @@ class CategoriesThread(Thread):
         super().__init__(messages.export_categories)
         self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
         self.sub_folders = self.datastore.blog_configuration["path"]["categories_sub_folders"]
-        if len(self.sub_folders) and self.sub_folders[-1] != '/':
-            self.sub_folders += '/'
         self.export_path = "blog/"+self.sub_folders
         self.category_value = ""
         self.relative_origin = ""
@@ -62,7 +61,7 @@ class CategoriesThread(Thread):
         position = 2
         category_breadcrumb_path = ''
         for sub_category in self.category_value.split('/'):
-            category_breadcrumb_path += sub_category+'/'
+            category_breadcrumb_path += quirk_encoding(sub_category)+'/'
             category_as_jsonld["breadcrumb"]["itemListElement"].append({
                 "@type": "ListItem",
                 "position": position,
@@ -73,8 +72,9 @@ class CategoriesThread(Thread):
                 }
             })
             position += 1
-        category_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+self.category_value+"categories.jsonld"
-        category_as_jsonld["url"] = blog_url+'/'+self.sub_folders+self.category_value
+        category_path = quirk_encoding(self.category_value)
+        category_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+category_path+"categories.jsonld"
+        category_as_jsonld["url"] = blog_url+'/'+self.sub_folders+category_path
         dump = json.dumps(category_as_jsonld)
         if self.datastore.enable_jsonld:
             notify(self.indentation_level+indentation_type+ ('├─ ' if len(node.childs) or self.datastore.enable_jsonp else '└─ ')+messages.generating_jsonld_doc)
@@ -104,7 +104,7 @@ class CategoriesThread(Thread):
         export_path = self.export_path
         category_value = self.category_value
         self.category_value += node.value+'/'
-        self.export_path += self.path_encode(node.value)+'/'
+        self.export_path += quirk_encoding(node.value)+'/'
         self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
 
         try:
