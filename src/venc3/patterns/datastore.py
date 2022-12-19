@@ -416,6 +416,24 @@ class DatastorePatterns:
         
         return self.html_for_metadata[key]
 
+    def tree_for_blog_metadata(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node):
+        return self.tree_for_blog_metadata_if_exists(node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=True):
+
+    def tree_for_blog_metadata_if_exists(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=False):
+        key = node+','+source+','+open_node+','+open_branch+key_value+','+value+','+close_branch+','+close_node+','+str(raise_exception)
+        if key in self.html_tree_for_blog_metadata.keys():
+            return self.html_tree_for_blog_metadata[key]
+            
+        if not source in self.blog_configuration.keys():
+            if raise_exception:
+                raise VenCException(messages.entry_has_no_metadata_like.format(source), node)
+            else:
+                self.html_tree_for_blog_metadata[key] = ""
+                return ""
+                
+        self.html_tree_for_blog_metadata[key] = tree_for_metadata(node, self.blog_configuration[source], open_node, open_branch, key_value, value, close_branch, close_node)
+        return self.html_tree_for_blog_metadata[key]
+
     def for_entry_metadata(self, node, variable_name, string, separator):
         return self.for_entry_metadata_if_exists(node, variable_name, string, separator, raise_exception=True)
 
@@ -451,6 +469,32 @@ class DatastorePatterns:
 
     def for_entry_tags(self, node, string, separator=' '):
         return self.for_entry_metadata(node, "tags", string, separator)
+        
+    def tree_for_entry_metadata(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node):
+        return tree_for_entry_metadata_if_exists (node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=True)
+        
+    def tree_for_entry_metadata_if_exists(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=False):
+        entry = self.requested_entry
+        if not hasattr(entry, source):
+            if raise_exception:
+                raise VenCException(messages.entry_has_no_metadata_like.format(source), node)
+            else:
+                return ""
+                
+        return tree_for_metadata(node, getattr(entry, source), open_node, open_branch, key_value, value, close_branch, close_node)
+                    
+    def tree_for_metadata(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node):
+        items = [
+            open_branch+value.format(
+                **{"value":item}
+            )+close_branch if type(item) == str else open_branch+key_value.format(
+                **{
+                    "key" : tuple(item.keys())[0],
+                    "value": tree_for_metadata(node, tuple(item.values())[0], open_node, open_branch, key_value, value, close_branch, close_node)
+                }
+            )+close_branch for item in source
+        ]
+        return open_node + (''.join(items))+ close_node
 
     # TODO in 3.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.
     def leaves_for_entry_categories(self, node, string, separator):
@@ -517,32 +561,5 @@ class DatastorePatterns:
                         self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
 
         return get_embed_content(node, self.embed_providers, content_url)
-        
-        
-    def for_entry_tree_metadata(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node):
-        return for_entry_dict_metadata_if_exists(node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=True)
-        
-    def for_entry_tree_metadata_if_exists(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=False):
-        entry = self.requested_entry
-        if not hasattr(entry, source):
-            if raise_exception:
-                raise VenCException(messages.entry_has_no_metadata_like.format(source), node)
-            else:
-                return ""
-                
-        return for_dict_metadata(node, getattr(entry, source), open_node, open_branch, key_value, value, close_branch, close_node)
-                    
-    def for_tree_metadata(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node):
-        items = [
-            open_branch+value.format(
-                **{"value":item}
-            )+close_branch if type(item) == str else open_branch+key_value.format(
-                **{
-                    "key" : tuple(item.keys())[0],
-                    "value": for_tree_metadata(node, tuple(item.values())[0], open_node, open_branch, key_value, value, close_branch, close_node)
-                }
-            )+close_branch for item in source
-        ]
-        return open_node + (''.join(items))+ close_node
 
             

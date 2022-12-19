@@ -84,6 +84,7 @@ class DataStore(DatastorePatterns):
         self.html_categories_leaves = {}
         self.html_blog_archives = {}
         self.html_for_metadata = {}
+        self.html_tree_for_blog_metadata = {}
         self.cache_get_entry_attribute_by_id = {}
         self.cache_get_chapter_attribute_by_index = {}
         self.generation_timestamp = datetime.datetime.now()
