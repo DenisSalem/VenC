@@ -237,6 +237,7 @@ class Processor:
                 payload_offset[0] += len_chunk - pattern.c + pattern.o
                 
             return (True, pattern.sub_patterns)
+            
         else:
             pattern.o += payload_offset[0]
             pattern.c += payload_offset[0]  

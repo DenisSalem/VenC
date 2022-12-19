@@ -416,24 +416,6 @@ class DatastorePatterns:
         
         return self.html_for_metadata[key]
 
-    def tree_for_blog_metadata(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node):
-        return self.tree_for_blog_metadata_if_exists(node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=True):
-
-    def tree_for_blog_metadata_if_exists(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=False):
-        key = node+','+source+','+open_node+','+open_branch+key_value+','+value+','+close_branch+','+close_node+','+str(raise_exception)
-        if key in self.html_tree_for_blog_metadata.keys():
-            return self.html_tree_for_blog_metadata[key]
-            
-        if not source in self.blog_configuration.keys():
-            if raise_exception:
-                raise VenCException(messages.entry_has_no_metadata_like.format(source), node)
-            else:
-                self.html_tree_for_blog_metadata[key] = ""
-                return ""
-                
-        self.html_tree_for_blog_metadata[key] = tree_for_metadata(node, self.blog_configuration[source], open_node, open_branch, key_value, value, close_branch, close_node)
-        return self.html_tree_for_blog_metadata[key]
-
     def for_entry_metadata(self, node, variable_name, string, separator):
         return self.for_entry_metadata_if_exists(node, variable_name, string, separator, raise_exception=True)
 
@@ -444,11 +426,15 @@ class DatastorePatterns:
         if not key in entry.html_for_metadata:
             try:
                 l = getattr(entry, variable_name)
-                if type(l) != list:
+                if not type(l) in [list, tuple]:
+                    from venc3.exceptions import VenCException
+                    from venc3.l10n import messages
                     raise VenCException(messages.entry_metadata_is_not_a_list.format(variable_name, entry), node)
                 
             except AttributeError as e:
                 if raise_exception:
+                    from venc3.exceptions import VenCException
+                    from venc3.l10n import messages
                     raise VenCException(messages.entry_has_no_metadata_like.format(variable_name), node)
                 else:
                     entry.html_for_metadata[key] = ""
@@ -460,6 +446,8 @@ class DatastorePatterns:
                 ])
                 
             except KeyError as e:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
                 raise VenCException(messages.unknown_contextual.format(e), node)
             
         return entry.html_for_metadata[key]
@@ -469,31 +457,60 @@ class DatastorePatterns:
 
     def for_entry_tags(self, node, string, separator=' '):
         return self.for_entry_metadata(node, "tags", string, separator)
+
+    def tree_for_blog_metadata(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node):
+        return self.tree_for_blog_metadata_if_exists(node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
+
+    def tree_for_blog_metadata_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
+        key = source+','+open_node+','+open_branch+value_childs+','+value+','+close_branch+','+close_node+','+str(raise_exception)
+        if key in self.html_tree_for_blog_metadata.keys():
+            return self.html_tree_for_blog_metadata[key]
+            
+        if not source in self.blog_configuration.keys():
+            if raise_exception:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
+                raise VenCException(messages.blog_has_no_metadata_like.format(source), node)
+                
+            else:
+                self.html_tree_for_blog_metadata[key] = ""
+                return ""
+                
+        self.html_tree_for_blog_metadata[key] = self.tree_for_metadata(node, self.blog_configuration[source], open_node, open_branch, value_childs, value, close_branch, close_node)
+        return self.html_tree_for_blog_metadata[key]
         
-    def tree_for_entry_metadata(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node):
-        return tree_for_entry_metadata_if_exists (node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=True)
+    def tree_for_entry_metadata(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node):
+        return self.tree_for_entry_metadata_if_exists (node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
         
-    def tree_for_entry_metadata_if_exists(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node, raise_exception=False):
+    def tree_for_entry_metadata_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
         entry = self.requested_entry
         if not hasattr(entry, source):
             if raise_exception:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
                 raise VenCException(messages.entry_has_no_metadata_like.format(source), node)
             else:
                 return ""
                 
-        return tree_for_metadata(node, getattr(entry, source), open_node, open_branch, key_value, value, close_branch, close_node)
+        return self.tree_for_metadata(node, getattr(entry, source), open_node, open_branch, value_childs, value, close_branch, close_node)
                     
-    def tree_for_metadata(self, node, source, open_node, open_branch, key_value, value, close_branch, close_node):
-        items = [
-            open_branch+value.format(
-                **{"value":item}
-            )+close_branch if type(item) == str else open_branch+key_value.format(
-                **{
-                    "key" : tuple(item.keys())[0],
-                    "value": tree_for_metadata(node, tuple(item.values())[0], open_node, open_branch, key_value, value, close_branch, close_node)
-                }
-            )+close_branch for item in source
-        ]
+    def tree_for_metadata(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node):
+        try:
+            items = [
+                open_branch+value.format(
+                    **{"value":item}
+                )+close_branch if type(item) != dict else open_branch+value_childs.format(
+                    **{
+                        "value" : tuple(item.keys())[0],
+                        "childs": self.tree_for_metadata(node, tuple(item.values())[0], open_node, open_branch, value_childs, value, close_branch, close_node)
+                    }
+                )+close_branch for item in source
+            ]
+        except KeyError as e:
+            from venc3.exceptions import VenCException
+            from venc3.l10n import messages
+            raise VenCException(messages.unknown_contextual.format(e), node)
+            
         return open_node + (''.join(items))+ close_node
 
     # TODO in 3.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.

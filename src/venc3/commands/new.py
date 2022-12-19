@@ -40,10 +40,11 @@ class MinimalEntry:
 def new_entry(entry_name, template_name=""):        
     blog_configuration = get_blog_configuration()            
     content =   {
-        "authors":	"",
-		    "tags":		"",
-		    "categories":	"",
-        "title":entry_name}
+        "authors":	[''],
+		    "tags":		[''],
+		    "categories":	[''],
+        "title":entry_name
+    }
 
     try:
         wd = os.listdir(os.getcwd())
