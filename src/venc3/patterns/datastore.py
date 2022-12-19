@@ -489,6 +489,7 @@ class DatastorePatterns:
                 from venc3.exceptions import VenCException
                 from venc3.l10n import messages
                 raise VenCException(messages.entry_has_no_metadata_like.format(source), node)
+                
             else:
                 return ""
                 
