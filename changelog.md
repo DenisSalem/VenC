@@ -105,7 +105,6 @@
     TODO | Search for any TODO, DEPRECATED, BROKEN comment in code
     TODO | Split doc from main branch.
     TODO | Update doc accordingly.
-    TODO | if entries has no categories, enfoce empty list
     TODO | Handle case when entry.html does not embed one of "GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent"
 
 # version 2.0.2

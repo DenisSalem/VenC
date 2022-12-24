@@ -67,7 +67,7 @@ class WeightTracker:
     def update(self):
         self.value+=1
 
-def build_categories_tree(entry_index, input_list, output_branch, output_leaves, weight_tracker, sub_folders=''):
+def build_categories_tree(entry_index, input_list, output_branch, output_leaves, weight_tracker, sub_folders=''):    
     for item, sub_items in flatten_current_level(input_list):
         if not len(item):
             continue

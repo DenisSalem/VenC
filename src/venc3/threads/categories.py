@@ -116,6 +116,9 @@ class CategoriesThread(Thread):
         return (node, export_path, category_value)
             
     def do(self, root=None):
+        if self.datastore.entries_per_categories == None:
+            return
+            
         if root == None:
             root = self.datastore.entries_per_categories
         
