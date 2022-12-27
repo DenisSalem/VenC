@@ -107,6 +107,7 @@
     TODO | Split doc from main branch.
     TODO | get_entry_date_url may be broken.
     TODO | Update doc accordingly.
+    TODO | Handle case when entry.html does not embed one of "GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent"
 
 # version 2.0.2
 
