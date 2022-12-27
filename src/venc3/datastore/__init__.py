@@ -85,12 +85,15 @@ class DataStore(DatastorePatterns):
         self.html_blog_archives = {}
         self.html_for_metadata = {}
         self.html_tree_for_blog_metadata = {}
+        self.html_chapters = {}
+        self.cache_entries_subset = {}
+        
         self.cache_get_entry_attribute_by_id = {}
         self.cache_get_chapter_attribute_by_index = {}
         self.generation_timestamp = datetime.datetime.now()
         self.raw_chapters = {}
         self.chapters_index = []
-        self.html_chapters = {}
+
         
         # Build JSON-LD doc if any
         if self.enable_jsonld or self.enable_jsonp:
@@ -475,7 +478,6 @@ class DataStore(DatastorePatterns):
         if top == []:
             return ''
             
-        path_encoding = self.path_encoding
         output = lo.format(**{"level" :level})
 
         for sub_chapter in top:

@@ -35,7 +35,7 @@ disable_rss_feed: true
 disable_atom_feed: true
 disable_main_thread: true
 disable_threads: ""
-disable_archives: true
+disable_archives: false
 disable_chapters: false
 disable_categories: true
 disable_single_entries: true

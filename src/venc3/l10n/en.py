@@ -112,6 +112,7 @@ class Messages:
     arg_must_be_an_integer = "Argument \"{0}\" must be an integer."
     syntax_error = "Syntax error : Pattern cannot start with \":.\"."
     current_entry_is_overriding_the_following = "Entry #{0} is overriding the following entries:\n{1}"
+    argument_does_not_match_with_any_entries_subset="Argument does not match with any entries subset."
     # Will not be hooked by l10n_cleanup
     theme_description_academik = "Theme with one column and footnotes support. Fit nicely for a blog."
     theme_description_dummy = "The empty one. Aim to built your own from scratch."

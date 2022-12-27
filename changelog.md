@@ -105,7 +105,6 @@
     WIP  | Add Entries sub set generator and ForEntriesSubset
     TODO | Search for any TODO, DEPRECATED, BROKEN comment in code
     TODO | Split doc from main branch.
-    TODO | get_entry_date_url may be broken.
     TODO | Update doc accordingly.
     TODO | Handle case when entry.html does not embed one of "GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent"
 

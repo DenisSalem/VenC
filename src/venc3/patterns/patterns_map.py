@@ -63,7 +63,7 @@ class PatternsMap():
             "ForEntryTags":	                "for_entry_tags",
             "GetEntryAttributeByID" :       "get_entry_attribute_by_id",
             "GetEntryDate":	                "get_entry_date",
-            "GetEntryDateURL":	            "get_entry_date_url",
+            "GetEntryArchiveURL":	          "get_entry_archive_url",
             "GetEntryDay":	                "get_entry_day",
             "GetEntryHour":	                "get_entry_hour",
             "GetEntryID":	                  "get_entry_id",

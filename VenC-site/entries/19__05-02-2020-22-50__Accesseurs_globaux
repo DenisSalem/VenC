@@ -177,88 +177,6 @@ Retournera :
 Ce motif est ignoré et supprimé si la génération des catégories est
 désactivée dans le fichier de configuration principal.
 
-## .:Escape:: .:TreeForBlogCategories::open&#95;node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
-
-Les catégories de la publication sont organisées sous la forme d'un arbre.
-Il est possible de récupérer l'arbre entier afin, typiquement, de générer
-un menu ou une liste de catégories et de sous-catégories.
-
-Le motif fonctione comme __TreeForEntryCategories__
-mais construit l'arborescence des catégories en compilant toutes les
-catégories de toutes les publications.
-
-Les arguments du motif sont :
-
-- __open&#95;node__ : contient la chaîne de caractère d'ouverture pour
-la catégorie parente.
-- __open&#95;branch__ : contient la chaîne de caractère d'ouverture de
-la catégorie courante.
-- __close&#95;branch__ : contient la chaîne de caractère de fermeture de
-la catégorie courante.
-- __close&#95;node__ : contient la chaîne de caractère de fermeture de
-la catégorie parente.
-
-Les variables contextuelles de ce motif sont les suivantes :
-
-- __{value}__ : le nom de la catégorie courante.
-- __{path}__ : le chemin relatif de la catégorie courante.
-- __{count}__ : le nombre de publication dans la catégorie courante.
-- __{weight}__ : le nombre de publication dans la catégorie courante divisé par le total des publications.
-- __{childs}__ : contient la récursion suivante dans le traitement de l'arbre de donnée.
-
-Par exemple, pour créer un menu déroulant, on utilisera le motif comme
-ci-dessous :
-
-.:CodeHighlightInclude::html::False::TreeForBlogCategories_example:.
-
-Si l'ensemble des catégories du blog formait l'arborescence suivante :
-
-.:CodeHighlight::Text::False::
-├─── Material
-│    └─── Metal
-│          ├─── Copper
-│          └─── Steel
-└─── Science
-:.
-
-Alors le motif générera quelque chose comme le code HTML suivant :
-
-.:CodeHighlight::html::False::
-<ul>
-    <li>
-        <a href="../Material/" title="1 publications">Material</a>
-        <ul>
-            <li>
-                <a href="../Material/Metal/" title="1 publications">Metal</a>
-                <ul>
-                    <li><a href="../Material/Metal/Copper/" title="1 publications">Copper</a></li>
-                </ul>
-            </li>
-        </ul>
-    </li>
-    <li>
-        <a href="../Material-Metal/" title="1 publications">Material Metal</a>
-        <ul>
-            <li>
-                <a href="../Material-Metal/Steel/" title="1 publications">Steel</a>
-            </li>
-        </ul>
-    </li>
-    <li>
-        <a href="../Science/" title="1 publications">Science</a>
-    </li>
-</ul>
-:.
-
-À la fin de chaque branche, si la catégorie courante possède une ou
-plusieurs catégories filles, alors les arguments open&#95;node et
-close&#95;node sont ajoutés et une nouvelle liste de sous-catégories
-est générée entre ces deux arguments, en utilisant les arguments
-open&#95;branch et close&#95;branch.
-
-Ce motif est ignoré et supprimé si la génération des catégories est
-désactivée dans le fichier de configuration principal.
-
 ## .:Escape:: .:GetChapters::open_node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
 
 Ce motif permet de récupérer l'arborescence des chapitres du blog. En effet,
@@ -362,3 +280,108 @@ Renverra le permalien relatif du chapitre 1.2.3.
 > .:Escape:: .:GetChapterAttributeByIndex::title::4.2:. ::EndEscape:.
 
 Renverra le permalien relatif du chapitre 4.2.
+
+## .:Escape:: .:TreeForBlogCategories::open&#95;node::open&#95;branch::close&#95;branch::close&#95;node:. ::EndEscape:.
+
+Les catégories de la publication sont organisées sous la forme d'un arbre.
+Il est possible de récupérer l'arbre entier afin, typiquement, de générer
+un menu ou une liste de catégories et de sous-catégories.
+
+Le motif fonctione comme __TreeForEntryCategories__
+mais construit l'arborescence des catégories en compilant toutes les
+catégories de toutes les publications.
+
+Les arguments du motif sont :
+
+- __open&#95;node__ : contient la chaîne de caractère d'ouverture pour
+la catégorie parente.
+- __open&#95;branch__ : contient la chaîne de caractère d'ouverture de
+la catégorie courante.
+- __close&#95;branch__ : contient la chaîne de caractère de fermeture de
+la catégorie courante.
+- __close&#95;node__ : contient la chaîne de caractère de fermeture de
+la catégorie parente.
+
+Les variables contextuelles de ce motif sont les suivantes :
+
+- __{value}__ : le nom de la catégorie courante.
+- __{path}__ : le chemin relatif de la catégorie courante.
+- __{count}__ : le nombre de publication dans la catégorie courante.
+- __{weight}__ : le nombre de publication dans la catégorie courante divisé par le total des publications.
+- __{childs}__ : contient la récursion suivante dans le traitement de l'arbre de donnée.
+
+Par exemple, pour créer un menu déroulant, on utilisera le motif comme
+ci-dessous :
+
+.:CodeHighlightInclude::html::False::TreeForBlogCategories_example:.
+
+Si l'ensemble des catégories du blog formait l'arborescence suivante :
+
+.:CodeHighlight::Text::False::
+├─── Material
+│    └─── Metal
+│          ├─── Copper
+│          └─── Steel
+└─── Science
+:.
+
+Alors le motif générera quelque chose comme le code HTML suivant :
+
+.:CodeHighlight::html::False::
+<ul>
+    <li>
+        <a href="../Material/" title="1 publications">Material</a>
+        <ul>
+            <li>
+                <a href="../Material/Metal/" title="1 publications">Metal</a>
+                <ul>
+                    <li><a href="../Material/Metal/Copper/" title="1 publications">Copper</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="../Material-Metal/" title="1 publications">Material Metal</a>
+        <ul>
+            <li>
+                <a href="../Material-Metal/Steel/" title="1 publications">Steel</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="../Science/" title="1 publications">Science</a>
+    </li>
+</ul>
+:.
+
+À la fin de chaque branche, si la catégorie courante possède une ou
+plusieurs catégories filles, alors les arguments open&#95;node et
+close&#95;node sont ajoutés et une nouvelle liste de sous-catégories
+est générée entre ces deux arguments, en utilisant les arguments
+open&#95;branch et close&#95;branch.
+
+Ce motif est ignoré et supprimé si la génération des catégories est
+désactivée dans le fichier de configuration principal.
+
+## TreeForMetadata
+
+- TreeForEntryMetadataIfExists
+- TreeForEntryMetadata
+- TreeForBlogMetadataIfExists
+- TreeForBLogMetadata
+
+Grace à Yaml il est possible de définir des structures de donnée complexes. Par exemple
+un arbre de donnée :
+
+.:CodeHighlight::yaml::False::
+tree_datastructur:
+  - cobalt
+  - mercury
+  - alkali:
+    - lithium
+    - manganese
+  - titane
+  - gold
+:.
+
+Pour tout un tas de raison, ont peut vouloir récupérer ces données pour les afficher d'une façon particulière sur sont site
