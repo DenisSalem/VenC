@@ -100,10 +100,12 @@
     DONE | Fix broken jsonld according to new categories tree building strategies
     DONE | default entry metdata are not mandatory anymore.
     DONE | Add ForEntryMetadataIfExists.
-    WIP  | Add TreeFor*Metadata and TreeFor*MetadataIfExists
+    DONE | Add TreeFor*Metadata and TreeFor*MetadataIfExists
     WIP  | Generate entry inner table of content.
+    WIP  | Add Entries sub set generator and ForEntriesSubset
     TODO | Search for any TODO, DEPRECATED, BROKEN comment in code
     TODO | Split doc from main branch.
+    TODO | get_entry_date_url may be broken.
     TODO | Update doc accordingly.
 
 # version 2.0.2
