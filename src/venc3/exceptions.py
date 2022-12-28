@@ -51,7 +51,6 @@ class VenCException(Exception):
             
         die(self.message, extra=self.extra)
         
-        
     def flatten(self, highlight=None):
         # use garbage collector to rebuild original string
         import gc

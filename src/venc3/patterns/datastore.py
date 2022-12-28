@@ -362,11 +362,11 @@ class DatastorePatterns:
             try:
                 begin_at= int(begin_at)
                 
-            except TypeError:
+            except ValueError:
                 from venc3.exceptions import VenCException
                 from venc3.l10n import messages
                 raise VenCException(
-                    messages.wrong_pattern_argument.format("begin_at", begin_at)+' '+
+                    messages.wrong_pattern_argument.format("begin_at", begin_at, "RangeEntriesByID")+' '+
                     messages.pattern_argument_must_be_integer,
                     node
                 )
@@ -374,11 +374,11 @@ class DatastorePatterns:
             try:
                 end_at = int(end_at)
                 
-            except TypeError:
+            except ValueError:
                 from venc3.exceptions import VenCException
                 from venc3.l10n import messages
                 raise VenCException(
-                    messages.wrong_pattern_argument.format("end_at", end_at)+' '+
+                    messages.wrong_pattern_argument.format("end_at", end_at, "RangeEntriesByID")+' '+
                     messages.pattern_argument_must_be_integer,
                     node
                 )
@@ -393,6 +393,7 @@ class DatastorePatterns:
             else:
                 entries = []
             
+            print(len(entries))
             self.cache_entries_subset[str(id(key))] = entries
             
         return str(id(key))
@@ -400,13 +401,13 @@ class DatastorePatterns:
     def for_entries_set(self, node, entries_subset_key, string):
         output = ""
         try:
-            entries = self.cache_entries_sub_set[entries_key.strip()]
+            entries = self.cache_entries_subset[entries_subset_key.strip()]
             
         except KeyError:
             from venc3.exceptions import VenCException
             from venc3.l10n import messages
             raise VenCException(
-                messages.wrong_pattern_argument.format("entries_subset_key", entries_subset_key)+' '+
+                messages.wrong_pattern_argument.format("entries_subset_key", entries_subset_key, "ForEntriesSet")+' '+
                 messages.argument_does_not_match_with_any_entries_subset,
                 node
             )
@@ -429,7 +430,7 @@ class DatastorePatterns:
                     output += string.format(**dataset)
                     break
                 except KeyError as e:
-                    dataset.update({str(e):''})
+                    dataset.update({str(e)[1:-1]:''})
                     
         return output
 
