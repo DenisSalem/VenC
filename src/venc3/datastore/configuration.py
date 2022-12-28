@@ -137,8 +137,9 @@ def get_blog_configuration():
     except PermissionError:
         die(messages.no_blog_configuration)
 
-    except yaml.scanner.ScannerError:
-        die(messages.possible_malformed_blogC_configuration)
+    except yaml.scanner.ScannerError as e:
+        notify(messages.in_.format("blog_configuration.yaml"), color="RED")
+        die(str(e))
 
     except VenCException as e:
         e.die()
