@@ -101,12 +101,13 @@
     DONE | default entry metdata are not mandatory anymore.
     DONE | Add ForEntryMetadataIfExists.
     DONE | Add TreeFor*Metadata and TreeFor*MetadataIfExists
-    WIP  | Generate entry inner table of content.
-    WIP  | Add Entries sub set generator and ForEntriesSubset
+    DONE | Generate entry inner table of content.
+    DONE | Add Entries sub set generator and ForEntriesSubset
+    TODO | Handle case when entry.html does not embed one of GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent
+    TODO | Sub chapters URL are broken.
     TODO | Search for any TODO, DEPRECATED, BROKEN comment in code
     TODO | Split doc from main branch.
-    TODO | Update doc accordingly.s
-    TODO | Handle case when entry.html does not embed one of "GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent"
+    TODO | Update doc accordingly.
 
 # version 2.0.2
 
