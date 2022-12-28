@@ -65,7 +65,7 @@ class VenCException(Exception):
                 
             len_before = len(patterns)
             
-        if highlight != None:
+        if type(highlight) == Pattern:
             faulty_pattern =  ".:"+("::".join(highlight.payload))+":."
             self.extra = self.extra.replace(faulty_pattern, '\033[91m' + faulty_pattern + '\033[0m')
             

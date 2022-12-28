@@ -105,7 +105,7 @@
     WIP  | Add Entries sub set generator and ForEntriesSubset
     TODO | Search for any TODO, DEPRECATED, BROKEN comment in code
     TODO | Split doc from main branch.
-    TODO | Update doc accordingly.
+    TODO | Update doc accordingly.s
     TODO | Handle case when entry.html does not embed one of "GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent"
 
 # version 2.0.2
