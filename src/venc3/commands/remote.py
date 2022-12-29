@@ -27,8 +27,6 @@ from venc3.prompt import die
 from venc3.prompt import notify
 from venc3.l10n import messages
 
-#TODO : Initiate multiple, threaded, connection to speed up FTP transfert
-
 def remote_copy(argv=list()):
     blog_configuration = get_blog_configuration()
     try:

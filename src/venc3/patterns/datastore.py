@@ -141,6 +141,30 @@ class DatastorePatterns:
     def get_blog_metadata_if_not_null(self, node, field_name, if_true='', if_false='', ):
         return self.get_blog_metadata_if_exists(node, field_name, if_true, if_false, ok_if_null=False)
 
+    def get_entry_attribute_by_id(self, node, attribute, identifier):            
+        key = attribute+identifier
+        if not key in self.cache_get_entry_attribute_by_id.keys():
+            try:
+                entry = [entry for entry in self.entries if entry.id == int(identifier)][0]
+                self.cache_get_entry_attribute_by_id[key] = getattr(entry, attribute)
+            
+            except ValueError:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
+                raise VenCException(messages.id_must_be_an_integer, node)
+                
+            except AttributeError as e:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
+                raise VenCException(messages.entry_has_no_metadata_like.format(argv[0]), node)
+
+            except IndexError:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
+                raise VenCException(messages.cannot_retrieve_entry_attribute_because_wrong_id, node)
+            
+        return self.cache_get_entry_attribute_by_id[key]
+        
     def get_entry_chapter_path(self, node):
         return '' if self.blog_configuration["disable_chapters"] else self.requested_entry.chapter.path
 
@@ -226,30 +250,6 @@ class DatastorePatterns:
                 raise VenCException(messages.chapter_has_no_attribute_like.format(attribute), node)
                 
         return self.cache_get_chapter_attribute_by_index[key]
-
-    def get_entry_attribute_by_id(self, node, attribute, identifier):            
-        key = attribute+identifier
-        if not key in self.cache_get_entry_attribute_by_id.keys():
-            try:
-                entry = [entry for entry in self.entries if entry.id == int(identifier)][0]
-                self.cache_get_entry_attribute_by_id[key] = getattr(entry, attribute)
-            
-            except ValueError:
-                from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.id_must_be_an_integer, node)
-                
-            except AttributeError as e:
-                from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.entry_has_no_metadata_like.format(argv[0]), node)
-
-            except IndexError:
-                from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.cannot_retrieve_entry_attribute_because_wrong_id, node)
-            
-        return self.cache_get_entry_attribute_by_id[key]
             
     def get_entry_path(self, node):
         return '' if self.blog_configuration["disable_single_entries"] else self.requested_entry.path

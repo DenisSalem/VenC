@@ -164,7 +164,6 @@ def process_non_contextual_patterns():
     except VenCException as e:    
         e.die()
 
-# TODO: https://openweb.eu.org/articles/comment-construire-un-flux-atom
 def export_blog(theme_name=''):
     import time
     start_timestamp = time.time()

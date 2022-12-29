@@ -106,7 +106,6 @@ class VenCSyntaxError(VenCException):
         self.extra = string_under_processing.string
         self.extra = self.extra[:o]+'\033[91m'+self.extra[o:c]+'\033[0m'+self.extra[c:]
                     
-# TODO : Find a way to not raise exception if pattern is embed in Escape
 class UnknownPattern(VenCException):
     def __init__(self, pattern, string_under_processing):
         from venc3.l10n import messages
