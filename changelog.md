@@ -98,7 +98,7 @@
     DONE | Centralize path encoding and reduce codebloat.
     DONE | Use built in list and dict in yaml instead to parsing string.
     DONE | Fix broken jsonld according to new categories tree building strategies
-    DONE | default entry metdata are not mandatory anymore.
+    DONE | default entry metdata are not mandatory anymore (there is no warning).
     DONE | Add ForEntryMetadataIfExists.
     DONE | Add TreeFor*Metadata and TreeFor*MetadataIfExists
     DONE | Generate entry inner table of content.

@@ -82,7 +82,6 @@ class Entry:
         # Fix missing or incorrect metadata
         for key in ("authors", "tags", "categories", "title"):
             if key not in metadata.keys() or metadata[key] == None:
-                notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")
                 metadata[key] = '' if key == "title" else []
     
         self.raw_metadata = metadata
