@@ -141,6 +141,9 @@ class DatastorePatterns:
     def get_blog_metadata_if_not_null(self, node, field_name, if_true='', if_false='', ):
         return self.get_blog_metadata_if_exists(node, field_name, if_true, if_false, ok_if_null=False)
 
+    def get_entry_chapter_path(self, node):
+        return '' if self.blog_configuration["disable_chapters"] else self.requested_entry.chapter.path
+
     def get_entry_metadata(self, node, metadata_name):            
         try:
             return str(getattr(self.requested_entry, metadata_name))
@@ -198,7 +201,7 @@ class DatastorePatterns:
             date_format if len(date_format) else self.blog_configuration["date_format"]
         )
 
-    def get_entry_archive_url(self, node):
+    def get_entry_archive_path(self, node):
         return "\x1a"+self.requested_entry.date.strftime(
             self.blog_configuration["path"]["archives_directory_name"]
         )
@@ -248,8 +251,8 @@ class DatastorePatterns:
             
         return self.cache_get_entry_attribute_by_id[key]
             
-    def get_entry_url(self, node):
-        return '' if self.blog_configuration["disable_single_entries"] else self.requested_entry.url
+    def get_entry_path(self, node):
+        return '' if self.blog_configuration["disable_single_entries"] else self.requested_entry.path
 
     def get_author_name(self, node):
         return self.blog_configuration["author_name"]
@@ -418,8 +421,8 @@ class DatastorePatterns:
             dataset = {
                 "id" : entry.id,
                 "title": entry.title,
-                "url": entry.date.strftime(date_format),
-                "archive_url": "\x1a"+entry.date.strftime(archives_directory_name),
+                "url": entry.path,
+                "archive_path": "\x1a"+entry.date.strftime(archives_directory_name),
                 "reference_id":str(id(entry))
             }
             dataset.update({ 

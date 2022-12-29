@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-
 from copy import deepcopy
 
 import datetime
@@ -239,7 +238,6 @@ class DataStore(DatastorePatterns):
                 
                 except StopIteration:
                     if index in self.raw_chapters.keys():
-                        # TODO: Replace this shitty bloc by a function call building path
                         entry = self.raw_chapters[index]
                         try:
                             path = "\x1a"+path_chapters_sub_folders+quirk_encoding(

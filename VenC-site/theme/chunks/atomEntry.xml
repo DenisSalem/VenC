@@ -1,6 +1,6 @@
  <entry>
    <title>.:GetEntryTitle:.</title>
-   <link href=".:GetEntryURL:."/>
+   <link href=".:GetEntryPath:."/>
    <content type="xhtml">
    .:GetEntryContent:.
    </content>

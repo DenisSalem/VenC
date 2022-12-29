@@ -104,7 +104,8 @@
     DONE | Generate entry inner table of content.
     DONE | Add Entries sub set generator and ForEntriesSubset
     DONE | Handle case where GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent are calling themeselves.
-    TODO | Sub chapters URL are broken.
+    DONE | Add GetEntryChapterPath.
+    TODO | Replace all Get*URL getter with Get*Path getter.
     TODO | Search for any TODO, DEPRECATED, BROKEN comment in code
     TODO | Split doc from main branch.
     TODO | Update doc accordingly.

@@ -39,7 +39,7 @@ class Entry:
         date_format = paths["archives_directory_name"]
         self.previous_entry = None
         self.next_entry = None
-        self.chapter = None
+        self.chapter = None  # will be overriden at chapters datastructure generation
         self.schemadotorg = {}
         self.title = ''
 

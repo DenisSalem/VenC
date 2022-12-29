@@ -62,7 +62,7 @@ __à l'intérieur__ d'un ou plusieurs arguments_.
     <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#getentrymonth">GetEntryMonth</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#getentrypreview">GetEntryPreview</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#getentrytitle">GetEntryTitle</a>:: :: ::NewLine::
-    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#getentryurl">GetEntryURL</a>:: :: ::NewLine::
+    <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#getentryurl">GetEntryPath</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.2.1:.#getentryyear">GetEntryYear</a>:: :: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.4:.#getgenerationtimestampdate95format">GetGenerationTimestamp</a>::date_format:: ::NewLine::
     <a href=".:GetChapterAttributeByIndex::path::5.4:.#getjson-ld">GetJSON-LD</a>:: :: ::NewLine::
