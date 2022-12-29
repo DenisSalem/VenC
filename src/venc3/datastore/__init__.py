@@ -410,7 +410,7 @@ class DataStore(DatastorePatterns):
             }
         blog_url = self.blog_configuration["blog_url"]
         blog_url = blog_url+'/' if blog_url[-1] != '/' else blog_url
-        entry_url = entry.url.replace("\x1a", blog_url)
+        entry_url = entry.path.replace("\x1a", blog_url)
         doc = {
             "@context": "http://schema.org",
             "@type" : ["BlogPosting", "WebPage"],

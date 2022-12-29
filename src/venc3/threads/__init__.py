@@ -132,7 +132,7 @@ class Thread:
                 params["path"] = self.filename.format(**params)
 
             else:
-                params["path"] = self.current_entry.next_entry.url
+                params["path"] = self.current_entry.next_entry.path
                 params["entry_id"] = self.current_entry.next_entry.id
                 params["entry_title"] = self.current_entry.next_entry.title
                     
@@ -167,7 +167,7 @@ class Thread:
             else:
                     params["entry_id"] = self.current_entry.previous_entry.id
                     params["entry_title"] = self.current_entry.previous_entry.title
-                    params["path"] = self.current_entry.previous_entry.url
+                    params["path"] = self.current_entry.previous_entry.path
 
             try:
                 return string.format(**params)

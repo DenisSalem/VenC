@@ -74,7 +74,7 @@ class EntriesThread(Thread):
             "entry_id":str(self.current_entry.id),
             "entry_title":str(self.current_entry.title),
             "page_number":'',
-            "path": self.current_entry.url
+            "path": self.current_entry.path
         }
         
         try:
@@ -98,14 +98,14 @@ class EntriesThread(Thread):
             if next_entry != None:
                 params["entry_id"] = next_entry.id
                 params["entry_title"] = next_entry.title
-                params["path"] = next_entry.url
+                params["path"] = next_entry.path
                 output += string.format(**params) + separator
                 next_entry = next_entry.next_entry
             
             if previous_entry != None:
                 params["entry_id"] = previous_entry.id
                 params["entry_title"] = previous_entry.title
-                params["path"] = previous_entry.url
+                params["path"] = previous_entry.path
                 output = string.format(**params) + separator + output
                 previous_entry = previous_entry.previous_entry
 

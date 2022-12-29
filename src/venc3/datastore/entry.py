@@ -118,7 +118,7 @@ class Entry:
         # TODO MAY BE OPTIMIZED
         sf = quirk_encoding(paths["entries_sub_folders"].format(**params))
         self.sub_folder = (sf+'/' if sf[-1] != '/' else sf) if len(sf) else ''
-        self.url = "\x1a"+self.sub_folder+quirk_encoding(
+        self.path = "\x1a"+self.sub_folder+quirk_encoding(
             paths["entry_file_name"].format(**params)
         )
         
