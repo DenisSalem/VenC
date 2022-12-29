@@ -56,6 +56,7 @@ class Pattern:
     FLAG_ALL = 15
     
     def __init__(self, s, o, c, sub_patterns, root):
+        self.ID = '\x00'+str(id(self))+'\x00'
         self.o, self.c = o, c
         self.root = root
         self.payload = s[o+2:c-2].split('::')
@@ -64,6 +65,7 @@ class Pattern:
         limit = offset
         i = 0
         payload_index = 1
+       
         len_sub_patterns = len(sub_patterns)
         for item in self.payload[1:]:
             limit += len(item)
@@ -79,8 +81,9 @@ class Pattern:
             offset = limit
             payload_index +=1
             
-        self.ID = '\x00'+str(id(self))+'\x00'
         pattern_name = self.payload[0]
+        self.name_id = id(pattern_name)
+
         self.flags = Pattern.FLAG_NONE
         if pattern_name in PatternsMap.CONTEXTUALS.keys():
             self.flags = Pattern.FLAG_CONTEXTUAL
@@ -207,9 +210,14 @@ class Processor:
         self.functions = {}
         self.set_patterns = self.functions.update
     
-    def apply_pattern(self, parent, pattern, flags, payload_offset):
+    def apply_pattern(self, parent, pattern, flags, payload_offset, recursion_error_triggered_by):
+        if recursion_error_triggered_by == pattern.name_id:
+            from venc3.exceptions import VenCException
+            from venc3.l10n import messages
+            raise VenCException(messages.pattern_recursion_error.format(pattern.payload[0]), pattern)
+            
         if pattern.payload[0] != "Escape":
-            self.process(pattern, flags)
+            self.process(pattern, flags, recursion_error_triggered_by)
             
         pattern_name, *args = pattern.payload
         if (pattern.flags & (flags ^ Pattern.FLAG_NON_PARALLELIZABLE)) and ((flags & Pattern.FLAG_NON_PARALLELIZABLE) or (not(pattern.flags & Pattern.FLAG_NON_PARALLELIZABLE))):
@@ -243,7 +251,7 @@ class Processor:
             pattern.c += payload_offset[0]  
             return (False, pattern.sub_patterns)
                     
-    def process(self, parent, flags):
+    def process(self, parent, flags, recursion_error_triggered_by=None):
         payload_offset = [
             0, # offset
             1 # payload_index
@@ -253,7 +261,7 @@ class Processor:
         i = 0
         while i < len(parent_sub_patterns):
             pattern = parent_sub_patterns[i]
-            applied, leftovers = self.apply_pattern(parent, pattern, flags, payload_offset)
+            applied, leftovers = self.apply_pattern(parent, pattern, flags, payload_offset, recursion_error_triggered_by)
             if not applied:
                 parent_sub_patterns_filtered_append(pattern)
                 

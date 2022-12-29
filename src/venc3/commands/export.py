@@ -222,7 +222,7 @@ def export_blog(theme_name=''):
             thread = ChaptersThread()
             thread.do()
             
-    except VenCException:    
+    except VenCException as e:    
         e.die()
         
     # Copy assets and extra files

@@ -103,7 +103,7 @@
     DONE | Add TreeFor*Metadata and TreeFor*MetadataIfExists
     DONE | Generate entry inner table of content.
     DONE | Add Entries sub set generator and ForEntriesSubset
-    TODO | Handle case when entry.html does not embed one of GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent
+    DONE | Handle case where GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent are calling themeselves.
     TODO | Sub chapters URL are broken.
     TODO | Search for any TODO, DEPRECATED, BROKEN comment in code
     TODO | Split doc from main branch.

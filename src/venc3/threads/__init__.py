@@ -222,22 +222,22 @@ class Thread:
 
     def get_entry_content(self, node):
         content = deepcopy(self.current_entry.content)
-        self.processor.process(content, Pattern.FLAG_CONTEXTUAL)
+        self.processor.process(content, Pattern.FLAG_CONTEXTUAL, id(node.payload[0]))
         return content.string
         
     def get_entry_preview(self, node):
         preview = deepcopy(self.current_entry.preview)
-        self.processor.process(preview, Pattern.FLAG_CONTEXTUAL)
+        self.processor.process(preview, Pattern.FLAG_CONTEXTUAL, id(node.payload[0]))
         return preview.string
       
     def preview_if_in_thread_else_content(self, node):
         if self.in_thread:
             preview = deepcopy(self.current_entry.preview)
-            self.processor.process(content, Pattern.FLAG_CONTEXTUAL)
+            self.processor.process(content, Pattern.FLAG_CONTEXTUAL, id(node.payload[0]))
             return preview.string
         else:
             content = deepcopy(self.current_entry.content)
-            self.processor.process(content, Pattern.FLAG_CONTEXTUAL)
+            self.processor.process(content, Pattern.FLAG_CONTEXTUAL,id(node.payload[0]))
             return content.string            
         
     def if_pages(self, node, string1, string2=''):
