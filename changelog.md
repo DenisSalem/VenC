@@ -111,7 +111,7 @@
 
 # version 2.0.2
 
-    DONE | Fix for_entry_metadata; catching unavailable contextual pattern.
+    DONE | Fix for_entry_metadata; catching unavailable contextual pattern. 
     DONE | Fix github issue #21. Add missing documentation about GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent.
 
 # version 2.0.1
