@@ -63,7 +63,7 @@ Retourne la date de la publication formatée comme définit dans le fichier de c
 Il est possible d'utiliser un autre format de date à l'aide de l'argument
 optionnel __format__. Pour en savoir plus sur ce format, rendez vous [ici](http://strftime.org).
 
-## .:Escape:: .:GetEntryDateURL:. ::EndEscape:.
+## .:Escape:: .:GetEntryArchiveURL:. ::EndEscape:.
 
 Retourne le liens vers le groupe d'archive dans lequel se trouve la publication.
 

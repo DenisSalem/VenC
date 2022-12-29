@@ -112,6 +112,7 @@ class Messages:
     arg_must_be_an_integer = "L'argument \"{0}\" doit être un nombre entier."
     syntax_error = "Erreur de syntaxe : Un motif ne peut pas commencer par \":.\"."
     current_entry_is_overriding_the_following = "La publication #{0} écrase les publications suivantes:\n{1}"
+    argument_does_not_match_with_any_entries_subset="L'argument ne correspond à aucun sous ensemble de publication."
     # Will not be hooked by l10n_cleanup
     theme_description_academik = "Thème mono colonne, avec note de bas de page. Idéal pour un blog."
     theme_description_dummy = "Le thème vide. Il donne une bonne base pour concevoir le votre."

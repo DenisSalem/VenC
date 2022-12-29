@@ -59,11 +59,10 @@ class PatternsMap():
             "ForEntryAuthors":	            "for_entry_authors",
             "ForEntryMetadata":	            "for_entry_metadata",
             "ForEntryMetadataIfExists":	    "for_entry_metadata_if_exists",   
-            #"ForEntryRange":	              "for_entry_range",                  #OE  TODO: NOT FINISHED YET
             "ForEntryTags":	                "for_entry_tags",
             "GetEntryAttributeByID" :       "get_entry_attribute_by_id",
             "GetEntryDate":	                "get_entry_date",
-            "GetEntryDateURL":	            "get_entry_date_url",
+            "GetEntryArchiveURL":	          "get_entry_archive_url",
             "GetEntryDay":	                "get_entry_day",
             "GetEntryHour":	                "get_entry_hour",
             "GetEntryID":	                  "get_entry_id",
@@ -84,6 +83,7 @@ class PatternsMap():
         },
         "blog": {
             "ForBlogArchives":	            "for_blog_archives",
+            "ForEntriesSet":	              "for_entries_set",
             "GetAuthorDescription":	        "get_author_description",
             "GetAuthorEmail":               "get_author_email",
             "GetAuthorName":	              "get_author_name",
@@ -109,6 +109,7 @@ class PatternsMap():
             "IfInfiniteScrollEnabled":	      "if_infinite_scroll_enabled",
             "IfRSSEnabled":	                "if_rss_enabled",
             "LeavesForBlogCategories":	    "leaves_for_blog_categories",
+            "RangeEntriesByID":             "range_entries_by_id",
             "TreeForBlogCategories":	      "tree_for_blog_categories",
             "TreeForBlogMetadata":          "tree_for_blog_metadata",
             "TreeForBlogMetadataIfExists":  "tree_for_blog_metadata_if_exists",   
@@ -132,9 +133,11 @@ class PatternsMap():
     }
 
     NON_PARALLELIZABLES = {
-        "GetChapterAttributeByIndex" : "get_chapter_attribute_by_index",
-        "GetChapters" : "get_chapters",
-        "GetEntryAttributeByID" : "get_entry_attribute_by_id",
+        "ForEntriesSet":	              "for_entries_set",
+        "GetChapterAttributeByIndex" :  "get_chapter_attribute_by_index",
+        "GetChapters" :                 "get_chapters",
+        "GetEntryAttributeByID" :       "get_entry_attribute_by_id",
+        "RangeEntriesByID":             "range_entries_by_id",
     }
     
     def __init__(self):                

@@ -26,6 +26,7 @@ def merge(iterable, string, separator, node):
         return separator.join([string.format(**something) for something in iterable])
     
     except KeyError as e:
+        from venc3.exceptions import VenCException
         from venc3.l10n import messages
         raise VenCException(messages.unknown_contextual.format(str(e)), node)
 
@@ -145,6 +146,8 @@ class DatastorePatterns:
             return str(getattr(self.requested_entry, metadata_name))
             
         except AttributeError:
+            from venc3.exceptions import VenCException
+            from venc3.l10n import messages
             raise VenCException(
                 messages.entry_has_no_metadata_like.format(metadata_name),
                 node
@@ -195,8 +198,8 @@ class DatastorePatterns:
             date_format if len(date_format) else self.blog_configuration["date_format"]
         )
 
-    def get_entry_date_url(self, node):
-        return self.requested_entry.date.strftime(
+    def get_entry_archive_url(self, node):
+        return "\x1a"+self.requested_entry.date.strftime(
             self.blog_configuration["path"]["archives_directory_name"]
         )
     
@@ -210,13 +213,16 @@ class DatastorePatterns:
                 self.cache_get_chapter_attribute_by_index[key] = getattr(self.raw_chapters[index].chapter, attribute)
                 
             except KeyError as e:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
                 raise VenCException(messages.there_is_no_chapter_with_index.format(index), node)
                 
             except AttributeError as e:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
                 raise VenCException(messages.chapter_has_no_attribute_like.format(attribute), node)
                 
         return self.cache_get_chapter_attribute_by_index[key]
-
 
     def get_entry_attribute_by_id(self, node, attribute, identifier):            
         key = attribute+identifier
@@ -226,12 +232,18 @@ class DatastorePatterns:
                 self.cache_get_entry_attribute_by_id[key] = getattr(entry, attribute)
             
             except ValueError:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
                 raise VenCException(messages.id_must_be_an_integer, node)
                 
             except AttributeError as e:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
                 raise VenCException(messages.entry_has_no_metadata_like.format(argv[0]), node)
 
             except IndexError:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
                 raise VenCException(messages.cannot_retrieve_entry_attribute_because_wrong_id, node)
             
         return self.cache_get_entry_attribute_by_id[key]
@@ -343,40 +355,83 @@ class DatastorePatterns:
 
         return self.html_categories_tree[key]
         
-    # TODO: NOT FINISHED YET
-    def for_entry_range(self, node, argv):
-        return ""     # BECAUSE TODO
-            
-        try:
-            start_from= int(argv[0])
-            
-        except TypeError:
-            raise VenCException(
-                messages.wrong_pattern_argument.format("start_from", argv[0])+' '+
-                messages.pattern_argument_must_be_integer,
-                node
-            )
         
-        try:
-            end_from= int(argv[1])
+    def range_entries_by_id(self, node, begin_at, end_at):
+        key = 'rang_entries_by_id,'+begin_at+','+end_at
+        if not str(id(key)) in self.cache_entries_subset.keys():
+            try:
+                begin_at= int(begin_at)
+                
+            except ValueError:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
+                raise VenCException(
+                    messages.wrong_pattern_argument.format("begin_at", begin_at, "RangeEntriesByID")+' '+
+                    messages.pattern_argument_must_be_integer,
+                    node
+                )
             
-        except TypeError:
-            raise VenCException(
-                messages.wrong_pattern_argument.format("end_to", argv[0])+' '+
-                messages.pattern_argument_must_be_integer,
-                node
-            )
+            try:
+                end_at = int(end_at)
+                
+            except ValueError:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
+                raise VenCException(
+                    messages.wrong_pattern_argument.format("end_at", end_at, "RangeEntriesByID")+' '+
+                    messages.pattern_argument_must_be_integer,
+                    node
+                )
             
-        if end_from <= start_from:
-            raise VenCException(messages.invalid_range.format(start_from, end_to), node)
-        
-        entry = self.requested_entry
-        
+            entries = []
+            if end_at > begin_at:
+                entries = [entry for entry in self.entries if end_at >= entry.id >= begin_at]
+                
+            elif end_at < begin_at:
+                entries = [entry for entry in self.entries if end_at >= entry.id >= begin_at]
+    
+            else:
+                entries = []
+            
+            print(len(entries))
+            self.cache_entries_subset[str(id(key))] = entries
+            
+        return str(id(key))
+            
+    def for_entries_set(self, node, entries_subset_key, string):
         output = ""
-        #TODO: PREVENT CRASH IN CASE OF WRONG INPUTS
-        for i in range(start_from, end_from):
-            output += argv[2].replace("[index]}", '['+str(i)+']}').format(**entry.raw_metadata)
+        try:
+            entries = self.cache_entries_subset[entries_subset_key.strip()]
+            
+        except KeyError:
+            from venc3.exceptions import VenCException
+            from venc3.l10n import messages
+            raise VenCException(
+                messages.wrong_pattern_argument.format("entries_subset_key", entries_subset_key, "ForEntriesSet")+' '+
+                messages.argument_does_not_match_with_any_entries_subset,
+                node
+            )
         
+        date_format = self.blog_configuration["date_format"]
+        archives_directory_name = self.blog_configuration["path"]["archives_directory_name"]
+        for entry in entries:
+            dataset = {
+                "id" : entry.id,
+                "title": entry.title,
+                "url": entry.date.strftime(date_format),
+                "archive_url": "\x1a"+entry.date.strftime(archives_directory_name),
+                "reference_id":str(id(entry))
+            }
+            dataset.update({ 
+                attr: getattr(entry, attr) for attr in dir(entry) if type(getattr(entry, attr)) in [str, int, float]
+            })
+            while '∞':
+                try:
+                    output += string.format(**dataset)
+                    break
+                except KeyError as e:
+                    dataset.update({str(e)[1:-1]:''})
+                    
         return output
 
     def for_blog_archives(self, node, string, separator):

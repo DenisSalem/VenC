@@ -51,7 +51,6 @@ class VenCException(Exception):
             
         die(self.message, extra=self.extra)
         
-        
     def flatten(self, highlight=None):
         # use garbage collector to rebuild original string
         import gc
@@ -65,7 +64,7 @@ class VenCException(Exception):
                 
             len_before = len(patterns)
             
-        if highlight != None:
+        if type(highlight) == Pattern:
             faulty_pattern =  ".:"+("::".join(highlight.payload))+":."
             self.extra = self.extra.replace(faulty_pattern, '\033[91m' + faulty_pattern + '\033[0m')
             

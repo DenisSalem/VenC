@@ -100,19 +100,14 @@
     DONE | Fix broken jsonld according to new categories tree building strategies
     DONE | default entry metdata are not mandatory anymore.
     DONE | Add ForEntryMetadataIfExists.
-    WIP  | Add TreeFor*Metadata and TreeFor*MetadataIfExists
-    WIP  | Generate entry inner table of content.
+    DONE | Add TreeFor*Metadata and TreeFor*MetadataIfExists
+    DONE | Generate entry inner table of content.
+    DONE | Add Entries sub set generator and ForEntriesSubset
+    TODO | Handle case when entry.html does not embed one of GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent
+    TODO | Sub chapters URL are broken.
     TODO | Search for any TODO, DEPRECATED, BROKEN comment in code
     TODO | Split doc from main branch.
     TODO | Update doc accordingly.
-    TODO | Handle case when entry.html does not embed one of "GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent
-    TODO |    File "/home/denissalem/.local/lib/python3.9/site-packages/VenC-3.0.0-py3.9.egg/EGG-INFO/scripts/venc", line 88, in <module>
-              File "/home/denissalem/.local/lib/python3.9/site-packages/VenC-3.0.0-py3.9.egg/EGG-INFO/scripts/venc", line 80, in argv_handler
-              File "/home/denissalem/.local/lib/python3.9/site-packages/VenC-3.0.0-py3.9.egg/venc3/commands/export.py", line 172, in export_blog
-              File "/home/denissalem/.local/lib/python3.9/site-packages/VenC-3.0.0-py3.9.egg/venc3/datastore/__init__.py", line 592, in init_datastore
-              File "/home/denissalem/.local/lib/python3.9/site-packages/VenC-3.0.0-py3.9.egg/venc3/datastore/__init__.py", line 50, in __init__
-              File "/home/denissalem/.local/lib/python3.9/site-packages/VenC-3.0.0-py3.9.egg/venc3/datastore/configuration.py", line 141, in get_blog_configuration
-            AttributeError: 'Messages' object has no attribute 'possible_malformed_blogC_configuration'
 
 # version 2.0.2
 
