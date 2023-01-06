@@ -47,6 +47,7 @@
     TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Atom feed generation might be invalid, see : https://openweb.eu.org/articles/comment-construire-un-flux-atom
     TODO | Do not raise UnknownPattern if pattern is embed in Escape
+    TODO | https://pypi.org/project/pylint/
 
 # version 3.0.0
 
@@ -103,7 +104,7 @@
     DONE | default entry metdata are not mandatory anymore (there is no warning).
     DONE | Add ForEntryMetadataIfExists.
     DONE | Add TreeFor*Metadata and TreeFor*MetadataIfExists
-    DONE | Generate entry inner table of content.
+    WIP  | Generate entry inner table of content.
     DONE | Add Entries sub set generator and ForEntriesSubset
     DONE | Handle case where GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent are calling themeselves.
     DONE | Add GetEntryChapterPath.

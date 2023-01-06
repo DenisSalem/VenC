@@ -26,7 +26,7 @@ import os
 import unidecode
 
 from urllib.parse import quote as urllib_parse_quote
-
+from venc3.datastore.metadata import build_categories_tree
 from venc3.datastore.configuration import get_blog_configuration
 from venc3.datastore.entry import yield_entries_content
 from venc3.datastore.entry import Entry
@@ -40,7 +40,7 @@ from venc3.exceptions import MalformedPatterns, VenCException
 from venc3.patterns.non_contextual import get_embed_content
 from venc3.patterns.datastore import DatastorePatterns
 from venc3.helpers import quirk_encoding
-        
+
 class DataStore(DatastorePatterns):
     def __init__(self):
         self.in_child_process = False
@@ -93,7 +93,6 @@ class DataStore(DatastorePatterns):
         self.raw_chapters = {}
         self.chapters_index = []
 
-        
         # Build JSON-LD doc if any
         if self.enable_jsonld or self.enable_jsonp:
             if "https://schema.org" in self.blog_configuration.keys():
@@ -106,7 +105,7 @@ class DataStore(DatastorePatterns):
             self.archives_as_jsonld = {}
             self.categories_as_jsonld = {}
             self.root_site_to_jsonld()
-            
+
         # Build entries
         filenames = [filename for filename in yield_entries_content()]
         self.chunks_len = (len(filenames)//self.workers_count)+1
@@ -190,7 +189,6 @@ class DataStore(DatastorePatterns):
                 if self.entries_per_categories == None:
                     self.entries_per_categories = []
                     self.categories_leaves = []
-                from venc3.datastore.metadata import build_categories_tree
                 build_categories_tree(
                     entry_index,
                     current_entry.raw_categories,
@@ -217,7 +215,6 @@ class DataStore(DatastorePatterns):
         path_chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
         path_chapter_folder_name = self.blog_configuration["path"]["chapter_directory_name"]
         
-        #TODO: IS not safe, must test level if is actually an int. Test as well the whole sequence.
         for chapter in sorted(self.raw_chapters.keys(), key = lambda x : int(x.replace('.', ''))):
             top = self.chapters_index
             index = ''
@@ -272,7 +269,7 @@ class DataStore(DatastorePatterns):
             output += open_li
             output += (content_format).format(**{
                 "level": current[0],
-                "text": current[1],
+                "title": current[1],
                 "id":current[2]
             })
             
@@ -471,7 +468,6 @@ class DataStore(DatastorePatterns):
         # ~ # Setup categories as jsonld if any
         self.walk_entry_categories_tree_and_make_jsonld(entry.categories_tree, blog_post)
         
-    #TODO : Raise MissingArgs if... missing args.
     def build_html_chapters(self, lo, io, ic, lc, top, level):          
         if top == []:
             return ''
@@ -569,10 +565,6 @@ class DataStore(DatastorePatterns):
             }
 
             output_string += opening_branch.format(**variables) +closing_branch.format(**variables)
-        
-        # TODO: WTF ???
-        if output_string == opening_node+closing_node:
-            return ""
 
         return output_string + closing_node
         

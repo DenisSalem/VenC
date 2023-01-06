@@ -19,6 +19,7 @@
 
 import datetime
 
+from venc3.datastore.metadata import Chapter
 from venc3.datastore.metadata import build_categories_tree
 
 def merge(iterable, string, separator, node):
@@ -166,7 +167,10 @@ class DatastorePatterns:
         return self.cache_get_entry_attribute_by_id[key]
         
     def get_entry_chapter_path(self, node):
-        return '' if self.blog_configuration["disable_chapters"] else self.requested_entry.chapter.path
+        if self.blog_configuration["disable_chapters"]:
+            return ''
+        else:
+            return self.requested_entry.chapter.path if hasattr(self.requested_entry, "chapter") and type(self.requested_entry.chapter) == Chapter else ''
 
     def get_entry_metadata(self, node, metadata_name):            
         try:
@@ -572,7 +576,6 @@ class DatastorePatterns:
             
         return open_node + (''.join(items))+ close_node
 
-    # TODO in 3.x.x: Access {count} and {weight} from LeavesForEntrycategories by taking benefit of preprocessing.
     def leaves_for_entry_categories(self, node, string, separator):
         key = string+separator
         entry = self.requested_entry
@@ -586,7 +589,7 @@ class DatastorePatterns:
                     [ {
                         "value" : node.value,
                         "count" : node.count,
-                        "weight" : round(node.count / self.categories_weight_tracker.value,2),
+                        "weight" : round(node.count / self.categories_weight_tracker.value, 2),
                         "path" : node.path
                     } for node in entry.categories_leaves],
                     string,

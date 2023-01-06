@@ -23,9 +23,8 @@ import requests
 import shutil
 from venc3 import venc_version
 from venc3.helpers import SafeFormatDict
-from venc3.l10n import messages
-from venc3.exceptions import VenCException # TODO: include when needed only
-from venc3.prompt import notify
+from venc3.l10n import messages # TODO: include if necessary
+from venc3.prompt import notify # TODO: include if necessary
 from urllib.parse import urlparse
 
 theme_includes_dependencies = []
@@ -39,6 +38,7 @@ def get_embed_content(node, providers, url):
         key = [ key for key in providers["oembed"].keys() if url.netloc in key][0]
 
     except IndexError:
+        from venc3.exceptions import VenCException
         raise VenCException(messages.unknown_provider.format(url.netloc), node)
     
     try:
@@ -48,15 +48,18 @@ def get_embed_content(node, providers, url):
         })
 
     except requests.exceptions.ConnectionError as e:
+        from venc3.exceptions import VenCException
         raise VenCException(messages.connectivity_issue+'\n'+str(e), node)
 
     if r.status_code != 200:
+        from venc3.exceptions import VenCException
         raise VenCException(messages.ressource_unavailable.format(url.geturl()), node)
 
     try:
         html = json.loads(r.text)["html"]
         
     except Exception as e:
+        from venc3.exceptions import VenCException
         raise VenCException(messages.response_is_not_json.format(url.geturl()), node)
         
     try:
@@ -75,22 +78,19 @@ def get_embed_content(node, providers, url):
 def get_venc_version(node):
     return venc_version
     
-# TODO : pattern args order is wrong, color should be first so string can be tuple cf set_style
-def set_color(node, string, color):        
+def set_color(node, color, string):        
     return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+color+";\">"+string+"</span>"
 
 def set_style(node, ID, CLASS, *string):
     return "<span id=\""+ID.strip()+"\" class=\""+CLASS.strip()+"\">"+('::'.join(string).strip())+"</span>"
 
 
-# TODO: Must fix dirty try/except structure.
-# TODO: Add explicit message about exception. 
-
 def include_file(node, filename, *argv, raise_error=True):
     if filename == '':
         if not raise_error:
             return ""
-            
+
+        from venc3.exceptions import VenCException
         raise VenCException(messages.wrong_pattern_argument.format("path", filename, "include_file"), node, node.root.string)
     
     include_string = None
@@ -105,12 +105,14 @@ def include_file(node, filename, *argv, raise_error=True):
                 if not raise_error:
                     return ""
                     
+                from venc3.exceptions import VenCException
                 raise VenCException(messages.wrong_permissions.format(path), node, node.root.string)
                 
     if include_string == None:
         if not raise_error:
             return ""
-            
+
+        from venc3.exceptions import VenCException
         raise VenCException(
             ".:"+("::".join(node.payload))+":.\n" + '\n'.join(
                 (messages.file_not_found.format(path) for path in paths)

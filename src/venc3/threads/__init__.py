@@ -78,9 +78,7 @@ class Thread:
         # Setup pattern processor
         self.processor = Processor()
         self.processor.set_patterns(
-            # TODO : Remove this ugly hack.
-            # Value is None for GetEntryContent, GetEntryPreview, PreviewIfInThreadElseContent
-            { key : (getattr(self, value) if value else None) for key,value, in patterns_map.CONTEXTUALS.items()}
+            { key : getattr(self, value)  for key,value, in patterns_map.CONTEXTUALS.items()}
         )
 
     def get_style_sheets(self, node):

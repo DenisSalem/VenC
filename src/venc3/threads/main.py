@@ -73,7 +73,6 @@ class MainThread(Thread):
             import json
             dump = json.dumps(self.datastore.root_as_jsonld)
         
-        # TODO RUN AS PARENT CLASS METHOD
         if self.datastore.enable_jsonld:
             notify(self.indentation_level+('└─ ' if not self.datastore.enable_jsonp else '├─ ')+messages.generating_jsonld_doc)
             f = open("blog/root.jsonld", 'w')

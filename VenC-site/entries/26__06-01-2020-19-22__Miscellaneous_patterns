@@ -9,6 +9,8 @@ title: Motifs divers
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
+.:GetEntryToC::<ul>::<li>::{id} {level} {title}::</li>::/ul>:.
+
 ## .:Escape:: .:GetRandomNumber::min::max::precision:. :.
 
 Génère un nombre aléatoire compris entre __min__ et __max__ avec une précision
