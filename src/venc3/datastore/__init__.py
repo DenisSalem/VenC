@@ -83,6 +83,7 @@ class DataStore(DatastorePatterns):
         self.html_for_metadata = {}
         self.html_tree_for_blog_metadata = {}
         self.html_chapters = {}
+        self.cache_blog_archives = {}
         self.cache_entries_subset = {}
         self.cache_get_entry_attribute_by_id = {}
         self.cache_get_chapter_attribute_by_index = {}
@@ -192,8 +193,9 @@ class DataStore(DatastorePatterns):
                     
             # Update categories tree           
             if jsonld_required:
-                self.entries_per_categories = []
-                self.categories_leaves = []
+                if self.entries_per_categories == None:
+                    self.entries_per_categories = []
+                    self.categories_leaves = []
                     
                 build_categories_tree(
                     entry_index,
@@ -203,16 +205,6 @@ class DataStore(DatastorePatterns):
                     self.categories_weight_tracker,
                     sub_folders="\x1a"+self.blog_configuration["path"]["categories_sub_folders"]
                 )
-                    
-        # ~ # Setup BlogArchives Data
-        # ~ self.blog_archives = list()
-        # ~ for node in self.entries_per_archives:
-            # ~ self.blog_archives.append({
-                # ~ "value":node.value,
-                # ~ "path": "\x1a"+path_archives_sub_folders+quirk_encoding(node.value),
-                # ~ "count": node.count,
-                # ~ "weight": round(node.count / node.weight_tracker.value,2)
-            # ~ })
         
     def build_chapter_indexes(self):
         # build chapters index

@@ -443,9 +443,9 @@ class DatastorePatterns:
 
     def for_blog_archives(self, node, string, separator):
         key = string+','+separator
-        if not key in self.html_blog_archives.keys():
+        if not key in self.cache_blog_archives.keys():
             if self.blog_configuration["disable_archives"]:
-                self.html_blog_archives[key] = ''
+                self.cache_blog_archives[key] = ''
 
             else:
                 archives = [{
@@ -454,9 +454,9 @@ class DatastorePatterns:
                     "count" : o.count,
                     "weight" : round(o.count / o.weight_tracker.value,2)
                 } for o in self.entries_per_archives if o.value not in self.disable_threads]
-                self.html_blog_archives[key] = merge(archives, string, separator, node)
+                self.cache_blog_archives[key] = merge(archives, string, separator, node)
 
-        return self.html_blog_archives[key]
+        return self.cache_blog_archives[key]
 
     def for_blog_metadata(self, node, metadata_name, string, separator):
         return self.for_blog_metadata_if_exists(node, metadata_name, string, separator, raise_exception=True)
