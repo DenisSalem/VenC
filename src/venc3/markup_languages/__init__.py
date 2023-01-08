@@ -53,7 +53,6 @@ def process_markup_language(source, markup_language, entry=None):
     if markup_language == "Markdown":
         venc_markdown = import_wrapper(markup_language)(extras=["header-ids", "footnotes", "toc"])
         string = venc_markdown.convert(source.string)
-
         entry.toc = tuple(venc_markdown.table_of_content)
 
     elif markup_language == "asciidoc":

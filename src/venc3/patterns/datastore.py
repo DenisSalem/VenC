@@ -448,7 +448,12 @@ class DatastorePatterns:
                 self.html_blog_archives[key] = ''
 
             else:
-                archives = [o for o in self.blog_archives if o["value"] not in self.disable_threads]
+                archives = [{
+                    "value" : o.value,
+                    "path" : o.path,
+                    "count" : o.count,
+                    "weight" : round(o.count / o.weight_tracker.value,2)
+                } for o in self.entries_per_archives if o.value not in self.disable_threads]
                 self.html_blog_archives[key] = merge(archives, string, separator, node)
 
         return self.html_blog_archives[key]

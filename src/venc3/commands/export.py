@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2021 Denis Salem
+#    Copyright 2016, 2023 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -194,7 +194,6 @@ def export_blog(theme_name=''):
     import os, shutil
     shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
     os.makedirs("blog")
-
 
     try:
         # Starting second pass and exporting

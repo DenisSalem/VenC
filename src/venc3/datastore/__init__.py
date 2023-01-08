@@ -44,7 +44,6 @@ from venc3.helpers import quirk_encoding
 class DataStore(DatastorePatterns):
     def __init__(self):
         self.in_child_process = False
-        notify("┌─ "+messages.loading_entries)
         self.root_page = None
         self.blog_configuration = get_blog_configuration()
         self.sort_by = self.blog_configuration["sort_by"]
@@ -81,7 +80,6 @@ class DataStore(DatastorePatterns):
         self.embed_providers = {}
         self.html_categories_tree = {}
         self.html_categories_leaves = {}
-        self.html_blog_archives = {}
         self.html_for_metadata = {}
         self.html_tree_for_blog_metadata = {}
         self.html_chapters = {}
@@ -107,6 +105,7 @@ class DataStore(DatastorePatterns):
             self.root_site_to_jsonld()
 
         # Build entries
+        notify("┌─ "+messages.loading_entries)
         filenames = [filename for filename in yield_entries_content()]
         self.chunks_len = (len(filenames)//self.workers_count)+1
         jsonld_required = self.blog_configuration["enable_jsonld"] or self.blog_configuration["enable_jsonp"]
@@ -161,8 +160,9 @@ class DataStore(DatastorePatterns):
         self.entries = sorted(self.entries, key = lambda entry : self.sort(entry))
         for i in range(0, len(self.entries)):
             self.entries[i].index = i
-
-        path_archives_directory_name = self.blog_configuration["path"]["archives_directory_name"]
+            
+        path_archives_sub_folders = self.blog_configuration["path"]["archives_sub_folders"]
+        compute_archives = self.blog_configuration["path"]["archives_directory_name"] != '' and not self.blog_configuration["disable_archives"]
         
         # Once entries are loaded, build datastore
         jsonld_callback = self.entry_to_jsonld_callback if (self.enable_jsonld or self.enable_jsonp) else None
@@ -172,23 +172,29 @@ class DataStore(DatastorePatterns):
                 jsonld_callback(current_entry)
 
             # Update entriesPerDates
-            # TODO could be done only if necessary
-            if path_archives_directory_name != '':
+            if compute_archives:
                 formatted_date = current_entry.formatted_date
-                entries_index = self.get_entries_index_for_given_date(formatted_date)
-                if entries_index != None:
-                    self.entries_per_archives[entries_index].count +=1
-                    self.entries_per_archives[entries_index].weight_tracker.update()
-                    self.entries_per_archives[entries_index].related_to.append(entry_index)
+                archives_index = self.get_archives_index_for_given_date(formatted_date)
+                if archives_index != None:
+                    self.entries_per_archives[archives_index].count +=1
+                    self.entries_per_archives[archives_index].weight_tracker.update()
+                    self.entries_per_archives[archives_index].related_to.append(entry_index)
 
                 else:
-                    self.entries_per_archives.append(MetadataNode(formatted_date, entry_index,weight_tracker=self.archives_weight_tracker))
+                    self.entries_per_archives.append(
+                        MetadataNode(
+                            formatted_date,
+                            entry_index,
+                            path="\x1a"+path_archives_sub_folders+quirk_encoding(formatted_date),
+                            weight_tracker=self.archives_weight_tracker
+                        )
+                    )
                     
             # Update categories tree           
             if jsonld_required:
-                if self.entries_per_categories == None:
-                    self.entries_per_categories = []
-                    self.categories_leaves = []
+                self.entries_per_categories = []
+                self.categories_leaves = []
+                    
                 build_categories_tree(
                     entry_index,
                     current_entry.raw_categories,
@@ -198,17 +204,15 @@ class DataStore(DatastorePatterns):
                     sub_folders="\x1a"+self.blog_configuration["path"]["categories_sub_folders"]
                 )
                     
-        # Setup BlogArchives Data
-        self.blog_archives = list()
-        
-        path_archives_sub_folders = self.blog_configuration["path"]["archives_sub_folders"]
-        for node in self.entries_per_archives:
-            self.blog_archives.append({
-                "value":node.value,
-                "path": "\x1a"+path_archives_sub_folders+quirk_encoding(node.value),
-                "count": node.count,
-                "weight": round(node.count / node.weight_tracker.value,2)
-            })
+        # ~ # Setup BlogArchives Data
+        # ~ self.blog_archives = list()
+        # ~ for node in self.entries_per_archives:
+            # ~ self.blog_archives.append({
+                # ~ "value":node.value,
+                # ~ "path": "\x1a"+path_archives_sub_folders+quirk_encoding(node.value),
+                # ~ "count": node.count,
+                # ~ "weight": round(node.count / node.weight_tracker.value,2)
+            # ~ })
         
     def build_chapter_indexes(self):
         # build chapters index
@@ -434,7 +438,7 @@ class DataStore(DatastorePatterns):
                     "@type": "ListItem",
                     "position": 2,
                     "item": {
-                        "@id": blog_url+entry.sub_folder+str(entry.id)+".jsonld",
+                        "@id": blog_url+entry.sub_folder+str(entry.id) + ".jsonld",
                         "url": entry_url,
                         "name": entry.title
                     }
@@ -444,28 +448,30 @@ class DataStore(DatastorePatterns):
             **optionals
         }
         self.entries_as_jsonld[entry.id] = doc
-        
-        # TODO 3.x.x : TRY AVOID DEREFERENCE HERE
-        
-        blog_post = {
-            "@type": doc["@type"],
-            "@id": doc["@id"],
-            "headline":entry.title,
-            "author": doc["author"],
-            "publisher": doc["publisher"],
-            "datePublished": doc["datePublished"],
-            "keywords": doc["keywords"],
-            "url": doc["url"]
-        }
+                
+        blog_post = { "headline" : entry.title }
+        blog_post.update({
+            key : doc[key] for key in [
+                "@type",
+                "@id",
+                "author",
+                "publisher",
+                "datePublished",
+                "keywords",
+                "url"
+            ]
+        })
+
         self.root_as_jsonld["blogPost"].append(blog_post)
         
         # Setup archives as jsonld if any
         entry_formatted_date = entry.formatted_date
         if entry_formatted_date not in self.archives_as_jsonld.keys():
             self.archives_to_jsonld(entry_formatted_date)
+            
         self.archives_as_jsonld[entry.formatted_date]["blogPost"].append(blog_post)
 
-        # ~ # Setup categories as jsonld if any
+        # Setup categories as jsonld if any
         self.walk_entry_categories_tree_and_make_jsonld(entry.categories_tree, blog_post)
         
     def build_html_chapters(self, lo, io, ic, lc, top, level):          
@@ -522,7 +528,7 @@ class DataStore(DatastorePatterns):
         except AttributeError:
             return ''
         
-    def get_entries_index_for_given_date(self, value):
+    def get_archives_index_for_given_date(self, value):
         index = 0
         for metadata in self.entries_per_archives:
             if value == metadata.value:
