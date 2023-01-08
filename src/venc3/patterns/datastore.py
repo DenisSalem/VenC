@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2022 Denis Salem
+#    Copyright 2016, 2023 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -105,9 +105,9 @@ class DatastorePatterns:
 
     def get_entry_toc(self, node, open_ul, open_li, content, close_li, close_ul):
         key = open_ul+open_li+content+close_li+close_ul
-        if not key in self.html_entry_tocs.keys():
-            self.html_entry_tocs[key] = self.build_entry_html_toc(self.requested_entry, open_ul, open_li, content_format, close_li, close_ul)
-        return self.html_entry_tocs[key]
+        if not key in self.cache_entry_tocs.keys():
+            self.cache_entry_tocs[key] = self.build_entry_html_toc(self.requested_entry, open_ul, open_li, content, close_li, close_ul)
+        return self.cache_entry_tocs[key]
         
     def get_generation_timestamp(self, node, time_format):
         return datetime.datetime.strftime(self.generation_timestamp, time_format)

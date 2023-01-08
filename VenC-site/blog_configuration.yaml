@@ -35,7 +35,7 @@ disable_rss_feed: true
 disable_atom_feed: true
 disable_main_thread: true
 disable_threads: ""
-disable_archives: false
+disable_archives: true
 disable_chapters: false
 disable_categories: true
 disable_single_entries: true
@@ -43,6 +43,6 @@ banner: 'https://download.tuxfamily.org/dsalem/img/2017_-_Denis_Salem_-_CC_By_SA
 path_encoding: ''
 server_port: 8888
 sort_by: 'chapter'
-enable_jsonld: True
-enable_jsonp: True
+enable_jsonld: False
+enable_jsonp: False
 parallel_processing: 1

@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2022 Denis Salem
+#    Copyright 2016, 2023 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -86,9 +86,9 @@ class DataStore(DatastorePatterns):
         self.html_tree_for_blog_metadata = {}
         self.html_chapters = {}
         self.cache_entries_subset = {}
-        
         self.cache_get_entry_attribute_by_id = {}
         self.cache_get_chapter_attribute_by_index = {}
+        self.cache_entry_tocs = {}
         self.generation_timestamp = datetime.datetime.now()
         self.raw_chapters = {}
         self.chapters_index = []
