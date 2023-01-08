@@ -110,7 +110,7 @@
     DONE | Handle case where GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent are calling themeselves.
     DONE | Add GetEntryChapterPath.
     DONE | Replace all Get*URL getter with Get*Path getter.
-    WIP  | Search for any TODO, DEPRECATED, BROKEN comment in code
+    WIP  | Search for any TODO comment in code
     TODO | Split doc from main branch.
     TODO | Update doc accordingly.
 
