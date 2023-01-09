@@ -84,9 +84,19 @@ def init_theme(theme_name=''):
         import yaml
         config = yaml.load(open(theme_folder+"/config.yaml",'r').read(), Loader=yaml.FullLoader)
         if "override" in config.keys() and type(config["override"]) == dict:
-            # TODO : Be explicit to user about which value are updated
             from venc3.datastore import datastore
+            from venc3.l10n import messages
+            from venc3.prompt import notify
             for param in config["override"].keys():
+                notify(
+                  messages.the_following_is_overriden.format(
+                      param,
+                      config["override"][param],
+                      theme_folder+"/config.yaml"
+                  ),
+                  color="YELLOW"
+                )
+
                 if type(config["override"][param]) == dict and param in datastore.blog_configuration.keys() and type(datastore.blog_configuration[param]) == dict:
                     datastore.blog_configuration[param].update(config["override"][param])
                 

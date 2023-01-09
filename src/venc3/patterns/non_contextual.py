@@ -23,8 +23,6 @@ import requests
 import shutil
 from venc3 import venc_version
 from venc3.helpers import SafeFormatDict
-from venc3.l10n import messages # TODO: include if necessary
-from venc3.prompt import notify # TODO: include if necessary
 from urllib.parse import urlparse
 
 theme_includes_dependencies = []
@@ -39,6 +37,7 @@ def get_embed_content(node, providers, url):
 
     except IndexError:
         from venc3.exceptions import VenCException
+        from venc3.l10n import messages
         raise VenCException(messages.unknown_provider.format(url.netloc), node)
     
     try:
@@ -49,10 +48,12 @@ def get_embed_content(node, providers, url):
 
     except requests.exceptions.ConnectionError as e:
         from venc3.exceptions import VenCException
+        from venc3.l10n import messages
         raise VenCException(messages.connectivity_issue+'\n'+str(e), node)
 
     if r.status_code != 200:
         from venc3.exceptions import VenCException
+        from venc3.l10n import messages
         raise VenCException(messages.ressource_unavailable.format(url.geturl()), node)
 
     try:
@@ -60,6 +61,7 @@ def get_embed_content(node, providers, url):
         
     except Exception as e:
         from venc3.exceptions import VenCException
+        from venc3.l10n import messages
         raise VenCException(messages.response_is_not_json.format(url.geturl()), node)
         
     try:
@@ -70,6 +72,8 @@ def get_embed_content(node, providers, url):
         f.close()
 
     except PermissionError:
+        from venc3.prompt import notify
+        from venc3.l10n import messages
         notify(messages.wrong_permissions.format("caches/embed/"+cache_filename), color="YELLOW")
 
     return html
@@ -91,6 +95,7 @@ def include_file(node, filename, *argv, raise_error=True):
             return ""
 
         from venc3.exceptions import VenCException
+        from venc3.l10n import messages
         raise VenCException(messages.wrong_pattern_argument.format("path", filename, "include_file"), node, node.root.string)
     
     include_string = None
@@ -106,6 +111,7 @@ def include_file(node, filename, *argv, raise_error=True):
                     return ""
                     
                 from venc3.exceptions import VenCException
+                from venc3.l10n import messages
                 raise VenCException(messages.wrong_permissions.format(path), node, node.root.string)
                 
     if include_string == None:
@@ -113,6 +119,7 @@ def include_file(node, filename, *argv, raise_error=True):
             return ""
 
         from venc3.exceptions import VenCException
+        from venc3.l10n import messages
         raise VenCException(
             ".:"+("::".join(node.payload))+":.\n" + '\n'.join(
                 (messages.file_not_found.format(path) for path in paths)

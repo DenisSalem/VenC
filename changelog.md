@@ -26,7 +26,7 @@
     TODO | Create entry with default template, if defined.
     TODO | Split themes from main branch.
     TODO | Add translation for Deutsch and Spanish.
-    TODO | Add docutils reStructuredText parser settings override.
+    TODO | Add to markup language parser custom settings.
     TODO | Decrease halt_level to render reStructuredText even if errors occurs.
     TODO | Add Yaml comments in blog configuration.
     TODO | Add configuration field type check.

@@ -56,7 +56,6 @@ def process_markup_language(source, markup_language, entry=None):
         entry.toc = tuple(venc_markdown.table_of_content)
 
     elif markup_language == "asciidoc":
-        #TODO 3.x.x : support metadata parametrisation
         string = import_wrapper(markup_language)(source, {})
         
     elif markup_language == "reStructuredText":

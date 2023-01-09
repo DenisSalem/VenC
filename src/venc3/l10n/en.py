@@ -114,6 +114,8 @@ class Messages:
     current_entry_is_overriding_the_following = "Entry #{0} is overriding the following entries:\n{1}"
     argument_does_not_match_with_any_entries_subset="Argument does not match with any entries subset."
     pattern_recursion_error="Recursion error in pattern \"{0}\", function is calling itself too many times."
+    the_following_is_overriden = "Setting identified by \"{0}\" is overriden by the following value \"{1}\" from {2}." 
+
     # Will not be hooked by l10n_cleanup
     theme_description_academik = "Theme with one column and footnotes support. Fit nicely for a blog."
     theme_description_dummy = "The empty one. Aim to built your own from scratch."
