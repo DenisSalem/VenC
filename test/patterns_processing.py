@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2022 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -17,263 +17,84 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc2.patterns.processor import ProcessedString    # The object holding the string and its states.
-from venc2.patterns.processor import Processor          # The actual string processor, holding binded methods.
+from venc3.patterns.processor import PatternNode
+from venc3.patterns.processor import Processor              # The actual string processor, holding binded methods.
+from venc3.patterns.processor import StringUnderProcessing  # The object holding the string and its states.
+from venc3.prompt import die
+from venc3.prompt import notify
 
-from venc2.patterns.exceptions import MalformedPatterns
-from venc2.patterns.exceptions import PatternMissingArguments
-from venc2.patterns.exceptions import PatternInvalidArgument
-from venc2.patterns.exceptions import UnknownContextual
 
-from venc2.helpers import GenericMessage
 
-from test_engine import run_tests
+def test_datastructure(verbose=False):  
+    ref = [ "FUNC"+str(i) for i in range(1,9) ]
+    def print_tree(nodes, parent, indent='\t'):
+        output = []
+        for pattern in nodes:                
+            if type(parent) == PatternNode:
+                if verbose:
+                    print(indent, parent.args[pattern.parent_argument_index][pattern.o:pattern.c+2], pattern, pattern.name, pattern.args)
+                if parent.args[pattern.parent_argument_index][pattern.o:pattern.c+2] != "\x00"+str(id(pattern))+"\x00":
+                    die("test_datastructure: identifier mismatch with extracted identifier string from parent.")
+            else:
+                if verbose:
+                    print(indent, parent._str[pattern.o:pattern.c+2], pattern, pattern.name, pattern.args)              
+                if parent._str[pattern.o:pattern.c+2] != "\x00"+str(id(pattern))+"\x00":
+                    die("test_datastructure: identifier mismatch with extracted identifier string from parent.")
+            output += [pattern.name] + print_tree(pattern.sub_strings, pattern, indent=indent+'\t')
+            
+        return output
+    s = ".:FUNC1:. .:FUNC2:: .:FUNC3::ARG3_1:. :: .:FUNC4::ARG4_1::ARG4_2:. .:FUNC5::ARG5_1::ARG5_2 .:FUNC6:. :. :. .:FUNC7::ARG7_1::ARG7_2 .:FUNC8::ARG8_1::ARG8_2:. :."
 
-from copy import deepcopy
+    sup = StringUnderProcessing(s, "test_datastructure")
+    if ref != print_tree(sup.sub_strings, sup):
+        die("test_datastructure: patterns aren't sorted.")
+        
+    if verbose:
+        print("OUTPUT:", sup)
 
-def add(argv):
-    try:
-        a, b = tuple(argv)
+def test_process_no_flatten(verbose=False):
+    def GET_SOME_DATA(node, a,b,c=0):
+        return "some_data({0},{1},{2})".format(a,b,c)
+        
+    def GET_ANOTHER_KIND_OF_DATA(node, a,b,c=1):
+        return "another_kind_of_data({0},{1},{2})".format(a,b,c)
 
-    except Exception as e:
-        raise PatternMissingArguments(e)
+    s = ".:GET_SOME_DATA::moo::foo:. .:GET_SOME_DATA::bar::foo::moo:. .:GET_ANOTHER_KIND_OF_DATA::zbim:: .:GET_SOME_DATA::zbam::zboom:. :."
+    sup = StringUnderProcessing(s, "test_full_process")
 
-    return str( int(a) + int(b) )
-
-def mul(argv):
-    try:
-        a, b = tuple(argv)
+    p = Processor()
+    p.set_patterns({
+        "GET_SOME_DATA": GET_SOME_DATA,
+        "GET_ANOTHER_KIND_OF_DATA": GET_ANOTHER_KIND_OF_DATA
+    })
     
-    except Exception as e:
-        raise PatternMissingArguments(e)
+    if verbose:
+        print(s)
     
-    return str( int(a) * int(b) )
-
-def greater(argv):
-    try:
-        a, b = tuple(argv)
+    p.process(sup, PatternNode.FLAG_ALL)
     
-    except Exception as e:
-        raise PatternMissingArguments(e)
+    if verbose:
+        print(sup)
+        
+    ref = ' '.join([string.id for string in sup.sub_strings])
+    if str(sup) != ref:
+        die("test_process_no_flatten: expected root string mismatch with output")
+
+    if verbose:
+        print("\t",sup.sub_strings[2].id, sup.sub_strings[2].output)
+        
+    ref = "another_kind_of_data(zbim, {0} ,1)".format(sup.sub_strings[2].sub_strings[0].id)
+    if sup.sub_strings[2].output != ref:
+        die("test_process_no_flatten: expected sub string mismatch with output")
+        
+    return sup
+
+def test_process_flatten(sup, verbose=False):
+    if "some_data(moo,foo,0) some_data(bar,foo,moo) another_kind_of_data(zbim, some_data(zbam,zboom,0) ,1)" != sup.flatten():
+        die("test_process_flatten: expected string mismatch with output")
     
-    return a if float(a) > float(b) else b
+test_datastructure()
+sup = test_process_no_flatten()
+test_process_flatten(sup)
 
-def upper(argv):
-    try:
-        a = argv[0]
-
-    except:
-        raise PatternMissingArguments()
-
-    return a.upper()
-
-def trigger_generic_message_exception(argv):
-    raise GenericMessage("lol it will never work")
-
-def trigger_pattern_invalid_argument_exception(argv):
-    raise PatternInvalidArgument("some field", "some value", "some message")
-
-def trigger_unknown_contextual_exception(argv):
-    raise UnknownContextual()
-
-processor = Processor()
-processor.debug = True
-processor.set_function("add", add)
-processor.set_function("mul", mul)
-processor.set_function("greater", greater)
-processor.set_function("upper", upper)
-processor.set_function("trigger_generic_message_exception", trigger_generic_message_exception)
-processor.set_function("trigger_pattern_invalid_argument_exception", trigger_pattern_invalid_argument_exception)
-processor.set_function("trigger_unknown_contextual_exception", trigger_unknown_contextual_exception)
-processor.blacklist.append("blacklisted")
-
-def test_pattern_processor(args, test_name):
-    input_value, process_escapes = args
-    ps = ProcessedString(input_value, test_name, process_escapes)
-    processor.process(ps)
-    return ps.string
-
-def test_pattern_processor_restore(args, test_name):
-    input_value, process_escapes = args
-    ps = ProcessedString(input_value, test_name, process_escapes)
-    states = ( list(ps.open_pattern_pos), list(ps.close_pattern_pos), int(ps.len_open_pattern_pos), int(ps.len_close_pattern_pos), str(ps.string))
-    processor.process(ps, safe_process=True)
-    ps.restore()
-    return states == (ps.open_pattern_pos, ps.close_pattern_pos, ps.len_open_pattern_pos, ps.len_close_pattern_pos, ps.string)
-
-
-def test_markup_language(args, test_name):
-    input_value, markup_language, preserved = args
-    ps = ProcessedString(input_value, test_name, False)
-    p = deepcopy(processor)
-    p.keep_appart_from_markup = preserved
-    p.process(ps)
-    ps.process_markup_language(markup_language)
-    return ps.string.replace('\n', '')
-
-tests = [
-    (
-        "Simple pattern detection.", 
-        ("moo .:add::1::1:. foo", False),
-        "moo 2 foo",
-        test_pattern_processor
-    ),
-    (
-        "Match two patterns.",
-        ("moo .:add::1::1:. foo .:mul::2::2:. bar", False),
-        "moo 2 foo 4 bar",
-        test_pattern_processor
-    ),
-    (
-        "Recursive Patterns.",
-        ("moo .:greater:: .:add::1::1:. :: .:mul::2::2:. :. bar", False),
-        "moo 4 bar",
-        test_pattern_processor
-    ),
-    (
-        "Recursive Patterns plus extra trailing pattern.",
-        ("moo .:mul::3::3:. .:greater:: .:add::1::1:. :: .:mul::2::2:. :. foo .:upper::lower:. bar", False),
-        "moo 9 4 foo LOWER bar",
-        test_pattern_processor
-    ),
-    (
-        "Recursive Patterns (same call).",
-        ("moo .:greater:: .:greater::1::2:. :: 0 :. bar", False),
-        "moo 2 bar",
-        test_pattern_processor
-    ),
-    (
-        "Test against blacklisted pattern.",
-        ("moo .:blacklisted:. foo .:greater::3::5:. bar", False),
-        "moo .:blacklisted:. foo 5 bar",
-        test_pattern_processor
-    ),
-    (
-        "Simple Escaping surrounded by simple patterns. Escape/EndEscape left intact.",
-        ("moo .:add::1::1:. foo .:Escape:: .:mul::1::1:. ::EndEscape:. boo .:mul::2::2:. bar", False),
-        "moo 2 foo .:Escape:: .:mul::1::1:. ::EndEscape:. boo 4 bar",
-        test_pattern_processor
-    ),
-    (
-        "Simple Escaping surrounded by simple patterns.",
-        ("moo .:add::1::1:. foo .:Escape:: .:mul::1::1:. ::EndEscape:. boo .:mul::2::2:. bar", True),
-        "moo 2 foo .:mul::1::1:. boo 4 bar",
-        test_pattern_processor
-    ),
-    (
-        "Escaping surrounded by Escape patterns.",
-        ("moo .:Escape:: \t\n.:NoRage:. ::EndEscape:. foo .:Escape::\t \n.:mul::1::1:.\t \n::EndEscape:. boo .:Escape:: .:NoPattern:. What could possibly go wrong here? ::EndEscape:. bar", True),
-        "moo .:NoRage:. foo .:mul::1::1:. boo .:NoPattern:. What could possibly go wrong here? bar",
-        test_pattern_processor
-    ),
-    (
-        "Raise MalformedPatterns: Missing closing escape symbols.",
-        ("moo .:Escape:: ::endescape:. bar", True),
-        (MalformedPatterns,[("too_many_opening_symbols", True), ("escape", True)]),
-        test_pattern_processor
-    ),
-    (
-        "Raise MalformedPatterns: Missing opening escape symbols.",
-        ("moo .:escape:: ::EndEscape:. bar", True),
-        (MalformedPatterns,[("too_many_opening_symbols", False), ("escape", True)]),
-        test_pattern_processor
-    ),
-    (
-        "Raise MalformedPatterns: Missing opening symbols.",
-        ("moo .:mul::2::3:. foo add::3::3:.", False),
-        (MalformedPatterns,[("too_many_opening_symbols", False), ("escape", False)]),
-        test_pattern_processor
-    ),
-    (
-        "Raise MalformedPatterns: Missing closing symbols.",
-        ("moo .:mul::2::3:. foo .:add::3::3:. bar .:", False),
-        (MalformedPatterns,[("too_many_opening_symbols", True), ("escape", False)]),
-        test_pattern_processor
-    ),
-    (
-        "Escape missing opening symbols.",
-        ("moo .:mul::2::3:. foo .:add::3::3:. bar .:Escape:: mul::3::3:. ::EndEscape:. boo", True),
-        "moo 6 foo 6 bar mul::3::3:. boo",
-        test_pattern_processor
-    ),
-    (
-        "Escape missing closing symbols.",
-        ("moo .:mul::2::3:. foo .:add::3::3:. bar .:Escape:: .:mul::3::3 ::EndEscape:. boo", True),
-        "moo 6 foo 6 bar .:mul::3::3 boo",
-        test_pattern_processor
-    ),
-    (
-        "Restore states.",
-        ("moo .:mul::2::3:. foo .:add::3::3:. bar boo", False),
-        True,
-        test_pattern_processor_restore
-    ),
-    (
-        "Restore states (with escapes).",
-        ("moo .:mul::2::3:. foo .:add::3::3:. bar .:Escape:: .:mul::3::3:. ::EndEscape:. boo", True),
-        True,
-        test_pattern_processor_restore
-    ),
-    (
-        "Missing pattern args.",
-        ("moo .:mul::2:. foo .:add::3::3:.", True),
-        (PatternMissingArguments, [("expected",2), ("got",1)]),
-        test_pattern_processor
-    ),
-    (
-        "Missing unique and single pattern arg.",
-        ("moo .:upper:. foo", True),
-        (PatternMissingArguments, [("expected",1), ("got",0)]),
-        test_pattern_processor
-    ),
-    (
-        "Trigger GenericMessage.",
-        ("moo .:trigger_generic_message_exception:. foo", True),
-        (GenericMessage, [("message","lol it will never work")]),
-        test_pattern_processor
-    ),
-    (
-        "Trigger PatternInvalidArgument.",
-        ("moo .:trigger_pattern_invalid_argument_exception:. foo", True),
-        (PatternInvalidArgument, [("message","some message"), ("name", "some field"), ("value", "some value")]),
-        test_pattern_processor
-    ),
-    (
-        "Trigger KeyError when unknown pattern is met.",
-        ("moo .:UnknownPattern:. foo", True),
-        (KeyError, []),
-        test_pattern_processor
-    ),
-    (
-        "Trigger UnknownContextual when unknown pattern is met.",
-        ("moo .:trigger_unknown_contextual_exception:. foo", True),
-        (UnknownContextual, []),
-        test_pattern_processor
-    ),
-    (
-        "Markdown integration.",
-        ("# Main title\n.:add::1::1:.", "Markdown", []),
-        "<h1>Main title</h1><p>2</p>",
-        test_markup_language
-    ),
-    (
-        "Markdown integration when pattern produce html.",
-        ("# Main title\n.:add::1::1:.", "Markdown", ["add"]),
-        "<h1>Main title</h1>2",
-        test_markup_language
-    ),
-    (
-        "reStructuredText integration.",
-        ("Main title\n==========\n.:add::1::1:.", "reStructuredText", []),
-        "<div class=\"document\"><div class=\"section\" id=\"main-title\"><h1>Main title</h1><p>2</p></div></div>",
-        test_markup_language
-    ),
-    (
-        "reStructuredText integration integration when pattern produce html.",
-        ("Main title\n==========\n.:add::1::1:.", "reStructuredText", ["add"]),
-        "<div class=\"document\"><div class=\"section\" id=\"main-title\"><h1>Main title</h1>2</div></div>",
-        test_markup_language
-    ),
-]
-
-run_tests("Testing patterns processor...", tests)
+notify("Test passed")

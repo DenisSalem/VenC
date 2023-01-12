@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc2.prompt import get_formatted_message 
+from venc3.prompt import get_formatted_message 
 
 def run_tests(tests_name, tests):
     print(tests_name)

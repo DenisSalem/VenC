@@ -249,9 +249,16 @@ header a:hover
 
 footer
   {padding: 1em;
+  width: 700px;
+  margin: auto;
   font-size: 1.5em;
   text-align: center;}
- 
+
+footer hr
+  {border: 0px;
+  background-color: grey;
+  height: 1px;}
+
 footer #pagesList
   {list-style-type: none;
   display:inline-block;
@@ -270,6 +277,12 @@ footer a
 footer #pagesList li, #previous, #next
   {display: inline-block;}
 
+#previous
+    {float: left;}
+    
+#next
+    {float: right;}
+    
 /***************/
 /* L A Y O U T */
 /***************/

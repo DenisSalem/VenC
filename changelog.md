@@ -1,59 +1,61 @@
-# version 3.x.x
+# version 4.x.x
+
     TODO | Replace categories with taxonomy support.
     TODO | Add support for plugin.
     TODO | Add Incremental blog update.
     TODO | Add support for sub-sites within main site.
     TODO | Add support for single pages.
+    TODO | Add folder for blog_configuration, with multiple configuration file (for splitting the actual one).
+    TODO | Automatically merge all known entry authors into blog authors.
+    
+# version 3.1.x
 
-# version 2.1.x
-    TODO | Replace as much as possible usage of list with tuple.
+    WIP  | Replace as much as possible usage of list with tuple.
+    WIP  | Add relevant templates for themes.
+    WIP  | Client-side search engine.
     TODO | Override theme config override.
     TODO | venc -xb should also work in subdirectories
-    TODO | Replace aside element by nav
-    TODO | Improve context / ressource naming for error management
-    TODO | Because of fully recursive pattern, some contextual variable are now useless, like {relative_origin}
     TODO | SetBackgroundColor for text
     TODO | Include threads preview in entry
     TODO | Add command for reorder entries by criteria
-    TODO | Use built in list in yaml instead to turn str to list.
     TODO | Allow markdown2 setup.
     TODO | Add --insert-chapter command.
-    TODO | Warn about metadata that should be list but are str.
-    TODO | Add folder for blog_configuration, with multiple configuration file (for splitting the actual one).
-    TODO | Automatically merge all known entry authors into blog authors.
-    TODO | Force preview / full content in thread, for single entry.
     TODO | If previous theme empty, juste remove it.
-    TODO | Add plural form at the end of blog creation if multiple blog has been made.
-    TODO | Fix gvim / -ex.
     TODO | Fix encoding issue in JSON-LD document.
     TODO | Catch invalid encoding at startup. (???)
     TODO | Create entry with default template, if defined.
-    TODO | Make some dependencies optional.
     TODO | Split themes from main branch.
     TODO | Add translation for Deutsch and Spanish.
-    TODO | Add ForMetadata, ForMetadataIfExists.
-    TODO | Add docutils reStructuredText parser settings override.
+    TODO | Add to markup language parser custom settings.
     TODO | Decrease halt_level to render reStructuredText even if errors occurs.
-    TODO | Access {count} and {weight} from LeavesForEntrycategories.
     TODO | Add Yaml comments in blog configuration.
-    TODO | Warn about entry title duplicates.
-    TODO | Handle missing args in case of unknown number of args (Pattern).
     TODO | Add configuration field type check.
-    TODO | Optimize modules importation.
-    TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Add more informations into JSON-LD document.
     TODO | Optimize and refine JSON-LD processing.
     TODO | Embed as much as possible microdata/JSON-LD into blog.
-    TODO | Improve sub folder management in Entry and EntriesThread.
-    TODO | Optimize objects dereferencing.
+    TODO | Improve sub folder management in Entry and EntriesThread. (???)
     TODO | Add draft support.
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Regenerate any missing folders.
     TODO | Try to install an up to date oembed providers from https://oembed.com/providers.json with pip
-    WIP  | Add relevant templates for themes.
-    WIP  | Client-side search engine.
+    TODO | Automatically import messages when importing die and notify.
+    TODO | Add command to export only extra folder.
+    TODO | Isolate Entry metadata so Entry getters cannot grab non str object.
+    TODO | Get input bytes and output bytes so not only we know the times but also the bandwidth
+    TODO | Auto reload blog/ when server is running if blog is modified
+    TODO | Because of fully recursive pattern, some contextual variable might be useless, like {relative_origin}
+    TODO | Concatenate user defined blog keywords with entries keywords.
+    TODO | Atom feed generation might be invalid, see : https://openweb.eu.org/articles/comment-construire-un-flux-atom
+    TODO | Do not raise UnknownPattern if pattern is embed in Escape
+    TODO | https://pypi.org/project/pylint/
+    TODO | Optionnaly Agregate ToC with chapter tree.
 
-# version 2.1.0
+# version 3.0.0
+
+    DONE | Optimize modules importation.
+    DONE | GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent
+    DONE | Force preview / full content in thread, for single entry.
+    DONE | Improve context / ressource naming for error management
     DONE | Prevent infinite loop in needles replacement.
     DONE | Fix typos in doc
     DONE | Add InfludeFileIfExists, improve IncludeFile code.
@@ -64,20 +66,61 @@
     DONE | Fix inconsistencies with override_theme_with_css.
     DONE | Override server port with extra arg.
     DONE | Remove .:Escape:: / ::EndEscape:. from header_id extension.
-    WIP  | Generate entry inner title index.
-    TODO | Fix locale import exception. (#12)
-    TODO | Add nice 404 errors page.
+    DONE | Split process_markup_langage from pattern processor.
+    DONE | Fix locale import exception. (#12)
+    DONE | Explicit needles replacement.
+    DONE | Add parallelism support.
+    DONE | Capture exception in parallel processing
+    DONE | Add If*MetadataIsTrue.
+    DONE | Enable / Disable entries title in entry header for gentle and tessellation.
+    DONE | Enable / Disable entries title in Navigation for gentle and tessellation
+    DONE | Add support for AsciiDoc3
+    DONE | Add suppor Kroki
+    DONE | Add nice 404 errors page.
+    DONE | Add security notice.
+    DONE | Make some dependencies optional.
+    DONE | Pattern processor run with tree data structure.
+    DONE | Making pattern relative to local arg instead of using absolute arg should speed up the mess.
+    DONE | Remove EntryWrapper, all replaced with brand new Pattern Processor!
+    DONE | provide context to every VenCException.
+    DONE | Disable parallel processing if not available.
+    DONE | document display_title_in_threads and display_title_in_entry tessellation theme.
+    DONE | Add plural form at the end of blog creation if multiple blog has been made.
+    DONE | (regression fixed) handle missing or too much argument.
+    DONE | Add ForBlogMetadata, ForBlogMetadataIfExists.
+    DONE | Handling text editor forking, text_editor is now defined as a list of command+args (documented).
+    DONE | Fail if written entry path is duplicates.
+    DONE | Do not trigger process_markup_language / pattern_processor if not necessary (if content or preview or both)
+    DONE | (DROPPED) Markdown header carrying patterns are fucked up. CPU time is too much expensive to make it right.
+    DONE | Add warning when chapter index format is wrong.
+    DONE | Clean up l10n.
+    DONE | Move pattern features from datastore in a parent class
+    DONE | (Blog) build_categories_tree should not be called by default, only if it's required.
+    DONE | (Blog) Prevent build_categories_tree to be called more than once.
+    DONE | (Entry build_categories_tree should not be called by default, only if it's required.
+    DONE | Access {count} and {weight} from LeavesForEntrycategories.
+    DONE | Centralize path encoding and reduce codebloat.
+    DONE | Use built in list and dict in yaml instead to parsing string.
+    DONE | Fix broken jsonld according to new categories tree building strategies
+    DONE | default entry metdata are not mandatory anymore (there is no warning).
+    DONE | Add ForEntryMetadataIfExists.
+    DONE | Add TreeFor*Metadata and TreeFor*MetadataIfExists
+    DONE | Generate entry inner table of content.
+    DONE | Add Entries sub set generator and ForEntriesSubset
+    DONE | Handle case where GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent are calling themeselves.
+    DONE | Add GetEntryChapterPath.
+    DONE | Replace all Get*URL getter with Get*Path getter.
+    WIP  | Search for any TODO comment in code
+    TODO | Split doc from main branch.
     TODO | Update doc accordingly.
-    TODO | Add ForDictMetadata
-    TODO | Split process_markup_langage from pattern processor.
-    TODO | Explicit needles replacement.
-    TODO | Add CPU threads support.
-    
+
 # version 2.0.2
-    DONE | Fix for_entry_metadata; catching unavailable contextual pattern.
+
+    DONE | Fix for_entry_metadata; catching unavailable contextual pattern. 
     DONE | Fix github issue #21. Add missing documentation about GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent.
 
 # version 2.0.1
+
     DONE | (issue #20) Calling pattern in wrong context should trigger explicit error instead of UnknownPattern.
 
 # version 2.0.0

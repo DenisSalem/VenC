@@ -22,9 +22,9 @@ import os
 import sys
 os.chdir("themes/tested")
         
-from venc2.commands.export import export_blog
-from venc2.helpers import GenericMessage
-from venc2.prompt import get_formatted_message 
+from venc3.commands.export import export_blog
+from venc3.helpers import GenericMessage
+from venc3.prompt import get_formatted_message 
 
 from test_engine import run_tests
 

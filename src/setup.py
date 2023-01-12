@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#   Copyright 2016, 2020 Denis Salem
+#   Copyright 2016, 2021 Denis Salem
 
 #    This file is part of VenC.
 #
@@ -87,37 +87,35 @@ extra_files.append(
 
 setup(
     name='VenC',
-    version='2.1.0',
+    version='3.0.0',
     description='A static blog generator.',
     author='Denis Salem',
     author_email='denissalem@tuxfamily.org',
     url='https://github.com/DenisSalem/VenC',
     packages=[
-        'venc2',
-        'venc2.commands',
-        'venc2.datastore',
-        'venc2.l10n',
-        'venc2.markup_languages',
-        'venc2.patterns',
-        'venc2.threads'
+        'venc3',
+        'venc3.commands',
+        'venc3.datastore',
+        'venc3.l10n',
+        'venc3.markup_languages',
+        'venc3.parallelism',
+        'venc3.patterns',
+        'venc3.patterns.third_party_wrapped_features',
+        'venc3.threads'
     ],
     license="GNU/GPLv3",
     platforms="Linux",
-    long_description="A static and light blog generator, Aim to be easy to use.",
+    long_description="A static and light blog generator, that aim to be damn fast and easy to use.",
     classifiers=[
         "Environment :: Console",
         "Development Status :: 5 - Production/Stable",
         "Programming Language :: Python :: 3"
     ],
     install_requires=[
-          "docutils",
-          "latex2mathml",
-          'markdown2',
           'pyyaml',
-          'Pygments',
           'requests',
           'unidecode'
     ],
-    scripts=['venc','venc-blog-migration'],
+    scripts=['venc'],
     data_files = extra_files
 )
