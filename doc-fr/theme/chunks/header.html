@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>.:GetBlogName:.</title>
+        <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css" />
+        <meta charset="utf-8" />
+    </head>
+    <body>
+      
+    <table id="header">
+        <tr><td><a href=""><img src=".:GetRelativeOrigin:.logo.png" id="logo" /></a><td></tr>
+        .:IfInMainThread::
+          <tr id="content-index">
+              <td>
+                  <hr/>
+                  .:GetChapters::<ul class="chapter-level{level} __VENC_TREE_NODE__">::<li>{index}. <a href="{path}" class="__VENC_TREE_PATH__">{title}</a>::</li>::</ul>:.
+              </td>
+          </tr>
+        ::
+        :.
+    </table>
+
+
+
+    
