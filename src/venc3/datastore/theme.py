@@ -38,6 +38,9 @@ class Theme:
 
             self.entry = PatternTree(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
             
+            self.enable_entry_content = False            
+            self.enable_entry_preview = False
+            
             for pattern in self.entry.sub_patterns:
                 self.enable_entry_content = True if pattern.payload[0] == "GetEntryContent" else False
                 self.enable_entry_preview = True if pattern.payload[0] == "GetEntryPreview" else False

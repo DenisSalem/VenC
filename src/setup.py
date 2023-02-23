@@ -87,7 +87,7 @@ extra_files.append(
 
 setup(
     name='VenC',
-    version='3.0.0',
+    version='3.0.1',
     description='A static blog generator.',
     author='Denis Salem',
     author_email='denissalem@tuxfamily.org',
