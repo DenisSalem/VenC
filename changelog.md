@@ -46,9 +46,16 @@
     TODO | Because of fully recursive pattern, some contextual variable might be useless, like {relative_origin}
     TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Atom feed generation might be invalid, see : https://openweb.eu.org/articles/comment-construire-un-flux-atom
-    TODO | Do not raise UnknownPattern if pattern is embed in Escape
     TODO | https://pypi.org/project/pylint/
     TODO | Optionnaly Agregate ToC with chapter tree.
+
+# version 3.0.1
+
+    TODO | Do not raise UnknownPattern if pattern is embed in Escape.
+    TODO | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
+    TODO | Fix AttributeError: 'MainThread' object has no attribute 'current_entry' when calling GetEntryContent from header
+    DONE | remove split() call on argument list when creating new entry...
+    DONE | fix missing attribut in Theme if there is no entries.
 
 # version 3.0.0
 

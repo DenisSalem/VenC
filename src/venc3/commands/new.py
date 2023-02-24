@@ -105,7 +105,7 @@ def new_entry(entry_name, template_name=""):
     stream.close()
 
     try:
-        command = [arg for arg in blog_configuration["text_editor"].split(' ') if arg != '']
+        command = [arg for arg in blog_configuration["text_editor"] if arg != '']
         command.append(output_filename)
         subprocess.call(command) 
 
