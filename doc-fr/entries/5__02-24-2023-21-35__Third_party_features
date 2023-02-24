@@ -1,0 +1,30 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+tags:
+- ''
+chapter: 1.2.3
+title: Fonctionnalité tierces et dépendances
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Sur ce sujet nous avons malheureusement moins de marge de manoeuvre.
+
+Ce que nous pouvons faire cependant c'est réaliser des choix judicieux dans ce qu'il convient de réimplémenter
+et ce qu'il convient d'importer. En l'occurrence nous avons fait le choix de développer notre
+propre système de balises pour l'aide à la mise en page d'un site. VenC ne dépend donc pas
+d'un moteur de template tier comme [Jinja](https://jinja.palletsprojects.com) et
+voit ses performances amélioriées dans la mesure où le moteur de template interne
+à VenC est fortement couplé avec le reste du code et a bénéficié d'un effort
+d'optimisations substantiel.
+
+Autant que possible nous faisons également en sorte que les librairies tierces de VenC soient optionnels pour minimiser le nombre de composant installé
+sur votre machine.
+
+Pour le moment VenC requier au minimum les librairies python suivantes :
+
+- pyyaml
+- requests
+- unidecode
+
+Celles-ci sont normalement installés automatiquement avec VenC.
