@@ -83,6 +83,12 @@ class Entry:
         for key in ("authors", "tags", "categories", "title"):
             if key not in metadata.keys() or metadata[key] == None:
                 metadata[key] = '' if key == "title" else []
+
+        try:
+            self.chapter_level = str(len(str(metadata["chapter"]).split('.')))
+            
+        except:
+            pass
     
         self.raw_metadata = metadata
         self.filename = filename

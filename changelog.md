@@ -49,11 +49,14 @@
     TODO | https://pypi.org/project/pylint/
     TODO | Optionnaly Agregate ToC with chapter tree.
 
-# version 3.0.1
+# version 3.1.0
 
     TODO | Do not raise UnknownPattern if pattern is embed in Escape.
     TODO | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
     TODO | Fix AttributeError: 'MainThread' object has no attribute 'current_entry' when calling GetEntryContent from header
+    TODO | Remove old themes.
+    DONE | Add GetEntryChapterLevel.
+    DONE | Remove hardcoded image asset. 
     DONE | remove split() call on argument list when creating new entry...
     DONE | fix missing attribut in Theme if there is no entries.
 

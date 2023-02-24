@@ -165,7 +165,14 @@ class DatastorePatterns:
                 raise VenCException(messages.cannot_retrieve_entry_attribute_because_wrong_id, node)
             
         return self.cache_get_entry_attribute_by_id[key]
-        
+    
+    def get_entry_chapter_level(self, node):
+        try:
+            return self.requested_entry.chapter_level
+            
+        except:
+            return ''
+            
     def get_entry_chapter_path(self, node):
         if self.blog_configuration["disable_chapters"]:
             return ''
