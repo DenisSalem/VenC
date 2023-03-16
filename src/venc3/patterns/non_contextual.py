@@ -19,11 +19,9 @@
 
 import hashlib
 import json
-import requests
 import shutil
 from venc3 import venc_version
 from venc3.helpers import SafeFormatDict
-from urllib.parse import urlparse
 
 theme_includes_dependencies = []
 
@@ -31,7 +29,15 @@ def disable_markup(node, *argv):
     return '::'.join(argv)
 
 
-def get_embed_content(node, providers, url):        
+def get_embed_content(node, providers, url):  
+    try:
+        import requests
+
+    except:
+        from venc3.exceptions import VenCException
+        from venc3.l10n import messages
+        raise VenCException(messages.module_not_found.format("requests"), node)
+
     try:
         key = [ key for key in providers["oembed"].keys() if url.netloc in key][0]
 

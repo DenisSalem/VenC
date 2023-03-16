@@ -113,7 +113,6 @@ setup(
     ],
     install_requires=[
           'pyyaml',
-          'requests',
           'unidecode'
     ],
     scripts=['venc'],

@@ -23,7 +23,13 @@ def kroki(node, code, endpoint, provider = "https://kroki.io/"):
     code=base64.urlsafe_b64encode(zlib.compress(code.encode("utf-8"), 9)).decode("utf-8")
     
     if not os.path.isfile("extra/"+code+".svg"):
-        import requests
+        try:
+            import requests
+            
+        except:
+            from venc3.exceptions import VenCException
+            from venc3.l10n import messages
+            raise VenCException(messages.module_not_found.format("requests"), node)
         import zlib;
         import base64
         with open("extra/"+code+".svg","w") as f:

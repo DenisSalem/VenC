@@ -24,7 +24,6 @@
     TODO | Fix encoding issue in JSON-LD document.
     TODO | Catch invalid encoding at startup. (???)
     TODO | Create entry with default template, if defined.
-    TODO | Split themes from main branch.
     TODO | Add translation for Deutsch and Spanish.
     TODO | Add to markup language parser custom settings.
     TODO | Decrease halt_level to render reStructuredText even if errors occurs.
@@ -55,6 +54,9 @@
     TODO | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
     TODO | Fix AttributeError: 'MainThread' object has no attribute 'current_entry' when calling GetEntryContent from header
     TODO | Remove old themes.
+    DONE | "disable_threads option" is parsed as a native yaml list
+    DONE | Make pygmentize optional.
+    DONE | Make requests optional.
     DONE | Add GetEntryChapterLevel.
     DONE | Remove hardcoded image asset. 
     DONE | remove split() call on argument list when creating new entry...

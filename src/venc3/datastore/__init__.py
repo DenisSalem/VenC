@@ -50,7 +50,9 @@ class DataStore(DatastorePatterns):
         self.enable_jsonld = self.blog_configuration["enable_jsonld"]
         self.enable_jsonp =  self.blog_configuration["enable_jsonp"]
         self.blog_url = self.blog_configuration["blog_url"]
-        self.disable_threads = [thread_name.strip() for thread_name in self.blog_configuration["disable_threads"].split(',')]
+        self.disable_threads = self.blog_configuration["disable_threads"]
+        if type(self.disable_threads) = list:
+            raise VenCException(messages.blog_metadata_is_not_a_list.format("disable_threads"))
         self.entries = []
         self.entries_per_archives = []
         self.entries_per_categories = None
