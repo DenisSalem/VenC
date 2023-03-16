@@ -1,0 +1,22 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+tags:
+- ''
+title: Faible empreinte et environnement minimal
+chapter: 1.2.4
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+VenC est un outil en ligne de commande, vous pouvez donc éditer votre site et vos publications sans environnement graphique.
+La documentation que vous lisez est également lisible dans un navigateur non-graphique sans problème de mise en page, par
+exemple avec un navigateur comme [Links](http://links.twibright.com/).
+
+Par ailleurs VenC devrait fonctionner avec Python 3.5.
+
+Des efforts substantiels d'optimisation ont été mis en oeuvre pour rendre le code le
+plus rapide et léger possible.
+
+Dans la version 3 de VenC des fonctions de traitement parallèle ont été ajouté pour accélérer la génération de votre projet et passer à l'échelle
+sur de gros volume de donnée. À noter que l'activation du parallélisme augmente l'empreinte mémoire de VenC. Nous travaillons sur le sujet et esperons
+améliorer ça dans de futur version.

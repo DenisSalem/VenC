@@ -24,7 +24,6 @@ sur votre machine.
 Pour le moment VenC requier au minimum les librairies python suivantes :
 
 - pyyaml
-- requests
 - unidecode
 
 Celles-ci sont normalement installés automatiquement avec VenC.
