@@ -17,26 +17,22 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import yaml
-
-from venc3.exceptions import VenCException
-from venc3.helpers import quirk_encoding
-from venc3.prompt import die
-from venc3.prompt import notify
-from venc3.l10n import messages
-
 def setup_sub_folder(blog_configuration, key):
+    from venc3.helpers import quirk_encoding
     try:
         path = quirk_encoding(blog_configuration["path"][key])
             
     except UnicodeEncodeError as e:
         from venc3.l10n import messages
+        from venc3.exceptions import VenCException
         raise VenCException(messages.encoding_error_in_sub_folder_path.format(key))
                     
     blog_configuration["path"][key] = (path if path[-1] == '/' else path+'/' ) if (path != '/' and len(path)) else ''
 
 def get_blog_configuration():
+    import os
+    import yaml
+    
     try:
         blog_configuration = yaml.load(
             open(
@@ -64,7 +60,6 @@ def get_blog_configuration():
             "feed_lenght",
             "reverse_thread_order",
             "markup_language",
-            "disable_threads",
             "disable_main_thread",
             "disable_archives",
             "disable_categories",
@@ -84,6 +79,8 @@ def get_blog_configuration():
         for field in mandatory_fields:
             if not field in blog_configuration.keys():
                 everything_is_okay = False
+                from venc3.prompt import notify
+                from venc3.l10n import messages
                 notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
         
         mandatory_fields = [
@@ -104,6 +101,8 @@ def get_blog_configuration():
         for field in mandatory_fields:
             if not field in blog_configuration["path"].keys():
                 everything_is_okay = False
+                from venc3.prompt import notify
+                from venc3.l10n import messages
                 notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
                 
             elif not field in ["index_file_name","ftp","rss_file_name","atom_file_name","entry_file_name","archives_directory_name"]:
@@ -114,6 +113,8 @@ def get_blog_configuration():
             
         if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
             everything_is_okay = False
+            from venc3.prompt import notify
+            from venc3.l10n import messages
             notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blog_configuration.yaml"),"RED")
 
         if (not "sort_by" in blog_configuration.keys() ) or blog_configuration["sort_by"] in ['', None]:
@@ -122,19 +123,31 @@ def get_blog_configuration():
         if blog_configuration["blog_url"][-1:] == '/':
             blog_configuration["blog_url"] = blog_configuration["blog_url"][:-1]
 
+        if "disable_threads" in blog_configuration.keys():
+            if type(blog_configuration["disable_threads"]) != list and not blog_configuration["disable_threads"] == None:
+                everything_is_okay = False
+                from venc3.prompt import notify
+                from venc3.l10n import messages
+                die(messages.blog_metadata_is_not_a_list.format("disable_threads"), "RED")
+        else:
+            blog_configuration["disable_threads"] = []
+
         if not everything_is_okay:
             exit()
 
-        # TODO : ADD in documentation
         if not "pipe_flow" in blog_configuration.keys():
             blog_configuration["pipe_flow"] = 512
             
         return blog_configuration
 
     except FileNotFoundError:
+        from venc3.prompt import die
+        from venc3.l10n import messages
         die(messages.no_blog_configuration)
 
     except PermissionError:
+        from venc3.prompt import die
+        from venc3.l10n import messages
         die(messages.no_blog_configuration)
 
     except yaml.scanner.ScannerError as e:

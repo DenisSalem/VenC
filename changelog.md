@@ -50,6 +50,7 @@
 
 # version 3.1.0
 
+    TODO | Reduce mandatory field for clarity and better user experience.
     TODO | Do not raise UnknownPattern if pattern is embed in Escape.
     TODO | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
     TODO | Fix AttributeError: 'MainThread' object has no attribute 'current_entry' when calling GetEntryContent from header
