@@ -29,6 +29,8 @@ def print_version():
 
 # Will be removed and replaced by argparse
 def print_help():
+    from venc3.prompt import notify
+    notify("Full documentation there : https://venc.software")
     print("-v\t--version")
     print("-nb\t--new-blog <\""+messages.arg_blog_name.format("1")+"\"> [\""+messages.arg_blog_name.format("2")+"\" ... ]")
     print("-ne\t--new-entry <\""+messages.arg_entry_name+"\"> [\""+messages.arg_template_name+"\"]")
