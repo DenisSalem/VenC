@@ -51,8 +51,9 @@ class DataStore(DatastorePatterns):
         self.enable_jsonp =  self.blog_configuration["enable_jsonp"]
         self.blog_url = self.blog_configuration["blog_url"]
         self.disable_threads = self.blog_configuration["disable_threads"]
-        if type(self.disable_threads) = list:
-            raise VenCException(messages.blog_metadata_is_not_a_list.format("disable_threads"))
+        if type(self.disable_threads) != list and not self.disable_threads == None:
+            from venc3.prompt import die
+            die(messages.blog_metadata_is_not_a_list.format("disable_threads"))
         self.entries = []
         self.entries_per_archives = []
         self.entries_per_categories = None
