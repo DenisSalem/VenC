@@ -121,7 +121,7 @@ def new_blog(*blog_names):
 
     default_configuration =	{
         "blog_name":			        messages.blog_name,
-        "disable_threads":              "",
+        "disable_threads":              None,
         "disable_archives":             False,
         "disable_categories":           False,
         "disable_chapters":             True,
