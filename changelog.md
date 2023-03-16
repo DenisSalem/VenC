@@ -55,6 +55,7 @@
     TODO | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
     TODO | Fix AttributeError: 'MainThread' object has no attribute 'current_entry' when calling GetEntryContent from header
     TODO | Remove old themes.
+    DONE | Add full documentation notice in venc -h
     DONE | "disable_threads option" is parsed as a native yaml list
     DONE | Make pygmentize optional.
     DONE | Make requests optional.
