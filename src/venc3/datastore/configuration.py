@@ -82,6 +82,12 @@ def get_blog_configuration():
                 from venc3.prompt import notify
                 from venc3.l10n import messages
                 notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
+                
+        if "blog_keywords" in blog_configuration.keys() and type(blog_configuration["blog_keywords"]) != list and not blog_configuration["blog_keywords"] == None:
+            everything_is_okay = False
+            from venc3.prompt import notify
+            from venc3.l10n import messages
+            notify(messages.blog_metadata_is_not_a_list.format("blog_keywords"), "RED")
         
         mandatory_fields = [
             "index_file_name",
@@ -128,12 +134,12 @@ def get_blog_configuration():
                 everything_is_okay = False
                 from venc3.prompt import notify
                 from venc3.l10n import messages
-                die(messages.blog_metadata_is_not_a_list.format("disable_threads"), "RED")
+                notify(messages.blog_metadata_is_not_a_list.format("disable_threads"), "RED")
         else:
             blog_configuration["disable_threads"] = []
 
         if not everything_is_okay:
-            exit()
+            os._exit(-1)
 
         if not "pipe_flow" in blog_configuration.keys():
             blog_configuration["pipe_flow"] = 512
