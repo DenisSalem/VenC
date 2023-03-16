@@ -240,7 +240,7 @@ class Processor:
                 payload_offset[0] += len_chunk - pattern.c + pattern.o
                     
             else:
-                ss = parent.string          
+                ss = parent.string
                 parent.string = ss[:pattern.o + payload_offset[0]] + chunk + ss[pattern.c + payload_offset[0]:]
                 payload_offset[0] += len_chunk - pattern.c + pattern.o
                 

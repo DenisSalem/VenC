@@ -275,7 +275,15 @@ class DatastorePatterns:
         return self.blog_configuration["blog_description"]
         
     def get_blog_keywords(self, node):
-        return self.blog_configuration["blog_keywords"]
+        if type(self.blog_configuration["blog_keywords"]) != list:
+            if blog_configuration["blog_keywords"] == None:
+                return ""
+
+            from venc3.exceptions import VenCException
+            from venc3.l10n import messages
+            raise VenCException(messages.blog_metadata_is_not_a_list.format("blog_keywords"))
+            
+        return ','.join(self.blog_configuration["blog_keywords"])
 
     def get_author_description(self, node):
         return self.blog_configuration["author_description"]
