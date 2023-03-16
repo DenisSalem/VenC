@@ -4,13 +4,10 @@ categories:
 - ''
 tags:
 - ''
-title: Petite code
+title: Petit code
 chapter: 1.2.1
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-Le code source applicatif pèse environs de 350Ko et les assets constitués pour l'essentiel d'un thème par défaut pèsent moins de. Ce que ça signifie c'est qu'il y a peu de code.
-En particulier pour le code applicatif on a deux conséquences positives :
-
-- VenC est plus facile à maintenir parce qu'il y a moins de chose à lire et à comprendre.
-- La vitesse d'exécution bénéficie de la petite taille du code source, parce qu'il y a moins de code à exécuter et à interpréter.
+Le code source applicatif pèse environs de 350Ko et les assets constitués pour l'essentiel d'un thème par défaut pèsent moins de.
+VenC étant très légé, il est donc plus facile à maintenir mais aussi potentiellement plus rapide.

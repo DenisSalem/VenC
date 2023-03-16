@@ -1,0 +1,36 @@
+authors:
+- Denis Salem
+categories:
+- ''
+chapter: 2
+tags:
+- ''
+title: Installation
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Depuis la version 1.2.0 VenC s'installe avec [pip](https://pypi.python.org/pypi/pip), ce qui rend le processus substantiellement plus simple !
+Attention cependant, VenC utilise Python 3, assurez-vous donc d'utiliser la version correspondante de pip. Sur les systèmes basés sur Debian, il s'agit de pip3.
+
+> pip install venc --user
+
+N'oubliez pas de rajouter l'argument _--user_. Cela installe VenC dans l'environnement utilisateur, au lieu du système, ce qui est fortement recommandé.
+
+Vous pouvez également mettre à jour VenC avec
+
+> pip install --upgrade venc  
+
+Pour désinstaller VenC, c'est triste, mais rien de plus simple.
+
+> pip uninstall venc
+
+Et voilà !
+
+Petite précision. Les dépendances de VenC ne sont pas désinstallées automatiquement :
+
+- [pyyaml](https://github.com/yaml/pyyaml) : Dépendance nécessaire pour gérer les fichier de configuration de VenC et les métadonnes des publications.
+- [unidecode](https://pypi.org/project/Unidecode/) : Dépendance nécessaire pour gérer les caractères spéciaux et différents type d'encodage.
+- [docutils](http://docutils.sourceforge.net/) : Dépendance optionnel pour utiliser reStructuredText.
+- [latex2mathml](https://github.com/roniemartinez/latex2mathml) : Dépendance optionnel pour convertir du LaTeX en MathML.
+- [markdown2](https://github.com/trentm/python-markdown2) : Dépendance optionnel pour utiliser MarkDown.
+- [Pygments](https://pygments.org/) : Dépendance optionnel pour utiliser la coloration syntaxique.
+- [requests](https://2.python-requests.org/en/master/) : Dépendance optionnel utiliser pour utiliser l'API [oEmbed](https://oembed.com/) et [Kroki](https://kroki.io/).
