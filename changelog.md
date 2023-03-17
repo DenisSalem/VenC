@@ -11,7 +11,6 @@
 # version 3.1.x
 
     WIP  | Replace as much as possible usage of list with tuple.
-    WIP  | Add relevant templates for themes.
     WIP  | Client-side search engine.
     TODO | Override theme config override.
     TODO | venc -xb should also work in subdirectories
@@ -49,6 +48,8 @@
     TODO | Optionnaly Agregate ToC with chapter tree.
 
 # version 3.1.0
+    WIP  | Add relevant templates for themes.
+    TODO | FIND A WAY to append p if markup is enabled or not
     TODO | /!\ Clean up venc command handler
     TODO | Reduce mandatory field for clarity and better user experience.
     TODO | Do not raise UnknownPattern if pattern is embed in Escape.

@@ -36,7 +36,7 @@ class CodeHighlight:
 def get_style_sheets(node):
     output = str()
     for filename in code_highlight.includes.keys():
-        output += "<link rel=\"stylesheet\" href=\"\x1a"+filename+"\" type=\"text/css\" />\n"
+        output += "<link rel=\"stylesheet\" href=\"\x1a"+filename+"\" type=\"text/css\" >\n"
 
     return output
         
@@ -59,8 +59,9 @@ def highlight(node, langage, display_line_numbers, input_code):
 
         lexer = pygments.lexers.get_lexer_by_name(langage, stripall=False)
         formatter = pygments.formatters.HtmlFormatter(linenos=(True if display_line_numbers=="True" else False), cssclass=name)
-                            
-        result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(input_code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
+        
+        #TODO: FIND A WAY to append p if markup is enabled or not
+        result = "</p><div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(input_code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div><p>"
         css  = formatter.get_style_defs()
 
         if not name+".css" in code_highlight.includes.keys():
