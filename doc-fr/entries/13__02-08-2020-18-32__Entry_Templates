@@ -1,0 +1,35 @@
+authors:
+- Denis Salem
+categories:
+- ''
+chapter: '3.5'
+tags:
+- ''
+title: Les templates de publication
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Un template est en fait une publication vierge qui a cependant été
+préformatée pour contenir des choses redondantes à rédiger ou à
+programmer manuellement. Typiquement, pour une galerie, vous pourriez
+vouloir un template qui contiendrait déjà la ou les balises Markdown pour inclure
+une ou plusieurs images, les champs __categories__ et __tags__ préremplis, etc.
+
+Par exemple :
+
+.:CodeHighlightInclude::Text::False::template_example:.
+
+VenC est livrés avec des exemples de templates. En voici la liste :
+
+TODO
+
+_Parmi ces templates, certains servent surtout à illustrer l'usage
+de certaines fonctionnalités de VenC._
+
+Pour utiliser un template il suffit de passer son nom de fichier (sans le chemin)
+à VenC au moment de la création d'une nouvelle publication. Par exemple :
+
+> .:SetColor::green::jeanrochefort@anonymous:. .:SetColor::cyan::~ $:. venc -ne "Amanite tue-mouches" champignons_magiques
+
+VenC va d'abord essayer de trouver votre template dans le
+[répertoire templates](.:GetChapterAttributeByIndex::path::3.1:.) de votre blog.
+Sinon, il essayera de le trouver parmi ceux prédéfinis et listés plus haut.
