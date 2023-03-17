@@ -32,7 +32,7 @@ disable_threads:
     - 24/01/1990
 :.
 
-## .:DisableMarkup::disable_archives:. ##
+## .:DisableMarkup::disable_archives:.
 
 Empêche VenC de générer les fils de publications des archives. Ce champ est un booléen, fixé à *False* par défaut.
 
@@ -123,8 +123,6 @@ de votre blog, les anciens codes CSS créés par [Pygments](https://pygments.org
 Il s'agit d'une variable contenant différents chemins,
 La liste de ces chemins est détaillée ci-dessous.
 
-.:DisableMarkup::<div style="padding-left: 2em;">:.
-
 ### ftp
 
 Le chemin absolu du répertoire de destination sur votre serveur FTP.
@@ -169,8 +167,6 @@ celui utilisé par Python. Pour en savoir plus sur ce format, rendez vous
 ### .:DisableMarkup::atom_file_name:.
 
 "atom.xml" par défaut. Définit le nom de fichier du flux Atom.
-
-.:DisableMarkup::</div>:.
 
 ## .:DisableMarkup::entries_per_pages:.
 

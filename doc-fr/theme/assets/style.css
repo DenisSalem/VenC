@@ -1,0 +1,51 @@
+body
+    {background-color: #404040;
+    color: #FFFFFF;
+    font-family: arial;}
+a
+    {color: #FFFFFF;}    
+hr
+    {height: 0px;
+    border-bottom: 1px solid #404040;
+    border-top: 1px solid #FFFFFF;
+    margin-bottom: 24px;
+    margin-top: 24px;}
+
+blockquote, pre
+    {background-color: #202020;
+    margin: 0px;
+    border-radius: 3px;
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #808080;}
+
+#logo
+    {border: 1px solid #404040;} /* Dillo bullshit */
+    
+#header
+    {margin: auto;
+    text-align: center;
+    display: block;
+    width: 512px;
+    margin-top: 24px;}
+    
+#header a
+    {text-align: center;
+    text-decoration: none;
+    outline: none;
+    border: 0px;}
+        
+#header #content-index
+    {text-align: left;}
+    
+#header ul
+    {list-style-type: none;}
+    
+.entry 
+    {width: 768px;
+    display: block;
+    margin: auto;}
+    
+.entry p, .entry h1
+    {text-align: justify;}
