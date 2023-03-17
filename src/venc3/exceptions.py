@@ -31,6 +31,12 @@ class VenCException(Exception):
 
     def die(self):
         from venc3.prompt import die, notify
+        try:
+            import traceback
+            notify("\n"+''.join(traceback.format_stack()[:-1]), "YELLOW")
+        except:
+            pass
+            
         if self.context != None:
             from venc3.patterns.processor import Pattern
             from venc3.l10n import messages
@@ -48,7 +54,7 @@ class VenCException(Exception):
                 self.flatten(highlight=self.context)
                 
             notify(messages.in_.format(context_name), color="RED")
-            
+        
         die(self.message, extra=self.extra)
         
     def flatten(self, highlight=None):

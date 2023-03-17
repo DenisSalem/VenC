@@ -129,8 +129,7 @@ def get_blog_configuration():
         if blog_configuration["blog_url"][-1:] == '/':
             blog_configuration["blog_url"] = blog_configuration["blog_url"][:-1]
 
-        if "disable_threads" in blog_configuration.keys():
-            if type(blog_configuration["disable_threads"]) != list and not blog_configuration["disable_threads"] == None:
+        if "disable_threads" in blog_configuration.keys() and type(blog_configuration["disable_threads"]) != list and blog_configuration["disable_threads"] != None:
                 everything_is_okay = False
                 from venc3.prompt import notify
                 from venc3.l10n import messages

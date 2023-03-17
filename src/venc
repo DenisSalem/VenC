@@ -23,10 +23,6 @@ import codecs
 # Force stdout encoding to utf-8
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
-import importlib
-
-from venc3.helpers import notify
-from venc3.l10n import messages; 
 from venc3.l10n import locale_err;
 
 
@@ -36,26 +32,30 @@ from venc3.l10n import locale_err;
 ## ... do something ...
 
 if locale_err:
+    from venc3.helpers import notify
+    from venc3.l10n import messages; 
     notify(messages.cannot_get_current_locale, color="YELLOW")
 
 command_index = {"-v":                  [".print", "print_version", 0],
                 "-nb":                  [".new", "new_blog", -1],
-                "-ne":                  [".new", "new_entry", 2],
-                "-xb":                  [".export", "export_blog", 1],
+                "-ne":                  [".new", "new_entry", -1],
+                "-xb":                  [".export", "export_blog", -1],
                 "-ex":                  [".export", "edit_and_export", 1],
-                "-xftp":                [".export", "export_and_remote_copy", 1],
+                "-xftp":                [".export", "export_and_remote_copy", -1],
                 "-rc":                  [".remote", "remote_copy", 0],
                 "-it":                  [".install", "install_theme", 1],
+                "-t":                   [".install", "print_themes", 0],
                 "-h":                   [".print", "print_help", 0],
                 "-s":                   [".serv", "serv_blog", -1],
                 "--serv":               [".serv", "serv_blog", -1],
                 "--help":               [".print", "print_help", 0],
                 "--install-theme":      [".install", "install_theme", 1],
+                "--themes":             [".install", "print_themes", 0],
                 "--remote-copy":        [".remote", "remote_copy", 0],
-                "--export-via-ftp":     [".export", "export_and_remote_copy", 1],
+                "--export-via-ftp":     [".export", "export_and_remote_copy", -1],
                 "--edit-and-export":    [".export", "edit_and_export", 1],
-                "--export-blog":        [".export", "export_blog", 1],
-                "--new-entry":          [".new", "new_entry", 2],
+                "--export-blog":        [".export", "export_blog", -1],
+                "--new-entry":          [".new", "new_entry", -1],
                 "--new-blog":           [".new", "new_blog", -1],
                 "--version":            [".print", "print_version", 0]}
 
@@ -74,14 +74,21 @@ def argv_handler(argv=None):
 
                    else:
                        break
-
+           import importlib
            module = importlib.import_module(command_index[argv[0]][0], "venc3.commands")
            command = getattr(module, command_index[argv[0]][1])
+           if len(arguments) < command_index[argv[0]][2]:
+              from venc3.helpers import die
+              from venc3.l10n import messages; 
+              die(messages.missing_params.format(argv[0]))
+
            command(*arguments)
            argv_handler(argv[len(arguments)+1:])
 
        else:
-           notify(messages.unknown_command.format(argv[0]),"RED")
+           from venc3.helpers import notify
+           from venc3.l10n import messages; 
+           notify(messages.unknown_command.format(argv[0]), "RED")
            argv_handler(argv[1:])
 
 if sys.argv[1:] != []: 

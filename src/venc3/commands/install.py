@@ -55,11 +55,7 @@ def print_themes():
 
         print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
 
-def install_theme(argv):
-    if len(argv) < 1:
-        print_themes()
-        return
-        
+def install_theme(theme):        
     blog_configuration = get_blog_configuration()
     if blog_configuration == None:
         notify(messages.no_blog_configuration)
@@ -74,11 +70,11 @@ def install_theme(argv):
         pass
 
     try:
-        shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0], "theme")
+        shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+theme, "theme")
         notify(messages.theme_installed)
        
     except FileNotFoundError as e:
-        notify(messages.theme_doesnt_exists.format("'"+argv[0]+"'"),color='RED')
+        notify(messages.theme_doesnt_exists.format("'"+theme+"'"),color='RED')
         ''' Restore previous states '''
         try:
             shutil.move(new_folder_name, "theme")
