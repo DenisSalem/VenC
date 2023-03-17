@@ -1,18 +1,24 @@
 <!DOCTYPE HTML>
-<html>
+<html lang=".:GetBlogLanguage:.">
     <head>
         <title>.:GetBlogName:.</title>
-        <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css" />
-        <meta charset="utf-8" />
+        <link rel="stylesheet" href=".:GetRelativeOrigin:.style.css" type="text/css">
+        <meta charset="utf-8">
     </head>
     <body>
       
     <table id="header">
-        <tr><td><a href="/"><img src=".:GetRelativeOrigin:.logo.png" alt="VenC" title="VenC" id="logo" /></a><td></tr>
+        <tr>
+            <td>
+                  <a href="/">
+                        <img src=".:GetRelativeOrigin:.logo.png" alt="VenC" title="VenC" id="logo">
+                  </a>
+            </td>
+        </tr>
         .:IfInMainThread::
           <tr id="content-index">
               <td>
-                  <hr/>
+                  <hr>
                   .:GetChapters::<ul class="chapter-level{level} __VENC_TREE_NODE__">::<li>{index}. <a href="{path}" class="__VENC_TREE_PATH__">{title}</a>::</li>::</ul>:.
               </td>
           </tr>

@@ -1,0 +1,51 @@
+authors:
+- Denis Salem
+categories:
+- ''
+chapter: '3.4'
+tags:
+- yaml
+title: Métadonnée
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+Il est possible d'ajouter aux publications et au fichier de configuration
+principal des métadonnées supplémentaires.
+
+## Type de métadonnées
+
+Il y a trois type possibles de métadonnées pour Venc.
+
+### Chaîne de caractères
+
+C'est le type par défaut de la plupart des métadonnées. Par exemple :
+
+.:CodeHighlight::Yaml::False::
+free_artist: 'Revolution Void'
+:.
+
+### Liste de chaînes de caractères
+
+C'est par exemple le type par défaut des champs *tags* et *authors* dans une publication. Il s'agit d'une
+liste d'éléments formatés selon la convention de [YAML](https://yaml.org/). Par exemple :
+
+.:CodeHighlight::Yaml::False::
+liste_de_chose_à_faire:
+    - 'Devenir un dieu du code'
+    - 'Niquer le capitalisme'
+    - 'Manger les riches bourgeois'
+:.
+
+### Dictionnaire de données
+
+Il se présente comme spécifié par le format [YAML](https://yaml.org/). Par exemple dans une publication, le champ _categories_ :
+
+.:CodeHighlight::yaml::false::
+categories:
+  - Libre:
+      - GNU/Linux:
+          - Gentoo
+      - LibreOffice
+  - Open-source:
+      - Android
+:.
