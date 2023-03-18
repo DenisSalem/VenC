@@ -22,10 +22,6 @@ import http.server
 import urllib.parse 
 
 from venc3.datastore.configuration import get_blog_configuration
-from venc3.prompt import die
-from venc3.prompt import notify
-from venc3.l10n import messages
-from venc3.datastore.hardcoded_assets import default_error_page
 
 blog_configuration = get_blog_configuration()
 
@@ -38,27 +34,33 @@ class VenCServer(http.server.CGIHTTPRequestHandler):
         super().do_GET()
 
     def send_error(self, code, message=None, explain=None):
+        from venc3.datastore.hardcoded_assets import default_error_page
         self.error_message_format = default_error_page
         super().send_error(code, message, explain)
 
-def serv_blog(argv=list()):            
+def serv_blog(argv=list()):
+    from venc3.prompt import notify
+
     try:
         os.chdir("blog/")
         PORT = int(argv[0]) if len(argv) else int(blog_configuration["server_port"])
         server_address = ("", PORT)
-        notify("For security reason do not use in production!", color="YELLOW")        
-        notify(messages.serving_blog.format(PORT))
+        notify(("do_not_use_in_production"), color="YELLOW")        
+        notify(("serving_blog", PORT))
         httpd = http.server.HTTPServer(server_address, VenCServer)
         httpd.serve_forever()
 
     except OSError as e:
-        die(e.strerror)
+        from venc3.prompt import die
+        die("exception_place_holder", e.strerror))
         
     except ValueError:
-        die(messages.server_port_is_invalid.format(blog_configuration["server_port"]))
+        from venc3.prompt import die
+        die(("server_port_is_invalid", blog_configuration["server_port"]))
 
     except KeyboardInterrupt:
         httpd.server_close()
 
     except FileNotFoundError:
-        die(messages.nothing_to_serv)
+        from venc3.prompt import die
+        die(("nothing_to_serv"))

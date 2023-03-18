@@ -25,9 +25,6 @@ import subprocess
 
 from venc3.datastore.configuration import get_blog_configuration
 from venc3.datastore.entry import yield_entries_content
-from venc3.prompt import notify
-from venc3.prompt import die
-from venc3.l10n import messages
 
 import venc3.datastore.entry as Entry
 
@@ -50,7 +47,8 @@ def new_entry(entry_name, template_name=""):
         wd = os.listdir(os.getcwd())
 
     except OSError:
-        die(messages.cannot_read_in.format(os.getcwd()))
+        from venc3.prompt import die
+        die(("cannot_read_in", os.getcwd()))
 
     date = datetime.datetime.now()
 
@@ -93,13 +91,15 @@ def new_entry(entry_name, template_name=""):
                 pass
                 
             except PermissionError:
+                from venc3.prompt import die
                 os.remove(output_filename)
-                die(messages.wrong_permissions.format(template_path))
+                die(("wrong_permissions", template_path))
         
         if not found_template:
             os.remove(output_filename)
-            notify(messages.file_not_found.format(templates_paths[0]), color="RED")
-            die(messages.file_not_found.format(templates_paths[1]))
+            from venc3.prompt import die, notify
+            notify(("file_not_found", templates_paths[0]), color="RED")
+            die(("file_not_found", templates_paths[1]))
             
     stream.write(output)
     stream.close()
@@ -111,16 +111,20 @@ def new_entry(entry_name, template_name=""):
 
     except FileNotFoundError:
         os.remove(output_filename)
-        die(messages.unknown_command.format(blog_configuration["text_editor"]))
-
-    notify(messages.entry_written)
+        from venc3.prompt import die
+        die(("unknown_command", blog_configuration["text_editor"]))
+        
+    from venc3.prompt import notify
+    notify(("entry_written"))
 
 def new_blog(*blog_names):
     if len(blog_names) < 1:
-        die(messages.missing_params.format("--new-blog"))
-
+        from venc3.prompt import die
+        die(("missing_params", "--new-blog"))
+        
+    from venc3.l10n import messages
     default_configuration =	{
-        "blog_name":			        messages.blog_name,
+        "blog_name":			          messages.blog_name,
         "disable_threads":              None,
         "disable_archives":             False,
         "disable_categories":           False,
@@ -172,7 +176,8 @@ def new_blog(*blog_names):
             os.mkdir(folder_name)
 
         except OSError:
-            die(messages.file_already_exists.format("--new-blog",os.getcwd()+'/'+folder_name))
+            from venc3.prompt import die
+            die(("file_already_exists", "--new-blog", os.getcwd()+'/'+folder_name))
 
         os.mkdir(folder_name+'/'+"blog")
         os.mkdir(folder_name+'/'+"entries")
@@ -183,4 +188,4 @@ def new_blog(*blog_names):
         stream = codecs.open(folder_name+'/'+'blog_configuration.yaml', 'w',encoding="utf-8")
         yaml.dump(default_configuration, stream, default_flow_style=False, allow_unicode=True)
 
-    notify(messages.blog_created if len(blog_names) == 1 else messages.blogs_created)
+    notify(("blog_created" if len(blog_names) == 1 else "blogs_created"))

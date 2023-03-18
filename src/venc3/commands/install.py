@@ -17,15 +17,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
 import os
 import shutil
-
-from venc3.datastore.configuration import get_blog_configuration
-from venc3.prompt import msg_format
-from venc3.prompt import notify
-from venc3.prompt import die
-from venc3.l10n import messages
 
 def print_themes():
     import os
@@ -39,28 +32,30 @@ def print_themes():
                 Loader=yaml.FullLoader
             )
             try:
-                description = getattr(messages, config["info"]["description"])
-                        
-            except AttributeError:
                 description = config["info"]["description"]
-                
+                                        
             except KeyError:
+                from venc3.l10n import messages
                 description = messages.theme_has_no_description
                 
             except TypeError:
+                from venc3.l10n import messages
                 description = messages.theme_has_no_description
 
         else:
+            from venc3.l10n import messages
             description = messages.theme_has_no_description
 
+        from venc3.prompt import msg_format
         print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
 
-def install_theme(theme):        
-    blog_configuration = get_blog_configuration()
-    if blog_configuration == None:
-        notify(messages.no_blog_configuration)
-        return
+def install_theme(theme):
+    from venc3.datastore.configuration import get_blog_configuration
+    from venc3.prompt import notify
 
+    blog_configuration = get_blog_configuration() # will fail nicely if no configuration available
+
+    import datetime
     new_folder_name = "theme "+str(datetime.datetime.now()).replace(':','-')
 
     try:
@@ -71,14 +66,15 @@ def install_theme(theme):
 
     try:
         shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+theme, "theme")
-        notify(messages.theme_installed)
+        
+        notify(("theme_installed"))
        
     except FileNotFoundError as e:
-        notify(messages.theme_doesnt_exists.format("'"+theme+"'"),color='RED')
+        notify(("theme_doesnt_exists", "'"+theme+"'"),color='RED')
         ''' Restore previous states '''
         try:
             shutil.move(new_folder_name, "theme")
 
         except Exception as e:
-            die(str(e))
+            die(("exception_place_holder", str(e)))
 

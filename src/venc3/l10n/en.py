@@ -66,7 +66,7 @@ class Messages:
     theme_name = "Theme name"
     unknown_language="Pygments: {0}: Unknown language."
     pre_process="Pre-processing theme and entries..."
-    directory_not_copied="Directory not copied. Error: %s"
+    directory_not_copied="Directory not copied. Error: {0}"
     variable_error_in_filename="Variable error in main configuration file where paths and filenames are defined: {0} doesn't exists."
     wrong_pattern_argument="Argument '{0}' = '{1}' from pattern '{2}' is wrong: {3}"
     pattern_argument_must_be_integer="It must be a positive integer."
@@ -98,8 +98,8 @@ class Messages:
     invalid_range = "Invalid range {0}:{1}."
     entry_metadata_is_not_a_list = "Metadata identified by \"{0}\" from entry {1} is not a list."
     blog_metadata_is_not_a_list = "Metadata identified by \"{0}\" blog configuration file is not a list."
-    item_deleted_from_server = "Deleted from server: "
-    item_uploaded_to_server = "Uploaded to server: "
+    item_deleted_from_server = "Deleted from server: {0}"
+    item_uploaded_to_server = "Uploaded to server: {0}"
     cannot_retrieve_entry_attribute_because_wrong_id = "Cannot retrieve entry attribute because the given id is unknown."
     id_must_be_an_integer = "Identifier must be an integer."
     there_is_no_chapter_with_index = "There is no chapter with index \"{0}\"."
@@ -118,6 +118,7 @@ class Messages:
     full_documentation_there = "Full documentation there: {0}."
     exception_place_holder = "{0}"
     categories_parse_error = "Categories are wrongly defined: {0} do not refer to a list."
+    do_not_use_in_production = "For security reason do not use in production!"
 
     # Will not be hooked by l10n_cleanup
     generating_rss = "Generating RSS feed..."

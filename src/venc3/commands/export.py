@@ -21,10 +21,8 @@ import subprocess
 
 from venc3.exceptions import VenCException, MalformedPatterns
 from venc3.helpers import rm_tree_error_handler
-from venc3.l10n import messages
 from venc3.patterns.non_contextual import theme_includes_dependencies
 from venc3.patterns.processor import Processor, Pattern
-from venc3.prompt import notify
 
 def copy_recursively(src, dest):
     import errno, os, shutil
@@ -33,14 +31,16 @@ def copy_recursively(src, dest):
             shutil.copytree(src+filename, dest+filename)
     
         except shutil.Error as e:
-            notify(messages.directory_not_copied % e, "YELLOW")
+            from venc3.prompt import notify
+            notify(("directory_not_copied", str(e)), "YELLOW")
 
         except OSError as e:
             if e.errno == errno.ENOTDIR:
                 shutil.copy(src+filename, dest+filename)
 
             else:
-                notify(messages.directory_not_copied % e, "YELLOW")
+                from venc3.prompt import notify
+                notify(("directory_not_copied", str(e)), "YELLOW")
                 
 def export_and_remote_copy(theme_name=''):
     export_blog(theme_name='')
@@ -59,6 +59,7 @@ def setup_pattern_processor(parallel=False):
     return processor
             
 def process_non_parallelizables(datastore, patterns_map, thread_params):
+    from venc3.prompt import notify
     notify("├─ "+messages.process_non_parallelizable)
     pattern_processor = Processor()
     pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])

@@ -31,7 +31,7 @@ def print_help():
     from venc3.prompt import notify
     from venc3.l10n import messages;
 
-    notify(messages.full_documentation_there.format("https://venc.software"))
+    notify(("full_documentation_there", "https://venc.software"))
     print("-v\t--version")
     print("-nb\t--new-blog <\""+messages.arg_blog_name.format("1")+"\"> [\""+messages.arg_blog_name.format("2")+"\" ... ]")
     print("-ne\t--new-entry <\""+messages.arg_entry_name+"\"> [\""+messages.arg_template_name+"\"]")

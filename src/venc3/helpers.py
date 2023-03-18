@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2023 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -17,25 +17,15 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import math
-import base64
-import datetime
-import os
-import unidecode
-import shutil
-
-import pygments
-
-from venc3.l10n import messages
-from venc3.prompt import die
-from venc3.prompt import notify
-
 # Sometimes format fail with {something} not found in given dict.
 class SafeFormatDict(dict):
     def __missing__(self, key):
         return '{'+key+'}'
 
 def export_extra_data(origin, destination=""):
+    import os
+    import shutil
+
     try:
         folder = os.listdir(origin)
         for item in folder:
@@ -43,14 +33,16 @@ def export_extra_data(origin, destination=""):
                 try:
                     os.mkdir(os.getcwd()+"/blog/"+destination+item)
                     export_extra_data(origin+'/'+item, item+'/')
-                except:
-                    raise
+                except Exception as e:
+                    #TODO : VenCException pleaaaaaase
+                    raise e
             else:
                 shutil.copy(origin+"/"+item, os.getcwd()+"/blog/"+destination+item)
     except:
         raise
 
 def quirk_encoding(string):
+    import unidecode
     return unidecode.unidecode(
         string.replace(
             '\'',
@@ -68,11 +60,13 @@ def quirk_encoding(string):
     )
 
 def rm_tree_error_handler(function, path, excinfo):
+    from venc3.prompt import notify
+    
     if path == "blog" and excinfo[0] == FileNotFoundError:
-        notify(messages.blog_folder_doesnt_exists,"YELLOW")
+        notify(("blog_folder_doesnt_exists"),"YELLOW")
         return
 
-    notify(str(function),"RED")
-    notify(str(path),"RED")
-    notify(str(excinfo[0]),"RED")
+    notify(("exception_place_holder", str(function)),"RED")
+    notify(("exception_place_holder", str(path)),"RED")
+    notify(("exception_place_holder", str(excinfo[0])),"RED")
     exit()

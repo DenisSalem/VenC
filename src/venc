@@ -33,8 +33,7 @@ from venc3.l10n import locale_err;
 
 if locale_err:
     from venc3.helpers import notify
-    from venc3.l10n import messages; 
-    notify(messages.cannot_get_current_locale, color="YELLOW")
+    notify(("cannot_get_current_locale"), color="YELLOW")
 
 command_index = {"-v":                  [".print", "print_version", 0],
                 "-nb":                  [".new", "new_blog", -1],
@@ -79,23 +78,22 @@ def argv_handler(argv=None):
            command = getattr(module, command_index[argv[0]][1])
            if len(arguments) < command_index[argv[0]][2]:
               from venc3.helpers import die
-              from venc3.l10n import messages; 
-              die(messages.missing_params.format(argv[0]))
+              die(("missing_params", argv[0]))
 
            command(*arguments)
            argv_handler(argv[len(arguments)+1:])
 
        else:
            from venc3.helpers import notify
-           from venc3.l10n import messages; 
-           notify(messages.unknown_command.format(argv[0]), "RED")
+           notify(("unknown_command", argv[0]), "RED")
            argv_handler(argv[1:])
 
 if sys.argv[1:] != []: 
     argv_handler()
 
 else:
-    notify(messages.nothing_to_do,"YELLOW")
+    from venc3.helpers import notify
+    notify(("nothing_to_do"),"YELLOW")
 
 #pr.disable()
 #s = io.StringIO()

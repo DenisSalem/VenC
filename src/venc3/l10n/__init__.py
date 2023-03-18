@@ -18,20 +18,21 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import locale
-from venc3.prompt import notify
 
 try:
     current_locale = '.'.join(locale.getlocale())
     if current_locale == None:
-      notify("Your system locale seems to be undefined, VenC fallback to default.", color="YELLOW")
-      current_locale = 'en'
+        from venc3.prompt import get_formatted_message
+        print(get_formatted_message("Your system locale seems to be undefined, VenC fallback to default.", "YELLOW"), flush=True)
+        current_locale = 'en'
     
     locale.setlocale(locale.LC_ALL, current_locale)
     locale_err = False
     current_locale = current_locale.split('_')[0]
     
 except locale.Error as e:
-    notify(e.args, color="YELLOW")
+    from venc3.prompt import get_formatted_message
+    print(get_formatted_message(e.args, "YELLOW"), flush=True)
     current_locale = 'en'
     locale_err = True
 

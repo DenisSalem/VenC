@@ -153,8 +153,7 @@ def get_blog_configuration():
 
     except FileNotFoundError:
         from venc3.prompt import die
-        from venc3.l10n import messages
-        die(messages.no_blog_configuration)
+        die(("no_blog_configuration"))
 
     except PermissionError:
         from venc3.prompt import die

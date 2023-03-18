@@ -66,7 +66,7 @@ class Messages:
     theme_name = "Nom du thème"
     unknown_language="Pygments: {0} : Langage inconnu."
     pre_process="Pré-traitement du théme et des publications..."
-    directory_not_copied="Le dossier ne peut être copié. Erreur: %s"
+    directory_not_copied="Le dossier ne peut être copié. Erreur: {0}"
     variable_error_in_filename="Erreur de variable dans le fichier de configuration principal où les chemins et noms de fichier sont définis: {0} n'existe pas."
     wrong_pattern_argument="L'argument '{0}' = '{1}' du motif '{2}' n'est pas correct : {3}"
     pattern_argument_must_be_integer="L'argument doit être un entier positif."
@@ -98,8 +98,8 @@ class Messages:
     invalid_range = "Plage de nombres invalide {0}:{1}."
     entry_metadata_is_not_a_list = "La métadonné \"{0}\" de la publication {1} n'est pas une liste."
     blog_metadata_is_not_a_list = "La métadonné \"{0}\" dans le fichier de configuration du blog n'est pas une liste."
-    item_deleted_from_server = "Supprimé du serveur: "
-    item_uploaded_to_server = "Transféré sur le serveur: "
+    item_deleted_from_server = "Supprimé du serveur: {0}"
+    item_uploaded_to_server = "Transféré sur le serveur: {0}"
     cannot_retrieve_entry_attribute_because_wrong_id = "Impossible de récupérer l'attribut de la publication parce que l'id renseigné est inconnu."
     id_must_be_an_integer = "L'identifiant doit-être un nombre entier."
     there_is_no_chapter_with_index = "Il n'y a pas de chapitre ayant l'index \"{0}\"."
@@ -118,7 +118,7 @@ class Messages:
     full_documentation_there = "Documentation complète iciw: {0}."
     exception_place_holder = "{0}"
     categories_parse_error = "Categories mal construite: {0} ne fait pas référence à une liste."
-
+    do_not_use_in_production = "Pour des raisons de sécurité, ne pas utiliser en production !"
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."
