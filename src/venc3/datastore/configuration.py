@@ -25,9 +25,8 @@ def setup_sub_folder(blog_configuration, key):
         path = quirk_encoding(blog_configuration["path"][key])
             
     except UnicodeEncodeError as e:
-        from venc3.l10n import messages
         from venc3.exceptions import VenCException
-        raise VenCException(messages.encoding_error_in_sub_folder_path.format(key))
+        raise VenCException(("encoding_error_in_sub_folder_path", key))
                     
     blog_configuration["path"][key] = (path if path[-1] == '/' else path+'/' ) if (path != '/' and len(path)) else ''
 

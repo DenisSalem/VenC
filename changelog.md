@@ -48,15 +48,15 @@
     TODO | Optionnaly Agregate ToC with chapter tree.
 
 # version 3.1.0
-    WIP  | Add relevant templates for themes.
+    TODO  | Add relevant templates for themes.
     TODO | /!\ Clean up venc command handler
     TODO | Reduce mandatory field for clarity and better user experience.
     TODO | Do not raise UnknownPattern if pattern is embed in Escape.
     TODO | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
     TODO | Fix AttributeError: 'MainThread' object has no attribute 'current_entry' when calling GetEntryContent from header
+    TODO | Optimize messages, Notify, Die and VenCException call
     DONE | Append p if markup is enabled or not in pygmentize wrapper
     DONE | Remove old themes.
-    TODO | Optimize messages, Notify, Die and VenCException call
     DONE | Add traceback support for even more detail when errors occurs!
     DONE | Add -t command for printing availables themes, fix -it
     DONE | GetBlogKeywords handling error, must enforce list

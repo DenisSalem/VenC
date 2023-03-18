@@ -28,8 +28,7 @@ def merge(iterable, string, separator, node):
     
     except KeyError as e:
         from venc3.exceptions import VenCException
-        from venc3.l10n import messages
-        raise VenCException(messages.unknown_contextual.format(str(e)), node)
+        raise VenCException(("unknown_contextual", str(e)), node)
 
 class DatastorePatterns:
     def if_categories(self, node, if_true, if_false=''):
@@ -118,10 +117,7 @@ class DatastorePatterns:
             return str(self.blog_configuration[field_name])
             
         except KeyError:
-            raise VenCException(
-                messages.blog_has_no_metadata_like.format(field_name),
-                context=self
-            )
+            raise VenCException(("blog_has_no_metadata_like", field_name), context=self)
             
     def get_blog_metadata_if_exists(self, node, field_name, if_true='', if_false='', ok_if_null=True):
         try:
@@ -151,18 +147,15 @@ class DatastorePatterns:
             
             except ValueError:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.id_must_be_an_integer, node)
+                raise VenCException(("id_must_be_an_integer"), node)
                 
             except AttributeError as e:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.entry_has_no_metadata_like.format(argv[0]), node)
+                raise VenCException(("entry_has_no_metadata_like", argv[0]), node)
 
             except IndexError:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.cannot_retrieve_entry_attribute_because_wrong_id, node)
+                raise VenCException(("cannot_retrieve_entry_attribute_because_wrong_id"), node)
             
         return self.cache_get_entry_attribute_by_id[key]
     
@@ -185,9 +178,8 @@ class DatastorePatterns:
             
         except AttributeError:
             from venc3.exceptions import VenCException
-            from venc3.l10n import messages
             raise VenCException(
-                messages.entry_has_no_metadata_like.format(metadata_name),
+                ("entry_has_no_metadata_like", metadata_name),
                 node
             )
             
@@ -252,13 +244,11 @@ class DatastorePatterns:
                 
             except KeyError as e:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.there_is_no_chapter_with_index.format(index), node)
+                raise VenCException(("there_is_no_chapter_with_index", index), node)
                 
             except AttributeError as e:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.chapter_has_no_attribute_like.format(attribute), node)
+                raise VenCException(("chapter_has_no_attribute_like", attribute), node)
                 
         return self.cache_get_chapter_attribute_by_index[key]
             
@@ -280,8 +270,7 @@ class DatastorePatterns:
                 return ""
 
             from venc3.exceptions import VenCException
-            from venc3.l10n import messages
-            raise VenCException(messages.blog_metadata_is_not_a_list.format("blog_keywords"))
+            raise VenCException(("blog_metadata_is_not_a_list", "blog_keywords"))
             
         return ','.join(self.blog_configuration["blog_keywords"])
 
@@ -388,8 +377,7 @@ class DatastorePatterns:
                 from venc3.exceptions import VenCException
                 from venc3.l10n import messages
                 raise VenCException(
-                    messages.wrong_pattern_argument.format("begin_at", begin_at, "RangeEntriesByID")+' '+
-                    messages.pattern_argument_must_be_integer,
+                    ("wrong_pattern_argument", "begin_at", begin_at, "RangeEntriesByID", messages.pattern_argument_must_be_integer),
                     node
                 )
             
@@ -400,8 +388,7 @@ class DatastorePatterns:
                 from venc3.exceptions import VenCException
                 from venc3.l10n import messages
                 raise VenCException(
-                    messages.wrong_pattern_argument.format("end_at", end_at, "RangeEntriesByID")+' '+
-                    messages.pattern_argument_must_be_integer,
+                    ("wrong_pattern_argument", "end_at", end_at, "RangeEntriesByID", messages.pattern_argument_must_be_integer),
                     node
                 )
             
@@ -429,8 +416,7 @@ class DatastorePatterns:
             from venc3.exceptions import VenCException
             from venc3.l10n import messages
             raise VenCException(
-                messages.wrong_pattern_argument.format("entries_subset_key", entries_subset_key, "ForEntriesSet")+' '+
-                messages.argument_does_not_match_with_any_entries_subset,
+                ("wrong_pattern_argument", "entries_subset_key", entries_subset_key, "ForEntriesSet", messages.argument_does_not_match_with_any_entries_subset),
                 node
             )
         
@@ -481,16 +467,16 @@ class DatastorePatterns:
         if not key in self.html_for_metadata:
             if not metadata_name in self.blog_configuration.keys():
                 if raise_exception:
-                    from venc3.l10n import messages
-                    raise VenCException(messages. blog_has_no_metadata_like.format(metadata_name), node)
+                    from venc3.exceptions import VenCException
+                    raise VenCException(("blog_has_no_metadata_like", metadata_name), node)
                     
                 self.html_for_metadata[key] = ""
                 return ""
                 
             if type(self.blog_configuration[metadata_name]) != list:
                 if raise_exception:
-                    from venc3.l10n import messages
-                    raise VenCException(messages)
+                    from venc3.exceptions import VenCException
+                    raise VenCException(("blog_metadata_is_not_a_list", metadata_name), node)
                     
                 self.html_for_metadata[key] = ""
                 
@@ -510,14 +496,12 @@ class DatastorePatterns:
                 l = getattr(entry, variable_name)
                 if not type(l) in [list, tuple]:
                     from venc3.exceptions import VenCException
-                    from venc3.l10n import messages
-                    raise VenCException(messages.entry_metadata_is_not_a_list.format(variable_name, entry), node)
+                    raise VenCException(("entry_metadata_is_not_a_list", variable_name, entry), node)
                 
             except AttributeError as e:
                 if raise_exception:
                     from venc3.exceptions import VenCException
-                    from venc3.l10n import messages
-                    raise VenCException(messages.entry_has_no_metadata_like.format(variable_name), node)
+                    raise VenCException(("entry_has_no_metadata_like", variable_name), node)
                 else:
                     entry.html_for_metadata[key] = ""
                     return ""
@@ -529,8 +513,7 @@ class DatastorePatterns:
                 
             except KeyError as e:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.unknown_contextual.format(e), node)
+                raise VenCException(("unknown_contextual", str(e)), node)
             
         return entry.html_for_metadata[key]
             
@@ -551,8 +534,7 @@ class DatastorePatterns:
         if not source in self.blog_configuration.keys():
             if raise_exception:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.blog_has_no_metadata_like.format(source), node)
+                raise VenCException(("blog_has_no_metadata_like", source), node)
                 
             else:
                 self.html_tree_for_blog_metadata[key] = ""
@@ -569,8 +551,7 @@ class DatastorePatterns:
         if not hasattr(entry, source):
             if raise_exception:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.entry_has_no_metadata_like.format(source), node)
+                raise VenCException(("entry_has_no_metadata_like", source), node)
                 
             else:
                 return ""
@@ -589,10 +570,10 @@ class DatastorePatterns:
                     }
                 )+close_branch for item in source
             ]
+            
         except KeyError as e:
             from venc3.exceptions import VenCException
-            from venc3.l10n import messages
-            raise VenCException(messages.unknown_contextual.format(e), node)
+            raise VenCException(("unknown_contextual", str(e)), node)
             
         return open_node + (''.join(items))+ close_node
 
@@ -660,5 +641,3 @@ class DatastorePatterns:
                         self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
 
         return get_embed_content(node, self.embed_providers, content_url)
-
-            

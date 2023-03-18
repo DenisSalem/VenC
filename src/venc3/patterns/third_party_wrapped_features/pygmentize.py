@@ -51,8 +51,7 @@ def highlight(node, langage, display_line_numbers, input_code):
     
     except:
         from venc3.exceptions import VenCException
-        from venc3.l10n import messages
-        raise VencException(messages.module_not_found.format('pygments'), node)
+        raise VencException(("module_not_found", "pygments"), node)
 
     try:
         name = "venc_source_"+langage.replace('+','Plus')
@@ -72,12 +71,10 @@ def highlight(node, langage, display_line_numbers, input_code):
 
     except pygments.util.ClassNotFound:
         from venc3.exceptions import VenCException
-        from venc3.l10n import messages
-        raise VencException(messages.unknown_language.format(langage), node)
+        raise VencException(("unknown_language", langage), node)
 
 code_highlight = None
 
 def init_code_highlight():
     global code_highlight
     code_highlight = CodeHighlight()
-

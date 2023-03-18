@@ -24,7 +24,6 @@ import unidecode
 
 from venc3.helpers import quirk_encoding
 from venc3.prompt import notify
-from venc3.l10n import messages
 from venc3.patterns.processor import Processor, Pattern
 from venc3.patterns.third_party_wrapped_features.pygmentize import get_style_sheets
 
@@ -140,9 +139,7 @@ class Thread:
             except KeyError as e:
                 from venc3.exceptions import VenCException
                 raise VenCException(
-                    messages.unknown_contextual.format(
-                        (str(e)[1:-1])
-                    ),
+                    ("unknown_contextual", str(e)[1:-1]),
                     node
                 )
 
@@ -173,9 +170,7 @@ class Thread:
             except KeyError as e:
                 from venc3.exceptions import VenCException
                 raise VenCException(
-                    messages.unknown_contextual.format(
-                        (str(e)[1:-1])
-                    ),
+                    ("unknown_contextual", str(e)[1:-1]),
                     node
                 )
                 
@@ -192,7 +187,7 @@ class Thread:
 
         except:
             from venc3.exceptions import VenCException
-            raise VenCException(messages.arg_must_be_an_integer.format("length"), node)
+            raise VenCException(("arg_must_be_an_integer", "length"), node)
             
         output = str()
         page_number = 0
@@ -209,7 +204,7 @@ class Thread:
                     ) + separator
                     
                 except KeyError as e:
-                    raise VenCException(messages.unknown_contextual.format(str(e)[1:-1]), node)
+                    raise VenCException(("unknown_contextual",str(e)[1:-1]), node)
 
             page_number +=1
         

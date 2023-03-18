@@ -20,6 +20,7 @@
 from unidecode import unidecode
 from urllib.parse import quote
 
+from venc3.exceptions import VenCException
 from venc3.helpers import quirk_encoding
 
 class Chapter:
@@ -53,8 +54,9 @@ def flatten_current_level(items):
         if type(item) == dict:
             for key in item.keys():
                 if type(item[key]) != list:
+                    # TODO : for end user it might be difficult to identify where it's gone wrong
                     from venc3.exceptions import VenCException
-                    raise VenCException("PAS UNE LISTE")
+                    raise VenCException(("categories_parse_error", key))
                     
                 yield key, item[key]
         else:
@@ -67,7 +69,7 @@ class WeightTracker:
     def update(self):
         self.value+=1
 
-def build_categories_tree(entry_index, input_list, output_branch, output_leaves, weight_tracker, sub_folders=''):    
+def build_categories_tree(entry_index, input_list, output_branch, output_leaves, weight_tracker, sub_folders=''):        
     for item, sub_items in flatten_current_level(input_list):
         if not len(item):
             continue

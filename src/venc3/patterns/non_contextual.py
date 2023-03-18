@@ -35,16 +35,14 @@ def get_embed_content(node, providers, url):
 
     except:
         from venc3.exceptions import VenCException
-        from venc3.l10n import messages
-        raise VenCException(messages.module_not_found.format("requests"), node)
+        raise VenCException(("module_not_found", "requests"), node)
 
     try:
         key = [ key for key in providers["oembed"].keys() if url.netloc in key][0]
 
     except IndexError:
         from venc3.exceptions import VenCException
-        from venc3.l10n import messages
-        raise VenCException(messages.unknown_provider.format(url.netloc), node)
+        raise VenCException(("unknown_provider", url.netloc), node)
     
     try:
         r = requests.get(providers["oembed"][key][0], params={
@@ -54,21 +52,18 @@ def get_embed_content(node, providers, url):
 
     except requests.exceptions.ConnectionError as e:
         from venc3.exceptions import VenCException
-        from venc3.l10n import messages
-        raise VenCException(messages.connectivity_issue+'\n'+str(e), node)
+        raise VenCException(("connectivity_issue", str(e)), node)
 
     if r.status_code != 200:
         from venc3.exceptions import VenCException
-        from venc3.l10n import messages
-        raise VenCException(messages.ressource_unavailable.format(url.geturl()), node)
+        raise VenCException(("ressource_unavailable", url.geturl()), node)
 
     try:
         html = json.loads(r.text)["html"]
         
     except Exception as e:
         from venc3.exceptions import VenCException
-        from venc3.l10n import messages
-        raise VenCException(messages.response_is_not_json.format(url.geturl()), node)
+        raise VenCException(("response_is_not_json", url.geturl()), node)
         
     try:
         cache_filename = hashlib.md5(url.geturl().encode('utf-8')).hexdigest()
@@ -79,7 +74,6 @@ def get_embed_content(node, providers, url):
 
     except PermissionError:
         from venc3.prompt import notify
-        from venc3.l10n import messages
         notify(messages.wrong_permissions.format("caches/embed/"+cache_filename), color="YELLOW")
 
     return html
@@ -101,8 +95,7 @@ def include_file(node, filename, *argv, raise_error=True):
             return ""
 
         from venc3.exceptions import VenCException
-        from venc3.l10n import messages
-        raise VenCException(messages.wrong_pattern_argument.format("path", filename, "include_file"), node, node.root.string)
+        raise VenCException(("wrong_pattern_argument", "path", filename, "include_file"), node, node.root.string)
     
     include_string = None
     paths = ("includes/"+filename, shutil.os.path.expanduser("~/.local/share/VenC/themes_includes/"+filename))
@@ -117,8 +110,7 @@ def include_file(node, filename, *argv, raise_error=True):
                     return ""
                     
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.wrong_permissions.format(path), node, node.root.string)
+                raise VenCException(("wrong_permissions", path), node, node.root.string)
                 
     if include_string == None:
         if not raise_error:
@@ -127,8 +119,11 @@ def include_file(node, filename, *argv, raise_error=True):
         from venc3.exceptions import VenCException
         from venc3.l10n import messages
         raise VenCException(
-            ".:"+("::".join(node.payload))+":.\n" + '\n'.join(
-                (messages.file_not_found.format(path) for path in paths)
+            (
+                "exception_place_holder", 
+                ".:"+("::".join(node.payload))+":.\n" + '\n'.join(
+                    (messages.file_not_found.format(path) for path in paths)
+                )
             ),
             node,
             node.root.string
@@ -142,7 +137,7 @@ def include_file(node, filename, *argv, raise_error=True):
     else:
         return include_string
 
-# TODO : Not document in pattern cheat sheet
+# TODO : Not documented in pattern cheat sheet
 def include_file_if_exists(node, filename, *argv):
     return include_file(node, filename, *argv, raise_error=False)
 

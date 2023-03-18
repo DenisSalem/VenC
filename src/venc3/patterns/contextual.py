@@ -26,14 +26,9 @@ def get_random_number(node, _min, _max, _precision):
             
         except ValueError as e:
             from venc3.exceptions import VenCException
-            from venc3.l10n import messages
             faulty_arg_name = {v: k for k, v in locals().items()}[e.args[0].split('\'')[1]]
             
             raise VenCException(
-                messages.wrong_pattern_argument.format(
-                    faulty_arg_name[1:],
-                    locals()[faulty_arg_name], 
-                    "GetRandomNumber"
-                )+' '+str(e),
+                ("wrong_pattern_argument", faulty_arg_name[1:], locals()[faulty_arg_name], "GetRandomNumber", str(e)),
                 node
             )

@@ -28,8 +28,7 @@ def kroki(node, code, endpoint, provider = "https://kroki.io/"):
             
         except:
             from venc3.exceptions import VenCException
-            from venc3.l10n import messages
-            raise VenCException(messages.module_not_found.format("requests"), node)
+            raise VenCException(("module_not_found", "requests"), node)
         import zlib;
         import base64
         with open("extra/"+code+".svg","w") as f:
@@ -38,6 +37,6 @@ def kroki(node, code, endpoint, provider = "https://kroki.io/"):
                 
             except Exception as e:
                 from venc3.exceptions import VenCException
-                raise VencException(str(e), node)
+                raise VencException(("exception_place_holder", str(e)), node)
               
     return "<img class=\"__VENC_KROKI__\" src=\".:GetRelativeOrigin:."+code+".svg"+"\" />"

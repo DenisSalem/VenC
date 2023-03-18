@@ -24,13 +24,12 @@ def latex_2_mathml(node, tex_math_string):
         
     except:
         from venc3.exceptions import VenCException
-        from venc3.l10n import messages
-        raise VenCException(messages.module_not_found.format('latex2mathml'), node)
+        raise VenCException(("module_not_found", "latex2mathml"), node)
     
     try:    
         return latex2mathml.converter.convert(tex_math_string)
 
     except:
         from venc3.l10n import messages
-        from venc3.patterns.exceptions import PatternInvalidArgument
-        raise VenCException(messages.tex_math_error, node)
+        from venc3.patterns.exceptions import enCException
+        raise VenCException(("tex_math_error"), node)

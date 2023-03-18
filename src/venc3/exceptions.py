@@ -18,8 +18,14 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 class VenCException(Exception):
-    def __init__(self, message, context=None, extra=""):
-        self.message = message
+    def __init__(self, message_format, context=None, extra=""):
+        from venc3.l10n import messages
+        if len(message_format) > 1:
+            message_attr, *format_args = message_format
+            self.message = getattr(messages, message_attr).format(*format_args)
+        else:
+            self.message = getattr(messages, message_format[0])
+            
         self.context = context
         self.extra = extra
     
@@ -108,14 +114,14 @@ class MalformedPatterns(VenCException):
 class VenCSyntaxError(VenCException):  
     def __init__(self, string_under_processing, o, c):
         from venc3.l10n import messages
-        super().__init__(messages.syntax_error, string_under_processing)
+        super().__init__(("syntax_error"), string_under_processing)
         self.extra = string_under_processing.string
         self.extra = self.extra[:o]+'\033[91m'+self.extra[o:c]+'\033[0m'+self.extra[c:]
                     
 class UnknownPattern(VenCException):
     def __init__(self, pattern, string_under_processing):
         from venc3.l10n import messages
-        super().__init__(messages.unknown_pattern.format(pattern.payload[0]), pattern)
+        super().__init__(("unknown_pattern", pattern.payload[0]), pattern)
         self.extra = string_under_processing.string
 
 class WrongPatternArgumentsNumber(VenCException):
@@ -124,9 +130,7 @@ class WrongPatternArgumentsNumber(VenCException):
         from venc3.l10n import messages
         sig = signature(function)
         super().__init__(
-            messages.wrong_args_number.format(len(sig.parameters)-1, len(args)),
+            ("wrong_args_number", len(sig.parameters)-1, len(args)),
             pattern
         )
         self.extra = string_under_processing.string
-
-    

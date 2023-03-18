@@ -25,7 +25,6 @@ import json
 from venc3.helpers import quirk_encoding
 from venc3.prompt import notify
 from venc3.threads import Thread
-from venc3.l10n import messages
 
 class EntriesThread(Thread):
     def __init__(self):
@@ -82,14 +81,14 @@ class EntriesThread(Thread):
 
         except:
             from venc3.exceptions import VenCException
-            raise VenCException(messages.arg_must_be_an_integer.format("length"), node)        
+            raise VenCException(("arg_must_be_an_integer","length"), node)        
         
         try:
             output += string.format(**params) + separator
             
         except KeyError as e:
             from venc3.exceptions import VenCException
-            raise VenCException(messages.unknown_contextual.format(str(e)[1:-1]), node)
+            raise VenCException(("unknown_contextual",str(e)[1:-1]), node)
             
         for i in range(0, length):
             next_entry =  None if self.current_entry_index >=  len(self.entries) - 2 else self.entries[self.current_entry_index+1]

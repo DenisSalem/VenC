@@ -53,7 +53,7 @@ class Entry:
                     metadata = yaml.load(entry_parted[0], Loader=yaml.FullLoader)
 
                 except yaml.scanner.ScannerError as e:
-                    raise VenCException(messages.possible_malformed_entry.format(filename, ''), context=filename, extra=str(e))
+                    raise VenCException(("possible_malformed_entry", filename, ''), context=filename, extra=str(e))
                     
                 if "markup_language" in metadata.keys():
                     markup_language = metadata["markup_language"]
@@ -66,10 +66,10 @@ class Entry:
 
             else:
                 cause = messages.missing_separator_in_entry.format("---VENC-END-PREVIEW---")
-                raise VenCException(messages.possible_malformed_entry.format(filename, cause), context=filename)
+                raise VenCException(("possible_malformed_entry", filename, cause), context=filename)
         else:
             cause = messages.missing_separator_in_entry.format("---VENC-BEGIN-PREVIEW---")
-            raise VenCException(messages.possible_malformed_entry.format(filename, cause), context=filename)
+            raise VenCException(("possible_malformed_entry", filename, cause), context=filename)
         
         # Setting up optional metadata
         for key in metadata.keys():
@@ -112,12 +112,12 @@ class Entry:
         self.title = metadata["title"].replace(".:GetEntryTitle:.",'') # sanitize
 
         if type(metadata["authors"]) != list:
-            raise VenCException(messages.entry_metadata_is_not_a_list.format("authors", self.id), context=filename)
+            raise VenCException(("entry_metadata_is_not_a_list", "authors", self.id), context=filename)
             
         self.authors = tuple(metadata["authors"])              
 
         if type(metadata["tags"]) != list:
-            raise VenCException(messages.entry_metadata_is_not_a_list.format("tags", self.id), context=filename)
+            raise VenCException(("entry_metadata_is_not_a_list", "tags", self.id), context=filename)
             
         self.tags = tuple(metadata["tags"])
 
@@ -133,7 +133,7 @@ class Entry:
         )
         
         if type(metadata["categories"]) != list:
-            raise VenCException(messages.entry_metadata_is_not_a_list.format("categories", self.id), context=filename)
+            raise VenCException(("entry_metadata_is_not_a_list", "categories", self.id), context=filename)
 
         self.raw_categories = metadata["categories"]
         self.categories_leaves = None

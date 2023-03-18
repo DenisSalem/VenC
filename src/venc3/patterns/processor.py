@@ -214,8 +214,7 @@ class Processor:
     def apply_pattern(self, parent, pattern, flags, payload_offset, recursion_error_triggered_by):
         if recursion_error_triggered_by == pattern.name_id:
             from venc3.exceptions import VenCException
-            from venc3.l10n import messages
-            raise VenCException(messages.pattern_recursion_error.format(pattern.payload[0]), pattern)
+            raise VenCException(("pattern_recursion_error", pattern.payload[0]), pattern)
             
         if pattern.payload[0] != "Escape":
             self.process(pattern, flags, recursion_error_triggered_by)

@@ -18,11 +18,10 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc3.threads import Thread
-from venc3.prompt import notify
-from venc3.l10n import messages
 
 class FeedThread(Thread):
     def __init__(self, feed_type, prompt, indentation_type):
+        from venc3.l10n import messages
         super().__init__(prompt+"─ "+getattr(messages, "generating_"+feed_type), indentation_type)
         self.footer = getattr(self.theme, feed_type+"_footer")
         self.header = getattr(self.theme, feed_type+"_header")
@@ -45,7 +44,7 @@ class FeedThread(Thread):
     
     def get_JSONLD(self, node):
         from venc3.exceptions import VenCException
-        raise VenCException(messages.unknown_pattern.format("GetJSONLD"), node)
+        raise VenCException(("unknown_pattern","GetJSONLD"), node)
 
     def if_in_feed(self, node, string1, string2=''):
         return string1.strip()
