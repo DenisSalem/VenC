@@ -18,10 +18,9 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from venc3.l10n import messages;
-from venc3 import venc_version
 
 def print_version():
+    from venc3 import venc_version
     print("VenC", venc_version)
     import platform
     print("Python", platform.python_version())
@@ -30,7 +29,9 @@ def print_version():
 # Will be removed and replaced by argparse
 def print_help():
     from venc3.prompt import notify
-    notify("Full documentation there : https://venc.software")
+    from venc3.l10n import messages;
+
+    notify(messages.full_documentation_there.format("https://venc.software"))
     print("-v\t--version")
     print("-nb\t--new-blog <\""+messages.arg_blog_name.format("1")+"\"> [\""+messages.arg_blog_name.format("2")+"\" ... ]")
     print("-ne\t--new-entry <\""+messages.arg_entry_name+"\"> [\""+messages.arg_template_name+"\"]")

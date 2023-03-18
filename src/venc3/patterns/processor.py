@@ -101,7 +101,8 @@ class Pattern:
             raise UnknownPattern(self, root)
             
 class PatternTree:
-    def __init__(self, string, context=""):
+    def __init__(self, string, context="", has_markup_language=False):
+        self.has_markup_language = has_markup_language
         self.string = string
         self.context = context
         self.has_non_parallelizables = False

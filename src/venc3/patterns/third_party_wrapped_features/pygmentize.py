@@ -60,8 +60,9 @@ def highlight(node, langage, display_line_numbers, input_code):
         lexer = pygments.lexers.get_lexer_by_name(langage, stripall=False)
         formatter = pygments.formatters.HtmlFormatter(linenos=(True if display_line_numbers=="True" else False), cssclass=name)
         
-        #TODO: FIND A WAY to append p if markup is enabled or not
-        result = "</p><div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(input_code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div><p>"
+        result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(input_code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
+        if node.root.has_markup_language:
+            result = "</p>"+result+"<p>"
         css  = formatter.get_style_defs()
 
         if not name+".css" in code_highlight.includes.keys():

@@ -17,6 +17,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+BLOG_CONFIGURATION = None
+
 def setup_sub_folder(blog_configuration, key):
     from venc3.helpers import quirk_encoding
     try:
@@ -30,6 +32,10 @@ def setup_sub_folder(blog_configuration, key):
     blog_configuration["path"][key] = (path if path[-1] == '/' else path+'/' ) if (path != '/' and len(path)) else ''
 
 def get_blog_configuration():
+    global BLOG_CONFIGURATION
+    if BLOG_CONFIGURATION != None:
+        return BLOG_CONFIGURATION
+  
     import os
     import yaml
     
@@ -143,7 +149,8 @@ def get_blog_configuration():
         if not "pipe_flow" in blog_configuration.keys():
             blog_configuration["pipe_flow"] = 512
             
-        return blog_configuration
+        BLOG_CONFIGURATION = blog_configuration
+        return BLOG_CONFIGURATION
 
     except FileNotFoundError:
         from venc3.prompt import die

@@ -115,11 +115,7 @@ class Messages:
     argument_does_not_match_with_any_entries_subset="Argument does not match with any entries subset."
     pattern_recursion_error="Recursion error in pattern \"{0}\", function is calling itself too many times."
     the_following_is_overriden = "Setting identified by \"{0}\" is overriden by the following value \"{1}\" from {2}." 
-
+    full_documentation_there = "Full documentation there: {0}."
     # Will not be hooked by l10n_cleanup
-    theme_description_academik = "Theme with one column and footnotes support. Fit nicely for a blog."
-    theme_description_dummy = "The empty one. Aim to built your own from scratch."
-    theme_description_gentle = "Theme with one column. It's light, clear and elegant. Fit nicely for a blog."
-    theme_description_tessellation = "Theme with three columns. It's light, clear, and elegant. Fit nicely for a galery."
     generating_rss = "Generating RSS feed..."
     generating_atom = "Generating Atom feed..."

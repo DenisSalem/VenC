@@ -26,29 +26,28 @@ import sys
 
 # Workaround to have both installation procedure from setup.py and pip
 # copying data files in the right place. 
-dst_prefix = ''
-if ' '.join(sys.argv) == "./setup.py install --user":
-    dst_prefix = site.USER_BASE+'/'
+
+dst_prefix = site.USER_BASE+'/' if ' '.join(sys.argv) == "./setup.py install --user" else ''
 
 dst_themes_path = dst_prefix+"share/VenC/themes/"
-src_themes_path = "share/themes/"
-themes = listdir(src_themes_path)
+# ~ src_themes_path = "share/themes/"
+# ~ themes = listdir(src_themes_path)
 
 extra_files = []
-for theme in themes:
-    for filename in listdir(src_themes_path+theme+'/'):
-        if isdir(src_themes_path+theme+'/'+filename):
-            dst = dst_themes_path+theme+'/'+filename
-            src_files = [src_themes_path+theme+'/'+filename+'/'+f for f in listdir(src_themes_path+theme+'/'+filename)]
+# ~ for theme in themes:
+    # ~ for filename in listdir(src_themes_path+theme+'/'):
+        # ~ if isdir(src_themes_path+theme+'/'+filename):
+            # ~ dst = dst_themes_path+theme+'/'+filename
+            # ~ src_files = [src_themes_path+theme+'/'+filename+'/'+f for f in listdir(src_themes_path+theme+'/'+filename)]
 
-        else:
-            dst = dst_themes_path+theme
-            src_files = [src_themes_path+theme+'/'+filename]
+        # ~ else:
+            # ~ dst = dst_themes_path+theme
+            # ~ src_files = [src_themes_path+theme+'/'+filename]
             
-        extra_files.append((
-            dst,
-            src_files
-        ))
+        # ~ extra_files.append((
+            # ~ dst,
+            # ~ src_files
+        # ~ ))
             
 extra_files.append(
     (
@@ -64,26 +63,13 @@ extra_files.append(
     )
 
 )
-extra_files.append(
-    (
-        dst_prefix+"share/VenC/themes_assets/dejavu-fonts-ttf-2.37/",
-        ["share/themes_assets/dejavu-fonts-ttf-2.37/"+filename for filename in listdir("share/themes_assets/dejavu-fonts-ttf-2.37")]
-    )
-)
 
-extra_files.append(
-    (
-        dst_prefix+"share/VenC/themes_includes/",
-        ["share/themes_includes/"+filename for filename in listdir("share/themes_includes")]
-    )
-)
-
-extra_files.append(
-    (
-        dst_prefix+"share/VenC/themes_templates/",
-        ["share/themes_templates/"+filename for filename in listdir("share/themes_templates")]
-    )
-)
+# ~ extra_files.append(
+    # ~ (
+        # ~ dst_prefix+"share/VenC/themes_templates/",
+        # ~ ["share/themes_templates/"+filename for filename in listdir("share/themes_templates")]
+    # ~ )
+# ~ )
 
 setup(
     name='VenC',

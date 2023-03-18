@@ -114,12 +114,9 @@ class Messages:
     current_entry_is_overriding_the_following = "La publication #{0} écrase les publications suivantes:\n{1}"
     argument_does_not_match_with_any_entries_subset="L'argument ne correspond à aucun sous ensemble de publication."
     pattern_recursion_error= "Erreur de récursion dans le motif \"{0}\", la fonction s'appelle trop de fois."
-    the_following_is_overriden = "Le paramètre \"{0}\" est par la valeur suivante\"{1}\" depuis {2}." 
+    the_following_is_overriden = "Le paramètre \"{0}\" est par la valeur suivante\"{1}\" depuis {2}."
+    full_documentation_there = "Documentation complète ici: {0}."
     # Will not be hooked by l10n_cleanup
-    theme_description_academik = "Thème mono colonne, avec note de bas de page. Idéal pour un blog."
-    theme_description_dummy = "Le thème vide. Il donne une bonne base pour concevoir le votre."
-    theme_description_gentle = "Thème mono colonne, très clair, aéré et élégant. Idéal pour un blog."
-    theme_description_tessellation = "Thème comportant trois colonnes, très clair, aéré et élégant. Idéal pour une galerie."
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."
     

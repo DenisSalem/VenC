@@ -45,19 +45,24 @@ class Entry:
 
         # Loading
         raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()
-
         entry_parted = raw_data.split("---VENC-BEGIN-PREVIEW---\n")
         if len(entry_parted) == 2:
             entry_parted = [entry_parted[0]] + entry_parted[1].split("---VENC-END-PREVIEW---\n")
-            if len(entry_parted) == 3:
-                self.preview = PatternTree(entry_parted[1], filename)
-                self.content = PatternTree(entry_parted[2], filename)
-                    
+            if len(entry_parted) == 3:                    
                 try:
                     metadata = yaml.load(entry_parted[0], Loader=yaml.FullLoader)
 
                 except yaml.scanner.ScannerError as e:
                     raise VenCException(messages.possible_malformed_entry.format(filename, ''), context=filename, extra=str(e))
+                    
+                if "markup_language" in metadata.keys():
+                    markup_language = metadata["markup_language"]
+                else:
+                    from venc3.datastore.configuration import get_blog_configuration
+                    markup_language = get_blog_configuration()["markup_language"]
+                    
+                self.preview = PatternTree(entry_parted[1], filename, False if markup_language == "none" else True)
+                self.content = PatternTree(entry_parted[2], filename, False if markup_language == "none" else True)
 
             else:
                 cause = messages.missing_separator_in_entry.format("---VENC-END-PREVIEW---")
