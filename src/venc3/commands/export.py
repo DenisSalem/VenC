@@ -23,6 +23,7 @@ from venc3.exceptions import VenCException, MalformedPatterns
 from venc3.helpers import rm_tree_error_handler
 from venc3.patterns.non_contextual import theme_includes_dependencies
 from venc3.patterns.processor import Processor, Pattern
+from venc3.prompt import notify
 
 def copy_recursively(src, dest):
     import errno, os, shutil
@@ -60,7 +61,7 @@ def setup_pattern_processor(parallel=False):
             
 def process_non_parallelizables(datastore, patterns_map, thread_params):
     from venc3.prompt import notify
-    notify("├─ "+messages.process_non_parallelizable)
+    notify(("process_non_parallelizable"), prepend="├─ ")
     pattern_processor = Processor()
     pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
     from venc3.patterns.processor import Pattern
@@ -167,11 +168,12 @@ def process_non_contextual_patterns():
 
 def export_blog(theme_name=''):
     import time
+        
     start_timestamp = time.time()
     from venc3.datastore import init_datastore
     datastore = init_datastore()
     
-    notify("├─ "+messages.pre_process)
+    notify(("pre_process"), prepend="├─ ")
     
     from venc3.datastore.theme import init_theme
     init_theme(theme_name)
@@ -182,7 +184,7 @@ def export_blog(theme_name=''):
     
     process_non_contextual_patterns()
     if not datastore.blog_configuration["disable_single_entries"]:
-        notify("├─ "+messages.link_entries)
+        notify(("link_entries"), prepend="├─ ")
         # Add required link between entries
         entries = datastore.entries
         for entry_index in range(0, len(entries)):
@@ -225,7 +227,7 @@ def export_blog(theme_name=''):
         e.die()
         
     # Copy assets and extra files
-    notify('└─ '+messages.copy_assets_and_extra_files)
+    notify(("copy_assets_and_extra_files"), prepend="└─ ")
     from venc3.patterns.third_party_wrapped_features.pygmentize import code_highlight
     from venc3.datastore.theme import theme, theme_assets_dependencies
     code_highlight.export_style_sheets()
@@ -241,12 +243,12 @@ def export_blog(theme_name=''):
         except FileNotFoundError as e:
             notify(messages.file_not_found.format(e.filename), color="YELLOW")
     
-    notify(messages.task_done_in_n_seconds.format(round(time.time() - start_timestamp,6)))
+    notify(("task_done_in_n_seconds", round(time.time() - start_timestamp,6)))
 
 def edit_and_export(entry_filename=''):    
     if not len(entry_filename):
         from venc3.helpers import die
-        die(messages.missing_params.format("--edit-and-export"))
+        die(("missing_params", "--edit-and-export"))
     
     from venc3.datastore import init_datastore
     datastore = init_datastore()
@@ -254,14 +256,14 @@ def edit_and_export(entry_filename=''):
     try:
         if type(datastore.blog_configuration["text_editor"]) != list:
             from venc3.helpers import die
-            die(messages.blog_metadata_is_not_a_list.format("text_editor"))
+            die(("blog_metadata_is_not_a_list", "text_editor"))
 
         proc = subprocess.Popen(datastore.blog_configuration["text_editor"]+[entry_filename])
         proc.wait()
 
     except TypeError:
         from venc3.helpers import die
-        die(messages.unknown_text_editor.format(datastore.blog_configuration["text_editor"]))
+        die(("unknown_text_editor", datastore.blog_configuration["text_editor"]))
     
     except Exception as e:
         raise e

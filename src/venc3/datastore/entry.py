@@ -19,19 +19,9 @@
 
 import datetime
 import os
-import time
-import unidecode
-import urllib.parse
-import yaml
 
-from venc3.helpers import quirk_encoding
-from venc3.prompt import die
-from venc3.prompt import notify
-from venc3.l10n import messages
-from venc3.datastore.metadata import MetadataNode
 from venc3.datastore.metadata import build_categories_tree
-from venc3.exceptions import VenCException
-from venc3.exceptions import MalformedPatterns
+from venc3.helpers import quirk_encoding
 from venc3.patterns.processor import PatternTree
 
 class Entry:  
@@ -48,11 +38,13 @@ class Entry:
         entry_parted = raw_data.split("---VENC-BEGIN-PREVIEW---\n")
         if len(entry_parted) == 2:
             entry_parted = [entry_parted[0]] + entry_parted[1].split("---VENC-END-PREVIEW---\n")
-            if len(entry_parted) == 3:                    
+            if len(entry_parted) == 3:
+                import yaml
                 try:
                     metadata = yaml.load(entry_parted[0], Loader=yaml.FullLoader)
 
                 except yaml.scanner.ScannerError as e:
+                    from venc3.exceptions import VenCException
                     raise VenCException(("possible_malformed_entry", filename, ''), context=filename, extra=str(e))
                     
                 if "markup_language" in metadata.keys():
@@ -65,10 +57,15 @@ class Entry:
                 self.content = PatternTree(entry_parted[2], filename, False if markup_language == "none" else True)
 
             else:
+                # TODO : make exception for the two below
+                from venc3.l10n import messages; 
                 cause = messages.missing_separator_in_entry.format("---VENC-END-PREVIEW---")
+                from venc3.exceptions import VenCException
                 raise VenCException(("possible_malformed_entry", filename, cause), context=filename)
         else:
+            from venc3.l10n import messages; 
             cause = messages.missing_separator_in_entry.format("---VENC-BEGIN-PREVIEW---")
+            from venc3.exceptions import VenCException
             raise VenCException(("possible_malformed_entry", filename, cause), context=filename)
         
         # Setting up optional metadata
@@ -81,7 +78,8 @@ class Entry:
                         setattr(self, key, metadata[key])
                         
                 else:
-                    notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")
+                    from venc3.prompt import notify
+                    notify(("invalid_or_missing_metadata", key, filename), color="YELLOW")
                     setattr(self, key, '')
 
         # Fix missing or incorrect metadata
@@ -112,11 +110,13 @@ class Entry:
         self.title = metadata["title"].replace(".:GetEntryTitle:.",'') # sanitize
 
         if type(metadata["authors"]) != list:
+            from venc3.exceptions import VenCException
             raise VenCException(("entry_metadata_is_not_a_list", "authors", self.id), context=filename)
             
         self.authors = tuple(metadata["authors"])              
 
         if type(metadata["tags"]) != list:
+            from venc3.exceptions import VenCException
             raise VenCException(("entry_metadata_is_not_a_list", "tags", self.id), context=filename)
             
         self.tags = tuple(metadata["tags"])
@@ -133,6 +133,7 @@ class Entry:
         )
         
         if type(metadata["categories"]) != list:
+            from venc3.exceptions import VenCException
             raise VenCException(("entry_metadata_is_not_a_list", "categories", self.id), context=filename)
 
         self.raw_categories = metadata["categories"]
@@ -181,13 +182,16 @@ def yield_entries_content():
                     raise ValueError
 
             except ValueError:
-                notify(messages.invalid_entry_filename.format(filename), "YELLOW")
+                from venc3.prompt import notify
+                notify(("invalid_entry_filename", filename), "YELLOW")
 
             except IndexError:
-                notify(messages.invalid_entry_filename.format(filename), "YELLOW")
+                from venc3.prompt import notify
+                notify(("invalid_entry_filename", filename), "YELLOW")
     
     except FileNotFoundError:
-        die(messages.file_not_found.format(os.getcwd()+"/entries"))
+        from venc3.prompt import die
+        die(("file_not_found", os.getcwd()+"/entries"))
 
 def get_latest_entryID():
     entries_list = sorted(yield_entries_content(), key = lambda entry : int(entry.split("__")[0]))

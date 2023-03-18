@@ -39,13 +39,13 @@ class VenCException(Exception):
         from venc3.prompt import die, notify
         try:
             import traceback
-            notify("\n"+''.join(traceback.format_stack()[:-1]), "YELLOW")
+            notify(("exception_place_holder", "\n"+''.join(traceback.format_stack()[:-1])), "YELLOW")
+            
         except:
             pass
             
         if self.context != None:
             from venc3.patterns.processor import Pattern
-            from venc3.l10n import messages
 
             if type(self.context) == Pattern:
                 context_name = self.context.root.context
@@ -59,9 +59,9 @@ class VenCException(Exception):
                 context_name = self.context.context
                 self.flatten(highlight=self.context)
                 
-            notify(messages.in_.format(context_name), color="RED")
+            notify(("in_", context_name), color="RED")
         
-        die(self.message, extra=self.extra)
+        die(("exception_place_holder", self.message), extra=self.extra)
         
     def flatten(self, highlight=None):
         # use garbage collector to rebuild original string
@@ -113,21 +113,18 @@ class MalformedPatterns(VenCException):
 
 class VenCSyntaxError(VenCException):  
     def __init__(self, string_under_processing, o, c):
-        from venc3.l10n import messages
         super().__init__(("syntax_error"), string_under_processing)
         self.extra = string_under_processing.string
         self.extra = self.extra[:o]+'\033[91m'+self.extra[o:c]+'\033[0m'+self.extra[c:]
                     
 class UnknownPattern(VenCException):
     def __init__(self, pattern, string_under_processing):
-        from venc3.l10n import messages
         super().__init__(("unknown_pattern", pattern.payload[0]), pattern)
         self.extra = string_under_processing.string
 
 class WrongPatternArgumentsNumber(VenCException):
       def __init__(self, pattern, string_under_processing, function, args):
         from inspect import signature
-        from venc3.l10n import messages
         sig = signature(function)
         super().__init__(
             ("wrong_args_number", len(sig.parameters)-1, len(args)),
