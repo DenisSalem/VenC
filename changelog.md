@@ -53,8 +53,8 @@
     TODO | Do not raise UnknownPattern if pattern is embed in Escape.
     TODO | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
     TODO | Fix AttributeError: 'MainThread' object has no attribute 'current_entry' when calling GetEntryContent from header
-    WIP  | Optimize Notify and Die call
-    WIP  | Optimize modules importation, second pass.
+    DONE | Optimize Notify and Die call
+    DONE | Cleaning modules importation, second pass.
     DONE | VenCException call do not require import of messages
     DONE | Append p if markup is enabled or not in pygmentize wrapper
     DONE | Remove old themes.
