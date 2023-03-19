@@ -52,7 +52,7 @@ def serv_blog(argv=list()):
 
     except OSError as e:
         from venc3.prompt import die
-        die("exception_place_holder", e.strerror))
+        die(("exception_place_holder", e.strerror))
         
     except ValueError:
         from venc3.prompt import die
