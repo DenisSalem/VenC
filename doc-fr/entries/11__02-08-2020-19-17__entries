@@ -92,8 +92,8 @@ fichier de configuration du blog.
 
 VenC supporte trois langages de balisage :
 
-- __Markdown__ : qui est le langage par défaut.
-- __reStructuredText__ : un peu plus complet et puissant que Markdown.
-- __asciidoc__ : un peu plus complet et puissant que Markdown.
+- __[Markdown](https://daringfireball.net/projects/markdown/syntax)__ : qui est le langage par défaut.
+- __[reStructuredText](http://docutils.sourceforge.net/rst.html)__ : un peu plus complet et puissant que Markdown.
+- __[asciidoc](https://asciidoc.org)__ : un peu plus complet et puissant que Markdown.
 - __none__ : Le langage de balisage est désactivé. Permet d'incorporer
 de l'HTML/CSS dans une publication.

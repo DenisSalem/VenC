@@ -1,5 +1,5 @@
-.venc_source_yaml .hll { background-color: #404040 }
-.venc_source_yaml  { background: #f8f8f8; }
+.venc_source_yaml .hll { background-color: #404040; }
+.venc_source_yaml  { background: #404040; }
 .venc_source_yaml .c { color: #408080; font-style: italic } /* Comment */
 .venc_source_yaml .err { border: 1px solid #FF0000 } /* Error */
 .venc_source_yaml .k { color: #008000; font-weight: bold } /* Keyword */

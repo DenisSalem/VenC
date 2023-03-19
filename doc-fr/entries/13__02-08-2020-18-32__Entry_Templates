@@ -22,8 +22,7 @@ VenC est livrés avec des exemples de templates. En voici la liste :
 
 TODO
 
-_Parmi ces templates, certains servent surtout à illustrer l'usage
-de certaines fonctionnalités de VenC._
+_Parmi ces templates, certains servent surtout à illustrer l'usage de certaines fonctionnalités de VenC._
 
 Pour utiliser un template il suffit de passer son nom de fichier (sans le chemin)
 à VenC au moment de la création d'une nouvelle publication. Par exemple :
