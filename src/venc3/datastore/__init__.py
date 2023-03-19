@@ -105,7 +105,7 @@ class DataStore(DatastorePatterns):
             self.root_site_to_jsonld()
 
         # Build entries
-        notify(("loading_entries"), prepend="┌─ ")
+        notify(("loading_entries",), prepend="┌─ ")
         filenames = [filename for filename in yield_entries_content()]
         self.chunks_len = (len(filenames)//self.workers_count)+1
         jsonld_required = self.blog_configuration["enable_jsonld"] or self.blog_configuration["enable_jsonp"]
