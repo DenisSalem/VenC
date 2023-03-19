@@ -23,7 +23,6 @@ import os
 import json
 
 from venc3.helpers import quirk_encoding
-from venc3.prompt import notify
 from venc3.threads import Thread
 
 class EntriesThread(Thread):
@@ -49,7 +48,8 @@ class EntriesThread(Thread):
             })
         
         except KeyError as e:
-            die(messages.variable_error_in_filename.format(str(e)))
+            from venc3.prompt import die
+            die(("variable_error_in_filename", str(e)))
             
     def if_in_first_page(self, node, string1, string2=''):
         return string2.strip()
@@ -149,7 +149,7 @@ class EntriesThread(Thread):
             from venc3.l10n import messages
             from venc3.prompt import die
             die(
-              messages.current_entry_is_overriding_the_following.format(
+              ("current_entry_is_overriding_the_following",
                 self.current_entry.id,
                 '\n'.join(
                     ["\t- #"+str(t[0])+" "+t[1] for t in self.known_written_path if t[2] == written_path]
@@ -164,7 +164,8 @@ class EntriesThread(Thread):
             
     def do(self):
         if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
-            notify(self.indentation_level+'└─ '+messages.generating_jsonld_docs)
+            from venc3.prompt import notify
+            notify(("generating_jsonld_docs"), prepend=self.indentation_level+'└─ ')
             
         self.page_number = 0
         self.current_page = 0
@@ -184,4 +185,3 @@ class EntriesThread(Thread):
             return '<script type="application/ld+json" src="entry'+str(self.current_entry.id)+'.jsonld"></script>'
             
         return ''
-

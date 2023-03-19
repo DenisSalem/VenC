@@ -56,9 +56,7 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
     chunk = send_out.recv() if send_out != None else datastore.entries
 
     from venc3.prompt import notify
-    from venc3.l10n import messages
-
-    notify("│  "+("└─ " if worker_id == datastore.workers_count - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
+    notify(("start_thread", worker_id+1), prepend="│  "+("└─ " if worker_id == datastore.workers_count - 1 else "├─ "))
     default_markup_language = datastore.blog_configuration["markup_language"]
 
     non_parallelizable = []

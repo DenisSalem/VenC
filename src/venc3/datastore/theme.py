@@ -59,8 +59,7 @@ class Theme:
 
         except FileNotFoundError as e:
             from venc3.prompt import die
-            from venc3.l10n import messages
-            die(messages.file_not_found.format(str(e.filename)))
+            die(("file_not_found", str(e.filename)))
 
 def init_theme(theme_name=''):
     import os
@@ -74,13 +73,11 @@ def init_theme(theme_name=''):
             
         else:
             from venc3.prompt import die
-            from venc3.l10n import messages
-            die(messages.theme_doesnt_exists.format(theme_name))
+            die(("theme_doesnt_exists", theme_name))
     
     if not os.path.isdir(theme_folder):
         from venc3.prompt import die
-        from venc3.l10n import messages
-        die(messages.file_not_found.format(theme_folder))
+        die(("file_not_found", theme_folder))
     
     # Override blog configuration
     if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(themes_folder+"/config.yaml"):
@@ -88,11 +85,11 @@ def init_theme(theme_name=''):
         config = yaml.load(open(theme_folder+"/config.yaml",'r').read(), Loader=yaml.FullLoader)
         if "override" in config.keys() and type(config["override"]) == dict:
             from venc3.datastore import datastore
-            from venc3.l10n import messages
             from venc3.prompt import notify
             for param in config["override"].keys():
                 notify(
-                  messages.the_following_is_overriden.format(
+                  (
+                      "the_following_is_overriden",
                       param,
                       config["override"][param],
                       theme_folder+"/config.yaml"

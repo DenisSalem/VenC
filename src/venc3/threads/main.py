@@ -69,17 +69,16 @@ class MainThread(Thread):
     def do_jsonld(self):
         if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
             from venc3.prompt import notify
-            from venc3.l10n import messages
             import json
             dump = json.dumps(self.datastore.root_as_jsonld)
         
         if self.datastore.enable_jsonld:
-            notify(self.indentation_level+('└─ ' if not self.datastore.enable_jsonp else '├─ ')+messages.generating_jsonld_doc)
+            notify(("generating_jsonld_doc"), prepend=self.indentation_level+('└─ ' if not self.datastore.enable_jsonp else '├─ '))
             f = open("blog/root.jsonld", 'w')
             f.write(dump)
         
         if self.datastore.enable_jsonp:
-            notify(self.indentation_level+'└─ '+messages.generating_jsonp_doc)
+            notify(("generating_jsonp_doc"), prepend=self.indentation_level+'└─ ')
             import hashlib
             url_digest = hashlib.sha512(self.datastore.blog_url.encode('utf-8'))
             f = open("blog/root.jsonp", 'w')
@@ -98,4 +97,3 @@ class MainThread(Thread):
                 
     def if_in_main_thread(self, node, string1, string2=''):
         return string1.strip()
-

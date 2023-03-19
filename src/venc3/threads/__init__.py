@@ -23,14 +23,14 @@ from math import ceil
 import unidecode
 
 from venc3.helpers import quirk_encoding
-from venc3.prompt import notify
 from venc3.patterns.processor import Processor, Pattern
 from venc3.patterns.third_party_wrapped_features.pygmentize import get_style_sheets
 
 def undefined_variable(match):
     from venc3.prompt import die
     die(
-        messages.undefined_variable.format(
+        (
+            "undefined_variable",
             match,
             current_source.ressource
         ), 
@@ -55,7 +55,8 @@ class Thread:
         self.datastore = datastore
         self.enable_jsonld = datastore.blog_configuration["enable_jsonld"] or datastore.blog_configuration["enable_jsonp"]
         # Notify wich thread is processed
-        notify(indentation_type+prompt)
+        from venc3.prompt import notify
+        notify(("exception_place_holder", prompt),prepend=indentation_type)
 
         self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])
         self.disable_threads = datastore.disable_threads
@@ -277,7 +278,7 @@ class Thread:
 
         except KeyError as e:
             from venc3.prompt import die
-            die(messages.variable_error_in_filename.format(str(e)))
+            die(("variable_error_in_filename", str(e)))
 
     # Overridden in child class (EntriesThread)
     def setup_context(self, entry):

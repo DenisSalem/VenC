@@ -45,11 +45,10 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
 def worker(worker_id, send_out, recv_in, single_process_argv=None):
     from venc3.datastore.entry import Entry
     from venc3.prompt import notify
-    from venc3.l10n import messages
 
     worker_params = send_out.recv()
     
-    notify("│  "+("└─ " if worker_id == worker_params["workers_count"] - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
+    notify(("start_thread", worker_id+1), prepend="│  "+("└─ " if worker_id == worker_params["workers_count"] - 1 else "├─ "))
     
     chunk = send_out.recv()
 

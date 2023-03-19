@@ -20,7 +20,6 @@
 import os
 
 from venc3.helpers import quirk_encoding
-from venc3.prompt import notify
 from venc3.threads import Thread
 
 class CategoriesThread(Thread):
@@ -54,7 +53,6 @@ class CategoriesThread(Thread):
             FeedThread("atom", '├' if len(node.childs) or self.enable_jsonld else '└', self.indentation_level+indentation_type).do(entries, self.export_path, self.relative_origin)
             
     def do_jsonld(self, node, indentation_type):
-        from venc3.l10n import messages
         import json
         blog_url = self.datastore.blog_configuration["blog_url"]
         category_as_jsonld = self.datastore.categories_as_jsonld[node.path]
@@ -77,7 +75,8 @@ class CategoriesThread(Thread):
         category_as_jsonld["url"] = blog_url+'/'+self.sub_folders+category_path
         dump = json.dumps(category_as_jsonld)
         if self.datastore.enable_jsonld:
-            notify(self.indentation_level+indentation_type+ ('├─ ' if len(node.childs) or self.datastore.enable_jsonp else '└─ ')+messages.generating_jsonld_doc)
+            from venc3.prompt import notify
+            notify(("generating_jsonld_doc"), prepend=self.indentation_level+indentation_type+ ('├─ ' if len(node.childs) or self.datastore.enable_jsonp else '└─ '))
             f = open(self.export_path+"categories.jsonld", 'w')
             f.write(dump)
 
@@ -98,8 +97,9 @@ class CategoriesThread(Thread):
                 
         else:
             tree_special_char = '├'
-        
-        notify(self.indentation_level+tree_special_char+"─ "+node.value+"...")
+            
+        from venc3.prompt import notify
+        notify(("exception_place_holder", node.value+"..."), prepend=self.indentation_level+tree_special_char+"─ ")
 
         export_path = self.export_path
         category_value = self.category_value

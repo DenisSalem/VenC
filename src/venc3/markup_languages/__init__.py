@@ -19,11 +19,9 @@
 
 import importlib
 
-from venc3.l10n import messages
-from venc3.prompt import notify
-
 def handle_markup_language_error(message, line=None, string=None):
-    notify(message, "RED")
+    from venc3.prompt import notify
+    notify(("exception_place_holder", message), "RED")
     if string != None:
         lines = string.split('\n')
         for lineno in range(0,len(lines)):
@@ -47,7 +45,7 @@ def import_wrapper(markup_language):
         
     except ModuleNotFoundError:
         from venc3.prompt import die
-        die(messages.module_not_found.format(key[markup_language][2]))  
+        die(("module_not_found", key[markup_language][2]))  
 
 def process_markup_language(source, markup_language, entry=None):
     if markup_language == "Markdown":
@@ -63,6 +61,7 @@ def process_markup_language(source, markup_language, entry=None):
         string = import_wrapper(markup_language)(source)
                 
     elif markup_language != "none":
+        from venc3.l10n import messages
         err = messages.unknown_markup_language.format(markup_language, source.context)
         handle_markup_language_error(err)
     else:

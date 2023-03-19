@@ -35,7 +35,6 @@ from venc3.datastore.metadata import Chapter
 from venc3.datastore.metadata import categories_to_keywords
 from venc3.datastore.metadata import WeightTracker
 from venc3.prompt import notify
-from venc3.l10n import messages
 from venc3.exceptions import MalformedPatterns, VenCException
 from venc3.patterns.non_contextual import get_embed_content
 from venc3.patterns.datastore import DatastorePatterns
@@ -106,7 +105,7 @@ class DataStore(DatastorePatterns):
             self.root_site_to_jsonld()
 
         # Build entries
-        notify("┌─ "+messages.loading_entries)
+        notify(("loading_entries"), prepend="┌─ ")
         filenames = [filename for filename in yield_entries_content()]
         self.chunks_len = (len(filenames)//self.workers_count)+1
         jsonld_required = self.blog_configuration["enable_jsonld"] or self.blog_configuration["enable_jsonp"]
@@ -242,7 +241,7 @@ class DataStore(DatastorePatterns):
                             
                         except KeyError as e:
                             from venc3.helpers import die
-                            die(messages.variable_error_in_filename.format(e))
+                            die(("variable_error_in_filename", e))
                             
                         top.append(
                             Chapter(index, self.raw_chapters[index], path)
@@ -491,7 +490,7 @@ class DataStore(DatastorePatterns):
             [ int(level) for level in chapter.split('.') if level != '']
 
         except ValueError as e: # weak test to check attribute conformity
-            notify(messages.chapter_has_a_wrong_index.format(entry.id, chapter), color="YELLOW")
+            notify(("chapter_has_a_wrong_index", entry.id, chapter), color="YELLOW")
             return
 
         except AttributeError as e: # does entry has chapter?
@@ -499,7 +498,8 @@ class DataStore(DatastorePatterns):
 
         if chapter in self.raw_chapters.keys():
             from venc3.helpers import die
-            die(messages.chapter_already_exists.format(
+            die((
+                "chapter_already_exists",
                 entry.title,
                 entry.id,
                 self.raw_chapters[chapter].title,

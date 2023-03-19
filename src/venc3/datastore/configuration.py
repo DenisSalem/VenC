@@ -85,14 +85,12 @@ def get_blog_configuration():
             if not field in blog_configuration.keys():
                 everything_is_okay = False
                 from venc3.prompt import notify
-                from venc3.l10n import messages
-                notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
+                notify(("missing_mandatory_field_in_blog_conf", field),"RED")
                 
         if "blog_keywords" in blog_configuration.keys() and type(blog_configuration["blog_keywords"]) != list and not blog_configuration["blog_keywords"] == None:
             everything_is_okay = False
             from venc3.prompt import notify
-            from venc3.l10n import messages
-            notify(messages.blog_metadata_is_not_a_list.format("blog_keywords"), "RED")
+            notify(("blog_metadata_is_not_a_list", "blog_keywords"), "RED")
         
         mandatory_fields = [
             "index_file_name",
@@ -113,8 +111,7 @@ def get_blog_configuration():
             if not field in blog_configuration["path"].keys():
                 everything_is_okay = False
                 from venc3.prompt import notify
-                from venc3.l10n import messages
-                notify(messages.missing_mandatory_field_in_blog_conf.format(field),"RED")
+                notify(("missing_mandatory_field_in_blog_conf", field),"RED")
                 
             elif not field in ["index_file_name","ftp","rss_file_name","atom_file_name","entry_file_name","archives_directory_name"]:
                 setup_sub_folder(blog_configuration, field)
@@ -125,8 +122,7 @@ def get_blog_configuration():
         if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
             everything_is_okay = False
             from venc3.prompt import notify
-            from venc3.l10n import messages
-            notify(messages.unknown_markup_language.format(blog_configuration["markup_language"], "blog_configuration.yaml"),"RED")
+            notify(("unknown_markup_language", blog_configuration["markup_language"], "blog_configuration.yaml"),"RED")
 
         if (not "sort_by" in blog_configuration.keys() ) or blog_configuration["sort_by"] in ['', None]:
             blog_configuration["sort_by"] = "id"
@@ -137,8 +133,7 @@ def get_blog_configuration():
         if "disable_threads" in blog_configuration.keys() and type(blog_configuration["disable_threads"]) != list and blog_configuration["disable_threads"] != None:
                 everything_is_okay = False
                 from venc3.prompt import notify
-                from venc3.l10n import messages
-                notify(messages.blog_metadata_is_not_a_list.format("disable_threads"), "RED")
+                notify(("blog_metadata_is_not_a_list", "disable_threads"), "RED")
         else:
             blog_configuration["disable_threads"] = []
 
@@ -157,11 +152,10 @@ def get_blog_configuration():
 
     except PermissionError:
         from venc3.prompt import die
-        from venc3.l10n import messages
-        die(messages.no_blog_configuration)
+        die(("no_blog_configuration"))
 
     except yaml.scanner.ScannerError as e:
-        notify(messages.in_.format("blog_configuration.yaml"), color="RED")
+        notify(("in_", "blog_configuration.yaml"), color="RED")
         die(str(e))
 
     except VenCException as e:

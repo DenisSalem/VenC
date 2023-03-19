@@ -36,7 +36,6 @@
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Regenerate any missing folders.
     TODO | Try to install an up to date oembed providers from https://oembed.com/providers.json with pip
-    TODO | Automatically import messages when importing die and notify.
     TODO | Add command to export only extra folder.
     TODO | Isolate Entry metadata so Entry getters cannot grab non str object.
     TODO | Get input bytes and output bytes so not only we know the times but also the bandwidth
@@ -55,6 +54,7 @@
     TODO | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
     TODO | Fix AttributeError: 'MainThread' object has no attribute 'current_entry' when calling GetEntryContent from header
     WIP  | Optimize Notify and Die call
+    WIP  | Optimize modules importation, second pass.
     DONE | VenCException call do not require import of messages
     DONE | Append p if markup is enabled or not in pygmentize wrapper
     DONE | Remove old themes.

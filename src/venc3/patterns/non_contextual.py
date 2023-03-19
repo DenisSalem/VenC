@@ -74,7 +74,7 @@ def get_embed_content(node, providers, url):
 
     except PermissionError:
         from venc3.prompt import notify
-        notify(messages.wrong_permissions.format("caches/embed/"+cache_filename), color="YELLOW")
+        notify(("wrong_permissions", "caches/embed/"+cache_filename), color="YELLOW")
 
     return html
 
