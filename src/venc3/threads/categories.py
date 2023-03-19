@@ -76,7 +76,7 @@ class CategoriesThread(Thread):
         dump = json.dumps(category_as_jsonld)
         if self.datastore.enable_jsonld:
             from venc3.prompt import notify
-            notify(("generating_jsonld_doc"), prepend=self.indentation_level+indentation_type+ ('├─ ' if len(node.childs) or self.datastore.enable_jsonp else '└─ '))
+            notify(("generating_jsonld_doc",), prepend=self.indentation_level+indentation_type+ ('├─ ' if len(node.childs) or self.datastore.enable_jsonp else '└─ '))
             f = open(self.export_path+"categories.jsonld", 'w')
             f.write(dump)
 

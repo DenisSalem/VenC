@@ -165,7 +165,7 @@ class EntriesThread(Thread):
     def do(self):
         if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
             from venc3.prompt import notify
-            notify(("generating_jsonld_docs"), prepend=self.indentation_level+'└─ ')
+            notify(("generating_jsonld_docs",), prepend=self.indentation_level+'└─ ')
             
         self.page_number = 0
         self.current_page = 0

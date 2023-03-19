@@ -70,7 +70,7 @@ class ArchivesThread(Thread):
             super().do()
             if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
                 from venc3.prompt import notify
-                notify(("generating_jsonld_doc"), prepend="│\t "+('│' if i != len_archives-1 else ' ')+"  └─ ")
+                notify(("generating_jsonld_doc",), prepend="│\t "+('│' if i != len_archives-1 else ' ')+"  └─ ")
                 
                 blog_url = self.datastore.blog_configuration["blog_url"]
                 archive_as_jsonld = self.datastore.archives_as_jsonld[archive.value]

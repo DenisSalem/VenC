@@ -155,8 +155,9 @@ def get_blog_configuration():
         die(("no_blog_configuration"))
 
     except yaml.scanner.ScannerError as e:
+        from venc3.prompt import die, notify
         notify(("in_", "blog_configuration.yaml"), color="RED")
-        die(str(e))
+        die(("exception_place_holder", str(e)))
 
     except VenCException as e:
         e.die()

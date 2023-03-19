@@ -32,4 +32,4 @@ def latex_2_mathml(node, tex_math_string):
     except:
         from venc3.l10n import messages
         from venc3.patterns.exceptions import enCException
-        raise VenCException(("tex_math_error"), node)
+        raise VenCException(("tex_math_error",), node)

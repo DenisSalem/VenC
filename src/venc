@@ -33,7 +33,7 @@ from venc3.l10n import locale_err;
 
 if locale_err:
     from venc3.helpers import notify
-    notify(("cannot_get_current_locale"), color="YELLOW")
+    notify(("cannot_get_current_locale",), color="YELLOW")
 
 command_index = {"-v":                  [".print", "print_version", 0],
                 "-nb":                  [".new", "new_blog", -1],
@@ -93,7 +93,7 @@ if sys.argv[1:] != []:
 
 else:
     from venc3.helpers import notify
-    notify(("nothing_to_do"),"YELLOW")
+    notify(("nothing_to_do",),"YELLOW")
 
 #pr.disable()
 #s = io.StringIO()

@@ -61,7 +61,7 @@ def setup_pattern_processor(parallel=False):
             
 def process_non_parallelizables(datastore, patterns_map, thread_params):
     from venc3.prompt import notify
-    notify(("process_non_parallelizable"), prepend="├─ ")
+    notify(("process_non_parallelizable",), prepend="├─ ")
     pattern_processor = Processor()
     pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
     from venc3.patterns.processor import Pattern
@@ -184,7 +184,7 @@ def export_blog(theme_name=''):
     
     process_non_contextual_patterns()
     if not datastore.blog_configuration["disable_single_entries"]:
-        notify(("link_entries"), prepend="├─ ")
+        notify(("link_entries",), prepend="├─ ")
         # Add required link between entries
         entries = datastore.entries
         for entry_index in range(0, len(entries)):
@@ -241,7 +241,7 @@ def export_blog(theme_name=''):
             shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
 
         except FileNotFoundError as e:
-            notify(messages.file_not_found.format(e.filename), color="YELLOW")
+            notify(("file_not_found", e.filename), color="YELLOW")
     
     notify(("task_done_in_n_seconds", round(time.time() - start_timestamp,6)))
 

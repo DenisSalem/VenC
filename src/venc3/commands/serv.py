@@ -45,7 +45,7 @@ def serv_blog(argv=list()):
         os.chdir("blog/")
         PORT = int(argv[0]) if len(argv) else int(blog_configuration["server_port"])
         server_address = ("", PORT)
-        notify(("do_not_use_in_production"), color="YELLOW")        
+        notify(("do_not_use_in_production",), color="YELLOW")        
         notify(("serving_blog", PORT))
         httpd = http.server.HTTPServer(server_address, VenCServer)
         httpd.serve_forever()
@@ -63,4 +63,4 @@ def serv_blog(argv=list()):
 
     except FileNotFoundError:
         from venc3.prompt import die
-        die(("nothing_to_serv"))
+        die(("nothing_to_serv",))

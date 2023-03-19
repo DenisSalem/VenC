@@ -147,7 +147,7 @@ class DatastorePatterns:
             
             except ValueError:
                 from venc3.exceptions import VenCException
-                raise VenCException(("id_must_be_an_integer"), node)
+                raise VenCException(("id_must_be_an_integer",), node)
                 
             except AttributeError as e:
                 from venc3.exceptions import VenCException
@@ -155,7 +155,7 @@ class DatastorePatterns:
 
             except IndexError:
                 from venc3.exceptions import VenCException
-                raise VenCException(("cannot_retrieve_entry_attribute_because_wrong_id"), node)
+                raise VenCException(("cannot_retrieve_entry_attribute_because_wrong_id",), node)
             
         return self.cache_get_entry_attribute_by_id[key]
     

@@ -73,12 +73,12 @@ class MainThread(Thread):
             dump = json.dumps(self.datastore.root_as_jsonld)
         
         if self.datastore.enable_jsonld:
-            notify(("generating_jsonld_doc"), prepend=self.indentation_level+('└─ ' if not self.datastore.enable_jsonp else '├─ '))
+            notify(("generating_jsonld_doc",), prepend=self.indentation_level+('└─ ' if not self.datastore.enable_jsonp else '├─ '))
             f = open("blog/root.jsonld", 'w')
             f.write(dump)
         
         if self.datastore.enable_jsonp:
-            notify(("generating_jsonp_doc"), prepend=self.indentation_level+'└─ ')
+            notify(("generating_jsonp_doc",), prepend=self.indentation_level+'└─ ')
             import hashlib
             url_digest = hashlib.sha512(self.datastore.blog_url.encode('utf-8'))
             f = open("blog/root.jsonp", 'w')

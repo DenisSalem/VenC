@@ -63,7 +63,7 @@ def rm_tree_error_handler(function, path, excinfo):
     from venc3.prompt import notify
     
     if path == "blog" and excinfo[0] == FileNotFoundError:
-        notify(("blog_folder_doesnt_exists"),"YELLOW")
+        notify(("blog_folder_doesnt_exists",),"YELLOW")
         return
 
     notify(("exception_place_holder", str(function)),"RED")

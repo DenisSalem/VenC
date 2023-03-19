@@ -67,7 +67,7 @@ def install_theme(theme):
     try:
         shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+theme, "theme")
         
-        notify(("theme_installed"))
+        notify(("theme_installed",))
        
     except FileNotFoundError as e:
         notify(("theme_doesnt_exists", "'"+theme+"'"),color='RED')
