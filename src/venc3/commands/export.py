@@ -173,7 +173,7 @@ def export_blog(theme_name=''):
     from venc3.datastore import init_datastore
     datastore = init_datastore()
     
-    notify(("pre_process"), prepend="├─ ")
+    notify(("pre_process",), prepend="├─ ")
     
     from venc3.datastore.theme import init_theme
     init_theme(theme_name)
@@ -227,7 +227,7 @@ def export_blog(theme_name=''):
         e.die()
         
     # Copy assets and extra files
-    notify(("copy_assets_and_extra_files"), prepend="└─ ")
+    notify(("copy_assets_and_extra_files",), prepend="└─ ")
     from venc3.patterns.third_party_wrapped_features.pygmentize import code_highlight
     from venc3.datastore.theme import theme, theme_assets_dependencies
     code_highlight.export_style_sheets()

@@ -27,7 +27,8 @@ def remote_copy(argv=list()):
     import socket
 
     from venc3.datastore.configuration import get_blog_configuration
-
+    from venc3.l10n import messages
+    
     blog_configuration = get_blog_configuration()
     try:
         ftp = ftplib.FTP(blog_configuration["ftp_host"])
@@ -43,9 +44,9 @@ def remote_copy(argv=list()):
     try:
         ftp.login(user=username,passwd=user_passwd)
         ftp.cwd(blog_configuration["path"]["ftp"])
-        notify(("clean_ftp_directory"))
+        notify(("clean_ftp_directory",))
         ftp_clean_destination(ftp)
-        notify(("copy_to_ftp_directory"))
+        notify(("copy_to_ftp_directory",))
         ftp_export_recursively(os.getcwd()+"/blog", ftp)
     
     except TimeoutError as e:
