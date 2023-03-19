@@ -8,7 +8,7 @@ tags:
 title: Présentation
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-VenC est un logiciel libre écrit en Python conçue pour GNU/Linux pour gérer et créer vos blogs statiques via la console. Avec VenC, tout est fichier texte, pas de base de données.
+VenC est un logiciel libre écrit en Python conçue pour GNU/Linux dont le développement a commencé en 2012 pour gérer et créer vos blogs statiques via la console. Avec VenC, tout est fichier texte, pas de base de données.
 La configuration de chaque blog repose sur un unique et petit fichier [YAML](http://yaml.org/), les thèmes consistent en une poignée de templates HTML à modifier ou créer soi même,
 les publications quant à elles, se présentent sous la forme d'une partie [YAML](http://yaml.org/) et d'une autre en [Markdown](https://daringfireball.net/projects/markdown/syntax), [asciidoc](https://asciidoc.org) ou [reStructuredText](http://docutils.sourceforge.net/rst.html).
 
