@@ -115,7 +115,7 @@ class Messages:
     argument_does_not_match_with_any_entries_subset="L'argument ne correspond à aucun sous ensemble de publication."
     pattern_recursion_error= "Erreur de récursion dans le motif \"{0}\", la fonction s'appelle trop de fois."
     the_following_is_overriden = "Le paramètre \"{0}\" est par la valeur suivante\"{1}\" depuis {2}."
-    full_documentation_there = "Documentation complète iciw: {0}."
+    full_documentation_there = "Documentation complète ici: {0}."
     exception_place_holder = "{0}"
     categories_parse_error = "Categories mal construite: {0} ne fait pas référence à une liste."
     do_not_use_in_production = "Pour des raisons de sécurité, ne pas utiliser en production !"

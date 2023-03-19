@@ -52,7 +52,7 @@ def notify(message_format, color="GREEN", prepend=""):
     else:
         msg = getattr(messages, message_format[0])
             
-    print(get_formatted_message(preprend+msg, color), flush=True)
+    print(get_formatted_message(prepend+msg, color), flush=True)
 
 # Take care of setting up colours in printed out message
 def get_formatted_message(msg, color="GREEN", prompt="VenC: "):
