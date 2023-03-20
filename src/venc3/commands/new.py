@@ -188,4 +188,5 @@ def new_blog(*blog_names):
         stream = codecs.open(folder_name+'/'+'blog_configuration.yaml', 'w',encoding="utf-8")
         yaml.dump(default_configuration, stream, default_flow_style=False, allow_unicode=True)
 
+    from venc3.prompt import notify
     notify(("blog_created" if len(blog_names) == 1 else "blogs_created",))
