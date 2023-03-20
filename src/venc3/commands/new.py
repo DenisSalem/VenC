@@ -34,7 +34,18 @@ class MinimalEntry:
         for key in data.keys():
             setattr(self, key, data["key"])
 
-def new_entry(entry_name, template_name=""):        
+def new_entry(params):
+    if len(params) == 2:
+        entry_name, template_name = params
+    
+    elif len(params) == 1:
+      entry_name = params[0]
+      
+    else:
+        from venc3.prompt import notify
+        notify(("wrong_args_number","< 2",len(params)), color="RED")
+        return
+
     blog_configuration = get_blog_configuration()            
     content =   {
         "authors":	[''],
@@ -117,7 +128,7 @@ def new_entry(entry_name, template_name=""):
     from venc3.prompt import notify
     notify(("entry_written",))
 
-def new_blog(*blog_names):
+def new_blog(blog_names):
     if len(blog_names) < 1:
         from venc3.prompt import die
         die(("missing_params", "--new-blog"))

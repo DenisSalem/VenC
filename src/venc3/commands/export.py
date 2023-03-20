@@ -43,7 +43,7 @@ def copy_recursively(src, dest):
                 from venc3.prompt import notify
                 notify(("directory_not_copied", str(e)), "YELLOW")
                 
-def export_and_remote_copy(theme_name=''):
+def export_via_ftp(theme_name=''):
     export_blog(theme_name='')
     from venc3.commands.remote import remote_copy
     remote_copy()

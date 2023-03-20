@@ -44,11 +44,11 @@ parser = argparse.ArgumentParser(prog="VenC", usage="\n"+USAGE, add_help=False)
 parser.add_argument("-h", "--help", help="", action='store_const', const=".print")
 parser.add_argument("-v", "--version", help="", action='store_const', const=".print")
 parser.add_argument("-nb", "--new-blog", help="", action='store_const', const=".new")
-parser.add_argument("-ne", "--new-entry", help="")
-parser.add_argument("-xb", "--export-blog", help="")
-parser.add_argument("-ex", "--edit-and-export", help="")
-parser.add_argument("-xftp", "--export-via-ftp", help="")
-parser.add_argument("-rc", "--remote-copy", help="")
+parser.add_argument("-ne", "--new-entry", help="", action='store_const', const=".new")
+parser.add_argument("-xb", "--export-blog", help="", action='store_const', const=".export")
+parser.add_argument("-ex", "--edit-and-export", help="", action='store_const', const=".export")
+parser.add_argument("-xftp", "--export-via-ftp", help="", action='store_const', const=".export")
+parser.add_argument("-rc", "--remote-copy", help="", action='store_const', const=".remote")
 parser.add_argument("-t", "--theme", help="")
 parser.add_argument("-it", "--install-theme", help="")
 parser.add_argument("-s", "--serv", help="")
@@ -66,8 +66,8 @@ for command in commands:
         function(args.params)
         exit()
 
-from venc3.helpers import notify
-notify(("nothing_to_do",),"YELLOW")
+from venc3.prompt import notify
+notify(("nothing_to_do",),"GREEN")
 
 #pr.disable()
 #s = io.StringIO()

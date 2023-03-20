@@ -148,11 +148,11 @@ def get_blog_configuration():
 
     except FileNotFoundError:
         from venc3.prompt import die
-        die(("no_blog_configuration"))
+        die(("no_blog_configuration",))
 
     except PermissionError:
         from venc3.prompt import die
-        die(("no_blog_configuration"))
+        die(("no_blog_configuration",))
 
     except yaml.scanner.ScannerError as e:
         from venc3.prompt import die, notify
