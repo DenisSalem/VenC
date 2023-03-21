@@ -215,6 +215,10 @@ class Thread:
         return ''
 
     def get_entry_content(self, node):
+        if not hasattr(self, "current_entry"):
+            from venc3.exceptions import VenCException
+            raise VenCException(("you_cannot_use_this_pattern_here", "GetEntryContent", node.root.context))
+            
         content = deepcopy(self.current_entry.content)
         self.processor.process(content, Pattern.FLAG_CONTEXTUAL, id(node.payload[0]))
         return content.string
@@ -299,7 +303,7 @@ class Thread:
         stream.write(output.replace("\x1a", self.relative_origin))
         stream.close()
 
-    # QUESTION : Why the fuck using global current_source ?
+    # TODO : QUESTION : Why the fuck using global current_source ?
     def pre_iteration(self):
         header = deepcopy(self.header)
         self.processor.process(header, Pattern.FLAG_CONTEXTUAL)
@@ -310,6 +314,7 @@ class Thread:
         self.columns = [ '' for i in range(0, self.columns_number) ]
     
     def post_iteration(self):
+        delattr(self, "current_entry")
         self.columns_counter = 0
         for column in self.columns:
             self.output += self.column_opening.format(self.columns_counter)+column+self.column_closing

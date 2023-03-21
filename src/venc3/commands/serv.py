@@ -38,7 +38,7 @@ class VenCServer(http.server.CGIHTTPRequestHandler):
         self.error_message_format = default_error_page
         super().send_error(code, message, explain)
 
-def serv_blog(params):
+def serv(params):
     from venc3.prompt import notify
 
     try:
