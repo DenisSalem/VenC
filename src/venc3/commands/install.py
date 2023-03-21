@@ -20,7 +20,7 @@
 import os
 import shutil
 
-def print_themes():
+def print_themes(params):
     import os
     import yaml
 
@@ -49,7 +49,13 @@ def print_themes():
         from venc3.prompt import msg_format
         print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
 
-def install_theme(theme):
+def install_theme(params):
+    if len(params):
+        theme = params[0]
+    else:
+        from venc3.prompt import die
+        die(("missing_params", "--install-theme"))
+        
     from venc3.datastore.configuration import get_blog_configuration
     from venc3.prompt import notify
 

@@ -53,6 +53,7 @@
     TODO | Do not raise UnknownPattern if pattern is embed in Escape.
     TODO | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
     TODO | Fix AttributeError: 'MainThread' object has no attribute 'current_entry' when calling GetEntryContent from header
+    DONE | Argparse is now replacing old implementation.
     DONE | Optimize Notify and Die call
     DONE | Cleaning modules importation, second pass.
     DONE | VenCException call do not require import of messages

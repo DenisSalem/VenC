@@ -22,7 +22,7 @@ import ftplib
 
 from venc3.prompt import notify
 
-def remote_copy(argv=list()):
+def remote_copy(params):
     import getpass
     import socket
 

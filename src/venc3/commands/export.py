@@ -43,10 +43,10 @@ def copy_recursively(src, dest):
                 from venc3.prompt import notify
                 notify(("directory_not_copied", str(e)), "YELLOW")
                 
-def export_via_ftp(theme_name=''):
-    export_blog(theme_name='')
+def export_via_ftp(params):
+    export_blog(params)
     from venc3.commands.remote import remote_copy
-    remote_copy()
+    remote_copy(None)
 
 def setup_pattern_processor(parallel=False):        
     processor = Processor()
@@ -166,7 +166,8 @@ def process_non_contextual_patterns():
     except VenCException as e:    
         e.die()
 
-def export_blog(theme_name=''):
+def export_blog(params):
+    theme_name = params[0] if len(params) else ''
     import time
         
     start_timestamp = time.time()
@@ -245,9 +246,11 @@ def export_blog(theme_name=''):
     
     notify(("task_done_in_n_seconds", round(time.time() - start_timestamp,6)))
 
-def edit_and_export(entry_filename=''):    
-    if not len(entry_filename):
-        from venc3.helpers import die
+def edit_and_export(params):    
+    if len(paramas):
+        entry_filename= params[0]
+    else:
+        from venc3.prompt import die
         die(("missing_params", "--edit-and-export"))
     
     from venc3.datastore import init_datastore
@@ -268,4 +271,4 @@ def edit_and_export(entry_filename=''):
     except Exception as e:
         raise e
     
-    export_blog()
+    export_blog(params[1:])

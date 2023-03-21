@@ -38,12 +38,19 @@ class VenCServer(http.server.CGIHTTPRequestHandler):
         self.error_message_format = default_error_page
         super().send_error(code, message, explain)
 
-def serv_blog(argv=list()):
+def serv_blog(params):
     from venc3.prompt import notify
 
     try:
+        PORT = params[0] if len(params) else blog_configuration["server_port"]
+        PORT = int(PORT)
+        
+    except ValueError:
+        from venc3.prompt import die
+        die(("server_port_is_invalid", str(PORT)))
+        
+    try:
         os.chdir("blog/")
-        PORT = int(argv[0]) if len(argv) else int(blog_configuration["server_port"])
         server_address = ("", PORT)
         notify(("do_not_use_in_production",), color="YELLOW")        
         notify(("serving_blog", PORT))
@@ -54,10 +61,6 @@ def serv_blog(argv=list()):
         from venc3.prompt import die
         die(("exception_place_holder", e.strerror))
         
-    except ValueError:
-        from venc3.prompt import die
-        die(("server_port_is_invalid", blog_configuration["server_port"]))
-
     except KeyboardInterrupt:
         httpd.server_close()
 

@@ -49,9 +49,9 @@ parser.add_argument("-xb", "--export-blog", help="", action='store_const', const
 parser.add_argument("-ex", "--edit-and-export", help="", action='store_const', const=".export")
 parser.add_argument("-xftp", "--export-via-ftp", help="", action='store_const', const=".export")
 parser.add_argument("-rc", "--remote-copy", help="", action='store_const', const=".remote")
-parser.add_argument("-t", "--theme", help="")
-parser.add_argument("-it", "--install-theme", help="")
-parser.add_argument("-s", "--serv", help="")
+parser.add_argument("-pt", "--print-themes", help="", action='store_const', const=".install")
+parser.add_argument("-it", "--install-theme", help="", action='store_const', const=".install")
+parser.add_argument("-s", "--serv", help="", action='store_const', const=".serv")
 parser.add_argument('params', nargs='*')
 args = parser.parse_args()
 

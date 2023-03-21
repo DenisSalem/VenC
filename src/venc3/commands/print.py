@@ -25,7 +25,7 @@ USAGE = \
     "-nb\t--new-blog <\""+messages.arg_blog_name.format("1")+"\"> [\""+messages.arg_blog_name.format("2")+"\" ... ]\n" +\
     "-ne\t--new-entry <\""+messages.arg_entry_name+"\"> [\""+messages.arg_template_name+"\"]\n" +\
     "-xb\t--export-blog ["+messages.theme_name+"]\n" +\
-    "-ex\t--edit-and-xport <\""+messages.arg_input_filename+"\">\n" +\
+    "-ex\t--edit-and-xport <\""+messages.arg_input_filename+"\"> ["+messages.theme_name+"]\n" +\
     "-s\t--serv\n" +\
     "-xftp\t--export-via-ftp\n" +\
     "-rc\t--remote-copy\n" +\
