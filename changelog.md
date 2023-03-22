@@ -51,7 +51,7 @@
     TODO | /!\ Clean up venc command handler
     TODO | Reduce mandatory field for clarity and better user experience.
     TODO | Do not raise UnknownPattern if pattern is embed in Escape.
-    TODO | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
+    DONE | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
     DONE | Fix AttributeError: 'MainThread' object has no attribute 'current_entry' when calling GetEntryContent from header
     DONE | Argparse is now replacing old implementation.
     DONE | Optimize Notify and Die call

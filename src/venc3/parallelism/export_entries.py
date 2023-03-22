@@ -64,7 +64,7 @@ def worker(worker_id, send_out, recv_in, process_argv=None):
     from copy import deepcopy
 
     from venc3.patterns.processor import Pattern
-    pattern_processor_match = Pattern.FLAG_NON_CONTEXTUAL
+    pattern_processor_match = Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_ENTRY_RELATED
     if recv_in == None:
         pattern_processor_match |= Pattern.FLAG_NON_PARALLELIZABLE
     

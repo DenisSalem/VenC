@@ -50,10 +50,11 @@ class Boundary:
 class Pattern:
     FLAG_NONE = 0
     FLAG_NON_CONTEXTUAL = 1
-    FLAG_CONTEXTUAL = 2
-    FLAG_NON_PARALLELIZABLE = 4
-    FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 8 # NOT IMPLEMENTED YET
-    FLAG_ALL = 15
+    FLAG_ENTRY_RELATED = 2
+    FLAG_CONTEXTUAL = 4
+    FLAG_NON_PARALLELIZABLE = 8
+    FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 16 # NOT IMPLEMENTED YET
+    FLAG_ALL = 31
     
     def __init__(self, s, o, c, sub_patterns, root):
         self.ID = '\x00'+str(id(self))+'\x00'
@@ -89,9 +90,12 @@ class Pattern:
             self.flags = Pattern.FLAG_CONTEXTUAL
         
         for key in PatternsMap.NON_CONTEXTUALS.keys():
-            if pattern_name in PatternsMap.NON_CONTEXTUALS[key].keys():
+            if key != "entries" and pattern_name in PatternsMap.NON_CONTEXTUALS[key].keys():
                 self.flags = Pattern.FLAG_NON_CONTEXTUAL
                 break
+
+        if pattern_name in PatternsMap.NON_CONTEXTUALS["entries"]:
+            self.flags = Pattern.FLAG_ENTRY_RELATED
             
         if pattern_name in PatternsMap.NON_PARALLELIZABLES.keys():
             self.flags |= Pattern.FLAG_NON_PARALLELIZABLE
@@ -205,6 +209,15 @@ class PatternTree:
         # markup syntax might also change order of patterns in string
         # so it has to be reordered.
         self.sub_patterns = sorted(self.sub_patterns, key = lambda x: x.o)
+        
+    def match_pattern_flags(self, flag, sub_patterns=None):
+        nodes = self.sub_patterns if sub_patterns == None else sub_patterns
+        pattern_names = []
+        for pattern in nodes:
+            if flag & pattern.flags:
+                pattern_names.append(pattern.payload[0])
+            pattern_names += self.match_pattern_flags(flag, sub_patterns=pattern.sub_patterns)
+        return pattern_names
 
 class Processor:
     def __init__(self):
