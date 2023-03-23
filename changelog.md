@@ -48,7 +48,6 @@
 
 # version 3.1.0
     TODO | Add relevant templates for themes.
-    TODO | /!\ Clean up venc command handler
     TODO | Reduce mandatory field for clarity and better user experience.
     TODO | Do not raise UnknownPattern if pattern is embed in Escape.
     DONE | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
