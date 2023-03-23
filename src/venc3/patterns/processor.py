@@ -101,21 +101,27 @@ class Pattern:
             self.flags |= Pattern.FLAG_NON_PARALLELIZABLE
 
         if not self.flags:
-            from venc3.exceptions import UnknownPattern
-            raise UnknownPattern(self, root)
+            root.unknown_patterns.append(self)
             
 class PatternTree:
     def __init__(self, string, context="", has_markup_language=False):
         self.has_markup_language = has_markup_language
         self.string = string
         self.context = context
+        self.unknown_patterns = []
         self.has_non_parallelizables = False
         self.sub_patterns = self.__build_tree(
             self.__get_boundaries(string)
         )
+            
         for pattern in self.sub_patterns:
             pattern.parent = self
             pattern.payload_index = 0
+            
+        for pattern in self.unknown_patterns:
+            if type(pattern.parent) == PatternTree or pattern.parent.payload[0] != "Escape":
+                from venc3.exceptions import UnknownPattern
+                raise UnknownPattern(pattern, self)
               
     def __find_pattern_boundaries(string, symbol, boundary_type):
       index = 0
