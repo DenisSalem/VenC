@@ -154,21 +154,9 @@ def process_non_contextual_patterns():
         if datastore.workers_count > 1:
             process_non_parallelizables(datastore, patterns_map, thread_params)
             pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
-        
+                    
         flags = Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE
-        
-        from venc3.patterns.processor import PatternTree
-        for attr_name in dir(theme):
-            attr = getattr(theme, attr_name)
-            if type(attr) == PatternTree and ("header" in attr.context.lower() or "footer" in attr.context.lower()):
-                matchs = attr.match_pattern_flags(Pattern.FLAG_ENTRY_RELATED)
-                if len(matchs):
-                    from venc3.prompt import notify
-                    import os
-                    for pattern in matchs:
-                        notify(("you_cannot_use_this_pattern_here", pattern, attr.context), color="RED")
-                    os._exit(-1)
-            
+
         pattern_processor.process(theme.header, flags)
         pattern_processor.process(theme.footer, flags)
         pattern_processor.process(theme.rss_header, flags)

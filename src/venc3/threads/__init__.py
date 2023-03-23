@@ -216,8 +216,8 @@ class Thread:
 
     def get_entry_content(self, node):
         if not hasattr(self, "current_entry"):
-            from venc3.exceptions import VenCException
-            raise VenCException(("you_cannot_use_this_pattern_here", "GetEntryContent", node.root.context))
+            from venc3.exceptions import PatternsCannotBeUsedHere
+            raise PatternsCannotBeUsedHere([node])
             
         content = deepcopy(self.current_entry.content)
         self.processor.process(content, Pattern.FLAG_CONTEXTUAL, id(node.payload[0]))
@@ -225,8 +225,8 @@ class Thread:
         
     def get_entry_preview(self, node):
         if not hasattr(self, "current_entry"):
-            from venc3.exceptions import VenCException
-            raise VenCException(("you_cannot_use_this_pattern_here", "GetEntryPreview", node.root.context))
+            from venc3.exceptions import PatternsCannotBeUsedHere
+            raise PatternsCannotBeUsedHere([node])
             
         preview = deepcopy(self.current_entry.preview)
         self.processor.process(preview, Pattern.FLAG_CONTEXTUAL, id(node.payload[0]))
@@ -234,8 +234,8 @@ class Thread:
       
     def preview_if_in_thread_else_content(self, node):
         if not hasattr(self, "current_entry"):
-            from venc3.exceptions import VenCException
-            raise VenCException(("you_cannot_use_this_pattern_here", "PreviewIfInThreadElseContent", node.root.context))
+            from venc3.exceptions import PatternsCannotBeUsedHere
+            raise PatternsCannotBeUsedHere([node])
             
         if self.in_thread:
             preview = deepcopy(self.current_entry.preview)

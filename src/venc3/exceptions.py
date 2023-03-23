@@ -86,7 +86,21 @@ class VenCException(Exception):
             return True
             
         return False
-        
+
+class PatternsCannotBeUsedHere(VenCException):
+    def __init__(self, patterns):
+        from venc3.l10n import messages
+        message = messages.in_.format(patterns[0].root.context) + "\n"
+        for pattern in patterns:
+            message = message + messages.you_cannot_use_this_pattern_here.format(pattern.payload[0], pattern.root.context) + "\n"
+            
+        super().__init__(("exception_place_holder", message))
+        self.extra = patterns[0].root.string
+        self.flatten()
+        for pattern in patterns:
+            faulty_pattern =  ".:"+("::".join(pattern.payload))+":."
+            self.extra = self.extra.replace(faulty_pattern, '\033[91m' + faulty_pattern + '\033[0m')
+            
 class MalformedPatterns(VenCException):
     def __init__(self, string_under_processing, op, cp):
         len_op = len(op)

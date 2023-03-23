@@ -36,6 +36,15 @@ class Theme:
             self.atom_header = PatternTree(open(theme_folder+"chunks/atomHeader.xml",'r').read(), "atomHeader.html")
             self.atom_footer = PatternTree(open(theme_folder+"chunks/atomFooter.xml",'r').read(), "atomFooter.html")
 
+            for attr_name in dir(self):
+                attr = getattr(self, attr_name)
+                if type(attr) == PatternTree:
+                    from venc3.patterns.processor import Pattern
+                    matchs = attr.match_pattern_flags(Pattern.FLAG_ENTRY_RELATED)
+                    if len(matchs):
+                        from venc3.exceptions import PatternsCannotBeUsedHere
+                        raise PatternsCannotBeUsedHere(matchs)
+
             self.entry = PatternTree(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
             
             self.enable_entry_content = False            

@@ -215,7 +215,7 @@ class PatternTree:
         pattern_names = []
         for pattern in nodes:
             if flag & pattern.flags:
-                pattern_names.append(pattern.payload[0])
+                pattern_names.append(pattern)
             pattern_names += self.match_pattern_flags(flag, sub_patterns=pattern.sub_patterns)
         return pattern_names
 
