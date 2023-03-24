@@ -52,8 +52,6 @@ def get_blog_configuration():
             "text_editor",
             "date_format",
             "ftp_host",
-            "blog_language",
-            "author_email",
             "entries_per_pages",
             "columns",
             "feed_lenght",
