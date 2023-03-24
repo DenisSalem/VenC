@@ -135,7 +135,7 @@ def new_blog(blog_names):
         
     from venc3.l10n import messages
     default_configuration =	{
-        "blog_name":			          messages.blog_name,
+        "blog_name":			              messages.blog_name,
         "disable_threads":              None,
         "disable_archives":             False,
         "disable_categories":           False,
@@ -146,23 +146,16 @@ def new_blog(blog_names):
         "disable_atom_feed":            False,
         "text_editor":                  "nano",
         "date_format":                  "%A %d. %B %Y",
-        "author_name":			        messages.your_name,
-        "blog_description":		        messages.blog_description,
-        "blog_keywords":	            messages.blog_keywords,
-        "author_description":		    messages.about_you,
-        "license":			            messages.license,
-        "blog_url":			            messages.blog_url,
+        "blog_url":			                messages.blog_url,
         "ftp_host":                     messages.ftp_host,
-        "blog_language":	            messages.blog_language,
-        "author_email":	                messages.your_email,
         "code_highlight_css_override":  False,
         "path":	{
             "ftp":                      messages.ftp_path,
             "entries_sub_folders":      "",
             "categories_sub_folders":   "",
-            "archives_sub_folders":        "",
+            "archives_sub_folders":     "",
             "chapters_sub_folders":     "chapters",
-            "index_file_name":		    "index{page_number}.html",
+            "index_file_name":		        "index{page_number}.html",
             "category_directory_name":	"{category}",
             "chapter_directory_name":	"{chapter_name}",
 			"archives_directory_name":	"%Y-%m",
@@ -197,6 +190,7 @@ def new_blog(blog_names):
         os.mkdir(folder_name+'/'+"extra")
         os.mkdir(folder_name+'/'+"templates")
         stream = codecs.open(folder_name+'/'+'blog_configuration.yaml', 'w',encoding="utf-8")
+        default_configuration["blog_name"] = folder_name
         yaml.dump(default_configuration, stream, default_flow_style=False, allow_unicode=True)
 
     from venc3.prompt import notify

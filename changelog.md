@@ -47,7 +47,7 @@
 
 # version 3.1.0
     TODO | Add relevant templates for themes.
-    TODO | Reduce mandatory field for clarity and better user experience.
+    DONE | Reduce mandatory field for clarity and better user experience.
     DONE | Do not raise UnknownPattern if pattern is embed in Escape.
     DONE | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header
     DONE | Fix AttributeError: 'MainThread' object has no attribute 'current_entry' when calling GetEntryContent from header
