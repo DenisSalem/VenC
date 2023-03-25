@@ -29,7 +29,7 @@ class PatternsMap():
         "GetPreviousPage":	            "get_previous_page",
         "GetRandomNumber":	            "get_random_number",
         "GetRelativeLocation":	        "get_relative_location",
-        "GetRelativeOrigin":	          "get_relative_origin",
+        "GetRelativeRoot":	            "get_relative_root",
         "GetStyleSheets":	              "get_style_sheets",
         "GetThreadName":	              "get_thread_name",
         "IfInArchives":	                "if_in_archives",

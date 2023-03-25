@@ -34,7 +34,7 @@
     TODO | Improve sub folder management in Entry and EntriesThread. (???)
     TODO | Add draft support.
     TODO | Enhance FTP transfert with multiple connections.
-    TODO | Try to install an up to date oembed providers from https://oembed.com/providers.json with pip
+    TODO | Dynamically get oembed providers from https://oembed.com/providers.json.
     TODO | Add command to export only extra folder.
     TODO | Isolate Entry metadata so Entry getters cannot grab non str object.
     TODO | Get input bytes and output bytes so not only we know the times but also the bandwidth
@@ -44,9 +44,13 @@
     TODO | Atom feed generation might be invalid, see : https://openweb.eu.org/articles/comment-construire-un-flux-atom
     TODO | https://pypi.org/project/pylint/
     TODO | Optionnaly Agregate ToC with chapter tree.
+    TODO | replace all call of die by VenCException for better stack trace
+    TODO | Add in blog_configuration max_width and max_height for oEmbed content, add specific configuration per providers.
 
 # version 3.1.0
-    TODO | Add relevant templates for themes.
+    WIP  | Add relevant templates for themes.
+    DONE | Template now support parametrisation.
+    DONE | Replace GetRelativeOrigin by GetRelativeRoot
     DONE | Reduce mandatory field for clarity and better user experience.
     DONE | Do not raise UnknownPattern if pattern is embed in Escape.
     DONE | Fix AttributeError: 'NoneType' object has no attribute 'title' when calling GetEntryTitle from header

@@ -39,4 +39,4 @@ def kroki(node, code, endpoint, provider = "https://kroki.io/"):
                 from venc3.exceptions import VenCException
                 raise VencException(("exception_place_holder", str(e)), node)
               
-    return "<img class=\"__VENC_KROKI__\" src=\".:GetRelativeOrigin:."+code+".svg"+"\" />"
+    return "<img class=\"__VENC_KROKI__\" src=\".:GetRelativeRoot:."+code+".svg"+"\" />"

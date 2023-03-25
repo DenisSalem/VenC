@@ -27,14 +27,20 @@ from venc3.prompt import notify
 
 def copy_recursively(src, dest):
     import errno, os, shutil
-    for filename in os.listdir(src):
+    try:
+        listdir = os.listdir(src)
+    except Exception as e:
+        from venc3.exceptions import VenCException
+        VenCException(("exception_place_holder", e)).die()
+        
+    for filename in listdir:
         try:
             shutil.copytree(src+filename, dest+filename)
     
         except shutil.Error as e:
             from venc3.prompt import notify
             notify(("directory_not_copied", str(e)), "YELLOW")
-
+            
         except OSError as e:
             if e.errno == errno.ENOTDIR:
                 shutil.copy(src+filename, dest+filename)

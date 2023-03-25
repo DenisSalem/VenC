@@ -29,13 +29,16 @@ def disable_markup(node, *argv):
     return '::'.join(argv)
 
 
-def get_embed_content(node, providers, url):  
+def get_embed_content(node, providers, target):  
     try:
         import requests
 
     except:
         from venc3.exceptions import VenCException
         raise VenCException(("module_not_found", "requests"), node)
+
+    from urllib.parse import urlparse
+    url = urlparse(target)
 
     try:
         key = [ key for key in providers["oembed"].keys() if url.netloc in key][0]
@@ -47,7 +50,9 @@ def get_embed_content(node, providers, url):
     try:
         r = requests.get(providers["oembed"][key][0], params={
             "url": url.geturl(),
-            "format":"json"
+            "format":"json",
+            "maxwidth": 640,
+            "maxheight": 320
         })
 
     except requests.exceptions.ConnectionError as e:
@@ -76,7 +81,7 @@ def get_embed_content(node, providers, url):
         from venc3.prompt import notify
         notify(("wrong_permissions", "caches/embed/"+cache_filename), color="YELLOW")
 
-    return html
+    return "</p>"+html+"<p>" if node.root.has_markup_language else html
 
 
 def get_venc_version(node):

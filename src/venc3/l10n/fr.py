@@ -113,7 +113,7 @@ class Messages:
     categories_parse_error = "Categories mal construite: {0} ne fait pas référence à une liste."
     do_not_use_in_production = "Pour des raisons de sécurité, ne pas utiliser en production !"
     you_cannot_use_this_pattern_here = "Vous ne pouvez pas utiliser le motif {0} dans \"{1}\"."
-
+    this_template_need_the_following_argument = "Le template \"{0}\" requier que l'agument {1} soit défini."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."

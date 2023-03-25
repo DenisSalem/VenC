@@ -113,6 +113,8 @@ class Messages:
     categories_parse_error = "Categories are wrongly defined: {0} do not refer to a list."
     do_not_use_in_production = "For security reason do not use in production!"
     you_cannot_use_this_pattern_here = "You cannot use the pattern {0} in \"{1}\"."
+    this_template_need_the_following_argument = "Template \"{0}\" need argument {1} to be defined."
+
     # Will not be hooked by l10n_cleanup
     generating_rss = "Generating RSS feed..."
     generating_atom = "Generating Atom feed..."

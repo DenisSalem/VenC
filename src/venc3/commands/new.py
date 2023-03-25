@@ -35,16 +35,29 @@ class MinimalEntry:
             setattr(self, key, data["key"])
 
 def new_entry(params):
-    if len(params) == 2:
+    if len(params) == 3:
+        entry_name, template_name, template_args = params
+        import json
+        try:
+            template_args = json.loads(template_args)
+            template_args["venc_entry_title"] = entry_name
+            
+        except Exception as e:
+            from venc3.exceptions import VenCException
+            VenCException(("exception_place_holder", "JSON: "+str(e))).die()
+
+    elif len(params) == 2:
         entry_name, template_name = params
-    
+        template_args = {"venc_entry_title":entry_name}
+        
     elif len(params) == 1:
       entry_name = params[0]
-      
+      template_name = ''
+      template_args = {"venc_entry_title":entry_name}
+
     else:
-        from venc3.prompt import notify
-        notify(("wrong_args_number","< 2",len(params)), color="RED")
-        return
+        from venc3.exceptions import VenCException
+        VenCException(("wrong_args_number","< 3",len(params))).die()
 
     blog_configuration = get_blog_configuration()            
     content =   {
@@ -85,7 +98,6 @@ def new_entry(params):
     stream = codecs.open(output_filename, 'w', encoding="utf-8")
     if not len(template_name):
         output = yaml.dump(content, default_flow_style=False, allow_unicode=True) + "---VENC-BEGIN-PREVIEW---\n---VENC-END-PREVIEW---\n"
-   
     else:
         found_template = False
         templates_paths = [
@@ -94,31 +106,43 @@ def new_entry(params):
         ]
         for template_path in templates_paths:
             try:
-                output = open(template_path, 'r').read().replace(".:GetEntryTitle:.", entry_name)
+                output = open(template_path, 'r').read().replace(".:GetEntryTitle:.", entry_name).format(**template_args)
                 found_template = True
                 break
-                
+            
+            except KeyError as e:
+                from venc3.exceptions import VenCException
+                VenCException(("this_template_need_the_following_argument", template_name, str(e))).die()
             except FileNotFoundError:
                 pass
                 
             except PermissionError:
-                from venc3.prompt import die
+                from venc3.exceptions import VenCException
                 os.remove(output_filename)
-                die(("wrong_permissions", template_path))
+                VenCException(("wrong_permissions", template_path)).die()
         
         if not found_template:
             os.remove(output_filename)
-            from venc3.prompt import die, notify
+            from venc3.prompt import VenCException, notify
             notify(("file_not_found", templates_paths[0]), color="RED")
-            die(("file_not_found", templates_paths[1]))
+            VenCException(("file_not_found", templates_paths[1])).die()
             
     stream.write(output)
     stream.close()
 
     try:
-        command = [arg for arg in blog_configuration["text_editor"] if arg != '']
-        command.append(output_filename)
-        subprocess.call(command) 
+        if not "text_editor" in blog_configuration.keys():
+            from venc3.prompt import notify
+            notify(("missing_mandatory_field_in_blog_conf", "text_editor"), "YELLOW")
+        
+        elif type(blog_configuration["text_editor"]) != list:
+            from venc3.prompt import notify
+            notify(("blog_metadata_is_not_a_list", "text_editor"), "YELLOW")
+            
+        else:
+            command = [str(arg) for arg in blog_configuration["text_editor"] if arg != '']
+            command.append(output_filename)
+            subprocess.call(command) 
 
     except FileNotFoundError:
         os.remove(output_filename)
@@ -144,7 +168,7 @@ def new_blog(blog_names):
         "disable_main_thread":          False,
         "disable_rss_feed":             False,
         "disable_atom_feed":            False,
-        "text_editor":                  "nano",
+        "text_editor":                  ["nano"],
         "date_format":                  "%A %d. %B %Y",
         "blog_url":			                messages.blog_url,
         "ftp_host":                     messages.ftp_host,

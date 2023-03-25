@@ -27,6 +27,7 @@ from venc3.threads import Thread
 
 class EntriesThread(Thread):
     def __init__(self):
+        from venc3.l10n import messages
         super().__init__(messages.export_single_entries)
         self.entries_per_page = 1 #override value
         self.organize_entries(self.datastore.entries)

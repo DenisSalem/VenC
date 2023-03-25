@@ -256,15 +256,19 @@ class DatastorePatterns:
         return '' if self.blog_configuration["disable_single_entries"] else self.requested_entry.path
 
     def get_author_name(self, node):
-        return self.blog_configuration["author_name"]
+        return self.get_blog_metadata_if_exists(node, "author_name")
 
     def get_blog_name(self, node):
         return self.blog_configuration["blog_name"]
         
     def get_blog_description(self, node):
-        return self.blog_configuration["blog_description"]
+      
+        return self.get_blog_metadata_if_exists(node, "blog_description")
         
     def get_blog_keywords(self, node):
+        if not "blog_keywords" in self.blog_configuration.key():
+            return ""
+            
         if type(self.blog_configuration["blog_keywords"]) != list:
             if blog_configuration["blog_keywords"] == None:
                 return ""
@@ -275,19 +279,20 @@ class DatastorePatterns:
         return ','.join(self.blog_configuration["blog_keywords"])
 
     def get_author_description(self, node):
-        return self.blog_configuration["author_description"]
+        return self.get_blog_metadata_if_exists(node, "author_description")
+
         
     def get_blog_license(self, node):
-        return self.blog_configuration["license"]
+        return self.get_blog_metadata_if_exists(node, "license")
     
     def get_blog_url(self, node):
         return self.blog_configuration["blog_url"]
     
     def get_blog_language(self, node):
-        return self.blog_configuration["blog_language"]
+        return self.get_blog_metadata_if_exists(node, "blog_language")
     
     def get_author_email(self, node):
-        return self.blog_configuration["author_email"]
+        return self.get_blog_metadata_if_exists(node, "author_email")
 
     def get_root_page(self, node):
         if self.root_page == None:
@@ -632,6 +637,8 @@ class DatastorePatterns:
 
         else:
             if self.embed_providers == dict():
+                import os
+                import json
                 f = open(os.path.expanduser("~")+"/.local/share/VenC/embed_providers/oembed.json")
                 self.embed_providers["oembed"] = {}
                 j = json.load(f)
@@ -639,5 +646,6 @@ class DatastorePatterns:
                     self.embed_providers["oembed"][p["provider_url"]] = []
                     for e in p["endpoints"]:
                         self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
-
+                        
+        from venc3.patterns.non_contextual import get_embed_content
         return get_embed_content(node, self.embed_providers, content_url)

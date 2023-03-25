@@ -95,7 +95,7 @@ class Thread:
     def get_relative_location(self, node):
         return self.export_path[5:]
         
-    def get_relative_origin(self, node):
+    def get_relative_root(self, node):
         return self.relative_origin
 
     def get_thread_name(self, node, string1='', string2=''):
@@ -239,7 +239,7 @@ class Thread:
             
         if self.in_thread:
             preview = deepcopy(self.current_entry.preview)
-            self.processor.process(content, Pattern.FLAG_CONTEXTUAL, id(node.payload[0]))
+            self.processor.process(preview, Pattern.FLAG_CONTEXTUAL, id(node.payload[0]))
             return preview.string
             
         else:
@@ -323,7 +323,6 @@ class Thread:
         self.columns = [ '' for i in range(0, self.columns_number) ]
     
     def post_iteration(self):
-        delattr(self, "current_entry")
         self.columns_counter = 0
         for column in self.columns:
             self.output += self.column_opening.format(self.columns_counter)+column+self.column_closing

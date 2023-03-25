@@ -67,8 +67,8 @@ class Theme:
             e.die()
 
         except FileNotFoundError as e:
-            from venc3.prompt import die
-            die(("file_not_found", str(e.filename)))
+            from venc3.exceptions import VenCException
+            VenCException(("file_not_found", e.filename)).die()
 
 def init_theme(theme_name=''):
     import os

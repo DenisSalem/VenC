@@ -49,7 +49,6 @@ def get_blog_configuration():
         
         mandatory_fields = [
             "blog_name",
-            "text_editor",
             "date_format",
             "ftp_host",
             "entries_per_pages",

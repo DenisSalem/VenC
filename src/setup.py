@@ -64,12 +64,12 @@ extra_files.append(
 
 )
 
-# ~ extra_files.append(
-    # ~ (
-        # ~ dst_prefix+"share/VenC/themes_templates/",
-        # ~ ["share/themes_templates/"+filename for filename in listdir("share/themes_templates")]
-    # ~ )
-# ~ )
+extra_files.append(
+    (
+        dst_prefix+"share/VenC/themes_templates/",
+        ["share/themes_templates/"+filename for filename in listdir("share/themes_templates")]
+    )
+)
 
 setup(
     name='VenC',
