@@ -110,9 +110,9 @@ class MalformedPatterns(VenCException):
         from venc3.l10n import messages
 
         if too_many_opening_symbols:
-            m = messages.malformed_patterns_missing_closing_symbols.format(string_under_processing.context, len_op - len_cp)
+            m = ("malformed_patterns_missing_closing_symbols", string_under_processing.context, len_op - len_cp)
         else:
-            m = messages.malformed_patterns_missing_opening_symbols.format(string_under_processing.context, len_cp - len_op)
+            m = ("malformed_patterns_missing_opening_symbols", string_under_processing.context, len_cp - len_op)
             
         leftovers = op if too_many_opening_symbols else cp
         s = string_under_processing.string

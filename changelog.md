@@ -48,7 +48,9 @@
     TODO | Add in blog_configuration max_width and max_height for oEmbed content, add specific configuration per providers.
 
 # version 3.1.0
+    WIP | Update doc accordingly.
     WIP  | Add relevant templates for themes.
+    DONE | Get ride of entry tags support.
     DONE | Improve entry permalink (get ride of ugly index.html).
     DONE | Template now support parametrisation.
     DONE | Replace GetRelativeOrigin by GetRelativeRoot
@@ -136,7 +138,6 @@
     DONE | Replace all Get*URL getter with Get*Path getter.
     DONE | Search for any TODO comment in code
     DONE | Split doc from main branch.
-    TODO | Update doc accordingly.
 
 # version 2.0.2
 

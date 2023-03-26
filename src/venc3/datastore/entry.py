@@ -113,14 +113,8 @@ class Entry:
             from venc3.exceptions import VenCException
             raise VenCException(("entry_metadata_is_not_a_list", "authors", self.id), context=filename)
             
-        self.authors = tuple(metadata["authors"])              
-
-        if type(metadata["tags"]) != list:
-            from venc3.exceptions import VenCException
-            raise VenCException(("entry_metadata_is_not_a_list", "tags", self.id), context=filename)
+        self.authors = tuple(metadata["authors"])
             
-        self.tags = tuple(metadata["tags"])
-
         params = {
             "entry_id": self.id,
             "entry_title": self.title
