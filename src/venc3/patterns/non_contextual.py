@@ -64,7 +64,8 @@ def get_embed_content(node, providers, target):
         raise VenCException(("ressource_unavailable", url.geturl()), node)
 
     try:
-        html = json.loads(r.text)["html"]
+        html = "<div class=\"__VENC_OEMBED__\">"+json.loads(r.text)["html"]+"</div>"
+        html = "</p>"+html+"<p>" if node.root.has_markup_language else html
         
     except Exception as e:
         from venc3.exceptions import VenCException
@@ -80,9 +81,7 @@ def get_embed_content(node, providers, target):
     except PermissionError:
         from venc3.prompt import notify
         notify(("wrong_permissions", "caches/embed/"+cache_filename), color="YELLOW")
-
-    return "</p>"+html+"<p>" if node.root.has_markup_language else html
-
+    return html
 
 def get_venc_version(node):
     return venc_version

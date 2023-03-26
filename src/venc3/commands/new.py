@@ -61,10 +61,9 @@ def new_entry(params):
 
     blog_configuration = get_blog_configuration()            
     content =   {
-        "authors":	[''],
-		    "tags":		[''],
+        "authors": [''],
 		    "categories":	[''],
-        "title":entry_name
+        "title": entry_name
     }
 
     try:

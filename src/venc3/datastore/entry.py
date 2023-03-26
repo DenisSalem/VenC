@@ -83,7 +83,7 @@ class Entry:
                     setattr(self, key, '')
 
         # Fix missing or incorrect metadata
-        for key in ("authors", "tags", "categories", "title"):
+        for key in ("authors", "categories", "title"):
             if key not in metadata.keys() or metadata[key] == None:
                 metadata[key] = '' if key == "title" else []
 

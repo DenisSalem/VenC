@@ -49,6 +49,7 @@
 
 # version 3.1.0
     WIP  | Add relevant templates for themes.
+    DONE | Improve entry permalink (get ride of ugly index.html).
     DONE | Template now support parametrisation.
     DONE | Replace GetRelativeOrigin by GetRelativeRoot
     DONE | Reduce mandatory field for clarity and better user experience.

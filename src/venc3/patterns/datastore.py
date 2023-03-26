@@ -270,19 +270,6 @@ class DatastorePatterns:
     def get_blog_description(self, node):
       
         return self.get_blog_metadata_if_exists(node, "blog_description")
-        
-    def get_blog_keywords(self, node):
-        if not "blog_keywords" in self.blog_configuration.key():
-            return ""
-            
-        if type(self.blog_configuration["blog_keywords"]) != list:
-            if blog_configuration["blog_keywords"] == None:
-                return ""
-
-            from venc3.exceptions import VenCException
-            raise VenCException(("blog_metadata_is_not_a_list", "blog_keywords"))
-            
-        return ','.join(self.blog_configuration["blog_keywords"])
 
     def get_author_description(self, node):
         return self.get_blog_metadata_if_exists(node, "author_description")
@@ -530,9 +517,6 @@ class DatastorePatterns:
             
     def for_entry_authors(self, node, string, separator=' '):
         return self.for_entry_metadata(node, "authors", string, separator)
-
-    def for_entry_tags(self, node, string, separator=' '):
-        return self.for_entry_metadata(node, "tags", string, separator)
 
     def tree_for_blog_metadata(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node):
         return self.tree_for_blog_metadata_if_exists(node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
