@@ -48,8 +48,9 @@
     TODO | Add in blog_configuration max_width and max_height for oEmbed content, add specific configuration per providers.
 
 # version 3.1.0
-    WIP | Update doc accordingly.
+    WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
+    WIP  | Fix Access {count} and {weight} from LeavesForEntrycategories.
     DONE | Get ride of entry tags support.
     DONE | Improve entry permalink (get ride of ugly index.html).
     DONE | Template now support parametrisation.
@@ -77,7 +78,7 @@
     DONE | fix missing attribut in Theme if there is no entries.
 
 # version 3.0.0
-
+    DONE | Access {count} and {weight} from LeavesForEntrycategories.
     DONE | Optimize modules importation.
     DONE | GetEntryContent, GetEntryPreview and PreviewIfInThreadElseContent
     DONE | Force preview / full content in thread, for single entry.
@@ -124,7 +125,6 @@
     DONE | (Blog) build_categories_tree should not be called by default, only if it's required.
     DONE | (Blog) Prevent build_categories_tree to be called more than once.
     DONE | (Entry build_categories_tree should not be called by default, only if it's required.
-    DONE | Access {count} and {weight} from LeavesForEntrycategories.
     DONE | Centralize path encoding and reduce codebloat.
     DONE | Use built in list and dict in yaml instead to parsing string.
     DONE | Fix broken jsonld according to new categories tree building strategies

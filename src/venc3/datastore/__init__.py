@@ -118,7 +118,6 @@ class DataStore(DatastorePatterns):
                     "workers_count" : self.workers_count,
                     "entries": self.entries,
                     "paths": self.blog_configuration["path"],
-                    "jsonld_required" : jsonld_required,
                     "cut_threads_kill_workers" : False
                 }
                 for i in range(0, self.workers_count):
@@ -148,7 +147,6 @@ class DataStore(DatastorePatterns):
                     self.entries.append(Entry(
                         filename,
                         self.blog_configuration["path"],
-                        jsonld_required,
                     ))
                     
         except VenCException as e:

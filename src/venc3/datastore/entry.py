@@ -20,12 +20,11 @@
 import datetime
 import os
 
-from venc3.datastore.metadata import build_categories_tree
 from venc3.helpers import quirk_encoding
 from venc3.patterns.processor import PatternTree
 
 class Entry:  
-    def __init__(self, filename, paths, build_internal_categories_tree):
+    def __init__(self, filename, paths):
         date_format = paths["archives_directory_name"]
         self.previous_entry = None
         self.next_entry = None
@@ -133,20 +132,9 @@ class Entry:
         self.raw_categories = metadata["categories"]
         self.categories_leaves = None
         self.categories_tree = []
-        if build_internal_categories_tree:
-            self.categories_tree = []
-            self.categories_leaves = []
-            build_categories_tree(
-                None,
-                self.raw_categories,
-                self.categories_tree,
-                self.categories_leaves,
-                None,
-                sub_folders="\x1a"+paths["categories_sub_folders"]
-            )
-        else:
-            self.categories_tree = None
-            self.categories_leaves = None
+
+        self.categories_tree = None
+        self.categories_leaves = None
         
         self.html_categories_tree = {}
         self.html_tags = {}

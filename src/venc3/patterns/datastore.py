@@ -313,21 +313,18 @@ class DatastorePatterns:
         
         return entry.html_categories_tree[key]
 
-    def build_entry_entry_categories_tree(self, entry, path):
+    def build_entry_entry_categories_tree(self, entry):
         if entry.categories_leaves == None:
             entry.categories_tree = []
             entry.categories_leaves = []
-            build_categories_tree(
-                None,
+            pick_branches_and_leaves(
+                self,
                 entry.raw_categories,
                 entry.categories_tree,
-                entry.categories_leaves,
-                None,
-                sub_folders="\x1a" + path
+                entry.categories_leaves
             )
-            entry.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
 
-    def build_blog_categories_tree(self, path):
+    def build_blog_categories_tree(self):
         if self.entries_per_categories == None:
             self.entries_per_categories = []
             self.categories_leaves = []
@@ -335,12 +332,12 @@ class DatastorePatterns:
             for entry_index in range(0, len(self.entries)):
                 current_entry = self.entries[entry_index]
                 build_categories_tree(
-                  entry_index,
-                  current_entry.raw_categories,
-                  self.entries_per_categories,
-                  self.categories_leaves,
-                  self.categories_weight_tracker,
-                  sub_folders="\x1a"+path
+                    entry_index,
+                    current_entry.raw_categories,
+                    self.entries_per_categories,
+                    self.categories_leaves,
+                    self.categories_weight_tracker,
+                    sub_folders="\x1a"+path
                 )
             self.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
                 
@@ -572,7 +569,7 @@ class DatastorePatterns:
             
         return open_node + (''.join(items))+ close_node
 
-    def leaves_for_entry_categories(self, node, string, separator):
+    def leaves_for_entry_categories(self, pattern, string, separator):
         key = string+separator
         entry = self.requested_entry
         if not key in entry.html_categories_leaves.keys():
@@ -590,11 +587,9 @@ class DatastorePatterns:
                     } for node in entry.categories_leaves],
                     string,
                     separator,
-                    node
+                    pattern
                 )
-
-
-        
+              
         return entry.html_categories_leaves[key]
 
     def leaves_for_blog_categories(self, node, string, separator):

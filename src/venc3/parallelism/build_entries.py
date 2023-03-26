@@ -58,7 +58,6 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
             output.append(Entry(
                 filename,
                 worker_params["paths"],
-                worker_params["jsonld_required"],
             ))
         
         recv_in.send(output)

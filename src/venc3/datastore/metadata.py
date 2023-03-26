@@ -67,7 +67,7 @@ class WeightTracker:
         self.value = 0
         
     def update(self):
-        self.value+=1
+        print(self, self.value)
 
 def build_categories_tree(entry_index, input_list, output_branch, output_leaves, weight_tracker, sub_folders=''):        
     for item, sub_items in flatten_current_level(input_list):
@@ -79,20 +79,20 @@ def build_categories_tree(entry_index, input_list, output_branch, output_leaves,
         for node in output_branch:
             if node.value == item:
                 node.count +=1
-                if weight_tracker != None:
-                    node.weight_tracker.update()        
+                node.weight_tracker.update()        
                 node.related_to.append(entry_index)
                 match = node
                 break
 
-        if not match:
+        if match == None:
+            # TODO : THIS IS WRONG, work only if path is set to {category}
             path += quirk_encoding(str(item)+'/')
             metadata = MetadataNode(
                 item, 
                 entry_index,
                 quirk_encoding(path),
                 weight_tracker
-              )
+            )
 
             output_branch.append(metadata) 
             output_leaves.append(metadata)
