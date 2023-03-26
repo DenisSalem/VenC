@@ -253,7 +253,13 @@ class DatastorePatterns:
         return self.cache_get_chapter_attribute_by_index[key]
             
     def get_entry_path(self, node):
-        return '' if self.blog_configuration["disable_single_entries"] else self.requested_entry.path
+        if self.blog_configuration["disable_single_entries"]:
+            return
+        else:
+            if self.requested_entry.path[-10:] == "index.html":
+                return self.requested_entry.path[:-10]
+            else:
+                return self.requested_entry.path
 
     def get_author_name(self, node):
         return self.get_blog_metadata_if_exists(node, "author_name")

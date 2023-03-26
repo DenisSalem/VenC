@@ -175,17 +175,17 @@ def new_blog(blog_names):
         "code_highlight_css_override":  False,
         "path":	{
             "ftp":                      messages.ftp_path,
-            "entries_sub_folders":      "",
+            "entries_sub_folders":      "{entry_title}",
             "categories_sub_folders":   "",
             "archives_sub_folders":     "",
             "chapters_sub_folders":     "chapters",
             "index_file_name":		        "index{page_number}.html",
             "category_directory_name":	"{category}",
-            "chapter_directory_name":	"{chapter_name}",
-			"archives_directory_name":	"%Y-%m",
-			"entry_file_name":		    "entry{entry_id}.html",
-			"rss_file_name":		    "rss.xml",
-			"atom_file_name":		    "atom.xml"
+            "chapter_directory_name": 	"{chapter_name}",
+			      "archives_directory_name":	"%Y-%m",
+			      "entry_file_name":		        "index.html",
+			      "rss_file_name":		          "rss.xml",
+			      "atom_file_name":		        "atom.xml"
         },
         "entries_per_pages":		    10,
         "columns":			            1,
