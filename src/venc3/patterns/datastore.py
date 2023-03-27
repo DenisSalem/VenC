@@ -19,9 +19,6 @@
 
 import datetime
 
-from venc3.datastore.metadata import Chapter
-from venc3.datastore.metadata import build_categories_tree
-
 def merge(iterable, string, separator, node):
     try:
         return separator.join([string.format(**something) for something in iterable])
@@ -170,6 +167,7 @@ class DatastorePatterns:
         if self.blog_configuration["disable_chapters"]:
             return ''
         else:
+            from venc3.datastore.metadata import Chapter
             return self.requested_entry.chapter.path if hasattr(self.requested_entry, "chapter") and type(self.requested_entry.chapter) == Chapter else ''
 
     def get_entry_metadata(self, node, metadata_name):            
@@ -313,34 +311,17 @@ class DatastorePatterns:
         
         return entry.html_categories_tree[key]
 
-    def build_entry_entry_categories_tree(self, entry):
-        if entry.categories_leaves == None:
-            entry.categories_tree = []
-            entry.categories_leaves = []
-            pick_branches_and_leaves(
-                self,
-                entry.raw_categories,
-                entry.categories_tree,
-                entry.categories_leaves
-            )
-
-    def build_blog_categories_tree(self):
-        if self.entries_per_categories == None:
-            self.entries_per_categories = []
-            self.categories_leaves = []
-            path = self.blog_configuration["path"]["categories_sub_folders"]
-            for entry_index in range(0, len(self.entries)):
-                current_entry = self.entries[entry_index]
-                build_categories_tree(
-                    entry_index,
-                    current_entry.raw_categories,
-                    self.entries_per_categories,
-                    self.categories_leaves,
-                    self.categories_weight_tracker,
-                    sub_folders="\x1a"+path
-                )
-            self.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
-                
+    # ~ def build_entry_entry_categories_tree(self, entry):
+        # ~ if entry.categories_leaves == None:
+            # ~ entry.categories_tree = []
+            # ~ entry.categories_leaves = []
+            # ~ pick_branches_and_leaves(
+                # ~ self,
+                # ~ entry.raw_categories,
+                # ~ entry.categories_tree,
+                # ~ entry.categories_leaves
+            # ~ )
+            
     def tree_for_blog_categories(self, node, open_node, open_branch, close_branch, clode_node):
         key = open_node+open_branch+close_branch+clode_node
         # compute once categories tree and deliver baked html

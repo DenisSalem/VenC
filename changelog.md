@@ -50,6 +50,7 @@
 # version 3.1.0
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
+    TODO | Refactor JSON-LD code
     WIP  | Fix Access {count} and {weight} from LeavesForEntrycategories.
     DONE | Get ride of entry tags support.
     DONE | Improve entry permalink (get ride of ugly index.html).

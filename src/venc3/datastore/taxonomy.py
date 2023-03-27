@@ -1,0 +1,68 @@
+#! /usr/bin/env python3
+
+#    Copyright 2016, 2023 Denis Salem
+#
+#    This file is part of VenC.
+#
+#    VenC is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    VenC is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
+
+class Taxonomy:
+    def setup_blog_categories(self):
+        if self.entries_per_categories == None:
+            self.entries_per_categories = []
+            self.categories_leaves = []
+            path = self.blog_configuration["path"]["categories_sub_folders"]
+            from venc3.datastore.metadata import build_blog_categories_tree as build_categories_tree
+            for entry_index in range(0, len(self.entries)):
+                current_entry = self.entries[entry_index]
+                build_categories_tree(
+                    entry_index,
+                    current_entry.raw_categories,
+                    self.entries_per_categories,
+                    self.categories_leaves,
+                    self.categories_weight_tracker,
+                    sub_folders="\x1a"+path
+                )
+            self.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
+    
+    def build_trees(self, entry_index, input_list, output_branch, output_leaves, weight_tracker, sub_folders=''):        
+        for item, sub_items in flatten_current_level(input_list):
+            if not len(item):
+                continue
+    
+            match = None
+            path = sub_folders
+            for node in output_branch:
+                if node.value == item:
+                    node.count +=1
+                    node.weight_tracker.update()        
+                    node.related_to.append(entry_index)
+                    match = node
+                    break
+    
+            if match == None:
+                from venc3.datastore.configuration import get_blog_configuration()
+                path += quirk_encoding(get_blog_configuration["path"]["category_directory_name"].format(**{"category":item}))+'/'
+                metadata = MetadataNode(
+                    item, 
+                    entry_index,
+                    quirk_encoding(path),
+                    weight_tracker
+                )
+    
+                output_branch.append(metadata) 
+                output_leaves.append(metadata)
+                
+            if len(sub_items):
+                build_blog_categories_tree(entry_index, sub_items, node.childs if match else metadata.childs, output_leaves, weight_tracker, sub_folders=path)

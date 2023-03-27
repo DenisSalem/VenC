@@ -44,7 +44,7 @@ class FeedThread(Thread):
     
     def get_JSONLD(self, node):
         from venc3.exceptions import VenCException
-        raise VenCException(("unknown_pattern","GetJSONLD"), node)
+        raise VenCException(("you_cannot_use_this_pattern_here", "GetJSONLD", node.root.context), node)
 
     def if_in_feed(self, node, string1, string2=''):
         return string1.strip()

@@ -53,7 +53,7 @@ class Thread:
         self.indentation_level = "│  "
         self.patterns_map = patterns_map
         self.datastore = datastore
-        self.enable_jsonld = datastore.blog_configuration["enable_jsonld"] or datastore.blog_configuration["enable_jsonp"]
+        self.enable_jsonld = False #datastore.blog_configuration["enable_jsonld"] or datastore.blog_configuration["enable_jsonp"]
         # Notify wich thread is processed
         from venc3.prompt import notify
         notify(("exception_place_holder", prompt),prepend=indentation_type)

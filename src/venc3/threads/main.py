@@ -67,22 +67,23 @@ class MainThread(Thread):
             FeedThread("rss", '└' if not self.enable_jsonld else '├', "│  ").do(entries, self.export_path, self.relative_origin)
  
     def do_jsonld(self):
-        if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
-            from venc3.prompt import notify
-            import json
-            dump = json.dumps(self.datastore.root_as_jsonld)
+        pass
+        # ~ if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
+            # ~ from venc3.prompt import notify
+            # ~ import json
+            # ~ dump = json.dumps(self.datastore.root_as_jsonld)
         
-        if self.datastore.enable_jsonld:
-            notify(("generating_jsonld_doc",), prepend=self.indentation_level+('└─ ' if not self.datastore.enable_jsonp else '├─ '))
-            f = open("blog/root.jsonld", 'w')
-            f.write(dump)
+        # ~ if self.datastore.enable_jsonld:
+            # ~ notify(("generating_jsonld_doc",), prepend=self.indentation_level+('└─ ' if not self.datastore.enable_jsonp else '├─ '))
+            # ~ f = open("blog/root.jsonld", 'w')
+            # ~ f.write(dump)
         
-        if self.datastore.enable_jsonp:
-            notify(("generating_jsonp_doc",), prepend=self.indentation_level+'└─ ')
-            import hashlib
-            url_digest = hashlib.sha512(self.datastore.blog_url.encode('utf-8'))
-            f = open("blog/root.jsonp", 'w')
-            f.write("function _"+url_digest.hexdigest()+"() {return "+dump+";}")
+        # ~ if self.datastore.enable_jsonp:
+            # ~ notify(("generating_jsonp_doc",), prepend=self.indentation_level+'└─ ')
+            # ~ import hashlib
+            # ~ url_digest = hashlib.sha512(self.datastore.blog_url.encode('utf-8'))
+            # ~ f = open("blog/root.jsonp", 'w')
+            # ~ f.write("function _"+url_digest.hexdigest()+"() {return "+dump+";}")
             
     def do(self):
         super().do()
@@ -90,8 +91,8 @@ class MainThread(Thread):
         self.do_jsonld()
 
     def get_JSONLD(self, node):
-        if self.current_page == 0 and self.datastore.enable_jsonld:
-            return '<script type="application/ld+json" src="root.jsonld"></script>'
+        # ~ if self.current_page == 0 and self.datastore.enable_jsonld:
+            # ~ return '<script type="application/ld+json" src="root.jsonld"></script>'
         
         return ''
                 

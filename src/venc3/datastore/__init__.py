@@ -26,7 +26,6 @@ import os
 import unidecode
 
 from urllib.parse import quote as urllib_parse_quote
-from venc3.datastore.metadata import build_categories_tree
 from venc3.datastore.configuration import get_blog_configuration
 from venc3.datastore.entry import yield_entries_content
 from venc3.datastore.entry import Entry
@@ -34,13 +33,13 @@ from venc3.datastore.metadata import MetadataNode
 from venc3.datastore.metadata import Chapter
 from venc3.datastore.metadata import categories_to_keywords
 from venc3.datastore.metadata import WeightTracker
+from venc3.datastore.taxonomy import Taxonomy
 from venc3.prompt import notify
 from venc3.exceptions import MalformedPatterns, VenCException
-from venc3.patterns.non_contextual import get_embed_content
 from venc3.patterns.datastore import DatastorePatterns
 from venc3.helpers import quirk_encoding
 
-class DataStore(DatastorePatterns):
+class DataStore(DatastorePatterns, Taxonomy):
     def __init__(self):
         self.in_child_process = False
         self.root_page = None
@@ -163,11 +162,11 @@ class DataStore(DatastorePatterns):
         compute_archives = self.blog_configuration["path"]["archives_directory_name"] != '' and not self.blog_configuration["disable_archives"]
         
         # Once entries are loaded, build datastore
-        jsonld_callback = self.entry_to_jsonld_callback if (self.enable_jsonld or self.enable_jsonp) else None
+        # ~ jsonld_callback = self.entry_to_jsonld_callback if (self.enable_jsonld or self.enable_jsonp) else None
         for entry_index in range(0, len(self.entries)):
             current_entry = self.entries[entry_index]
-            if jsonld_callback != None:
-                jsonld_callback(current_entry)
+            # ~ if jsonld_callback != None:
+                # ~ jsonld_callback(current_entry)
 
             # Update entriesPerDates
             if compute_archives:
@@ -188,20 +187,22 @@ class DataStore(DatastorePatterns):
                         )
                     )
                     
-            # Update categories tree           
-            if jsonld_required:
-                if self.entries_per_categories == None:
-                    self.entries_per_categories = []
-                    self.categories_leaves = []
-                    
-                build_categories_tree(
-                    entry_index,
-                    current_entry.raw_categories,
-                    self.entries_per_categories,
-                    self.categories_leaves,
-                    self.categories_weight_tracker,
-                    sub_folders="\x1a"+self.blog_configuration["path"]["categories_sub_folders"]
-                )
+        
+        # ~ # Update categories tree           
+        # ~ if jsonld_required:
+            # ~ if self.entries_per_categories == None:
+                
+                # ~ self.entries_per_categories = []
+                # ~ self.categories_leaves = []
+                
+            # ~ build_categories_tree(
+                # ~ entry_index,
+                # ~ current_entry.raw_categories,
+                # ~ self.entries_per_categories,
+                # ~ self.categories_leaves,
+                # ~ self.categories_weight_tracker,
+                # ~ sub_folders="\x1a"+self.blog_configuration["path"]["categories_sub_folders"]
+            # ~ )
         
     def build_chapter_indexes(self):
         # build chapters index

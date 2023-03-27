@@ -159,9 +159,10 @@ class EntriesThread(Thread):
             )
     
     def do_jsonld(self, entry):
-        dump = json.dumps(self.datastore.entries_as_jsonld[self.current_entry.id])
-        f = open(self.current_export_path+"/"+str(entry.id)+".jsonld", 'w')
-        f.write(dump.replace("\\u001a", self.relative_origin))
+        # ~ dump = json.dumps(self.datastore.entries_as_jsonld[self.current_entry.id])
+        # ~ f = open(self.current_export_path+"/"+str(entry.id)+".jsonld", 'w')
+        # ~ f.write(dump.replace("\\u001a", self.relative_origin))
+        pass
             
     def do(self):
         if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
@@ -182,7 +183,6 @@ class EntriesThread(Thread):
 
 
     def get_JSONLD(self, node):
-        if self.datastore.enable_jsonld and self.enable_jsonld:
-            return '<script type="application/ld+json" src="entry'+str(self.current_entry.id)+'.jsonld"></script>'
-            
+        # ~ if self.datastore.enable_jsonld and self.enable_jsonld:
+            # ~ return '<script type="application/ld+json" src="entry'+str(self.current_entry.id)+'.jsonld"></script>'
         return ''

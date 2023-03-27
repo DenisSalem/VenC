@@ -53,32 +53,33 @@ class CategoriesThread(Thread):
             FeedThread("atom", '├' if len(node.childs) or self.enable_jsonld else '└', self.indentation_level+indentation_type).do(entries, self.export_path, self.relative_origin)
             
     def do_jsonld(self, node, indentation_type):
-        import json
-        blog_url = self.datastore.blog_configuration["blog_url"]
-        category_as_jsonld = self.datastore.categories_as_jsonld[node.path]
-        position = 2
-        category_breadcrumb_path = ''
-        for sub_category in self.category_value.split('/'):
-            category_breadcrumb_path += quirk_encoding(sub_category)+'/'
-            category_as_jsonld["breadcrumb"]["itemListElement"].append({
-                "@type": "ListItem",
-                "position": position,
-                "item": {
-                    "@id": blog_url+'/'+self.sub_folders+category_breadcrumb_path+"categories.jsonld",
-                    "url": blog_url+'/'+self.sub_folders+category_breadcrumb_path,
-                    "name": self.datastore.blog_configuration["blog_name"] +' | '+ sub_category
-                }
-            })
-            position += 1
-        category_path = quirk_encoding(self.category_value)
-        category_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+category_path+"categories.jsonld"
-        category_as_jsonld["url"] = blog_url+'/'+self.sub_folders+category_path
-        dump = json.dumps(category_as_jsonld)
-        if self.datastore.enable_jsonld:
-            from venc3.prompt import notify
-            notify(("generating_jsonld_doc",), prepend=self.indentation_level+indentation_type+ ('├─ ' if len(node.childs) or self.datastore.enable_jsonp else '└─ '))
-            f = open(self.export_path+"categories.jsonld", 'w')
-            f.write(dump)
+        pass
+        # ~ import json
+        # ~ blog_url = self.datastore.blog_configuration["blog_url"]
+        # ~ category_as_jsonld = self.datastore.categories_as_jsonld[node.path]
+        # ~ position = 2
+        # ~ category_breadcrumb_path = ''
+        # ~ for sub_category in self.category_value.split('/'):
+            # ~ category_breadcrumb_path += quirk_encoding(sub_category)+'/'
+            # ~ category_as_jsonld["breadcrumb"]["itemListElement"].append({
+                # ~ "@type": "ListItem",
+                # ~ "position": position,
+                # ~ "item": {
+                    # ~ "@id": blog_url+'/'+self.sub_folders+category_breadcrumb_path+"categories.jsonld",
+                    # ~ "url": blog_url+'/'+self.sub_folders+category_breadcrumb_path,
+                    # ~ "name": self.datastore.blog_configuration["blog_name"] +' | '+ sub_category
+                # ~ }
+            # ~ })
+            # ~ position += 1
+        # ~ category_path = quirk_encoding(self.category_value)
+        # ~ category_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+category_path+"categories.jsonld"
+        # ~ category_as_jsonld["url"] = blog_url+'/'+self.sub_folders+category_path
+        # ~ dump = json.dumps(category_as_jsonld)
+        # ~ if self.datastore.enable_jsonld:
+            # ~ from venc3.prompt import notify
+            # ~ notify(("generating_jsonld_doc",), prepend=self.indentation_level+indentation_type+ ('├─ ' if len(node.childs) or self.datastore.enable_jsonp else '└─ '))
+            # ~ f = open(self.export_path+"categories.jsonld", 'w')
+            # ~ f.write(dump)
 
     def setup_category_context(self, i, root, len_root):
         node = root[i]
@@ -147,7 +148,7 @@ class CategoriesThread(Thread):
             self.category_value = category_value
 
     def get_JSONLD(self, node):
-        if self.current_page == 0 and self.enable_jsonld:
-            return '<script type="application/ld+json" src="categories.jsonld"></script>'
+        # ~ if self.current_page == 0 and self.enable_jsonld:
+            # ~ return '<script type="application/ld+json" src="categories.jsonld"></script>'
         
         return ''
