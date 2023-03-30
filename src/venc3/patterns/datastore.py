@@ -292,7 +292,7 @@ class DatastorePatterns:
             
         return self.root_page
         
-    def tree_for_entry_categories(self, node, open_node, open_branch, close_branch, clode_node):
+    def get_entry_categories_tree(self, node, open_node, open_branch, close_branch, clode_node):
         key = open_node+open_branch+close_branch+clode_node
         entry = self.requested_entry
 
@@ -311,20 +311,8 @@ class DatastorePatterns:
                 )
         
         return entry.html_categories_tree[key]
-
-    # DEPRECATED
-    # ~ def build_entry_entry_categories_tree(self, entry):
-        # ~ if entry.categories_leaves == None:
-            # ~ entry.categories_tree = []
-            # ~ entry.categories_leaves = []
-            # ~ pick_branches_and_leaves(
-                # ~ self,
-                # ~ entry.raw_categories,
-                # ~ entry.categories_tree,
-                # ~ entry.categories_leaves
-            # ~ )
             
-    def tree_for_blog_categories(self, node, open_node, open_branch, close_branch, clode_node):
+    def get_blog_categories_tree(self, node, open_node, open_branch, close_branch, clode_node):
         key = open_node+open_branch+close_branch+clode_node
         # compute once categories tree and deliver baked html
         if not key in self.html_categories_tree.keys():
@@ -497,10 +485,10 @@ class DatastorePatterns:
     def for_entry_authors(self, pattern, string, separator=' '):
         return self.for_entry_metadata(pattern, "authors", string, separator)
 
-    def tree_for_blog_metadata(self, pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node):
+    def get_blog_metadata_tree(self, pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node):
         return self.tree_for_blog_metadata_if_exists(pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
 
-    def tree_for_blog_metadata_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
+    def get_blog_metadata_tree_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
         key = source+','+open_node+','+open_branch+value_childs+','+value+','+close_branch+','+close_node+','+str(raise_exception)
         if key in self.html_tree_for_blog_metadata.keys():
             return self.html_tree_for_blog_metadata[key]
@@ -517,10 +505,10 @@ class DatastorePatterns:
         self.html_tree_for_blog_metadata[key] = self.tree_for_metadata(node, self.blog_configuration[source], open_node, open_branch, value_childs, value, close_branch, close_node)
         return self.html_tree_for_blog_metadata[key]
         
-    def tree_for_entry_metadata(self, pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node):
+    def get_entry_metadata_tree(self, pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node):
         return self.tree_for_entry_metadata_if_exists(pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
         
-    def tree_for_entry_metadata_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
+    def get_entry_metadata_tree_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
         entry = self.requested_entry
         if not hasattr(entry, source):
             if raise_exception:
@@ -576,10 +564,10 @@ class DatastorePatterns:
             
         return cache[key]
         
-    def leaves_for_entry_categories(self, pattern, string, separator):
+    def get_flattened_entry_categories(self, pattern, string, separator):
         return self.leaves_for_categories(pattern, string, separator, self.requested_entry.index)
 
-    def leaves_for_blog_categories(pattern, string, separator):
+    def get_flattened_blog_categories(pattern, string, separator):
         return  self.leaves_for_categories(self, pattern, string, separator)
         # TODO : DEPRECATED
       

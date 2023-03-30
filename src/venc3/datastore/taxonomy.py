@@ -73,13 +73,15 @@ class Taxonomy:
                 
             self.categories_leaves = self.extract_leaves(None)
     
-    def build_tree(self, entry_index, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders=''):        
+    def build_tree(self, entry_index, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders=''):     
+        from venc3.datastore.configuration import get_blog_configuration
+        category_directory_name = get_blog_configuration()["path"]["category_directory_name"]
         for item, sub_items in flatten_current_level(input_list):
             if not len(item):
                 continue
     
             match = None
-            path = sub_folders
+            path = sub_folders+quirk_encoding(category_directory_name.format(**{"category":item}))
             for node in blog_output_tree:
                 if node.value == item:
                     node.count +=1
@@ -89,8 +91,6 @@ class Taxonomy:
                     break
     
             if match == None:
-                from venc3.datastore.configuration import get_blog_configuration
-                path += quirk_encoding(get_blog_configuration()["path"]["category_directory_name"].format(**{"category":item}))
                 metadata = MetadataNode(
                     item, 
                     entry_index,
@@ -102,7 +102,7 @@ class Taxonomy:
                 blog_output_leaves.append(metadata)
                 
             if len(sub_items):
-                self.build_tree(entry_index, sub_items, match.childs if match != None else metadata.childs, blog_output_leaves, weight_tracker, sub_folders=path)
+                self.build_tree(entry_index, sub_items, match.childs if match != None else metadata.childs, blog_output_leaves, weight_tracker, path)
             
     def extract_leaves(self, filter_by_entry_index, branch=None):
         if branch == None:

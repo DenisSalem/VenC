@@ -52,6 +52,7 @@
     WIP  | Add relevant templates for themes.
     WIP  | Refactor datastore for code clarity code
     WIP  | Fix Access {count} and {weight} from LeavesForEntrycategories.
+    DONE | Rename some patterns for clarity.
     DONE | Get ride of entry tags support.
     DONE | Improve entry permalink (get ride of ugly index.html).
     DONE | Template now support parametrisation.
