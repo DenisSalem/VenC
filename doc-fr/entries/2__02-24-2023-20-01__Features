@@ -10,7 +10,7 @@ VenC propose les fonctionnalités suivantes :
 
 - Des balises VenC permettant une mise en page et une intégration de contenus avancés.
 - La possibilité de créer un agencement de publication en nombre arbitraire de colonne.
-- Un module et un API Javascript de défilement infini.
+- Un module et une API Javascript de défilement infini.
 - Les publications peuvent être organisées par catégories, sous-catégories, par période de dates et par chapitres.
 - La possibilité de désactiver des fils de publications spécifiques.
 - La possibilité de configurer des sous-répertoires pour chaque type de publications.
@@ -24,5 +24,6 @@ VenC propose les fonctionnalités suivantes :
 - La mise en ligne du site peut se faire en FTP via VenC.
 - Le support de [pygmentize](http://pygments.org) pour la coloration syntaxique.
 - Le support de l'API [oEmbed](https://oembed.com).
+- Le support de l'API [kroki](https://kroki.io/).
 - Le support de contenus audio et vidéo via les balises VenC.
 - Installation facilité via [pip](https://pypi.python.org/pypi/pip).
