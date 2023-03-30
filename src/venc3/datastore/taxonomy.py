@@ -108,10 +108,8 @@ class Taxonomy:
         if branch == None:
             branch = self.entries_per_categories
         
-        output = [category for category in filter_categories(branch, filter_by_entry_index) if len(category.childs) == 0]
-        print(filter_by_entry_index, [category.value for category in output])
+        output = [category for category in filter_categories(branch, filter_by_entry_index)]
         for category in filter_categories(branch, filter_by_entry_index):
-            if len(category.childs):
-                output += self.extract_leaves(filter_by_entry_index, category.childs)
+            output += self.extract_leaves(filter_by_entry_index, category.childs)
         
         return output
