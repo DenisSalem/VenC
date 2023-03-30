@@ -42,6 +42,12 @@ def flatten_current_level(items):
         else:
             yield item, []
             
+def filter_categories(categories, entry_index):
+    return [
+            category for category in categories \
+            if entry_index == None or (entry_index in category.related_to)
+        ]
+        
 class Taxonomy:       
     def init_taxonomy(self):
         self.entries_per_categories = None
@@ -56,7 +62,7 @@ class Taxonomy:
             path = self.blog_configuration["path"]["categories_sub_folders"]
             for entry_index in range(0, len(self.entries)):
                 current_entry = self.entries[entry_index]
-                self.build_trees(
+                self.build_tree(
                     entry_index,
                     current_entry.raw_categories,
                     self.entries_per_categories,
@@ -64,9 +70,10 @@ class Taxonomy:
                     self.categories_weight_tracker,
                     sub_folders="\x1a"+path
                 )
-            self.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
+                
+            self.categories_leaves = self.extract_leaves(None)
     
-    def build_trees(self, entry_index, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders=''):        
+    def build_tree(self, entry_index, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders=''):        
         for item, sub_items in flatten_current_level(input_list):
             if not len(item):
                 continue
@@ -95,15 +102,15 @@ class Taxonomy:
                 blog_output_leaves.append(metadata)
                 
             if len(sub_items):
-                build_blog_categories_tree(entry_index, sub_items, match.childs if match != None else metadata.childs, blog_output_leaves, weight_tracker, sub_folders=path)
-
+                self.build_tree(entry_index, sub_items, match.childs if match != None else metadata.childs, blog_output_leaves, weight_tracker, sub_folders=path)
+            
     def extract_leaves(self, filter_by_entry_index, branch=None):
         if branch == None:
             branch = self.entries_per_categories
-            
-        output = [category for category in branch if len(category.childs) == 0]
+        
+        output = [category for category in branch if len(filter_categories(category.childs, filter_by_entry_index)) == 0]
         for category in branch:
-            if len(category.childs):
+            if len(filter_categories(category.childs, filter_by_entry_index)):
                 output += self.extract_leaves(filter_by_entry_index, category.childs)
         
         return output

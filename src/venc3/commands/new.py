@@ -110,8 +110,10 @@ def new_entry(params):
                 break
             
             except KeyError as e:
+                os.remove(output_filename)
                 from venc3.exceptions import VenCException
                 VenCException(("this_template_need_the_following_argument", template_name, str(e))).die()
+                
             except FileNotFoundError:
                 pass
                 

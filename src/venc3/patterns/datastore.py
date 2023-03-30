@@ -332,7 +332,7 @@ class DatastorePatterns:
                 self.html_categories_tree[key] = ''
 
             else:
-                self.build_blog_categories_tree(self.blog_configuration["path"]["categories_sub_folders"])
+                # ~ self.build_blog_categories_tree(self.blog_configuration["path"]["categories_sub_folders"])
                 self.html_categories_tree[key] = self.build_html_categories_tree(
                     node, 
                     open_node,
@@ -343,7 +343,6 @@ class DatastorePatterns:
                 )
 
         return self.html_categories_tree[key]
-        
         
     def range_entries_by_id(self, node, begin_at, end_at):
         key = 'rang_entries_by_id,'+begin_at+','+end_at
@@ -591,7 +590,7 @@ class DatastorePatterns:
                 self.html_categories_leaves[key] = ''
 
             else:
-                self.build_blog_categories_tree()
+                self.init_taxonomy()
                 self.html_categories_leaves[key] = merge(
                     [ {
                         "value" : node.value,
