@@ -252,7 +252,8 @@ class DatastorePatterns:
             
     def get_entry_path(self, node):
         if self.blog_configuration["disable_single_entries"]:
-            return
+            return ""
+            
         else:
             if self.requested_entry.path[-10:] == "index.html":
                 return self.requested_entry.path[:-10]
@@ -311,6 +312,7 @@ class DatastorePatterns:
         
         return entry.html_categories_tree[key]
 
+    # DEPRECATED
     # ~ def build_entry_entry_categories_tree(self, entry):
         # ~ if entry.categories_leaves == None:
             # ~ entry.categories_tree = []
@@ -460,8 +462,8 @@ class DatastorePatterns:
         
         return self.html_for_metadata[key]
 
-    def for_entry_metadata(self, node, variable_name, string, separator):
-        return self.for_entry_metadata_if_exists(node, variable_name, string, separator, raise_exception=True)
+    def for_entry_metadata(self, pattern, variable_name, string, separator):
+        return self.for_entry_metadata_if_exists(pattern, variable_name, string, separator, raise_exception=True)
 
     def for_entry_metadata_if_exists(self, node, variable_name, string, separator, raise_exception=False):        
         entry = self.requested_entry
@@ -493,11 +495,11 @@ class DatastorePatterns:
             
         return entry.html_for_metadata[key]
             
-    def for_entry_authors(self, node, string, separator=' '):
-        return self.for_entry_metadata(node, "authors", string, separator)
+    def for_entry_authors(self, pattern, string, separator=' '):
+        return self.for_entry_metadata(pattern, "authors", string, separator)
 
-    def tree_for_blog_metadata(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node):
-        return self.tree_for_blog_metadata_if_exists(node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
+    def tree_for_blog_metadata(self, pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node):
+        return self.tree_for_blog_metadata_if_exists(pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
 
     def tree_for_blog_metadata_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
         key = source+','+open_node+','+open_branch+value_childs+','+value+','+close_branch+','+close_node+','+str(raise_exception)
@@ -516,8 +518,8 @@ class DatastorePatterns:
         self.html_tree_for_blog_metadata[key] = self.tree_for_metadata(node, self.blog_configuration[source], open_node, open_branch, value_childs, value, close_branch, close_node)
         return self.html_tree_for_blog_metadata[key]
         
-    def tree_for_entry_metadata(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node):
-        return self.tree_for_entry_metadata_if_exists (node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
+    def tree_for_entry_metadata(self, pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node):
+        return self.tree_for_entry_metadata_if_exists(pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
         
     def tree_for_entry_metadata_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
         entry = self.requested_entry
@@ -531,7 +533,7 @@ class DatastorePatterns:
                 
         return self.tree_for_metadata(node, getattr(entry, source), open_node, open_branch, value_childs, value, close_branch, close_node)
                     
-    def tree_for_metadata(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node):
+    def tree_for_metadata(self, pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node):
         try:
             items = [
                 open_branch+value.format(
@@ -539,41 +541,49 @@ class DatastorePatterns:
                 )+close_branch if type(item) != dict else open_branch+value_childs.format(
                     **{
                         "value" : tuple(item.keys())[0],
-                        "childs": self.tree_for_metadata(node, tuple(item.values())[0], open_node, open_branch, value_childs, value, close_branch, close_node)
+                        "childs": self.tree_for_metadata(pattern, tuple(item.values())[0], open_node, open_branch, value_childs, value, close_branch, close_node)
                     }
                 )+close_branch for item in source
             ]
             
         except KeyError as e:
             from venc3.exceptions import VenCException
-            raise VenCException(("unknown_contextual", str(e)), node)
+            raise VenCException(("unknown_contextual", str(e)), pattern)
             
         return open_node + (''.join(items))+ close_node
 
+    def leaves_for_categories(self, pattern, string, separator, filter_by_entry_index = None):
+        key = string+'::'+separator+'::'+str(filter_by_entry_index)
+        cache =  self.requested_entry.html_categories_leaves if filter_by_entry_index != None else self.html_categories_leaves[key] 
+        
+        
+        if self.blog_configuration["disable_categories"]:
+            output = ''
+
+        elif not key in cache.keys():
+            output = merge(
+                [ {
+                    "value" : node.value,
+                    "count" : node.count,
+                    "weight" : round(node.count / self.categories_weight_tracker.value, 2),
+                    "path" : node.path
+                } for node in self.extract_leaves(filter_by_entry_index) ],
+                string,
+                separator,
+                pattern
+            )
+        
+            cache[key] = output
+            
+        return cache[key]
+        
     def leaves_for_entry_categories(self, pattern, string, separator):
-        key = string+separator
-        entry = self.requested_entry
-        if not key in entry.html_categories_leaves.keys():
-            if self.blog_configuration["disable_categories"]:
-                entry.html_categories_leaves[key] = ''
+        return self.leaves_for_categories(pattern, string, separator, self.requested_entry.index)
 
-            else:
-                self.build_entry_entry_categories_tree(entry)
-                entry.html_categories_leaves[key] = merge(
-                    [ {
-                        "value" : node.value,
-                        "count" : node.count,
-                        "weight" : round(node.count / self.categories_weight_tracker.value, 2),
-                        "path" : node.path
-                    } for node in entry.categories_leaves],
-                    string,
-                    separator,
-                    pattern
-                )
-              
-        return entry.html_categories_leaves[key]
-
-    def leaves_for_blog_categories(self, node, string, separator):
+    def leaves_for_blog_categories(pattern, string, separator):
+        return  self.leaves_for_categories(self, pattern, string, separator)
+        # TODO : DEPRECATED
+      
         key = string+separator
 
         if not key in self.html_categories_leaves.keys():

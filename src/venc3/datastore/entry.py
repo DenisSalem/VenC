@@ -130,11 +130,6 @@ class Entry:
             raise VenCException(("entry_metadata_is_not_a_list", "categories", self.id), context=filename)
 
         self.raw_categories = metadata["categories"]
-        self.categories_leaves = None
-        self.categories_tree = []
-
-        self.categories_tree = None
-        self.categories_leaves = None
         
         self.html_categories_tree = {}
         self.html_tags = {}

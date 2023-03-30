@@ -41,30 +41,9 @@ class MetadataNode:
         self.related_to = [entry_index]
         self.childs = list()
 
-def categories_to_keywords(branch):
-    for item, sub_items in flatten_current_level(branch):
-        if len(sub_items):
-            for sub_item in catecories_to_keyword(sub_items):
-                yield sub_item
-        else:
-            yield item
-    
-def flatten_current_level(items):
-    for item in items:
-        if type(item) == dict:
-            for key in item.keys():
-                if type(item[key]) != list:
-                    # TODO : for end user it might be difficult to identify where it's gone wrong
-                    from venc3.exceptions import VenCException
-                    raise VenCException(("categories_parse_error", key))
-                    
-                yield key, item[key]
-        else:
-            yield item, []
-
 class WeightTracker:
     def __init__(self):
         self.value = 0
         
     def update(self):
-        print(self, self.value)
+        self.value += 1

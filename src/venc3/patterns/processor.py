@@ -246,9 +246,9 @@ class Processor:
             except TypeError as e:
                 from venc3.exceptions import WrongPatternArgumentsNumber
                 raise WrongPatternArgumentsNumber(pattern, pattern.root, self.functions[pattern_name], args)
-                
-            len_chunk = len(chunk)
             
+            len_chunk = len(chunk)
+
             if type(parent) == Pattern:
                 if payload_offset[1] != pattern.payload_index:
                     payload_offset[0] = 0

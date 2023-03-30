@@ -17,7 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-
+# TODO : Replace all argument name "node" by "pattern" to avoid confusion
 
 class PatternsMap():    
     CONTEXTUALS = { # All of the below is loaded from Thread instanciated classes
@@ -47,8 +47,6 @@ class PatternsMap():
 
     NON_CONTEXTUALS = { # all of the below is loaded from datastore
         "entries" : { 
-            "ForBlogMetadata":              "for_blog_metadata",
-            "ForBlogMetadataIfExists":      "for_blog_metadata_if_exists",
             "ForEntryAuthors":	            "for_entry_authors",
             "ForEntryMetadata":	            "for_entry_metadata",
             "ForEntryMetadataIfExists":	    "for_entry_metadata_if_exists",   
@@ -77,6 +75,8 @@ class PatternsMap():
         },
         "blog": {
             "ForBlogArchives":	            "for_blog_archives",
+            "ForBlogMetadata":              "for_blog_metadata",
+            "ForBlogMetadataIfExists":      "for_blog_metadata_if_exists",
             "ForEntriesSet":	              "for_entries_set",
             "GetAuthorDescription":	        "get_author_description",
             "GetAuthorEmail":               "get_author_email",
@@ -166,5 +166,3 @@ def init_pattern_map():
     patterns_map = PatternsMap()
         
 patterns_map = None
-
-        
