@@ -19,13 +19,13 @@
 
 import datetime
 
-def merge(iterable, string, separator, node):
+def merge(iterable, string, separator, pattern):
     try:
         return separator.join([string.format(**something) for something in iterable])
     
     except KeyError as e:
         from venc3.exceptions import VenCException
-        raise VenCException(("unknown_contextual", str(e)), node)
+        raise VenCException(("unknown_contextual", str(e)), pattern)
 
 class DatastorePatterns:
     def if_categories(self, node, if_true, if_false=''):
@@ -68,6 +68,7 @@ class DatastorePatterns:
             pass
         
         return if_false.strip()
+        
     def if_blog_metadata_is_true(self, node, key, if_true, if_false=''):
         return self.if_metadata_is_true(key, if_true, if_false, self.blog_configuration)
 
@@ -91,7 +92,7 @@ class DatastorePatterns:
                     
         except KeyError:
             return if_true
-            
+                        
     def get_chapters(self, node, lo, io, ic, lc):
         key = lo+io+ic+lc
         if not key in self.html_chapters.keys():
@@ -131,7 +132,6 @@ class DatastorePatterns:
                 return if_false
         else:
             return value
-
     def get_blog_metadata_if_not_null(self, node, field_name, if_true='', if_false='', ):
         return self.get_blog_metadata_if_exists(node, field_name, if_true, if_false, ok_if_null=False)
 
@@ -539,15 +539,14 @@ class DatastorePatterns:
             
         return open_node + (''.join(items))+ close_node
 
-    def leaves_for_categories(self, pattern, string, separator, filter_by_entry_index = None):
-        key = string+'::'+separator+'::'+str(filter_by_entry_index)
-        cache =  self.requested_entry.html_categories_leaves if filter_by_entry_index != None else self.html_categories_leaves[key] 
-        
-        
+    def get_flattened_categories(self, pattern, string, separator, filter_by_entry_index = None):
         if self.blog_configuration["disable_categories"]:
-            output = ''
+            return ''
+            
+        key = string+'::'+separator+'::'+str(filter_by_entry_index)
+        cache = self.requested_entry.html_categories_leaves if filter_by_entry_index != None else self.html_categories_leaves
 
-        elif not key in cache.keys():
+        if not key in cache.keys():
             output = merge(
                 [ {
                     "value" : node.value,
@@ -561,37 +560,14 @@ class DatastorePatterns:
             )
         
             cache[key] = output
-            
+        
         return cache[key]
         
     def get_flattened_entry_categories(self, pattern, string, separator):
-        return self.leaves_for_categories(pattern, string, separator, self.requested_entry.index)
+        return self.get_flattened_categories(pattern, string, separator, self.requested_entry.index)
 
-    def get_flattened_blog_categories(pattern, string, separator):
-        return  self.leaves_for_categories(self, pattern, string, separator)
-        # TODO : DEPRECATED
-      
-        key = string+separator
-
-        if not key in self.html_categories_leaves.keys():
-            if self.blog_configuration["disable_categories"]:
-                self.html_categories_leaves[key] = ''
-
-            else:
-                self.init_taxonomy()
-                self.html_categories_leaves[key] = merge(
-                    [ {
-                        "value" : node.value,
-                        "count" : node.count,
-                        "weight" : round(node.count / self.categories_weight_tracker.value,2),
-                        "path" : node.path
-                    } for node in self.categories_leaves],
-                    string,
-                    separator,
-                    node
-                )
-        
-        return self.html_categories_leaves[key]
+    def get_flattened_blog_categories(self, pattern, string, separator):
+        return self.get_flattened_categories(pattern, string, separator)
         
     def wrapper_embed_content(self, node, content_url):
         cache = self.cache_embed_exists(content_url)
