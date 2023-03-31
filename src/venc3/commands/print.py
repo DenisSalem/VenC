@@ -30,7 +30,10 @@ USAGE = \
     "-xftp\t--export-via-ftp\n" +\
     "-rc\t--remote-copy\n" +\
     "-h\t--help\n" +\
-    "-it\t--install-theme <"+messages.theme_name+">"
+    "-it\t--install-theme <"+messages.theme_name+">" \
+    "-t\--themes" \
+    "-ta\--template-arguments <\""+messages.arg_template_name+"\">"\
+    
     
 def version(params):
     from venc3 import venc_version

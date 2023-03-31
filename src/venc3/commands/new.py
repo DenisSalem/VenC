@@ -35,6 +35,13 @@ class MinimalEntry:
             setattr(self, key, data["key"])
 
 def new_entry(params):
+    default_template_args = {
+        "value" :  "{value}",
+        "count" :  "{count}",
+        "weight" : "{weight}",
+        "path" :   "{path}",
+    }
+    
     if len(params) == 3:
         entry_name, template_name, template_args = params
         import json
@@ -59,6 +66,10 @@ def new_entry(params):
     else:
         from venc3.exceptions import VenCException
         VenCException(("wrong_args_number","<= 3",len(params))).die()
+
+    for default_key in default_template_args.keys():
+        if not default_key in template_args.keys():
+            template_args[default_key] = default_template_args[default_key]
 
     blog_configuration = get_blog_configuration()            
     content =   {
