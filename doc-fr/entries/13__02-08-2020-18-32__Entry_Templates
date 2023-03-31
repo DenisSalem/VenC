@@ -18,9 +18,11 @@ Par exemple :
 
 VenC est livrés avec des exemples de templates. En voici la liste :
 
-TODO
-
 _Parmi ces templates, certains servent surtout à illustrer l'usage de certaines fonctionnalités de VenC._
+
+- __oEmbed__ : Permet de crée une publication avec du contenu acqui avec l'API [oEmbed](https://oembed.com/).
+- __images__ : Permet de crée une publication avec une ou plusieurs images.
+- __kroki__ :
 
 Pour utiliser un template il suffit de passer son nom de fichier (sans le chemin)
 à VenC au moment de la création d'une nouvelle publication. Par exemple :

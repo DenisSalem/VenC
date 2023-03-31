@@ -1,0 +1,15 @@
+authors:
+- Denis Salem
+categories:
+- ''
+chapter: '3.5.1'
+title: Arguments d'un template
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Les templates supportent la paramétrisation au moment de l'exécution de la commande _--new-blog_. C'est le cas par exemple du template _oEmbed_ ou _images_.
+Quand un template est appelé sans ses arguments la création de la publication échoue.
+
+Avant d'utiliser un template il faut donc connaitre ses arguments à l'aide de la commande [--template-arguments](TODO)
+
+Pour fonctionner il faut passer à VenC un troisième argument, au format JSON qui portera les clef/valeurs nécessaires au template.
+
