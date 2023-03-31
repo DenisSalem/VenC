@@ -114,6 +114,7 @@ class Messages:
     do_not_use_in_production = "Pour des raisons de sécurité, ne pas utiliser en production !"
     you_cannot_use_this_pattern_here = "Vous ne pouvez pas utiliser le motif {0} dans \"{1}\"."
     this_template_need_the_following_argument = "Le template \"{0}\" requier que l'agument {1} soit défini."
+    this_template_has_no_arguments = "Ce template n'a pas d'arguments."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."

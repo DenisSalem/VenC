@@ -44,16 +44,14 @@
     TODO | Atom feed generation might be invalid, see : https://openweb.eu.org/articles/comment-construire-un-flux-atom
     TODO | https://pypi.org/project/pylint/
     TODO | Optionnaly Agregate ToC with chapter tree.
-    TODO | replace all call of die by VenCException for better stack trace
     TODO | Add in blog_configuration max_width and max_height for oEmbed content, add specific configuration per providers.
 
 # version 3.1.0
+    TODO | replace all call of die by VenCException for better stack trace
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
-    WIP  | Add -ta command to inspect template arguments
     ???  | Disable jsonld until cient side search-engine is ready ?
     DONE | Refactor datastore for code clarity.
-    DONE | Fix Access {count} and {weight} from LeavesForEntrycategories.
     DONE | Rename some patterns for clarity.
     DONE | Get ride of entry tags support.
     DONE | Improve entry permalink (get ride of ugly index.html).
@@ -70,6 +68,7 @@
     DONE | Append p if markup is enabled or not in pygmentize wrapper
     DONE | Remove old themes.
     DONE | Add traceback support for even more detail when errors occurs!
+    DONE | Add -ta command to inspect template arguments
     DONE | Add -t command for printing availables themes, fix -it
     DONE | GetBlogKeywords handling error, must enforce list
     DONE | Add full documentation notice in venc -h
@@ -80,6 +79,7 @@
     DONE | Remove hardcoded image asset. 
     DONE | remove split() call on argument list when creating new entry...
     DONE | fix missing attribut in Theme if there is no entries.
+    DONE | Fix Access {count} and {weight} from LeavesForEntrycategories.
 
 # version 3.0.0
     DONE | Access {count} and {weight} from LeavesForEntrycategories.

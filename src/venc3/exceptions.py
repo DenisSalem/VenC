@@ -125,6 +125,11 @@ class MalformedPatterns(VenCException):
         self.too_many_opening_symbols = too_many_opening_symbols
         self.extra = s
 
+class MissingTemplateArguments(VenCException):
+    def __init__(self, template_name, key_error):
+      self.key_error = key_error
+      super().__init__(("this_template_need_the_following_argument", template_name, str(key_error)))
+      
 class VenCSyntaxError(VenCException):  
     def __init__(self, string_under_processing, o, c):
         super().__init__(("syntax_error"), string_under_processing)

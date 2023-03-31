@@ -85,8 +85,8 @@ def get_template(template_name, entry_name='', template_args={}):
             return open(template_path, 'r').read().replace(".:GetEntryTitle:.", entry_name).format(**template_args)
                     
         except KeyError as e:
-            from venc3.exceptions import VenCException
-            raise VenCException(("this_template_need_the_following_argument", template_name, str(e)))
+            from venc3.exceptions import MissingTemplateArguments
+            raise MissingTemplateArguments(template_name, e)
             
         except FileNotFoundError:
             pass

@@ -40,7 +40,8 @@ def new_entry(params):
         import json
         try:
             template_args = json.loads(template_args)
-            template_args["venc_entry_title"] = entry_name
+            if not "venc_entry_title" in template_args.keys():
+                template_args["venc_entry_title"] = entry_name
             
         except Exception as e:
             from venc3.exceptions import VenCException
@@ -57,7 +58,7 @@ def new_entry(params):
 
     else:
         from venc3.exceptions import VenCException
-        VenCException(("wrong_args_number","< 3",len(params))).die()
+        VenCException(("wrong_args_number","<= 3",len(params))).die()
 
     blog_configuration = get_blog_configuration()            
     content =   {

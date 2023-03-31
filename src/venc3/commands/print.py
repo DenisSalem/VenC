@@ -41,11 +41,33 @@ def version(params):
 
 # Will be removed and replaced by argparse
 def help(params):
-    from venc3.prompt import notify
-    from venc3.l10n import messages;
     print(USAGE)
     
 def template_arguments(params):
     from venc3.helpers import get_template
-    template = get_template(params[0])
+    from venc3.exceptions import VenCException, MissingTemplateArguments
 
+    try:
+        template_name = params[0]
+        
+    except:
+        VenCException(("wrong_args_number","= 1",len(params))).die()   
+    
+    template_arguments = {}
+    while '∞':
+        try:
+            template = get_template(template_name, '', template_arguments)
+            if len(template_arguments.keys()) == 0:
+                from venc3.prompt import notify
+                notify(("this_template_has_no_arguments",))
+                
+            else:
+                print(template_arguments)
+    
+            break
+            
+        except MissingTemplateArguments as e:
+            template_arguments[str(e.key_error)[1:-1]] = ''
+          
+        except VenCException as e:
+            e.die()
