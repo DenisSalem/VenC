@@ -50,7 +50,9 @@
 # version 3.1.0
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
-    WIP  | Refactor datastore for code clarity.
+    WIP  | Add -ta command to inspect template arguments
+    ???  | Disable jsonld until cient side search-engine is ready ?
+    DONE | Refactor datastore for code clarity.
     DONE | Fix Access {count} and {weight} from LeavesForEntrycategories.
     DONE | Rename some patterns for clarity.
     DONE | Get ride of entry tags support.

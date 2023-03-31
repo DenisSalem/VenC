@@ -44,4 +44,8 @@ def help(params):
     from venc3.prompt import notify
     from venc3.l10n import messages;
     print(USAGE)
+    
+def template_arguments(params):
+    from venc3.helpers import get_template
+    template = get_template(params[0])
 

@@ -70,8 +70,8 @@ def new_entry(params):
         wd = os.listdir(os.getcwd())
 
     except OSError:
-        from venc3.prompt import die
-        die(("cannot_read_in", os.getcwd()))
+        from venc3.exceptions import VenCException
+        VenCException(("cannot_read_in", os.getcwd())).die()
 
     date = datetime.datetime.now()
 
@@ -98,36 +98,16 @@ def new_entry(params):
     if not len(template_name):
         output = yaml.dump(content, default_flow_style=False, allow_unicode=True) + "---VENC-BEGIN-PREVIEW---\n---VENC-END-PREVIEW---\n"
     else:
-        found_template = False
-        templates_paths = [
-            os.getcwd()+'/templates/'+template_name,
-            os.path.expanduser("~/.local/share/VenC/themes_templates/"+template_name)
-        ]
-        for template_path in templates_paths:
-            try:
-                output = open(template_path, 'r').read().replace(".:GetEntryTitle:.", entry_name).format(**template_args)
-                found_template = True
-                break
-            
-            except KeyError as e:
-                os.remove(output_filename)
-                from venc3.exceptions import VenCException
-                VenCException(("this_template_need_the_following_argument", template_name, str(e))).die()
-                
-            except FileNotFoundError:
-                pass
-                
-            except PermissionError:
-                from venc3.exceptions import VenCException
-                os.remove(output_filename)
-                VenCException(("wrong_permissions", template_path)).die()
+        from venc3.helpers import get_template
+        from venc3.exceptions import VenCException
         
-        if not found_template:
-            os.remove(output_filename)
-            from venc3.prompt import VenCException, notify
-            notify(("file_not_found", templates_paths[0]), color="RED")
-            VenCException(("file_not_found", templates_paths[1])).die()
+        try:
+            output = get_template(template_name, entry_name, template_args)
             
+        except VenCException as e:
+            os.remove(output_filename)
+            e.die()
+    
     stream.write(output)
     stream.close()
 

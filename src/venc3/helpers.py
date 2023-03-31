@@ -70,3 +70,33 @@ def rm_tree_error_handler(function, path, excinfo):
     notify(("exception_place_holder", str(path)),"RED")
     notify(("exception_place_holder", str(excinfo[0])),"RED")
     exit()
+    
+def get_template(template_name, entry_name='', template_args={}):
+    import os
+    
+    found_template = False
+    templates_paths = [
+        os.getcwd()+'/templates/'+template_name,
+        os.path.expanduser("~/.local/share/VenC/themes_templates/"+template_name)
+    ]
+    
+    for template_path in templates_paths:
+        try:
+            return open(template_path, 'r').read().replace(".:GetEntryTitle:.", entry_name).format(**template_args)
+                    
+        except KeyError as e:
+            from venc3.exceptions import VenCException
+            raise VenCException(("this_template_need_the_following_argument", template_name, str(e)))
+            
+        except FileNotFoundError:
+            pass
+            
+        except PermissionError:
+            from venc3.exceptions import VenCException
+            raise VenCException(("wrong_permissions", template_path))
+    
+    from venc3.exceptions import VenCException
+    from venc3.l10n import messages
+    msg = "\n"+ messages.file_not_found.format(templates_paths[0])+"\n"+ messages.file_not_found.format(templates_paths[1])
+    raise VenCException(("exception_place_holder", msg))
+  
