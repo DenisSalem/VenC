@@ -12,7 +12,6 @@
 
     WIP  | Replace as much as possible usage of list with tuple.
     WIP  | Client-side search engine.
-    TODO | Add entry_id metadata to Chapter.
     TODO | Override theme config override.
     TODO | venc -xb should also work in subdirectories
     TODO | SetBackgroundColor for text
@@ -48,10 +47,10 @@
     TODO | Add in blog_configuration max_width and max_height for oEmbed content, add specific configuration per providers.
 
 # version 3.1.0
-    TODO | replace all call of die by VenCException for better stack trace
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
     ???  | Disable jsonld until cient side search-engine is ready ?
+    DONE | Add entry_id metadata to Chapter.
     DONE | Fix chapter index acquisition with GetEntryMetadata.
     DONE | Refactor datastore for code clarity.
     DONE | Rename some patterns for clarity.
