@@ -19,6 +19,13 @@
 
 class VenCException(Exception):
     def __init__(self, message_format, context=None, extra=""):
+        try:
+            import traceback
+            self._traceback = "\n"+''.join(traceback.format_stack()[:-1])
+
+        except:
+            self._traceback = None
+            
         from venc3.l10n import messages
         if len(message_format) > 1:
             message_attr, *format_args = message_format
@@ -37,13 +44,9 @@ class VenCException(Exception):
 
     def die(self):
         from venc3.prompt import die, notify
-        try:
-            import traceback
-            notify(("exception_place_holder", "\n"+''.join(traceback.format_stack()[:-1])), "YELLOW")
-            
-        except:
-            pass
-            
+        if self._traceback != None:
+            notify(("exception_place_holder", self._traceback), "YELLOW")
+
         if self.context != None:
             from venc3.patterns.processor import Pattern
 

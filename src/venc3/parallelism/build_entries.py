@@ -19,7 +19,7 @@
 
 def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     output_context = []
-    from venc3.datastore import multiprocessing_thread_params
+    from venc3.datastore.entries import multiprocessing_thread_params
     send_in.send(multiprocessing_thread_params)
     chunked_filenames = multiprocessing_thread_params["chunked_filenames"]
     try:
@@ -65,6 +65,6 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
         chunk = send_out.recv()
             
 def finish(worker_id):
-    from venc3.datastore import multiprocessing_thread_params
+    from venc3.datastore.entries import multiprocessing_thread_params
     multiprocessing_thread_params["entries"] += multiprocessing_thread_params["chunked_filenames"][worker_id]
     multiprocessing_thread_params["chunked_filenames"][worker_id] = None

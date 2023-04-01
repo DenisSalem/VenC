@@ -57,7 +57,7 @@
     DONE | Rename some patterns for clarity.
     DONE | Get ride of entry tags support.
     DONE | Improve entry permalink (get ride of ugly index.html).
-    DONE | Template now support parametrisation.
+    DONE | Template now support JSON parametrisation !
     DONE | Replace GetRelativeOrigin by GetRelativeRoot
     DONE | Reduce mandatory field for clarity and better user experience.
     DONE | Do not raise UnknownPattern if pattern is embed in Escape.
@@ -78,6 +78,7 @@
     DONE | Make pygmentize optional.
     DONE | Make requests optional.
     DONE | Add GetEntryChapterLevel.
+    DONE | Add KrokiFromFile.
     DONE | Remove hardcoded image asset. 
     DONE | remove split() call on argument list when creating new entry...
     DONE | fix missing attribut in Theme if there is no entries.

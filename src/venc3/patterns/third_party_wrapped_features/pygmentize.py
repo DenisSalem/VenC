@@ -18,7 +18,6 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from venc3.patterns.non_contextual import include_file
 
 class CodeHighlight:
     def __init__(self):
@@ -41,6 +40,7 @@ def get_style_sheets(node):
     return output
         
 def highlight_include(node, langage, display_line_numbers, filename, *argv):
+    from venc3.patterns.non_contextual import include_file
     string = include_file(node, filename, argv)
     return highlight(node, langage, display_line_numbers, string)
     

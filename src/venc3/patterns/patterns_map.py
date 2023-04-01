@@ -117,6 +117,7 @@ class PatternsMap():
             "IncludeFile":	            "venc3.patterns.non_contextual.include_file",
             "IncludeFileIfExists":	    "venc3.patterns.non_contextual.include_file_if_exists",
             "Kroki":	                  "venc3.patterns.third_party_wrapped_features.kroki.kroki",
+            "KrokiFromFile":	          "venc3.patterns.third_party_wrapped_features.kroki.kroki_from_file",
             "Latex2MathML":	            "venc3.patterns.third_party_wrapped_features.latex2mathml.latex_2_mathml",
             "SetColor":	                "venc3.patterns.non_contextual.set_color",
             "SetStyle":	                "venc3.patterns.non_contextual.set_style",
