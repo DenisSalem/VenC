@@ -20,6 +20,19 @@ blockquote, pre
     padding-right: 10px;
     color: #808080;}
 
+.chapter_title
+    {background-color: #303030;
+    font-size: 2em;
+    font-weight: bolder;}
+
+.entry 
+    {width: 768px;
+    display: block;
+    margin: auto;}
+    
+.entry p, .entry h1
+    {text-align: justify;}
+    
 #logo
     {border: 1px solid #404040;} /* Dillo bullshit */
     
@@ -41,11 +54,3 @@ blockquote, pre
     
 #header ul
     {list-style-type: none;}
-    
-.entry 
-    {width: 768px;
-    display: block;
-    margin: auto;}
-    
-.entry p, .entry h1
-    {text-align: justify;}

@@ -1,0 +1,7 @@
+authors:
+categories:
+title: {venc_entry_title}
+images: {images}
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+.:ForEntryMetadata::images::<img src="{value}" title="" alt="{value}">:: :.
