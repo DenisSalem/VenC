@@ -238,7 +238,7 @@ class DatastorePatterns:
         key = attribute+index
         if not key in self.cache_get_chapter_attribute_by_index.keys():
             try:
-                self.cache_get_chapter_attribute_by_index[key] = getattr(self.raw_chapters[index].chapter, attribute)
+                self.cache_get_chapter_attribute_by_index[key] = str(getattr(self.raw_chapters[index].chapter, attribute))
                 
             except KeyError as e:
                 from venc3.exceptions import VenCException
