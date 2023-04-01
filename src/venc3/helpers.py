@@ -82,8 +82,24 @@ def get_template(template_name, entry_name='', template_args={}):
     
     for template_path in templates_paths:
         try:
-            return open(template_path, 'r').read().replace(".:GetEntryTitle:.", entry_name).format(**template_args)
-                    
+            template = open(template_path, 'r').read().format(**template_args)
+            parted = template.split("---VENC-BEGIN-PREVIEW---")
+            if len(parted) != 2:
+                from venc3.l10n import messages; 
+                cause = messages.missing_separator_in_entry.format("---VENC-BEGIN-PREVIEW---")
+                from venc3.exceptions import VenCException
+                raise VenCException(("possible_malformed_entry", template_path, cause), context=template_path)
+            
+            import yaml
+            try:
+                parted[0] = yaml.dump(yaml.load(parted[0], Loader=yaml.FullLoader))
+                
+            except yaml.scanner.ScannerError as e:
+                from venc3.exceptions import VenCException
+                raise VenCException(("possible_malformed_entry",template_path, ''), context=template_path, extra=str(e))
+                
+            return "---VENC-BEGIN-PREVIEW---".join(parted)
+            
         except KeyError as e:
             from venc3.exceptions import MissingTemplateArguments
             raise MissingTemplateArguments(template_name, e)

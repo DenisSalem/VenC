@@ -56,7 +56,6 @@ class Entry:
                 self.content = PatternTree(entry_parted[2], filename, False if markup_language == "none" else True)
 
             else:
-                # TODO : make exception for the two below
                 from venc3.l10n import messages; 
                 cause = messages.missing_separator_in_entry.format("---VENC-END-PREVIEW---")
                 from venc3.exceptions import VenCException

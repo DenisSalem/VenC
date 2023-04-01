@@ -170,7 +170,7 @@ class DatastorePatterns:
             from venc3.datastore.metadata import Chapter
             return self.requested_entry.chapter.path if hasattr(self.requested_entry, "chapter") and type(self.requested_entry.chapter) == Chapter else ''
 
-    def get_entry_metadata(self, node, metadata_name):            
+    def get_entry_metadata(self, node, metadata_name):
         try:
             return str(getattr(self.requested_entry, metadata_name))
             

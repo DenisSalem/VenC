@@ -31,6 +31,9 @@ class Chapter:
         self.entry_id = entry.id
         self.path = path
         
+    def __str__(self):
+        return self.index
+        
 class MetadataNode:
     def __init__(self, value, entry_index, path="", weight_tracker = None):
         self.count = 1
