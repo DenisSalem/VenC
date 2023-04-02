@@ -131,6 +131,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries, JSONLD):
                         entry.chapter = top[-1]
                         
                     else:
+                        print(index)
                         top.append(
                             Chapter(index, None, '')
                         )

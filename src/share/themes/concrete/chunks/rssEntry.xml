@@ -1,0 +1,11 @@
+  <item>
+    <title>.:GetEntryTitle:.</title>
+    <link>.:GetBlogURL:./.:GetEntryPath:.</link>
+    <guid isPermaLink="true">.:GetBlogURL:./.:GetEntryPath:.</guid>
+    <pubDate>.:GetEntryDate::%a, %d %b %Y %H:%M:%S GMT:.</pubDate>
+    <description>
+    	<![CDATA[
+	.:GetEntryContent:.
+	]]>
+    </description>
+  </item>

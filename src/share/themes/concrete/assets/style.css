@@ -1,0 +1,68 @@
+body {
+    background-image: url('concrete.png');
+    background-position: center middle;
+    background-color: rgba(192,192,192,1);
+    font-family: Arial;
+}
+
+header {
+    width: 50%;
+    min-width: 800px;
+    display: box;
+    margin: auto;
+    font-weight: bold;
+}
+
+aside
+    {width: 25%;
+    display:block;
+    float: left;}
+
+hr
+  {border-top: 1px solid black;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  width: 90%;}
+  
+.entry h1
+    {text-align: center;}
+
+.entry
+  {display: block;
+  margin: auto;
+  width: 50%;
+  min-width: 800px;
+  margin-top: 0.5em;}
+
+.engrave
+    {color: rgba(0,0,0,0.8);
+    text-shadow: 0px 1px 0px rgba(255,255,255,0.8), 0px -1px 0px rgba(0,0,0,1);
+    text-decoration: none;}
+
+.engrave:hover
+    {text-shadow: 0px -1px 0px rgba(255,255,255,0.8), 0px 1px 0px rgba(0,0,0,1);
+    color: rgba(192,192,192,0.1);}
+    
+.title
+    {text-align: center;
+    letter-spacing: 5px;}
+.box
+    {border: 1px solid rgba(0,0,0,0.8);
+    background-color: rgba(255,255,255,1);
+    background-image: url('concrete.png');
+    box-shadow: 0px 3px 5px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.3) inset;}
+
+.hashtags li
+    {display: inline;
+    margin-left: 0.25em;
+    margin-right: 0.25em;}
+    
+.__VENC_OEMBED__
+    {display: block;
+    margin: auto;
+    text-align: center;}
+    
+#blog_categories
+    {width: 256px;
+    width: 90%;
+    margin: auto;
+    display: block;}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!-- Proudly generated with VenC-.:GetVenCVersion:. -->
+<html>
+    <head>
+        <title>.:GetBlogName:.</title>
+        <link rel="stylesheet" href=".:GetRelativeRoot:.style.css" type="text/css" >
+    </head>
+    <body>
+        <aside>
+        </aside>
+        <div>
+            <aside>
+                .:IfCategories::
+                <div class="box" id="blog_categories">
+                    <p class="engrave title"><b>CATEGORIES</b></p>
+                    .:IfBlogMetadataIsTrue::disable_hashtag::
+                    ::
+                        <hr>
+                        <ul class="hashtags">.:GetFlattenedBlogCategories::<li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>:: :.</ul>
+                    :.
+                    
+                    .:IfBlogMetadataIsTrue::disable_categories_tree::
+                    ::
+                        <hr>
+                        .:GetBlogCategoriesTree::<ul>::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>:.
+                    :.
+                </div>
+                :.
+            </aside>
+            <header class="box engrave title"><h1><a class="engrave" href=".:GetRelativeRoot:./">.:GetBlogName:.</a></h1></header>
