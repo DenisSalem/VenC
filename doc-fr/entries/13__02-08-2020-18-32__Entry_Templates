@@ -23,6 +23,7 @@ _Parmi ces templates, certains servent surtout à illustrer l'usage de certaines
 - __oEmbed__ : Permet de crée une publication avec du contenu acqui avec l'API [oEmbed](https://oembed.com/).
 - __images__ : Permet de crée une publication avec une ou plusieurs images.
 - __kroki__ : Permet de crée une publication embarquant un diagramme [Kroki](https://kroki.io/) en chargeant le code de celui-ci depuis un fichier dans le répertoire _includes_ de votre projet.
+- __pygmentize__ : Permet de créer une publication qui inclue du code source avec coloration syntaxique depuis un fichier dans le répertoire _includes_ de votre projet.
 
 Pour utiliser un template il suffit de passer son nom de fichier (sans le chemin)
 à VenC au moment de la création d'une nouvelle publication. Par exemple :
