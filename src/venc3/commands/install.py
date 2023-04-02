@@ -17,39 +17,10 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import shutil
-
-def print_themes(params):
-    import os
-    import yaml
-
-    themes_folder = os.path.expanduser('~')+"/.local/share/VenC/themes/"
-    for theme in os.listdir(themes_folder):
-        if "config.yaml" in os.listdir(themes_folder+theme) and not os.path.isdir(themes_folder+theme+"/config.yaml"):
-            config = yaml.load(
-                open(themes_folder+theme+"/config.yaml",'r').read(),
-                Loader=yaml.FullLoader
-            )
-            try:
-                description = config["info"]["description"]
-                                        
-            except KeyError:
-                from venc3.l10n import messages
-                description = messages.theme_has_no_description
-                
-            except TypeError:
-                from venc3.l10n import messages
-                description = messages.theme_has_no_description
-
-        else:
-            from venc3.l10n import messages
-            description = messages.theme_has_no_description
-
-        from venc3.prompt import msg_format
-        print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
-
 def install_theme(params):
+    import os
+    import shutil
+    
     if len(params):
         theme = params[0]
     else:

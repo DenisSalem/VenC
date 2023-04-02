@@ -125,16 +125,23 @@ class DatastorePatterns:
             return if_false
         
         if len(if_true):
-            if ok_if_null or len(value):
+            if ok_if_null or (value != None and len(str(value))):
                 return if_true.format(**{"value" : value,"{relative_origin}":"\x1a"})
                   
             else:
                 return if_false
         else:
             return value
+            
     def get_blog_metadata_if_not_null(self, node, field_name, if_true='', if_false='', ):
-        return self.get_blog_metadata_if_exists(node, field_name, if_true, if_false, ok_if_null=False)
-
+        try:
+            return self.get_blog_metadata_if_exists(node, field_name, if_true, if_false, ok_if_null=False)
+            
+        except Exception as e:
+            import traceback
+            print(e)
+            print(traceback.format_exc())
+            
     def get_entry_attribute_by_id(self, node, attribute, identifier):            
         key = attribute+identifier
         if not key in self.cache_get_entry_attribute_by_id.keys():
@@ -191,7 +198,7 @@ class DatastorePatterns:
         if string == '':
             return value
 
-        if len(value) or ok_if_null:
+        if ok_if_null or (value != None and len(value)):
             return string.format(**{"value" : value, "relative_origin": "\x1a"})
             
         else:

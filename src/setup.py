@@ -30,24 +30,24 @@ import sys
 dst_prefix = site.USER_BASE+'/' if ' '.join(sys.argv) == "./setup.py install --user" else ''
 
 dst_themes_path = dst_prefix+"share/VenC/themes/"
-# ~ src_themes_path = "share/themes/"
-# ~ themes = listdir(src_themes_path)
+src_themes_path = "share/themes/"
+themes = listdir(src_themes_path)
 
 extra_files = []
-# ~ for theme in themes:
-    # ~ for filename in listdir(src_themes_path+theme+'/'):
-        # ~ if isdir(src_themes_path+theme+'/'+filename):
-            # ~ dst = dst_themes_path+theme+'/'+filename
-            # ~ src_files = [src_themes_path+theme+'/'+filename+'/'+f for f in listdir(src_themes_path+theme+'/'+filename)]
+for theme in themes:
+    for filename in listdir(src_themes_path+theme+'/'):
+        if isdir(src_themes_path+theme+'/'+filename):
+            dst = dst_themes_path+theme+'/'+filename
+            src_files = [src_themes_path+theme+'/'+filename+'/'+f for f in listdir(src_themes_path+theme+'/'+filename)]
 
-        # ~ else:
-            # ~ dst = dst_themes_path+theme
-            # ~ src_files = [src_themes_path+theme+'/'+filename]
+        else:
+            dst = dst_themes_path+theme
+            src_files = [src_themes_path+theme+'/'+filename]
             
-        # ~ extra_files.append((
-            # ~ dst,
-            # ~ src_files
-        # ~ ))
+        extra_files.append((
+            dst,
+            src_files
+        ))
             
 extra_files.append(
     (

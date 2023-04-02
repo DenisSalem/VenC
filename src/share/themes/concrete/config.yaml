@@ -1,0 +1,4 @@
+info:
+    description : 'A demonstration theme of VenC capabilities.'
+override: null
+assets_dependencies: ['concrete.png']

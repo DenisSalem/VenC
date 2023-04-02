@@ -21,7 +21,7 @@ class VenCException(Exception):
     def __init__(self, message_format, context=None, extra=""):
         try:
             import traceback
-            self._traceback = "\n"+''.join(traceback.format_stack()[:-1])
+            self._traceback = "\n"+''.join(traceback.format_stack())
 
         except:
             self._traceback = None

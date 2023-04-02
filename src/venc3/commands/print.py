@@ -34,18 +34,10 @@ USAGE = \
     "-t\--themes" \
     "-ta\--template-arguments <\""+messages.arg_template_name+"\">"\
     
-    
-def version(params):
-    from venc3 import venc_version
-    print("VenC", venc_version)
-    import platform
-    print("Python", platform.python_version())
-
-
 # Will be removed and replaced by argparse
 def help(params):
     print(USAGE)
-    
+
 def template_arguments(params):
     from venc3.helpers import get_template
     from venc3.exceptions import VenCException, MissingTemplateArguments
@@ -77,3 +69,33 @@ def template_arguments(params):
           
         except VenCException as e:
             e.die()
+
+
+def print_themes(params):
+    import os
+    import yaml
+
+    themes_folder = os.path.expanduser('~')+"/.local/share/VenC/themes/"
+    for theme in os.listdir(themes_folder):
+        if "config.yaml" in os.listdir(themes_folder+theme) and not os.path.isdir(themes_folder+theme+"/config.yaml"):
+            config = yaml.load(
+                open(themes_folder+theme+"/config.yaml",'r').read(),
+                Loader=yaml.FullLoader
+            )
+            try:
+                description = config["info"]["description"]
+                                        
+            except KeyError:
+                from venc3.l10n import messages
+                description = messages.theme_has_no_description
+                
+            except TypeError:
+                from venc3.l10n import messages
+                description = messages.theme_has_no_description
+
+        else:
+            from venc3.l10n import messages
+            description = messages.theme_has_no_description
+
+        from venc3.prompt import msg_format
+        print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)

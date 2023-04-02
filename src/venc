@@ -26,12 +26,10 @@ import sys
 from venc3.commands.print import USAGE
 from venc3.l10n import locale_err;
 
-
 #import cProfile, pstats, io
 #pr = cProfile.Profile()
 #pr.enable()
 ## ... do something ...
-
 
 if locale_err:
     from venc3.helpers import notify
@@ -43,6 +41,7 @@ sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 parser = argparse.ArgumentParser(prog="VenC", usage="\n"+USAGE, add_help=False)
 parser.add_argument("-h", "--help", help="", action='store_const', const=".print")
 parser.add_argument("-v", "--version", help="", action='store_const', const=".print")
+parser.add_argument("-pt", "--print-themes", help="", action='store_const', const=".print")
 parser.add_argument("-ta", "--template-arguments", help="", action='store_const', const=".print")
 parser.add_argument("-nb", "--new-blog", help="", action='store_const', const=".new")
 parser.add_argument("-ne", "--new-entry", help="", action='store_const', const=".new")
@@ -50,7 +49,6 @@ parser.add_argument("-xb", "--export-blog", help="", action='store_const', const
 parser.add_argument("-ex", "--edit-and-export", help="", action='store_const', const=".export")
 parser.add_argument("-xftp", "--export-via-ftp", help="", action='store_const', const=".export")
 parser.add_argument("-rc", "--remote-copy", help="", action='store_const', const=".remote")
-parser.add_argument("-pt", "--print-themes", help="", action='store_const', const=".install")
 parser.add_argument("-it", "--install-theme", help="", action='store_const', const=".install")
 parser.add_argument("-s", "--serv", help="", action='store_const', const=".serv")
 parser.add_argument('params', nargs='*')
