@@ -65,12 +65,15 @@ def template_arguments(params):
                 notify(("this_template_has_no_arguments",))
                 
             else:
-                print(template_arguments)
+                for arg in template_arguments.keys():
+                    template = template.replace(arg, '\033[92m{'+template_arguments[arg]+'}\033[0m')
+                    
+                print(template)
     
             break
             
         except MissingTemplateArguments as e:
-            template_arguments[str(e.key_error)[1:-1]] = ''
+            template_arguments[str(e.key_error)[1:-1]] = str(e.key_error)[1:-1]
           
         except VenCException as e:
             e.die()
