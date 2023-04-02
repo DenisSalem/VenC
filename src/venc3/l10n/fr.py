@@ -107,7 +107,7 @@ class Messages:
     current_entry_is_overriding_the_following = "La publication #{0} écrase les publications suivantes:\n{1}"
     argument_does_not_match_with_any_entries_subset="L'argument ne correspond à aucun sous ensemble de publication."
     pattern_recursion_error= "Erreur de récursion dans le motif \"{0}\", la fonction s'appelle trop de fois."
-    the_following_is_overriden = "Le paramètre \"{0}\" est par la valeur suivante\"{1}\" depuis {2}."
+    the_following_is_overriden = "Le paramètre \"{0}\" est remplacé par \"{1}\" depuis {2}."
     full_documentation_there = "Documentation complète ici: {0}."
     exception_place_holder = "{0}"
     categories_parse_error = "Categories mal construite: {0} ne fait pas référence à une liste."
@@ -115,6 +115,7 @@ class Messages:
     you_cannot_use_this_pattern_here = "Vous ne pouvez pas utiliser le motif {0} dans \"{1}\"."
     this_template_need_the_following_argument = "Le template \"{0}\" requier que l'agument {1} soit défini."
     this_template_has_no_arguments = "Ce template n'a pas d'arguments."
+    field_is_not_of_type = "Le champ \"{0}\" dans {1} n'est pas du type {2}."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."

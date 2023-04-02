@@ -18,7 +18,6 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 theme_assets_dependencies = list()
-theme_includes_dependencies = list()
 theme = None
 
 class Theme:
@@ -92,34 +91,33 @@ def init_theme(theme_name=''):
     if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(themes_folder+"/config.yaml"):
         import yaml
         config = yaml.load(open(theme_folder+"/config.yaml",'r').read(), Loader=yaml.FullLoader)
-        if "override" in config.keys() and type(config["override"]) == dict:
-            from venc3.datastore import datastore
+        if "override" in config.keys():
             from venc3.prompt import notify
-            for param in config["override"].keys():
-                notify(
-                  (
-                      "the_following_is_overriden",
-                      param,
-                      config["override"][param],
-                      theme_folder+"/config.yaml"
-                  ),
-                  color="YELLOW"
-                )
-
-                if type(config["override"][param]) == dict and param in datastore.blog_configuration.keys() and type(datastore.blog_configuration[param]) == dict:
-                    datastore.blog_configuration[param].update(config["override"][param])
+            if type(config["override"]) == dict:
+                from venc3.datastore import datastore
+                for param in config["override"].keys():
+                    notify(
+                      (
+                          "the_following_is_overriden",
+                          param,
+                          config["override"][param],
+                          theme_folder+"config.yaml"
+                      ),
+                      color="YELLOW"
+                    )
+    
+                    if type(config["override"][param]) == dict and param in datastore.blog_configuration.keys() and type(datastore.blog_configuration[param]) == dict:
+                        datastore.blog_configuration[param].update(config["override"][param])
+                    
+                    else:
+                        datastore.blog_configuration[param] = config["override"][param]
+            else:
+                notify(("field_is_not_of_type", "override", "config.yaml", "dict"), color="YELLOW")
                 
-                else:
-                    datastore.blog_configuration[param] = config["override"][param]
 
         if "assets_dependencies" in config.keys() and type(config["assets_dependencies"]) == list:
             global theme_assets_dependencies
-            theme_assets_dependencies = config["assets_dependencies"]
-            
-        if "includes_dependencies" in config.keys() and type(config["includes_dependencies"]) == list:
-            global theme_includes_dependencies
-            for include_file in config["includes_dependencies"]:
-                theme_includes_dependencies.append(include_file)
+            theme_assets_dependencies += [str(item) for item in config["assets_dependencies"] if len(str(item))]
                 
     global theme
     theme = Theme(theme_folder)

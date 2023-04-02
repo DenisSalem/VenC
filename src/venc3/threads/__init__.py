@@ -326,6 +326,7 @@ class Thread:
         self.columns_counter = 0
         for column in self.columns:
             self.output += self.column_opening.format(self.columns_counter)+column+self.column_closing
+            self.columns_counter+=1
                   
         footer = deepcopy(self.footer)
         self.processor.process(footer, Pattern.FLAG_CONTEXTUAL)

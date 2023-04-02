@@ -45,7 +45,8 @@
     TODO | https://pypi.org/project/pylint/
     TODO | Optionnaly Agregate ToC with chapter tree.
     TODO | Add in blog_configuration max_width and max_height for oEmbed content, add specific configuration per providers.
-
+    TODO | Add post-generation warning information. For example calling GetEntryPath while single entry pages is disabled should not be silent.
+    
 # version 3.1.0
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.

@@ -107,7 +107,7 @@ class Messages:
     current_entry_is_overriding_the_following = "Entry #{0} is overriding the following entries:\n{1}"
     argument_does_not_match_with_any_entries_subset="Argument does not match with any entries subset."
     pattern_recursion_error="Recursion error in pattern \"{0}\", function is calling itself too many times."
-    the_following_is_overriden = "Setting identified by \"{0}\" is overriden by the following value \"{1}\" from {2}." 
+    the_following_is_overriden = "Setting identified by \"{0}\" is overriden by \"{1}\" from {2}." 
     full_documentation_there = "Full documentation there: {0}."
     exception_place_holder = "{0}"
     categories_parse_error = "Categories are wrongly defined: {0} do not refer to a list."
@@ -115,6 +115,8 @@ class Messages:
     you_cannot_use_this_pattern_here = "You cannot use the pattern {0} in \"{1}\"."
     this_template_need_the_following_argument = "Template \"{0}\" need argument {1} to be defined."
     this_template_has_no_arguments = "this template has no arguments."
+    field_is_not_of_type = "Field \"{0}\" in {1} is not a {2}."
+
     # Will not be hooked by l10n_cleanup
     generating_rss = "Generating RSS feed..."
     generating_atom = "Generating Atom feed..."
