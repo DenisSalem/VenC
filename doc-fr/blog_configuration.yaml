@@ -7,13 +7,12 @@ blog_language: fr
 blog_name: VenC
 blog_url: https://denissalem.tuxfamily.org/VenC
 code_highlight_css_override: false
-columns: 1
 date_format: '%A %d. %B %Y'
 disable_archives: true
 disable_atom_feed: true
-disable_categories: true
+disable_categories: false
 disable_chapters: false
-disable_main_thread: true
+disable_main_thread: false
 disable_rss_feed: true
 disable_single_entries: true
 disable_threads: null
@@ -45,3 +44,4 @@ sort_by: chapter
 text_editor:
   - geany
   - -i
+columns: 1

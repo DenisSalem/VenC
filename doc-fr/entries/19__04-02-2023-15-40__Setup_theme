@@ -7,9 +7,8 @@ chapter: 3.6.1
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-Lorsque vous créez votre thème si vous souhaitez le distribuer ou alléger
-votre fichier de configuration par défaut il est possible et même recommandé de configurer
-le fichier _config.yaml_ dans le répertoire racine du thème.
+Lorsque vous créez votre thème, et si vous souhaitez le distribuer, il est possible et même recommandé de configurer
+le fichier _config.yaml_ dans le répertoire racine de votre thème.
 
 Comme le nom de fichier le laisse penser, il s'agit d'un fichier de configuration au format [YAML](https://yaml.org/).
 Celui-ci est structuré de la façon suivante :
@@ -22,4 +21,3 @@ Celui-ci est structuré de la façon suivante :
     - __author__ : optionnel. Indique le ou les auteurs du thème.
 - __override__ : Ce champ est optionnel et contient les propriétés remplaçant ou s'ajoutant au fichier de configuration principal. Typiquement, un thème qui fonctionne avec trois colonnes, par exemple, devra inclure le champ 'columns' ayant la valeur 3.
 - __.:DisableMarkup::assets_dependencies:.__ : il s'agit d'une liste contenant les assets (images, feuilles de styles, scripts) contenu dans .:DisableMarkup::~/.local/share/VenC/themes_assets:.. C'est notamment utile pour inclure des modules VenC Javascript.
-- __.:DisableMarkup::includes_dependencies:.__ : comme pour le champ précédent, il s'agit d'une liste contenant des noms de fichiers. Il s'agit de fichiers HTML à inclure avec __.:Escape:: .:IncludeFile:: ... :. ::EndEscape:.__. Ces fichiers sont installés par défaut avec VenC et se trouve dans .:DisableMarkup::~/.local/share/VenC/themes_includes:..
