@@ -244,6 +244,7 @@ class Processor:
                 chunk = self.functions[pattern_name](pattern, *args)
                 
             except TypeError as e:
+                print(e)
                 from venc3.exceptions import WrongPatternArgumentsNumber
                 raise WrongPatternArgumentsNumber(pattern, pattern.root, self.functions[pattern_name], args)
             

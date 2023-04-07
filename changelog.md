@@ -51,6 +51,7 @@
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
     ???  | Disable jsonld until cient side search-engine is ready ?
+    DONE | FIx many bugs.
     DONE | Add entry_id metadata to Chapter.
     DONE | Fix chapter index acquisition with GetEntryMetadata.
     DONE | Refactor datastore for code clarity.

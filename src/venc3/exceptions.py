@@ -80,7 +80,8 @@ class VenCException(Exception):
             len_before = len(patterns)
             
         if type(highlight) == Pattern:
-            faulty_pattern =  ".:"+("::".join(highlight.payload))+":."
+            from venc3.patterns.non_contextual import escape
+            faulty_pattern =  ".:"+highlight.payload[0]+"::"+escape(highlight)+":."
             self.extra = self.extra.replace(faulty_pattern, '\033[91m' + faulty_pattern + '\033[0m')
             
     def __apply_flatten(self, pattern):
@@ -148,8 +149,14 @@ class WrongPatternArgumentsNumber(VenCException):
       def __init__(self, pattern, string_under_processing, function, args):
         from inspect import signature
         sig = signature(function)
+        mandatory_count = 0
+        for p in sig.parameters.keys():
+            if str(p) != 'pattern' and not '=' in str(sig.parameters[p]):
+                mandatory_count += 1
+                
         super().__init__(
-            ("wrong_args_number", len(sig.parameters)-1, len(args)),
-            pattern
+            ("wrong_args_number", mandatory_count, len(args)),
+            pattern,
         )
+        
         self.extra = string_under_processing.string

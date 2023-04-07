@@ -431,16 +431,16 @@ class DatastorePatterns:
 
         return self.cache_blog_archives[key]
 
-    def for_blog_metadata(self, node, metadata_name, string, separator):
-        return self.for_blog_metadata_if_exists(node, metadata_name, string, separator, raise_exception=True)
+    def for_blog_metadata(self, pattern, metadata_name, string, separator=''):
+        return self.for_blog_metadata_if_exists(pattern, metadata_name, string, separator, raise_exception=True)
 
-    def for_blog_metadata_if_exists(self, node, metadata_name, string, separator, raise_exception=False):
+    def for_blog_metadata_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):
         key = metadata_name+','+string+','+separator+','+str(raise_exception)
         if not key in self.html_for_metadata:
             if not metadata_name in self.blog_configuration.keys():
                 if raise_exception:
                     from venc3.exceptions import VenCException
-                    raise VenCException(("blog_has_no_metadata_like", metadata_name), node)
+                    raise VenCException(("blog_has_no_metadata_like", metadata_name), pattern)
                     
                 self.html_for_metadata[key] = ""
                 return ""
@@ -448,18 +448,18 @@ class DatastorePatterns:
             if type(self.blog_configuration[metadata_name]) != list:
                 if raise_exception:
                     from venc3.exceptions import VenCException
-                    raise VenCException(("blog_metadata_is_not_a_list", metadata_name), node)
+                    raise VenCException(("blog_metadata_is_not_a_list", metadata_name), pattern)
                     
                 self.html_for_metadata[key] = ""
                 
-            self.html_for_metadata[key] = merge([{"value": v} for v in self.blog_configuration[metadata_name]], string, separator, node)
+            self.html_for_metadata[key] = merge([{"value": v} for v in self.blog_configuration[metadata_name]], string, separator, pattern)
         
         return self.html_for_metadata[key]
 
-    def for_entry_metadata(self, pattern, variable_name, string, separator):
+    def for_entry_metadata(self, pattern, variable_name, string, separator=''):
         return self.for_entry_metadata_if_exists(pattern, variable_name, string, separator, raise_exception=True)
 
-    def for_entry_metadata_if_exists(self, node, variable_name, string, separator, raise_exception=False):        
+    def for_entry_metadata_if_exists(self, node, variable_name, string, separator='', raise_exception=False):        
         entry = self.requested_entry
         key = variable_name+string+separator
             

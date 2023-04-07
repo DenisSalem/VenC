@@ -168,11 +168,11 @@ def table(node, *argv):
 def escape_walk(root, node):
     for pattern in node.sub_patterns[::-1]:
         escape_walk(root, pattern)
-        node.payload[pattern.payload_index][:pattern.o]+".:"+("::".join(pattern.payload))+":."+node.payload[pattern.payload_index][pattern.c:]
+        node.payload[pattern.payload_index] = node.payload[pattern.payload_index][:pattern.o] +".:"+("::".join(pattern.payload))+":."+ node.payload[pattern.payload_index][pattern.c:]
     
     if root == node:
         node.sub_patterns = []
-        return "::".join(pattern.payload)
+        return "::".join(root.payload[1:])
     
-def escape(node, *string):
-    return escape_walk(node, node)
+def escape(pattern, *string):
+    return escape_walk(pattern, pattern)
