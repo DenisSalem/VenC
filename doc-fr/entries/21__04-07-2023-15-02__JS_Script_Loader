@@ -1,0 +1,44 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: JS Script Loader
+chapter: 3.6.2.1
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Avant tout chose, il convient de prendre connaissance du chargeur de script.
+
+Dans le cas où vous souhaiteriez écrire votre script pour un thème de
+votre confection, il est __fortement__ recommandé de l'exécuter à l'aide
+de __VenC-Scripts-Bootstrap-x.y.z.js__ (x.y.z étant la version disponible
+avec la distribution de VenC que vous possédez).
+
+Ce script déclenche l'effet des modules JS quand la page est chargée.
+
+.:CodeHighlight::Javascript::False::var VENC_ON_LOAD_CALLBACK_REGISTER = [];
+
+function VENC_ON_LOAD_CALLBACK() {
+    var i;
+    for (i = 0; i < VENC_ON_LOAD_CALLBACK_REGISTER.length; i++) {
+        VENC_ON_LOAD_CALLBACK_REGISTER[i]();
+    }
+}
+
+window.onload = VENC_ON_LOAD_CALLBACK:.
+
+Pour fonctionner, __VenC-Scripts-Bootstrap-x.y.z.js__ doit être le
+premier script appelé dans votre page.
+
+.:CodeHighlightInclude::html::False::js_loader_example:.
+
+Ce module définit la variable **VENC&#95;ON&#95;LOAD&#95;CALLBACK&#95;REGISTER**
+accessible depuis les autres scripts que vous importez dans votre page.
+Il s'agit d'une liste de callbacks s'exécutant quand __window.onload__ est
+appelé.
+
+Typiquement, à la fin de votre script, pour que son effet se déclenche,
+ajoutez votre callback comme ci-dessous :
+
+.:CodeHighlight::Javascript::False::
+VENC_ON_LOAD_CALLBACK_REGISTER.push(LE_CALLBACK_DE_MON_SUPER_MODULE_JS);
+:.

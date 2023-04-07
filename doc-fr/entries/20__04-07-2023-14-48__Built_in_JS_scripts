@@ -1,0 +1,15 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Modules JavaScript
+chapter: 3.6.2
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+VenC fournit quelques modules Javascript pour vous aider à mettre en page votre contenu,
+Ces scripts sont installé dans
+
+> ~/.local/share/VenC/themes_assets
+
+Ce chapitre présente ces modules et en explique le fonctionnement.
+
