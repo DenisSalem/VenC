@@ -7,6 +7,13 @@
         <link rel="stylesheet" href=".:GetRelativeRoot:.style.css" type="text/css" >
         <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Scripts-Bootstrap-0.0.0.js"></script>
         .:ForBlogMetadataIfExists::custom_scripts::<script type="text/javascript" src=".:GetRelativeRoot:.{value}"></script>:.
+        .:IfInfiniteScrollEnabled::
+            .:IfInThread::
+                <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Infinite-Scroll-1.2.0.js"></script>
+            ::
+        
+            :.
+        :.
     </head>
     <body>
         <aside>

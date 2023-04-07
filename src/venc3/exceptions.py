@@ -81,7 +81,7 @@ class VenCException(Exception):
             
         if type(highlight) == Pattern:
             from venc3.patterns.non_contextual import escape
-            faulty_pattern =  ".:"+highlight.payload[0]+"::"+escape(highlight)+":."
+            faulty_pattern =  ".:"+highlight.payload[0]+("::" if len(highlight.payload[1:]) else "")+escape(highlight)+":."
             self.extra = self.extra.replace(faulty_pattern, '\033[91m' + faulty_pattern + '\033[0m')
             
     def __apply_flatten(self, pattern):
