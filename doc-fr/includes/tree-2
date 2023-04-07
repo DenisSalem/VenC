@@ -1,0 +1,25 @@
+<!-- TreeForBlogCategories (TreeForEntryCategories run similarly) -->
+<div class="__VENC_TREE_ROOT__">
+    .:TreeForBlogCategories::
+        <ul class="__VENC_TREE_NODE__">
+    ::
+        <li><a href="{path}" title="{count} publications">{value}</a>
+    ::
+        {childs}</li>
+    ::
+        </ul>
+    :.
+</div>
+
+<!-- GetChapters -->
+<div class="__VENC_TREE_ROOT__">
+    .:GetChapters::
+        <ul class="chapter-level-{level} __VENC_TREE_NODE__">
+    ::
+        <li>{index}. <a href="{path}">{title}</a>
+    ::
+        </li>
+    ::
+        </ul>
+    :.
+</div>

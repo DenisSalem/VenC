@@ -1,0 +1,9 @@
+<script type="text/javascript" src=".:GetRelativeRoot:.VenC-Scripts-Bootstrap-x.y.z.js"></script>
+
+.:IfInfiniteScrollEnabled::
+    .:IfInThread::
+        <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Infinite-Scroll-x.y.z.js"></script>
+    ::
+
+    :.
+:.

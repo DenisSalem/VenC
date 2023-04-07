@@ -1,0 +1,4 @@
+<script type="text/javascript" src=".:GetRelativeRoot:.VenC-Scripts-Bootstrap-x.y.z.js"></script>
+.:IfCategories::
+    <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Tree-x.y.z.js"></script>
+:.

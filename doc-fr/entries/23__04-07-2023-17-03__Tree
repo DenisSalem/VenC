@@ -1,0 +1,101 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Arbre
+chapter: 3.6.2.3
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Ce module Javascript permet d'animer et de condenser une liste hiérarchique de catégories
+ou une table des matières qui auraient été générés avec un pattern VenC.
+
+En effet, si la liste d'éléments contenue dans l'un de ces types d'objets
+est très longue, ce peut être visuellement rédhibitoire. Ce module
+permet donc de plier/déplier les sous-parties d'une liste.  
+
+## Inclure le module arbre dans votre page.
+
+Pour pouvoir utiliser ce module, vous devez inclure dans le fichier
+__header.html__ de votre thème deux scripts : 
+
+- __VenC-Scripts-Bootstrap-x.y.z.js__ : ce script est obligatoire pour faire
+fonctionner n'importe quel module.
+- __VenC-Tree-x.y.z.js__ : il s'agit du script permettant d'animer un arbre d'éléments.
+Il doit être inclus __après__ VenC-Scripts-Bootstrap.
+
+Une bonne façon de faire est d'inclure ces deux scripts de la façon
+suivante : 
+
+.:CodeHighlightInclude::html::False::tree-1:.
+
+Dans cet example, on supose que l'on souhaite appliquer le module à une
+liste hiérarchique de catégories. On utilise donc le pattern __IfCategories__ pour
+n'inclure le module que si c'est nécessaire. Si l'on avait souhaité
+utiliser le module pour rendre interactif une table des matières, on
+aurait utilisé le pattern __IfChapters__.
+
+Précisons également que si vous n'avez pas prévu d'utiliser d'autre module
+que __VenC-Tree-x.y.z.js__ dans votre thème, vous pouvez passer la ligne
+d'inclusion de __VenC-Bootstrap-x.y.z.js__ en paramètre de __IfCategories__
+ou __IfChapters__.
+
+## Inclure le module arbre dans votre thème.
+
+Il y a deux façon de procéder :
+
+- Vous pouvez copier le module et sa dépendance dans le répertoire assets
+de votre thème depuis __~/.local/share/VenC/themes_assets__. C'est cette méthode qui est recommandée si vous souhaitez distribuer votre thème.
+- Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::3.6.1:.)
+dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
+voir être exportés pendant la génération de votre blog.
+
+## Structure d'une liste hiérarchique
+
+Dans la pratique, vous souhaitez appliquer le module arbre à des listes hiérarchiques générées par VenC ; soit avec
+le pattern __[GetChapters](TODO)__
+ou __[TreeForBlogCategories](TODO)__.
+
+Commençons par observer que l'utilisation de ces deux patterns présentent des similarités :
+
+.:CodeHighlightInclude::html::False::tree-2:.
+
+Entre autres choses, dans l'un ou l'autre pattern :
+
+- Le premier argument contient toujours le tag __&lt;ul&gt;__ ouvrant le nœud courant.
+- Le second argument contient toujours le tag __&lt;li&gt;__ ouvrant de la branche courante.
+- Le troisième argument contient toujours le tag __&lt;/li&gt;__ fermant de la branche courante.
+- Le quatrième argument contient toujours le tag __&lt;/ul&gt;__ fermant le nœud courant.
+
+En particulier, pour que le module arbre fonctionne sur les listes hiérarchiques ciblées :
+
+- Le pattern générant la liste hiérarchique est toujours contenu dans un élément ayant la classe __&#95;&#95;VENC&#95;TREE&#95;ROOT&#95;&#95;___
+- L'élément __&lt;ul&gt;__ a toujours au moins une classe __&#95;&#95;VENC&#95;TREE&#95;NODE&#95;&#95;___
+
+## Personnaliser le module arbre
+
+Chaque élément d'une liste hiérarchique se voit assigner un petit bouton qu'il est possible de définir soi-même.
+
+- Pour un élément dépliable, par défaut le bouton est le caractère __+__.
+- Pour un élément repliable, par défaut le bouton est le caractère __-__.
+- Pour un élement qui n'est ni dépliable, ni repliable, par défaut le bouton est __○__ et n'est pas cliquable.
+
+Vous n'êtes pas obligé de définir un caractère, ce peut être du texte, ou des éléments HTML.
+
+L'API définit une variable globale appelé VENC_TREE.
+
+.:CodeHighlight::Javascript::False::var VENC_TREE = {
+    button_show: '+',
+    button_hide: '-',
+    button_disabled: '○'
+}:.
+
+Vous pouvez assigner la valeur que vous souhaitez à l'un de ses trois attributs de la façon suivante : 
+
+.:CodeHighlight::html::False::
+<script type="text/javascript">
+    VENC_TREE.button_disabled = '';
+</script>
+:.
+
+La redéfinition des attributs de __VENC&#95;TREE__ doit se faire __après__ avoir
+inclut dans votre page __VenC-Tree-x.y.z.js__ et sa dépendance.
