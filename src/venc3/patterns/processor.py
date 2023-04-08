@@ -61,6 +61,7 @@ class Pattern:
         self.o, self.c = o, c
         self.root = root
         self.payload = s[o+2:c-2].split('::')
+
         self.sub_patterns = sub_patterns
         offset = o + len(self.payload[0]) + 4
         limit = offset
@@ -117,7 +118,7 @@ class PatternTree:
         for pattern in self.sub_patterns:
             pattern.parent = self
             pattern.payload_index = 0
-            
+
         for pattern in self.unknown_patterns:
             if type(pattern.parent) == PatternTree or pattern.parent.payload[0] != "Escape":
                 from venc3.exceptions import UnknownPattern

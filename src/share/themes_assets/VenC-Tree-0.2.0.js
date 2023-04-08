@@ -21,7 +21,7 @@ var VENC_TREE = {
     button_show: '+',
     button_hide: '-',
     button_disabled: '○',
-    ul_style: function(ul) { }
+    ul_style: function(ul) {}
 }
 
 function VENC_TREE_SWITCH_NODE_VISIBILIY(button) {
