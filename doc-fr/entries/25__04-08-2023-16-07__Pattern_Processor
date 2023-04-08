@@ -1,0 +1,14 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Pattern Processor
+chapter: 4
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+VenC utilise un moteur de reconnaissance de _motif_ permettant une mise en page facilitée et automatisée, notamment quand vous souhaitez réaliser votre propre design pour votre site.
+Il s'agit en quelque sorte d'un langage de balisage spécifique à VenC. Un _motif_ est en fait une fonction pouvant prendre des paramètres. Quand VenC rencontre un _motif_
+il exécute la fonction qui lui est associé et retourne une chaine de caractères formatée. Typiquement, les _motifs_ permettent d'accéder aux données du blog ou de faire de la
+mise en page spécifique pour faire, par exemple, un menu déroulant ou une barre de navigation.
+
+Les _motifs_ pouvant être utilisés dépendent du __contexte__ dans lequel ils sont lu par VenC. La notion de _contexte_ sera expliqué dans les chapitres suivant.
