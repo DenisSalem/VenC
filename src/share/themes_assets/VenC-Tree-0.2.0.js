@@ -20,7 +20,8 @@
 var VENC_TREE = {
     button_show: '+',
     button_hide: '-',
-    button_disabled: '○'
+    button_disabled: '○',
+    ul_style: function(ul) { }
 }
 
 function VENC_TREE_SWITCH_NODE_VISIBILIY(button) {
@@ -103,8 +104,7 @@ function VENC_TREE_NODE_HAS(node, target) {
     return false
 }
 
-function VENC_TREE_ON_LOAD() {
-    
+function VENC_TREE_ON_LOAD() {    
     // Unhide current branch
     path_hrefs = document.getElementsByClassName("__VENC_TREE_PATH__");
     path_href = undefined
@@ -152,6 +152,12 @@ function VENC_TREE_ON_LOAD() {
             }
         })
     })
+    
+    // Apply style
+    tree_nodes = document.getElementsByClassName("__VENC_TREE_NODE__");
+    for (i = 0; i < tree_nodes.length; i++) {
+        VENC_TREE.ul_style(tree_nodes[i]);    
+    }
 }
 
 VENC_ON_LOAD_CALLBACK_REGISTER.push(VENC_TREE_ON_LOAD);

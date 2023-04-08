@@ -13,6 +13,13 @@
             ::
         
             :.
+            <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Tree-0.2.0.js"></script>
+            <script type="text/javascript">
+                VENC_TREE.ul_style = function(ul) {
+                    ul.style.listStyleType = "none";
+                }
+            </script>
+
         :.
     </head>
     <body>
@@ -32,7 +39,7 @@
                     .:IfBlogMetadataIsTrue::disable_categories_tree::
                     ::
                         <hr>
-                        .:GetBlogCategoriesTree::<ul>::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>:.
+                        <div class="__VENC_TREE_ROOT__">.:GetBlogCategoriesTree::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>:.</div>
                     :.
                 </div>
                 :.

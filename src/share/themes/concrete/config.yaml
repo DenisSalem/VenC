@@ -4,3 +4,4 @@ assets_dependencies:
   - 'concrete.png'
   - 'VenC-Scripts-Bootstrap-0.0.0.js'
   - 'VenC-Infinite-Scroll-1.2.0.js'
+  - 'VenC-Tree-0.2.0.js'

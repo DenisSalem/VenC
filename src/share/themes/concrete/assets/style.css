@@ -1,6 +1,6 @@
 body {
     background-image: url('concrete.png');
-    background-position: center middle;
+    background-position: center;
     background-color: rgba(192,192,192,1);
     font-family: Arial;
 }
@@ -33,12 +33,12 @@ hr
   min-width: 800px;
   margin-top: 0.5em;}
 
-.engrave
+.engrave, .__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_DISABLED__, .__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_HIDE__
     {color: rgba(0,0,0,0.8);
     text-shadow: 0px 1px 0px rgba(255,255,255,0.8), 0px -1px 0px rgba(0,0,0,1);
     text-decoration: none;}
 
-.engrave:hover
+.engrave:hover, .__VENC_TREE_BUTTON_SHOW__:hover, .__VENC_TREE_BUTTON_DISABLED__:hover, .__VENC_TREE_BUTTON_HIDE__:hover
     {text-shadow: 0px -1px 0px rgba(255,255,255,0.8), 0px 1px 0px rgba(0,0,0,1);
     color: rgba(192,192,192,0.1);}
     
@@ -61,8 +61,14 @@ hr
     margin: auto;
     text-align: center;}
     
+.__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_DISABLED__, .__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_HIDE__
+    {margin-right: 1em;}
+    
 #blog_categories
     {width: 256px;
     width: 90%;
     margin: auto;
     display: block;}
+    
+#blog_categories ul
+    
