@@ -73,21 +73,22 @@ En particulier, pour que le module arbre fonctionne sur les listes hiérarchique
 
 ## Personnaliser le module arbre
 
-Chaque élément d'une liste hiérarchique se voit assigner un petit bouton qu'il est possible de définir soi-même.
-
-- Pour un élément dépliable, par défaut le bouton est le caractère __+__.
-- Pour un élément repliable, par défaut le bouton est le caractère __-__.
-- Pour un élement qui n'est ni dépliable, ni repliable, par défaut le bouton est __○__ et n'est pas cliquable.
-
-Vous n'êtes pas obligé de définir un caractère, ce peut être du texte, ou des éléments HTML.
-
 L'API définit une variable globale appelé VENC_TREE.
 
 .:CodeHighlight::Javascript::False::var VENC_TREE = {
     button_show: '+',
     button_hide: '-',
-    button_disabled: '○'
+    button_disabled: '○',
+    ul_style: function(ul) {}
 }:.
+
+Chaque élément d'une liste hiérarchique se voit assigner un petit bouton qu'il est possible de définir soi-même.
+
+- Pour un élément dépliable, par défaut le bouton est le caractère __+__ et est définit dans *button_show*.
+- Pour un élément repliable, par défaut le bouton est le caractère __-__ et est définit dans *button_hide*.
+- Pour un élement qui n'est ni dépliable, ni repliable, par défaut le bouton est __○__ et n'est pas cliquable. Ce bouton est définit dans *button_disabled*.
+
+Vous n'êtes pas obligé de définir un caractère, ce peut être du texte, ou des éléments HTML.
 
 Vous pouvez assigner la valeur que vous souhaitez à l'un de ses trois attributs de la façon suivante : 
 
@@ -97,5 +98,15 @@ Vous pouvez assigner la valeur que vous souhaitez à l'un de ses trois attributs
 </script>
 :.
 
+Il est également possible de reféfinir complétement le style CSS des listes ayant la classe **.:DisableMarkup::__VENC_TREE_NODE__:.** avec *ul_style*. Par exemple :
+
+.:CodeHighlight::html::False::
+<script type="text/javascript">
+    VENC_TREE.ul_style = function(ul) {
+        ul.style.listStyleType = "none";
+    }
+</script>
+:.
+
 La redéfinition des attributs de __VENC&#95;TREE__ doit se faire __après__ avoir
-inclut dans votre page __VenC-Tree-x.y.z.js__ et sa dépendance.
+inclut dans votre page __VenC-Tree-x.y.z.js__.

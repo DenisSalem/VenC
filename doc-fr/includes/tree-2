@@ -1,6 +1,6 @@
 <!-- TreeForBlogCategories (TreeForEntryCategories run similarly) -->
 <div class="__VENC_TREE_ROOT__">
-    .:TreeForBlogCategories::
+    .:GetBlogCategoriesTree::
         <ul class="__VENC_TREE_NODE__">
     ::
         <li><a href="{path}" title="{count} publications">{value}</a>
