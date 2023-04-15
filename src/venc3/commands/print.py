@@ -99,3 +99,9 @@ def print_themes(params):
 
         from venc3.prompt import msg_format
         print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
+
+def version(params):
+    from venc3 import venc_version
+    print("VenC", venc_version)
+    import platform
+    print("Python", platform.python_version())
