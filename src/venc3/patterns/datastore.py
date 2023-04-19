@@ -147,7 +147,6 @@ class DatastorePatterns:
         if not key in self.cache_get_entry_attribute_by_id.keys():
             try:
                 entry = [entry for entry in self.entries if entry.id == int(identifier)][0]
-                print(entry)
                 self.cache_get_entry_attribute_by_id[key] = getattr(entry, attribute)
             
             except ValueError:
