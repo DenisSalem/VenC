@@ -147,6 +147,7 @@ class DatastorePatterns:
         if not key in self.cache_get_entry_attribute_by_id.keys():
             try:
                 entry = [entry for entry in self.entries if entry.id == int(identifier)][0]
+                print(entry)
                 self.cache_get_entry_attribute_by_id[key] = getattr(entry, attribute)
             
             except ValueError:
@@ -155,7 +156,7 @@ class DatastorePatterns:
                 
             except AttributeError as e:
                 from venc3.exceptions import VenCException
-                raise VenCException(("entry_has_no_metadata_like", argv[0]), node)
+                raise VenCException(("entry_has_no_metadata_like", attribute), node)
 
             except IndexError:
                 from venc3.exceptions import VenCException
