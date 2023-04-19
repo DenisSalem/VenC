@@ -116,6 +116,7 @@ class Messages:
     this_template_need_the_following_argument = "Template \"{0}\" need argument {1} to be defined."
     this_template_has_no_arguments = "this template has no arguments."
     field_is_not_of_type = "Field \"{0}\" in {1} is not a {2}."
+    chapter_has_no_entry = "Chapter {0} doesn't match any entry."
 
     # Will not be hooked by l10n_cleanup
     generating_rss = "Generating RSS feed..."

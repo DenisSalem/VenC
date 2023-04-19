@@ -131,11 +131,9 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries, JSONLD):
                         entry.chapter = top[-1]
                         
                     else:
-                        print(index)
-                        top.append(
-                            Chapter(index, None, '')
-                        )
-                        top = top[-1].sub_chapters
+                        from venc3.prompt import notify
+                        notify(("chapter_has_no_entry", index), color="YELLOW")
+                        
     
     def build_entry_html_toc(self, entry, open_ul, open_li, content_format, close_li, close_ul):
         output = ""
