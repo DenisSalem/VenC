@@ -67,10 +67,15 @@ class Pattern:
         limit = offset
         i = 0
         payload_index = 1
-       
         len_sub_patterns = len(sub_patterns)
-        for item in self.payload[1:]:
-            limit += len(item)
+        
+        # Is there an embed sub_pattern in
+        if len(sub_patterns) and sub_patterns[0].o > o and sub_patterns[0].c < offset:
+            from venc3.exceptions import VenCException
+            raise VenCException(("this_pattern_is_embed_in_the_name_of_another_one", sub_patterns[0].payload[0]), sub_patterns[0])
+        
+        for arg in self.payload[1:]:
+            limit += len(arg)
             while i < len_sub_patterns and sub_patterns[i].o < limit:
                 sub_pattern = sub_patterns[i]
                 sub_pattern.o -= offset

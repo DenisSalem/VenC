@@ -117,6 +117,7 @@ class Messages:
     this_template_has_no_arguments = "this template has no arguments."
     field_is_not_of_type = "Field \"{0}\" in {1} is not a {2}."
     chapter_has_no_entry = "Chapter {0} doesn't match any entry."
+    this_pattern_is_embed_in_the_name_of_another_one = "This pattern {0} is embed in the name of another one."
 
     # Will not be hooked by l10n_cleanup
     generating_rss = "Generating RSS feed..."

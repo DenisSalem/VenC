@@ -117,6 +117,7 @@ class Messages:
     this_template_has_no_arguments = "Ce template n'a pas d'arguments."
     field_is_not_of_type = "Le champ \"{0}\" dans {1} n'est pas du type {2}."
     chapter_has_no_entry = "Le chapitre {0}, ne correspond à aucune publication."
+    this_pattern_is_embed_in_the_name_of_another_one = "Le pattern {0} est intégré dans le nom d'un autre."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."
