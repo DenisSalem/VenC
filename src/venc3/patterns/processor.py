@@ -61,7 +61,7 @@ class Pattern:
         self.o, self.c = o, c
         self.root = root
         self.payload = s[o+2:c-2].split('::')
-
+        self.payload_index = 0
         self.sub_patterns = sub_patterns
         offset = o + len(self.payload[0]) + 4
         limit = offset
@@ -76,7 +76,7 @@ class Pattern:
                 sub_pattern.o -= offset
                 sub_pattern.c -= offset
                 sub_pattern.parent = self
-                sub_pattern.payload_index = payload_index
+                sub_pattern.payload_index += payload_index
                 i+=1
                 
             limit+=2

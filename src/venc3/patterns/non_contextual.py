@@ -169,7 +169,7 @@ def escape_walk(root, node):
     for pattern in node.sub_patterns[::-1]:
         escape_walk(root, pattern)
         node.payload[pattern.payload_index] = node.payload[pattern.payload_index][:pattern.o] +".:"+("::".join(pattern.payload))+":."+ node.payload[pattern.payload_index][pattern.c:]
-
+            
     if root == node:
         node.sub_patterns = []
         return "::".join(node.payload[1:])
