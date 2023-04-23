@@ -1,0 +1,32 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Motifs contextuels
+chapter: 4.3
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+Les motifs contextuels sont les derniers motifs à être interprété par VenC dans le processus de génération des pages. En effet ces
+motifs sont contextuels au sens où leur fonctionnement dépend de choses comme le fil de publication que VenC traite, du numéro de la
+page courante ou de l'emplacement de fichier de la page ainsi généré dans l'arborescence du blog.
+
+Les motifs contextuels sont interprétés autant de fois qu'il y a de page pour chaque occurence de l'un de ceux là.
+
+### ForPages
+
+Ce motif permet de générer une liste de liens de pagination.
+
+> .:Escape:: .:ForPages::length::string::separator:. :.
+
+- __length__ : définit la longueur de la liste.
+- __separator__ : le texte servant de séparateur.
+- __string__ : le texte à formater, où sont accessible les valeurs des variables ci-dessous.
+
+Ce motif possède les variables suivantes :
+
+- entry_id : si le contexte le permet, cette variable contient l'identifiant de la publication associée à la page courante. Sinon, la variable est ignorée.
+- entry_title : si le contexte le permet, cette variable contient le titre de la publication associée à la page courante. Sinon, la variable est ignorée.
+- page_number : si le contexte le permet, cette variable contient le numéro de la page courante. Sinon, la variable est ignorée.
+- path : contient le chemin relatif de la page courante.
+

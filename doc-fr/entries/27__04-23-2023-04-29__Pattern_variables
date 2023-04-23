@@ -1,0 +1,17 @@
+authors:
+- 'Denis'
+categories:
+- ''
+title: Variables de motif
+chapter: 4.2
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Certains motifs comportent des _variables_. Il s'agit de valeurs accessibles depuis les arguments du motif.
+Ces variables se présent sous la forme de [placeholder](https://docs.python.org/3/library/string.html#format-examples) Python,
+ceux qui sont utilisés avec la fonction [format](https://docs.python.org/3/library/string.html#format-examples). Par exemple :
+
+> .:Escape:: .:PoudreDePerlinPinpin::{carabistouille}:. :.
+
+Ici la variable est identifié par __carabistouille__. Ce que contient la variable dépend du motif dans lequel elle est utilisé. Dans
+les chapitres suivant les motifs seront exhaustivement détaillés et expliqués ainsi que leurs variables correspondantes.
+
