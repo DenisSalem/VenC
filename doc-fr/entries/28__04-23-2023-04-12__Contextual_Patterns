@@ -30,3 +30,18 @@ Ce motif possède les variables suivantes :
 - page_number : si le contexte le permet, cette variable contient le numéro de la page courante. Sinon, la variable est ignorée.
 - path : contient le chemin relatif de la page courante.
 
+### GetEntryContent
+
+> .:Escape:: .:GetEntryContent:. :.
+
+Ce pattern ne peut pas être utilisé dans un [template](.:GetChapterAttributeByIndex::path::3.5:.) ni dans dans le corps d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.). Cela provoquerait une erreur de récursion.
+
+Ce pattern renvoie le contenu complet de la publication courante.
+
+### GetEntryPreview
+
+> .:Escape:: .:GetEntryPreview:. :.
+
+Ce pattern ne peut pas être utilisé dans un [template](.:GetChapterAttributeByIndex::path::3.5:.) ni dans le résumé d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.). Cela provoquerait une erreur de récursion.
+
+Ce pattern renvoie le résumé de la publication courante.
