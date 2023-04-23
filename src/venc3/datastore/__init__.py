@@ -188,7 +188,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries, JSONLD):
             return
 
         if chapter in self.raw_chapters.keys():
-            from venc3.helpers import die
+            from venc3.prompt import die
             die((
                 "chapter_already_exists",
                 entry.title,
