@@ -23,12 +23,12 @@ Ce motif permet de générer une liste de liens de pagination.
 - __separator__ : le texte servant de séparateur.
 - __string__ : le texte à formater, où sont accessible les valeurs des variables ci-dessous.
 
-Ce motif possède les variables suivantes :
+Ce motif comporte les variables suivantes :
 
-- entry_id : si le contexte le permet, cette variable contient l'identifiant de la publication associée à la page courante. Sinon, la variable est ignorée.
-- entry_title : si le contexte le permet, cette variable contient le titre de la publication associée à la page courante. Sinon, la variable est ignorée.
-- page_number : si le contexte le permet, cette variable contient le numéro de la page courante. Sinon, la variable est ignorée.
-- path : contient le chemin relatif de la page courante.
+- **entry_id** : si le contexte le permet, cette variable contient l'identifiant de la publication associée à la page courante. Sinon, la variable est ignorée.
+- **entry_title** : si le contexte le permet, cette variable contient le titre de la publication associée à la page courante. Sinon, la variable est ignorée.
+- **page_number** : si le contexte le permet, cette variable contient le numéro de la page courante. Sinon, la variable est ignorée.
+- **path** : contient le chemin relatif de la page courante.
 
 ### GetEntryContent
 
@@ -45,3 +45,238 @@ Ce pattern renvoie le contenu complet de la publication courante.
 Ce pattern ne peut pas être utilisé dans un [template](.:GetChapterAttributeByIndex::path::3.5:.) ni dans le résumé d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.). Cela provoquerait une erreur de récursion.
 
 Ce pattern renvoie le résumé de la publication courante.
+
+### GetJSON-LD
+
+TODO
+
+### GetNextPage
+
+> .:Escape:: .:GetNextPage::string:. :.
+
+Permet de récupérer des informations sur la prochaine page, si elle existe.
+
+- __string__ : le texte à formater, où sont accessibles les valeurs des variables ci-dessous.
+
+Ce motif comporte les variables suivantes :
+
+- **entry_id** : si le contexte le permet, cette variable contient l'identifiant de la publication associée à la page suivante. Sinon, la variable est ignorée.
+- **entry_title** : si le contexte le permet, cette variable contient le titre de la publication associée à la page suivante. Sinon, la variable est ignorée.
+- **page_number** : si le contexte le permet, cette variable contient le numéro de la page suivante. Sinon, la variable est ignorée.
+- **path** : contient le chemin relatif de la page suivante, si elle existe.
+
+### GetPreviousPage
+
+> .:Escape:: .:GetPreviousPage::string:. :.
+
+Permet de récupérer des informations sur la page précédente, si elle existe.
+
+- __string__ : le texte à formater, où sont accessibles les valeurs des variables ci-dessous.
+
+Ce motif possède les variables suivantes :
+
+- **entry_id** : si le contexte le permet, cette variable contient l'identifiant de la publication associée à la page précédente. Sinon, la variable est ignorée.
+- **entry_title** : si le contexte le permet, cette variable contient le titre de la publication associée à la page précédente. Sinon, la variable est ignorée.
+- **page_number** : si le contexte le permet, cette variable contient le numéro de la page précédente. Sinon, la variable est ignorée.
+- **path** : contient le chemin relatif de la page précédente, si elle existe.
+
+### GetRandomNumber
+
+> .:Escape:: .:GetRandomNumber::min::max::precision:. :.
+
+Génère un nombre aléatoire compris entre _min_ et _max_ avec une précision décimale définit par _precision_.
+
+Par exemple, pour générer un nombre décimal compris entre zéro inclus et dix, avec au plus quatre chiffres après la virgule nous pouvons utiliser :
+
+> .:Escape:: .:GetRandomNumber::0::10::4:. :.
+
+Pour générer un nombre entier compris entre zero inclus et cent nous pouvons utiliser :
+
+> .:Escape:: .:GetRandomNumber::0::100::0:. :.
+
+Enfin pour générer un nombre décimal, par exemple entre 12.25 inclus et 12.5, avec au plus 5 chiffres après la virgules, nous pouvons utiliser :
+
+> .:Escape:: .:GetRandomNumber::12.25::12.5::5:. :.
+
+### GetRelativeLocation
+
+> .:Escape:: .:GetRelativeLocation:. :.
+
+Ce motif renvoie le chemin depuis la racine du blog vers le répertoire courant.
+
+Par exemple, si la page courante qui est générée se trouve dans le répertoire :
+
+> blog/Categories/Cinema/Science-Fiction
+
+Alors le motif renverra :
+
+> /Categories/Cinema/Science-Fiction
+
+### GetRelativeRoot
+
+> .:Escape:: .:GetRelativeRoot:. :.
+
+Ce motif renvoie le chemin relatif de la racine du blog.
+
+Par exemple, si la page courante qui est générée se trouve dans le répertoire :
+
+> blog/Categories/Cinema/Science-Fiction :
+
+Alors le motif renverra :
+
+> ../../../
+
+### GetStyleSheets
+
+> .:Escape:: .:GetStyleSheets:. :.
+
+VenC peut générer des feuilles de style CSS. Ces fichiers peuvent être inclus dans votre thème avec le motif GetStyleSheets.
+
+Par exemple, pour la documentation que vous êtes en train de lire, l'utilisation de ce motif produirait le code suivant :
+
+.:CodeHighlight::HTML::False::
+<link rel="stylesheet" href="../venc_source_Text.css" type="text/css" />
+<link rel="stylesheet" href="../venc_source_html.css" type="text/css" />
+<link rel="stylesheet" href="../venc_source_HTML.css" type="text/css" />
+<link rel="stylesheet" href="../venc_source_CSS.css" type="text/css" />
+:.
+
+### GetThreadName
+
+> .:Escape:: .:GetThreadName[::string1][::string2]:. :.
+
+Ce motif permet de récupérer le nom du fil de publication courant.
+
+Par exemple, si la page courante est générée dans un fil de publication de type _catégorie_ et que ladite catégorie s'appel "Histoire de l'informatique",
+alors GetThreadName permet de récupérer cette valeur dans une chaîne de caractères formatée correspondant à l'argument string1. Si au contraire,
+le fil de publication n'a pas de nom alors c'est string2 qui est renvoyée.
+
+- __string1__ : premier argument du motif, c'est celui qui est renvoyé si le fil de publication a un nom. Pour accéder au nom du fil de publication dans l'argument, il faut utiliser la variable contextuelle {value}. Si c'est cet argument qui doit être utilisé par le motif et qu'il est manquant, le motif renvoie simplement le nom du fil de publication, sans formatage particuler.
+- __string2__ : second argument du motif, c'est celui qui est renvoyé si le fil de publication n'a pas de nom. Cet argument n'a pas de variable contextuelle. Si c'est cet argument qui doit être utilisé par le motif et qu'il est manquant, le motif est ignoré.
+
+### IfInArchives
+
+> .:Escape:: .:IfInArchives::string1[::string2]:. :.
+
+La fonction teste si la page courante est générée dans le fil des archives.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
+
+À noter que ce motif n'a pas de variables.
+
+### IfInCategories
+
+> .:Escape:: .:IfInCategories::string1[::string2]:. :.
+
+La fonction teste si la page courante est générée dans le fil des catégories.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
+
+À noter que ce motif n'a pas de variables.
+
+### IfInEntryID
+
+> .:Escape:: .:IfInEntryID::id::string1[::string2]:. :.
+
+La fonction teste si l'identifiant de la publication correspond à celui spécifié en argument.
+
+- __id__ : un nombre entier différent de 0 identifiant une publication.
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variables.
+
+### IfInFeed
+
+> .:Escape:: .:IfInFeed::string1[::string2]:. :.
+
+Certains éléments contenus dans une publication ne peuvent pas être présent dans le flux RSS/Atom sous peine que celui-ci ne soit pas valide et ne
+s'affiche pas correctement dans les lecteurs de flux RSS/Atom.
+
+Vous pouvez utiliser IfInFeed pour remplacer un certain type de contenus par un autre, qui lui serait valide dans un flux RSS/Atom.
+
+En outre, la fonction teste si le fil de publication courant est un flux RSS ou Atom.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition n'est pas remplie. Si le second argument est absent, le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variables.
+
+### IfInFirstPage
+
+> .:Escape:: .:IfInFirstPage::string1[::string2]:. :.
+
+La fonction teste si le numéro de page courant correspond à la première page du fil de publication courant.
+Si la page est générée dans le contexte d'une page individuelle de publication ou d'un chapitre, le test échoue.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variables.
+
+### IfInLastPage
+
+> .:Escape:: .:IfInLastPage::string1[::string2]:. :.
+
+La fonction teste si le numéro de page courant correspond à la dernière page du fil de publication courant.
+Si la page est généré dans le contexte d'une page individuelle de publication ou d'un chapitre, le test échoue.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variables.
+
+### IfInMainThread
+
+> .:Escape:: .:IfInMainThread::string1[::string2]:. :.
+
+La fonction teste si la page courante est générée dans le fil de publication principal.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variables.
+
+### IfInThread
+
+> .:Escape:: .:IfInThreadAndHasFeeds::string1[::string2]:. :.
+
+La fonction teste si le fil de publication courant peut produire un flux Atom et/ou RSS. Seul les categories et le fil principal valident la condition.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition n'est pas remplie. Si le second argument est absent, le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variables.
+
+### IfInThreadAndHasFeeds
+
+> .:Escape:: .:IfInThreadAndHasFeeds::string1[::string2]:. :.
+
+La fonction teste si le fil de publication courant peut produire un flux Atom et/ou RSS. Seul les categories et le fil principal valident la condition.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition n'est pas remplie. Si le second argument est absent, le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variables.
+
+### IfPages
+
+> .:Escape:: .:IfPages::string1[::string2]:. :.
+
+La fonction teste si le fil de publication courant à plus d'une page.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : texte retourné si la condition est fausse. Si le second argument est absent, le motif est ignoré et supprimé.
+
+Ce motif n'a pas de variables.
+
+### PreviewIfInThreadElseContent
+
+> .:Escape:: .:PreviewIfInThreadElseContent:. :.
+
+Ce pattern ne peut être utilisé que dans le _[entry.html](.:GetChapterAttributeByIndex::path::3.6:.)_.
+
+Il renvoie le résumé de la publication courante si VenC génère la page dans un fil de publication.
+Sinon, VenC renvoie le contenu complet de la publication courante.
