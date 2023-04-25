@@ -1,0 +1,233 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Motifs de publications
+chapter: 4.4.1
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Ces motifs permettent d'accéder à des métadonnées contenues dans une [publication](.:GetChapterAttributeByIndex::path::3.3:.). Ils ne
+peuvent donc pas être utilisé en dehors d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.) ou des fichiers ci-dessous composant
+un thème :
+
+- [entry.html](.:GetChapterAttributeByIndex::path::3.6:.)
+- [atomEntry.html](.:GetChapterAttributeByIndex::path::3.6:.)
+- [rssEntry.html](.:GetChapterAttributeByIndex::path::3.6:.)
+
+### ForEntryAuthors
+
+> .:Escape:: .:ForEntryAuthors::string::separator:. :.
+
+Retourne la liste des auteurs de la publication.
+
+Le premier argument est une chaîne de caractères à formater avec la variable {value} contenant le nom de l'auteur courant.
+
+Le second paramètre est une chaîne de caractères servant de séparateur.
+
+### ForEntryMetadata
+
+> .:Escape:: .:ForEntryMetadata::metadata_name::string::separator:. :.
+
+Il est possible de définir des métadonnées sous la forme de listes.
+
+Le premier argument est une chaîne de caractères à formater avec la variable 
+{value} contenant l'élément courant de la liste.
+
+Le second paramètre est une chaîne de caractères servant de séparateur.
+
+Si la métadonnée spécifié dans **metadata_name** n'existe pas VenC interompra la génération du site.
+
+### ForEntryMetadataIfExists
+
+> .:Escape:: .:ForEntryMetadataIfExists::metadata_name::string::separator:. :.
+
+Identique à [ForEntryMetadata](.:GetChapterAttributeByIndex::path::4.4.1:.#forentrymetadata) mais
+est ignoré si la métadoné spécifié dans **metadata_name** n'existe pas.
+
+### GetEntryArchivePath
+
+> .:Escape:: .:GetEntryArchivePath:. :.
+
+Retourne le liens vers le groupe d'archives dans lequel se trouve la publication.
+
+### GetEntryCategoriesTree
+
+.:GetEntryCategoriesTree::open_node::open_branch::close_branch::close_node:.
+
+Les catégories de la publication sont organisées sous la forme d'un arbre.
+Il est possible de récupérer l'arbre entier afin, typiquement, de générer un menu
+ou une liste de catégories et de sous-catégories.
+
+Les arguments du motif sont les suivants :
+
+- **open_node** : contient la chaîne de caractères d'ouverture pour la catégorie parente.
+- **open_branch** : contient la chaîne de caractères d'ouverture de la catégorie courante.
+- **close_branch** : contient la chaîne de caractères de fermeture de la catégorie courante.
+- **close_node** : contient la chaîne de caractères de fermeture de la catégorie parente.
+
+Les variables de ce motif sont les suivantes :
+
+- __value__ : le nom de la catégorie courante.
+- __path__ : le chemin relatif de la catégorie courante.
+- __count__ : le nombre de publications dans la catégorie courante.
+- __weight__ : le nombre de publications dans la catégorie courante divisé par le nombre de publications appartenant à une categorie.
+- __childs__ : Contient le résultat de la récursion suivante du motif.
+
+Par exemple, pour créer un menu déroulant on peut utiliser le motif comme ci-dessous :
+
+.:CodeHighlight::HTML::False::
+.:Escape:: .:GetEntryCategoriesTree::
+    <ul>::
+    <li><a href="{path}" title="{count} publications">{value}</a>{childs}::
+    </li>::
+    </ul>
+:. :.
+:.
+
+Si la publication était incluse dans les catégories suivantes :
+
+.:CodeHighlight::YAML::False::
+categories:
+  - Material:
+    - Metal:
+      - Copper
+      - Steel
+  - Science
+:.
+
+Alors le motif générerait quelque chose comme le code HTML suivant :
+
+.:CodeHighlight::HTML::False::
+<ul>
+    <li>
+        <a href="../Material/" title="1 publications">Material</a>
+        <ul>
+            <li>
+                <a href="../Material/Metal/" title="1 publications">Metal</a>
+                <ul>
+                    <li><a href="../Material/Metal/Copper/" title="1 publications">Copper</a></li>
+                    <li><a href="../Material-Metal/Steel/" title="1 publications">Steel</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="../Science/" title="1 publications">Science</a>
+    </li>
+</ul>
+:.
+
+À la fin de chaque branche, si la catégorie courante possède une ou plusieurs
+catégorie filles, alors les arguments *open&#95;node* et *close&#95;node* sont ajoutés et
+une nouvelle liste de sous-catégories est générée entre ces deux arguments,
+en utilisant les arguments *open&#95;branch* et *close&#95;branch*.
+
+Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de configuration principal.
+
+### GetEntryChapterLevel
+
+> .:Escape:: .:GetEntryChapterLevel:. :.
+
+Renvoie le niveau du chapitre de la publication.
+
+Par exemple si la publication correspond au chapitre 1.2.3
+
+.:CodeHighlight::YAML::False::
+chapter: 1.2.3
+:.
+
+alors le motif renverrait _3_.
+
+Si la publication correspond au chapitre 4.5
+
+.:CodeHighlight::YAML::False::
+chapter: 1.2.3
+:.
+
+alors le motif renverrait _2_.
+
+### GetEntryChapterPath
+
+> .:Escape:: .:GetEntryChapterPath:. :.
+
+Renvoie le chemin relatif du chapitre correspondant à la publication courante.
+
+### GetEntryDate
+
+> .:Escape:: .:GetEntryDate[::format]:. :.
+
+Retourne la date de la publication formatée comme définit dans le fichier de configuration par le champ *date&#95;format*.
+
+Il est possible d'utiliser un autre format de date à l'aide de l'argument optionnel *format*.
+Pour en savoir plus sur ce format, rendez vous [ici](https://strftime.org/).
+
+### GetEntryDay
+
+> .:Escape:: .:GetEntryDay:. :.
+
+Retourne le jour de création de la publication.
+
+### GetEntryHour
+
+> .:Escape:: .:GetEntryHour:. :.
+
+Retourne l'heure de création de la publication.
+
+### GetEntryID
+
+> .:Escape:: .:GetEntryID:. :.
+
+Retourne l'identifiant unique de la publication.
+
+### GetEntryMetadata
+
+> .:Escape:: .:GetEntryMetadata::metadata_name:. :.
+
+Il est possible de définir ses propres champs dans les métadonnées
+d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.) ou d'un [template](.:GetChapterAttributeByIndex::path::3.5:.).
+
+Par exemple, si on définie le champ suivant :
+
+.:CodeHighlight::YAML::False::
+free_hardware : Arduino Mega
+:.
+
+Pour accéder à celui-ci, on utilisera le motif GetEntryMetadata de la façon suivante :
+
+> .:Escape:: .:GetEntryMetadata::free_hardware:. :.
+
+Si la métadonnée ainsi référencée n'existe pas,
+VenC générera une erreur et stopera la génération du site.
+
+### GetEntryMetadataIfExists
+
+> .:Escape:: .:GetEntryMetadataIfExists::metadata_name[::string][::string2]:. :.
+
+De façon similaire, il est possible d'essayer d'accéder à une métadonnée,
+sans garantie que celle-ci existe. Si la métadonnée existe, il est possible alors de formater du texte pour l'y inclure.
+
+Les arguments de ce pattern sont au nombre de trois :
+
+- **metadata_name** : le nom de la métadonnée désirée.
+- **string** : le texte formaté retourné si la condition est remplie. Optionnel. Si cet argument n'est pas présent, la fonction renvoie la valeur de la métadonnée sans formatage.
+- **string2** : le texte non formaté retourné si la condition n'est pas rempli. Si cet argument n'est pas présent, le pattern est ignoré.
+
+Il est possible d'utiliser la variable suivante dans l'argument __string__ pour formater le texte :
+
+- __value__ : contient la valeur de la métadonnée qu'on référence.
+
+### GetEntryMetadataIfNotNull
+
+.:Escape:: .:GetEntryMetadataIfNotNull::metadata_name[::string][::string2]:. :.
+
+Identique à GetEntryMetadataIfExists, mais la métadonnée spécifié ne doit pas être vide ou être _null_.
+
+Par exemple: 
+
+.:CodeHighlight::HTML::False::
+.:Escape:: <div id="entry.:GetEntryID:." .:GetEntryMetadataIfExists::alternate_style::class="{value}":. >:.
+:.
+
+Si la métadonnée référencée n'est pas définie, est vide ou _null_, VenC retourne string2 si définit, sinon le motif est ignoré.
+
+Si le second argument n'est pas définie l'accesseur renvoie directement la variable référencée, si elle existe.

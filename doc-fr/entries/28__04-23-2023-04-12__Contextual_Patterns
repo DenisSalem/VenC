@@ -6,7 +6,6 @@ title: Motifs contextuels
 chapter: 4.3
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-
 Les motifs contextuels sont les derniers motifs à être interprété par VenC dans le processus de génération des pages. En effet ces
 motifs sont contextuels au sens où leur fonctionnement dépend de choses comme le fil de publication que VenC traite, du numéro de la
 page courante ou de l'emplacement de fichier de la page ainsi généré dans l'arborescence du blog.
