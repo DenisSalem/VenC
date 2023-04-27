@@ -513,7 +513,7 @@ class DatastorePatterns:
         return self.html_tree_for_blog_metadata[key]
         
     def get_entry_metadata_tree(self, pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node):
-        return self.tree_for_entry_metadata_if_exists(pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
+        return self.get_entry_metadata_tree_if_exists(pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
         
     def get_entry_metadata_tree_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
         entry = self.requested_entry
