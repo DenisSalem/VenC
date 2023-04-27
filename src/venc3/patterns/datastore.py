@@ -517,6 +517,7 @@ class DatastorePatterns:
         
     def get_entry_metadata_tree_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
         entry = self.requested_entry
+        source = source.strip()
         if not hasattr(entry, source):
             if raise_exception:
                 from venc3.exceptions import VenCException
