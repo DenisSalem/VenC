@@ -56,7 +56,7 @@ class DatastorePatterns:
         else: 
             return if_true.replace("{relative_origin}", "\x1a")
 
-    def if_metadata_is_true(self, key, if_true, if_false, source):            
+    def if_metadata_is_true(self, key, if_true, if_false, source):          
         try:
             if type(source) == Entry and getattr(source, key):
                 return if_true.strip()
@@ -72,7 +72,7 @@ class DatastorePatterns:
     def if_blog_metadata_is_true(self, node, key, if_true, if_false=''):
         return self.if_metadata_is_true(key, if_true, if_false, self.blog_configuration)
 
-    def if_entry_metadata_is_true(self, node, key, if_true, if_false=''):
+    def if_entry_metadata_is_true(self, pattern, key, if_true, if_false=''):
         return self.if_metadata_is_true(key, if_true, if_false, self.requested_entry)
                 
     def if_rss_enabled(self, node, if_true, if_false=''):
