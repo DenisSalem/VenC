@@ -4,6 +4,14 @@ categories:
 - ''
 title: Motifs de publications
 chapter: 4.4.1
+tree_test:
+    - a:
+        - b:
+            - c
+            - d
+        - e:
+            - f
+    - g
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Ces motifs permettent d'accéder à des métadonnées contenues dans une [publication](.:GetChapterAttributeByIndex::path::3.3:.). Ils ne
@@ -230,4 +238,142 @@ Par exemple:
 
 Si la métadonnée référencée n'est pas définie, est vide ou _null_, VenC retourne string2 si définit, sinon le motif est ignoré.
 
-Si le second argument n'est pas définie l'accesseur renvoie directement la variable référencée, si elle existe.
+Si le second argument n'est pas définie l'accesseur renvoie directement la variable référencée, si le test réussie.
+
+### GetEntryMetadataTree
+
+.:CodeHighlight::Text::False:: .:Escape::
+.:GetEntryMetadataTree::
+    metadata_name::
+    open_node::
+    open_branch::
+    value_childs::
+    value::
+    close_branch::
+    close_node
+:. :.
+:.
+
+Ce pattern permet de formatter sous la forme d'un arbre une metadonnée de publication qui serait une structure de donnée.
+
+Les arguments de ce motif sont les suivants :
+
+- **metadata_name** : Le nom de la métadonnée auquel on souhaite accéder. Si elle n'existe pas, VenC lève une exception.
+- **open_node** : La chaine de caractère ouvrant la liste courante.
+- **open_branch** : La chaine de caractère ouvrant l'item courant.
+- **value_childs** : La chaine de caractère composant l'item courant si celui-ci a des items enfants.
+- **value** : La chaine de caractère composant l'item courant si celui-ci n'a pas d'items enfants.
+- **close_branch** : La chaine de caractère fermant l'item courant.
+- **clode_node** : La chaine de caractère fermant la liste courante.
+
+Ce motif possède les variables suivantes :
+
+- __value__ : Contient la valeur de l'item courant. Vous pouvez utiliser cette variable dans les arguments _value_ et *value_childs*.
+Par exemple:
+- __childs__ : Contient le bloc enfant de l'item courant. Vous ne pouvez utiliser cette variable que dans l'argument *value_childs*.
+
+Un exemple d'utilisation de ce pattern ci-dessous. Étant donnée la métadonnée de publication suivante :
+
+.:CodeHighlight::YAML::False::
+tree_test:
+    - a:
+        - b:
+            - c
+            - d
+        - e:
+            - f
+    - g:.
+
+Si l'on veut afficher *tree_test* sous la forme de listes imbriquées on pourrait utiliser le motif comme suit :
+
+.:CodeHighlight::HTML::False:: .:Escape::
+ .:GetEntryMetadataTree::
+    tree_test::
+    <ul>::
+    <li>::
+    {value} {childs}::
+    {value}::
+    </li>::
+    </ul>
+:. :.
+:.
+
+Ce qui donnerait :
+
+.:GetEntryMetadataTree::tree_test::<ul>::<li>::{value} {childs}::{value}::</li>::</ul>:.
+
+
+### GetEntryMetadataTreeIfExists
+
+Identique à [GetEntryMetadata](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadata) mais le pattern
+est ignoré si la métadonnée indiqué n'existe pas.
+
+### GetEntryMinute
+
+> .:Escape:: .:GetEntryMinute:. :.
+
+Retourne la minute de création de la publication.
+
+### GetEntryMonth
+
+> .:Escape:: .:GetEntryMonth:. :.
+
+Retourne le mois de création de la publication.
+
+### GetEntryPath
+
+> .:Escape:: .:GetEntryPath:. :.
+
+Retourne le chemin relatif de la publication
+si VenC est configuré pour générer une page par publication.
+Sinon, le motif est ignoré et supprimé.
+
+### GetEntryTitle
+
+> .:Escape:: .:GetEntryTitle:. :.
+
+Retourne le titre de la publication.
+
+### GetEntryToC
+
+TODO
+
+### GetEntryYear
+
+> .:Escape:: .:GetEntryYear:. :.
+
+Retourne l'année de création de la publication.
+
+### GetFlattenedEntryCategories
+
+> .:Escape:: .:GetFlattenedEntryCategories::string::separator:. :.
+
+Permet de récupérer sous la forme d'une liste chaque item de l'arbre des catégories d'une publication.
+
+Si la génération des fils de publication trié par categorie est désactivé, ce motif est ignoré.
+
+Les argument de ce motif sont :
+
+- __string__ : La chaine de caractère correspondant à l'item courant.
+- __separator__ : La chaine de caractère qui sert de séparateur entre chaque item.
+
+Dans l'argument _string_ vous pouvez utiliser les variables suivantes :
+
+- __value__ : Le nom de la categorie courante.
+- __count__ : Le nombre de publication dans cette categorie.
+- __weight__ : Le nombre de publication dans cette categorie divisé par le nombre de publication ayant une categorie.
+- __path__ : Le chemin relatif menant au fil de publication de la categorie courante.
+
+
+### IfEntryMetadataIsTrue
+
+> .:Escape:: .:IfEntryMetadataIsTrue::metadata_name::if_true[::if_false]:. :.
+
+Permet d'afficher un text ou un autre selon que la métadonnée indiqué est vrai ou fausse.
+
+Ce motif possède les arguments suivant :
+
+- **metadata_name** : Le nom de la métadonnée qu'on test. Le test de vérité est *pythonic*. C'est à dire que pour échouer la métadonnée ne doit pas exister ou être explicitement un booléen "false".
+- **if_true** : Le texte à retourner si le test réussie.
+- **if_false** : Optionnel. Le texte à retourner si le test échoue.
+
