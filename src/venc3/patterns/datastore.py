@@ -369,17 +369,16 @@ class DatastorePatterns:
                 entries = [entry for entry in self.entries if end_at >= entry.id >= begin_at]
                 
             elif end_at < begin_at:
-                entries = [entry for entry in self.entries if end_at >= entry.id >= begin_at]
+                entries = [entry for entry in self.entries[::-1] if end_at <= entry.id <= begin_at]
     
             else:
                 entries = []
             
-            print(len(entries))
             self.cache_entries_subset[str(id(key))] = entries
             
         return str(id(key))
             
-    def for_entries_set(self, node, entries_subset_key, string):
+    def for_entries_set(self, pattern, entries_subset_key, string):
         output = ""
         try:
             entries = self.cache_entries_subset[entries_subset_key.strip()]
@@ -389,7 +388,7 @@ class DatastorePatterns:
             from venc3.l10n import messages
             raise VenCException(
                 ("wrong_pattern_argument", "entries_subset_key", entries_subset_key, "ForEntriesSet", messages.argument_does_not_match_with_any_entries_subset),
-                node
+                pattern
             )
         
         date_format = self.blog_configuration["date_format"]
@@ -398,7 +397,7 @@ class DatastorePatterns:
             dataset = {
                 "id" : entry.id,
                 "title": entry.title,
-                "url": entry.path,
+                "path": entry.path,
                 "archive_path": "\x1a"+entry.date.strftime(archives_directory_name),
                 "reference_id":str(id(entry))
             }
