@@ -27,6 +27,13 @@ class VenCRenderer(HTMLRenderer):
     def __init__(self):
         self.table_of_content = []
         super().__init__()
+    
+    def render_link(self, token):
+        return '<a href="{target}" title="{title}">{inner}</a>'.format(
+            target=token.target,
+            title=token.title,
+            inner=self.render_inner(token)
+        )
         
     def render_heading(self, token):
         template = '<h{level} id="{header_id}">{inner}</h{level}>'
@@ -45,4 +52,5 @@ class VenCMarkdown:
         self.renderer = VenCRenderer()
         
     def render(self, input_text):
-        return self.renderer.render(Document(input_text))
+        s = self.renderer.render(Document(input_text))
+        return s
