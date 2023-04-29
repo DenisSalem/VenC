@@ -17,6 +17,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+from html import unescape
+
 import mistletoe
 from mistletoe import HTMLRenderer
 from mistletoe import Document
@@ -29,7 +31,8 @@ class VenCRenderer(HTMLRenderer):
     def render_heading(self, token):
         template = '<h{level} id="{header_id}">{inner}</h{level}>'
         inner = self.render_inner(token)
-        header_id = ''.join(e for e in inner if e.isalnum())
+        header_id = ''.join(e for e in unescape(inner) if e.isalnum())
+        print(inner)
         self.table_of_content.append((
             token.level,
             inner,
