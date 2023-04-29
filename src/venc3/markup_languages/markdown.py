@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2023 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -17,20 +17,30 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import markdown2 as markdown
+import mistletoe
+from mistletoe import HTMLRenderer
+from mistletoe import Document
 
-class VenCMarkdown(markdown.Markdown):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+class VenCRenderer(HTMLRenderer):
+    def __init__(self):
         self.table_of_content = []
+        super().__init__()
         
-    def header_id_from_text(self, text, prefix, n):
+    def render_heading(self, token):
+        template = '<h{level} id="{header_id}">{inner}</h{level}>'
+        inner = self.render_inner(token)
+        header_id = ''.join(e for e in inner if e.isalnum())
         self.table_of_content.append((
-            n,
-            text,
-            super().header_id_from_text(text, prefix, n)
+            token.level,
+            inner,
+            header_id
         ))
-        return self.table_of_content[-1][2]
+        # TODO : It is possible to control default header level
+        return template.format(level=token.level, inner=inner, header_id=header_id)
+
+class VenCMarkdown:
+    def __init__(self):
+        self.renderer = VenCRenderer()
         
-    
-    
+    def render(self, input_text):
+        return self.renderer.render(Document(input_text))

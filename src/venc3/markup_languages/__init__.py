@@ -47,11 +47,11 @@ def import_wrapper(markup_language):
         from venc3.prompt import die
         die(("module_not_found", key[markup_language][2]))  
 
-def process_markup_language(source, markup_language, entry=None):
+def process_markup_language(source, markup_language, entry):
     if markup_language == "Markdown":
-        venc_markdown = import_wrapper(markup_language)(extras=["header-ids", "footnotes", "toc"])
-        string = venc_markdown.convert(source.string)
-        entry.toc = tuple(venc_markdown.table_of_content)
+        venc_markdown = import_wrapper(markup_language)()
+        string = venc_markdown.render(source.string)
+        entry.toc = tuple(venc_markdown.renderer.table_of_content)
 
     elif markup_language == "asciidoc":
         string = import_wrapper(markup_language)(source, {})
