@@ -38,7 +38,7 @@ class VenCRenderer(HTMLRenderer):
     def render_heading(self, token):
         template = '<h{level} id="{header_id}">{inner}</h{level}>'
         inner = self.render_inner(token)
-        header_id = ''.join(e for e in unescape(inner) if e.isalnum())
+        header_id = ''.join(e.lower() if e.isalnum() else '-' for e in unescape(inner) )
         self.table_of_content.append((
             token.level,
             inner,
