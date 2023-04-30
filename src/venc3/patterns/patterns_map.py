@@ -88,6 +88,7 @@ class PatternsMap():
             "GetBlogMetadataIfExists":	    "get_blog_metadata_if_exists",
             "GetBlogMetadataIfNotNull":	    "get_blog_metadata_if_not_null",
             "GetBlogMetadataTree":          "get_blog_metadata_tree",
+            "GetBlogMetadataTreeIfExists":  "get_blog_metadata_tree_if_exists",
             "GetBlogName":	                "get_blog_name",
             "GetBlogURL":	                  "get_blog_url",
             "GetChapterAttributeByIndex" :  "get_chapter_attribute_by_index",
