@@ -274,7 +274,6 @@ class DatastorePatterns:
         return self.blog_configuration["blog_name"]
         
     def get_blog_description(self, node):
-      
         return self.get_blog_metadata_if_exists(node, "blog_description")
 
     def get_author_description(self, node):
@@ -327,7 +326,6 @@ class DatastorePatterns:
                 self.html_categories_tree[key] = ''
 
             else:
-                # ~ self.build_blog_categories_tree(self.blog_configuration["path"]["categories_sub_folders"])
                 self.html_categories_tree[key] = self.build_html_categories_tree(
                     node, 
                     open_node,
@@ -399,7 +397,7 @@ class DatastorePatterns:
                 "title": entry.title,
                 "path": entry.path,
                 "archive_path": "\x1a"+entry.date.strftime(archives_directory_name),
-                "reference_id":str(id(entry))
+                "chapter_path": entry.chapter.path if entry.chapter != None else ""
             }
             dataset.update({ 
                 attr: getattr(entry, attr) for attr in dir(entry) if type(getattr(entry, attr)) in [str, int, float]
@@ -492,9 +490,10 @@ class DatastorePatterns:
         return self.for_entry_metadata(pattern, "authors", string, separator)
 
     def get_blog_metadata_tree(self, pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node):
-        return self.tree_for_blog_metadata_if_exists(pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
+        return self.get_blog_metadata_tree_if_exists(pattern, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
 
     def get_blog_metadata_tree_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
+        source = source.strip()
         key = source+','+open_node+','+open_branch+value_childs+','+value+','+close_branch+','+close_node+','+str(raise_exception)
         if key in self.html_tree_for_blog_metadata.keys():
             return self.html_tree_for_blog_metadata[key]
