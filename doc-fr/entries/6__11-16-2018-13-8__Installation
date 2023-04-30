@@ -29,6 +29,6 @@ Petite précision. Les dépendances de VenC ne sont pas désinstallées automati
 - [unidecode](https://pypi.org/project/Unidecode/) : Dépendance nécessaire pour gérer les caractères spéciaux et différents type d'encodage.
 - [docutils](http://docutils.sourceforge.net/) : Dépendance optionnel pour utiliser reStructuredText.
 - [latex2mathml](https://github.com/roniemartinez/latex2mathml) : Dépendance optionnel pour convertir du LaTeX en MathML.
-- [markdown2](https://github.com/trentm/python-markdown2) : Dépendance optionnel pour utiliser MarkDown.
+- [mistletoe](https://github.com/miyuchina/mistletoe/) : Dépendance optionnel pour utiliser MarkDown.
 - [Pygments](https://pygments.org/) : Dépendance optionnel pour utiliser la coloration syntaxique.
 - [requests](https://2.python-requests.org/en/master/) : Dépendance optionnel utiliser pour utiliser l'API [oEmbed](https://oembed.com/) et [Kroki](https://kroki.io/).

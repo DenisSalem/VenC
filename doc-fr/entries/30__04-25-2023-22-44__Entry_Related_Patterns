@@ -22,7 +22,7 @@ un thème :
 - [atomEntry.html](.:GetChapterAttributeByIndex::path::3.6:.)
 - [rssEntry.html](.:GetChapterAttributeByIndex::path::3.6:.)
 
-### ForEntryAuthors
+#### ForEntryAuthors
 
 > .:Escape:: .:ForEntryAuthors::string::separator:. :.
 
@@ -32,7 +32,7 @@ Le premier argument est une chaîne de caractères à formater avec la variable 
 
 Le second paramètre est une chaîne de caractères servant de séparateur.
 
-### ForEntryMetadata
+#### ForEntryMetadata
 
 > .:Escape:: .:ForEntryMetadata::metadata_name::string::separator:. :.
 
@@ -45,22 +45,22 @@ Le second paramètre est une chaîne de caractères servant de séparateur.
 
 Si la métadonnée spécifié dans **metadata_name** n'existe pas VenC interompra la génération du site.
 
-### ForEntryMetadataIfExists
+#### ForEntryMetadataIfExists
 
 > .:Escape:: .:ForEntryMetadataIfExists::metadata_name::string::separator:. :.
 
 Identique à [ForEntryMetadata](.:GetChapterAttributeByIndex::path::4.4.1:.#forentrymetadata) mais
 est ignoré si la métadoné spécifié dans **metadata_name** n'existe pas.
 
-### GetEntryArchivePath
+#### GetEntryArchivePath
 
 > .:Escape:: .:GetEntryArchivePath:. :.
 
 Retourne le liens vers le groupe d'archives dans lequel se trouve la publication.
 
-### GetEntryCategoriesTree
+#### GetEntryCategoriesTree
 
-.:GetEntryCategoriesTree::open_node::open_branch::close_branch::close_node:.
+> .:Escape:: .:GetEntryCategoriesTree::open_node::open_branch::close_branch::close_node:. :.
 
 Les catégories de la publication sont organisées sous la forme d'un arbre.
 Il est possible de récupérer l'arbre entier afin, typiquement, de générer un menu
@@ -86,8 +86,8 @@ Par exemple, pour créer un menu déroulant on peut utiliser le motif comme ci-d
 .:CodeHighlight::HTML::False::
 .:Escape:: .:GetEntryCategoriesTree::
     <ul>::
-    <li><a href="{path}" title="{count} publications">{value}</a>{childs}::
-    </li>::
+    <li><a href="{path}" title="{count} publications">{value}</a>::
+    {childs}</li>::
     </ul>
 :. :.
 :.
@@ -126,13 +126,12 @@ Alors le motif générerait quelque chose comme le code HTML suivant :
 :.
 
 À la fin de chaque branche, si la catégorie courante possède une ou plusieurs
-catégorie filles, alors les arguments *open&#95;node* et *close&#95;node* sont ajoutés et
+catégories filles, alors les arguments *open&#95;node* et *close&#95;node* sont ajoutés et
 une nouvelle liste de sous-catégories est générée entre ces deux arguments,
-en utilisant les arguments *open&#95;branch* et *close&#95;branch*.
+en utilisant les arguments *open_branch* et *close_branch*.
 
-Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de configuration principal.
-
-### GetEntryChapterLevel
+Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
+#### GetEntryChapterLevel
 
 > .:Escape:: .:GetEntryChapterLevel:. :.
 
@@ -154,13 +153,13 @@ chapter: 1.2.3
 
 alors le motif renverrait _2_.
 
-### GetEntryChapterPath
+#### GetEntryChapterPath
 
 > .:Escape:: .:GetEntryChapterPath:. :.
 
 Renvoie le chemin relatif du chapitre correspondant à la publication courante.
 
-### GetEntryDate
+#### GetEntryDate
 
 > .:Escape:: .:GetEntryDate[::format]:. :.
 
@@ -169,25 +168,25 @@ Retourne la date de la publication formatée comme définit dans le fichier de c
 Il est possible d'utiliser un autre format de date à l'aide de l'argument optionnel *format*.
 Pour en savoir plus sur ce format, rendez vous [ici](https://strftime.org/).
 
-### GetEntryDay
+#### GetEntryDay
 
 > .:Escape:: .:GetEntryDay:. :.
 
 Retourne le jour de création de la publication.
 
-### GetEntryHour
+#### GetEntryHour
 
 > .:Escape:: .:GetEntryHour:. :.
 
 Retourne l'heure de création de la publication.
 
-### GetEntryID
+#### GetEntryID
 
 > .:Escape:: .:GetEntryID:. :.
 
 Retourne l'identifiant unique de la publication.
 
-### GetEntryMetadata
+#### GetEntryMetadata
 
 > .:Escape:: .:GetEntryMetadata::metadata_name:. :.
 
@@ -207,7 +206,7 @@ Pour accéder à celui-ci, on utilisera le motif GetEntryMetadata de la façon s
 Si la métadonnée ainsi référencée n'existe pas,
 VenC générera une erreur et stopera la génération du site.
 
-### GetEntryMetadataIfExists
+#### GetEntryMetadataIfExists
 
 > .:Escape:: .:GetEntryMetadataIfExists::metadata_name[::string][::string2]:. :.
 
@@ -224,11 +223,11 @@ Il est possible d'utiliser la variable suivante dans l'argument __string__ pour 
 
 - __value__ : contient la valeur de la métadonnée qu'on référence.
 
-### GetEntryMetadataIfNotNull
+#### GetEntryMetadataIfNotNull
 
-.:Escape:: .:GetEntryMetadataIfNotNull::metadata_name[::string][::string2]:. :.
+> .:Escape:: .:GetEntryMetadataIfNotNull::metadata_name[::string][::string2]:. :.
 
-Identique à GetEntryMetadataIfExists, mais la métadonnée spécifié ne doit pas être vide ou être _null_.
+Identique à [GetEntryMetadataIfExists](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadatatreeifexists), mais la métadonnée spécifié ne doit pas être vide ou être _null_.
 
 Par exemple: 
 
@@ -240,7 +239,7 @@ Si la métadonnée référencée n'est pas définie, est vide ou _null_, VenC re
 
 Si le second argument n'est pas définie l'accesseur renvoie directement la variable référencée, si le test réussie.
 
-### GetEntryMetadataTree
+#### GetEntryMetadataTree
 
 .:CodeHighlight::Text::False:: .:Escape::
 .:GetEntryMetadataTree::
@@ -269,7 +268,6 @@ Les arguments de ce motif sont les suivants :
 Ce motif possède les variables suivantes :
 
 - __value__ : Contient la valeur de l'item courant. Vous pouvez utiliser cette variable dans les arguments _value_ et *value_childs*.
-Par exemple:
 - __childs__ : Contient le bloc enfant de l'item courant. Vous ne pouvez utiliser cette variable que dans l'argument *value_childs*.
 
 Un exemple d'utilisation de ce pattern ci-dessous. Étant donnée la métadonnée de publication suivante :
@@ -303,24 +301,24 @@ Ce qui donnerait :
 .:GetEntryMetadataTree::tree_test::<ul>::<li>::{value} {childs}::{value}::</li>::</ul>:.
 
 
-### GetEntryMetadataTreeIfExists
+#### GetEntryMetadataTreeIfExists
 
-Identique à [GetEntryMetadata](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadata) mais le pattern
+Identique à [GetEntryMetadataTree](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadatatree) mais le pattern
 est ignoré si la métadonnée indiqué n'existe pas.
 
-### GetEntryMinute
+#### GetEntryMinute
 
 > .:Escape:: .:GetEntryMinute:. :.
 
 Retourne la minute de création de la publication.
 
-### GetEntryMonth
+#### GetEntryMonth
 
 > .:Escape:: .:GetEntryMonth:. :.
 
 Retourne le mois de création de la publication.
 
-### GetEntryPath
+#### GetEntryPath
 
 > .:Escape:: .:GetEntryPath:. :.
 
@@ -328,23 +326,23 @@ Retourne le chemin relatif de la publication
 si VenC est configuré pour générer une page par publication.
 Sinon, le motif est ignoré et supprimé.
 
-### GetEntryTitle
+#### GetEntryTitle
 
 > .:Escape:: .:GetEntryTitle:. :.
 
 Retourne le titre de la publication.
 
-### GetEntryToC
+#### GetEntryToC
 
 TODO
 
-### GetEntryYear
+#### GetEntryYear
 
 > .:Escape:: .:GetEntryYear:. :.
 
 Retourne l'année de création de la publication.
 
-### GetFlattenedEntryCategories
+#### GetFlattenedEntryCategories
 
 > .:Escape:: .:GetFlattenedEntryCategories::string::separator:. :.
 
@@ -365,7 +363,7 @@ Dans l'argument _string_ vous pouvez utiliser les variables suivantes :
 - __path__ : Le chemin relatif menant au fil de publication de la categorie courante.
 
 
-### IfEntryMetadataIsTrue
+#### IfEntryMetadataIsTrue
 
 > .:Escape:: .:IfEntryMetadataIsTrue::metadata_name::if_true[::if_false]:. :.
 

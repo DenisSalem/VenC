@@ -83,7 +83,7 @@ VenC pour reconnaître les chapitres est la suivante : chaque chapitre et chaque
 **Important : le champ _chapter_ doit explicitement être une chaîne
 de caractères. Pour ce faire, l'index du chapitre doit être entre guillement.**
 
-### .:DisableMarkup::markup_language:.
+### markup_language
 
 Il est possible de spécifier un langage de balisage qui sera utilisé pour
 la publication courante, en lieu et place du langage définit dans le

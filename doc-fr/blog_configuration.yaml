@@ -45,3 +45,11 @@ text_editor:
   - geany
   - -i
 columns: 1
+tree_test:
+    - a:
+        - b:
+            - c
+            - d
+        - e:
+            - f
+    - g
