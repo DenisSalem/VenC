@@ -1,0 +1,553 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Motifs de blog
+chapter: 4.4.2
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Ces motifs sont globaux et sont donc utilisable partout. Comme pour les motifs de publications,
+ce sont les premiers à être interprété par VenC. Contrairement au motifs contextuels ceux là sont
+executé une et une seule fois.
+
+#### ForBlogArchives
+
+> .:Escape:: .:ForBlogArchives::string::separator:. :.
+
+Ce motif permet de récupérer la listes des périodes archivées.
+Le format de la période de temps est défini dans le fichier de configuration
+principal par [archives_directory_name](.:GetChapterAttributeByIndex::path::3.2:.#archives-directory-name).
+
+- __string__ : Le premier argument contient le texte à formater pour chaque élément de la liste de période.
+- __separator__ : Le second argument contient le texte utilisé comme séparateur.
+
+Les variables de la fonction sont les suivantes :
+
+- __value__ : la période courante, tel que défini par [archives_directory_name](.:GetChapterAttributeByIndex::path::3.2:.#archives-directory-name) dans le fichier de configuration principal du blog.
+- __path__ : le chemin relatif la période archivée.
+- __count__ : le nombre de publications dans la période courante.
+- __weight__ : le nombre de publications dans la période courante divisé par le nombre maximal de publications par période.
+
+Si la génération des archives est désactivée, le motif est ignoré et supprimé.
+
+#### ForBlogMetadata
+
+> .:Escape:: .:ForBlogMetadata::metadata_name::string[::separator]:. :.
+
+Ce motif permet de récupérer une métadonnée de type _liste_ présente dans
+[blog_configuration.yml](.:GetChapterAttributeByIndex::path::3.2:.). Ce motif
+a trois arguments :
+
+- __metadata_name__ : Le nom de la métadonnée qu'on souhaite récupérer. Si la métadonnée n'existe pas VenC s'arrête avec un message d'erreur.
+- __string__ : Le second argument contient le texte à formater pour chaque élément de la liste.
+- __separator__ : Le troisième argument (optionnel) qui contient le texte utilisé comme séparateur de chaque item.
+
+Vous pouvez utiliser la variable suivante dans dans l'argument _string_ :
+
+- __value__ : Contient la valeur de l'item courant.
+
+#### ForBlogMetadataIfExists
+
+> .:Escape:: .:ForBlogMetadataIfExists::metadata_name::string[::separator]:. :.
+
+Identique à [ForBlogMetadata](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogmetadata) mais
+si la métadonnée demandé n'existe pas, le motif est ignoré.
+
+#### ForEntriesSet
+
+> .:Escape:: .:ForEntriesSet::entries_subset_key::string:. :.
+
+Ce motif permet d'itérer parmis un sous ensemble de publication et
+d'en afficher les attribues.
+
+Il y a deux arguments :
+
+- **entries_subset_key** : Il s'agit de la clef correspondant au sous ensemble de publications retourné par [RangeEntriesByID](.:GetChapterAttributeByIndex::path::4.4.2:.#rangeentriesbyid).
+- **string** : La chaine de caractère à formater comportant les variables référençant les attributs de la publication courante. 
+
+Les variables pouvant être utilisés sont par défaut :
+
+- **id** : L'identifiant de la publication courante.
+- **title** : Le titre de la publication courante.
+- **path** : Le chemin relatif vers la publication courante.
+- **archive_path** : Le chemin relatif vers le groupe d'archive de la publication courante.
+- **chapter_path** : Le chemin relatif vers le chapitre correspondant à la publication courante. Si la génération de chapitre est désactivé la variable est ignoré.
+
+Il est également possible d'accéder à n'importe quel métadonnné définit par l'utilisateur dans une publication. Si
+la métadonné n'existe pas le nom de la variable est simplement ignoré.
+
+#### GetAuthorDescription
+
+> .:Escape:: .:GetAuthorDescription:. :.
+
+Retourne la description de l'auteur du blog définit dans [author_description](.:GetChapterAttributeByIndex::path::3.2:.#author-description).
+Si la métadonnée est absente le motif est ignoré.
+
+#### GetAuthorEmail
+
+> .:Escape:: .:GetAuthorEmail:. :.
+
+Retourne l'adresse email de l'auteur du blog définit dans [author_email](.:GetChapterAttributeByIndex::path::3.2:.#author-email).
+Si la métadonnée est absente le motif est ignoré.
+
+#### GetAuthorName
+
+> .:Escape:: .:GetAuthorName:. :.
+
+Retourne le nom de l'auteur du blog définit dans [author_name](.:GetChapterAttributeByIndex::path::3.2:.#author-name).
+Si la métadonnée est absente le motif est ignoré.
+
+#### GetBlogCategoriesTree
+
+> .:Escape:: .:GetBlogCategoriesTree::open_node::open_branch::close_branch::close_node:. :.
+
+Les catégories du blog sont organisées sous la forme d'un arbre.
+Il est possible de récupérer l'arbre entier afin, typiquement, de générer un menu
+ou une liste de catégories et de sous-catégories.
+
+Les arguments du motif sont les suivants :
+
+- **open_node** : contient la chaîne de caractères d'ouverture pour la catégorie parente.
+- **open_branch** : contient la chaîne de caractères d'ouverture de la catégorie courante.
+- **close_branch** : contient la chaîne de caractères de fermeture de la catégorie courante.
+- **close_node** : contient la chaîne de caractères de fermeture de la catégorie parente.
+
+Les variables de ce motif sont les suivantes :
+
+- __value__ : le nom de la catégorie courante.
+- __path__ : le chemin relatif de la catégorie courante.
+- __count__ : le nombre de publications dans la catégorie courante.
+- __weight__ : le nombre de publications dans la catégorie courante divisé par le nombre de publications appartenant à une categorie.
+- __childs__ : Contient le résultat de la récursion suivante du motif.
+
+Par exemple, pour créer un menu déroulant on peut utiliser le motif comme ci-dessous :
+
+.:CodeHighlight::HTML::False::
+.:Escape:: .:GetBlogCategoriesTree::
+    <ul>::
+    <li><a href="{path}" title="{count} publications">{value}</a>::
+    {childs}</li>::
+    </ul>
+:. :.
+:.
+
+Avec l'arbre de toutes les catégories du blog ci-dessous :
+
+.:CodeHighlight::YAML::False::
+  - Material:
+    - Metal:
+      - Copper
+      - Steel
+  - Science
+:.
+
+Le motif générerait quelque chose comme le code HTML suivant :
+
+.:CodeHighlight::HTML::False::
+<ul>
+    <li>
+        <a href="../Material/" title="5 publications">Material</a>
+        <ul>
+            <li>
+                <a href="../Material/Metal/" title="5 publications">Metal</a>
+                <ul>
+                    <li><a href="../Material/Metal/Copper/" title="4 publications">Copper</a></li>
+                    <li><a href="../Material-Metal/Steel/" title="1 publications">Steel</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="../Science/" title="3 publications">Science</a>
+    </li>
+</ul>
+:.
+
+À la fin de chaque branche, si la catégorie courante possède une ou plusieurs
+catégories filles, alors les arguments *open_node* et *close_node* sont ajoutés et
+une nouvelle liste de sous-catégories est générée entre ces deux arguments,
+en utilisant les arguments *open_branch* et *close_branch*.
+
+Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
+
+#### GetBlogDescription
+
+> .:Escape:: .:GetBlogDescription:. :.
+
+Retourne la description du blog définit dans [blog_description](.:GetChapterAttributeByIndex::path::3.2:.#blog-description).
+Si la métadonnée est absente le motif est ignoré.
+
+#### GetBlogLanguage
+
+> .:Escape:: .:GetBlogLanguage:. :.
+
+Retourne la langue du blog définit dans [blog_language](.:GetChapterAttributeByIndex::path::3.2:.#blog-language).
+Si la métadonnée est absente le motif est ignoré.
+
+#### GetBlogLicense
+
+> .:Escape:: .:GetBlogLicense:. :.
+
+Retourne la licence appliquée au contenu du blog définit dans [license](.:GetChapterAttributeByIndex::path::3.2:.#license).
+Si la métadonnée est absente le motif est ignoré.
+
+#### GetBlogMetadata
+
+> .:Escape:: .:GetBlogMetadata::metadata_name:. :.
+
+Vous pouvez également définir vos propres métadonnées en rajoutant des champs au fichier de configuration
+[blog_configuration.yaml](.:GetChapterAttributeByIndex::path::3.2:.). Par exemple en rajoutant la
+ligne suivante dans le fichier de configuration :
+
+> Banner: 'maBanniere.jpg'
+
+Vous pourrez ensuite récupérer la valeurs de Banner avec :
+
+> .:Escape:: .:GetBlogMetadata::Banner:. :.
+
+Comme pour [GetEntryMetadata](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadata), si la métadonnée référencée n'existe pas, VenC générera une erreur et vous en indiquera l'origine.
+
+#### GetBlogMetadataIfExists
+
+> .:Escape:: .:GetBlogMetadataIfExists::metadata_name[::string][::string2]:. :.
+
+De façon similaire, il est possible d'essayer d'accéder à une métadonnée, sans garantie
+que celle-ci existe. Si la métadonnée existe, il est possible alors de formater du texte pour l'y inclure.
+
+Les arguments de ce pattern sont au nombre de trois :
+
+- **metadata_name** : le nom de la métadonnée désirée.
+- **string** : le texte formaté retourné si la condition est remplie. Optionnel. Si cet argument n'est pas présent, la fonction renvoie la valeur de la métadonnée sans formatage.
+- **string2** : le texte non formaté retourné si la condition n'est pas remplie. Si cet argument n'est pas présent, le pattern est ignoré.
+
+Le formatage du texte se fait en utilisant une variable propre à l'argument _string_ :
+
+- __value__ : la valeur de la métadonnée qu'on référence.
+
+#### GetBlogMetadataIfNotNull
+
+> .:Escape:: .:GetBlogMetadataIfNotNull::metadata_name[::string][::string2]:. :.
+
+Identique à [GetBlogMetadataIfExists](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadataifexists), mais la métadonnée spécifiée ne doit pas être vide pour que le teste réussisse.
+
+.:CodeHighlight::HTML::False:: .:Escape::
+.:GetBlogMetadataIfExists::mastodon::
+    <a href="{value}" class="social-network-item">
+        <img src=".:GetRelativeRoot:.mastodon.png" alt="Mastodon" title="Mastodon"/>
+    </a>
+:. :.
+:.
+
+Dans cet example, on suppose que l'image de l'icône du réseau social se trouve à la
+racine du blog, on a donc besoin de préciser son chemin relatif avec [GetRelativeRoot](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot).
+
+Si la variable référencée n'est pas définie VenC ignore le motif et le supprime avec le blog html passé en second argument.
+
+Si le second argument n'est pas définit, le motif renvoie directement la variable référencée si elle existe et n'est pas vide.
+
+#### GetBlogMetadataTree
+
+.:CodeHighlight::Text::False:: .:Escape:: .:GetBlogMetadataTree::
+    metadata_name::
+    open_node::
+    open_branch::
+    value_childs::
+    value::
+    close_branch::
+    close_node
+:. :.
+:.
+
+Ce pattern permet de formatter sous la forme d'un arbre une metadonnée de blog qui serait une structure de donnée.
+
+Les arguments de ce motif sont les suivants :
+
+- **metadata_name** : Le nom de la métadonnée auquel on souhaite accéder. Si elle n'existe pas, VenC lève une exception.
+- **open_node** : La chaine de caractère ouvrant la liste courante.
+- **open_branch** : La chaine de caractère ouvrant l'item courant.
+- **value_childs** : La chaine de caractère composant l'item courant si celui-ci a des items enfants.
+- **value** : La chaine de caractère composant l'item courant si celui-ci n'a pas d'items enfants.
+- **close_branch** : La chaine de caractère fermant l'item courant.
+- **clode_node** : La chaine de caractère fermant la liste courante.
+
+Ce motif possède les variables suivantes :
+
+- **value** : Contient la valeur de l'item courant. Vous pouvez utiliser cette variable dans les arguments *value* et *value_childs*.
+- **childs** : Contient le bloc enfant de l'item courant. Vous ne pouvez utiliser cette variable que dans l'argument *value_childs*.
+
+Un exemple d'utilisation de ce pattern ci-dessous. Étant donnée la métadonnée de publication suivante :
+
+.:CodeHighlight::YAML::False::
+tree_test:
+    - a:
+        - b:
+            - c
+            - d
+        - e:
+            - f
+    - g
+:.
+
+Si l'on veut afficher *tree_test* sous la forme de listes imbriquées on pourrait utiliser le motif comme suit :
+
+.:CodeHighlight::HTML::False:: .:Escape::
+ .:GetEntryMetadataTree::
+    tree_test::
+    <ul>::
+    <li>::
+    {value} {childs}::
+    {value}::
+    </li>::
+    </ul>
+:. :.
+:.
+
+Ce qui donnerait :
+
+.:GetBlogMetadataTree::
+    tree_test::
+    <ul>::
+    <li>::
+    {value} {childs}::
+    {value}::
+    </li>::
+    </ul>
+:.
+
+#### GetBlogMetadataTreeIfExists
+
+.:CodeHighlight::Text::False:: .:Escape:: .:GetBlogMetadataTreeIfExists::
+    metadata_name::
+    open_node::
+    open_branch::
+    value_childs::
+    value::
+    close_branch::
+    close_node
+:. :.
+:.
+
+Identique à [GetBlogMetadataTree](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadatatree) mais le pattern est ignoré si la métadonnée indiqué n'existe pas.
+
+#### GetBlogName
+
+> .:Escape:: .:GetBlogName:. :.
+
+Retourne le titre du blog définit dans [blog_name](.:GetChapterAttributeByIndex::path::3.2:.#blog-name).
+
+#### GetBlogURL
+
+> .:Escape:: .:GetBlogURL:. :.
+
+Retourne l'URL du blog définit dans [blog_url](.:GetChapterAttributeByIndex::path::3.2:.#blog-url).
+
+#### GetChapterAttributeByIndex
+
+> .:Escape:: .:GetChapterAttributeByIndex::attribute_name::index_value:. :.
+
+Ce motif permet de récupérer les propriétés d'un chapitre en spécifiant l'index de celui-ci.
+
+Les arguments sont :
+
+- **attribute_name** : Le nom de la propriété du chapitre. Les noms de propriété valident sont :
+  - **entry_id** : l'ID de la publication correspondant au chapitre spécifié dans *index_value*.
+  - **path** : Le chemin relatif du chapitre spécifié dans *index_value*.
+  - **title** : Le titre de la publication correspondant au chapitre spécifié dans *index_value*.
+- **index_value** : La valeur de l'index du chapitre.
+
+#### GetChapters
+
+> .:Escape:: .:GetChapters::open_node::open_branch::close_branch::close_node:. :.
+
+Ce motif permet de récupérer l'arborescence des chapitres du blog.
+En effet, VenC permet d'organiser votre contenu comme le serait un livre ou un e-book.
+La présente documentation est d'ailleurs faite ainsi.
+
+Le motif a les mêmes arguments que [GetEntryCategoriesTree](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrycategoriestree) et [GetBlogCategoriesTree](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestree)  :
+
+- **open_node** : contient la chaîne de caractère d'ouverture du chapitre parent.
+- **open_branch** : contient la chaîne de caractère d'ouverture du chapitre courant.
+- **close_branch** : contient la chaîne de caractère de fermeture du chapitre courant.
+- **close_node** : contient la chaîne de caractère de fermeture du chapitre parent.
+
+Les variables contextuelles de la fonction sont les suivantes :
+
+- __index__ : la valeur de la numérotation du chapitre courant. Par exemple '3.2', '4.2.1' ou bien '2'.
+- __level__ : le niveau du chapitre courant. Par exemple un chapitre avec l'index '3.2' aurait le niveau 1. Un chapitre avec l'index '4.2.1' aurait le niveau 2 et un chapitre avec l'index '2' aurait le niveau 0.
+- __title__ : le titre du chapitre courant.
+- __path__ : le chemin relatif du chapitre courant.
+
+Une utilisation typique du motif serait :
+
+.:CodeHighlight::HTML::False::
+.:Escape:: .:Chapters::
+    <ul class="chapter-level{level}">::
+    <li>{index}. <a href="{path}">{title}</a>::
+    </li>::
+    </ul>
+:. :.
+:.
+
+La fonction générera alors par exemple le code HTML ci-dessous :
+
+.:CodeHighlight::HTML::False::
+<ul class="chapter-level0">
+    <li>
+        1. <a href="../Premier-Chapitre">Premier Chapitre</a>
+    </li>
+    <li>
+        2. <a href="../Second-Chapitre">Second Chapitre</a>
+    </li>
+    <li>
+        3. <a href="../Troisième-Chapitre">Troisième Chapitre</a>
+        <ul class="chapter-level1">
+            <li>
+                3. <a href="../Premier-Sous-Chapitre-du-Troisième Chapitre">Premier Sous-Chapitre du Troisième Chapitre</a>
+            </li>
+        </ul>
+</ul>
+:.
+
+Si la génération des chapitres est désactivée dans le fichier de configuration principal, le motif est ignoré et supprimé.
+
+#### GetEntryAttributeByID
+
+> .:Escape:: .:GetEntryAttributeByID::attribute::identifier:. :.
+
+Ce motif permet de récupérer n'importe quelle métadonnée d'une publication,
+en renseignant l'identifiant de la publication et le nom de la métadonnée désirée.
+
+Les arguments du motif sont :
+
+- __attribute__ : le nom de la métadonnée de la publication.
+- __identifier__ : un nombre entier identifiant la publication ciblée.
+
+Ce pattern permet de récupérer, entre autres métadonnées définis dans le header YAML de la publication,
+le chemin relatif de celle-ci. Par exemple :
+
+> .:Escape:: .:GetEntryAttributeByID::path::1337:. :.
+
+Renverra le chemin relatif de la publication dont l'identifiant est 1337.
+
+#### GetFlattenedBlogCategories
+
+> .:Escape:: .:GetFlattenedBlogCategories::string::separator:. :.
+
+Permet de récupérer sous la forme d'une liste chaque item de l'arbre des catégories du blog.
+
+Si la génération des fils de publication trié par categorie est désactivé, ce motif est ignoré.
+
+Les argument de ce motif sont :
+
+- __string__ : La chaine de caractère correspondant à l'item courant.
+- __separator__ : La chaine de caractère qui sert de séparateur entre chaque item.
+
+Dans l'argument string vous pouvez utiliser les variables suivantes :
+
+- __value__ : Le nom de la categorie courante.
+- __count__ : Le nombre de publication dans cette categorie.
+- __weight__ : Le nombre de publication dans cette categorie divisé par le nombre de publication ayant une categorie.
+- __path__ : Le chemin relatif menant au fil de publication de la categorie courante.
+
+#### GetRootPage
+
+> .:Escape:: .:GetRootPage:. :.
+
+Ce motif renvoie le chemin relatif vers la page principal du blog qui
+correspond généralement au fichier index.html et qui devrait se trouver
+à la racine de votre site.
+
+#### GetGenerationTimestamp
+
+.:Escape:: .:GetGenerationTimestamp::date_format:. :.
+
+Ce motif renvoie la date formatée correspondant au moment où la page courante a été crée.
+
+Le seul paramètre de ce motif est :
+
+- **date_format** : La chaîne de caractères permettant de formater la date courante. Le format utilisé est le même que celui utilisé par Python. La documentation est disponible [ici](https://strftime.org/).
+
+#### IfAtomEnabled
+
+> .:Escape:: .:IfAtomEnabled::string1[::string2]:. :.
+
+La fonction teste si VenC est [configuré](.:GetChapterAttributeByIndex::path::3.2:.#disable-atom-feed) pour généré un flux Atom.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : Optionnel. Texte retourné si la condition est fausse, et si indéfini, le motif est ignoré et supprimé.
+
+#### IfBlogMetadataIsTrue
+
+> .:Escape:: .:IfBlogMetadataIsTrue::metadata_name::if_true[::if_false]:. :.
+
+Permet d'afficher un text ou un autre selon que la métadonnée indiqué est vrai ou fausse.
+
+Ce motif possède les arguments suivant :
+
+- __metadata_name__ : Le nom de la métadonnée qu'on test. Le test de vérité est pythonic. C'est à dire que pour échouer la métadonnée ne doit pas exister ou être explicitement un booléen "false".
+- __if_true__ : Le texte à retourner si le test réussie.
+- __if_false__ : Optionnel. Le texte à retourner si le test échoue.
+
+#### IfCategories
+
+> .:Escape:: .:IfCategories::string1[::string2]:. :.
+
+La fonction teste si des catégories existent et si la génération des pages de celles-ci est bien activée dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
+
+- __string1__ : Texte retourné si la condition est remplie.
+- __string2__ : Optionnel. Texte retourné si la condition est fausse, et si indéfini, le motif est ignoré et supprimé.
+
+#### IfChapters
+
+> .:Escape:: .:IfChapters::string1[::string2]:. :.
+
+La fonction teste si des chapitres existent et si la génération des pages de ceux-là est bien activée dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#disable-chapters).
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : Optionnel. Texte retourné si la condition est fausse, et si indéfini, le motif est ignoré et supprimé.
+
+#### IfFeedsEnabled
+
+> .:Escape:: .:IfFeedsEnabled::string1[::string2]:. :.
+
+La fonction teste si VenC est configuré pour générer un flux RSS et/ou un flux Atom.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : Optionnel. Texte retourné si la condition est fausse, et si indéfini, le motif est ignoré et supprimé.
+
+#### IfInfiniteScrollEnabled
+
+> .:IfInfiniteScrollEnabled::string1[::string2]:.
+
+Permet de tester si l'option *disable_infinite_scroll* est définie dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.) et, si c'est le cas, quelle en est la valeur booléenne.
+
+- __string1__ : texte retourné si la variable testée vaut True.
+- __string2__ : Optionnel. Texte retourné si la condition est fausse, et si indéfini, le motif est ignoré et supprimé.
+
+#### IfRSSEnabled
+
+> .:Escape:: .:IfRSSEnabled::string1[::string2]:. :.
+
+La fonction teste si VenC est [configuré](.:GetChapterAttributeByIndex::path::3.2:.#disable-rss-feed) pour généré un flux RSS.
+
+- __string1__ : texte retourné si la condition est remplie.
+- __string2__ : Optionnel. Texte retourné si la condition est fausse, et si indéfini, le motif est ignoré et supprimé.
+
+#### RangeEntriesByID
+
+> .:Escape:: .:RangeEntriesByID::begin_at::end_at:. :.
+
+Retourne la clef correspond à ensemble de publication sélectionné à partir de l'identifiant
+*begin_at* et allant jusqu'à *end_at*.
+
+Si *end_at* est plus petit que *begin_at* alors l'ensemble de publication associé à la clef est trié
+dans l'ordre décroissant.
+
+Ce motif seul ne sert à rien. Il doit être utilisé
+conjointement avec [ForEntriesSet](.:GetChapterAttributeByIndex::path::4.4.2:.#forentriesset)
+
+Par exemple:
+
+> .:Escape:: .:ForEntriesSet:: .:RangeEntriesByID::4::8:. ::{title}:. :.
+
+Permet d'accéder aux publications dans l'ordre croissant allant de l'itendifiant 4 à 8.
