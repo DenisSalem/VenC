@@ -29,6 +29,7 @@ class Chapter:
         self.index = index
         self.entry_index = entry.index
         self.entry_id = entry.id
+        self.title = entry.title
         self.path = path
         
     def __str__(self):

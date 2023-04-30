@@ -96,7 +96,6 @@ class PatternsMap():
             "GetEntryAttributeByID" :       "get_entry_attribute_by_id",
             "GetFlattenedBlogCategories":	  "get_flattened_blog_categories",
             "GetRootPage":	                "get_root_page",
-            "GetEmbedContent":	            "wrapper_embed_content",
             "GetGenerationTimestamp":	      "get_generation_timestamp",
             "IfAtomEnabled":	              "if_atom_enabled",
             "IfBlogMetadataIsTrue":	        "if_blog_metadata_is_true",
@@ -106,7 +105,6 @@ class PatternsMap():
             "IfInfiniteScrollEnabled":	      "if_infinite_scroll_enabled",
             "IfRSSEnabled":	                "if_rss_enabled",
             "RangeEntriesByID":             "range_entries_by_id",
-            "GetMetadataTreeIfExists":      "get_blog_metadata_tree_if_exists",   
         },
         "extra": { # Loaded from function localy imported
             "Audio":	                  "venc3.patterns.theme.get_audio",
@@ -114,6 +112,7 @@ class PatternsMap():
             "CodeHighlightInclude":	    "venc3.patterns.third_party_wrapped_features.pygmentize.highlight_include",
             "DisableMarkup":	          "venc3.patterns.non_contextual.disable_markup",
             "Escape":                   "venc3.patterns.non_contextual.escape",
+            #"GetEmbedContent":	            "wrapper_embed_content", #TODO
             "GetVenCVersion":	          "venc3.patterns.non_contextual.get_venc_version",
             "IncludeFile":	            "venc3.patterns.non_contextual.include_file",
             "IncludeFileIfExists":	    "venc3.patterns.non_contextual.include_file_if_exists",
