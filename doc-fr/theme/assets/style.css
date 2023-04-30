@@ -18,7 +18,8 @@ blockquote, pre
     padding: 3px;
     padding-left: 10px;
     padding-right: 10px;
-    color: #808080;}
+    color: #808080;
+    overflow-x: scroll;}
 
 .chapter_title
     {background-color: #303030;

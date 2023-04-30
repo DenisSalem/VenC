@@ -303,6 +303,17 @@ Ce qui donnerait :
 
 #### GetEntryMetadataTreeIfExists
 
+.:CodeHighlight::Text::False:: .:Escape:: .:GetEntryMetadataTreeIfExists::
+    metadata_name::
+    open_node::
+    open_branch::
+    value_childs::
+    value::
+    close_branch::
+    close_node
+:. :.
+:.
+
 Identique à [GetEntryMetadataTree](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadatatree) mais le pattern
 est ignoré si la métadonnée indiqué n'existe pas.
 
