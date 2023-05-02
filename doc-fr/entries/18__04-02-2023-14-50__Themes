@@ -23,7 +23,7 @@ style CSS ou des scripts JS.
   - rssHeader.html
   - rssEntry.html
   - rssFooter.html
-  - audio.html
+  - [audio.html](.:GetChapterAttributeByIndex::path::4.4.3:.#audio)
   - video.html
   
 - __config.yaml__ : Un fichier de configuration [YAML](https://yaml.org/) permettant
