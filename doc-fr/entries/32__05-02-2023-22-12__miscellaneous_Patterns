@@ -208,3 +208,239 @@ Ce motif ne prend qu'un seul paramètre.
 Identique à [DisableMarkup](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup)
 mais permet d'ignorer également les motifs contenus à l'intérieur du texte de
 l'unique argument content.
+
+#### GetEmbedContent
+
+> .:Escape:: .:GetEmbedContent::content_URL:. :.
+
+Ce motif permet de récupérer du contenu embarqué via le protocole oEmbed.
+Typiquement, cela vous permet d'importer un lecteur Youtube ou SoundCloud
+dans votre publication.
+
+Le seul argument de ce motif est :
+
+- **content_URL** : il s'agit de l'URL de la ressource embarquée que vous voulez inclure.
+
+Par exemple, l'utilisation du motif comme ci-dessous :
+
+> .:Escape:: .:GetEmbedContent::https://www.youtube.com/watch?v=y8Kyi0WNg40:. :.
+
+Produit le code suivant :
+
+.:CodeHighlight::HTML::False::<iframe
+    src="https://www.youtube.com/embed/y8Kyi0WNg40?feature=oembed"
+    allow="
+        accelerometer;
+        autoplay;
+        clipboard-write;
+        encrypted-media;
+        gyroscope;
+        picture-in-picture;
+        web-share
+    " 
+    allowfullscreen=""
+    title="Dramatic Look"
+    width="427"
+    height="320" 
+    frameborder="0"
+>
+</iframe>:.
+
+Le résultat étant :
+
+.:GetEmbedContent::https://www.youtube.com/watch?v=y8Kyi0WNg40:.
+
+Pour fonctionner ce motif utilise une liste de providers disponibles
+[ici](https://oembed.com/providers.json) et inclus avec VenC.
+
+L'utilisation de ce motif génère des données misent en cache dans le
+répertoire de votre projet.
+
+#### GetVenCVersion
+
+> .:Escape:: .:GetVenCVersion:. :.
+
+Ce motif retourne la version de VenC avec laquelle la page courante est
+générée.
+
+#### IncludeFile
+
+> .:Escape:: .:IncludeFile::filename[::arg1][::arg2][...]:. :.
+
+Ce motif permet d'inclure le contenu d'un fichier dans la publication courante.
+Celui-ci ne doit comporter que des caractères imprimables.
+
+Ce motif prend au minimum deux arguments :
+
+- __filename__ : Le chemin du fichier à inclure dans la page. Celui-ci doit se trouver dans le répertoire includes de votre projet. Si le fichier n'existe pas ou n'est pas accessible, VenC lève une exception.
+- __arg1, arg2, ...__ : Ces paramètres sont optionnels. Il vous permettent de formater l'intérieur du fichier à inclure en remplaçant des variables numérotés (venc_arg_1, venc_arg_2, venc_arg_n) qui s'y trouverait par la valeur de chacun des paramètres correspondant.
+
+##### Un premier exemple
+
+Avec un fichier contenant plein de trucs longs et compliqués que nous appellerons :
+
+> plein-de-truc-longs-et-compliqués.txt
+
+Et qui se trouverait dans le répertoire includes de votre projet.
+Nous utiliserions alors le motif comme suit :
+
+> .:Escape:: .:IncludeFile::plein-de-truc-longs-et-compliqués.txt:. :.
+
+Notons que tout ce qui se trouve à l'intérieur du fichier ainsi inclus
+n'est pas traité par les interpréteurs de langage balisé.
+
+##### Second exemple
+
+Nous utiliserons les paramètres optionnels pour formater le contenu du
+fichier à inclure.
+
+Soit le fichier :
+
+> liste_de_choses_à_faire.txt
+
+Qui contiendrait :
+
+.:CodeHighlight::TEXT::False::Voilà les choses qu'il faut que je fasse avant de mourrir
+ - {venc_arg_1}
+ - {venc_arg_2}
+ - {venc_arg_3}
+ - {venc_arg_4}:.
+
+En utilisant le motif IncludeFile comme suit :
+
+.:CodeHighlight::TEXT::False:: .:Escape:: .:IncludeFile::liste_de_choses_à_faire.txt::
+Libérer la Corée du Nord::
+Terraformer la lune::
+Découvrir la matière exotique et commercialiser les trous de ver pour le voyage interstellaire::
+Nourrir Tacos, mon chien.
+:. :.
+:.
+
+Nous obtiendrions :
+
+.:CodeHighlight::Text::False::Voilà les choses qu'il faut que je fasse avant de mourrir
+ - Libérer la Corée du Nord
+ - Terraformer la lune
+ - Découvrir la matière exotique et commercialiser les trous de ver pour le voyage interstellaire
+ - Nourrir Tacos, mon chien:.
+
+La portion de texte ci-dessus serait incluse telle quelle dans la
+page générée par VenC.
+
+#### IncludeFileIfExists
+
+> .:Escape:: .:IncludeFileIfExists::filename[::arg1][::arg2][...]:. :.
+
+Identique à [IncludeFile](.:GetChapterAttributeByIndex::path::4.4.3:.#includefile) mais le motif
+est ignoré si le fichier à inclure est inaccessible ou n'existe pas.
+
+#### Kroki
+
+TODO
+
+#### KrokiFromFile
+
+TODO
+
+#### Latex2MathML
+
+> .:Escape:: .:Latex2MathML::latex_code:. :.
+
+Ce motif vous permet de générer du code MathML converti depuis le très
+populaire langage LaTeX. Ainsi, vous pouvez facilement inclure dans votre
+publication des formules mathématiques.
+
+Cette fonctionnalité dépend d'une librairie tierce, indépendante de VenC.
+En cas de problème ou de difficulté vous pourriez vouloir signaler un bug
+sur la page du projet latex2mathml.
+
+Le seul argument du motif est :
+
+- __latex_code__ : le code source LaTeX de la formule que vous souhaitez intégrer.
+
+Par exemple :
+
+> .:Escape:: .:Latex2MathML::\overline{z^{n+1}} = {\overline{z}}^{n+1}:. :.
+
+Produirait le code suivant :
+
+.:CodeHighlight::HTML::False::<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
+    <mrow>
+        <mover>
+            <mrow>
+                <msup>
+                    <mi>z</mi>
+                    <mrow>
+                        <mi>n</mi>
+                        <mo>&#x0002B;</mo>
+                        <mn>1</mn>
+                    </mrow>
+                </msup>
+            </mrow>
+            <mo stretchy="true">&#x000AF;</mo>
+        </mover>
+        <mo>&#x0003D;</mo>
+        <msup>
+            <mrow>
+                <mover>
+                    <mrow>
+                        <mi>z</mi>
+                    </mrow>
+                    <mo stretchy="true">&#x000AF;</mo>
+                </mover>
+            </mrow>
+            <mrow>
+                <mi>n</mi>
+                <mo>&#x0002B;</mo>
+                <mn>1</mn>
+            </mrow>
+        </msup>
+    </mrow>
+</math>:.
+
+Le résultat étant :
+
+.:Latex2MathML::\overline{z^{n+1}} = {\overline{z}}^{n+1}:.
+
+#### SetColor
+
+> .:Escape:: .:SetColor::color::input_text:. :.
+
+Ce motif permet de formater du texte avec la couleur de son choix et prend deux arguments :
+
+- __input_text__ : Le texte à formater. Peut contenir d'autres motifs.
+- __color__ : La couleur désirée telle que spécifiée par [CSS](https://developer.mozilla.org/fr/docs/Web/CSS/color_value).
+
+Par exemple
+
+> .:Escape:: .:SetColor::red::Texte de couleur rouge:. :.
+
+Produira le code HTML suivant :
+
+.:CodeHighlight::HTML::False::<span class="__VENC_TEXT_COLOR__" style="color: red;">Texte de couleur rouge</span>:.
+
+On remarque que la balise <span> a pour class __VENC_TEXT_COLOR__ ce qui
+permet plus de contrôle lors de la mise en page de votre blog.
+
+#### SetStyle
+
+> .:Escape:: .:SetStyle::tag_id::tag_class::content:. :.
+
+Ce motif permet d'assigner un id et une class CSS à une paire de balises
+span ajoutée par VenC pour encapsuler le texte passé en paramètre.
+
+Ce motif prend donc trois paramètres :
+
+- __tag_id__ : Le nom de l'id CSS à assigner au texte.
+- __tag_class__ : Le nom de la classe CSS à assigner au texte.
+- __content__ : Le texte auquel vous souhaitez appliquer un style CSS.
+
+Par exemple :
+
+> .:Escape:: .:SetStyle::mon_id::ma_class::Un texte quelconque à formater. :. :.
+
+Produirait :
+
+.:CodeHighlight::HTML::False::<span id="ma_class" class="ma_class">Un texte quelconque à formater.</span>:.
+
+
