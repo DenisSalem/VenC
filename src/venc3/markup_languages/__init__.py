@@ -34,7 +34,7 @@ def handle_markup_language_error(message, line=None, string=None):
 
 def import_wrapper(markup_language):
     key = {
-        "Markdown" :         ("markdown",         "VenCMarkdown",         "markdown2"),
+        "Markdown" :         ("markdown",         "VenCMarkdown",         "mistletoe"),
         "asciidoc" :         ("asciidoc",         "VenCAsciiDoc",         "asciidoc3"),
         "reStructuredText" : ("restructuredtext", "VenCreStructuredText", "docutils")
     }
