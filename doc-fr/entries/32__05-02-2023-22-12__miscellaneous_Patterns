@@ -189,3 +189,22 @@ code.
 
 Notons que tout ce qui se trouve à l'intérieur du fichier ainsi inclu
 n'est pas traité par le moteur de motifs de VenC.
+
+#### DisableMarkup
+
+> .:Escape:: .:DisableMarkup::content:. :.
+
+Ce motif permet d'empécher l'interpréteur de langage de balisage de traiter
+le texte passé en paramètre. Attention cependant, VenC y reconnaît toujours ses propres motifs.
+
+Ce motif ne prend qu'un seul paramètre.
+
+- __content__ : Le texte pour lequel on veut désactiver l'interpréteur de langage de balisage.
+
+#### Escape
+
+> .:Escape:: .:Escape::content:. :.
+
+Identique à [DisableMarkup](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup)
+mais permet d'ignorer également les motifs contenus à l'intérieur du texte de
+l'unique argument content.
