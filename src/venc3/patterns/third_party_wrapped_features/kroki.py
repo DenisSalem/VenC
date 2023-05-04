@@ -45,7 +45,7 @@ def kroki(pattern, endpoint, image_format, code, provider = "https://kroki.io/")
 
             from venc3.exceptions import VenCException
             try:
-                r = requests.get(provider+'/'+endpoint.st+'/'+image_format+'/'+encoded_code, stream=True)
+                r = requests.get(provider+'/'+endpoint+'/'+image_format+'/'+encoded_code, stream=True)
                 if r.status_code != 200:
                     raise VenCException(("exception_place_holder", "API Error: {0}".format(r.status_code)), pattern)
                     

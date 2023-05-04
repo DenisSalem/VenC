@@ -48,6 +48,7 @@
     TODO | Add post-generation warning information. For example calling GetEntryPath while single entry pages is disabled should not be silent.
     
 # version 3.1.0
+    TODO | Verify header id uniqueness or warn about W3C complience.
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
     ???  | Disable jsonld until cient side search-engine is ready ?
