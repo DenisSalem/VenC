@@ -574,23 +574,3 @@ class DatastorePatterns:
 
     def get_flattened_blog_categories(self, pattern, string, separator):
         return self.get_flattened_categories(pattern, string, separator)
-        
-    def wrapper_embed_content(self, node, content_url):
-        cache = self.cache_embed_exists(content_url)
-        if cache != "":
-            return cache
-
-        else:
-            if self.embed_providers == dict():
-                import os
-                import json
-                f = open(os.path.expanduser("~")+"/.local/share/VenC/embed_providers/oembed.json")
-                self.embed_providers["oembed"] = {}
-                j = json.load(f)
-                for p in j:
-                    self.embed_providers["oembed"][p["provider_url"]] = []
-                    for e in p["endpoints"]:
-                        self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
-                        
-        from venc3.patterns.non_contextual import get_embed_content
-        return get_embed_content(node, self.embed_providers, content_url)

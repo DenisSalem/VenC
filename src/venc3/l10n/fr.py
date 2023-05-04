@@ -70,7 +70,7 @@ class Messages:
     unknown_provider = "{0} est un fournisseur oembed inconnu."
     connectivity_issue = "Une erreur de connexion est survenue: {0}"
     ressource_unavailable = "{0}: Ressource non disponible."
-    response_is_not_json = "{0}: La reponse HTTP n'est pas du JSON."
+    response_is_not_json = "{0}: La reponse HTTP n'est pas du JSON : {1}"
     server_port_is_invalid = "\"{0}\" n'est pas un numéro de port valide."
     serving_blog = "Serveur actif sur le port : {0}."
     invalid_or_missing_metadata = "\"{0}\": Valeur de meta-donnée invalide ou abstente dans la publication \"{1}\"."

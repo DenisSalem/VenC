@@ -17,7 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import hashlib
 import json
 import shutil
 from venc3 import venc_version
@@ -27,61 +26,6 @@ theme_includes_dependencies = []
 
 def disable_markup(node, *argv):
     return '::'.join(argv)
-
-
-def get_embed_content(node, providers, target):  
-    try:
-        import requests
-
-    except:
-        from venc3.exceptions import VenCException
-        raise VenCException(("module_not_found", "requests"), node)
-
-    from urllib.parse import urlparse
-    url = urlparse(target)
-
-    try:
-        key = [ key for key in providers["oembed"].keys() if url.netloc in key][0]
-
-    except IndexError:
-        from venc3.exceptions import VenCException
-        raise VenCException(("unknown_provider", url.netloc), node)
-    
-    try:
-        r = requests.get(providers["oembed"][key][0], params={
-            "url": url.geturl(),
-            "format":"json",
-            "maxwidth": 640,
-            "maxheight": 320
-        })
-
-    except requests.exceptions.ConnectionError as e:
-        from venc3.exceptions import VenCException
-        raise VenCException(("connectivity_issue", str(e)), node)
-
-    if r.status_code != 200:
-        from venc3.exceptions import VenCException
-        raise VenCException(("ressource_unavailable", url.geturl()), node)
-
-    try:
-        html = "<div class=\"__VENC_OEMBED__\">"+json.loads(r.text)["html"]+"</div>"
-        html = "</p>"+html+"<p>" if node.root.has_markup_language else html
-        
-    except Exception as e:
-        from venc3.exceptions import VenCException
-        raise VenCException(("response_is_not_json", url.geturl()), node)
-        
-    try:
-        cache_filename = hashlib.md5(url.geturl().encode('utf-8')).hexdigest()
-        shutil.os.makedirs("caches/embed", exist_ok=True)
-        f = open("caches/embed/"+cache_filename, "w")
-        f.write(html)
-        f.close()
-
-    except PermissionError:
-        from venc3.prompt import notify
-        notify(("wrong_permissions", "caches/embed/"+cache_filename), color="YELLOW")
-    return html
 
 def get_venc_version(node):
     return venc_version
