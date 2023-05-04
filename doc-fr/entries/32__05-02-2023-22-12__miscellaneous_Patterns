@@ -336,21 +336,89 @@ est ignoré si le fichier à inclure est inaccessible ou n'existe pas.
 
 #### Kroki
 
-> .:Escape:: .:Kroki::endpoint::code[::provider]:. :.
+> .:Escape:: .:Kroki::endpoint::format::code[::provider]:. :.
 
-[Kroki](https://kroki.io/) est une API en ligne permettant de générer des Diagrammes depuis une description textuelle. VenC permet
+[Kroki](https://kroki.io/) est une API en ligne permettant de générer des diagrammes depuis une description textuelle. VenC permet
 d'utiliser cette API nativement mais nécessite tout de même que la librairie python [requests](https://fr.python-requests.org/en/latest/) soit installé.
 
 Les arguments sont les suivants :
 
 - __endpoint__ : Le nom du type de diagramme que vous souhaitez générer. Vous pouvez consulter la liste de ces types de diagramme [ici](https://kroki.io/#support)
-- __format__ : Le format de l'image retourné par le serveur.
+- __format__ : Le format de l'image retourné par le serveur :
+  - __png__
+  - __svg__
 - __code__ : La description textuelle du Diagramm que vous voulez générer.
-- __provider__ : Il s'agit de la ressource distante depuis laquelle l'API est utilisé. Par défaut il s'agit de [https://kroki.io](https://kroki.io/).
+- __provider__ : Il s'agit du serveur depuis lequel l'API est utilisé. Par défaut il s'agit de [https://kroki.io](https://kroki.io/).
+
+VenC récupère l'image est l'enregistre dans le répertoire [extra](.:GetChapterAttributeByIndex::path::3.1:.). Celle-ci est ensuite copié à la racine du blog.
+Le motif renvoie quand à lui un balise _img_ de la forme :
+
+.:CodeHighlight::HTML::False::<img class="__VENC_KROKI__" src="../kroki_2b7b50208100ca9a40a3138ee72e62f7.svg">:.
+
+##### Exemple basé sur celui proposé sur le site du projet
+
+On se propose de générer un diagramme UML avec PlantUML au format png :
+
+.:CodeHighlight::TEXT::False:: .:Escape::
+.:Kroki::
+  plantuml::
+  svg::
+  skinparam ranksep 20
+  skinparam dpi 125
+  skinparam packageTitleAlignment left
+  
+  rectangle "Main" {
+    (main.view)
+    (singleton)
+  }
+  rectangle "Base" {
+    (base.component)
+    (component)
+    (model)
+  }
+  rectangle "<b>main.ts</b>" as main_ts
+  
+  (component) ..> (base.component)
+  main_ts ==> (main.view)
+  (main.view) --> (component)
+  (main.view) ...> (singleton)
+  (singleton) ---> (model)
+:. :. :.
+
+Ce qui donnerait :
+
+.:Kroki::
+  plantuml::
+  svg::
+  skinparam ranksep 20
+  skinparam dpi 125
+  skinparam packageTitleAlignment left
+  
+  rectangle "Main" {
+    (main.view)
+    (singleton)
+  }
+  rectangle "Base" {
+    (base.component)
+    (component)
+    (model)
+  }
+  rectangle "<b>main.ts</b>" as main_ts
+  
+  (component) ..> (base.component)
+  main_ts ==> (main.view)
+  (main.view) --> (component)
+  (main.view) ...> (singleton)
+  (singleton) ---> (model)
+:.
 
 #### KrokiFromFile
 
-TODO
+> .:Escape:: .:Kroki::endpoint::format::filename[::provider]:. :.
+
+Identique à [Kroki](.:GetChapterAttributeByIndex::path::4.4.3:.#kroki) mais l'argument _code_ est remplacé par _filename_.
+Il s'agit du nom de fichier contenant le code décrivant le diagramme. Si le fichier n'existe pas ou n'est pas accessible,
+VenC s'arrête sur une erreur.
 
 #### Latex2MathML
 
@@ -453,4 +521,76 @@ Produirait :
 
 .:CodeHighlight::HTML::False::<span id="ma_class" class="ma_class">Un texte quelconque à formater.</span>:.
 
+#### Table
 
+> .:Escape:: .:Table[::item1][::item2] ... :. :.
+
+Ce motif permet d'organiser du contenu dans un tableau. Le motif a un nombre illimité d'arguments. Chaque argument correspond au contenu d'une cellule.
+
+Quand VenC détect qu'un argument est égal à la valeur _NewLine_, une nouvelle ligne est insérée,
+puis VenC poursuit l'ajout des cellules du tableau pour chaque argument.
+
+Par exemple, pour créer un tableau de quatre cellules et deux lignes :
+
+.:CodeHighlight::TEXT::False:: .:Escape::
+.:Table:: VenC version: :: .:GetVenCVersion:.                   ::
+NewLine:: Date          :: .:GetGenerationTimestamp::%d-%m-%Y:. :.
+:. :.
+
+Ce qui produira le code suivant :
+
+.:CodeHighlight::HTML::False::<div class="__VENC_TABLE__">
+    <table>
+        <tr>
+            <td>VenC version:</td>
+            <td>2.0.0</td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td>11-06-2020</td>
+        </tr>
+    </table>
+</div>:.
+
+Comme on le voit, il est possible d'utiliser des motifs VenC à l'intérieur du motif Table.
+Remarquons également que pour chaque cellule, les caractères blancs au début et à la fin de l'argument correspondant sont effacés.
+
+#### Video
+
+> .:Escape:: .:Video::source::extensions[::poster]:. :.
+
+Ce motif fonctionne comme [Audio](.:GetChapterAttributeByIndex::path::4.4.3:.#audio), il possède cependant un argument supplémentaire
+pour ajouter une vignette.
+
+Ce motif permet donc d'inclure un fichier vidéo dans la page. Pour ce faire, le fichier [video.html](.:GetChapterAttributeByIndex::path::3.6:.)
+faisant partie du thème est formaté avec les paramètres passés au motif :
+
+- __source__ : Il s'agit de l'URL ou du chemin de la vidéo. Il peut s'agir d'un chemin absolu ou relatif. S'il s'agit d'un chemin relatif, vous pouvez utiliser [GetRelativeRoot](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot). Attention, l'URL ou le chemin passé en paramètre ne doit pas contenir l'extension du fichier.
+- __extensions__ : Pour assurer la compatibilité de votre contenu avec les différents navigateurs du marché, il est recommandé d'avoir plusieurs sources de la même vidéo en différents formats. Ce paramètre est donc une liste des extensions disponibles pour votre vidéo. Les éléments de la liste sont séparés par une virgule.
+- __poster__ : Il est possible d'avoir une image de fond, en remplacement de la vidéo quand celle-ci n'est pas encore lancée. Ce paramètre contient donc l'URL ou le chemin relatif (vous pouvez également utiliser [GetRelativeRoot](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot)) ou absolu de ladite image.
+
+#### Exemple de fichier video.html
+
+.:CodeHighlight::HTML::False::<video controls poster="{poster}" style="width: 100%;">
+{source}
+Your browser does not support the video tag.
+</video>:.
+
+Ce qui est important ici, c'est la [variable python](https://docs.python.org/fr/3/tutorial/inputoutput.html#the-string-format-method) _source_ que VenC remplace par autant
+d'occurence que nécessaire par des balises _source_ contenant la version du fichier courant.
+Également la variable _poster_ contient l'url du poster passé en argument au motif.
+
+##### Exemple d'utilisation
+
+.:CodeHighlight::TEXT::False:: .:Escape::
+.:Video::
+  https://www.w3schools.com/html/mov_bbb::
+  mp4,ogg::
+  .:GetRelativeRoot:.bbb-poster.jpg
+:.
+:.
+:.
+
+Finalement, on obtient le résultat suivant :
+
+.:Video::https://www.w3schools.com/html/mov_bbb::mp4,ogg:: .:GetRelativeRoot:.bbb-poster.jpg:.
