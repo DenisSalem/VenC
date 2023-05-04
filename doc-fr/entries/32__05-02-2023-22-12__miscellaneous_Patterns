@@ -336,7 +336,17 @@ est ignoré si le fichier à inclure est inaccessible ou n'existe pas.
 
 #### Kroki
 
-TODO
+> .:Escape:: .:Kroki::endpoint::code[::provider]:. :.
+
+[Kroki](https://kroki.io/) est une API en ligne permettant de générer des Diagrammes depuis une description textuelle. VenC permet
+d'utiliser cette API nativement mais nécessite tout de même que la librairie python [requests](https://fr.python-requests.org/en/latest/) soit installé.
+
+Les arguments sont les suivants :
+
+- __endpoint__ : Le nom du type de diagramme que vous souhaitez générer. Vous pouvez consulter la liste de ces types de diagramme [ici](https://kroki.io/#support)
+- __format__ : Le format de l'image retourné par le serveur.
+- __code__ : La description textuelle du Diagramm que vous voulez générer.
+- __provider__ : Il s'agit de la ressource distante depuis laquelle l'API est utilisé. Par défaut il s'agit de [https://kroki.io](https://kroki.io/).
 
 #### KrokiFromFile
 
