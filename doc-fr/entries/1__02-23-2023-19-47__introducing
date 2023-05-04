@@ -4,7 +4,9 @@ categories:
 - ''
 chapter: 1
 title: Présentation
-TODO: Verify all generated anchor correspondance with handmade reference
+TODO:
+  - Verify all generated anchor correspondance with handmade reference
+  - Verify W3C complience
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 VenC est un logiciel libre écrit en Python conçue pour GNU/Linux dont le développement a commencé en 2012 pour gérer et créer vos blogs statiques via la console. Avec VenC, tout est fichier texte, pas de base de données.
