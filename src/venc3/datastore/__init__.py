@@ -20,8 +20,6 @@
 from copy import deepcopy
 
 import datetime
-import hashlib
-import json
 import os
 import unidecode
 
@@ -224,14 +222,6 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries, JSONLD):
             output_string += opening_branch.format(**variables) +closing_branch.format(**variables)
 
         return output_string + closing_node
-        
-    def cache_embed_exists(self, link):
-        cache_filename = hashlib.md5(link.encode('utf-8')).hexdigest()
-        try:
-            return open("caches/embed/"+cache_filename,"r").read()
-
-        except FileNotFoundError:
-            return ""
     
 datastore = None
 
