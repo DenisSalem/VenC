@@ -22,9 +22,13 @@ def kroki_from_file(pattern, endpoint, image_format, filename, provider = "https
     code = include_file(pattern, filename)
     return kroki(pattern, endpoint, image_format, code, provider)
     
-def kroki(pattern, endpoint, image_format, code, provider = "https://kroki.io/"): 
+def kroki(pattern, endpoint, image_format, code, provider = "https://kroki.io/"):
+    endpoint = endpoint.strip()
+    image_format = image_format.strip()
+    provider = provider.strip()
+    
     import hashlib
-    filename = "kroki_"+hashlib.md5(code.encode('utf-8')).hexdigest()+".svg"
+    filename = "kroki_"+hashlib.md5(code.encode('utf-8')).hexdigest()+"."+image_format
     import os
     if not filename in os.listdir(os.getcwd()+"/includes"):
         import zlib;
@@ -41,13 +45,14 @@ def kroki(pattern, endpoint, image_format, code, provider = "https://kroki.io/")
 
             from venc3.exceptions import VenCException
             try:
-                r = requests.get(provider+'/'+endpoint+'/'+image_format+'/'+encoded_code)
+                r = requests.get(provider+'/'+endpoint.st+'/'+image_format+'/'+encoded_code, stream=True)
                 if r.status_code != 200:
                     raise VenCException(("exception_place_holder", "API Error: {0}".format(r.status_code)), pattern)
                     
-                with open("extra/"+filename,"w") as f:
-                    f.write(r.text)
-                    
+                with open("extra/"+filename,"wb") as f:
+                    for chunk in r.iter_content(chunk_size=128):
+                        f.write(chunk)
+                        
             except Exception as e:
                 raise VenCException(("exception_place_holder", str(e)), pattern)
               
