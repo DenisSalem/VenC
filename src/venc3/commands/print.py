@@ -105,3 +105,19 @@ def version(params):
     print("VenC", venc_version)
     import platform
     print("Python", platform.python_version())
+    deps = [
+        "asciidoc3",
+        "docutils",
+        "latex2mathml",
+        "mistletoe",
+        "pygments",
+        "requests"
+    ]
+    import importlib
+    for dep in deps:
+        try:
+            m = importlib.import_module(dep)
+            print("\t", dep, m.__version__ if hasattr(m, "__version__") else "")
+
+        except ModuleNotFoundError:
+            print("\t", dep, messages.not_installed)

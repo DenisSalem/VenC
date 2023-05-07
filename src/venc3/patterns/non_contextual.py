@@ -36,7 +36,6 @@ def set_color(node, color, string):
 def set_style(node, ID, CLASS, *string):
     return "<span id=\""+ID.strip()+"\" class=\""+CLASS.strip()+"\">"+('::'.join(string).strip())+"</span>"
 
-
 def include_file(node, filename, *argv, raise_error=True):
     if filename == '':
         if not raise_error:
@@ -85,7 +84,6 @@ def include_file(node, filename, *argv, raise_error=True):
     else:
         return include_string
 
-# TODO : Not documented in pattern cheat sheet
 def include_file_if_exists(node, filename, *argv):
     return include_file(node, filename, *argv, raise_error=False)
 

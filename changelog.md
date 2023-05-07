@@ -9,7 +9,7 @@
     TODO | Automatically merge all known entry authors into blog authors.
     
 # version 3.1.x
-
+    
     WIP  | Replace as much as possible usage of list with tuple.
     WIP  | Client-side search engine.
     TODO | Override theme config override.
@@ -52,6 +52,7 @@
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
     ???  | Disable jsonld until cient side search-engine is ready ?
+    DONE | Enhance venc -v with module version if installed
     DONE | Fix many bugs.
     DONE | Add entry_id metadata to Chapter.
     DONE | Fix chapter index acquisition with GetEntryMetadata.

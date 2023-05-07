@@ -18,3 +18,4 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 venc_version = "3.1.0"
+__version__ = venc_version # PEP396
