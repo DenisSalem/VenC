@@ -220,20 +220,6 @@ Les valeurs possibles sont :
 Vous pouvez également spécifier le nom d'une métadonnée définie
 manuellement dans l'entête de vos publications.
 
-## enable_jsonld
-
-Active la création de fichier JSON-LD pour le référencement à l'aide des
-techniques du web sémantique.
-Ce champ est un booléen qui vaut *False* par défaut. Selon la taille de
-votre blog, ces fichiers peuvent vite prendre de la place.
-
-## enable_jsonp
-
-Active la création de fichier JSON-P contenant des données jsonld pour le
-moteur de recherche décentralisé côté client. Il s'agit d'une fonctionnalité expérimental en cours d'implémentation.
-Ce champ est un booléen qui vaut *False* par défaut. Selon la taille de
-votre blog, ces fichiers peuvent vite prendre de la place.
-
 ## parallel_processing
 
 Permet de controller le nombre de processus enfant lors de la génération de votre site avec VenC. Le nombre idéal correspond à votre nombre

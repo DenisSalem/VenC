@@ -1,0 +1,19 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Feuille de référence
+chapter: 4.5
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Ce chapitre comporte un tableau récapitulant l'ensemble des motifs reconnus
+par VenC, ainsi que leurs arguments.
+
+Si vous souhaitez créer ou modifier un thème existant,
+c'est le bon endroit pour étudier les différentes possibilités qui
+s'offrent à vous.
+
+- La colone des arguments, indique le nom des paramètres qu'il est possible (et souvent obligatoire) de spécifier à la fonction.
+- La colonne des variables indique le nom des variables qu'il est possible d'utiliser à l'intérieur d'un ou plusieurs arguments.
+
+
