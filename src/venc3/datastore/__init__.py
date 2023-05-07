@@ -27,7 +27,6 @@ from urllib.parse import quote as urllib_parse_quote
 from venc3.datastore.configuration import get_blog_configuration
 from venc3.datastore.archives import Archives
 from venc3.datastore.entries import Entries
-from venc3.datastore.jsonld import JSONLD
 from venc3.datastore.metadata import MetadataNode
 from venc3.datastore.metadata import Chapter
 from venc3.datastore.taxonomy import Taxonomy
@@ -36,7 +35,7 @@ from venc3.exceptions import MalformedPatterns, VenCException
 from venc3.patterns.datastore import DatastorePatterns
 from venc3.helpers import quirk_encoding
 
-class DataStore(DatastorePatterns, Taxonomy, Archives, Entries, JSONLD):
+class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
     def __init__(self):
         self.requested_entry = None
         self.embed_providers = {}
@@ -83,7 +82,6 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries, JSONLD):
         self.init_entries()
         self.init_archives()
         self.init_taxonomy()
-        self.init_jsonld()
                 
     def build_chapter_indexes(self):
         # build chapters index

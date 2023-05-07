@@ -68,29 +68,3 @@ class ArchivesThread(Thread):
                 continue
                 
             super().do()
-            # ~ if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
-                # ~ from venc3.prompt import notify
-                # ~ notify(("generating_jsonld_doc",), prepend="│\t "+('│' if i != len_archives-1 else ' ')+"  └─ ")
-                
-                # ~ blog_url = self.datastore.blog_configuration["blog_url"]
-                # ~ archive_as_jsonld = self.datastore.archives_as_jsonld[archive.value]
-                # ~ archive_as_jsonld["breadcrumb"]["itemListElement"].append({
-                    # ~ "@type": "ListItem",
-                    # ~ "position": 2,
-                    # ~ "item": {
-                        # ~ "@id": blog_url+'/'+self.sub_folders+archive.value+"/archives.jsonld",
-                        # ~ "url": blog_url+'/'+self.sub_folders+archive.value,
-                        # ~ "name": self.datastore.blog_configuration["blog_name"] +' | '+archive.value
-                    # ~ }
-                # ~ })
-                # ~ archive_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+archive.value+"/archives.jsonld"
-                # ~ archive_as_jsonld["url"] = blog_url+'/'+self.sub_folders+archive.value
-                # ~ dump = json.dumps(archive_as_jsonld)
-                # ~ f = open("blog/"+self.sub_folders+'/'+archive.value+"/archives.jsonld", 'w')
-                # ~ f.write(dump)
-
-    def get_JSONLD(self, node):
-        # ~ if self.current_page == 0 and self.enable_jsonld:
-            # ~ return '<script type="application/ld+json" src="archives.jsonld"></script>'
-        
-        return ''

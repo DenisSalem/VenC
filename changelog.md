@@ -52,7 +52,7 @@
     TODO | validate documentation w3c complience.
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
-    ???  | Disable jsonld until cient side search-engine is ready ?
+    DONE | remove support of jsonld.
     DONE | Enhance venc -v with module version if installed
     DONE | Fix many bugs.
     DONE | Add entry_id metadata to Chapter.

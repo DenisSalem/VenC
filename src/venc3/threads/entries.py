@@ -20,8 +20,6 @@
 import codecs
 import os
 
-import json
-
 from venc3.helpers import quirk_encoding
 from venc3.threads import Thread
 
@@ -157,18 +155,8 @@ class EntriesThread(Thread):
                 )
               )
             )
-    
-    def do_jsonld(self, entry):
-        # ~ dump = json.dumps(self.datastore.entries_as_jsonld[self.current_entry.id])
-        # ~ f = open(self.current_export_path+"/"+str(entry.id)+".jsonld", 'w')
-        # ~ f.write(dump.replace("\\u001a", self.relative_origin))
-        pass
             
-    def do(self):
-        if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
-            from venc3.prompt import notify
-            notify(("generating_jsonld_docs",), prepend=self.indentation_level+'└─ ')
-            
+    def do(self):           
         self.page_number = 0
         self.current_page = 0
         if len(self.pages):
@@ -178,11 +166,3 @@ class EntriesThread(Thread):
                     self.pre_iteration()
                     self.do_iteration(entry)
                     self.post_iteration()
-                    if self.datastore.enable_jsonld:
-                        self.do_jsonld(entry)
-
-
-    def get_JSONLD(self, node):
-        # ~ if self.datastore.enable_jsonld and self.enable_jsonld:
-            # ~ return '<script type="application/ld+json" src="entry'+str(self.current_entry.id)+'.jsonld"></script>'
-        return ''

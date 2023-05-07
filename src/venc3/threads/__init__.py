@@ -49,7 +49,6 @@ class Thread:
         self.indentation_level = "│  "
         self.patterns_map = patterns_map
         self.datastore = datastore
-        self.enable_jsonld = False #datastore.blog_configuration["enable_jsonld"] or datastore.blog_configuration["enable_jsonp"]
         # Notify wich thread is processed
         from venc3.prompt import notify
         notify(("exception_place_holder", prompt),prepend=indentation_type)
@@ -77,11 +76,11 @@ class Thread:
             { key : getattr(self, value)  for key,value, in patterns_map.CONTEXTUALS.items()}
         )
 
-    def get_random_number(self, node, _min, _max, _precision):    
+    def get_random_number(self, node, min_value, max_value, precision):    
             import random
             try:
-                v = float(_min) + random.random() * (float(_max) - float(_min))
-                return str(int(v)) if int(_precision) == 0 else str(round(v, int(_precision)))
+                v = float(min_value) + random.random() * (float(max_value) - float(min_value))
+                return str(int(v)) if int(precision) == 0 else str(round(v, int(precision)))
                 
             except ValueError as e:
                 from venc3.exceptions import VenCException
@@ -220,9 +219,6 @@ class Thread:
             page_number +=1
         
         return output[:-len(separator)]
-
-    def get_JSONLD(self, node):
-        return ''
 
     def get_entry_content(self, node):
         if not hasattr(self, "current_entry"):

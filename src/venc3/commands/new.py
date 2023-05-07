@@ -188,8 +188,6 @@ def new_blog(blog_names):
         "path_encoding":                "",
         "server_port":                  8888,
         "sort_by":                      "id",
-        "enable_jsonld":                False,
-        "enable_jsonp":					False,
         "parallel_processing": 1
     }
     for folder_name in blog_names:
