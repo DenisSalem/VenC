@@ -9,7 +9,7 @@
     TODO | Automatically merge all known entry authors into blog authors.
     
 # version 3.1.x
-    
+    TODO | https://github.com/all-contributors/all-contributors
     WIP  | Replace as much as possible usage of list with tuple.
     WIP  | Client-side search engine.
     TODO | Override theme config override.
@@ -49,6 +49,7 @@
     
 # version 3.1.0
     TODO | Verify header id uniqueness or warn about W3C complience.
+    TODO | validate documentation w3c complience.
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
     ???  | Disable jsonld until cient side search-engine is ready ?

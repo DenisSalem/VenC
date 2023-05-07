@@ -42,13 +42,9 @@ def undefined_variable(match):
 
 class Thread:
     def __init__(self, prompt, indentation_type = "├─ "):
-        from venc3.patterns.contextual import get_random_number
         from venc3.datastore import datastore
         from venc3.datastore.theme import theme
-        from venc3.patterns.patterns_map import patterns_map
-        
-        self.get_random_number = get_random_number
-        
+        from venc3.patterns.patterns_map import patterns_map        
         self.workers_count = datastore.workers_count
         self.indentation_level = "│  "
         self.patterns_map = patterns_map
@@ -81,6 +77,20 @@ class Thread:
             { key : getattr(self, value)  for key,value, in patterns_map.CONTEXTUALS.items()}
         )
 
+    def get_random_number(self, node, _min, _max, _precision):    
+            import random
+            try:
+                v = float(_min) + random.random() * (float(_max) - float(_min))
+                return str(int(v)) if int(_precision) == 0 else str(round(v, int(_precision)))
+                
+            except ValueError as e:
+                from venc3.exceptions import VenCException
+                faulty_arg_name = {v: k for k, v in locals().items()}[e.args[0].split('\'')[1]]
+                
+                raise VenCException(
+                    ("wrong_pattern_argument", faulty_arg_name[1:], locals()[faulty_arg_name], "GetRandomNumber", str(e)),
+                    node
+                )
     def get_style_sheets(self, node):
         return get_style_sheets(node).replace("\x1a", self.relative_origin)
 
