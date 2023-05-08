@@ -31,7 +31,7 @@ USAGE = \
     "-rc\t--remote-copy\n" +\
     "-h\t--help\n" +\
     "-it\t--install-theme <"+messages.theme_name+">\n" \
-    "-t\t--themes\n" \
+    "-pt\t--print-themes\n" \
     "-ta\t--template-arguments <\""+messages.arg_template_name+"\">"\
     
 # Will be removed and replaced by argparse

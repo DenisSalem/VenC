@@ -116,6 +116,8 @@ class Messages:
     chapter_has_no_entry = "Chapter {0} doesn't match any entry."
     this_pattern_is_embed_in_the_name_of_another_one = "This pattern {0} is embed in the name of another one."
     not_installed = "is not installed."
+    chapter_type_is_ambiguous = "Chapter index from entry is of type float #{0} and ambiguous. It should be str or int."
+
     # Will not be hooked by l10n_cleanup
     generating_rss = "Generating RSS feed..."
     generating_atom = "Generating Atom feed..."

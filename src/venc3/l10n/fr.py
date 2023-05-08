@@ -116,6 +116,7 @@ class Messages:
     chapter_has_no_entry = "Le chapitre {0}, ne correspond à aucune publication."
     this_pattern_is_embed_in_the_name_of_another_one = "Le pattern {0} est intégré dans le nom d'un autre."
     not_installed = "n'est pas installé."
+    chapter_type_is_ambiguous = "L'index du chapitre de la plublication #{0} est de type float et est donc ambiguë. Le type devrait être str ou int."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."
