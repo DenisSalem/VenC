@@ -3,7 +3,7 @@ authors:
 categories:
 - ''
 title: Afficher la version de VenC
-chapter: 5.1
+chapter: '5.1'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 > venc -v

@@ -3,7 +3,7 @@ authors:
 categories:
 - ''
 title: Variables de motif
-chapter: 4.2
+chapter: '4.2'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Certains motifs comportent des _variables_. Il s'agit de valeurs accessibles depuis les arguments du motif.
