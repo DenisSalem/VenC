@@ -1,7 +1,7 @@
 author_description: 
 author_email: 
 author_name: Denis Salem
-blog_description: Un générateur de site statique qui casse des briques
+blog_description: Un générateur de site statique qui casse des briques. VenC est tellement rapide qu'il enfreint le principe de causalité et produit de l'énergie surunitaire !
 blog_keywords:
 blog_language: fr
 blog_name: VenC
@@ -23,7 +23,7 @@ feed_lenght: 5
 ftp_host: ftp.tuxfamily.org
 license: 'CC-By-SA'
 markup_language: Markdown
-parallel_processing: 1
+parallel_processing: 8
 path:
   archives_directory_name: '%Y-%m'
   archives_sub_folders: ''
