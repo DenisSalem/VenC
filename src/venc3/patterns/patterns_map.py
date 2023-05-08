@@ -24,7 +24,6 @@ class PatternsMap():
         "ForPages":	                    "for_pages",
         "GetEntryContent":              "get_entry_content",
         "GetEntryPreview":              "get_entry_preview",
-        "GetJSON-LD":	                  "get_JSONLD",
         "GetNextPage":	                "get_next_page",
         "GetPreviousPage":	            "get_previous_page",
         "GetRandomNumber":	            "get_random_number",
