@@ -94,6 +94,7 @@ class DatastorePatterns:
             return if_true
                         
     def get_chapters(self, pattern, list_open, item_open, item_close, list_close):
+        '''index,title,path,level'''
         key = list_open+item_open+item_close+list_close
         if not key in self.html_chapters.keys():
             self.html_chapters[key] = self.build_html_chapters(list_open, item_open, item_close, list_close, self.chapters_index, 0)
@@ -188,6 +189,7 @@ class DatastorePatterns:
             )
             
     def get_entry_metadata_if_exists(self, pattern, metadata_name, string='', string2='', ok_if_null=True):
+        '''value'''
         try:
             value = str(getattr(self.requested_entry,metadata_name ))
 
@@ -198,12 +200,13 @@ class DatastorePatterns:
             return value
 
         if ok_if_null or (value != None and len(value)):
-            return string.format(**{"value" : value, "relative_origin": "\x1a"})
+            return string.format(**{"value" : value})
             
         else:
             return string2
             
     def get_entry_metadata_if_not_null(self, pattern, metadata_name, string='', string2=''):
+        '''value'''
         return self.get_entry_metadata_if_exists(pattern, metadata_name, string, string2, ok_if_null=False)
         
     def get_entry_title(self, pattern):
@@ -298,6 +301,7 @@ class DatastorePatterns:
         return self.root_page
         
     def get_entry_categories_tree(self, pattern, open_node, open_branch, close_branch, clode_node):
+        '''value,count,weight,path,childs'''
         key = open_node+open_branch+close_branch+clode_node
         entry = self.requested_entry
 
@@ -318,6 +322,7 @@ class DatastorePatterns:
         return entry.html_categories_tree[key]
             
     def get_blog_categories_tree(self, pattern, open_node, open_branch, close_branch, clode_node):
+        '''value,count,weight,path,childs'''
         key = open_node+open_branch+close_branch+clode_node
         # compute once categories tree and deliver baked html
         if not key in self.html_categories_tree.keys():
@@ -376,6 +381,7 @@ class DatastorePatterns:
         return str(id(key))
             
     def for_entries_set(self, pattern, entries_subset_key, string):
+        '''id,title,path,archive_path,chapter_path,...'''
         output = ""
         try:
             entries = self.cache_entries_subset[entries_subset_key.strip()]
@@ -411,6 +417,7 @@ class DatastorePatterns:
         return output
 
     def for_blog_archives(self, pattern, string, separator):
+        '''value,path,count,weight'''
         key = string+','+separator
         if not key in self.cache_blog_archives.keys():
             if self.blog_configuration["disable_archives"]:
@@ -428,9 +435,11 @@ class DatastorePatterns:
         return self.cache_blog_archives[key]
 
     def for_blog_metadata(self, pattern, metadata_name, string, separator=''):
+        '''value'''
         return self.for_blog_metadata_if_exists(pattern, metadata_name, string, separator, raise_exception=True)
 
     def for_blog_metadata_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):
+        '''value'''
         key = metadata_name+','+string+','+separator+','+str(raise_exception)
         if not key in self.html_for_metadata:
             if not metadata_name in self.blog_configuration.keys():
@@ -453,9 +462,11 @@ class DatastorePatterns:
         return self.html_for_metadata[key]
 
     def for_entry_metadata(self, pattern, metadata_name, string, separator=''):
+        '''value'''
         return self.for_entry_metadata_if_exists(pattern, metadata_name, string, separator, raise_exception=True)
 
-    def for_entry_metadata_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):        
+    def for_entry_metadata_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):    
+        '''value'''    
         entry = self.requested_entry
         key = metadata_name+string+separator
             
@@ -486,12 +497,15 @@ class DatastorePatterns:
         return entry.html_for_metadata[key]
             
     def for_entry_authors(self, pattern, string, separator=' '):
+        '''value'''
         return self.for_entry_metadata(pattern, "authors", string, separator)
 
     def get_blog_metadata_tree(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node):
+        '''value,tree'''
         return self.get_blog_metadata_tree_if_exists(pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
 
     def get_blog_metadata_tree_if_exists(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
+        '''value,childs'''
         metadata_name = metadata_name.strip()
         key = metadata_name+','+open_node+','+open_branch+value_childs+','+value+','+close_branch+','+close_node+','+str(raise_exception)
         if key in self.html_tree_for_blog_metadata.keys():
@@ -510,9 +524,11 @@ class DatastorePatterns:
         return self.html_tree_for_blog_metadata[key]
         
     def get_entry_metadata_tree(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node):
+        '''value,childs'''
         return self.get_entry_metadata_tree_if_exists(pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
         
     def get_entry_metadata_tree_if_exists(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
+        '''value,childs'''
         entry = self.requested_entry
         source = metadata_name.strip()
         if not hasattr(entry, metadata_name):
@@ -569,7 +585,9 @@ class DatastorePatterns:
         return cache[key]
         
     def get_flattened_entry_categories(self, pattern, string, separator):
+        '''value,count,weight,path'''
         return self.get_flattened_categories(pattern, string, separator, self.requested_entry.index)
 
     def get_flattened_blog_categories(self, pattern, string, separator):
+        '''value,count,weight,path'''
         return self.get_flattened_categories(pattern, string, separator)

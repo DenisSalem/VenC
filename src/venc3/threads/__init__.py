@@ -108,6 +108,7 @@ class Thread:
         return self.relative_origin
 
     def get_thread_name(self, pattern, string1='', string2=''):
+        '''value'''
         if len(self.thread_name):
             return string1.format(**{"value":self.thread_name})
         
@@ -127,6 +128,7 @@ class Thread:
 
     # Must be called in child class
     def get_next_page(self, pattern, string):
+        '''page_number,entry_id,entry_title,path'''
         if self.current_page < self.pages_count - 1:
             params = {
                 "page_number" : str(self.current_page + 1),
@@ -158,6 +160,7 @@ class Thread:
 
     # Must be called in child class
     def get_previous_page(self, pattern, string):
+        '''page_number,entry_id,entry_title,path'''
         if self.current_page > 0:
             params = {
                 "page_number" : str(self.current_page - 1) if self.current_page - 1 != 0 else '',
@@ -188,7 +191,8 @@ class Thread:
             return str()
 
     # Must be called in child class
-    def for_pages(self, pattern, length, string, separator):           
+    def for_pages(self, pattern, length, string, separator):
+        '''page_number,entry_id,entry_title,path'''
         if self.pages_count <= 1:
             return str()
 
