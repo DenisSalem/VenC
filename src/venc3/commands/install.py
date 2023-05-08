@@ -33,7 +33,7 @@ def install_theme(params):
     blog_configuration = get_blog_configuration() # will fail nicely if no configuration available
 
     import datetime
-    new_folder_name = "theme "+str(datetime.datetime.now()).replace(':','-')
+    new_folder_name = "theme-"+str(datetime.datetime.now()).replace(':','-')
 
     try:
         shutil.move("theme", new_folder_name)
