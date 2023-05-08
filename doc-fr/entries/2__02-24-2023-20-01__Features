@@ -20,7 +20,7 @@ VenC propose les fonctionnalités suivantes :
 - Des Permaliens.
 - Un serveur HTTP simple pour effectuer des tests et prévisualiser le site.
 - La gestion et l'édition du blog peuvent-être faite entièrement en ligne de commande, dans un environnemnt non graphique.
-- Le support de [Markdown](https://daringfireball.net/projects/markdown/syntax), [reStructuredText](http://docutils.sourceforge.net/rst.html), [AsciiDoc](https://asciidoc.org/) ou HTML.
+- Le support de [Markdown](https://daringfireball.net/projects/markdown/syntax), [reStructuredText](http://docutils.sourceforge.net/rst.html), [AsciiDoc](https://asciidoc.org/).
 - La mise en ligne du site peut se faire en FTP via VenC.
 - Le support de [pygmentize](http://pygments.org) pour la coloration syntaxique.
 - Le support de l'API [oEmbed](https://oembed.com).

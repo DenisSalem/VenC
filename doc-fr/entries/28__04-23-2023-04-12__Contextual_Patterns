@@ -81,9 +81,9 @@ Ce motif possède les variables suivantes :
 
 ### GetRandomNumber
 
-> .:Escape:: .:GetRandomNumber::min::max::precision:. :.
+> .:Escape:: .:GetRandomNumber::min_value::max_value::precision:. :.
 
-Génère un nombre aléatoire compris entre _min_ et _max_ avec une précision décimale définit par _precision_.
+Génère un nombre aléatoire compris entre _min_value_ et _max_value_ avec une précision décimale définit par _precision_.
 
 Par exemple, pour générer un nombre décimal compris entre zéro inclus et dix, avec au plus quatre chiffres après la virgule nous pouvons utiliser :
 

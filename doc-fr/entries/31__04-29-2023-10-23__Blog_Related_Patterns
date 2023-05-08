@@ -357,7 +357,7 @@ Les arguments sont :
 
 #### GetChapters
 
-> .:Escape:: .:GetChapters::open_node::open_branch::close_branch::close_node:. :.
+> .:Escape:: .:GetChapters::list_open::item_open::item_close::list_close:. :.
 
 Ce motif permet de récupérer l'arborescence des chapitres du blog.
 En effet, VenC permet d'organiser votre contenu comme le serait un livre ou un e-book.
@@ -365,10 +365,10 @@ La présente documentation est d'ailleurs faite ainsi.
 
 Le motif a les mêmes arguments que [GetEntryCategoriesTree](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrycategoriestree) et [GetBlogCategoriesTree](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestree)  :
 
-- **open_node** : contient la chaîne de caractère d'ouverture du chapitre parent.
-- **open_branch** : contient la chaîne de caractère d'ouverture du chapitre courant.
-- **close_branch** : contient la chaîne de caractère de fermeture du chapitre courant.
-- **close_node** : contient la chaîne de caractère de fermeture du chapitre parent.
+- **list_open** : contient la chaîne de caractère d'ouverture du chapitre parent.
+- **item_open** : contient la chaîne de caractère d'ouverture du chapitre courant.
+- **item_close** : contient la chaîne de caractère de fermeture du chapitre courant.
+- **list_close** : contient la chaîne de caractère de fermeture du chapitre parent.
 
 Les variables contextuelles de la fonction sont les suivantes :
 
@@ -459,13 +459,13 @@ correspond généralement au fichier index.html et qui devrait se trouver
 
 #### GetGenerationTimestamp
 
-.:Escape:: .:GetGenerationTimestamp::date_format:. :.
+.:Escape:: .:GetGenerationTimestamp::time_format:. :.
 
 Ce motif renvoie la date formatée correspondant au moment où la page courante a été crée.
 
 Le seul paramètre de ce motif est :
 
-- **date_format** : La chaîne de caractères permettant de formater la date courante. Le format utilisé est le même que celui utilisé par Python. La documentation est disponible [ici](https://strftime.org/).
+- **time_format** : La chaîne de caractères permettant de formater la date courante. Le format utilisé est le même que celui utilisé par Python. La documentation est disponible [ici](https://strftime.org/).
 
 #### IfAtomEnabled
 

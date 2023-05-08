@@ -1,0 +1,18 @@
+#entry_33 .__VENC_TABLE__ td
+    {width: 30%;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    text-align: left;
+    vertical-align: top;}
+
+#entry_33 .__VENC_TABLE__ td:last-child
+    {border-right: none;}
+
+#entry_33 .__VENC_TABLE__ tr:first-child td
+    {text-align: center;
+    font-weight: bold;}
+
+#entry_33 .__VENC_TABLE__ tr:hover td,
+#entry_33 .__VENC_TABLE__ tr:hover td a
+    {background-color: white;
+    color: #404040;}

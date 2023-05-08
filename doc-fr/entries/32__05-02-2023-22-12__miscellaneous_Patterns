@@ -71,7 +71,7 @@ Finalement on obtient le résultat suivant :
 
 #### CodeHighlight
 
-> .:Escape:: .:CodeHightlight::language::line_numbers::input_code:. :.
+> .:Escape:: .:CodeHightlight::language::display_line_numbers::input_code:. :.
 
 VenC permet de formater du code source pour qu'il soit plus lisible et
 agréable à lire dans vos articles. Cette fonctionnalité dépend de la
@@ -82,7 +82,7 @@ Ce motif prend trois arguments :
 - __language__ : Indique le langage du texte d'entrée. La liste des langages
 supportés par Pygments est disponible [ici](https://pygments.org/languages/).
 Si vous ne souhaitez pas coloriser le texte d'entrée, utilisez la valeur "Text".
-- __line_numbers__ : Il s'agit d'un booléen indiquant à VenC si vous
+- __display_line_numbers__ : Il s'agit d'un booléen indiquant à VenC si vous
 souhaitez générer le numéro des lignes dans le rendu.
 - __input_code__ : Le code source que vous souhaitez formater.
 
@@ -176,7 +176,7 @@ APRÈS utilisation du motifs
 
 #### CodeHighlightInclude
 
-> .:Escape:: .:CodeHightlightInclude::language::line_numbers::input_code_file:. :.
+> .:Escape:: .:CodeHightlightInclude::language::display_line_numbers::filename:. :.
 
 Ce motif fonctionne exactement comme le précédent motif [CodeHighlight](.:GetChapterAttributeByIndex::path::4.4.3:.#codehighlight),
 à la différence que le dernier argument ne contient pas de code source
@@ -211,7 +211,7 @@ l'unique argument content.
 
 #### GetEmbedContent
 
-> .:Escape:: .:GetEmbedContent::content_URL:. :.
+> .:Escape:: .:GetEmbedContent::content_url:. :.
 
 Ce motif permet de récupérer du contenu embarqué via le protocole oEmbed.
 Typiquement, cela vous permet d'importer un lecteur Youtube ou SoundCloud
@@ -219,7 +219,7 @@ dans votre publication.
 
 Le seul argument de ce motif est :
 
-- **content_URL** : il s'agit de l'URL de la ressource embarquée que vous voulez inclure.
+- **content_url** : il s'agit de l'URL de la ressource embarquée que vous voulez inclure.
 
 Par exemple, l'utilisation du motif comme ci-dessous :
 
