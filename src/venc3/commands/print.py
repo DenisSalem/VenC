@@ -30,9 +30,9 @@ USAGE = \
     "-xftp\t--export-via-ftp\n" +\
     "-rc\t--remote-copy\n" +\
     "-h\t--help\n" +\
-    "-it\t--install-theme <"+messages.theme_name+">" \
-    "-t\--themes" \
-    "-ta\--template-arguments <\""+messages.arg_template_name+"\">"\
+    "-it\t--install-theme <"+messages.theme_name+">\n" \
+    "-t\t--themes\n" \
+    "-ta\t--template-arguments <\""+messages.arg_template_name+"\">"\
     
 # Will be removed and replaced by argparse
 def help(params):
