@@ -1,0 +1,25 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Exporter le blog
+chapter: 5.4
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+> venc -xb [thème]
+
+ou
+
+> venc --export-blog [thème]
+
+Pour exporter votre blog vous devez être dans le répertoire de votre blog.
+
+Dans celui-ci se trouve un répertoire sobrement intitulé [blog](.:GetChapterAttributeByIndex::path::3.1:.).
+C'est dans ce répertoire que ce sera exporté votre site.
+Une fois l'exportation terminée, vous pouvez copier le contenu de ce
+répertoire vers votre serveur ou faire en sorte que le _docroot_ pointe sur
+ce répertoire.  Ce répertoire peut également être un liens symbolique
+vers le _docroot_ par défaut.
+
+Vous pouvez spécifier un [thème](.:GetChapterAttributeByIndex::path::3.6:.), le blog sera alors compilé avec.
+Si aucun [thème](.:GetChapterAttributeByIndex::path::3.6:.) n'est précisé, VenC compilera le blog avec le [thème](.:GetChapterAttributeByIndex::path::3.6:.) local.

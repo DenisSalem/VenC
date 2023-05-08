@@ -1,0 +1,25 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Créer un nouveau blog
+chapter: 5.2
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+> venc -nb <nom du blog>
+
+ou
+
+> venc --new-blog <nom du blog>
+
+VenC crée le répertoire contenant les sources du blog à l'endroit où vous tapez la commande.
+
+.:CodeHighlight::TEXT::False::jeanrochefort@anonymous ~ $ venc --new-blog "MonSuperBlog"
+VenC: Votre blog a été crée!
+jeanrochefort@anonymous ~ $ ls MonSuperBlog/
+blog blog_configuration.yaml entries extra includes templates theme:.
+
+Vous ne pouvez pas créer un blog sans en spécifier le nom.
+
+Une fois que vous avez créé votre blog, la première chose à faire est en
+général d'éditer le fichier [blog_configuration.yaml](.:GetChapterAttributeByIndex::path::3.2:.).
