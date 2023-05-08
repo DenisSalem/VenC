@@ -12,7 +12,7 @@ ou
 
 > venc --remote-copy
 
-Cette commande permet de copier le blog courant sur votre serveur FTP à
-l'emplacement que vous aurez définit dans votre [fichier de configuration](.:GetChapterAttributeByIndex::path::3.2:.#ftp),
+Cette commande permet de copier le blog courant sur votre [serveur FTP](.:GetChapterAttributeByIndex::path::3.2:.#ftp-host) à
+[l'emplacement](.:GetChapterAttributeByIndex::path::3.2:.#ftp) que vous aurez définit dans votre [fichier de configuration](.:GetChapterAttributeByIndex::path::3.2:.),
 sans le re-générer. Une invite d'authentification FTP apparaîtra dans le
 terminal pour lancer la procédure.
