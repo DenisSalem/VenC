@@ -25,6 +25,10 @@ _Parmi ces templates, certains servent surtout à illustrer l'usage de certaines
 - __kroki__ : Permet de crée une publication embarquant un diagramme [Kroki](https://kroki.io/) en chargeant le code de celui-ci depuis un fichier dans le répertoire _includes_ de votre projet.
 - __pygmentize__ : Permet de créer une publication qui inclue du code source avec coloration syntaxique depuis un fichier dans le répertoire _includes_ de votre projet.
 
+Ces templates sont normallement installés dans
+
+> ~/.local/share/VenC/themes_templates
+
 Pour utiliser un template il suffit de passer son nom de fichier (sans le chemin)
 à VenC au moment de la création d'une nouvelle publication. Par exemple :
 
