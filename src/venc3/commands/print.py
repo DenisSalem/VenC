@@ -22,17 +22,17 @@ from venc3.l10n import messages;
 USAGE = \
     "\033[92m"+messages.full_documentation_there.format("https://venc.software")+"\033[0m\n" +\
     "-v\t--version\n" +\
-    "-nb\t--new-blog <\""+messages.arg_blog_name.format("1")+"\"> [\""+messages.arg_blog_name.format("2")+"\" ... ]\n" +\
-    "-ne\t--new-entry <\""+messages.arg_entry_name+"\"> [\""+messages.arg_template_name+"\"]\n" +\
+    "-nb\t--new-blog <"+messages.arg_blog_name.format("1")+"> ["+messages.arg_blog_name.format("2")+"] [ ... ]\n" +\
+    "-ne\t--new-entry <"+messages.arg_entry_name+"> ["+messages.arg_template_name+"]\n" +\
     "-xb\t--export-blog ["+messages.theme_name+"]\n" +\
-    "-ex\t--edit-and-xport <\""+messages.arg_input_filename+"\"> ["+messages.theme_name+"]\n" +\
+    "-ex\t--edit-and-xport <"+messages.arg_input_filename+"> ["+messages.theme_name+"]\n" +\
     "-s\t--serv\n" +\
     "-xftp\t--export-via-ftp\n" +\
     "-rc\t--remote-copy\n" +\
     "-h\t--help\n" +\
     "-it\t--install-theme <"+messages.theme_name+">\n" \
     "-pt\t--print-themes\n" \
-    "-ta\t--template-arguments <\""+messages.arg_template_name+"\">"\
+    "-ta\t--template-arguments <"+messages.arg_template_name+">"\
     
 # Will be removed and replaced by argparse
 def help(params):
