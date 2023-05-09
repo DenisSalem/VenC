@@ -31,7 +31,7 @@ VenC crée alors un serveur HTTP local accessible par défaut à l'adresse suiva
 > http://localhost:8888
 
 (Une fois que vous aurez fini de visualiser le résultat, pour arrêter le serveur HTTP local,
-il suffit de taper CTRL+C dans le terminal actif). À notre que cette fonctionnalité ne sert
+il suffit de taper CTRL+C dans le terminal actif). À noter que cette fonctionnalité ne sert
 qu'à la prévisualisation ! N'utilisez pas ça sur un serveur pour donner un accès public à votre
 site. Il vous arriverez malheur, ou pire ...
 
