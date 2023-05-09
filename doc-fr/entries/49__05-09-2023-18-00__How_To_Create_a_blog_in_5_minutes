@@ -1,0 +1,44 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Créer son blog en moins de 5 minutes !
+chapter: '7.1'
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Et ouais, c'est possible !
+
+Dans un terminal, tapez la commande suivante :
+
+> venc --new-blog "MonSuperBlog"
+
+Après cette commande, VenC a créé un répertoire appelé "MonSuperBlog" à
+l'endroit où vous avez lancé la commande. Ce répertoire contient toutes
+les informations de votre blog. Il faut donc le garder précieusement,
+et même en faire des sauvegardes de temps à autre, avec [git](https://git-scm.com/) par exemple !
+
+.:CodeHighlight::TEXT::False::jeanrochefort@anonymous ~ $ venc --new-blog "MonSuperBlog"
+VenC: Votre blog a été créé!
+jeanrochefort@anonymous ~ $ ls MonSuperBlog/
+blog blog_configuration.yaml entries extra includes templates theme:.
+
+La prochaine étape consiste à paramétrer un peu le blog. Pour ça, il
+suffit d'éditer le fichier blog_configuration.yaml à la racine de ce
+répertoire. Vous pourrez notamment y définir le nom de votre blog, sa
+langue, ses mots-clefs, entre autres choses parmi les nombreux
+paramètres à configurer, ou à laisser par défaut.
+
+.:CodeHighlight::YAML::False::author_description: 'Je suis Jean Rochefort et je suis mort, mais je reviendrai.'
+author_name: 'Jean Fucking Rochefort'
+blog_description: 'Les tribulations du roy de France Jean Rochefort en direct du paradis.'
+blog_keywords: 'cinéma,moustache,punchline,boloss'
+blog_language: 'fr'
+blog_name: 'Le blog de Jean Rochefort, élu roy de France par les internets.'
+license: 'Licence royale':.
+
+Pour plus d'informations sur la configuration du blog, rendez-vous [ici](.:GetChapterAttributeByIndex::path::3.2:.).
+
+Et voilà, c'est terminé ! Votre blog est prêt à l'emploi !
+
+Si vous avez rencontré une difficulté durant ce tutoriel, jetez un œil
+à la [FAQ](.:GetChapterAttributeByIndex::path::6:.), la solution s'y trouvera certainement !

@@ -1,0 +1,38 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Générer votre blog
+chapter: '7.3'
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Vous avez donc écrit un ou plusieurs articles et vous voulez voir ce
+que ça donne ! Placez-vous dans le répertoire de votre blog et lancez
+la commande
+
+> jeanrochefort@anonymous ~ $ venc --export-blog concrete
+
+Cette commande va créer les pages HTML de votre blog en utilisant le thème [Concrete](TODO).
+Il s'agit du thème par défaut livré avec VenC. Il sert de base pour construire le votre. Pour
+en savoir plus sur la façon dont ça fonctionne rendez vous au chapitre [3.6](.:GetChapterAttributeByIndex::path::3.6:.)
+
+VenC utilise par défaut le thème local quand aucun nom de thème ne lui est précisé.
+Si vous avez suivit ce tutoriel depuis le début, le répertoire theme de votre projet
+devrait être vide, il ne peut donc pas être utilisé en l'état.
+
+Le contenu de votre site est maintenant disponible dans le répertoire
+_blog_ de votre projet. Pour visualiser le résultat, vous pouvez utiliser
+la commande :
+
+> jeanrochefort@anonymous ~ $ venc --serv
+
+VenC crée alors un serveur HTTP local accessible par défaut à l'adresse suivante :
+
+> http://localhost:8888
+
+(Une fois que vous aurez fini de visualiser le résultat, pour arrêter le serveur HTTP local,
+il suffit de taper CTRL+C dans le terminal actif). À notre que cette fonctionnalité ne sert
+qu'à la prévisualisation ! N'utilisez pas ça sur un serveur pour donner un accès public à votre
+site. Il vous arriverez malheur, ou pire ...
+
+Et voilà ! Le moins que l'on puisse dire, c'est que _vous pesez lourd dans le game_ maintenant !

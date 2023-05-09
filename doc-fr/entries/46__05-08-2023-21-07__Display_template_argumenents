@@ -1,0 +1,18 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Afficher les arguments d'un template
+chapter: '5.12'
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+L'utilisation d'un [template](.:GetChapterAttributeByIndex::path::3.5:.) peut nécessiter
+l'utilisation d'arguments supplémentaire pour celui-ci. Encore faut-il les connaitres et
+savoir comment ils sont utilisés. Ces commandes permettent d'afficher le template spécifié
+et de mettre en valeur les arguments de ceux là.
+
+> venc -ta <Nom du template>
+
+ou
+
+> venc --template-arguments <Nom du template>

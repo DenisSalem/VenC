@@ -1,0 +1,17 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Démarrer le serveur local
+chapter: '5.11'
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+> venc -s [port]
+
+ou
+
+> venc --serv [port]
+
+Pour prévisualiser votre contenu vous pouvez lancer un serveur local en
+spécifiant explicitement le port, ou en utilisant celui définit dans
+le [fichier de configuration principal][.:GetChapterAttributeByIndex::path::3.2:.#server-port].
