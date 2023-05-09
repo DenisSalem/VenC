@@ -3,7 +3,7 @@ authors:
 categories:
 - ''
 title: Éditer un fichier et exporter le blog
-chapter: 5.7
+chapter: '5.7'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 > venc -ex <fichier>

@@ -3,7 +3,7 @@ authors:
 categories:
 - ''
 title: Ajouter une nouvelle publication
-chapter: 5.3
+chapter: '5.3'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 > venc -ne "<nom de la publication>" [nom du template]

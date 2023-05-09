@@ -3,7 +3,7 @@ authors:
 categories:
 - ''
 title: Exporter le blog
-chapter: 5.4
+chapter: '5.4'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 > venc -xb [thème]

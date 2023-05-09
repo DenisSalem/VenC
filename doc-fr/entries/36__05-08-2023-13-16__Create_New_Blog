@@ -3,7 +3,7 @@ authors:
 categories:
 - ''
 title: Créer un nouveau blog
-chapter: 5.2
+chapter: '5.2'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 > venc -nb <nom du blog>
