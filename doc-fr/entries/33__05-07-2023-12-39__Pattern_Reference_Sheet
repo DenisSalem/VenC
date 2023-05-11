@@ -68,7 +68,7 @@ Motifs::Arguments::Variables::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.1:.#getentrypath">GetEntryPath</a>::<ul></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.3:.#getentrypreview">GetEntryPreview</a>::<ul></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.1:.#getentrytitle">GetEntryTitle</a>::<ul></ul>::::NewLine::
-<a href=".:GetChapterAttributeByIndex::path::4.4.1:.#getentrytoc">GetEntryToC</a>::<ul><li>open_ul</li><li> open_li</li><li> content</li><li> close_li</li><li> close_ul</li></ul>::::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::4.4.1:.#getentrytoc">GetEntryToC</a>::<ul><li>open_ul</li><li> open_li</li><li> content</li><li> close_li</li><li> close_ul</li></ul>::<ul><li>id</li><li>level</li><li>title</li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.1:.#getentryyear">GetEntryYear</a>::<ul></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories">GetFlattenedBlogCategories</a>::<ul><li>string</li><li> separator</li></ul>::<ul><li>value</li><li>count</li><li>weight</li><li>path</li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.1:.#getflattenedentrycategories">GetFlattenedEntryCategories</a>::<ul><li>string</li><li> separator</li></ul>::<ul><li>value</li><li>count</li><li>weight</li><li>path</li></ul>::NewLine::
