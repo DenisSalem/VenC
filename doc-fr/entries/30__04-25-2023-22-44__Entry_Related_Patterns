@@ -345,7 +345,92 @@ Retourne le titre de la publication.
 
 #### GetEntryToC
 
-TODO
+> .:Escape:: .:GetEntryToC::open_ul::open_li::content::close_li::close_ul:. :.
+
+Ce motif permet de générer une table des matières multi-niveau sur la base des titres présent
+dans une publication [MarkDown](https://daringfireball.net/projects/markdown/syntax#header).
+
+- **open_ul** : La chaine de caractère ouvrant le niveau courant.
+- **open_li** : La chaine de caractère ouvrant l'item courant.
+- **content** : La chaine de caractère composant l'item courant où vous pouvez utiliser les variables du motif.
+- **close_li** : La chaine de caractère fermant l'item courant.
+- **clode_ul** : La chaine de caractère fermant le niveau courant.
+
+Le motif a quelque variables qu'il est possible d'utiliser dans l'argument *content*.
+
+- __id__ : Contient l'id html de l'entête correspondant à l'item courant.
+- __title__ : Contient le titre de l'entête correspondant à l'item courant.
+- __level__ : Contient le niveau de l'entête correspondant à l'item courant.
+
+Un usage classique ressemblerait à quelque chose comme :
+
+.:CodeHighlight::Text::False:: .:Escape::
+.:GetEntryToC::
+    <ul>::
+    <li>::
+    <a href="#{id}" class="toc_level_{level}">{title}</a>::
+    </li>::
+    </ul>
+:.
+:. :.
+
+Si dans la publication on trouvait les titres suivant :
+
+.:CodeHighlight::Text::False::
+# Title 1
+
+## Title 1.1
+
+### Title 1.1.1
+
+## title 1.2:.
+
+alors le précédent exemple générerait le code html suivant :
+
+.:CodeHighlight::HTML::False::<ul>
+    <li>
+        <a href="#title-1" class="toc_level_1">Title 1</a>
+        <ul>
+            <li>
+                <a href="#title-1-1" class="toc_level_2">Title 1.1</a>
+                <ul>
+                    <li>
+                        <a href="#title-1-1-1" class="toc_level_3">Title 1.1.1</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#title-1-2" class="toc_level_2">title 1.2</a>
+            </li>
+        </ul>
+    </li>
+</ul>:.
+
+Ce qui donne : 
+
+.:HTML::<ul>
+    <li>
+        <a href="#title-1" class="toc_level_1">Title 1</a>
+        <ul>
+            <li>
+                <a href="#title-1-1" class="toc_level_2">Title 1.1</a>
+                <ul>
+                    <li>
+                        <a href="#title-1-1-1" class="toc_level_3">Title 1.1.1</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#title-1-2" class="toc_level_2">title 1.2</a>
+            </li>
+        </ul>
+    </li>
+</ul>:.
+
+Quelques remarques :
+
+- Pour une meilleurs intégration avec [MarkDown](https://daringfireball.net/projects/markdown/) le motif peut rajouter des balises &lt;/p&gt; et &lt;p&gt;, respectivement au début et à la fin du texte de sortie.
+- Le motif ne test pas la cohérence des niveaux des entêtes, une hierarchie invalide peut donc produire avec ce motif une sortie incorrect.
 
 #### GetEntryYear
 

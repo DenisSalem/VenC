@@ -7,7 +7,7 @@ chapter: 6
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-.:GetEntryToC::<ul>::<li>:: ::</li>::</ul>:.
+.:GetEntryToC::<ul>::<li>::<a href="#{id}">{title}</a>::</li>::</ul>:.
 
 ## Pourquoi VenC n'est officiellement supporté que par GNU/Linux ?
 
@@ -50,7 +50,7 @@ Après ça, désinstallez VenC avec la version Python 2 de pip, et réinstallez 
 Ça devrait le faire, si c'est que vous avez peut-être trouvé un bug et dans ce cas il faut ouvrir une issue sur
 [Github](https://github.com/DenisSalem/VenC) ou [Framagit](https://framagit.org/denissalem/VenC/)
 
-## latex2mathml semble incomplet ou ne fonctionne pas correctement.
+## latex2mathml semble incomplet ou ne fonctionne pas correctement
 
 C'est fort possible en effet, mais ce n'est pas du ressort de VenC dans la mesure où
 cette fonctionnalité dépend d'une tierce librairie, développée indépendamment de VenC.
@@ -59,7 +59,7 @@ si quelque chose ne fonctionne pas correctement, signalez le problème sur la
 [page Github du projet](https://github.com/Code-ReaQtor/latex2mathml),
 cela devrait être alors résolu relativement rapidement !
 
-## Les sous-répertoires que j'ai définis ne fonctionnent pas.
+## Les sous-répertoires que j'ai définis ne fonctionnent pas
 
 Vérifiez qu'aucun de vos sous-répertoires définis manuellement dans blog_configuration.yaml ne commence par '/'.
 

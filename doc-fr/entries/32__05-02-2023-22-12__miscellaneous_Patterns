@@ -263,6 +263,15 @@ répertoire de votre projet.
 Ce motif retourne la version de VenC avec laquelle la page courante est
 générée.
 
+#### HTML
+
+> .:Escape:: .:HTML::content:. :.
+
+Identique à [DisableMarkup](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup) mais rajoute des balises &lt;/p&gt; et &lt;p&gt; respectivement au début et à la fin du texte de sortie.
+
+Si vous voulez intégrer du code HTML dans votre publication, préférez ce motif à [DisableMarkup](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup)
+qui lui risquerait de produire in fine une page avec des erreurs de validation w3c.
+
 #### IncludeFile
 
 > .:Escape:: .:IncludeFile::filename[::arg1][::arg2][...]:. :.

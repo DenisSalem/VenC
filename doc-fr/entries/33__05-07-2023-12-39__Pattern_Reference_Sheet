@@ -82,6 +82,7 @@ Motifs::Arguments::Variables::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.3:.#getstylesheets">GetStyleSheets</a>::<ul></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.3:.#getthreadname">GetThreadName</a>::<ul><li>string1</li><li> string2</li></ul>::<ul><li>value</li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.3:.#getvencversion">GetVenCVersion</a>::<ul></ul>::::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::4.4.3:.#html">HTML</a>::<ul><li>content</li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.2:.#ifatomenabled">IfAtomEnabled</a>::<ul><li>if_true</li><li> if_false</li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue">IfBlogMetadataIsTrue</a>::<ul><li>metadata_name</li><li> if_true</li><li> if_false</li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.2:.#ifcategories">IfCategories</a>::<ul><li>if_true</li><li> if_false</li></ul>::::NewLine::
