@@ -143,7 +143,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
                 output += open_ul+open_li
             
             elif current[0] < previous[0]:
-                output += ((close_li+close_ul)*(previous[0]-current[0]))+open_li
+                output += ((close_li+close_ul)*(previous[0]-current[0]))+close_li+open_li
             else:
                 output +=close_li+open_li
             
@@ -155,7 +155,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
             
             previous = current
             
-        return output+(close_li+close_ul) * (previous[0] - 1 if previous[0] - 1 > 0 else 1)
+        return output+(close_li+close_ul) * previous[0]
         
     def build_html_chapters(self, lo, io, ic, lc, top, level):          
         if top == []:
