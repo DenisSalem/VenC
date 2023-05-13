@@ -49,6 +49,8 @@
     TODO | validate documentation w3c complience.
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
+    DONE | Add GetEntryToC.
+    DONE | Add HTML pattern.
     DONE | remove support of jsonld.
     DONE | Enhance venc -v with module version if installed
     DONE | Fix many bugs.

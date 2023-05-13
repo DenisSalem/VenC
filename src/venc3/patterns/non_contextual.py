@@ -26,7 +26,10 @@ theme_includes_dependencies = []
 
 def disable_markup(pattern, *content):
     return '::'.join(content)
-
+    
+def html(pattern, *content):
+    return "</p>"+('::'.join(content))+"<p>"
+    
 def get_venc_version(pattern):
     return venc_version
     

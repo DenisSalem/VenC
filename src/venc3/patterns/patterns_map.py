@@ -113,6 +113,7 @@ class PatternsMap():
             "Escape":                   "venc3.patterns.non_contextual.escape",
             "GetEmbedContent":	           "venc3.patterns.third_party_wrapped_features.oembed.wrapper_embed_content",
             "GetVenCVersion":	          "venc3.patterns.non_contextual.get_venc_version",
+            "HTML":                     "venc3.patterns.non_contextual.html",
             "IncludeFile":	            "venc3.patterns.non_contextual.include_file",
             "IncludeFileIfExists":	    "venc3.patterns.non_contextual.include_file_if_exists",
             "Kroki":	                  "venc3.patterns.third_party_wrapped_features.kroki.kroki",
