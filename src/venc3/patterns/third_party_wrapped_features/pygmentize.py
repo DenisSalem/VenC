@@ -60,7 +60,7 @@ def highlight(pattern, langage, display_line_numbers, input_code):
         formatter = pygments.formatters.HtmlFormatter(linenos=(True if display_line_numbers=="True" else False), cssclass=name)
         
         result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(input_code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
-        if pattern.root.has_markup_language:
+        if pattern.root == pattern.parent and pattern.root.has_markup_language:
             result = "</p>"+result+"<p>"
         css  = formatter.get_style_defs()
 

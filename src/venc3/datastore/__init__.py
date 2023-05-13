@@ -130,27 +130,32 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
                         from venc3.prompt import notify
                         notify(("chapter_has_no_entry", index), color="YELLOW")
     
-    def build_entry_html_toc(self, entry, open_ul, open_li, content_format, close_li, close_ul):
+    def build_entry_html_toc(self, toc, open_ul, open_li, content_format, close_li, close_ul):
         output = ""
-        for i in range(0, len(entry.toc)):
-            current = entry.toc[i]
-            if i == 0 or current[0] > entry.toc[i-1][0]:
-                output += open_ul
+        previous = None
+        for i in range(0, len(toc)):
+            current = toc[i]
             
-            output += open_li
-            output += (content_format).format(**{
+            if previous == None:
+                output += open_ul+open_li
+                
+            elif current[0] > previous[0]:
+                output += open_ul+open_li
+            
+            elif current[0] < previous[0]:
+                output += ((close_li+close_ul)*(previous[0]-current[0]))+open_li
+            else:
+                output +=close_li+open_li
+            
+            output += content_format.format(**{
                 "level": current[0],
                 "title": current[1],
                 "id":current[2]
             })
             
-            if i <= len(entry.toc)-2 and current[0] >= entry.toc[i+1][0]:
-                output += close_li
+            previous = current
             
-            if i <= len(entry.toc)-2 and current[0] > entry.toc[i+1][0]:
-                output += close_ul
-        
-        return output                    
+        return output+(close_li+close_ul) * (previous[0] - 1 if previous[0] - 1 > 0 else 1)
         
     def build_html_chapters(self, lo, io, ic, lc, top, level):          
         if top == []:
@@ -171,6 +176,31 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
 
         return output
 
+    def build_html_categories_tree(self, pattern, opening_node, opening_branch, closing_branch, closing_node, tree):
+        output_string = opening_node
+        for node in sorted(tree, key = lambda x : x.value):
+            if node.value in self.disable_threads:
+                continue
+
+            variables = {
+                "value" : node.value,
+                "count" : node.count,
+                "weight" : round(node.count / node.weight_tracker.value,2),
+                "path" : node.path,
+                "childs" : self.build_html_categories_tree(
+                    pattern,
+                    opening_node,
+                    opening_branch,
+                    closing_branch,
+                    closing_node,
+                    node.childs
+                ) if len(node.childs) else ''
+            }
+
+            output_string += opening_branch.format(**variables) +closing_branch.format(**variables)
+
+        return output_string + closing_node
+        
     def update_chapters(self, entry):
         try:
             if type(entry.chapter) == float:
@@ -198,32 +228,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
             ))
         else:
             self.raw_chapters[chapter] = entry
-
-    def build_html_categories_tree(self, pattern, opening_node, opening_branch, closing_branch, closing_node, tree):
-        output_string = opening_node
-        for node in sorted(tree, key = lambda x : x.value):
-            if node.value in self.disable_threads:
-                continue
-
-            variables = {
-                "value" : node.value,
-                "count" : node.count,
-                "weight" : round(node.count / node.weight_tracker.value,2),
-                "path" : node.path,
-                "childs" : self.build_html_categories_tree(
-                    pattern,
-                    opening_node,
-                    opening_branch,
-                    closing_branch,
-                    closing_node,
-                    node.childs
-                ) if len(node.childs) else ''
-            }
-
-            output_string += opening_branch.format(**variables) +closing_branch.format(**variables)
-
-        return output_string + closing_node
-    
+            
 datastore = None
 
 def init_datastore():
