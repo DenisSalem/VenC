@@ -6,7 +6,8 @@ chapter: '3.5.2'
 title: Arguments par défaut
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-- __.:DisableMarkup::{venc_entry_title}:.__ : Optionnel, prend par défaut la valeur du titre de  la publication indiqué en premier argument à _--new-blog_.
+- __{venc_entry_id}__ : Optionnel, prend par défaut la valeur de l'identifiant de la publication.
+- __{venc_entry_title}__ : Optionnel, prend par défaut la valeur du titre de  la publication indiqué en premier argument à _--new-blog_.
 - __{value}__ : Optionnel, généralement utilisé dans un pattern. Par défaut, dans un template, cet argument est ignoré.
 - __{path}__ : Optionnel, généralement utilisé dans un pattern. Par défaut, dans un template, cet argument est ignoré.
 - __{weight}__ : Optionnel, généralement utilisé dans un pattern. Par défaut, dans un template, cet argument est ignoré.
