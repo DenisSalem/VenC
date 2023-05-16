@@ -1,0 +1,44 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Structure du thème
+chapter: '7.5.1'
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Un thème est composé d'un ensemble de fichiers que VenC charge en mémoire
+et dont il va se servir pour générer votre site. Nous allons créer dans cette première partie
+ces fichiers dont nous avons besoins et nous les remplirons au fur et à mesure dans la suite de
+ce tutorial.
+
+Pour commencer placez vous dans la racine de votre projet :
+
+.:CodeHighlight::Text::False::anonyme@anonymous /path/to/your/project $ ls
+blog  blog_configuration.yaml  caches  entries  extra  includes  theme:.
+
+Si vous n'avez pas déjà [installer un thème](.:GetChapterAttributeByIndex::path::5.9:.) le répertoire _theme_ devrait être vide.
+
+Nous allons y créer à l'intérieur deux répertoires :
+
+- __assets__ : Nous allons le laisser vide pour le moment. Mais ont peux déjà faire remarquer que c'est ici que vous mettrez des choses comme vos feuilles de style CSS.
+- __chunks__ : C'est le répertpoire contenant les fameux fichiers dont nous parlions un peu plus haut.
+
+.:CodeHighlight::Text::False::anonyme@anonymous ~ $ venc -nb "tutorial"
+VenC: Votre blog a été créé !
+anonyme@anonymous ~ $ cd tutorial/theme
+anonyme@anonymous ~/tutorial/theme $ mkdir assets chunks:.
+
+Ceci étant fait il on va crée les _morceaux_ composant notre site __dans le répertoire chunks__ :
+
+.:CodeHighlight::Bash::False::touch \
+    header.html \
+    entry.html \
+    footer.html \
+    rssHeader.xml \
+    rssEntry.xml \
+    rssFooter.xml \
+    atomHeader.xml \
+    atomEntry.xml \
+    atomFooter.xml \
+    video.html \
+    autio.html:.

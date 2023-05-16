@@ -23,9 +23,12 @@ librairies comme JQuery ou Bootstrap.
   - header.html
   - entry.html
   - footer.html
-  - rssHeader.html
-  - rssEntry.html
-  - rssFooter.html
+  - rssHeader.xml
+  - rssEntry.xml
+  - rssFooter.xml
+  - atomHeader.xml
+  - atomEntry.xml
+  - atomFooter.xml
   - audio.html
   - video.html
   
