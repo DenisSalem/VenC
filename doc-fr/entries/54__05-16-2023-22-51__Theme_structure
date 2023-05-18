@@ -42,3 +42,10 @@ Ceci étant fait il on va crée les _morceaux_ composant notre site __dans le r�
     atomFooter.xml \
     video.html \
     autio.html:.
+
+Se pose donc maintenant la question de ce à quoi sert ces fichiers. On peut remarquer une récurrence
+dans les noms de ces fichiers :
+
+.:Table::header.html::entry.html::footer.html::NewLine::
+rssHeader.xml::rssEntry.xml::rssFooter.xml::NewLine::
+atomHeader.xml::atomEntry.xml::atomFooter.xml:.

@@ -146,11 +146,16 @@ Par exemple, pour la documentation que vous êtes en train de lire, l'utilisatio
 
 Ce motif permet de récupérer le nom du fil de publication courant.
 
-Par exemple, si la page courante est générée dans un fil de publication de type _catégorie_ et que ladite catégorie s'appel "Histoire de l'informatique",
-alors GetThreadName permet de récupérer cette valeur dans une chaîne de caractères formatée correspondant à l'argument string1. Si au contraire,
-le fil de publication n'a pas de nom alors c'est string2 qui est renvoyée.
+Par exemple, si la page courante est générée dans un fil de publication
+de type _catégorie_ et que ladite catégorie s'appel "Histoire de l'informatique",
+alors GetThreadName permet de récupérer cette valeur dans une chaîne de caractères
+formatée correspondant à l'argument string1. Si au contraire, le fil de publication
+n'a pas de nom alors c'est string2 qui est renvoyée, par exemple quand VenC traite la fil de publication principal.
 
-- __string1__ : premier argument du motif, c'est celui qui est renvoyé si le fil de publication a un nom. Pour accéder au nom du fil de publication dans l'argument, il faut utiliser la variable contextuelle {value}. Si c'est cet argument qui doit être utilisé par le motif et qu'il est manquant, le motif renvoie simplement le nom du fil de publication, sans formatage particuler.
+En fait, tous les fils de publication ont un nom qui leur sont attribué. Sauf pour le
+fil de publication principal.
+
+- __string1__ : premier argument du motif, c'est celui qui est renvoyé si le fil de publication a un nom. Pour accéder au nom du fil de publication dans l'argument, il faut utiliser la variable __value__. Si c'est cet argument qui doit être utilisé par le motif et qu'il est manquant, le motif renvoie simplement le nom du fil de publication, sans formatage particuler.
 - __string2__ : second argument du motif, c'est celui qui est renvoyé si le fil de publication n'a pas de nom. Cet argument n'a pas de variable contextuelle. Si c'est cet argument qui doit être utilisé par le motif et qu'il est manquant, le motif est ignoré.
 
 ### IfInArchives
