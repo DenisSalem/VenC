@@ -9,23 +9,21 @@ chapter: '7.5.1'
 Un thème est composé d'un ensemble de fichiers que VenC charge en mémoire
 et dont il va se servir pour générer votre site. Nous allons créer dans cette première partie
 ces fichiers dont nous avons besoins et nous les remplirons au fur et à mesure dans la suite de
-ce tutorial.
+ce tutoriel.
 
 Pour commencer placez vous dans la racine de votre projet :
 
 .:CodeHighlight::Text::False::anonyme@anonymous /path/to/your/project $ ls
 blog  blog_configuration.yaml  caches  entries  extra  includes  theme:.
 
-Si vous n'avez pas déjà [installer un thème](.:GetChapterAttributeByIndex::path::5.9:.) le répertoire _theme_ devrait être vide.
+Si vous n'avez pas déjà [installé un thème](.:GetChapterAttributeByIndex::path::5.9:.) le répertoire _theme_ devrait être vide.
 
 Nous allons y créer à l'intérieur deux répertoires :
 
 - __assets__ : Nous allons le laisser vide pour le moment. Mais ont peux déjà faire remarquer que c'est ici que vous mettrez des choses comme vos feuilles de style CSS.
 - __chunks__ : C'est le répertpoire contenant les fameux fichiers dont nous parlions un peu plus haut.
 
-.:CodeHighlight::Text::False::anonyme@anonymous ~ $ venc -nb "tutorial"
-VenC: Votre blog a été créé !
-anonyme@anonymous ~ $ cd tutorial/theme
+.:CodeHighlight::Text::False::anonyme@anonymous ~ $ cd /path/to/your/project/theme
 anonyme@anonymous ~/tutorial/theme $ mkdir assets chunks:.
 
 Ceci étant fait il on va crée les _morceaux_ composant notre site __dans le répertoire chunks__ :
@@ -44,8 +42,28 @@ Ceci étant fait il on va crée les _morceaux_ composant notre site __dans le r�
     autio.html:.
 
 Se pose donc maintenant la question de ce à quoi sert ces fichiers. On peut remarquer une récurrence
-dans les noms de ces fichiers :
+dans le nom de ceux là :
 
 .:Table::header.html::entry.html::footer.html::NewLine::
 rssHeader.xml::rssEntry.xml::rssFooter.xml::NewLine::
 atomHeader.xml::atomEntry.xml::atomFooter.xml:.
+
+Pour construire une page VenC prend dabord un entête (header.html) où il va chercher des motifs
+VenC à interpréter.
+
+Puisque VenC est spécialisé dans la construction de blog, il va ensuitre mettre bout à bout
+le corps d'une publication (entry.html) pour chaque publication à afficher sur la page courante.
+Comme pour l'entête, VenC va y chercher des motifs à interpréter.
+
+Enfin, une fois que toutes les publications de la page courante ont été rassemblé VenC termine la construction
+de la page courante avec un pied de page (footer.html). Comme pour les autres morceaux VenC cherchera des motifs à
+interpréter.
+
+C'est la même logique qui est utilisé pour les flux Atom et RSS.
+
+Voilà pour les neufs premiers fichiers.
+
+Il reste maintenant __video.html__ et __audio.html__ : HTML5 permet d'inclure dans une page du contenu
+multimedia. Il existe un lecteur par défaut avec une configuration minimal, mais il est aussi possible
+de customiser ce lecteur pour avoir les fonctionnalités et l'apparence que vous souhaitez. Ces donc dans
+ces deux dernier fichier que ça va se jouer.

@@ -55,3 +55,6 @@ blockquote, pre
     
 #header ul
     {list-style-type: none;}
+    
+.entry table
+    {width: 100%;}
