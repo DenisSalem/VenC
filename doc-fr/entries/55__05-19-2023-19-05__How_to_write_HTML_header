@@ -7,6 +7,9 @@ chapter: '7.5.2'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
+L'entête HTML de VenC est réutiliser à chaque fois que VenC génère une page HTML. Les _[motifs VenC](.:GetChapterAttributeByIndex::path::4:.)_ permettent
+de mettre en contexte cette portion du code pour l'adapter au contexte dans lequel il se trouve.
+
 La structure de ce fichier ressemble à ça :
 
 .:CodeHighlight::HTML::False:: .:Escape::
