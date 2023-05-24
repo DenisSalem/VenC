@@ -28,7 +28,7 @@ Les variables de la fonction sont les suivantes :
 - __count__ : le nombre de publications dans la période courante.
 - __weight__ : le nombre de publications dans la période courante divisé par le nombre maximal de publications par période.
 
-Si la génération des archives est désactivée, le motif est ignoré et supprimé.
+Si la [génération des archives est désactivée](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogcategories), le motif est ignoré et supprimé.
 
 #### ForBlogMetadata
 

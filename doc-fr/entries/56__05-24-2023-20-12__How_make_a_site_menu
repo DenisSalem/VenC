@@ -24,7 +24,7 @@ Utiliser les deux premiers points peut-être redondant dans la mesure ou
 VenC utilise la même source de donnée pour construire ces listes. En général
 c'est soit l'un soit l'autre. Mais nous verrons évidement les deux cas de figure.
 
-Concernant la liste d'archive il faut noter qu'il s'agit d'une
+Concernant la liste d'archives il faut noter qu'il s'agit d'une
 liste simple, il n'est pas possible pour le moment de la rendre hierarchisé.
 
 Enfin, et dans tous les cas, il faut rappeler que même si vous utilisez les motifs
@@ -39,3 +39,7 @@ En l'occurence il faut s'assurer que dans votre [fichier de configuration](.:Get
 - [disable_categories](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories)
 
 soient configuré à **_false_** pour activer respectivement les archives et les catégories.
+
+VenC fonctionne de cette manière parce que la responsabilité de ce qui doit être généré relève de l'utilisateur final.
+C'est au thème de s'adapter et d'anticiper que l'utilisateur final veuille ou ne veuille pas générer tel ou tel
+contenu organisé. Si vous prevoyez de crée un thème et de le distribuer sur les internets il faudra donc en tenir compte.
