@@ -1,0 +1,17 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Créer une liste d'archives
+chapter: 7.5.3.1
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Avant toute chose, comme nous l'avons vu précédement, il faut que dans votre fichier de configuration
+l'option [disable_archives](.:GetChapterAttributeByIndex::path::3.2:.#disable-archives) soit configuré correctement.
+
+Entre les balises _header_ que nous avons ajouté à la fin du fichier _header.html_ nous allons ajouter le code suivant en utilisant 
+le motif [ForBlogCategories](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogcategories) :
+
+.:CodeHighlight::HTML::False::<ul id="blogarchives">
+.:Escape::  .:ForBlogArchives::<li>{value}</li>:: :. :.
+</ul>:.
