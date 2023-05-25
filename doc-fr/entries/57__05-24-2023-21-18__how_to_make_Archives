@@ -27,7 +27,7 @@ plutôt quelque chose comme ça :
 .:Escape::  .:ForBlogArchives::
   <li class="blogarchivesitem">
     <a href="{path}" title="{value} ({count})">{value}</a>
-  </li>:
+  </li>
   ::
   :. :.
 </ul>:.
