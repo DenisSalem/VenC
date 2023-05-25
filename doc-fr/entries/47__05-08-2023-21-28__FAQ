@@ -47,8 +47,15 @@ Après ça, désinstallez VenC avec la version Python 2 de pip, et réinstallez 
 
 > pip3 install venc --user
 
-Ça devrait le faire, si c'est que vous avez peut-être trouvé un bug et dans ce cas il faut ouvrir une issue sur
-[Github](https://github.com/DenisSalem/VenC) ou [Framagit](https://framagit.org/denissalem/VenC/)
+Ça devrait le faire, sinon c'est que vous avez peut-être trouvé un bug et dans ce cas il faut ouvrir une issue sur
+[Github](https://github.com/DenisSalem/VenC) ou [Framagit](https://framagit.org/denissalem/VenC/). Pensez à indiquer la
+version de VenC que vous utilisez ainsi que la version de Python.
+
+Vous pouvez obtenir ces informations d'un coup avec la commande
+
+> venc -v
+
+Et bien sûr pensez à indiquer le message d'erreur que vous obtenez !
 
 ## latex2mathml semble incomplet ou ne fonctionne pas correctement
 

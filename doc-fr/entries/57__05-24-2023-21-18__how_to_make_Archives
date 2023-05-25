@@ -10,8 +10,72 @@ Avant toute chose, comme nous l'avons vu précédement, il faut que dans votre f
 l'option [disable_archives](.:GetChapterAttributeByIndex::path::3.2:.#disable-archives) soit configuré correctement.
 
 Entre les balises _header_ que nous avons ajouté à la fin du fichier _header.html_ nous allons ajouter le code suivant en utilisant 
-le motif [ForBlogCategories](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogcategories) :
+le motif [ForBlogArchives](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogarchives) :
+
+.:CodeHighlight::HTML::False::
+.:Escape::  .:ForBlogArchives::{value}:: :. :.
+:.
+
+L'idée ici est d'itérer à travers la liste des archives de VenC est de récupérer la valeur de chaque item de cette liste. Ici
+la valeur correspond au nom de l'archive courante. Ce nom est définit par par le format de date que vous avec indiqué dans votre fichier
+de configuration principal avec l'option [archives_directory_name](.:GetChapterAttributeByIndex::path::3.2:.#archives-directory-name).
+
+Mais évidemment le code ci-dessus ne suffit pas puisque ce que nous voulons c'est une liste HTML de liens vers les archives. Du coup, faisons
+plutôt quelque chose comme ça :
 
 .:CodeHighlight::HTML::False::<ul id="blogarchives">
-.:Escape::  .:ForBlogArchives::<li>{value}</li>:: :. :.
+.:Escape::  .:ForBlogArchives::
+  <li class="blogarchivesitem">
+    <a href="{path}" title="{value} ({count})">{value}</a>
+  </li>:
+  ::
+  :. :.
 </ul>:.
+
+Ça n'a plus la même tête hein ? En effet :
+
+- On a rajouté une paire de balise _ul_ pour avoir une liste HTML. L'identifiant de la balise vous permettra plus tard d'en définir le style CSS.
+- On a rajouté une paire de balise _li_ dans le premier argument de [ForBlogArchives](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogarchives). On a également assigné à cette balise une classe  qui vous permettra plus tard d'en définir le style CSS.
+- Dans la balise _li_ on à ajouté une balise _a_ pour pouvoir construire notre liens porté par la variable _path_. On remarque également que l'attribut _title_ affichera entre parenthèse le nombre de publication dans l'archive. Ça n'est pas obligatoire, mais c'est tout de même plus sympa non ?
+- Enfin entre les balises _a_ on retrouve bien la variable _value_ qui porte le nom de l'archive formaté comme indiqué plus haut.
+
+Avec ça VenC va nous générer ce que nous voulons.
+
+Cependant, comme nous l'avons dit dans le chapitre [7.5.3](.:GetChapterAttributeByIndex::path::7.5.3:.) la bonne pratique
+est de faire en sorte que le thème s'adapte à la configuration du blog __si on veut le distribuer__. En effet si jamais les archives
+sont désactivés alors [ForBlogArchives](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogarchives) ne produira rien et on se retrouvera
+avec une paire de balise _ul_ vide. Ça n'est pas très propre. C'est d'autant plus problématique quand la liste est décoré avec un titre ou est
+contenu dans une boite.
+
+Pour palier à ces problèmes VenC permet de tester la configuration du projet
+pour adapter le thème à la situation avec le motif [IfBlogMetadataIsTrue](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue).
+
+.:CodeHighlight::HTML::False:: .:Escape::
+.:IfBlogMetadataIsTrue::disable_archives::
+    <!-- Bloc HTML à afficher si la variable vaut true -->
+    ::
+    <!-- Bloc HTML à afficher si la variable vaut false -->
+:.
+:. :.
+
+Ici ce qu'on teste c'est l'option _disable_archives_. Si elle vaut _true_ alors on affiche rien sinon, on met le bloc de code
+que nous avons écris tout à l'heure, ce qui nous donne : 
+
+.:CodeHighlight::HTML::False:: .:Escape::
+.:IfBlogMetadataIsTrue::disable_archives::
+    <-- Pas de liste d'archives à afficher -->
+::
+    <ul id="blogarchives">
+    .:ForBlogArchives::
+          <li class="blogarchivesitem">
+            <a href="{path}" title="{value} ({count})">{value}</a>
+          </li>:
+          ::
+    :.
+    </ul>
+:.
+:. :.
+
+Avec ça on est vraiment bon et le thème que vous construisez sera modulable
+et capable de s'adapter à vos besoins mais aussi à la configuration de ceux qui utiliserons
+votre thème !
