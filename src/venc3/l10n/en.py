@@ -79,9 +79,6 @@ class Messages:
     loading_entries = "Loading entries..."
     chapter_already_exists = "Chapters \"{0}\" (id = {1}) and \"{2}\" (id = {3}) have the same index \"{4}\"."
     copy_assets_and_extra_files = "Copying extra files..."
-    generating_jsonld_doc = "Generating JSON-LD document..."
-    generating_jsonp_doc = "Generating JSONP document..."
-    generating_jsonld_docs = "Generating JSON-LD documents..."
     task_done_in_n_seconds = "Task done in {0} seconds."
     nothing_to_serv = "Nothing to do. Try venc -xb before."
     theme_has_no_description = "This theme has no description."
@@ -118,6 +115,8 @@ class Messages:
     field_is_not_of_type = "Field \"{0}\" in {1} is not a {2}."
     chapter_has_no_entry = "Chapter {0} doesn't match any entry."
     this_pattern_is_embed_in_the_name_of_another_one = "This pattern {0} is embed in the name of another one."
+    not_installed = "is not installed."
+    chapter_type_is_ambiguous = "Chapter index from entry is of type float #{0} and ambiguous. It should be str or int."
 
     # Will not be hooked by l10n_cleanup
     generating_rss = "Generating RSS feed..."

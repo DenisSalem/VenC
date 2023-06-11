@@ -31,7 +31,7 @@ class Chapter:
         self.entry_id = entry.id
         self.title = entry.title
         self.path = path
-        
+
     def __str__(self):
         return self.index
         

@@ -79,9 +79,6 @@ class Messages:
     loading_entries = "Chargement des publications..."
     chapter_already_exists = "Les chapitres \"{0}\" (id = {1}) et \"{2}\" (id = {3}) ont le même index \"{4}\"."
     copy_assets_and_extra_files = "Copie des fichiers additionelles..."
-    generating_jsonld_doc = "Génération du document JSON-LD..."
-    generating_jsonp_doc = "Génération du document JSONP..."
-    generating_jsonld_docs = "Génération des documents JSON-LD..."
     task_done_in_n_seconds = "Tache réalisée en {0} seconds."
     nothing_to_serv = "Rien à faire. Essayez venc -xb d'abord."
     theme_has_no_description = "Ce thème n'a pas de description."
@@ -118,6 +115,8 @@ class Messages:
     field_is_not_of_type = "Le champ \"{0}\" dans {1} n'est pas du type {2}."
     chapter_has_no_entry = "Le chapitre {0}, ne correspond à aucune publication."
     this_pattern_is_embed_in_the_name_of_another_one = "Le pattern {0} est intégré dans le nom d'un autre."
+    not_installed = "n'est pas installé."
+    chapter_type_is_ambiguous = "L'index du chapitre de la plublication #{0} est de type float et est donc ambiguë. Le type devrait être str ou int."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."

@@ -1,6 +1,5 @@
 # version 4.x.x
 
-    TODO | Replace categories with taxonomy support.
     TODO | Add support for plugin.
     TODO | Add Incremental blog update.
     TODO | Add support for sub-sites within main site.
@@ -8,8 +7,8 @@
     TODO | Add folder for blog_configuration, with multiple configuration file (for splitting the actual one).
     TODO | Automatically merge all known entry authors into blog authors.
     
-# version 3.1.x
-
+# version 3.x.x
+    TODO | https://github.com/all-contributors/all-contributors
     WIP  | Replace as much as possible usage of list with tuple.
     WIP  | Client-side search engine.
     TODO | Override theme config override.
@@ -17,10 +16,8 @@
     TODO | SetBackgroundColor for text
     TODO | Include threads preview in entry
     TODO | Add command for reorder entries by criteria
-    TODO | Allow markdown2 setup.
     TODO | Add --insert-chapter command.
     TODO | If previous theme empty, juste remove it.
-    TODO | Fix encoding issue in JSON-LD document.
     TODO | Catch invalid encoding at startup. (???)
     TODO | Create entry with default template, if defined.
     TODO | Add translation for Deutsch and Spanish.
@@ -28,17 +25,12 @@
     TODO | Decrease halt_level to render reStructuredText even if errors occurs.
     TODO | Add Yaml comments in blog configuration.
     TODO | Add configuration field type check.
-    TODO | Add more informations into JSON-LD document.
-    TODO | Optimize and refine JSON-LD processing.
-    TODO | Embed as much as possible microdata/JSON-LD into blog.
     TODO | Improve sub folder management in Entry and EntriesThread. (???)
     TODO | Add draft support.
-    TODO | Enhance FTP transfert with multiple connections.
     TODO | Dynamically get oembed providers from https://oembed.com/providers.json.
     TODO | Add command to export only extra folder.
     TODO | Isolate Entry metadata so Entry getters cannot grab non str object.
     TODO | Get input bytes and output bytes so not only we know the times but also the bandwidth
-    TODO | Auto reload blog/ when server is running if blog is modified
     TODO | Because of fully recursive pattern, some contextual variable might be useless, like {relative_origin}
     TODO | Concatenate user defined blog keywords with entries keywords.
     TODO | Atom feed generation might be invalid, see : https://openweb.eu.org/articles/comment-construire-un-flux-atom
@@ -46,13 +38,22 @@
     TODO | Optionnaly Agregate ToC with chapter tree.
     TODO | Add in blog_configuration max_width and max_height for oEmbed content, add specific configuration per providers.
     TODO | Add post-generation warning information. For example calling GetEntryPath while single entry pages is disabled should not be silent.
-    
+
+# version 3.2.0
+    TODO | Add support for advanced taxonomy support.
+    TODO | Enhance FTP transfert with multiple connections.
+    TODO | Auto reload blog/ when server is running if blog is modified
+
 # version 3.1.0
     TODO | requests lib might be replaced with urllib.
     TODO | Verify header id uniqueness or warn about W3C complience.
+    TODO | validate documentation w3c complience.
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
-    ???  | Disable jsonld until cient side search-engine is ready ?
+    DONE | Add GetEntryToC.
+    DONE | Add HTML pattern.
+    DONE | remove support of jsonld.
+    DONE | Enhance venc -v with module version if installed
     DONE | Fix many bugs.
     DONE | Add entry_id metadata to Chapter.
     DONE | Fix chapter index acquisition with GetEntryMetadata.

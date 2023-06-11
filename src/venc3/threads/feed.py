@@ -41,10 +41,6 @@ class FeedThread(Thread):
         self.relative_origin = relative_origin
         self.organize_entries(entries)
         super().do()
-    
-    def get_JSONLD(self, node):
-        from venc3.exceptions import VenCException
-        raise VenCException(("you_cannot_use_this_pattern_here", "GetJSONLD", node.root.context), node)
 
     def if_in_feed(self, node, string1, string2=''):
         return string1.strip()

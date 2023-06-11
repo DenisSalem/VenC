@@ -30,7 +30,7 @@ def kroki(pattern, endpoint, image_format, code, provider = "https://kroki.io/")
     import hashlib
     filename = "kroki_"+hashlib.md5(code.encode('utf-8')).hexdigest()+"."+image_format
     import os
-    if not filename in os.listdir(os.getcwd()+"/includes"):
+    if not filename in os.listdir(os.getcwd()+"/extra"):
         import zlib;
         import base64
         encoded_code=base64.urlsafe_b64encode(zlib.compress(code.encode("utf-8"), 9)).decode("utf-8")

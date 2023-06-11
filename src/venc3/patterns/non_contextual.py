@@ -24,26 +24,29 @@ from venc3.helpers import SafeFormatDict
 
 theme_includes_dependencies = []
 
-def disable_markup(node, *argv):
-    return '::'.join(argv)
-
-def get_venc_version(node):
+def disable_markup(pattern, *content):
+    return '::'.join(content)
+    
+def html(pattern, *content):
+    return "</p>"+('::'.join(content))+"<p>"
+    
+def get_venc_version(pattern):
     return venc_version
     
-def set_color(node, color, string):        
+def set_color(pattern, color, string):        
     return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+color+";\">"+string+"</span>"
 
-def set_style(node, ID, CLASS, *string):
-    return "<span id=\""+ID.strip()+"\" class=\""+CLASS.strip()+"\">"+('::'.join(string).strip())+"</span>"
+def set_style(pattern, tag_id, tag_class, *string):
+    return "<span id=\""+tag_id.strip()+"\" class=\""+tag_class.strip()+"\">"+('::'.join(string).strip())+"</span>"
 
-
-def include_file(node, filename, *argv, raise_error=True):
+def include_file(pattern, filename, *argv, raise_error=True):
+    '''venc_arg_1,venc_arg_2,venc_arg_n,...'''
     if filename == '':
         if not raise_error:
             return ""
 
         from venc3.exceptions import VenCException
-        raise VenCException(("wrong_pattern_argument", "path", filename, "include_file"), node, node.root.string)
+        raise VenCException(("wrong_pattern_argument", "path", filename, "include_file"), pattern, pattern.root.string)
     
     include_string = None
     paths = ("includes/"+filename, shutil.os.path.expanduser("~/.local/share/VenC/themes_includes/"+filename))
@@ -58,7 +61,7 @@ def include_file(node, filename, *argv, raise_error=True):
                     return ""
                     
                 from venc3.exceptions import VenCException
-                raise VenCException(("wrong_permissions", path), node, node.root.string)
+                raise VenCException(("wrong_permissions", path), pattern, pattern.root.string)
                 
     if include_string == None:
         if not raise_error:
@@ -69,12 +72,12 @@ def include_file(node, filename, *argv, raise_error=True):
         raise VenCException(
             (
                 "exception_place_holder", 
-                ".:"+("::".join(node.payload))+":.\n" + '\n'.join(
+                ".:"+("::".join(pattern.payload))+":.\n" + '\n'.join(
                     (messages.file_not_found.format(path) for path in paths)
                 )
             ),
-            node,
-            node.root.string
+            pattern,
+            pattern.root.string
         )
                 
     if len(argv) > 1:            
@@ -85,11 +88,11 @@ def include_file(node, filename, *argv, raise_error=True):
     else:
         return include_string
 
-# TODO : Not documented in pattern cheat sheet
-def include_file_if_exists(node, filename, *argv):
-    return include_file(node, filename, *argv, raise_error=False)
+def include_file_if_exists(pattern, filename, *argv):
+    '''venc_arg_1,venc_arg_2,venc_arg_n,...'''
+    return include_file(pattern, filename, *argv, raise_error=False)
 
-def table(node, *argv):
+def table(pattern, *argv):
     output = "<div class=\"__VENC_TABLE__\"><table>"
     tr = [[]]
     append_td = tr[-1].append
@@ -118,5 +121,5 @@ def escape_walk(root, node):
         node.sub_patterns = []
         return "::".join(node.payload[1:])
     
-def escape(pattern, *string):
+def escape(pattern, *content):
     return escape_walk(pattern, pattern)

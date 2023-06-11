@@ -42,6 +42,13 @@ def new_entry(params):
         "path" :   "{path}",
     }
     
+    entry = dict()
+    try:
+        entry["ID"] = max([ int(filename.split("__")[0]) for filename in yield_entries_content()]) + 1
+
+    except ValueError:
+        entry["ID"] = 1
+        
     if len(params) == 3:
         entry_name, template_name, template_args = params
         import json
@@ -49,6 +56,9 @@ def new_entry(params):
             template_args = json.loads(template_args)
             if not "venc_entry_title" in template_args.keys():
                 template_args["venc_entry_title"] = entry_name
+                
+            if not "venc_entry_id" in template_args.keys():
+                template_args["venc_entry_id"] = entry["ID"]
             
         except Exception as e:
             from venc3.exceptions import VenCException
@@ -85,15 +95,7 @@ def new_entry(params):
         from venc3.exceptions import VenCException
         VenCException(("cannot_read_in", os.getcwd())).die()
 
-    date = datetime.datetime.now()
-
-    entry = dict()
     raw_entry_date = datetime.datetime.now()
-    try:
-        entry["ID"] = max([ int(filename.split("__")[0]) for filename in yield_entries_content()]) + 1
-
-    except ValueError:
-        entry["ID"] = 1
 
     entry["title"] = entry_name
     entry["month"] = raw_entry_date.month
@@ -103,7 +105,7 @@ def new_entry(params):
     entry["minute"] = raw_entry_date.minute
     entry["date"] = raw_entry_date
 
-    entry_date = date.strftime("%m-%d-%Y-%H-%M")
+    entry_date = raw_entry_date.strftime("%m-%d-%Y-%H-%M")
     output_filename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entry_date+"__"+entry["title"].replace(' ','_')
 
     stream = codecs.open(output_filename, 'w', encoding="utf-8")
@@ -188,8 +190,6 @@ def new_blog(blog_names):
         "path_encoding":                "",
         "server_port":                  8888,
         "sort_by":                      "id",
-        "enable_jsonld":                False,
-        "enable_jsonp":					False,
         "parallel_processing": 1
     }
     for folder_name in blog_names:

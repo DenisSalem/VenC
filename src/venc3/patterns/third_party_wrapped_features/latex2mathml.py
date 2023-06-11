@@ -18,13 +18,13 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-def latex_2_mathml(node, tex_math_string):
+def latex_2_mathml(pattern, tex_math_string):
     try:
         import latex2mathml.converter
         
     except:
         from venc3.exceptions import VenCException
-        raise VenCException(("module_not_found", "latex2mathml"), node)
+        raise VenCException(("module_not_found", "latex2mathml"), pattern)
     
     try:    
         return latex2mathml.converter.convert(tex_math_string)
@@ -32,4 +32,4 @@ def latex_2_mathml(node, tex_math_string):
     except:
         from venc3.l10n import messages
         from venc3.patterns.exceptions import enCException
-        raise VenCException(("tex_math_error",), node)
+        raise VenCException(("tex_math_error",), pattern)

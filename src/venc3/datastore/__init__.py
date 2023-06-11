@@ -27,7 +27,6 @@ from urllib.parse import quote as urllib_parse_quote
 from venc3.datastore.configuration import get_blog_configuration
 from venc3.datastore.archives import Archives
 from venc3.datastore.entries import Entries
-from venc3.datastore.jsonld import JSONLD
 from venc3.datastore.metadata import MetadataNode
 from venc3.datastore.metadata import Chapter
 from venc3.datastore.taxonomy import Taxonomy
@@ -36,7 +35,7 @@ from venc3.exceptions import MalformedPatterns, VenCException
 from venc3.patterns.datastore import DatastorePatterns
 from venc3.helpers import quirk_encoding
 
-class DataStore(DatastorePatterns, Taxonomy, Archives, Entries, JSONLD):
+class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
     def __init__(self):
         self.requested_entry = None
         self.embed_providers = {}
@@ -83,7 +82,6 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries, JSONLD):
         self.init_entries()
         self.init_archives()
         self.init_taxonomy()
-        self.init_jsonld()
                 
     def build_chapter_indexes(self):
         # build chapters index
@@ -132,27 +130,32 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries, JSONLD):
                         from venc3.prompt import notify
                         notify(("chapter_has_no_entry", index), color="YELLOW")
     
-    def build_entry_html_toc(self, entry, open_ul, open_li, content_format, close_li, close_ul):
+    def build_entry_html_toc(self, toc, open_ul, open_li, content_format, close_li, close_ul):
         output = ""
-        for i in range(0, len(entry.toc)):
-            current = entry.toc[i]
-            if i == 0 or current[0] > entry.toc[i-1][0]:
-                output += open_ul
+        previous = None
+        for i in range(0, len(toc)):
+            current = toc[i]
             
-            output += open_li
-            output += (content_format).format(**{
+            if previous == None:
+                output += open_ul+open_li
+                
+            elif current[0] > previous[0]:
+                output += open_ul+open_li
+            
+            elif current[0] < previous[0]:
+                output += ((close_li+close_ul)*(previous[0]-current[0]))+close_li+open_li
+            else:
+                output +=close_li+open_li
+            
+            output += content_format.format(**{
                 "level": current[0],
                 "title": current[1],
                 "id":current[2]
             })
             
-            if i <= len(entry.toc)-2 and current[0] >= entry.toc[i+1][0]:
-                output += close_li
+            previous = current
             
-            if i <= len(entry.toc)-2 and current[0] > entry.toc[i+1][0]:
-                output += close_ul
-        
-        return output                    
+        return output+(close_li+close_ul) * previous[0]
         
     def build_html_chapters(self, lo, io, ic, lc, top, level):          
         if top == []:
@@ -172,31 +175,6 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries, JSONLD):
         output += lc
 
         return output
-
-    def update_chapters(self, entry):
-        try:
-            chapter = str(entry.chapter)
-            [ int(level) for level in chapter.split('.') if level != '']
-
-        except ValueError as e: # weak test to check attribute conformity
-            notify(("chapter_has_a_wrong_index", entry.id, chapter), color="YELLOW")
-            return
-
-        except AttributeError as e: # does entry has chapter?
-            return
-
-        if chapter in self.raw_chapters.keys():
-            from venc3.prompt import die
-            die((
-                "chapter_already_exists",
-                entry.title,
-                entry.id,
-                self.raw_chapters[chapter].title,
-                self.raw_chapters[chapter].id,
-                chapter
-            ))
-        else:
-            self.raw_chapters[chapter] = entry
 
     def build_html_categories_tree(self, pattern, opening_node, opening_branch, closing_branch, closing_node, tree):
         output_string = opening_node
@@ -222,7 +200,35 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries, JSONLD):
             output_string += opening_branch.format(**variables) +closing_branch.format(**variables)
 
         return output_string + closing_node
-    
+        
+    def update_chapters(self, entry):
+        try:
+            if type(entry.chapter) == float:
+                notify(("chapter_type_is_ambiguous", entry.id), color="YELLOW")
+                
+            chapter = str(entry.chapter)
+            [ int(level) for level in chapter.split('.') if level != '']
+
+        except ValueError as e: # weak test to check attribute conformity
+            notify(("chapter_has_a_wrong_index", entry.id, chapter), color="YELLOW")
+            return
+
+        except AttributeError as e: # does entry has chapter?
+            return
+
+        if chapter in self.raw_chapters.keys():
+            from venc3.prompt import die
+            die((
+                "chapter_already_exists",
+                entry.title,
+                entry.id,
+                self.raw_chapters[chapter].title,
+                self.raw_chapters[chapter].id,
+                chapter
+            ))
+        else:
+            self.raw_chapters[chapter] = entry
+            
 datastore = None
 
 def init_datastore():
