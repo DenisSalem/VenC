@@ -31,8 +31,6 @@ def cache_embed_exists(link):
         return ""
 
 def get_embed_content(node, providers, target):  
-    
-
     from urllib.parse import urlparse
     url = urlparse(target)
 
@@ -47,33 +45,32 @@ def get_embed_content(node, providers, target):
         from urllib.request import Request, urlopen
         from urllib.parse import urlencode
         request = Request(
-            "https://api.fediverse.observer",
-            data=urlencode({
+            providers["oembed"][key][0]+'?'+urlencode({
                 "url": url.geturl(),
                 "format":"json",
                 "maxwidth": 640,
                 "maxheight": 320
-            }).encode()
+            })
         )
-        with urlopen(request) as stream:
-            r = stream.read()
+        stream = urlopen(request)
+        content = stream.read()
 
     except Exception as e:
         from venc3.exceptions import VenCException
         raise VenCException(("connectivity_issue", str(e)), node)
 
-    if r.status_code != 200:
+    if stream.getcode() != 200:
         from venc3.exceptions import VenCException
         raise VenCException(("ressource_unavailable", url.geturl()), node)
 
     try:
         import json
-        html = "<div class=\"__VENC_OEMBED__\">"+json.loads(r.text)["html"]+"</div>"
+        html = "<div class=\"__VENC_OEMBED__\">"+json.loads(content)["html"]+"</div>"
         html = "</p>"+html+"<p>" if node.root.has_markup_language else html
         
     except Exception as e:
         from venc3.exceptions import VenCException
-        raise VenCException(("response_is_not_json", url.geturl(), r.text), node)
+        raise VenCException(("response_is_not_json", url.geturl(), content), node)
         
     try:
         import hashlib, shutil
