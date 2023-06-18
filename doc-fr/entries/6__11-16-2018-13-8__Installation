@@ -31,5 +31,4 @@ Petite précision. Les dépendances de VenC ne sont pas désinstallées automati
 - [latex2mathml](https://github.com/roniemartinez/latex2mathml) : Dépendance optionnel pour convertir du LaTeX en MathML.
 - [mistletoe](https://github.com/miyuchina/mistletoe/) : Dépendance optionnel pour utiliser MarkDown.
 - [Pygments](https://pygments.org/) : Dépendance optionnel pour utiliser la coloration syntaxique.
-- [requests](https://2.python-requests.org/en/master/) : Dépendance optionnel pour utiliser pour utiliser l'API [oEmbed](https://oembed.com/) et [Kroki](https://kroki.io/).
 - [asciidoc3](https://asciidoc3.org/) : Dépendance optionnel pour utiliser AsciiDoc.
