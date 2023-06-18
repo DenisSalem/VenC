@@ -43,6 +43,7 @@
     TODO | Add support for advanced taxonomy support.
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Auto reload blog/ when server is running if blog is modified
+    TODO | Add nested archives.
 
 # version 3.1.0
     TODO | Verify header id uniqueness or warn about W3C complience.
