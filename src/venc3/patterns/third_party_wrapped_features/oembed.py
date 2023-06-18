@@ -31,12 +31,7 @@ def cache_embed_exists(link):
         return ""
 
 def get_embed_content(node, providers, target):  
-    try:
-        import requests
-
-    except:
-        from venc3.exceptions import VenCException
-        raise VenCException(("module_not_found", "requests"), node)
+    
 
     from urllib.parse import urlparse
     url = urlparse(target)
@@ -49,14 +44,21 @@ def get_embed_content(node, providers, target):
         raise VenCException(("unknown_provider", url.netloc), node)
     
     try:
-        r = requests.get(providers["oembed"][key][0], params={
-            "url": url.geturl(),
-            "format":"json",
-            "maxwidth": 640,
-            "maxheight": 320
-        })
+        from urllib.request import Request, urlopen
+        from urllib.parse import urlencode
+        request = Request(
+            "https://api.fediverse.observer",
+            data=urlencode({
+                "url": url.geturl(),
+                "format":"json",
+                "maxwidth": 640,
+                "maxheight": 320
+            }).encode()
+        )
+        with urlopen(request) as stream:
+            r = stream.read()
 
-    except requests.exceptions.ConnectionError as e:
+    except Exception as e:
         from venc3.exceptions import VenCException
         raise VenCException(("connectivity_issue", str(e)), node)
 
