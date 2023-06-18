@@ -3,7 +3,7 @@ authors:
 categories:
 - ''
 title: Créer une liste d'archives
-chapter: 7.5.3.1
+chapter: '7.5.2.2'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Avant toute chose, comme nous l'avons vu précédement, il faut que dans votre fichier de configuration
@@ -41,7 +41,7 @@ plutôt quelque chose comme ça :
 
 Avec ça VenC va nous générer ce que nous voulons.
 
-Cependant, comme nous l'avons dit dans le chapitre [7.5.3](.:GetChapterAttributeByIndex::path::7.5.3:.) la bonne pratique
+Cependant, comme nous l'avons dit dans le chapitre [7.5.3](.:GetChapterAttributeByIndex::path::7.5.2.1:.) la bonne pratique
 est de faire en sorte que le thème s'adapte à la configuration du blog __si on veut le distribuer__. En effet si jamais les archives
 sont désactivés alors [ForBlogArchives](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogarchives) ne produira rien et on se retrouvera
 avec une paire de balise _ul_ vide. Ça n'est pas très propre. C'est d'autant plus problématique quand la liste est décoré avec un titre ou est
