@@ -36,24 +36,26 @@ def kroki(pattern, endpoint, image_format, code, provider = "https://kroki.io/")
         encoded_code=base64.urlsafe_b64encode(zlib.compress(code.encode("utf-8"), 9)).decode("utf-8")
         
         if not os.path.isfile("extra/"+code+"."+image_format):
-            try:
-                import requests
-                
-            except:
-                from venc3.exceptions import VenCException
-                raise VenCException(("module_not_found", "requests"), pattern)
+            from urllib.request import Request, urlopen
 
-            from venc3.exceptions import VenCException
             try:
-                r = requests.get(provider+'/'+endpoint+'/'+image_format+'/'+encoded_code, stream=True)
-                if r.status_code != 200:
-                    raise VenCException(("exception_place_holder", "API Error: {0}".format(r.status_code)), pattern)
+                print(encoded_code)
+                request = Request(
+                    provider+'/'+endpoint+'/'+image_format+'/'+encoded_code,
+                    headers={'User-Agent': 'VenC'}
+                ) 
+                stream = urlopen(request)
+                content = stream.read()
+                
+                if stream.getcode() != 200:
+                    from venc3.exceptions import VenCException
+                    raise VenCException(("exception_place_holder", "API Error: {0}".format(stream.getcode())), pattern)
                     
                 with open("extra/"+filename,"wb") as f:
-                    for chunk in r.iter_content(chunk_size=128):
-                        f.write(chunk)
+                    f.write(content)
                         
             except Exception as e:
+                from venc3.exceptions import VenCException
                 raise VenCException(("exception_place_holder", str(e)), pattern)
               
     return "<img class=\"__VENC_KROKI__\" src=\"\x1a"+filename+"\">"
