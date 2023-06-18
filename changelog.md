@@ -46,6 +46,7 @@
     TODO | Add nested archives.
 
 # version 3.1.0
+    TODO | requests lib might be replaced with urllib.
     TODO | Verify header id uniqueness or warn about W3C complience.
     TODO | validate documentation w3c complience.
     WIP  | Update doc accordingly.
