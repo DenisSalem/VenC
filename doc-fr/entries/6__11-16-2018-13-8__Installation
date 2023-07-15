@@ -17,6 +17,28 @@ Vous pouvez également mettre à jour VenC avec
 
 > pip install --upgrade venc  
 
+## Installation alternative
+
+Vous pourriez vouloir utiliser VenC dans une version en développement indisponible sur pypi.
+Pour ça vous pouvez cloner le projet depuis [framagit](https://framagit.org/denissalem/VenC/)
+ou [github](https://github.com/DenisSalem/VenC).
+
+Il faut ensuite sélectionner la branche que vous désirez. En effet la branche master correspond à la version
+de VenC disponible sur pypi. Si vous voulez une autre version pas encore officiellement sortie en grande pompe
+il faut lister les versions disponibles avec
+
+> git branch --all
+
+Puis sélectionnez la branche qui vous intéresse avec
+
+> git checkout nom_de_la_branche
+
+Ceci étant fait, rendez vous dans le répertoire __src__ et utilisez le script d'installation
+
+> ./setup.py install --user
+
+## Désinstallation
+
 Pour désinstaller VenC, c'est triste, mais rien de plus simple.
 
 > pip uninstall venc
