@@ -46,11 +46,11 @@
     TODO | Add nested archives.
 
 # version 3.1.0
-    TODO | requests lib might be replaced with urllib.
     TODO | Verify header id uniqueness or warn about W3C complience.
     TODO | validate documentation w3c complience.
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
+    DONE | requests lib is replaced with urllib.
     DONE | Add GetEntryToC.
     DONE | Add HTML pattern.
     DONE | remove support of jsonld.
@@ -81,7 +81,6 @@
     DONE | Add full documentation notice in venc -h
     DONE | "disable_threads option" is parsed as a native yaml list
     DONE | Make pygmentize optional.
-    DONE | Make requests optional.
     DONE | Add GetEntryChapterLevel.
     DONE | Add KrokiFromFile.
     DONE | Remove hardcoded image asset. 
