@@ -7,7 +7,7 @@ chapter: '7.5.2'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-L'entête HTML de VenC est réutiliser à chaque fois que VenC génère une page HTML. Les _[motifs VenC](.:GetChapterAttributeByIndex::path::4:.)_ permettent
+L'entête HTML de VenC est réutilisé à chaque fois que VenC génère une page HTML. Les _[motifs VenC](.:GetChapterAttributeByIndex::path::4:.)_ permettent
 de mettre en contexte cette portion du code pour l'adapter au contexte dans lequel il se trouve.
 
 La structure de ce fichier ressemble à ça :
@@ -29,7 +29,7 @@ La structure de ce fichier ressemble à ça :
 avez définit dans votre [fichier de configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#blog-language).
 Ça n'est pas obligatoire, mais les moteurs de recherche aprécie l'effort.
 - __[GetBlogName](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogname)__ : Ce pattern permet de récupérer le nom de votre blog. Typiquement à utiliser entre les balises __title__. Le nom de votre site est définit dans votre [fichier de configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#blog-name).
-- __[GetThreadName](.:GetChapterAttributeByIndex::path::4.3:.#getthreadname)__ : Vous pouriez vouloir afficher dans le titre de l'onglet ou la fenêtre active plus que le titre du blog. Par exemple le nom du fil de categorie courant ou le titre de la publication  courante. C'est ce que permet de faire ce motif.
+- __[GetThreadName](.:GetChapterAttributeByIndex::path::4.3:.#getthreadname)__ : Vous pouriez vouloir afficher dans le titre de l'onglet ou de la fenêtre active plus que le titre du blog. Par exemple le nom du fil de categorie courant ou le titre de la publication  courante. C'est ce que permet de faire ce motif.
 - __[GetStyleSheets](.:GetChapterAttributeByIndex::path::4.3:.#getstylesheets)__ : Ce motif n'est pas obligatoire. Vous en aurez cependant besoin si vous prevoyez d'utiliser [la coloration syntaxique](.:GetChapterAttributeByIndex::path::4.4.3:.#codehighlight) dans vos publications.
 
 Enfin on remarque également que le contenue de ce fichier s'arrête à peu

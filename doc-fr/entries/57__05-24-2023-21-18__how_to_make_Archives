@@ -52,13 +52,14 @@ pour adapter le thème à la situation avec le motif [IfBlogMetadataIsTrue](.:Ge
 
 .:CodeHighlight::HTML::False:: .:Escape::
 .:IfBlogMetadataIsTrue::disable_archives::
-    <!-- Bloc HTML à afficher si la variable vaut true -->
+    <!-- Bloc HTML à conserver si la variable vaut true -->
     ::
-    <!-- Bloc HTML à afficher si la variable vaut false -->
+    <!-- Bloc HTML à conserver si la variable vaut false -->
 :.
 :. :.
 
-Ici ce qu'on teste c'est l'option _disable_archives_. Si elle vaut _true_ alors on affiche rien sinon, on met le bloc de code
+Ici ce qu'on teste c'est l'option _disable_archives_ avec [IfBlogMetadataIsTrue](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue).
+Si elle vaut _true_ alors on ne fait rien sinon, on met le bloc de code
 que nous avons écris tout à l'heure, ce qui nous donne : 
 
 .:CodeHighlight::HTML::False:: .:Escape::

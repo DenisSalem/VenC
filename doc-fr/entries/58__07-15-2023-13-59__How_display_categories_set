@@ -1,0 +1,85 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+chapter: '7.5.2.3'
+title: Afficher les categories
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+De façon similaire aux archives il faut que dans votre fichier de configuration
+l'option disable_categories soit configuré correctement.
+
+Il y a plusieurs façon d'afficher les categories de votre blog :
+
+- Sous forme d'arbre
+- Sous forme d'un nuage de categories
+
+Nous verrons les deux cas.
+
+Pour commencer nous allons préparer le terrains pour que le thème soit
+modulable par les utilisateurs finaux.
+
+Entre les balises __header__ que vous avez ajouté dans le chapitre
+[7.5.2.1](.:GetChapterAttributeByIndex::path::7.5.2.1:.) ajoutez maintenant le code suivant :
+
+.:CodeHighlight::HTML::False:: .:Escape::
+.:IfBlogMetadataIsTrue::disable_categories::
+    <!-- Bloc HTML à conserver si la variable vaut true -->
+    ::
+    <!-- Bloc HTML à conserver si la variable vaut false -->
+:.
+:. :.
+
+À l'aide de [IfBlogMetadataIsTrue](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue)
+on test si les pages des categories sont crées pas VenC. On peut aller plus loin et demander à VenC
+de conserver ou non des blocs de codes de façon plus précise de la façon suivante :
+
+.:CodeHighlight::HTML::False:: .:Escape::
+.:IfBlogMetadataIsTrue::disable_categories::
+    <!-- Bloc HTML à conserver si la variable vaut true -->
+    ::
+        .:IfBlogMetadataIsTrue::display_categories_as_list::
+            <!-- Bloc HTML à conserver si la variable vaut true -->
+        :.
+        
+        .:IfBlogMetadataIsTrue::display_categories_as_tree::
+            <!-- Bloc HTML à conserver si la variable vaut true -->
+        :.
+:.
+:. :.
+
+On utilise à nouveau [IfBlogMetadataIsTrue](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue) pour tester
+les variables suivantes (à noter que ce ne sont pas des options réservés par VenC, vous pouvez donc définir les votres si vous
+le souhaitez):
+
+- display_categories_as_tree
+- display_categories_as_list
+
+Se faisant, vous pourrez controler depuis votre fichier de configuration
+quel types d'affichages vous souhaitez pour vos categories ! Malin !
+
+On arrive maintenant au gros morceau : l'affichage de la liste des categories !
+
+## Affichage des categories en nuage
+
+C'est le cas le plus simple. Nous allons pour ce faire utiliser
+[GetFlattenedBlogCategories](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories).
+
+Par exemple :
+
+.:CodeHighlight::HTML::False::<ul id="blogcategorieslist">
+.:Escape::  .:GetFlattenedBlogCategories::
+  <li class="blogcategoriesitem">
+    <a href="{path}" title="{value} ({count})">{value}</a>
+  </li>
+  ::
+  :. :.
+</ul>:. 
+
+Ici on définit une liste avec la balise HTML _ul_. On y insère le motif VenC
+[GetFlattenedBlogCategories](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories).
+qui va générer itérativement les items de la liste. Nous y écrivons donc en premier argument dudit motif
+le couple de balise _li_ qui correspond à l'item courant de la liste.
+
+Enfin, les variables du motif permettent de récupérer le chemin de la categorie, le nom de la categorie et le nombre
+de publications associées à la categories courante.
