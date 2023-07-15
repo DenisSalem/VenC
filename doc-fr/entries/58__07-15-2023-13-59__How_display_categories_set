@@ -81,5 +81,47 @@ Ici on définit une liste avec la balise HTML _ul_. On y insère le motif VenC
 qui va générer itérativement les items de la liste. Nous y écrivons donc en premier argument dudit motif
 le couple de balise _li_ qui correspond à l'item courant de la liste.
 
-Enfin, les variables du motif permettent de récupérer le chemin de la categorie, le nom de la categorie et le nombre
+Enfin, les variables du motif permettent de récupérer le chemin de la categorie courante,
+le nom de la categorie courante et le nombre
 de publications associées à la categories courante.
+
+Il n'y a plus qu'à insérer tout ça dans le code que nous avons préparé dans la balise _header_ :
+
+.:CodeHighlight::HTML::False:: .:Escape::
+.:IfBlogMetadataIsTrue::disable_categories::
+    <!-- Bloc HTML à conserver si la variable vaut true -->
+    ::
+        .:IfBlogMetadataIsTrue::display_categories_as_list::
+            <ul id="blogcategorieslist">
+            .:Escape::  .:GetFlattenedBlogCategories::
+              <li class="blogcategoriesitem">
+                <a href="{path}" title="{value} ({count})">{value}</a>
+              </li>
+              ::
+              :. :.
+            </ul>
+        :.
+        
+        .:IfBlogMetadataIsTrue::display_categories_as_tree::
+            <!-- Bloc HTML à conserver si la variable vaut true -->
+        :.
+:.
+:. :.
+
+## Affichage des categories en arbre
+
+Cet affichage est un peu plus complexe et ne se prette pas à toutes
+les mises en page mais il a le mérite de rendre plus clair l'organisation
+de votre site.
+
+L'idée de l'affichage en arbre de categories c'est de mettre en évidence le fait
+que plusieurs sous categories peuvent appartenir à une categorie parente.
+
+Par exemple si votre blog parle de science et d'art vous aurez donc deux categories
+de bases. Pour avoir plus de granularité sur l'organisation de vos publications, vous
+pouvez indiquez à VenC qu'une publication traite aussi de peinture ou de litterature.
+Deux sous categories de la categorie 'Art'. Et bien sur, il n'y a pas de limite d'imbrications
+de categories, ce qui vous laisse beaucoup de latitude pour trier vos publications.
+
+Pour savoir comment définir des categories dans une publication,
+rendez-vous [ici](.:GetChapterAttributeByIndex::path::3.3:.#categories).
