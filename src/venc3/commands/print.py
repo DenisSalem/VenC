@@ -112,11 +112,18 @@ def version(params):
         "mistletoe",
         "pygments",
     ]
-    import importlib
+    
+    try:
+        import pkg_resources
+    
+    except ModuleNotFoundError:
+        print("pkg_resources",messages.not_installed)
+        return
+
     for dep in deps:
         try:
-            m = importlib.import_module(dep)
-            print("\t", dep, m.__version__ if hasattr(m, "__version__") else "")
-
-        except ModuleNotFoundError:
+            print("\t", dep, pkg_resources.get_distribution(dep).version)
+        
+        except pkg_resources.DistributionNotFound:
             print("\t", dep, messages.not_installed)
+    
