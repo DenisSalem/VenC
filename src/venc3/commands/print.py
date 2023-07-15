@@ -111,7 +111,6 @@ def version(params):
         "latex2mathml",
         "mistletoe",
         "pygments",
-        "requests"
     ]
     import importlib
     for dep in deps:
