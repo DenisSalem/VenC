@@ -81,9 +81,11 @@ Ici on définit une liste avec la balise HTML _ul_. On y insère le motif VenC
 qui va générer itérativement les items de la liste. Nous y écrivons donc en premier argument dudit motif
 le couple de balise _li_ qui correspond à l'item courant de la liste.
 
-Enfin, les variables du motif permettent de récupérer le chemin de la categorie courante,
-le nom de la categorie courante et le nombre
-de publications associées à la categories courante.
+Enfin, les variables du motif permettent de récupérer respectivement :
+
+- le chemin de la categorie courante
+- le nom de la categorie courante
+- le nombre de publications associées à la categories courante
 
 Il n'y a plus qu'à insérer tout ça dans le code que nous avons préparé dans la balise _header_ :
 
@@ -125,3 +127,64 @@ de categories, ce qui vous laisse beaucoup de latitude pour trier vos publicatio
 
 Pour savoir comment définir des categories dans une publication,
 rendez-vous [ici](.:GetChapterAttributeByIndex::path::3.3:.#categories).
+
+Pour afficher un arbre hierarchique de categorie on utilise le _motif_ 
+VenC [GetBlogCategoriesTree](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestree).
+La documentation technique propose l'exemple suivant qui convient tout à fait
+à la majorité des cas de figure :
+
+.:CodeHighlight::HTML::False::
+.:Escape:: .:GetBlogCategoriesTree::
+    <ul>::
+    <li><a href="{path}" title="{count} publications">{value}</a>::
+    {childs}</li>::
+    </ul>
+:. :.
+:.
+
+Ce _motif_ fonctionne différement de 
+[GetFlattenedBlogCategories](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories) :
+
+En effet il faut indiquer à la fonction
+
+- Le texte d'ouverture et de fermeture du
+noeud courant (respectivement l'argument 1 et 4)
+- Le texte d'ouveture et de fermeture de l'item courant à l'intérieur du noeud courant (respectivement
+l'argument 2 et 3).
+
+On remarque également que comme pour [GetFlattenedBlogCategories](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories)
+on peut utiliser les variables __path__, __count__ et __value__.
+
+Enfin un autre élément est requis pour crée une structure récursive de catégorie c'est la
+variable __childs__ qui contient le noeud enfant. Si vous oubliez de placer cette variable dans l'argument 2 ou 3 le résultat
+de l'appel du _motif_ ne sera pas celui attendu.
+
+Avec ça on est bon et on peut maintenant placer notre code dans celui que nous avons préparé dans la balise _header_ de notre en-tête hmtl :
+
+.:CodeHighlight::HTML::False:: .:Escape::
+.:IfBlogMetadataIsTrue::disable_categories::
+    <!-- Bloc HTML à conserver si la variable vaut true -->
+    ::
+        .:IfBlogMetadataIsTrue::display_categories_as_list::
+            <ul id="blogcategorieslist">
+            .:Escape::  .:GetFlattenedBlogCategories::
+              <li class="blogcategoriesitem">
+                <a href="{path}" title="{value} ({count})">{value}</a>
+              </li>
+              ::
+              :. :.
+            </ul>
+        :.
+        
+        .:IfBlogMetadataIsTrue::display_categories_as_tree::
+            .:GetBlogCategoriesTree::
+                <ul>::
+                <li><a href="{path}" title="{count} publications">{value}</a>::
+                {childs}</li>::
+                </ul>
+            :.
+        :.
+:.
+:. :.
+
+Et voilà, c'est tout bon pour les catégories !
