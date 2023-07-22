@@ -6,11 +6,11 @@ title: Installer un thème
 chapter: '5.9'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-> venc -it [Nom du thème)
+> venc -it &lt;Nom du thème&gt;
 
 ou
 
-> venc --install-theme <Nom du thème>
+> venc --install-theme &lt;Nom du thème&gt;
 
 Cette commande déplace et sauvegarde l'ancien thème dans un dossier daté
 à la racine de votre blog. Le nouveau thème, passé en paramètre, est alors installé.

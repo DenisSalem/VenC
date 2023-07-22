@@ -7,5 +7,7 @@ chapter: 1.2.1
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-Le code source applicatif pèse environs de 350Ko et les assets constitués pour l'essentiel d'un thème par défaut pèsent moins de.
-VenC étant très légé, il est donc plus facile à maintenir mais aussi potentiellement plus rapide.
+Le code source applicatif pèse environs de 350Ko et les assets constitués
+pour l'essentiel d'un thème par défaut pèsent moins de TODO.
+VenC étant très légé, il est donc plus facile à maintenir mais aussi
+potentiellement plus rapide.

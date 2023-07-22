@@ -11,8 +11,14 @@ l'utilisation d'arguments supplémentaire pour celui-ci. Encore faut-il les conn
 savoir comment ils sont utilisés. Ces commandes permettent d'afficher le template spécifié
 et de mettre en valeur les arguments de ceux là.
 
-> venc -ta <Nom du template>
+> venc -ta &lt;Nom du template&gt;
 
 ou
 
-> venc --template-arguments <Nom du template>
+> venc --template-arguments &lt;Nom du template&gt;
+
+Le nom du template correspond ici au nom du fichier du template et __non pas son chemin complet__, en effet
+VenC va chercher le template dans :
+
+- /chemin/de/votre/projet/templates/
+- ~/.local/share/VenC/themes_templates/

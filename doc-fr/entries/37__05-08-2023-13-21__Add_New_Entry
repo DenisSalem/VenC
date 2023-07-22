@@ -6,15 +6,15 @@ title: Ajouter une nouvelle publication
 chapter: '5.3'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-> venc -ne "<nom de la publication>" [nom du template]
+> venc -ne "&lt;nom de la publication&gt;" [nom du template]
 
 ou
 
-> venc --new-entry "<nom de la publication>" [nom du template]
+> venc --new-entry "&lt;nom de la publication&gt;" [nom du template]
 
 Pour créer une nouvelle [publication](.:GetChapterAttributeByIndex::path::3.3:.), vous devez être dans le répertoire de votre blog.
 
-Vous ne pouvez pas créer une [publication](.:GetChapterAttributeByIndex::path::3.3:.) sans spécifier le titre de celle-ci.
+Vous ne pouvez pas créer une [publication](.:GetChapterAttributeByIndex::path::3.3:.) sans spécifier le titre de celle-ci __entre guillemets__.
 
 Si vous ne spécifiez pas de nom de [template](.:GetChapterAttributeByIndex::path::3.5:.), VenC produira une [publication](.:GetChapterAttributeByIndex::path::3.3:.) totalement vierge.
 Le nom de [template](.:GetChapterAttributeByIndex::path::3.5:.) est en fait le nom de fichier du [template](.:GetChapterAttributeByIndex::path::3.5:.) désiré, se trouvant soit dans le
