@@ -38,4 +38,16 @@ Se pose maintenant la question de savoir quand afficher le résumé de votre bil
 publication. La condition étant de savoir si la page courante à générer se trouve dans un
 thread ou s'il s'agit de la page de la publication elle même. En effet vous pourriez vouloir afficher uniquement le résumé de vos publications à moins d'accéder à la publication elle même.
 
+La plupart du temps vous utiliserez [GetEntryContent](.:GetChapterAttributeByIndex::path::4.3:.#getentrycontent) et c'est ce que nous ferons dans notre exemple. Nous aurions donc quelque
+chose comme ceci :
 
+.:CodeHighlight::HTML::False::<div class="entry" .:Escape::id="entry.:GetEntryID:.":.>
+    <h1><a class="entry_title" .:Escape::href=".:GetEntryPath:.">.:GetEntryTitle:.</a>:.</h1>
+    <div class="entry_content">.:Escape::
+        .:GetEnTryContent:.
+    :.</div>
+</div>:.
+
+Pas de grande modification ci ce n'est l'ajout du _motif_ et d'une paire de balise __div__ pour pouvoir plus tard customiser le style CSS de notre publication.
+
+Voilà pour une version minimal du fichier __entry.html__, dans les chapitres suivants nous verrons ce qu'il possible de faire d'autres de plus élaborés !
