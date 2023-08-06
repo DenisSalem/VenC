@@ -66,7 +66,6 @@ def get_blog_configuration():
             "disable_rss_feed",
             "disable_atom_feed",
             "sort_by",
-            "parallel_processing"
         ]
 
         everything_is_okay = True
