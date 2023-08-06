@@ -47,21 +47,29 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
         self.blog_url = self.blog_configuration["blog_url"]
         self.disable_threads = self.blog_configuration["disable_threads"]
         
-        self.workers_count = 1
         try:
-            from multiprocessing import cpu_count
-            self.workers_count = cpu_count()
-            if int(self.blog_configuration["parallel_processing"]) < self.workers_count:
-                 self.workers_count  =  int(self.blog_configuration["parallel_processing"])
-      
-        except ImportError:
-            pass
+            from multiprocessings import cpu_count
+            cpu_c = cpu_count()
+            self.workers_count = cpu_c if cpu_c > 0 else 1
             
+        except (ImportError, NotImplementedError):
+            notify(("current_python_implementation_doesnt_support_parallelism",), color="YELLOW")
+            self.workers_count = 1
+
+        try:
+            parallel_processing = self.blog_configuration["parallel_processing"]
+            try:
+                if 0 < int(parallel_processing) < self.workers_count:
+                     self.workers_count = int(parallel_processing)
+                     
+                elif int(parallel_processing) < 1:
+                    raise ValueError
+                  
+            except ValueError:
+                notify(("wrong_value_for_parallel_processing",), color="YELLOW")
+                
         except KeyError:
-            pass
-            
-        except ValueError:
-            pass
+            notify(("no_parallel_processing_default_value", self.workers_count), color="YELLOW")
 
         self.html_for_metadata = {}
         self.html_tree_for_blog_metadata = {}

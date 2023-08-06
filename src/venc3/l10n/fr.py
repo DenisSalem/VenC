@@ -117,6 +117,9 @@ class Messages:
     this_pattern_is_embed_in_the_name_of_another_one = "Le pattern {0} est intégré dans le nom d'un autre."
     not_installed = "n'est pas installé."
     chapter_type_is_ambiguous = "L'index du chapitre de la plublication #{0} est de type float et est donc ambiguë. Le type devrait être str ou int."
+    current_python_implementation_doesnt_support_parallelism = "L'implémentation courante de Python ne supporte pas le parallélisme."
+    no_parallel_processing_default_value = "Aucune valeur définit explicitement pour \"parallel_processing\" dans votre fichier de configuration.\nPar défaut VenC utilisera {0} processus parallèles."
+    wrong_value_for_parallel_processing = "Le valeur de \"parallel_processing\" dans votre fichier de configuration est incorrect, il doit s'agir d'un nombre entier supérieur à 0."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."
