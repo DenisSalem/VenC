@@ -155,7 +155,7 @@ def new_blog(blog_names):
     from venc3.l10n import messages
     default_configuration =	{
         "blog_name":			              messages.blog_name,
-        "disable_threads":              None,
+        "disable_threads":              [],
         "disable_archives":             False,
         "disable_categories":           False,
         "disable_chapters":             True,
