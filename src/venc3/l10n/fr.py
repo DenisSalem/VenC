@@ -120,6 +120,7 @@ class Messages:
     current_python_implementation_doesnt_support_parallelism = "L'implémentation courante de Python ne supporte pas le parallélisme."
     no_parallel_processing_default_value = "Aucune valeur définit explicitement pour \"parallel_processing\" dans votre fichier de configuration.\nPar défaut VenC utilisera {0} processus parallèles."
     wrong_value_for_parallel_processing = "Le valeur de \"parallel_processing\" dans votre fichier de configuration est incorrect, il doit s'agir d'un nombre entier supérieur à 0."
+    invalid_variable_name_in_setting = "Variable {0} incorrect dans \"{1}\" dans votre fichier de configuration."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."

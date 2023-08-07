@@ -76,12 +76,18 @@ class Taxonomy:
     def build_tree(self, entry_index, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders=''):     
         from venc3.datastore.configuration import get_blog_configuration
         category_directory_name = get_blog_configuration()["path"]["category_directory_name"]
+
+          
         for item, sub_items in flatten_current_level(input_list):
             if not len(item):
                 continue
     
             match = None
-            path = sub_folders+quirk_encoding(category_directory_name.format(**{"category":item}))
+            try:
+                path = sub_folders+quirk_encoding(category_directory_name.format(**{"category":item}))
+            except KeyError as e:
+                from venc3.prompt import die
+                die(("invalid_variable_name_in_setting", str(e), "category_directory_name"))
             for node in blog_output_tree:
                 if node.value == item:
                     node.count +=1

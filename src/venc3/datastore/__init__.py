@@ -48,7 +48,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
         self.disable_threads = self.blog_configuration["disable_threads"]
         
         try:
-            from multiprocessings import cpu_count
+            from multiprocessing import cpu_count
             cpu_c = cpu_count()
             self.workers_count = cpu_c if cpu_c > 0 else 1
             
