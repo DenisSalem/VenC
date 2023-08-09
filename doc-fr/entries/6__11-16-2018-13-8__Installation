@@ -37,6 +37,16 @@ Ceci étant fait, rendez vous dans le répertoire __src__ et utilisez le script 
 
 > ./setup.py install --user
 
+## Fichiers installés
+
+Quelque soit la méthode d'installation, dépendances mises à part, VenC installe également ses ressources dans :
+
+> ~/.local/share/VenC
+
+On y trouve les thèmes, des assets, des templates, des modules JS et d'autres petites choses utiles au bon fonctionnement
+de VenC.
+
+
 ## Désinstallation
 
 Pour désinstaller VenC, c'est triste, mais rien de plus simple.
