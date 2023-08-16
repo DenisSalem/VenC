@@ -175,7 +175,7 @@ celui utilisé par Python. Pour en savoir plus sur ce format, rendez vous
 
 *1* par défaut. Ce champ définit le nombre de colonnes dans une page.
 
-## feed_lenght
+## feed_length
 
 *5* par défaut. Définit le nombre de publications à afficher dans le flux RSS.
 
