@@ -184,7 +184,7 @@ def new_blog(blog_names):
         },
         "entries_per_pages":		    10,
         "columns":			            1,
-        "feed_lenght":	        	    5,
+        "feed_length":	        	    5,
         "reverse_thread_order":		    True,
         "markup_language":              "Markdown",
         "path_encoding":                "",

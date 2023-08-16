@@ -53,7 +53,7 @@ def get_blog_configuration():
             "ftp_host",
             "entries_per_pages",
             "columns",
-            "feed_lenght",
+            "feed_length",
             "reverse_thread_order",
             "markup_language",
             "disable_main_thread",

@@ -41,7 +41,7 @@ class CategoriesThread(Thread):
         return string1.strip()
 
     def do_feeds(self, entries, node, indentation_type):
-        entries = sorted(entries, key = lambda entry : entry.id, reverse=True)[0:self.datastore.blog_configuration["feed_lenght"]]
+        entries = sorted(entries, key = lambda entry : entry.id, reverse=True)[0:self.datastore.blog_configuration["feed_length"]]
 
         if (not self.disable_rss_feed) or (not self.disable_atom_feed):
             from venc3.threads.feed import FeedThread

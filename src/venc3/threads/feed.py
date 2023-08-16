@@ -32,7 +32,7 @@ class FeedThread(Thread):
         self.column_closing = ''
         self.columns_number = 1
         self.filename = self.datastore.blog_configuration["path"][feed_type+"_file_name"]
-        self.entries_per_page = self.datastore.blog_configuration["feed_lenght"]
+        self.entries_per_page = self.datastore.blog_configuration["feed_length"]
         self.in_thread = True
         self.content_type = feed_type
 

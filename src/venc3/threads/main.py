@@ -47,7 +47,7 @@ class MainThread(Thread):
         for entry in self.datastore.get_entries(True):
             entries.append(entry)
             i+=1
-            if i == self.datastore.blog_configuration["feed_lenght"]:
+            if i == self.datastore.blog_configuration["feed_length"]:
                 return entries
                 
         return entries
