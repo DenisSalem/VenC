@@ -46,16 +46,9 @@ class Theme:
 
             self.entry = PatternTree(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
             
-            self.enable_entry_content = False            
-            self.enable_entry_preview = False
-            
-            for pattern in self.entry.sub_patterns:
-                self.enable_entry_content = True if pattern.payload[0] == "GetEntryContent" else False
-                self.enable_entry_preview = True if pattern.payload[0] == "GetEntryPreview" else False
-                if "PreviewIfInThreadElseContent" == pattern.payload[0]:
-                    self.enable_entry_content = True
-                    self.enable_entry_preview = True
-            
+            self.enable_entry_content = self.entry.match_get_entry_content
+            self.enable_entry_preview = self.entry.match_get_entry_preview
+
             self.rss_entry = PatternTree(open(theme_folder+"chunks/rssEntry.xml",'r').read(),"rssEntry.xml")
             self.atom_entry = PatternTree(open(theme_folder+"chunks/atomEntry.xml",'r').read(),"atomEntry.xml")
             

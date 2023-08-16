@@ -52,6 +52,7 @@ class Entry:
                     from venc3.datastore.configuration import get_blog_configuration
                     markup_language = get_blog_configuration()["markup_language"]
                     
+                # TODO : OPTIMISATION IMPORT theme and pre process only if required
                 self.preview = PatternTree(entry_parted[1], filename, False if markup_language == "none" else True)
                 self.content = PatternTree(entry_parted[2], filename, False if markup_language == "none" else True)
 

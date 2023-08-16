@@ -64,6 +64,7 @@ def process_markup_language(source, markup_language, entry):
         from venc3.l10n import messages
         err = messages.unknown_markup_language.format(markup_language, source.context)
         handle_markup_language_error(err)
+        
     else:
         return
         

@@ -89,9 +89,21 @@ class Pattern:
             payload_index +=1
             
         pattern_name = self.payload[0]
+        
+        if pattern_name == "GetEntryContent":
+            root.match_get_entry_content = True
+            
+        if pattern_name == "GetEntryPreview":
+            root.match_get_entry_preview = True
+        
+        if pattern_name == "PreviewIfInThreadElseContent":
+            root.match_get_entry_content = True
+            root.match_get_entry_preview = True
+
         self.name_id = id(pattern_name)
 
         self.flags = Pattern.FLAG_NONE
+        
         if pattern_name in PatternsMap.CONTEXTUALS.keys():
             self.flags = Pattern.FLAG_CONTEXTUAL
         
@@ -116,10 +128,12 @@ class PatternTree:
         self.context = context
         self.unknown_patterns = []
         self.has_non_parallelizables = False
+        self.match_get_entry_content = False
+        self.match_get_entry_preview = False
         self.sub_patterns = self.__build_tree(
             self.__get_boundaries(string)
         )
-            
+        
         for pattern in self.sub_patterns:
             pattern.parent = self
             pattern.payload_index = 0
