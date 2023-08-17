@@ -104,9 +104,12 @@ class DatastorePatterns:
     def get_entry_toc(self, pattern, open_ul, open_li, content, close_li, close_ul):
         '''id,level,title'''
         key = open_ul+open_li+content+close_li+close_ul
-        if not key in self.cache_entry_tocs.keys():
-            self.cache_entry_tocs[key] = self.build_entry_html_toc(self.requested_entry.toc, open_ul, open_li, content, close_li, close_ul)
-        
+        if hasattr(self.requested_entry, "toc"):
+            if not key in self.cache_entry_tocs.keys():
+                self.cache_entry_tocs[key] = self.build_entry_html_toc(self.requested_entry.toc, open_ul, open_li, content, close_li, close_ul)
+        else:
+            return ""
+            
         output = self.cache_entry_tocs[key]
         return "</p>"+output+"<p>" if pattern.root == pattern.parent and pattern.root.has_markup_language else output
 

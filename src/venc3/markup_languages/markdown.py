@@ -24,10 +24,10 @@ from mistletoe import HTMLRenderer
 from mistletoe import Document
 
 class VenCRenderer(HTMLRenderer):
-    def __init__(self):
-        self.table_of_content = []
+    def __init__(self, do_table_of_content):
+        self.table_of_content = [] if do_table_of_content else None
         super().__init__()
-    
+
     def render_link(self, token):
         return '<a href="{target}" title="{title}">{inner}</a>'.format(
             target=token.target,
@@ -39,18 +39,20 @@ class VenCRenderer(HTMLRenderer):
         template = '<h{level} id="{header_id}">{inner}</h{level}>'
         inner = self.render_inner(token)
         header_id = ''.join(e.lower() if e.isalnum() else '-' for e in unescape(inner) )
-        self.table_of_content.append((
-            token.level,
-            inner,
-            header_id
-        ))
+        if self.table_of_content != None:
+            self.table_of_content.append((
+                token.level,
+                inner,
+                header_id
+            ))
+
         # TODO : It is possible to control default header level
         return template.format(level=token.level, inner=inner, header_id=header_id)
 
 class VenCMarkdown:
-    def __init__(self):
-        self.renderer = VenCRenderer()
-        
+    def __init__(self, do_table_of_content):
+        self.renderer = VenCRenderer(do_table_of_content)
+
     def render(self, input_text):
         s = self.renderer.render(Document(input_text))
         return s

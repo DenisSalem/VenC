@@ -49,9 +49,11 @@ def import_wrapper(markup_language):
 
 def process_markup_language(source, markup_language, entry):
     if markup_language == "Markdown":
-        venc_markdown = import_wrapper(markup_language)()
+        do_table_of_content = ":content" == source.context[-8:]
+        venc_markdown = import_wrapper(markup_language)(do_table_of_content)
         string = venc_markdown.render(source.string)
-        entry.toc = tuple(venc_markdown.renderer.table_of_content)
+        if do_table_of_content:
+            entry.toc = tuple(venc_markdown.renderer.table_of_content)
 
     elif markup_language == "asciidoc":
         string = import_wrapper(markup_language)(source, {})

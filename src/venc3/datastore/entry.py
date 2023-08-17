@@ -53,8 +53,8 @@ class Entry:
                     markup_language = get_blog_configuration()["markup_language"]
                     
                 # TODO : OPTIMISATION IMPORT theme and pre process only if required
-                self.preview = PatternTree(entry_parted[1], filename, False if markup_language == "none" else True)
-                self.content = PatternTree(entry_parted[2], filename, False if markup_language == "none" else True)
+                self.preview = PatternTree(entry_parted[1], filename+":preview", False if markup_language == "none" else True)
+                self.content = PatternTree(entry_parted[2], filename+":content", False if markup_language == "none" else True)
 
             else:
                 from venc3.l10n import messages; 
