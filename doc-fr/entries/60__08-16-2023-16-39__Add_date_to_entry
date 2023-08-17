@@ -1,0 +1,35 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Ajouter et utiliser la date de la publication.
+chapter: 7.5.3.1
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Selon la façon dont vous souhaitez afficher votre site et son contenu vous pourriez vouloir rendre visible la
+date de publication de votre billet. Pour ce faire on utilise le motif
+[GetEntryDate](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrydate).
+
+Par exemple, ligne 3:
+
+.:CodeHighlight::HTML::True::<div class="entry" .:Escape::id="entry.:GetEntryID:.">
+    <h1><a class="entry_title" href=".:GetEntryPath:.">.:GetEntryTitle:.</a></h1>
+    <span class="entry-date">.:GetEntryDate:.</span>
+    <div class="entry_content">
+        .:GetEnTryContent:.
+    </div>:.
+</div>:.
+
+Souvent les publications sont groupés par date de publication. Il est possible comme on
+l'a vue d'accéder à ces archives. Une bonne pratique est donc d'associer la date ainsi affichée
+à un liens vers l'archive correspondante. On utilise pour ça [GetEntryArchivePath](.:GetChapterAttributeByIndex::path::4.4.1:.#getentryarchivepath).
+
+En changeant la ligne 3 en conséquence on a alors par exemple :
+
+.:CodeHighlight::HTML::True::<div class="entry" .:Escape::id="entry.:GetEntryID:.">
+    <h1><a class="entry_title" href=".:GetEntryPath:.">.:GetEntryTitle:.</a></h1>
+    <span class="entry-date"><a href=".:GetEntryArchivePath:.">.:GetEntryDate:.</a></span>
+    <div class="entry_content">
+        .:GetEnTryContent:.
+    </div>:.
+</div>:.
