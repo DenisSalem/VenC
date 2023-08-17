@@ -348,7 +348,7 @@ Retourne le titre de la publication.
 > .:Escape:: .:GetEntryToC::open_ul::open_li::content::close_li::close_ul:. :.
 
 Ce motif permet de générer une table des matières multi-niveau sur la base des titres présent
-dans une publication [MarkDown](https://daringfireball.net/projects/markdown/syntax#header).
+dans __le corps__ d'une publication [MarkDown](https://daringfireball.net/projects/markdown/syntax#header).
 
 - **open_ul** : La chaine de caractère ouvrant le niveau courant.
 - **open_li** : La chaine de caractère ouvrant l'item courant.
@@ -373,6 +373,7 @@ Un usage classique ressemblerait à quelque chose comme :
     </ul>
 :.
 :. :.
+
 
 Si dans la publication on trouvait les titres suivant :
 
@@ -430,7 +431,8 @@ Ce qui donne :
 Quelques remarques :
 
 - Pour une meilleurs intégration avec [MarkDown](https://daringfireball.net/projects/markdown/) le motif peut rajouter des balises &lt;/p&gt; et &lt;p&gt;, respectivement au début et à la fin du texte de sortie.
-- Le motif ne test pas la cohérence des niveaux des entêtes, une hierarchie invalide peut donc produire avec ce motif une sortie incorrect.
+- Le motif ne test pas la cohérence des niveaux des entêtes, une hierarchie invalide peut donc produire une sortie incorrect.
+- Vous pouvez utiliser ce motif depuis votre thème dans __entry.html__ ou bien directement dans votre publication.
 
 #### GetEntryYear
 

@@ -33,7 +33,7 @@ Ce motif comporte les variables suivantes :
 
 > .:Escape:: .:GetEntryContent:. :.
 
-Ce pattern ne peut pas être utilisé dans un [template](.:GetChapterAttributeByIndex::path::3.5:.) ni dans dans le corps d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.). Cela provoquerait une erreur de récursion.
+Ce pattern ne peut pas être utilisé dans un [template](.:GetChapterAttributeByIndex::path::3.5:.) ni dans le corps d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.). Cela provoquerait une erreur de récursion.
 
 Ce pattern renvoie le contenu complet de la publication courante.
 
@@ -280,7 +280,7 @@ Ce motif n'a pas de variables.
 
 > .:Escape:: .:PreviewIfInThreadElseContent:. :.
 
-Ce pattern ne peut être utilisé que dans le _[entry.html](.:GetChapterAttributeByIndex::path::3.6:.)_.
+Ce pattern ne peut être utilisé que dans _[entry.html](.:GetChapterAttributeByIndex::path::3.6:.)_.
 
 Il renvoie le résumé de la publication courante si VenC génère la page dans un fil de publication.
 Sinon, VenC renvoie le contenu complet de la publication courante.
