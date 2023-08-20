@@ -58,13 +58,13 @@ class DatastorePatterns:
 
     def if_metadata_is_true(self, key, if_true, if_false, source):          
         try:
-            if type(source) == Entry and getattr(source, key):
+            if type(source) == dict and source[key]:
                 return if_true.strip()
 
-            elif source[key]:
+            elif getattr(source,key):
                 return if_true.strip()
         
-        except:
+        except (AttributeError, KeyError) as e:
             pass
         
         return if_false.strip()

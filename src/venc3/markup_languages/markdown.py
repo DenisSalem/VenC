@@ -19,7 +19,6 @@
 
 from html import unescape
 
-import mistletoe
 from mistletoe import HTMLRenderer
 from mistletoe import Document
 
@@ -54,5 +53,4 @@ class VenCMarkdown:
         self.renderer = VenCRenderer(do_table_of_content)
 
     def render(self, input_text):
-        s = self.renderer.render(Document(input_text))
-        return s
+        return self.renderer.render(Document(input_text))
