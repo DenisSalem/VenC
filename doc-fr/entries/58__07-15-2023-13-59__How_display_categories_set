@@ -31,7 +31,7 @@ Entre les balises __header__ que vous avez ajouté dans le chapitre
 :. :.
 
 À l'aide de [IfBlogMetadataIsTrue](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue)
-on test si les pages des categories sont crées pas VenC. On peut aller plus loin et demander à VenC
+on test si les pages des categories doivent être crées pas VenC. On peut aller plus loin et demander à VenC
 de conserver ou non des blocs de codes de façon plus précise de la façon suivante :
 
 .:CodeHighlight::HTML::False:: .:Escape::

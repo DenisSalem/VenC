@@ -65,7 +65,7 @@ que nous avons écris tout à l'heure, ce qui nous donne :
 
 .:CodeHighlight::HTML::False:: .:Escape::
 .:IfBlogMetadataIsTrue::disable_archives::
-    <-- Pas de liste d'archives à afficher -->
+    <!-- Pas de liste d'archives à afficher -->
 ::
     <ul id="blogarchives">
     .:ForBlogArchives::

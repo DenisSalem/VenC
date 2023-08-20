@@ -58,3 +58,6 @@ blockquote, pre
     
 .entry table
     {width: 100%;}
+
+.__VENC_TREE_NODE__
+    {padding-left:20px;}

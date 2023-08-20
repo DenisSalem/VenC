@@ -1,0 +1,67 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+chapter: 7.5.3.2
+title: Ajouter et utiliser les catégories de la publication
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Comme pour les archives, une publication peut appartenir à des categories. Naturellement vous pouvez afficher ces categories
+dans votre publication. La récupération et l'affichage de ces categories
+fonctionne exactement de la même façon que dans le chapitre [7.5.2.3](.:GetChapterAttributeByIndex::path::7.5.2.3:.) mais à la place d'utiliser
+
+- [GetFlattenedBlogCategories](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories)
+- [GetBlogCategoriesTree](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestree)
+
+On utilisera les _motifs_ suivant :
+
+- [GetFlattenedEntryCategories](.:GetChapterAttributeByIndex::path::4.4.1:.#getflattenedentrycategories)
+- [GetEntryCategoriesTree](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrycategoriestree)
+
+En effet ces deux _motifs_ récupérent uniquement les catégories associées à la publication courante. La plupart du temps, dans
+une publication, on utilisera plutôt [GetFlattenedEntryCategories](.:GetChapterAttributeByIndex::path::4.4.1:.#getflattenedentrycategories).
+En effet, afficher l'arbre des catégories spécique à la publication n'est pertinent que dans des cas très spécifique.
+
+En ce basant sur le chapitre [7.5.2.3](.:GetChapterAttributeByIndex::path::7.5.2.3:.) et sur ce que nous avons vu précédemment nous aurions alors
+quelque chose ça :
+
+.:CodeHighlight::HTML::True::<div class="entry" .:Escape::id="entry.:GetEntryID:.">
+    <h1><a class="entry_title" href=".:GetEntryPath:.">.:GetEntryTitle:.</a></h1>
+    <span class="entry-date"><a href=".:GetEntryArchivePath:.">.:GetEntryDate:.</a></span>
+    
+    .:IfBlogMetadataIsTrue::disable_categories::
+    <!-- Bloc HTML à conserver si la variable vaut true -->
+    ::
+        .:IfBlogMetadataIsTrue::display_entry_categories_as_list::
+            <ul id="entrycategorieslist">
+            .:GetFlattenedEntryCategories::
+              <li class="entrycategoriesitem">
+                <a href="{path}" title="{value} ({count})">{value}</a>
+              </li>
+              ::
+            :.
+            </ul>
+        :.
+        
+        .:IfBlogMetadataIsTrue::display_entry_categories_as_tree::
+            .:GetEntryCategoriesTree::
+                <ul>::
+                <li><a href="{path}" title="{count} publications">{value}</a>::
+                {childs}</li>::
+                </ul>
+            :.
+        :.
+    :.
+    
+    <div class="entry_content">
+        .:GetEnTryContent:.
+    </div>:.
+</div>:.
+
+Quelque remarques :
+
+- Comme dans le chapitre [7.5.2.3](.:GetChapterAttributeByIndex::path::7.5.2.3:.) on s'assure que VenC est bien configuré pour générer les catégories en premier lieux.
+- Ici on test deux variables __display_entry_categories_as_list__ et __display_entry_categories_as_tree__ qui doivent se trouver dans le fichier de configuration du blog. Or nous pouvons imaginer
+que l'on veuille controler l'affichage de nos categories depuis la publication elle même. C'est à dire en testant une métadonnée de la publication. Pour ce faire on utiliserait par
+exemple le _motif_ [IfEntryMetadataIsTrue](.:GetChapterAttributeByIndex::path::4.4.1:.#ifentrymetadataistrue)
+à la place de [IfBlogMetadataIsTrue](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue).
