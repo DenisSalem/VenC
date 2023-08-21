@@ -9,10 +9,56 @@ chapter: '7.5.4'
 Nous avons vu comment créer l'entête d'une page et nous avons vu comment structurer le corps de nos publications. Il reste maintenant à voir
 comment crée le pied de page de votre site.
 
-En premier lieu il convient de _finir_ ce qui a été commencé dans le chapitre [7.5.2](.:GetChapterAttributByIndex::path::7.5.2:.) à savoir fermer
+En premier lieu il convient de _finir_ ce qui a été commencé dans le chapitre [7.5.2](.:GetChapterAttributeByIndex::path::7.5.2:.) à savoir fermer
 les balises HTMLs qui ont été ouvertes. Pour ça créez un nouveau fichier __footer.html__ dans le répertorie chunks de votre thème et éditez le comme suit :
 
 ```
     </body>
 </html>
 ```
+
+on y ajoute maintneant une paire de balise __footer__ qui contiendra les éléments de notre pied de page :
+
+```
+        <footer>
+        </footer>
+    </body>
+</html>
+``` 
+
+## Animation de chargement.
+
+C'est purement cosmetique mais vous pouvez configurer une animation de chargement comme expliqué dans le chapitre [3.6.2.2](.:GetChapterAttributeByIndex::path::3.6.2.2:.)
+
+
+.:Escape::
+```
+      </div>
+      .:GetBlogMetadataIfExists::loading_image::<img id="__VENC_LOADING__" src=".:GetRelativeRoot:.{value}" />:.
+      <footer id="__VENC_NAVIGATION__">
+      .:IfInThread::
+      ::
+        .:GetBlogMetadataIfNotNull::include_in_footer::
+            <hr>
+            .:IncludeFileIfExists::False::
+                .:GetBlogMetadataIfNotNull::include_in_footer:.        
+            :.
+        :.
+      :.
+      <hr>
+      .:IfBlogMetadataIsTrue::enable_entry_title_in_navigation::
+        .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">{entry_title} ←</a>:.
+        .:IfInThread::<ul id="pagesList">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>:: :.
+        .:GetNextPage:: <a id="next" href="{path} " data-venc-api-infinite-scroll-hook="{path}" title="{entry_title}">→ {entry_title}</a>:.
+      ::
+        .:GetPreviousPage:: <a id="previous" href="{path}" title="{entry_title}">←</a>:.
+        .:IfInThread::<ul id="pagesList">.:ForPages::5::<li><a href="{path}">{page_number}</a></li>:: . :.</ul>:: :.
+        .:GetNextPage:: <a id="next" href="{path} " data-venc-api-infinite-scroll-hook="{path}" title="{entry_title}">→</a>:.
+      :.
+      </footer>
+  </body>
+</html>
+
+
+```
+:.

@@ -7,7 +7,7 @@ chapter: '7.5.2'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-L'entête HTML de VenC est réutilisé à chaque fois que VenC génère une page HTML. Les _[motifs VenC](.:GetChapterAttributeByIndex::path::4:.)_ permettent
+L'entête HTML de VenC est définit dans le fichier __header.html__ du répertoire __chunks__ de votre thème. Ce fichier est réutilisé à chaque fois que VenC génère une page HTML. Les _[motifs VenC](.:GetChapterAttributeByIndex::path::4:.)_ permettent
 de mettre en contexte cette portion du code pour l'adapter au contexte dans lequel il se trouve.
 
 La structure de ce fichier ressemble à ça :

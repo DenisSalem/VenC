@@ -8,7 +8,7 @@ title: Crée le corps de la publication
 ---VENC-END-PREVIEW---
 Dans les chapitres précédents nous avons vu comment crée l'entête de votre site. Nous allons maintenant voir comment crée le corps de vos publications.
 
-La première chose à faire est de modifier le fichier __entry.html__ et d'y ajouter les balises HTMLs qui contiendrons votre contenu.
+La première chose à faire est de modifier ou créer le fichier __entry.html__ et d'y ajouter les balises HTMLs qui contiendrons votre contenu.
 
 .:CodeHighlight::HTML::False::<div class="entry" .:Escape::id="entry.:GetEntryID:.":.>
 </div>:.
