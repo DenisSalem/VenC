@@ -16,6 +16,8 @@ Nous allons voir ici comment programmer les trois fichiers qui composent le flux
     </ul>
 :.
 
+Pour en savoir plus sur le format RSS rendez-vous [ici](https://www.w3schools.com/xml/xml_rss.asp)
+
 ## rssHeader.html
 
 .:CodeHighlight::XML::True::<?xml version="1.0" encoding="UTF-8" ?>.:Escape::

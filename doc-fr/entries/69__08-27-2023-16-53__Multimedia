@@ -1,0 +1,36 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Multimedia
+chapter: '7.5.6'
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Lorsque vous utilisez les _motifs_ [Audio](.:GetChapterAttributeByIndex::path::4.4.3:.#audio) ou [Video](.:GetChapterAttributeByIndex::path::4.4.3:.#video) VenC renvoie respectivement
+le contenu formatté des fichiers __audio.html__ et __video.html__ de votre thème .
+
+Selon ce que vous envisagez de faire vous pourriez avoir besoin de définir des régles CSS supplémentaires dans le répertoire _assets_ de votre thème. Vous pourriez également vouloir utiliser des scripts JS
+supplémentaire que vous auriez définit vous même dans ce même répertoire.
+
+Mais pour le moment on va faire une utilisations simple des balises __audio__ et __video__ que propose HTML5.
+
+## Audio
+
+.:CodeHighlight::HTML::True::<audio controls style="width: 100%">
+{source}
+Your browser does not support the audio element.
+</audio>:.
+
+On reconnait ici le format de variable utilisé par VenC :
+
+ __source__ va contenir les différentes sources de fichiers audios préformatés qui seront inséré entre les balises __audio__.
+
+## Video
+
+.:CodeHighlight::HTML::True::<video controls poster="{poster}" style="width: 100%;">
+{source}
+Your browser does not support the video tag.
+</video>
+:.
+
+Idem que pour audio mais on spécifie un variable __poster__ qui contiendra une image de prévisualisation de la video.
