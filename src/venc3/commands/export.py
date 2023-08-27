@@ -211,6 +211,7 @@ def export_blog(params):
         from venc3.threads.main import MainThread
         thread = MainThread()
         thread.do()
+        
         if not datastore.blog_configuration["disable_archives"]:
             from venc3.threads.archives import ArchivesThread
             thread = ArchivesThread()

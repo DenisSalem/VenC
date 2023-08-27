@@ -45,13 +45,13 @@ class Theme:
                         raise PatternsCannotBeUsedHere(matchs)
 
             self.entry = PatternTree(open(theme_folder+"chunks/entry.html",'r').read(), "entry.html")
-            
-            self.enable_entry_content = self.entry.match_get_entry_content
-            self.enable_entry_preview = self.entry.match_get_entry_preview
 
             self.rss_entry = PatternTree(open(theme_folder+"chunks/rssEntry.xml",'r').read(),"rssEntry.xml")
             self.atom_entry = PatternTree(open(theme_folder+"chunks/atomEntry.xml",'r').read(),"atomEntry.xml")
-            
+
+            self.enable_entry_content = self.entry.match_get_entry_content | self.rss_entry.match_get_entry_content | self.atom_entry.match_get_entry_content
+            self.enable_entry_preview = self.entry.match_get_entry_preview | self.rss_entry.match_get_entry_preview | self.atom_entry.match_get_entry_preview
+
             self.audio = open(theme_folder+"chunks/audio.html",'r').read()
             self.video = open(theme_folder+"chunks/video.html",'r').read()
     
