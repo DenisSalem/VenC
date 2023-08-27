@@ -1,0 +1,75 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Flux Atom
+chapter: '7.5.5.1'
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+Nous allons voir ici comment programmer les trois fichiers qui composent le flux Atom :
+
+.:GetEntryToC::
+    <ul>::
+    <li>::
+    <a href="#{id}" class="toc_level_{level}">{title}</a>::
+    </li>::
+    </ul>
+:.
+
+Pour en savoir plus sur le format Atom lui même, rendez vous [ici](https://validator.w3.org/feed/docs/atom.html).
+
+## atomHeader.xml
+
+.:CodeHighlight::XML::True::<?xml version="1.0" encoding="utf-8"?>.:Escape::
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <link
+      href=".:GetBlogURL:..:GetRelativeLocation:./atom_feed.xml"
+      rel="self"
+      type="application/atom+xml"
+    />
+    
+    <link href=".:GetBlogURL:." rel="alternate" type="text/html" />
+    
+    <title>.:GetBlogName:. .:GetThreadName::| {value}:.</title>
+    .:GetBlogMetadataIfNotNull::blog_description::<subtitle>{value}</subtitle>:.
+    <id>.:GetBlogURL:..:GetRelativeLocation:.</id>
+    <updated>.:GetGenerationTimestamp::%Y-%m-%dT%H:%M:%SZ:.</updated>
+
+    <author>
+     .:GetBlogMetadataIfNotNull::author_name::<name>{value}</name>:.
+     .:GetBlogMetadataIfNotNull::author_email::<email>{value}</email>:.
+    </author>:. :.
+
+Comme on peut le voir il y a des similitudes avec ce qui a été réalisé et montré dans le chapitre [7.5.2](.:GetChapterAttributeByIndex::path::7.5.2:.)
+
+Les nouveautés ici c'est que l'on construit des URLs unique avec [GetBlogURL](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogurl) et
+[GetRelativeLocation](.:GetChapterAttributeByIndex::path::4.3:.#getrelativelocation) comme on peut le voir aux lignes 4, 9 et 13.
+
+On utilise également ligne 14 le _motif_ [GetGenerationTimestamp]() pour avoir l'horodatage de la dernière génération du site ce qui permet d'avoir du même
+coup la date de génération du flux Atom.
+
+## atomEntry.xml
+
+.:CodeHighlight::XML::True::    <entry>.:Escape::
+        <id>.:GetBlogURL:./.:GetEntryPath:.</id>
+        <title>.:GetEntryTitle:.</title>
+        <link href=".:GetBlogURL:./.:GetEntryPath:." rel="alternate" type="text/html"/>
+        <updated>.:GetEntryDate::%Y-%m-%dT%H:%M:%SZ:.</updated>
+        <content type="xhtml">
+            <div xmlns="http://www.w3.org/1999/xhtml">.:GetEntryPreview:.</div>
+        </content>
+:.    </entry>:.
+
+Ici nous utilisons ligne 7 [GetEntryPreview](.:GetChapterAttributeByIndex::path::4.3:.#getentrypreview). Ici ça a du sens car
+nous sommes dans un flux Atom dont le but est de présenter succinctement les dernières publications. Rien ne vous empêche cependant d'utiliser
+[GetEntryContent](.:GetChapterAttributeByIndex::path::4.3:.#getentrycontent).
+
+Comme dans __atomHeader.xml__ on crée ligne 2 et 4 des URLs unique correspond à la publication avec [GetBlogURL](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogurl) et
+[GetEntryPath](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrypath) que nous avons déjà vu dans les chapitres précédents.
+
+## atomFooter.xml
+
+.:CodeHighlight::XML::False::</feed>:.
+
+Facile !
