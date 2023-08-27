@@ -19,7 +19,7 @@ Pour cela on uitlise trois _motifs_ différents :
 - [GetPreviousPage](.:GetChapterAttributeByIndex::path::4.3:.#getpreviouspage) : Permet de récupérer la page précédente si elle existe, sinon le _motif_ est ignoré.
 - [ForPages](.:GetChapterAttributeByIndex::path::4.3:.#forpages) : Permet de générer un liste de page numéroté. La page courange correspond à l'item central de la liste.
 
-En reprenant l'exemple du chapitre précédent nous aurions alors aux lignes 8 à 12 :
+En reprenant l'exemple du chapitre précédent nous aurions alors aux lignes 8 à 14 :
 
 .:CodeHighlight::HTML::True::        .:Escape::<footer>
             .:GetBlogMetadataIfExists::loading_image::
@@ -54,12 +54,11 @@ qu'une seule page pour êtres toutes affichés et il n'y aurait donc incidemment
 
 Du coup tout ça c'est pas mal. Mais on peut encore faire mieux.
 
-Par exemple on voit bien que si au début votre site n'est pas très remplit
+- [IfPages](.:GetChapterAttributeByIndex::path::4.3:.#ifpages) : Par exemple on voit bien que si au début votre site n'est pas très remplit
 comme on l'a dit alors il n'y aura pas de liste de page à afficher et le _motif_ [ForPages](.:GetChapterAttributeByIndex::path::4.3:.#forpages) sera ignoré. Or les balises
 HTML qui ouvrent et ferment la liste eux sont bien présent quoi qu'il arrive. On peut résoudre ce problème avec le _motif_ [IfPages](.:GetChapterAttributeByIndex::path::4.3:.#ifpages)
 qui permet d'afficher ou non un bloc de texte selon qu'il y ai plusieurs pages ou non sur le fil de publication courant.
-
-Il est également possible de controller l'affichage des boutons "suivant" ou précédent selon que l'on est dans une publication individuel sur une page donné d'un fil de publication.
+- [IfInThread](.:GetChapterAttributeByIndex::path::4.3:.#ifinthread) : Avec ce _motif_ il est également possible de controller l'affichage des boutons "suivant" ou "précédent" selon que l'on est dans une publication individuel sur une page donné d'un fil de publication.
 
 Le code ci-dessous actualise ce qui a été déjà fait pour illustrer ces remarques.
 
@@ -70,7 +69,7 @@ Le code ci-dessous actualise ce qui a été déjà fait pour illustrer ces remar
             .:IncludeFileIfExists::
                 .:GetBlogMetadataIfNotNull::include_in_footer:.        
             :.
-            .:GetPreviousPage::<a id="previous_link" href="{path}">←</a>:.
+            .:GetPreviousPage::<a id="previous_link" href="{path}">.:IfInThread::←::{entry_title} ←:.</a>:.
             .:IfPages::
                 <ul id="navigation_pages_list">
                     .:ForPages::5::<li class="page_list_item">
@@ -78,8 +77,11 @@ Le code ci-dessous actualise ce qui a été déjà fait pour illustrer ces remar
                     </li>:: . :.
                 </ul>
             :.
-            .:GetNextPage::<a id="next_link" href="{path}">→</a>:.
+            .:GetNextPage::<a id="next_link" href="{path}">.:IfInThread::→::→ {entry_title}:.</a>:.
         </footer>:.
     </body>
 </html>:.
 
+- __Ligne 8 et 16__ : Le _motif_ [IfInThread](.:GetChapterAttributeByIndex::path::4.3:.#ifinthread) permet d'ajouter une variable de _motif_ qui sera utilisé par [GetPreviousPage](.:GetChapterAttributeByIndex::path::4.3:.#getpreviouspage) et [GetNextPage](.:GetChapterAttributeByIndex::path::4.3:.#getnextpage).
+Dans le cas où l'on se trouve sur une publication individuel on peut maintenant afficher le titre de la prochaine et de la précédente publication.
+- __Ligne 9__ : [IfPages](.:GetChapterAttributeByIndex::path::4.3:.#ifpages) embarque à la fois les balises HTML __ul__ et le _motif_ [ForPages](.:GetChapterAttributeByIndex::path::4.3:.#forpages). S'il n'y a pas de liste de page à générer alors ces éléments sont supprimés.
