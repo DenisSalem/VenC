@@ -31,6 +31,7 @@ avez définit dans votre [fichier de configuration principal](.:GetChapterAttrib
 - __[GetBlogName](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogname)__ : Ce pattern permet de récupérer le nom de votre blog. Typiquement à utiliser entre les balises __title__. Le nom de votre site est définit dans votre [fichier de configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#blog-name).
 - __[GetThreadName](.:GetChapterAttributeByIndex::path::4.3:.#getthreadname)__ : Vous pouriez vouloir afficher dans le titre de l'onglet ou de la fenêtre active plus que le titre du blog. Par exemple le nom du fil de categorie courant ou le titre de la publication  courante. C'est ce que permet de faire ce motif.
 - __[GetStyleSheets](.:GetChapterAttributeByIndex::path::4.3:.#getstylesheets)__ : Ce motif n'est pas obligatoire. Vous en aurez cependant besoin si vous prevoyez d'utiliser [la coloration syntaxique](.:GetChapterAttributeByIndex::path::4.4.3:.#codehighlight) dans vos publications.
+- __[GetRelativeRoot](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot)__ : Comme votre feuille de style est copié à la racine du site, mais que celui-ci peut être référencé depuis des sous répertoires vous avez besoin de construire le chemin relatif permetant d'accédre au fichier. C'est ce que permet [GetRelativeRoot](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot).
 
 Enfin on remarque également que le contenue de ce fichier s'arrête à peu
 prêt à l'ouverture de la balise __body__. Nous pouvons insérer à ce niveau

@@ -108,8 +108,8 @@ charger la suite. La valeur par défaut est 250 millisecondes.
 
 .:CodeHighlight::Javascript::False::imageDefaultSetup: function(img) {}:.
 
-Cette méthode ne fait rien par défaut, mais permet si vous le souhaitez vous pouvez 
-configurer l'était initial des images dans une publication au
+Cette méthode ne fait rien par défaut, mais si vous le souhaitez vous pouvez 
+y configurer l'était initial des images dans une publication au
 moment où celle-ci est chargé dans le DOM.
 
 ### entryDefaultSetup

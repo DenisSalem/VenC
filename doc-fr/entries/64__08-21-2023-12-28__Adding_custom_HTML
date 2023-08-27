@@ -1,0 +1,36 @@
+authors:
+- 'Denis Salem'
+categories:
+- ''
+title: Ajouter du code HTML personnalisé
+chapter: 7.5.4.2
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Une bonne pratique, si vous envisagez de diffuser votre thème est de permettre aux utilisateurs
+finaux de personnaliser l'en-tête ou le pied de page avec du code HTML.
+
+Nous allons voir ici comment inclure du contenu HTML dans le pied de page, mais ce qui va suivre
+fonctionne évidemment aussi dans l'en-tête.
+
+Dans l'exemple ci-dessous, ce sont les lignes 5,6 et 7 qui nous intéresse.
+
+.:CodeHighlight::HTML::True::        .:Escape::<footer>
+            .:GetBlogMetadataIfExists::loading_image::
+                <img id="__VENC_LOADING__" src=".:GetRelativeRoot:.{value}" />
+            :.
+            .:IncludeFileIfExists::
+                .:GetBlogMetadataIfNotNull::include_in_footer:.        
+            :.
+        </footer>:.
+    </body>
+</html>:.
+
+[IncludeFileIfExists](.:GetChapterAttributeByIndex::path::4.4.3:.#includefileifexists) permet d'inclure un
+fichier du type de votre choix. Généralement il s'agira d'un fichier contenant du code HTML.
+
+Ici le seul argument de la fonction est retouruné par [GetBlogMetadataIfNotNull](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadataifnotnull)
+qui permet de récupérer le nom du fichier à inclure s'il est définit dans le fichier de configuration du blog.
+
+Dans le cas où le nom de fichier n'est pas définit la fonction renvoie une chaine de caractère vide transféré à
+[IncludeFileIfExists](.:GetChapterAttributeByIndex::path::4.4.3:.#includefileifexists) qui sera ignoré en conséquence.
+

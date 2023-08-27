@@ -241,7 +241,7 @@ Identique à [GetBlogMetadataIfExists](.:GetChapterAttributeByIndex::path::4.4.2
 Dans cet example, on suppose que l'image de l'icône du réseau social se trouve à la
 racine du blog, on a donc besoin de préciser son chemin relatif avec [GetRelativeRoot](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot).
 
-Si la variable référencée n'est pas définie VenC ignore le motif et le supprime avec le blog html passé en second argument.
+Si la variable référencée n'est pas définie VenC ignore le motif et le supprime avec le bloc html passé en second argument.
 
 Si le second argument n'est pas définit, le motif renvoie directement la variable référencée si elle existe et n'est pas vide.
 
