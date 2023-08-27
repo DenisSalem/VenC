@@ -49,6 +49,7 @@ def get_blog_configuration():
         
         mandatory_fields = [
             "blog_name",
+            "blog_url",
             "date_format",
             "ftp_host",
             "entries_per_pages",
@@ -68,17 +69,14 @@ def get_blog_configuration():
             "sort_by",
         ]
 
-        everything_is_okay = True
         for field in mandatory_fields:
             if not field in blog_configuration.keys():
-                everything_is_okay = False
-                from venc3.prompt import notify
-                notify(("missing_mandatory_field_in_blog_conf", field),"RED")
+                from venc3.prompt import die
+                die(("missing_mandatory_field_in_blog_conf", field))
                 
         if "blog_keywords" in blog_configuration.keys() and type(blog_configuration["blog_keywords"]) != list and not blog_configuration["blog_keywords"] == None:
-            everything_is_okay = False
-            from venc3.prompt import notify
-            notify(("blog_metadata_is_not_a_list", "blog_keywords"), "RED")
+            from venc3.prompt import die
+            die(("blog_metadata_is_not_a_list", "blog_keywords"))
         
         mandatory_fields = [
             "index_file_name",
@@ -97,9 +95,8 @@ def get_blog_configuration():
 
         for field in mandatory_fields:
             if not field in blog_configuration["path"].keys():
-                everything_is_okay = False
-                from venc3.prompt import notify
-                notify(("missing_mandatory_field_in_blog_conf", field),"RED")
+                from venc3.prompt import die
+                die(("missing_mandatory_field_in_blog_conf", field))
                 
             elif not field in ["index_file_name","ftp","rss_file_name","atom_file_name","entry_file_name","archives_directory_name"]:
                 setup_sub_folder(blog_configuration, field)
@@ -108,9 +105,8 @@ def get_blog_configuration():
             blog_configuration["https://schema.org"] = {}
             
         if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
-            everything_is_okay = False
-            from venc3.prompt import notify
-            notify(("unknown_markup_language", blog_configuration["markup_language"], "blog_configuration.yaml"),"RED")
+            from venc3.prompt import die
+            die(("unknown_markup_language", blog_configuration["markup_language"], "blog_configuration.yaml"))
 
         if (not "sort_by" in blog_configuration.keys() ) or blog_configuration["sort_by"] in ['', None]:
             blog_configuration["sort_by"] = "id"
@@ -119,14 +115,10 @@ def get_blog_configuration():
             blog_configuration["blog_url"] = blog_configuration["blog_url"][:-1]
 
         if "disable_threads" in blog_configuration.keys() and type(blog_configuration["disable_threads"]) != list and blog_configuration["disable_threads"] != None:
-                everything_is_okay = False
-                from venc3.prompt import notify
-                notify(("blog_metadata_is_not_a_list", "disable_threads"), "RED")
+            from venc3.prompt import die
+            die(("blog_metadata_is_not_a_list", "disable_threads"))
         else:
             blog_configuration["disable_threads"] = []
-
-        if not everything_is_okay:
-            os._exit(-1)
 
         if not "pipe_flow" in blog_configuration.keys():
             blog_configuration["pipe_flow"] = 512
