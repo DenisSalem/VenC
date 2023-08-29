@@ -1,3 +1,20 @@
         </div>
+        <footer>
+            .:GetBlogMetadataIfExists::loading_image::
+                <img id="__VENC_LOADING__" src=".:GetRelativeRoot:.{value}" />
+            :.
+            .:IncludeFileIfExists::
+                .:GetBlogMetadataIfNotNull::include_in_footer:.        
+            :.
+            .:GetPreviousPage::<a id="previous_link" href="{path}">.:IfInThread::←::{entry_title} ←:.</a>:.
+            .:IfPages::
+                <ul id="navigation_pages_list">
+                    .:ForPages::5::<li class="page_list_item">
+                        <a href="{path}">{page_number}</a>
+                    </li>:: . :.
+                </ul>
+            :.
+            .:GetNextPage::<a id="next_link" href="{path}">.:IfInThread::→::→ {entry_title}:.</a>:.
+        </footer>
     </body>
 </html>
