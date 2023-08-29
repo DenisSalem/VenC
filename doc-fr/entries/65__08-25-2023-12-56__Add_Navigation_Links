@@ -31,7 +31,7 @@ En reprenant l'exemple du chapitre précédent nous aurions alors aux lignes 8 �
             .:GetPreviousPage::<a id="previous_link" href="{path}">←</a>:.
             <ul id="navigation_pages_list">
                 .:ForPages::5::<li class="page_list_item">
-                    <a href="{page}">{page_number}</a>
+                    <a href="{path}">{page_number}</a>
                 </li>:: . :.
             </ul>
             .:GetNextPage::<a id="next_link" href="{path}">→</a>:.
@@ -73,7 +73,7 @@ Le code ci-dessous actualise ce qui a été déjà fait pour illustrer ces remar
             .:IfPages::
                 <ul id="navigation_pages_list">
                     .:ForPages::5::<li class="page_list_item">
-                        <a href="{page}">{page_number}</a>
+                        <a href="{path}">{page_number}</a>
                     </li>:: . :.
                 </ul>
             :.
