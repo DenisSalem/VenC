@@ -5,14 +5,23 @@ body {
     font-family: Arial;
 }
 
-header {
-    width: 50%;
-    min-width: 800px;
-    display: box;
-    margin: auto;
-    font-weight: bold;
-}
+header,
+footer
+  {width: 50%;
+  min-width: 800px;
+  display: box;
+  margin: auto;
+  font-weight: bold;}
 
+footer ul
+  {list-style-type: none;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px}
+
+footer ul li
+  {display: inline-block;}
+  
 aside
     {width: 25%;
     display:block;
@@ -74,12 +83,22 @@ blockquote, pre
   padding-left:10px;
   padding-right:10px;}
 
-.engrave, .__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_DISABLED__, .__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_HIDE__, .entry a
+.engrave,
+.__VENC_TREE_BUTTON_SHOW__,
+.__VENC_TREE_BUTTON_DISABLED__,
+.__VENC_TREE_BUTTON_HIDE__,
+#__VENC_NAVIGATION__ a,
+.entry a
     {color: rgba(0,0,0,0.8);
     text-shadow: 0px 1px 0px rgba(255,255,255,0.8), 0px -1px 0px rgba(0,0,0,1);
     text-decoration: none;}
 
-.engrave:hover, .__VENC_TREE_BUTTON_SHOW__:hover, .__VENC_TREE_BUTTON_DISABLED__:hover, .__VENC_TREE_BUTTON_HIDE__:hover, .entry a:hover
+.engrave:hover,
+.__VENC_TREE_BUTTON_SHOW__:hover,
+.__VENC_TREE_BUTTON_DISABLED__:hover,
+.__VENC_TREE_BUTTON_HIDE__:hover,
+#__VENC_NAVIGATION__ a:hover,
+.entry a:hover
     {text-shadow: 0px -1px 0px rgba(255,255,255,0.8), 0px 1px 0px rgba(0,0,0,1);
     color: rgba(192,192,192,0.1);}
     
