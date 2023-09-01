@@ -4,6 +4,7 @@
     <head>
         <meta charset="utf-8">
         <title>.:GetBlogName:.</title>
+        .:GetStyleSheets:.
         <link rel="stylesheet" href=".:GetRelativeRoot:.style.css" type="text/css" >
         <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Scripts-Bootstrap-0.0.0.js"></script>
         .:IfInfiniteScrollEnabled::
@@ -46,12 +47,14 @@
                     <p class="engrave title"><b>CHAPTERS</b></p>
                     .:IfBlogMetadataIsTrue::disable_chapters::
                     ::
-                         .:Chapters::
-                              <ul class="chapter-level{level}">::
-                              <li>{index}. <a href="{path}">{title}</a>::
-                              </li>::
-                              </ul>
-                          :.
+                        <div class="__VENC_TREE_ROOT__">
+                            .:GetChapters::
+                                <ul class="chapter-level{level} __VENC_TREE_NODE__">::
+                                <li>{index}. <a class="engrave" href="{path}">{title}</a>::
+                                </li>::
+                                </ul>
+                            :.
+                        </div>
                     :.
                 </div>
                 :.

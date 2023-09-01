@@ -1,7 +1,12 @@
                   <div class="entry box" id="entry.:GetEntryID:.">
                   <h1><a class="engrave" href=".:GetEntryPath:.">.:GetEntryTitle:.</a></h1>
                   .:IfInThread:: ::<hr>:.
-                  .:PreviewIfInThreadElseContent:.
+                  
+                  .:IfBlogMetadataIsTrue::force_entry_content::
+                      .:GetEntryContent:.
+                  ::
+                      .:PreviewIfInThreadElseContent:.
+                  :.
                   .:IfBlogMetadataIsTrue::disable_entry_hashtags::
                   ::
                   .:IfInThread:: ::<hr><ul class="hashtags">.:GetFlattenedEntryCategories::<li><a class="engrave" href="{path}" data-weight="{weight}" title="{count} entries">#{value}</a></li>:: :.</ul>:.
