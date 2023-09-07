@@ -29,7 +29,7 @@
                 .:IfCategories::
                 <div class="box" id="blog_categories">
                     <p class="engrave title"><b>CATEGORIES</b></p>
-                    .:IfBlogMetadataIsTrue::disable_hashtag::
+                    .:IfBlogMetadataIsTrue::disable_blog_hashtags::
                     ::
                         <hr>
                         <ul class="hashtags">.:GetFlattenedBlogCategories::<li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>:: :.</ul>
