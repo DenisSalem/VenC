@@ -30,6 +30,7 @@ def setup_sub_folder(blog_configuration, key):
                     
     blog_configuration["path"][key] = (path if path[-1] == '/' else path+'/' ) if (path != '/' and len(path)) else ''
 
+# TODO : Datastructure parsing sux so bad. Need advanced type check and content validation
 def get_blog_configuration():
     global BLOG_CONFIGURATION
     if BLOG_CONFIGURATION != None:
@@ -111,7 +112,7 @@ def get_blog_configuration():
         if (not "sort_by" in blog_configuration.keys() ) or blog_configuration["sort_by"] in ['', None]:
             blog_configuration["sort_by"] = "id"
 
-        if blog_configuration["blog_url"][-1:] == '/':
+        if type(blog_configuration["blog_url"]) == str and blog_configuration["blog_url"][-1:] == '/':
             blog_configuration["blog_url"] = blog_configuration["blog_url"][:-1]
 
         if "disable_threads" in blog_configuration.keys() and type(blog_configuration["disable_threads"]) != list and blog_configuration["disable_threads"] != None:
