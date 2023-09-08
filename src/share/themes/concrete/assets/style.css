@@ -13,6 +13,9 @@ footer
   margin: auto;
   font-weight: bold;}
 
+footer
+  {margin-top: 10px;}
+  
 footer ul
   {list-style-type: none;
   display: inline-block;
@@ -131,8 +134,6 @@ blockquote, pre
     margin: auto;
     display: block;}
     
-#blog_categories ul
-
 #__VENC_NAVIGATION__
   {text-align: center;
   margin: 10px;}
@@ -141,4 +142,4 @@ blockquote, pre
   {margin-left: 10px;}
 
 #previous_link
-  {margin-right: 10px;}
+  {margin-right: 10px;}    
