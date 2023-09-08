@@ -48,6 +48,7 @@
 # version 3.1.0
     TODO | Verify header id uniqueness or warn about W3C complience.
     TODO | validate documentation w3c complience.
+    TODO | Settings data must validated or it may break the entire software without clean recovery
     WIP  | Update doc accordingly.
     WIP  | Add relevant templates for themes.
     DONE | requests lib is replaced with urllib.

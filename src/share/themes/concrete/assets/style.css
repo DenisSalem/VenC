@@ -132,4 +132,13 @@ blockquote, pre
     display: block;}
     
 #blog_categories ul
-    
+
+#__VENC_NAVIGATION__
+  {text-align: center;
+  margin: 10px;}
+  
+#next_link
+  {margin-left: 10px;}
+
+#previous_link
+  {margin-right: 10px;}
