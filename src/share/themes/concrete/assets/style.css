@@ -14,7 +14,8 @@ footer
   font-weight: bold;}
 
 footer
-  {margin-top: 10px;}
+  {margin-top: 10px;
+  min-height: 2.5em;}
   
 footer ul
   {list-style-type: none;
@@ -139,7 +140,9 @@ blockquote, pre
   margin: 10px;}
   
 #next_link
-  {margin-left: 10px;}
+  {margin-left: 10px;
+  float: right;}
 
 #previous_link
-  {margin-right: 10px;}    
+  {margin-right: 10px;
+  float: left;}    
