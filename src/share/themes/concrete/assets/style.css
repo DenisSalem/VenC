@@ -27,9 +27,9 @@ footer ul li
   {display: inline-block;}
   
 aside
-    {width: 25%;
-    display:block;
-    float: left;}
+  {width: 25%;
+  display:block;
+  float: left;}
 
 hr
   {border-top: 1px solid black;
@@ -93,9 +93,9 @@ blockquote, pre
 .__VENC_TREE_BUTTON_HIDE__,
 #__VENC_NAVIGATION__ a,
 .entry a
-    {color: rgba(0,0,0,0.8);
-    text-shadow: 0px 1px 0px rgba(255,255,255,0.8), 0px -1px 0px rgba(0,0,0,1);
-    text-decoration: none;}
+  {color: rgba(0,0,0,0.8);
+  text-shadow: 0px 1px 0px rgba(255,255,255,0.8), 0px -1px 0px rgba(0,0,0,1);
+  text-decoration: none;}
 
 .engrave:hover,
 .__VENC_TREE_BUTTON_SHOW__:hover,
@@ -103,37 +103,38 @@ blockquote, pre
 .__VENC_TREE_BUTTON_HIDE__:hover,
 #__VENC_NAVIGATION__ a:hover,
 .entry a:hover
-    {text-shadow: 0px -1px 0px rgba(255,255,255,0.8), 0px 1px 0px rgba(0,0,0,1);
-    color: rgba(192,192,192,0.1);}
+  {text-shadow: 0px -1px 0px rgba(255,255,255,0.8), 0px 1px 0px rgba(0,0,0,1);
+  color: rgba(192,192,192,0.1);}
     
 .title
-    {text-align: center;
-    letter-spacing: 5px;}
+  {text-align: center;
+  letter-spacing: 5px;}
+  
 .box
-    {border: 1px solid rgba(0,0,0,0.8);
-    background-color: rgba(255,255,255,1);
-    background-image: url('concrete.png');
-    box-shadow: 0px 3px 5px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.3) inset;}
+  {border: 1px solid rgba(0,0,0,0.8);
+  background-color: rgba(255,255,255,1);
+  background-image: url('concrete.png');
+  box-shadow: 0px 3px 5px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.3) inset;}
 
 .hashtags li
-    {display: inline;
-    margin-left: 0.25em;
-    margin-right: 0.25em;}
+  {display: inline;
+  margin-left: 0.25em;
+  margin-right: 0.25em;}
     
 .__VENC_OEMBED__
-    {display: block;
-    margin: auto;
-    text-align: center;}
+  {display: block;
+  margin: auto;
+  text-align: center;}
     
 .__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_DISABLED__, .__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_HIDE__
-    {margin-right: 1em;}
+  {margin-right: 1em;}
     
 #blog_categories,
 #blog_chapters
-    {width: 256px;
-    width: 90%;
-    margin: auto;
-    display: block;}
+  {width: 256px;
+  width: 90%;
+  margin: auto;
+  display: block;}
     
 #__VENC_NAVIGATION__
   {text-align: center;
