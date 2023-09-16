@@ -1,22 +1,21 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Créer le pied de page HTML
+  - ''
 chapter: '7.5.4'
+title: Créer le pied de page HTML
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Nous avons vu comment créer l'entête d'une page et nous avons vu comment structurer le corps de nos publications. Il reste maintenant à voir
-comment crée le pied de page de votre site.
+comment créer le pied de page de votre site.
 
-En premier lieu il convient de _finir_ ce qui a été commencé dans le chapitre [7.5.2](.:GetChapterAttributeByIndex::path::7.5.2:.) à savoir fermer
-les balises HTMLs qui ont été ouvertes. Pour ça créez un nouveau fichier __footer.html__ dans le répertorie chunks de votre thème et éditez le comme suit :
+En premier lieu, il convient de _finir_ ce qui a été commencé dans le chapitre [7.5.2](.:GetChapterAttributeByIndex::path::7.5.2:.), à savoir fermer
+les balises HTML qui ont été ouvertes. Pour ça, créez un nouveau fichier __`footer.html`__ dans le répertoire `chunks` de votre thème et éditez-le comme suit :
 
 .:CodeHighlight::HTML::False::    </body>
 </html>:.
 
-on y ajoute maintneant une paire de balise __footer__ qui contiendra les éléments de notre pied de page :
-
+On y ajoute maintenant une paire de balises __`footer`__, qui contiendra les éléments de notre pied de page :
 
 .:CodeHighlight::HTML::False::        <footer>
         </footer>

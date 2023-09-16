@@ -1,24 +1,26 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Afficher les arguments d'un template
+  - ''
 chapter: '5.12'
+title: Afficher les arguments d'un template de publication
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-L'utilisation d'un [template](.:GetChapterAttributeByIndex::path::3.5:.) peut nécessiter
-l'utilisation d'arguments supplémentaire pour celui-ci. Encore faut-il les connaitres et
-savoir comment ils sont utilisés. Ces commandes permettent d'afficher le template spécifié
-et de mettre en valeur les arguments de ceux là.
+L'utilisation d'un [template de publication](.:GetChapterAttributeByIndex::path::3.5:.) peut nécessiter
+l'utilisation d'arguments supplémentaires pour celui-ci. Encore faut-il les connaître et
+savoir comment ils sont utilisés !
 
-> venc -ta &lt;Nom du template&gt;
+Ces commandes permettent d'afficher le template spécifié
+et de mettre en valeur ses arguments :
 
-ou
+> venc -ta &lt;nom du template&gt;
 
-> venc --template-arguments &lt;Nom du template&gt;
+Ou :
 
-Le nom du template correspond ici au nom du fichier du template et __non pas son chemin complet__, en effet
+> venc --template-arguments &lt;nom du template&gt;
+
+Le nom du template correspond ici au nom du fichier du template et __non pas son chemin complet__. En effet,
 VenC va chercher le template dans :
 
-- /chemin/de/votre/projet/templates/
-- ~/.local/share/VenC/themes_templates/
+- `/chemin/de/votre/projet/templates/`
+- `~/.local/share/VenC/themes_templates/`

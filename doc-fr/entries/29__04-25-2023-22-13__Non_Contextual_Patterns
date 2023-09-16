@@ -1,16 +1,15 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Motifs non contextuels
+  - ''
 chapter: '4.4'
+title: Motifs non contextuels
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Les motifs non contextuels, par oppositions à ceux présentés dans le
-[chapitre 4.3](.:GetChapterAttributeByIndex::path::4.3:.) sont les premiers à être interprété par VenC. La plupart de ceux
-là permettent de récupérer des informations dit _"sans état"_. Typiquement, ce type de motif vous permet d'accéder aux
+Les motifs non contextuels, par opposition à ceux présentés dans le
+[chapitre 4.3](.:GetChapterAttributeByIndex::path::4.3:.), sont les premiers à être interprétés par VenC. La plupart d'entre eux permettent de récupérer des informations dites _"sans état"_. Typiquement, ce type de motifs vous permet d'accéder aux
 métadonnées du blog ou de vos publications.
 
-À noter également que ces motifs ont une _portée_. C'est à dire qu'ils ne peuvent pas tous être utilisé n'importe où.
+À noter également que ces motifs ont une _portée_, c'est-à-dire qu'ils ne peuvent pas tous être utilisés n'importe où.
 
 Les chapitres qui suivent explicitent l'usage et le fonctionnement de ces motifs.

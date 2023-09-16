@@ -1,40 +1,43 @@
 authors:
-- ''
+  - Denis Salem
 categories:
-- ''
-title: Thèmes
+  - ''
 chapter: '3.6'
+title: Thèmes
+TODO:
+  - URL in link to know more about config.yaml.
+  - URL to the tutorials section.
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Un thème est l'ensemble des fragments qui seront assemblés et
 interprétés par VenC pour former votre blog, c'est dans un thème que
 sera définit la mise en page de votre site. Typiquement, un thème est un
-répertoire contenant au moins le dossier __chunks__ et un autre,
-optionel, __assets__.
+répertoire contenant au moins le dossier __`chunks`__ et un autre,
+optionnel, __`assets`__.
 
-- __assets__ : contient des ressources nécessaires à la mise en page ou
+- __`assets`__ : contient des ressources nécessaires à la mise en page ou
 au fonctionnement du blog. Cela peut être des images, des feuilles de
 style CSS ou des scripts JS.
 
-- __chunks__ : doit contenir les fichiers suivant :
-  - header.html
-  - entry.html
-  - footer.html
-  - rssHeader.html
-  - rssEntry.html
-  - rssFooter.html
-  - [audio.html](.:GetChapterAttributeByIndex::path::4.4.3:.#audio)
-  - video.html
+- __`chunks`__ : doit contenir les fichiers suivants :
+  - `header.html`
+  - `entry.html`
+  - `footer.html`
+  - `rssHeader.html`
+  - `rssEntry.html`
+  - `rssFooter.html`
+  - [`audio.html`](.:GetChapterAttributeByIndex::path::4.4.3:.#audio)
+  - `video.html`
   
-- __config.yaml__ : Un fichier de configuration [YAML](https://yaml.org/) permettant
-d'indiquer les dépendances du thème, supplanter des options de
-configuration et décrire le thème. Plus d'infos [ici](TODO).
+- __`config.yaml`__ : un fichier de configuration [YAML](https://yaml.org/) permettant
+d'indiquer les dépendances du thème, de supplanter des options de
+configuration et de décrire le thème. Plus d'infos [ici](TODO).
 
 Comme vous l'avez sans doute compris, VenC met bout à bout les morceaux
-de votre blog en formattant l'entête (header.html), puis en répétant autant
-de fois qu'il y a de publication sur une page le formatage du corps de la publication (entry.html).
-La page courante est alors terminée en y ajoutant le morceau pied de
-page (footer.html) également formaté.
+de votre blog en formattant l'entête (`header.html`), puis en répétant autant
+de fois qu'il y a de publications sur une page le formatage du corps de la publication (`entry.html`).
+La page courante est alors terminée en y ajoutant le pied de
+page (`footer.html`), également formaté.
 
 C'est exactement le même principe pour le flux RSS, qui est construit de
 façon identique.
@@ -42,7 +45,7 @@ façon identique.
 Il n'est pas forcément évident de créer un thème de toute pièce et vous
 n'avez peut-être pas envie de perdre trop de temps à tester le
 fonctionnement de tout ça. Le meilleur moyen de créer un thème soi-même
-est de jeter un œil au thème __concrete__ normalement installé avec VenC
+est de jeter un œil au thème __`concrete`__ normalement installé avec VenC
 dans :
 
 > ~/.local/share/VenC/themes/concrete
@@ -50,7 +53,7 @@ dans :
 Ce thème en l'état offre un aperçu de ce qu'il est possible de faire avec VenC.
 C'est une solide base pour créer le vôtre.
 
-Vous pouvez également vous aider de la partie [Tutoriels](TODO),
+Vous pouvez également vous aider de la "[section des tutoriels](TODO)",
 dans laquelle sont décrites des techniques pour réaliser des mises en
 pages très spécifiques et pour lesquelles l'utilisation du langage de
 balisage interne de VenC sera illustrée.

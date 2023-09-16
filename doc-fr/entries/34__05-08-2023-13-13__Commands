@@ -1,9 +1,9 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
+  - ''
+chapter: '5'
 title: Commandes
-chapter: 5
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Ce chapitre présente les différentes commandes VenC qu'il est possible d'utiliser dans un terminal.

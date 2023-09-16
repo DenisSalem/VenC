@@ -1,9 +1,9 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Créer une nouvelle publication
+  - ''
 chapter: '7.2'
+title: Créer une nouvelle publication
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Une publication valide doit avoir un nom de fichier avec un format
@@ -14,19 +14,18 @@ nom de fichier et un contenu de base prêt à être complété.
 
 > venc -ne "nom de la publication"
 
-ou
+Ou :
 
 > venc --new-entry "nom de la publication"
 
-Pour créer une nouvelle publication, vous devez être dans le répertoire
-de votre blog.
+Pour créer une nouvelle publication, vous devez :
 
-Vous ne pouvez pas créer une publication sans spécifier le titre de celle-ci.
+- Être dans le répertoire de votre blog.
+- Fournir un titre entre guillemets.
 
-Si vous ne spécifiez pas de nom de template, VenC produira une publication
+Si vous ne spécifiez pas de nom de template de publication, VenC produira une publication
 totalement vierge. Le nom de template est en fait le nom de fichier du
-template désiré, se trouvant dans le répertoire templates de votre projet
-ou dans :
+template désiré. Les fichiers de template se trouvent dans le répertoire `templates` de votre projet ou dans :
 
 > ~/.local/share/VenC/themes_templates
 
@@ -36,18 +35,18 @@ Par exemple :
 
 À noter que certains templates nécessitent des paramètres supplémentaire pour
 fonctionner. Le chapitre [3.5.1](.:GetChapterAttributeByIndex::path::3.5.1:.)
-fournit des exemples sur la façon dont ce la fonctionne.
+fournit des exemples sur la façon dont cela fonctionne.
 
 À l'issue de cette commande, VenC essaiera d'ouvrir la nouvelle
 publication avec l'éditeur de texte spécifié dans le fichier de
-configuration principal [blog_configuration.yaml](.:GetChapterAttributeByIndex::path::3.2:.#text-editor).
+configuration principal [`blog_configuration.yaml`](.:GetChapterAttributeByIndex::path::3.2:.#text-editor).
 
-Maintenant il faut rédiger le contenu de votre choix. Vous voulez sans doute le faire dans un langage de balisage
-_cool et décontracté_. Avec [Markdown](https://daringfireball.net/projects/markdown/) par exemple. VenC supporte aussi
+Maintenant, il faut rédiger le contenu de votre choix. Vous voulez sans doute le faire dans un langage de balisage
+_cool_ et _décontracté_. Avec [Markdown](https://daringfireball.net/projects/markdown/) par exemple. VenC supporte aussi
 [AsciiDoc](https://asciidoc.org/) ou [reStructuredText](https://docutils.sourceforge.io/rst.html). Dans tous les
-cas ces langages de balisage nécessite les modules pythons correspondant. Ceux là ne sont pas installé par défaut
+cas, ces langages de balisage nécessitent les modules Python correspondant. Ceux-là ne sont pas installés par défaut
 et vous devez les installer explicitement :
 
-- Pour Markdown vous aurez besoin de [mistletoe](https://github.com/miyuchina/mistletoe/)
-- Pour AsciiDoc vous aurez besoin de [asciidoc3](https://asciidoc3.org/)
-- Pour reStructuredText vous aurez besoin de [docutils](https://docutils.sourceforge.io/index.html)
+- Pour Markdown, vous aurez besoin de [mistletoe](https://github.com/miyuchina/mistletoe/).
+- Pour AsciiDoc, vous aurez besoin de [asciidoc3](https://asciidoc3.org/).
+- Pour reStructuredText, vous aurez besoin de [docutils](https://docutils.sourceforge.io/index.html).

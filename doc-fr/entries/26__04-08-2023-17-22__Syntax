@@ -1,22 +1,20 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Syntax
+  - ''
 chapter: '4.1'
+title: Syntax
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-La syntax est très simple :
-
-Chaque _motifs_ commence par :
+La syntaxe est très simple, chaque _motif_ commence par :
 
 > .&#58;
 
-Chaque _motifs_ se termine par :
+Chaque _motif_ se termine par :
 
 > &#58;.
 
-Le ou les séparateurs d'arguments à l'intérieur d'un _motif_ sont représentés par :
+Le ou les séparateurs d'argument à l'intérieur d'un _motif_ sont représentés par :
 
 > ::
 
@@ -24,11 +22,11 @@ Un _motif_ a donc la forme suivante :
 
 > .:Escape:: .:PatternName[::Argument 1][::Argument 2][::Argument N] ... :. :.
 
-Un exemple de _motif_ sans arguments serait :
+Un exemple de _motif_ sans argument est :
 
 > .:Escape:: .:GetEntryTitle:. :.
 
-Un autre exemple de pattern avec des arguments :
+Un exemple de motif avec des arguments est :
 
 >  .:Escape::  .:ForBlogMetadataIfExists::some_value::{value}:. :.
 
@@ -43,4 +41,4 @@ Les motifs peuvent être imbriqués :
 :.
 :.
 
-Ci-dessus, __GetRelativeRoot__ est appelé dans le second argument de ForBlogMetadataIfExists.
+Ci-dessus, __`GetRelativeRoot`__ est appelé dans le second argument de `ForBlogMetadataIfExists`.

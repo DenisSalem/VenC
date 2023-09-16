@@ -5,7 +5,7 @@
         :.
         <footer>
             <div id="__VENC_NAVIGATION__">
-                <!-- Insérer ici des patterns VenC permettant de générer les liens de navigations -->
+                <!-- Insérer ici des patterns VenC permettant de générer les liens de navigation -->
                 .:GetNextPage::
                     <a id="next" href="{path}" data-venc-api-infinite-scroll-hook="{path}">→</a>
                 :.

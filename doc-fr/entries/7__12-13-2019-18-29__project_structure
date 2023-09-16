@@ -1,10 +1,10 @@
 authors:
-- Denis Salem
+  - Denis Salem
 categories:
-- ''
-chapter: 3
+  - ''
+chapter: '3'
 title: Structure et configuration d'un projet
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Dans cette partie nous verrons comment sont organisés les fichiers d'un
+Dans cette partie, nous verrons comment sont organisés les fichiers d'un
 projet VenC, comment ceux-là sont structurés et comment configurer tout ça.

@@ -1,45 +1,43 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Créer un menu
+  - ''
 chapter: '7.5.2.1'
+title: Créer un menu
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Maintenant que nous avons vu comment se goupille l'en-tête nous pouvons
-le compléter selon notre besoin.
+Maintenant que nous avons vu comment se goupille l'entête, nous pouvons
+le compléter selon nos besoins.
 
-Pour commencer, à la fin de notre fichier _header.html_ nous allons
-rajouter la paire de balise suivante
+Pour commencer, à la fin de notre fichier `header.html` nous allons
+rajouter la paire de balise suivante :
 
 .:CodeHighlight::HTML::False::<header>
 </header>:.
 
-Nous y mettrons ici les éléments courants qui composent un menu générique:
-- Un liste hierarchique de catégorie.
-- Un nuage de categories.
-- Une liste d'archive.
+Nous y mettrons ici les éléments qui composent un menu générique :
+- Une liste hiérarchique de catégories.
+- Un nuage de catégories.
+- Une liste d'archives.
 
-Utiliser les deux premiers points peut-être redondant dans la mesure ou
-VenC utilise la même source de donnée pour construire ces listes. En général
-c'est soit l'un soit l'autre. Mais nous verrons évidement les deux cas de figure.
+Utiliser les deux premiers points peut être redondant dans la mesure ou
+VenC utilise la même source de données pour construire ces listes. En général,
+c'est soit l'un soit l'autre, mais nous verrons évidemment les deux cas de figure.
 
-Concernant la liste d'archives il faut noter qu'il s'agit d'une
-liste simple, il n'est pas possible pour le moment de la rendre hierarchisé.
+Concernant la liste d'archives, il faut noter qu'il s'agit d'une
+liste simple : il n'est pas possible pour le moment de la rendre hiérarchisée.
 
 Enfin, et dans tous les cas, il faut rappeler que même si vous utilisez les motifs
 VenC correspondant à ces fonctionnalités, elles ne seront pas
-_active_ si vous ne dite pas explicitement à VenC de le faire.
+_actives_ si vous ne dite pas explicitement à VenC de le faire.
 
-En effet ces listes sont dans la pratique un moyen de naviguer sur votre
-site et implique donc que VenC ai généré le contenu organisé correspondant.
-En l'occurence il faut s'assurer que dans votre [fichier de configuration](.:GetChapterAttributeByIndex::path::3.2:.) les options
+En effet, ces listes sont dans la pratique un moyen de naviguer sur votre
+site et ceci implique donc que VenC a généré le contenu organisé correspondant.
+En l'occurrence, il faut s'assurer que dans votre [fichier de configuration](.:GetChapterAttributeByIndex::path::3.2:.) les options suivantes soient configuré à **`false`** pour activer, respectivement, les archives et les catégories :
 
-- [disable_archives](.:GetChapterAttributeByIndex::path::3.2:.#disable-archives)
-- [disable_categories](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories)
-
-soient configuré à **_false_** pour activer respectivement les archives et les catégories.
+- [`disable_archives`](.:GetChapterAttributeByIndex::path::3.2:.#disable-archives)
+- [`disable_categories`](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories)
 
 VenC fonctionne de cette manière parce que la responsabilité de ce qui doit être généré relève de l'utilisateur final.
 C'est au thème de s'adapter et d'anticiper que l'utilisateur final veuille ou ne veuille pas générer tel ou tel
-contenu organisé. Si vous prevoyez de crée un thème et de le distribuer sur les internets il faudra donc en tenir compte.
+contenu organisé. Si vous prévoyez de créer un thème et de le distribuer sur les Internets, il faudra donc en tenir compte.

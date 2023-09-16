@@ -1,6 +1,7 @@
 authors:
-- Denis Salem
+  - Denis Salem
 categories:
+  - ''
 chapter: '3.3'
 title: Les publications
 ---VENC-BEGIN-PREVIEW---
@@ -19,7 +20,7 @@ Le nom de fichier d'une publication est formaté de la façon suivante :
 Une publication contient une première partie au format [YAML](https://yaml.org/) contenant [les métadonnées](.:GetChapterAttributeByIndex::path::3.4:.) de la publication,
 puis une seconde au format Markdown (format par défaut) qui contiendra la publication à proprement parler. Cette seconde partie
 est elle-même scindée en deux. L'une contiendra la prévisualisation de la
-publication, et l'autre son véritable contenu. Vous pouvez évidememnt controler l'affichage de la prévisualisation et de la publication en fonction de votre template/thème de
+publication, et l'autre son véritable contenu. Vous pouvez évidemment contrôler l'affichage de la prévisualisation et de la publication en fonction de votre template/thème de
 blog. 
 
 Une publication vierge se présente de la façon suivante:
@@ -36,34 +37,34 @@ C'est la liste des auteurs de la publication, séparés par une virgule. Par exe
 
 ### categories
 
-C'est la liste des categories de la publication au format [Yaml](https://yaml.org/). Comme ces categories peuvent contenir des sous catégories les listes peuvent-être imbriquées. Par exemple : 
+C'est la liste des categories de la publication au format [YAML](https://yaml.org/). Comme ces categories peuvent contenir des sous-catégories, les listes peuvent-être imbriquées. Par exemple : 
 
 .:CodeHighlight::yaml::false::
 categories:
   - Libre:
-      - GNU/Linux:
-          - Gentoo
-      - LibreOffice
+    - GNU/Linux:
+      - Gentoo
+    - LibreOffice
   - Open-source:
-      - Android
+    - Android
 :.
 
 ### tags
 
-C'est la liste des mot-clefs de la publication au format [Yaml](https://yaml.org/). Par exemple :
+C'est la liste des mot-clefs de la publication au format [YAML](https://yaml.org/). Par exemple :
 
 .:CodeHighlight::yaml::false::
 tags:
-    - TheGIMP
-    - OpenGL
-    - Vulkan
-    - Inkscape
-    - Blender
+  - TheGIMP
+  - OpenGL
+  - Vulkan
+  - Inkscape
+  - Blender
 :.
 
 ### title
 
-C'est le nom de votre publication, tel que vous l'avez définit au moment de créer la publication avec la commande : 
+C'est le nom de votre publication, tel que vous l'avez défini au moment de créer la publication avec la commande : 
 
 > venc -ne "titre de la publication"
 
@@ -74,25 +75,25 @@ Il est également possible de rajouter librement des [champs optionnels](.:GetCh
 ### chapter
 
 Indique à quel chapitre correspond la publication. La convention qu'utilise
-VenC pour reconnaître les chapitres est la suivante : chaque chapitre et chaque sous-partie sont numérotés, et séparés par un point. Quelques exemples pour aider à visualiser le truc.
+VenC pour reconnaître les chapitres est la suivante : chaque chapitre et chaque sous-partie sont numérotés, et séparés par un point. Quelques exemples pour aider à visualiser le truc :
 
-- __'2'__ : indique que la publication correspond au chapitre deux.
-- __'1.2'__ : indique que la publication correspond au premier chapitre, seconde sous-partie
-- __'3.3.5'__ : indique que la publication correspond au troisième chapitre, troisième sous-partie, cinquième sous-partie de la partie parente.
+- __`'2'`__ : indique que la publication correspond au chapitre deux.
+- __`'1.2'`__ : indique que la publication correspond au premier chapitre, sous-partie deux.
+- __`'3.3.5'`__ : indique que la publication correspond au troisième chapitre, troisième sous-partie, cinquième sous-partie de la partie parente.
 
-**Important : le champ _chapter_ doit explicitement être une chaîne
-de caractères. Pour ce faire, l'index du chapitre doit être entre guillement.**
+**Important :** le champ `chapter` doit explicitement être une chaîne
+de caractères. Pour ce faire, l'index du chapitre doit être entre guillemets.
 
 ### markup_language
 
 Il est possible de spécifier un langage de balisage qui sera utilisé pour
-la publication courante, en lieu et place du langage définit dans le
+la publication courante, en lieu et place du langage défini dans le
 fichier de configuration du blog.
 
 VenC supporte trois langages de balisage :
 
-- __[Markdown](https://daringfireball.net/projects/markdown/syntax)__ : qui est le langage par défaut.
-- __[reStructuredText](http://docutils.sourceforge.net/rst.html)__ : un peu plus complet et puissant que Markdown.
-- __[asciidoc](https://asciidoc.org)__ : un peu plus complet et puissant que Markdown.
-- __none__ : Le langage de balisage est désactivé. Permet d'incorporer
+- __[`Markdown`](https://daringfireball.net/projects/markdown/syntax)__ : qui est le langage par défaut.
+- __[`reStructuredText`](http://docutils.sourceforge.net/rst.html)__ : un peu plus complet et puissant que Markdown.
+- __[`asciidoc`](https://asciidoc.org)__ : un peu plus complet et puissant que Markdown.
+- __`none`__ : le langage de balisage est désactivé. Permet d'incorporer
 de l'HTML/CSS dans une publication.

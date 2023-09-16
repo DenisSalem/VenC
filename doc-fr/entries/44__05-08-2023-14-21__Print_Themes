@@ -1,17 +1,17 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Afficher les themes disponibles
+  - ''
 chapter: '5.10'
+title: Afficher les thèmes disponibles
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 > venc -pt
 
-ou
+Ou :
 
 > venc --print-themes
 
-Affiche la liste des thèmes qui sont sont installés dans : 
+Affiche la liste des thèmes qui sont installés dans : 
 
 > ~/.local/share/VenC/themes

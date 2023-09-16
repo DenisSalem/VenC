@@ -1,26 +1,26 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Motifs de publications
-chapter: 4.4.1
+  - ''
+chapter: '4.4.1'
+title: Motifs de publication
 tree_test:
-    - a:
-        - b:
-            - c
-            - d
-        - e:
-            - f
-    - g
+- a:
+  - b:
+    - c
+    - d
+  - e:
+    - f
+- g
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Ces motifs permettent d'accéder à des métadonnées contenues dans une [publication](.:GetChapterAttributeByIndex::path::3.3:.). Ils ne
-peuvent donc pas être utilisé en dehors d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.) ou des fichiers ci-dessous composant
+peuvent donc pas être utilisés en dehors d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.) ou des fichiers ci-dessous composant
 un thème :
 
-- [entry.html](.:GetChapterAttributeByIndex::path::3.6:.)
-- [atomEntry.html](.:GetChapterAttributeByIndex::path::3.6:.)
-- [rssEntry.html](.:GetChapterAttributeByIndex::path::3.6:.)
+- [`entry.html`](.:GetChapterAttributeByIndex::path::3.6:.)
+- [`atomEntry.html`](.:GetChapterAttributeByIndex::path::3.6:.)
+- [`rssEntry.html`](.:GetChapterAttributeByIndex::path::3.6:.)
 
 #### ForEntryAuthors
 
@@ -28,7 +28,7 @@ un thème :
 
 Retourne la liste des auteurs de la publication.
 
-Le premier argument est une chaîne de caractères à formater avec la variable {value} contenant le nom de l'auteur courant.
+Le premier argument est une chaîne de caractères à formater avec la variable `{value}` contenant le nom de l'auteur courant.
 
 Le second paramètre est une chaîne de caractères servant de séparateur.
 
@@ -39,18 +39,18 @@ Le second paramètre est une chaîne de caractères servant de séparateur.
 Il est possible de définir des métadonnées sous la forme de listes.
 
 Le premier argument est une chaîne de caractères à formater avec la variable 
-{value} contenant l'élément courant de la liste.
+`{value}` contenant l'élément courant de la liste.
 
 Le second paramètre est une chaîne de caractères servant de séparateur.
 
-Si la métadonnée spécifié dans **metadata_name** n'existe pas VenC interompra la génération du site.
+Si la métadonnée spécifiée dans **`metadata_name`** n'existe pas, VenC interrompra la génération du site.
 
 #### ForEntryMetadataIfExists
 
 > .:Escape:: .:ForEntryMetadataIfExists::metadata_name::string::separator:. :.
 
-Identique à [ForEntryMetadata](.:GetChapterAttributeByIndex::path::4.4.1:.#forentrymetadata) mais
-est ignoré si la métadoné spécifié dans **metadata_name** n'existe pas.
+Identique à [`ForEntryMetadata`](.:GetChapterAttributeByIndex::path::4.4.1:.#forentrymetadata), mais
+est ignoré si la métadonnée spécifiée dans **`metadata_name`** n'existe pas.
 
 #### GetEntryArchivePath
 
@@ -68,18 +68,18 @@ ou une liste de catégories et de sous-catégories.
 
 Les arguments du motif sont les suivants :
 
-- **open_node** : contient la chaîne de caractères d'ouverture pour la catégorie parente.
-- **open_branch** : contient la chaîne de caractères d'ouverture de la catégorie courante.
-- **close_branch** : contient la chaîne de caractères de fermeture de la catégorie courante.
-- **close_node** : contient la chaîne de caractères de fermeture de la catégorie parente.
+- **`open_node`** : contient la chaîne de caractères d'ouverture pour la catégorie parente.
+- **`open_branch`** : contient la chaîne de caractères d'ouverture de la catégorie courante.
+- **`close_branch`** : contient la chaîne de caractères de fermeture de la catégorie courante.
+- **`close_node`** : contient la chaîne de caractères de fermeture de la catégorie parente.
 
 Les variables de ce motif sont les suivantes :
 
-- __value__ : le nom de la catégorie courante.
-- __path__ : le chemin relatif de la catégorie courante.
-- __count__ : le nombre de publications dans la catégorie courante.
-- __weight__ : le nombre de publications dans la catégorie courante divisé par le nombre de publications appartenant à une categorie.
-- __childs__ : Contient le résultat de la récursion suivante du motif.
+- __`value`__ : le nom de la catégorie courante.
+- __`path`__ : le chemin relatif de la catégorie courante.
+- __`count`__ : le nombre de publications dans la catégorie courante.
+- __`weight`__ : le nombre de publications dans la catégorie courante divisé par le nombre de publications appartenant à une catégorie.
+- __`childs`__ : contient le résultat de la récursion suivante du motif.
 
 Par exemple, pour créer un menu déroulant on peut utiliser le motif comme ci-dessous :
 
@@ -126,32 +126,29 @@ Alors le motif générerait quelque chose comme le code HTML suivant :
 :.
 
 À la fin de chaque branche, si la catégorie courante possède une ou plusieurs
-catégories filles, alors les arguments *open&#95;node* et *close&#95;node* sont ajoutés et
+catégories filles, alors les arguments `open_node` et `close_node` sont ajoutés et
 une nouvelle liste de sous-catégories est générée entre ces deux arguments,
-en utilisant les arguments *open_branch* et *close_branch*.
+en utilisant les arguments `open_branch` et `close_branch`.
 
-Ce motif est ignoré et supprimé si la génération des catégories est désactivé dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
+Ce motif est ignoré et supprimé si la génération des catégories est désactivée	 dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
+
 #### GetEntryChapterLevel
 
 > .:Escape:: .:GetEntryChapterLevel:. :.
 
 Renvoie le niveau du chapitre de la publication.
 
-Par exemple si la publication correspond au chapitre 1.2.3
+Par exemple si la publication correspond au chapitre `'1.2.3'`, alors le motif renverrait `3` :
 
 .:CodeHighlight::YAML::False::
-chapter: 1.2.3
+chapter: '1.2.3'
 :.
 
-alors le motif renverrait _3_.
-
-Si la publication correspond au chapitre 4.5
+Si la publication correspond au chapitre `'4.5'`, alors le motif renverrait `2` :
 
 .:CodeHighlight::YAML::False::
-chapter: 1.2.3
+chapter: '4.5'
 :.
-
-alors le motif renverrait _2_.
 
 #### GetEntryChapterPath
 
@@ -163,10 +160,10 @@ Renvoie le chemin relatif du chapitre correspondant à la publication courante.
 
 > .:Escape:: .:GetEntryDate[::format]:. :.
 
-Retourne la date de la publication formatée comme définit dans le fichier de configuration par le champ *date&#95;format*.
+Retourne la date de la publication formatée comme définie dans le fichier de configuration par le champ `date_format`.
 
-Il est possible d'utiliser un autre format de date à l'aide de l'argument optionnel *format*.
-Pour en savoir plus sur ce format, rendez vous [ici](https://strftime.org/).
+Il est possible d'utiliser un autre format de date à l'aide de l'argument optionnel `format`.
+Pour en savoir plus sur ce format, rendez-vous [ici](https://strftime.org/).
 
 #### GetEntryDay
 
@@ -193,18 +190,18 @@ Retourne l'identifiant unique de la publication.
 Il est possible de définir ses propres champs dans les métadonnées
 d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.) ou d'un [template](.:GetChapterAttributeByIndex::path::3.5:.).
 
-Par exemple, si on définie le champ suivant :
+Par exemple, si l'on définit le champ suivant :
 
 .:CodeHighlight::YAML::False::
 free_hardware : Arduino Mega
 :.
 
-Pour accéder à celui-ci, on utilisera le motif GetEntryMetadata de la façon suivante :
+Pour accéder à celui-ci, on utilisera le motif `GetEntryMetadata` de la façon suivante :
 
 > .:Escape:: .:GetEntryMetadata::free_hardware:. :.
 
 Si la métadonnée ainsi référencée n'existe pas,
-VenC générera une erreur et stopera la génération du site.
+VenC générera une erreur et stoppera la génération du site.
 
 #### GetEntryMetadataIfExists
 
@@ -215,19 +212,19 @@ sans garantie que celle-ci existe. Si la métadonnée existe, il est possible al
 
 Les arguments de ce pattern sont au nombre de trois :
 
-- **metadata_name** : le nom de la métadonnée désirée.
-- **string** : le texte formaté retourné si la condition est remplie. Optionnel. Si cet argument n'est pas présent, la fonction renvoie la valeur de la métadonnée sans formatage.
-- **string2** : le texte non formaté retourné si la condition n'est pas rempli. Si cet argument n'est pas présent, le pattern est ignoré.
+- **`metadata_name`** : le nom de la métadonnée désirée.
+- **`string`** : le texte formaté retourné si la condition est remplie. Optionnel. Si cet argument n'est pas présent, la fonction renvoie la valeur de la métadonnée sans formatage.
+- **`string2`** : le texte non formaté retourné si la condition n'est pas remplie. Si cet argument n'est pas présent, le pattern est ignoré.
 
-Il est possible d'utiliser la variable suivante dans l'argument __string__ pour formater le texte :
+Il est possible d'utiliser la variable suivante dans l'argument __`string`__ pour formater le texte :
 
-- __value__ : contient la valeur de la métadonnée qu'on référence.
+- __`value`__ : contient la valeur de la métadonnée qu'on référence.
 
 #### GetEntryMetadataIfNotNull
 
 > .:Escape:: .:GetEntryMetadataIfNotNull::metadata_name[::string][::string2]:. :.
 
-Identique à [GetEntryMetadataIfExists](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadatatreeifexists), mais la métadonnée spécifié ne doit pas être vide ou être _null_.
+Identique à [`GetEntryMetadataIfExists`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadatatreeifexists), mais la métadonnée spécifiée ne doit pas être vide ou être `null`.
 
 Par exemple: 
 
@@ -235,9 +232,9 @@ Par exemple:
 .:Escape:: <div id="entry.:GetEntryID:." .:GetEntryMetadataIfExists::alternate_style::class="{value}":. >:.
 :.
 
-Si la métadonnée référencée n'est pas définie, est vide ou _null_, VenC retourne string2 si définit, sinon le motif est ignoré.
+Si la métadonnée référencée n'est pas définie, si elle est vide ou `null`, VenC retourne `string2` (si cette chaîne est définie), sinon le motif est ignoré.
 
-Si le second argument n'est pas définie l'accesseur renvoie directement la variable référencée, si le test réussie.
+Si le second argument n'est pas défini, l'accesseur renvoie directement la variable référencée, si le test réussit.
 
 #### GetEntryMetadataTree
 
@@ -253,36 +250,36 @@ Si le second argument n'est pas définie l'accesseur renvoie directement la vari
 :. :.
 :.
 
-Ce pattern permet de formatter sous la forme d'un arbre une metadonnée de publication qui serait une structure de donnée.
+Ce pattern permet de formater sous la forme d'un arbre une metadonnée d'une publication qui serait une structure de données.
 
 Les arguments de ce motif sont les suivants :
 
-- **metadata_name** : Le nom de la métadonnée auquel on souhaite accéder. Si elle n'existe pas, VenC lève une exception.
-- **open_node** : La chaine de caractère ouvrant la liste courante.
-- **open_branch** : La chaine de caractère ouvrant l'item courant.
-- **value_childs** : La chaine de caractère composant l'item courant si celui-ci a des items enfants.
-- **value** : La chaine de caractère composant l'item courant si celui-ci n'a pas d'items enfants.
-- **close_branch** : La chaine de caractère fermant l'item courant.
-- **clode_node** : La chaine de caractère fermant la liste courante.
+- **`metadata_name`** : le nom de la métadonnée à laquelle on souhaite accéder. Si elle n'existe pas, VenC lève une exception.
+- **`open_node`** : la chaîne de caractères ouvrant la liste courante.
+- **`open_branch`** : la chaîne de caractères ouvrant l'item courant.
+- **`value_childs`** : la chaîne de caractères composant l'item courant, si celui-ci a des items enfants.
+- **`value`** : la chaîne de caractère composant l'item courant, si celui-ci n'a pas d'item enfant.
+- **`close_branch`** : la chaîne de caractères fermant l'item courant.
+- **`clode_node`** : la chaîne de caractères fermant la liste courante.
 
 Ce motif possède les variables suivantes :
 
-- __value__ : Contient la valeur de l'item courant. Vous pouvez utiliser cette variable dans les arguments _value_ et *value_childs*.
-- __childs__ : Contient le bloc enfant de l'item courant. Vous ne pouvez utiliser cette variable que dans l'argument *value_childs*.
+- __`value`__ : contient la valeur de l'item courant. Vous pouvez utiliser cette variable dans les arguments `value` et `value_childs`.
+- __`childs`__ : contient le bloc enfant de l'item courant. Vous ne pouvez utiliser cette variable que dans l'argument `value_childs`.
 
-Un exemple d'utilisation de ce pattern ci-dessous. Étant donnée la métadonnée de publication suivante :
+Voici un exemple d'utilisation de ce pattern. Étant donnée la métadonnée suivante dans l'entête d'une publication :
 
 .:CodeHighlight::YAML::False::
 tree_test:
-    - a:
-        - b:
-            - c
-            - d
-        - e:
-            - f
-    - g:.
+  - a:
+    - b:
+      - c
+      - d
+    - e:
+      - f
+  - g:.
 
-Si l'on veut afficher *tree_test* sous la forme de listes imbriquées on pourrait utiliser le motif comme suit :
+Si l'on veut afficher `tree_test` sous la forme de listes imbriquées on pourrait utiliser le motif comme suit :
 
 .:CodeHighlight::HTML::False:: .:Escape::
  .:GetEntryMetadataTree::
@@ -314,8 +311,8 @@ Ce qui donnerait :
 :. :.
 :.
 
-Identique à [GetEntryMetadataTree](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadatatree) mais le pattern
-est ignoré si la métadonnée indiqué n'existe pas.
+Identique à [`GetEntryMetadataTree`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadatatree), mais le pattern
+est ignoré si la métadonnée indiquée n'existe pas.
 
 #### GetEntryMinute
 
@@ -347,20 +344,20 @@ Retourne le titre de la publication.
 
 > .:Escape:: .:GetEntryToC::open_ul::open_li::content::close_li::close_ul:. :.
 
-Ce motif permet de générer une table des matières multi-niveau sur la base des titres présent
-dans __le corps__ d'une publication [MarkDown](https://daringfireball.net/projects/markdown/syntax#header).
+Ce motif permet de générer une table des matières multi-niveaux sur la base des titres présents
+dans le __corps__ d'une publication [Markdown](https://daringfireball.net/projects/markdown/syntax#header).
 
-- **open_ul** : La chaine de caractère ouvrant le niveau courant.
-- **open_li** : La chaine de caractère ouvrant l'item courant.
-- **content** : La chaine de caractère composant l'item courant où vous pouvez utiliser les variables du motif.
-- **close_li** : La chaine de caractère fermant l'item courant.
-- **clode_ul** : La chaine de caractère fermant le niveau courant.
+- **`open_ul`** : la chaîne de caractères ouvrant le niveau courant.
+- **`open_li`** : la chaîne de caractères ouvrant l'item courant.
+- **`content`** : la chaîne de caractères composant l'item courant, dans laquelle vous pouvez utiliser les variables du motif.
+- **`close_li`** : la chaîne de caractères fermant l'item courant.
+- **`clode_ul`** : la chaîne de caractères fermant le niveau courant.
 
-Le motif a quelque variables qu'il est possible d'utiliser dans l'argument *content*.
+Le motif a quelque variables qu'il est possible d'utiliser dans l'argument `content` :
 
-- __id__ : Contient l'id html de l'entête correspondant à l'item courant.
-- __title__ : Contient le titre de l'entête correspondant à l'item courant.
-- __level__ : Contient le niveau de l'entête correspondant à l'item courant.
+- __`id`__ : contient l'`id` HTML de l'entête correspondant à l'item courant.
+- __`title`__ : contient le titre de l'entête correspondant à l'item courant.
+- __`level`__ : contient le niveau de l'entête correspondant à l'item courant.
 
 Un usage classique ressemblerait à quelque chose comme :
 
@@ -375,7 +372,7 @@ Un usage classique ressemblerait à quelque chose comme :
 :. :.
 
 
-Si dans la publication on trouvait les titres suivant :
+Si dans la publication on trouvait les titres suivants :
 
 .:CodeHighlight::Text::False::
 # Title 1
@@ -384,9 +381,9 @@ Si dans la publication on trouvait les titres suivant :
 
 ### Title 1.1.1
 
-## title 1.2:.
+## Title 1.2:.
 
-alors le précédent exemple générerait le code html suivant :
+Alors le code HTML généré ressemblerait à :
 
 .:CodeHighlight::HTML::False::<ul>
     <li>
@@ -401,7 +398,7 @@ alors le précédent exemple générerait le code html suivant :
                 </ul>
             </li>
             <li>
-                <a href="#title-1-2" class="toc_level_2">title 1.2</a>
+                <a href="#title-1-2" class="toc_level_2">Title 1.2</a>
             </li>
         </ul>
     </li>
@@ -422,7 +419,7 @@ Ce qui donne :
                 </ul>
             </li>
             <li>
-                <a href="#title-1-2" class="toc_level_2">title 1.2</a>
+                <a href="#title-1-2" class="toc_level_2">Title 1.2</a>
             </li>
         </ul>
     </li>
@@ -430,9 +427,9 @@ Ce qui donne :
 
 Quelques remarques :
 
-- Pour une meilleurs intégration avec [MarkDown](https://daringfireball.net/projects/markdown/) le motif peut rajouter des balises &lt;/p&gt; et &lt;p&gt;, respectivement au début et à la fin du texte de sortie.
-- Le motif ne test pas la cohérence des niveaux des entêtes, une hierarchie invalide peut donc produire une sortie incorrect.
-- Vous pouvez utiliser ce motif depuis votre thème dans __entry.html__ ou bien directement dans votre publication.
+- Pour une meilleure intégration avec [Markdown](https://daringfireball.net/projects/markdown/), le motif peut rajouter des balises `</p>` et `<p>`, respectivement au début et à la fin du texte de sortie.
+- Le motif ne teste pas la cohérence des niveaux des entêtes, une hiérarchie invalide peut donc produire une sortie incorrecte.
+- Vous pouvez utiliser ce motif depuis votre thème dans __`entry.html`__ ou bien directement dans votre publication.
 
 #### GetEntryYear
 
@@ -446,30 +443,29 @@ Retourne l'année de création de la publication.
 
 Permet de récupérer sous la forme d'une liste chaque item de l'arbre des catégories d'une publication.
 
-Si la génération des fils de publication trié par categorie est désactivé, ce motif est ignoré.
+Si la génération des fils de publications triés par catégorie est désactivée, ce motif est ignoré.
 
 Les argument de ce motif sont :
 
-- __string__ : La chaine de caractère correspondant à l'item courant.
-- __separator__ : La chaine de caractère qui sert de séparateur entre chaque item.
+- __`string`__ : la chaîne de caractères correspondant à l'item courant.
+- __`separator`__ : la chaîne de caractères qui sert de séparateur entre chaque item.
 
-Dans l'argument _string_ vous pouvez utiliser les variables suivantes :
+Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 
-- __value__ : Le nom de la categorie courante.
-- __count__ : Le nombre de publication dans cette categorie.
-- __weight__ : Le nombre de publication dans cette categorie divisé par le nombre de publication ayant une categorie.
-- __path__ : Le chemin relatif menant au fil de publication de la categorie courante.
-
+- __`value`__ : le nom de la catégorie courante.
+- __`count`__ : le nombre de publications dans cette catégorie.
+- __`weight`__ : le nombre de publications dans cette catégorie divisé par le nombre de publications ayant une catégorie.
+- __`path`__ : le chemin relatif menant au fil de publication de la catégorie courante.
 
 #### IfEntryMetadataIsTrue
 
 > .:Escape:: .:IfEntryMetadataIsTrue::metadata_name::if_true[::if_false]:. :.
 
-Permet d'afficher un text ou un autre selon que la métadonnée indiqué est vrai ou fausse.
+Permet d'afficher un texte ou un autre selon que la métadonnée indiquée est vraie ou fausse.
 
-Ce motif possède les arguments suivant :
+Ce motif possède les arguments suivants :
 
-- **metadata_name** : Le nom de la métadonnée qu'on test. Le test de vérité est *pythonic*. C'est à dire que pour échouer la métadonnée ne doit pas exister ou être explicitement un booléen "false".
-- **if_true** : Le texte à retourner si le test réussie.
-- **if_false** : Optionnel. Le texte à retourner si le test échoue.
+- **`metadata_name`** : le nom de la métadonnée qu'on teste. Le test de vérité est *pythonic*, c'est-à-dire que pour échouer la métadonnée ne doit pas exister ou doit être explicitement le booléen `False`.
+- **`if_true`** : le texte à retourner si le test réussit.
+- **`if_false`** : optionnel. Le texte à retourner si le test échoue.
 

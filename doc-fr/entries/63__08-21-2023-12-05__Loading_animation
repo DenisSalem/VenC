@@ -1,16 +1,16 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Animation de chargement
+  - ''
 chapter: '7.5.4.1'
+title: Animation de chargement
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-C'est purement cosmetique mais vous pouvez configurer une animation de chargement
-comme expliqué dans le chapitre [3.6.2.2](.:GetChapterAttributeByIndex::path::3.6.2.2:.#footer-html) lorsque
-vous utilisze le module JS de défilement infini.
+C'est purement cosmétique mais vous pouvez configurer une animation de chargement,
+comme expliqué dans le chapitre [3.6.2.2](.:GetChapterAttributeByIndex::path::3.6.2.2:.#footer-html), lorsque
+vous utilisez le module JS de défilement infini.
 
-On peut alors ajouter ligne 2, 3 et 4 quelque chose comme :
+On peut alors écrire, lignes 2 à 4, quelque chose comme :
 
 .:CodeHighlight::HTML::True::        <footer>.:Escape::
               .:GetBlogMetadataIfExists::loading_image::
@@ -20,19 +20,18 @@ On peut alors ajouter ligne 2, 3 et 4 quelque chose comme :
     </body>
 </html>:.
 
-Avec [GetBlogMetadataIfExists](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadataifexists) on test ici si une image
-de chargement a bien été définit dans le fichier de configuration principal. Si tel est le cas alors la balise __img__ est ajouté.
+Avec [`GetBlogMetadataIfExists`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadataifexists), on teste ici si une image
+de chargement a bien été définie dans le fichier de configuration principal. Si tel est le cas, alors la balise __`img`__ est ajoutée.
 
-Notez que l'attribut id a pour valeur __.:DisableMarkup::__VENC_LOADING__:.__. Cela permet au module JS de retrouver l'élément
-à afficher ou à cacher selon que la page est en cours de chargement.
+Notez que l'attribut `id` a pour valeur __`.:DisableMarkup::__VENC_LOADING__:.`__. Cela permet au module JS de retrouver l'élément
+à afficher ou à cacher, selon que la page est ou non en cours de chargement.
 
-Enfiin remarquons ligne 3 :
+Enfin, remarquons à la ligne 3 :
 
 .:CodeHighlight::Text::False::src=.:Escape::".:GetRelativeRoot:.{value}":. :.
 
-Ici la variable __value__ portera le nom de fichier contenu dans __loading_image_
-si ce champ est définit dans votre fichier de configuration.
+Ici la variable __`value`__ portera le nom de fichier contenu dans __`loading_image`__, si ce champ est défini dans votre fichier de configuration.
 
 Enfin, comme souvent avec VenC quand on référence une ressource dans un
-fichier HTML, on utilise le motif [GetRelativeRoot](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot)
+fichier HTML, on utilise le motif [`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot)
 qui permet de construire le chemin relatif du fichier qu'on référence.

@@ -1,25 +1,25 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-chapter: 7.5.3
-title: Crée le corps de la publication
+  - ''
+chapter: '7.5.3'
+title: Créer le corps de la publication
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Dans les chapitres précédents nous avons vu comment crée l'entête de votre site. Nous allons maintenant voir comment crée le corps de vos publications.
+Dans les chapitres précédents, nous avons vu comment créer l'entête de votre site. Nous allons maintenant voir comment créer le corps de vos publications.
 
-La première chose à faire est de modifier ou créer le fichier __entry.html__ et d'y ajouter les balises HTMLs qui contiendrons votre contenu.
+La première chose à faire est de modifier ou créer le fichier __`entry.html`__ et d'y ajouter les balises HTML qui contiendront votre contenu :
 
 .:CodeHighlight::HTML::False::<div class="entry" .:Escape::id="entry.:GetEntryID:.":.>
 </div>:.
 
-Certains [modules Javascripts](.:GetChapterAttributeByIndex::path::3.6.2:.) nécessitent que le bloc __div__ ai pour class la valeur "entry" c'est donc une bonne pratique
-de définir la class du conteneur de cette façon. Rien ne vous empéche cependant de rajouter des classes si vous le souhaitez.
+Certains [modules JavaScript](.:GetChapterAttributeByIndex::path::3.6.2:.) nécessitent que le bloc __`div`__ ait pour classe la valeur "`entry`", c'est donc une bonne pratique
+de définir la classe du conteneur de cette façon. Rien ne vous empêche cependant d'ajouter d'autres classes si vous le souhaitez.
 
 Il est également de bon ton, mais pas obligatoire, d'assigner au conteneur un identifiant unique basé sur celui de votre publication. C'est ce que permet de faire
-[GetEntryID](.:GetChapterAttributeByIndex::path::4.4.1:.#getentryid).
+[`GetEntryID`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentryid).
 
-Vous pouvez également rajouter le titre de la publication. Quelque chose comme le code suivant devrait faire l'affaire :
+Vous pouvez également ajouter le titre de la publication. Quelque chose comme le code suivant devrait faire l'affaire :
 
 .:CodeHighlight::HTML::False::<div class="entry" .:Escape::id="entry.:GetEntryID:.":.>
     <h1><a class="entry_title" .:Escape::href=".:GetEntryPath:.">.:GetEntryTitle:.</a>:.</h1>
@@ -27,18 +27,18 @@ Vous pouvez également rajouter le titre de la publication. Quelque chose comme 
 
 Ici on utilise deux nouveaux _motifs_ :
 
-- [GetEntryPath](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrypath) : Permet de récupérer le chemin de la publication.
-- [GetEntryTitle](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrytitle) : Permet de récupérer le titre de votre publication.
+- [`GetEntryPath`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrypath) : permet de récupérer le chemin de la publication.
+- [`GetEntryTitle`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrytitle) : permet de récupérer le titre de votre publication.
 
-Se pose maintenant la question de savoir quand afficher le résumé de votre billet ou de son contenu complet. Il y a trois _motifs_ à considérer pour ça :
+Se pose maintenant la question de savoir quand afficher le résumé de votre billet et quand afficher son contenu complet. Il y a trois _motifs_ à considérer pour ça :
 
-- [GetEntryContent](.:GetChapterAttributeByIndex::path::4.3:.#getentrycontent) : Permet de récupérer systématiquement le contenu de votre publication.
-- [GetEntryPreview](.:GetChapterAttributeByIndex::path::4.3:.#getentrypreview) : Permet de récupérer systématiquement le résumé de votre publication.
-- [PreviewIfInThreadElseContent](.:GetChapterAttributeByIndex::path::4.3:.#previewifinthreadelsecontent) : Permet de récupérer conditionnellement le résumé ou le contenu de votre
+- [`GetEntryContent`](.:GetChapterAttributeByIndex::path::4.3:.#getentrycontent) : permet de récupérer systématiquement le contenu de votre publication.
+- [`GetEntryPreview`](.:GetChapterAttributeByIndex::path::4.3:.#getentrypreview) : permet de récupérer systématiquement le résumé de votre publication.
+- [`PreviewIfInThreadElseContent`](.:GetChapterAttributeByIndex::path::4.3:.#previewifinthreadelsecontent) : permet de récupérer conditionnellement le résumé ou le contenu de votre
 publication. La condition étant de savoir si la page courante à générer se trouve dans un
-thread ou s'il s'agit de la page de la publication elle même. En effet vous pourriez vouloir afficher uniquement le résumé de vos publications à moins d'accéder à la publication elle même.
+_thread_ ou s'il s'agit de la page de la publication elle-même. En effet, vous pourriez vouloir afficher uniquement le résumé de vos publications, à moins d'accéder à la publication elle-même.
 
-La plupart du temps vous utiliserez [GetEntryContent](.:GetChapterAttributeByIndex::path::4.3:.#getentrycontent) et c'est ce que nous ferons dans notre exemple. Nous aurions donc quelque
+La plupart du temps vous utiliserez [`GetEntryContent`](.:GetChapterAttributeByIndex::path::4.3:.#getentrycontent) et c'est ce que nous ferons dans notre exemple. Nous aurions donc quelque
 chose comme ceci :
 
 .:CodeHighlight::HTML::False::<div class="entry" .:Escape::id="entry.:GetEntryID:.":.>
@@ -48,6 +48,6 @@ chose comme ceci :
     :.</div>
 </div>:.
 
-Pas de grande modification ci ce n'est l'ajout du _motif_ et d'une paire de balise __div__ pour pouvoir plus tard customiser le style CSS de notre publication.
+Pas de grande modification, si ce n'est l'ajout du _motif_ et d'une paire de balises __`div`__ pour pouvoir plus tard personnaliser le style CSS de notre publication.
 
-Voilà pour une version minimal du fichier __entry.html__, dans les chapitres suivants nous verrons ce qu'il possible de faire d'autres de plus élaborés !
+Voilà pour une version minimale du fichier __`entry.html`__, dans les chapitres suivants nous verrons ce qu'il possible de faire d'autre de plus élaboré !

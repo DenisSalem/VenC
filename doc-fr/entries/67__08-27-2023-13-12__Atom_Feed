@@ -1,9 +1,12 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Flux Atom
+  - ''
 chapter: '7.5.5.1'
+title: Flux Atom
+TODO:
+  - Add URL in link for pattern `GetGenerationTimestamp`.
+  - Fix unexpected behavior of ToC (seems to work with `toc_level_{level}` here).
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
@@ -12,12 +15,12 @@ Nous allons voir ici comment programmer les trois fichiers qui composent le flux
 .:GetEntryToC::
     <ul>::
     <li>::
-    <a href="#{id}" class="toc_level_{level}">{title}</a>::
+    <a href="#{id}" class="toc_level_{level}"><code>{title}</code></a>::
     </li>::
     </ul>
 :.
 
-Pour en savoir plus sur le format Atom lui même, rendez vous [ici](https://validator.w3.org/feed/docs/atom.html).
+Pour en savoir plus sur le format Atom lui-même, rendez-vous [ici](https://validator.w3.org/feed/docs/atom.html).
 
 ## atomHeader.xml
 
@@ -41,12 +44,12 @@ Pour en savoir plus sur le format Atom lui même, rendez vous [ici](https://vali
      .:GetBlogMetadataIfNotNull::author_email::<email>{value}</email>:.
     </author>:. :.
 
-Comme on peut le voir il y a des similitudes avec ce qui a été réalisé et montré dans le chapitre [7.5.2](.:GetChapterAttributeByIndex::path::7.5.2:.)
+Comme on peut le voir, il y a des similitudes avec ce qui a été réalisé et montré dans le chapitre [7.5.2](.:GetChapterAttributeByIndex::path::7.5.2:.).
 
-Les nouveautés ici c'est que l'on construit des URLs unique avec [GetBlogURL](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogurl) et
-[GetRelativeLocation](.:GetChapterAttributeByIndex::path::4.3:.#getrelativelocation) comme on peut le voir aux lignes 4, 9 et 13.
+Les nouveautés ici, c'est que l'on construit des URL uniques avec [`GetBlogURL`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogurl) et
+[`GetRelativeLocation`](.:GetChapterAttributeByIndex::path::4.3:.#getrelativelocation) comme on peut le voir aux lignes 4, 9 et 13.
 
-On utilise également ligne 14 le _motif_ [GetGenerationTimestamp]() pour avoir l'horodatage de la dernière génération du site ce qui permet d'avoir du même
+On utilise également à la ligne 14 le _motif_ [`GetGenerationTimestamp`]() pour avoir l'horodatage de la dernière génération du site, ce qui permet d'avoir du même
 coup la date de génération du flux Atom.
 
 ## atomEntry.xml
@@ -61,12 +64,12 @@ coup la date de génération du flux Atom.
         </content>
 :.    </entry>:.
 
-Ici nous utilisons ligne 7 [GetEntryPreview](.:GetChapterAttributeByIndex::path::4.3:.#getentrypreview). Ici ça a du sens car
+Ici, nous utilisons à la ligne 7 [`GetEntryPreview`](.:GetChapterAttributeByIndex::path::4.3:.#getentrypreview). Ici ça a du sens, car
 nous sommes dans un flux Atom dont le but est de présenter succinctement les dernières publications. Rien ne vous empêche cependant d'utiliser
-[GetEntryContent](.:GetChapterAttributeByIndex::path::4.3:.#getentrycontent).
+[`GetEntryContent`](.:GetChapterAttributeByIndex::path::4.3:.#getentrycontent).
 
-Comme dans __atomHeader.xml__ on crée ligne 2 et 4 des URLs unique correspond à la publication avec [GetBlogURL](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogurl) et
-[GetEntryPath](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrypath) que nous avons déjà vu dans les chapitres précédents.
+Comme dans __`atomHeader.xml`__, on crée aux lignes 2 et 4 une même URL unique qui correspond à la publication avec [`GetBlogURL`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogurl) et
+[`GetEntryPath`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrypath) que nous avons déjà vu dans les chapitres précédents.
 
 ## atomFooter.xml
 
