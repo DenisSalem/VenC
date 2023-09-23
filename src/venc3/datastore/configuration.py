@@ -105,7 +105,7 @@ def get_blog_configuration():
         if not "https://schema.org" in blog_configuration.keys():
             blog_configuration["https://schema.org"] = {}
             
-        if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText"]:
+        if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText", "asciidoc"]:
             from venc3.prompt import die
             die(("unknown_markup_language", blog_configuration["markup_language"], "blog_configuration.yaml"))
 
