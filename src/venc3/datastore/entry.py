@@ -68,7 +68,7 @@ class Entry:
         
         # Setting up optional metadata
         for key in metadata.keys():
-            if not key in ("authors", "tags", "categories", "title"):
+            if not key in ("authors", "categories", "title"):
                 if metadata[key] != None:
                     setattr(self, key, metadata[key])
                         
@@ -128,7 +128,6 @@ class Entry:
         self.raw_categories = metadata["categories"]
         
         self.html_categories_tree = {}
-        self.html_tags = {}
         self.html_authors = {}
         self.html_categories_leaves = {}
         self.html_for_metadata = {}
