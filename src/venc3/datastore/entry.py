@@ -29,7 +29,6 @@ class Entry:
         self.previous_entry = None
         self.next_entry = None
         self.chapter = None  # will be overriden at chapters datastructure generation
-        self.schemadotorg = {}
         self.title = ''
 
         # Loading
@@ -71,10 +70,7 @@ class Entry:
         for key in metadata.keys():
             if not key in ("authors", "tags", "categories", "title"):
                 if metadata[key] != None:
-                    if key == "https://schema.org":
-                        self.schemadotorg = metadata[key]
-                    else:
-                        setattr(self, key, metadata[key])
+                    setattr(self, key, metadata[key])
                         
                 else:
                     from venc3.prompt import notify
