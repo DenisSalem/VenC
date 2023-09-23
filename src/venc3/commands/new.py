@@ -106,7 +106,8 @@ def new_entry(params):
     entry["date"] = raw_entry_date
 
     entry_date = raw_entry_date.strftime("%m-%d-%Y-%H-%M")
-    output_filename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entry_date+"__"+entry["title"].replace(' ','_')
+    from venc3.helpers import quirk_encoding
+    output_filename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entry_date+"__"+quirk_encoding(entry["title"]).replace(' ','_').replace('/','-')
 
     stream = codecs.open(output_filename, 'w', encoding="utf-8")
     if not len(template_name):

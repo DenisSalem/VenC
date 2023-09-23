@@ -92,7 +92,12 @@ blockquote, pre
 .__VENC_TREE_BUTTON_DISABLED__,
 .__VENC_TREE_BUTTON_HIDE__,
 #__VENC_NAVIGATION__ a,
-.entry a
+.entry a,
+.entry h1,
+.entry h2,
+.entry h3,
+.entry h4,
+.entry h5
   {color: rgba(0,0,0,0.8);
   text-shadow: 0px 1px 0px rgba(255,255,255,0.8), 0px -1px 0px rgba(0,0,0,1);
   text-decoration: none;}
