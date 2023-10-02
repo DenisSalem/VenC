@@ -36,7 +36,7 @@ def flatten_current_level(items):
                 if type(item[key]) != list:
                     # TODO : for end user it might be difficult to identify where it's gone wrong
                     from venc3.exceptions import VenCException
-                    raise VenCException(("categories_parse_error", key))
+                    VenCException(("categories_parse_error", key)).die()
                     
                 yield key, item[key]
         else:
@@ -77,7 +77,6 @@ class Taxonomy:
         from venc3.datastore.configuration import get_blog_configuration
         category_directory_name = get_blog_configuration()["path"]["category_directory_name"]
 
-          
         for item, sub_items in flatten_current_level(input_list):
             if not len(item):
                 continue
@@ -88,6 +87,7 @@ class Taxonomy:
             except KeyError as e:
                 from venc3.prompt import die
                 die(("invalid_variable_name_in_setting", str(e), "category_directory_name"))
+                
             for node in blog_output_tree:
                 if node.value == item:
                     node.count +=1

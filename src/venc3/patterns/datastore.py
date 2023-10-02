@@ -313,7 +313,6 @@ class DatastorePatterns:
                 entry.html_categories_tree[key] = ''
 
             else:
-                DatastorePatterns.build_entry_entry_categories_tree(entry)
                 entry.html_categories_tree[key] = self.build_html_categories_tree(
                     open_node,
                     open_branch,
