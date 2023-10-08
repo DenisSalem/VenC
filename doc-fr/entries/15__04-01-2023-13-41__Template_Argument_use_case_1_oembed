@@ -1,24 +1,26 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
+  - ''
 chapter: '3.5.1.1'
 title: 'Premier cas pratique : oEmbed'
+TODO:
+  - URL for link on `GetEmbedContent`.
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Le template _oEmbed_ se présente comme ça :
+Le template `oEmbed` se présente comme ça :
 
 .:CodeHighlightInclude::Text::False::oEmbed:.
 
-Dans ce template on voit que l'on a deux placeholders :
+Dans ce template, on voit que l'on a deux placeholders :
 
-- __.:DisableMarkup::venc_entry_title:.__  : Optionnelle, voir [.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::3.5.2:. :.](.:GetChapterAttributeByIndex::path::3.5.2:.)
-- __.:DisableMarkup::embed_content:.__ : Qui est utilisé ici en paramètre de [GetEmbedContent](TODO).
+- __`.:DisableMarkup::venc_entry_title:.`__  : variable optionnelle, voir "[.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::3.5.2:. :.](.:GetChapterAttributeByIndex::path::3.5.2:.)".
+- __`.:DisableMarkup::embed_content:.`__ : qui est utilisée ici en paramètre de [`GetEmbedContent`](TODO).
 
-Pour crée une publication avec le template _oEmbed_ il faudrait donc utiliser la commande VenC _--new-entry_ comme ci-dessous :
+Pour créer une publication avec le template `oEmbed` il faudrait donc utiliser la commande VenC `--new-entry`, comme ci-dessous :
 
 .:CodeHighlight::Bash::False::venc --new-entry \
-  "Des images stylés, comme l'histoire de france" \
+  "Des images stylées, comme l'histoire de France" \
   oEmbed \
   '{"embed_content":"https://www.youtube.com/watch?v=dQw4w9WgXcQ"}'
 :.

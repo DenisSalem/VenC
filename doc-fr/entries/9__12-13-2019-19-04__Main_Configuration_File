@@ -1,13 +1,13 @@
 authors:
-- Denis Salem
+  - Denis Salem
 categories:
-- ''
+  - ''
 chapter: '3.2'
 title: Fichier de configuration principal
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-__blog_configuration.yaml__ est un document [YAML](https://yaml.org/) à la racine du projet
+__`blog_configuration.yaml`__ est un document [YAML](https://yaml.org/) à la racine du projet
 définissant les propriétés du blog, comme son titre, le nom de son auteur,
 ainsi que des détails fonctionnels comme le nombre de publications par pages ou
 l'ordre d'affichage de celles-ci.
@@ -26,38 +26,38 @@ Empêche VenC de générer les fils de publications spécifiés dans une liste. 
 
 .:CodeHighlight::yaml::False::
 disable_threads:
-    - Categorie naze
-    - 24/01/1990
+  - Categorie naze
+  - 24/01/1990
 :.
 
 ## disable_archives
 
-Empêche VenC de générer les fils de publications des archives. Ce champ est un booléen, fixé à *False* par défaut.
+Empêche VenC de générer les fils de publications des archives. Ce champ est un booléen, fixé à `False` par défaut.
 
 ## disable_chapters
 
-Empêche VenC de générer les chapitres. Ce champ est un booléen, fixé à *True* par défaut.
+Empêche VenC de générer les chapitres. Ce champ est un booléen, fixé à `True` par défaut.
 
 ## disable_categories
 
-Empêche VenC de générer les fils de publications des catégories. Ce champ est un booléen, fixé à *False* par défaut.
+Empêche VenC de générer les fils de publications des catégories. Ce champ est un booléen, fixé à `False` par défaut.
 
 ## disable_single_entries
 
-Empêche VenC de générer les publications individuelles. Ce champ est un booléen, fixé à *False* par défaut.
+Empêche VenC de générer les publications individuelles. Ce champ est un booléen, fixé à `False` par défaut.
 
 ## disable_main_thread
 
-Empêche VenC de générer le fil principal de publication. Ce champ est un booléen, fixé à *False* par défaut.
+Empêche VenC de générer le fil principal de publication. Ce champ est un booléen, fixé à `False` par défaut.
 
 ## disable_rss_feed
 
-Empêche VenC de générer un flux RSS. Ce champ est un booléen, fixé à *False* par défaut.
+Empêche VenC de générer un flux RSS. Ce champ est un booléen, fixé à `False` par défaut.
 
 
 ## disable_atom_feed
 
-Empêche VenC de générer un flux Atom. Ce champ est un booléen, fixé à *False* par défaut.
+Empêche VenC de générer un flux Atom. Ce champ est un booléen, fixé à `False` par défaut.
 
 ## text_editor
 
@@ -74,11 +74,11 @@ text_editor:
 
 ## date_format
 
-"%A %d. %B %Y" par défaut. Définit le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par Python. Pour en savoir plus sur ce format, rendez vous [ici](http://strftime.org).
+"**%A %d. %B %Y**" par défaut. Définit le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous [ici](http://strftime.org).
 
 ## author_name
 
-Le nom de l'administrateur ou l'auteur du blog.
+Le nom de l'administrateur ou de l'auteur du blog.
 
 ## blog_description
 
@@ -86,7 +86,7 @@ Un très court résumé de ce dont parle votre site.
 
 ## blog_keywords
 
-Une liste au format yaml des mots-clefs associés au site.
+Une liste au format YAML des mots-clefs associés au site.
 
 ## author_description
 
@@ -114,8 +114,10 @@ Votre adresse e-mail.
 
 ## code_highlight_css_override
 
-Génère à nouveau le code CSS créé par le module [Pygments](https://pygments.org/languages/). Ce champ est un booléen, fixé à *False* par défaut. Attention si ce champ est fixé à *True*, à chaque exportation
-de votre blog, les anciens codes CSS créés par [Pygments](https://pygments.org/languages/) seront écrasés.
+Génère à nouveau le code CSS créé par le module [Pygments](https://pygments.org/languages/). Ce champ est un booléen, fixé à `False` par défaut.
+
+Attention : si ce champ est fixé à `True`, à chaque exportation de votre blog,
+les anciens codes CSS créés par [Pygments](https://pygments.org/languages/) seront écrasés.
 
 ## path
 
@@ -132,40 +134,40 @@ Le nom de sous-répertoire qui contiendra les publications individuelles.
 
 ### categories_sub_folders
 
-Le nom du sous-répertoire qui contiendra les catégories
+Le nom du sous-répertoire qui contiendra les catégories.
 
 ### index_file_name
 
-"index{page_number}.html" par défaut. Spécifie le nom de fichier des pages d'un fil de publication. Devrait toujours contenir la variable .:DisableMarkup::{page_number}:..
+"`index{page_number}.html`" par défaut. Spécifie le nom de fichier des pages d'un fil de publication. Devrait toujours contenir la variable `.:DisableMarkup::{page_number}:.`.
 
 ### category_directory_name
 
-"{category}" par défaut. Définit le répertoire où sera exporté le fil de publication de la catégorie courante. Ce champ devrait donc toujours contenir la variable {category}.
+"`{category}`" par défaut. Définit le répertoire où sera exporté le fil de publication de la catégorie courante. Ce champ devrait donc toujours contenir la variable `{category}`.
 
 ### chapter_directory_name
 
-"{chapter_name} par défaut. Définit les noms de répertoire où seront
+"`{chapter_name}`" par défaut. Définit les noms de répertoire où seront
 exportés les chapitres, s'il en existe. Ce champ devrait donc toujours
-contenir la variable .:DisableMarkup::{chapter_name}:..
+contenir la variable `.:DisableMarkup::{chapter_name}:.`.
 
 ### archives_directory_name
 
-"%Y-%m" par défaut. Définit le format de date utilisé pour les noms de
+"**%Y-%m**" par défaut. Définit le format de date utilisé pour les noms de
 répertoires des archives. Le format des dates est en fait le même que
-celui utilisé par Python. Pour en savoir plus sur ce format, rendez vous
+celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous
 [ici](http://strftime.org).
 
 ### entry_file_name
 
-"entry{.:DisableMarkup::entry_id:.}.html" par défaut. Définit le nom de fichier d'une publication unique.
+"`entry{.:DisableMarkup::entry_id:.}.html`" par défaut. Définit le nom de fichier d'une publication unique.
 
 ### rss_file_name
 
-"rss.xml" par défaut. Définit le nom de fichier du flux RSS.
+"`rss.xml`" par défaut. Définit le nom de fichier du flux RSS.
 
 ### atom_file_name
 
-"atom.xml" par défaut. Définit le nom de fichier du flux Atom.
+"`atom.xml`" par défaut. Définit le nom de fichier du flux Atom.
 
 ## entries_per_pages
 
@@ -181,7 +183,7 @@ celui utilisé par Python. Pour en savoir plus sur ce format, rendez vous
 
 ## reverse_thread_order
 
-Ce champ est un booléen, fixé à *True* par défaut. Définit l'ordre de publication. Du plus récent au plus ancien (*True*), ou l'inverse (*False*). 
+Ce champ est un booléen, fixé à `True` par défaut. Définit l'ordre de publication. Du plus récent au plus ancien (`True`), ou l'inverse (`False`). 
 
 ## markup_language
 
@@ -191,10 +193,10 @@ dans l'entête d'une publication.
 
 Les valeurs possibles de ce champ sont :
 
-- Markdown
-- reStructuredText
-- asciidoc
-- none
+- `Markdown`
+- `reStructuredText`
+- `asciidoc`
+- `none`
 
 ## server_port
 
@@ -204,29 +206,28 @@ Spécifie le port du server HTTP local. Ce champ est fixé à *8888* par défaut
 
 Pour être ordonnées, les publications sont généralement évaluées selon
 la valeur de leur identifiant. C'est pourquoi la valeur de ce champ est
-'id' par défaut. Il est possible de spécifier le nom d'une autre propriété
+`id` par défaut. Il est possible de spécifier le nom d'une autre propriété
 pour les publications.
 
 Les valeurs possibles sont :
 
-- authors
-- date
-- filename
-- formatted_date
-- id
-- tags
-- title
+- `authors`
+- `date`
+- `filename`
+- `formatted_date`
+- `id`
+- `tags`
+- `title`
 
 Vous pouvez également spécifier le nom d'une métadonnée définie
 manuellement dans l'entête de vos publications.
 
 ## parallel_processing
 
-Permet de controller le nombre de processus enfant lors de la génération de votre site avec VenC. Le nombre idéal correspond à votre nombre
-de CPU. Pour les petits blogs il n'est pas utile d'avoir plus d'un processus.
+Permet de contrôler le nombre de processus enfants lors de la génération de votre site avec VenC. Le nombre idéal correspond à votre nombre de cœurs sur votre CPU. Pour les petits blogs, il n'est pas utile d'avoir plus d'un processus.
 
 ## pipe_flow
 
-Cette option permet de controller le volume d'octets transitant d'un sous processus à un autre. Il permet une optimisation fine
-des fonctions de parallélisme de VenC. La valeur par défaut est normalement optimale et est fixée à 512. Vous pouvez néanmoins effectuer
+Cette option permet de controller le volume d'octets transitant d'un sous-processus à un autre. Il permet une optimisation fine
+des fonctions de parallélisme de VenC. La valeur par défaut est normalement optimale et est fixée à *512*. Vous pouvez néanmoins effectuer
 des tests pour voir ce qui est le plus rapide chez vous.

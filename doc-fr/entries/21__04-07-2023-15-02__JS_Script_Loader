@@ -1,16 +1,16 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
+  - ''
+chapter: '3.6.2.1'
 title: Chargeur de scripts JS
-chapter: 3.6.2.1
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Avant tout chose, il convient de prendre connaissance du chargeur de script.
+Avant tout chose, il convient de prendre connaissance du chargeur de scripts.
 
 Dans le cas où vous souhaiteriez écrire votre script pour un thème de
 votre confection, il est __fortement__ recommandé de l'exécuter à l'aide
-de __VenC-Scripts-Bootstrap-x.y.z.js__ (x.y.z étant la version disponible
+de __`VenC-Scripts-Bootstrap-x.y.z.js`__ (`x.y.z` étant la version disponible
 avec la distribution de VenC que vous possédez).
 
 Ce script déclenche l'effet des modules JS quand la page est chargée.
@@ -26,14 +26,14 @@ function VENC_ON_LOAD_CALLBACK() {
 
 window.onload = VENC_ON_LOAD_CALLBACK:.
 
-Pour fonctionner, __VenC-Scripts-Bootstrap-x.y.z.js__ doit être le
+Pour fonctionner, __`VenC-Scripts-Bootstrap-x.y.z.js`__ doit être le
 premier script appelé dans votre page.
 
 .:CodeHighlightInclude::html::False::js_loader_example:.
 
-Ce module définit la variable **VENC&#95;ON&#95;LOAD&#95;CALLBACK&#95;REGISTER**
+Ce module définit la variable **`VENC_ON_LOAD_CALLBACK_REGISTER`**
 accessible depuis les autres scripts que vous importez dans votre page.
-Il s'agit d'une liste de callbacks s'exécutant quand __window.onload__ est
+Il s'agit d'une liste de callbacks s'exécutant quand __`window.onload`__ est
 appelé.
 
 Typiquement, à la fin de votre script, pour que son effet se déclenche,

@@ -1,45 +1,45 @@
 authors:
-- Denis Salem
+  - Denis Salem
 categories:
-- ''
-chapter: 2
+  - ''
+chapter: '2'
 title: Installation
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Depuis la version 1.2.0 VenC s'installe avec [pip](https://pypi.python.org/pypi/pip), ce qui rend le processus substantiellement plus simple !
-Attention cependant, VenC utilise Python 3, assurez-vous donc d'utiliser la version correspondante de pip. Sur les systèmes basés sur Debian, il s'agit de pip3.
+Attention cependant, VenC utilise Python 3, assurez-vous donc d'utiliser la version correspondante de pip. Sur les systèmes basés sur Debian, il s'agit de `pip3`.
 
 > pip install venc --user
 
-N'oubliez pas de rajouter l'argument _--user_. Cela installe VenC dans l'environnement utilisateur, au lieu du système, ce qui est fortement recommandé.
+N'oubliez pas de rajouter l'argument `--user` : cela installe VenC dans l'environnement utilisateur, au lieu du système, ce qui est fortement recommandé.
 
-Vous pouvez également mettre à jour VenC avec
+Vous pouvez également mettre à jour VenC avec :
 
 > pip install --upgrade venc  
 
 ## Installation alternative
 
-Vous pourriez vouloir utiliser VenC dans une version en développement indisponible sur pypi.
-Pour ça vous pouvez cloner le projet depuis [framagit](https://framagit.org/denissalem/VenC/)
-ou [github](https://github.com/DenisSalem/VenC).
+Vous pourriez vouloir utiliser VenC dans une version en développement indisponible sur PyPI.
+Pour ça vous pouvez cloner le projet depuis [Framagit](https://framagit.org/denissalem/VenC/)
+ou [GitHub](https://github.com/DenisSalem/VenC).
 
-Il faut ensuite sélectionner la branche que vous désirez. En effet la branche master correspond à la version
-de VenC disponible sur pypi. Si vous voulez une autre version pas encore officiellement sortie en grande pompe
-il faut lister les versions disponibles avec
+Il faut ensuite sélectionner la branche que vous désirez. En effet, la branche `master` correspond à la version
+de VenC disponible sur PyPI. Si vous voulez une autre version pas encore officiellement sortie en grande pompe,
+il faut lister les versions disponibles avec :
 
 > git branch --all
 
-Puis sélectionnez la branche qui vous intéresse avec
+Puis, sélectionnez la branche qui vous intéresse avec :
 
 > git checkout nom_de_la_branche
 
-Ceci étant fait, rendez vous dans le répertoire __src__ et utilisez le script d'installation
+Ceci étant fait, rendez vous dans le répertoire __`src`__ et utilisez le script d'installation :
 
 > ./setup.py install --user
 
 ## Fichiers installés
 
-Quelque soit la méthode d'installation, dépendances mises à part, VenC installe également ses ressources dans :
+Quelle que soit la méthode d'installation, dépendances mises à part, VenC installe également ses ressources dans :
 
 > ~/.local/share/VenC
 
@@ -49,18 +49,18 @@ de VenC.
 
 ## Désinstallation
 
-Pour désinstaller VenC, c'est triste, mais rien de plus simple.
+Pour désinstaller VenC, c'est triste, mais rien de plus simple :
 
 > pip uninstall venc
 
 Et voilà !
 
-Petite précision. Les dépendances de VenC ne sont pas désinstallées automatiquement :
+Petite précision : les dépendances de VenC ne sont pas désinstallées automatiquement. Ces dépendances sont :
 
-- [pyyaml](https://github.com/yaml/pyyaml) : Dépendance nécessaire pour gérer les fichier de configuration de VenC et les métadonnes des publications.
-- [unidecode](https://pypi.org/project/Unidecode/) : Dépendance nécessaire pour gérer les caractères spéciaux et différents type d'encodage.
-- [docutils](http://docutils.sourceforge.net/) : Dépendance optionnel pour utiliser reStructuredText.
-- [latex2mathml](https://github.com/roniemartinez/latex2mathml) : Dépendance optionnel pour convertir du LaTeX en MathML.
-- [mistletoe](https://github.com/miyuchina/mistletoe/) : Dépendance optionnel pour utiliser MarkDown.
-- [Pygments](https://pygments.org/) : Dépendance optionnel pour utiliser la coloration syntaxique.
-- [asciidoc3](https://asciidoc3.org/) : Dépendance optionnel pour utiliser AsciiDoc.
+- [PyYAML](https://github.com/yaml/pyyaml) : dépendance nécessaire pour gérer les fichiers de configuration de VenC et les métadonnées des publications.
+- [Unidecode](https://pypi.org/project/Unidecode/) : dépendance nécessaire pour gérer les caractères spéciaux et différents types d'encodage.
+- [Docutils](http://docutils.sourceforge.net/) : dépendance optionnelle pour utiliser reStructuredText.
+- [latex2mathml](https://github.com/roniemartinez/latex2mathml) : dépendance optionnelle pour convertir du LaTeX en MathML.
+- [mistletoe](https://github.com/miyuchina/mistletoe/) : dépendance optionnelle pour utiliser Markdown.
+- [Pygments](https://pygments.org/) : dépendance optionnelle pour utiliser la coloration syntaxique.
+- [AsciiDoc3](https://asciidoc3.org/) : dépendance optionnelle pour utiliser AsciiDoc.

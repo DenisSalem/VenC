@@ -1,19 +1,21 @@
 authors:
-- Denis Salem
+  - Denis Salem
 categories:
-- ''
+  - ''
 chapter: '3.5.1'
 title: Arguments d'un template
+TODO:
+  - URL for link on template arguments.
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Les templates supportent la paramétrisation au moment de l'exécution de la commande _--new-entry_. C'est le cas par exemple du template _oEmbed_ ou _images_.
-Quand un template est appelé sans ses arguments la création de la publication échoue.
+Les templates supportent la paramétrisation au moment de l'exécution de la commande `--new-entry`. C'est le cas par exemple du template `oEmbed` ou `images`.
+Quand un template est appelé sans ses arguments, la création de la publication échoue.
 
-Avant d'utiliser un template il faut donc connaitre ses arguments à l'aide de la commande [--template-arguments](TODO)
+Avant d'utiliser un template, il faut donc connaître ses arguments à l'aide de la commande [`--template-arguments`](TODO).
 
 Les paramètres de template prennent la forme de [placeholder](https://docs.python.org/3/library/string.html#format-examples)
-Python, ceux qui sont utilisés avec la fonction [format](https://docs.python.org/3/library/string.html#format-examples). Par exemple :
+Python, ceux qui sont utilisés avec la fonction [`format`](https://docs.python.org/3/library/string.html#format-examples). Par exemple :
 
 > {moo} {foo} {bar}
 
-Pour fonctionner il faut passer à VenC un troisième argument, au format JSON qui portera les clef/valeurs nécessaires au template.
+Pour fonctionner, il faut passer à VenC un troisième argument, au format JSON qui portera les clés-valeurs nécessaires au template.

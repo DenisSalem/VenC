@@ -1,25 +1,29 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Exporter le blog vers un serveur FTP
+  - ''
 chapter: '5.5'
+title: Exporter le blog vers un serveur FTP
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
+Pour exporter le blog et le téléverser dans la foulée vers un serveur FTP, vous pouvez utiliser :
+
 > venc -xftp [thème]
 
-ou
+Ou :
 
 > venc --export-via-ftp [thème]
 
-Identique à 
+Cette commande est identique à :
 
 > venc -xb [thème]
 
+Ou encore à :
+
 > venc --export-blog [thème]
 
-Cependant VenC utilise les informations configuré dans le fichier de
-[configuration principal](.:GetChapterAttributeByIndex::path::3.2:.)
-pour transférer sur le [serveur distant](.:GetChapterAttributeByIndex::path::3.2:.#ftp-host) à [l'emplacement désiré](.:GetChapterAttributeByIndex::path::3.2:.#ftp) votre projet exporté.
+Cependant, VenC utilise les informations du [fichier de
+configuration principal](.:GetChapterAttributeByIndex::path::3.2:.)
+pour transférer votre projet exporté sur un [serveur distant prédéfini](.:GetChapterAttributeByIndex::path::3.2:.#ftp-host) à l'[emplacement désiré](.:GetChapterAttributeByIndex::path::3.2:.#ftp).
 
 

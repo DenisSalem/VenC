@@ -1,25 +1,24 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Exporter le blog
+  - ''
 chapter: '5.4'
+title: Exporter le blog
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
+Pour exporter votre blog, vous devez être dans le répertoire de votre blog, puis lancer la commande suivante :
+
 > venc -xb [thème]
 
-ou
+Ou :
 
 > venc --export-blog [thème]
 
-Pour exporter votre blog vous devez être dans le répertoire de votre blog.
+Dans le répertoire de votre blog se trouvera alors un répertoire sobrement intitulé [`blog`](.:GetChapterAttributeByIndex::path::3.1:.) : c'est dans celui-ci que sera exporté votre site. Si le dossier existe déjà du fait d'une précédente génération, son contenu sera d'abord effacé intégralement, puis la nouvelle génération sera lancée.
 
-Dans celui-ci se trouve un répertoire sobrement intitulé [blog](.:GetChapterAttributeByIndex::path::3.1:.).
-C'est dans ce répertoire que ce sera exporté votre site.
 Une fois l'exportation terminée, vous pouvez copier le contenu de ce
-répertoire vers votre serveur ou faire en sorte que le _docroot_ pointe sur
-ce répertoire.  Ce répertoire peut également être un liens symbolique
+répertoire vers votre serveur ou faire en sorte que le _docroot_, c'est-à-dire le dossier racine de votre serveur Web, pointe sur
+ce répertoire. Ce répertoire peut également être un [lien symbolique](https://fr.wikipedia.org/wiki/Lien_symbolique)
 vers le _docroot_ par défaut.
 
-Vous pouvez spécifier un [thème](.:GetChapterAttributeByIndex::path::3.6:.), le blog sera alors compilé avec.
-Si aucun [thème](.:GetChapterAttributeByIndex::path::3.6:.) n'est précisé, VenC compilera le blog avec le [thème](.:GetChapterAttributeByIndex::path::3.6:.) local.
+Vous pouvez spécifier un [thème](.:GetChapterAttributeByIndex::path::3.6:.), le blog sera alors compilé avec. Il peut être nécessaire d'[installer un thème](.:GetChapterAttributeByIndex::path::5.9:.) pour le rendre disponible pour votre blog. Si aucun thème n'est précisé, VenC compilera le blog avec le thème local, c'est-à-dire celui qui se trouvera dans le [dossier `theme`](.:GetChapterAttributeByIndex::path::3.1:.) du répertoire de votre blog.

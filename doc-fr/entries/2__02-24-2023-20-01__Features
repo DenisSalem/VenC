@@ -1,29 +1,29 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Fonctionnalités
+  - ''
 chapter: '1.1'
+title: Fonctionnalités
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 VenC propose les fonctionnalités suivantes :
 
 - Des balises VenC permettant une mise en page et une intégration de contenus avancés.
-- La possibilité de créer un agencement de publication en nombre arbitraire de colonne.
-- Un module et une API Javascript de défilement infini.
+- La possibilité de créer un agencement de publication en nombre arbitraire de colonnes.
+- Un module et une API JavaScript de défilement infini.
 - Les publications peuvent être organisées par catégories, sous-catégories, par période de dates et par chapitres.
 - La possibilité de désactiver des fils de publications spécifiques.
 - La possibilité de configurer des sous-répertoires pour chaque type de publications.
 - La possibilité d'ajouter des métadonnées au blog et aux publications.
 - Les publications sont triées par ordre chronologique par défaut, mais peuvent l'être aussi en fonction de métadonnées. L'ordre peut-être ascendant ou descendant.
 - La génération de flux Atom et/ou RSS pour chaque fils de publications.
-- Des Permaliens.
+- Des permaliens.
 - Un serveur HTTP simple pour effectuer des tests et prévisualiser le site.
-- La gestion et l'édition du blog peuvent-être faite entièrement en ligne de commande, dans un environnemnt non graphique.
+- La gestion et l'édition du blog peuvent-être faite entièrement en ligne de commande, dans un environnement non graphique.
 - Le support de [Markdown](https://daringfireball.net/projects/markdown/syntax), [reStructuredText](http://docutils.sourceforge.net/rst.html), [AsciiDoc](https://asciidoc.org/).
 - La mise en ligne du site peut se faire en FTP via VenC.
 - Le support de [pygmentize](http://pygments.org) pour la coloration syntaxique.
 - Le support de l'API [oEmbed](https://oembed.com).
-- Le support de l'API [kroki](https://kroki.io/).
+- Le support de l'API [Kroki](https://kroki.io/).
 - Le support de contenus audio et vidéo via les balises VenC.
 - Installation facilité via [pip](https://pypi.python.org/pypi/pip).

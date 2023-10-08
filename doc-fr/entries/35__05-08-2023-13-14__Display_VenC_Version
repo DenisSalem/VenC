@@ -1,16 +1,18 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Afficher la version de VenC
+  - ''
 chapter: '5.1'
+title: Afficher la version de VenC
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
+Le numéro de version s'obtient avec :
+
 > venc -v
 
-ou
+Ou :
 
 > venc --version
 
-Cette commande affiche également la version de Python utilisé avec VenC ainsi
+Cette commande affiche également la version de Python utilisée avec VenC, ainsi
 que la version des modules installés.

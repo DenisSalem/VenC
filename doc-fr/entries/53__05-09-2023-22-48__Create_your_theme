@@ -1,22 +1,20 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Crée votre thème
+  - ''
 chapter: '7.5'
+title: Créer votre thème
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-C'est le moment d'attaquer le sujet qui croustille sous la dent : 
-
-_Comment créer un thème et organiser visuellement le contenu de son site avec VenC ?_
+C'est le moment d'attaquer le sujet qui croustille sous la dent : _comment créer un thème et organiser visuellement le contenu de son site avec VenC ?_
 
 C'est ce que nous allons voir dans la joie et la bonne humeur dans ce qui va suivre.
 
-Le prérequis étant tout de même d'avoir quelque notions en langage HTML
+Le prérequis étant tout de même d'avoir quelques notions en HTML,
 il faut également noter que ce chapitre et l'ensemble des parties qui le
-compose n'ont pas à vocation de faire de vous des mages noirs spé web
-design. L'enjeux ici est de voir comment intégrer les fonctionnalités
-de VenC dans du code HTML tout en comprenant la structure des fichiers
+composent n'ont pas vocation de faire de vous des mages noirs spé _web
+design_. L'enjeux ici est de voir comment intégrer les fonctionnalités
+de VenC dans du code HTML, tout en comprenant la structure des fichiers
 composant un thème.
 
 Bonne lecture !

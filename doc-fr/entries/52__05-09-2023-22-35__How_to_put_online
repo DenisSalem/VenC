@@ -1,45 +1,45 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Comment mettre en ligne votre site
+  - ''
 chapter: '7.4'
+title: Comment mettre en ligne votre site
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Maintenant que votre blog vous plaît, il est temps de le mettre en ligne et d'en faire profiter les internautes !
 
-Il y a plusieurs façon de faire. La première approche consiste à copier
-manuellement le contenu du répertoire blog vers le serveur en ligne.
+Il y a plusieurs façons de faire. La première approche consiste à copier
+manuellement le contenu du répertoire `blog/` vers le serveur en ligne.
 Mais ce peut être un peu fastidieux quand on sait que VenC peut
 prendre en charge le transfert de votre blog via FTP.
 
 Pour que VenC puisse mettre en ligne votre blog, vous devez lui fournir
-quelques informations dans le fichier [blog_configuration.yaml](.:GetChapterAttributeByIndex::path::3.2:.) :
+quelques informations dans le fichier [`blog_configuration.yaml`](.:GetChapterAttributeByIndex::path::3.2:.) :
 
-- **ftp_host** : L'adresse du serveur FTP de destination. 
-- **path**:
-  - **ftp** : Le chemin de destination où sera copié le contenu de votre blog sur le serveur en ligne.
+- **`ftp_host`** : l'adresse du serveur FTP de destination. 
+- **`path`**:
+  - **`ftp`** : le chemin de destination où sera copié le contenu de votre blog sur le serveur en ligne.
 
-__Attention__ : soyez vigilant en renseignant le champ ftp qui détermine le chemin de destination.
+__Attention :__ soyez vigilant en renseignant le champ `ftp` qui détermine le chemin de destination.
 Au moment de l'exportation en ligne, VenC efface le contenu de ce répertoire !
 Assurez-vous de savoir ce que vous faites !
 
-Après avoir fournis les informations dont VenC a besoin,
-vous pouvez copier votre blog sur le serveur de destination :
+Une fois que vous avez fourni les informations dont VenC a besoin,
+vous pouvez copier votre blog sur le serveur de destination avec :
 
 > jeanrochefort@anonymous ~ $ venc --remote-copy
 
 De cette façon, VenC vous demandera de vous authentifier auprès du serveur.
-C'est seulement après vous être authentifié que le transfert commencera.
+Le transfert ne commencera qu'une fois que vous vous serez authentifié.
 
 Vous pouvez aller vous chercher un café, ou un jus de tomate.
 Perso, je préfère le jus de tomate pour patienter. Avec du parmesan, du sel de céleri et du Tabasco.
 
-Avec cette première méthode il faut que le blog ai déjà été exporté localement avec
+Avec cette première méthode, le blog doit déjà avoir été exporté localement avec :
 
 > venc -xb
 
-Venc vous permet d'exporter localement et mettre en ligne en une seule commande :
+VenC vous permet d'exporter localement et de mettre en ligne en une seule commande :
 
 > jeanrochefort@anonymous ~ $ venc --export-via-ftp [thème à préciser en option]
 

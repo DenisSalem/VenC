@@ -1,23 +1,22 @@
 authors:
-- ''
+  - Denis Salem
 categories:
-- ''
+  - ''
+chapter: '3.6.1'
 title: Configuration d'un thème
-chapter: 3.6.1
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-
 Lorsque vous créez votre thème, et si vous souhaitez le distribuer, il est possible et même recommandé de configurer
-le fichier _config.yaml_ dans le répertoire racine de votre thème.
+le fichier `config.yaml` dans le répertoire racine de votre thème.
 
 Comme le nom de fichier le laisse penser, il s'agit d'un fichier de configuration au format [YAML](https://yaml.org/).
 Celui-ci est structuré de la façon suivante :
 
 .:CodeHighlightInclude::Yaml::false::theme-configuration-example:.
 
-- __info__ : ce champ contient les métadonnées du thème.
-    - __description__ : il s'agit d'un cours texte présentant le thème.
-    - __version__ : optionnel. Indique la version du thème.
-    - __author__ : optionnel. Indique le ou les auteurs du thème.
-- __override__ : Ce champ est optionnel et contient les propriétés remplaçant ou s'ajoutant au fichier de configuration principal. Typiquement, un thème qui fonctionne avec trois colonnes, par exemple, devra inclure le champ 'columns' ayant la valeur 3.
-- __.:DisableMarkup::assets_dependencies:.__ : il s'agit d'une liste contenant les assets (images, feuilles de styles, scripts) contenu dans .:DisableMarkup::~/.local/share/VenC/themes_assets:.. C'est notamment utile pour inclure des modules VenC Javascript.
+- __`info`__ : ce champ contient les métadonnées du thème.
+  - __`description`__ : il s'agit d'un court texte présentant le thème.
+  - __`version`__ : optionnel. Indique la version du thème.
+  - __`author`__ : optionnel. Indique le ou les auteurs du thème.
+- __`override`__ : ce champ est optionnel et contient les propriétés remplaçant ou s'ajoutant à celles du fichier de configuration principal. Typiquement, un thème qui fonctionne avec trois colonnes, par exemple, devra inclure le champ "`columns`" ayant la valeur 3.
+- __`.:DisableMarkup::assets_dependencies:.`__ : il s'agit d'une liste contenant les assets (images, feuilles de styles, scripts) contenu dans `.:DisableMarkup::~/.local/share/VenC/themes_assets:.`. C'est notamment utile pour inclure des modules VenC JavaScript.

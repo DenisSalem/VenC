@@ -1,18 +1,20 @@
 authors:
-- Denis Salem
+  - Denis Salem
 categories:
-- ''
+  - ''
 chapter: '3.1'
 title: Arborescence
+TODO:
+  - Add links for functions `IncludeFile` and `GetEmbedContent`.
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 La racine du projet porte le nom du blog, par exemple, "MooFooBar".
 Lorsque vous créez un nouveau projet, VenC produit un certain nombre de répertoires listés ci-dessous.
 
-- __blog__ : _le dossier où est exporté le projet._
-- __extra__ : _un dossier contenant des ressources quelconques copiées vers blog/ au moment de l'exportation._
-- __entries__ : _contient toutes les publications sous forme de fichiers textes numérotés et datés._
-- __theme__ : _contient les templates HTML, les feuilles de style et éventuellement les scripts JS._
-- __templates__ : _contient des modèles vierges pour de futurs publications._
-- __includes__ : _ce répertoire contient des fichiers HTML que vous pouvez inclure n'importe où dans votre projet avec la fonction [IncludeFile]()._
-- __caches__ : _ce répertoire n'est pas généré automatiquement à la création de votre projet. Mais il peut apparaître plus tard, notamment si vous utilisez la fonction [GetEmbedContent]()._
+- __`blog`__ : _le dossier dans lequel est exporté le projet._
+- __`extra`__ : _un dossier contenant des ressources quelconques copiées vers `blog/` au moment de l'exportation._
+- __`entries`__ : _contient toutes les publications sous forme de fichiers textes numérotés et datés._
+- __`theme`__ : _contient les templates HTML, les feuilles de style et éventuellement les scripts JS._
+- __`templates`__ : _contient des modèles vierges pour de futurs publications._
+- __`includes`__ : _ce répertoire contient des fichiers HTML que vous pouvez inclure n'importe où dans votre projet avec la fonction [`IncludeFile`]()._
+- __`caches`__ : _ce répertoire n'est pas généré automatiquement à la création de votre projet. Mais il peut apparaître plus tard, notamment si vous utilisez la fonction [`GetEmbedContent`]()._

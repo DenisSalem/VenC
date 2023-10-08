@@ -1,24 +1,24 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Ajouter une nouvelle publication
+  - ''
 chapter: '5.3'
+title: Ajouter une nouvelle publication
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-> venc -ne "&lt;nom de la publication&gt;" [nom du template]
+Pour créer une nouvelle [publication](.:GetChapterAttributeByIndex::path::3.3:.), vous devez être dans le répertoire de votre blog et spécifier le titre de celle-ci __entre guillemets__ :
 
-ou
+> venc -ne "&lt;nom de la publication&gt;" [nom du template de publication]
 
-> venc --new-entry "&lt;nom de la publication&gt;" [nom du template]
+Ou :
 
-Pour créer une nouvelle [publication](.:GetChapterAttributeByIndex::path::3.3:.), vous devez être dans le répertoire de votre blog.
+> venc --new-entry "&lt;nom de la publication&gt;" [nom du template de publication]
 
-Vous ne pouvez pas créer une [publication](.:GetChapterAttributeByIndex::path::3.3:.) sans spécifier le titre de celle-ci __entre guillemets__.
+_Attention à ne pas confondre la notion de [template graphique](.:GetChapterAttributeByIndex::path::3.6:.) avec celle de [template de publication](.:GetChapterAttributeByIndex::path::3.5:.)._
 
-Si vous ne spécifiez pas de nom de [template](.:GetChapterAttributeByIndex::path::3.5:.), VenC produira une [publication](.:GetChapterAttributeByIndex::path::3.3:.) totalement vierge.
-Le nom de [template](.:GetChapterAttributeByIndex::path::3.5:.) est en fait le nom de fichier du [template](.:GetChapterAttributeByIndex::path::3.5:.) désiré, se trouvant soit dans le
-répertoire [templates](.:GetChapterAttributeByIndex::path::3.5:.) de votre projet soit dans le répertoire des [templates](.:GetChapterAttributeByIndex::path::3.5:.) par défaut :
+Si vous ne spécifiez pas de nom de template de publication, VenC produira une [publication](.:GetChapterAttributeByIndex::path::3.3:.) totalement vierge.
+Le nom de template de publication est en fait le nom de fichier du template désiré, se trouvant soit dans le
+répertoire `templates` de votre projet, soit dans le répertoire des `templates` par défaut :
 
 > ~/.local/share/VenC/themes_templates/
 

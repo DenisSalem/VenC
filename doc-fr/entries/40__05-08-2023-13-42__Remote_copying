@@ -1,18 +1,18 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Copie du blog vers un serveur FTP
+  - ''
 chapter: '5.6'
+title: Copier le blog vers un serveur FTP
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 > venc -rc
 
-ou
+Ou :
 
 > venc --remote-copy
 
 Cette commande permet de copier le blog courant sur votre [serveur FTP](.:GetChapterAttributeByIndex::path::3.2:.#ftp-host) à
-[l'emplacement](.:GetChapterAttributeByIndex::path::3.2:.#ftp) que vous aurez définit dans votre [fichier de configuration](.:GetChapterAttributeByIndex::path::3.2:.),
-sans le re-générer. Une invite d'authentification FTP apparaîtra dans le
+l'[emplacement](.:GetChapterAttributeByIndex::path::3.2:.#ftp) que vous aurez défini dans votre [fichier de configuration principal](.:GetChapterAttributeByIndex::path::3.2:.),
+_sans_ le re-générer. Une invite d'authentification FTP apparaîtra dans le
 terminal pour lancer la procédure.

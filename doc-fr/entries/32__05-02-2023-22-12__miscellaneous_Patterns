@@ -1,31 +1,31 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
+  - ''
+chapter: '4.4.3'
 title: Motifs divers
-chapter: 4.4.3
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Ces motifs n'ont pas vocation à récupérer ou mettre en
-forme des informations propre à votre projet. Il s'agit plutôt de fonctionnalités
-avancés pour de la mise en page spécifique ou l'utilisation d'API ou fonctionalité
-tierce. Par exemple pour la coloration syntaxique ou pour incorporer du contenu embarqué.
+forme des informations propres à votre projet. Il s'agit plutôt de fonctionnalités
+avancées pour de la mise en page spécifique, ou l'utilisation d'API ou de fonctionnalités
+tierces. Par exemple, pour la coloration syntaxique ou pour incorporer du contenu embarqué.
 
-Comme pour les motifs de blog, ceux là sont sans état et sont exécutés
-une et une seule fois au moment au VenC lit ceux là.
+Comme pour les motifs de blog, les motifs divers sont sans état et sont exécutés
+une et une seule fois au moment où VenC les lit.
 
 #### Audio
 
 > .:Escape:: .:Audio::source::extensions:. :.
 
-Ce motif permet d'inclure un fichier vidéo dans la page. Pour ce faire, le fichier [audio.html](.:GetChapterAttributeByIndex::path::3.6:.)
+Ce motif permet d'inclure un fichier audio dans la page. Pour ce faire, le fichier [`audio.html`](.:GetChapterAttributeByIndex::path::3.6:.)
 faisant partie du thème est formaté avec les paramètres passés au motif :
 
-- __source__ : Il s'agit de l'URL ou du chemin du fichier audio. Il peut s'agir d'un chemin absolu ou 
+- __`source`__ : il s'agit de l'URL ou du chemin du fichier audio. Il peut s'agir d'un chemin absolu ou 
 relatif. S'il s'agit d'un chemin relatif, vous pouvez utiliser le motif
-[GetRelativeRoot](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot).
+[`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot).
 Attention, l'URL ou le chemin passé en paramètre ne doit pas contenir l'extension du fichier.
-- __extensions__ : Pour assurer la compatibilité de votre contenu avec
+- __`extensions`__ : pour assurer la compatibilité de votre contenu avec
 les différents navigateurs du marché, il est recommandé d'avoir plusieurs
 sources du même fichier audio en différents formats. Ce paramètre est donc
 une liste des extensions disponibles. Les éléments de la liste sont séparés par une virgule.
@@ -33,13 +33,12 @@ une liste des extensions disponibles. Les éléments de la liste sont séparés 
 ##### Exemple de fichier audio.html
 
 .:CodeHighlight::HTML::False::
-<audio controls style="width: 100%">
+<audio controls style="width: 100%;">
 {source}
 Your browser does not support the audio element.
 </audio>:.
 
-Ce qui est important ici, c'est la [variable python](https://docs.python.org/fr/3/tutorial/inputoutput.html#the-string-format-method) _source_ que VenC remplace par autant
-d'occurence que nécessaire par des balises _source_ contenant la version du fichier courant.
+Ce qui est important ici, c'est la [variable Python](https://docs.python.org/fr/3/tutorial/inputoutput.html#the-string-format-method) `source` que VenC remplace par autant de balises `<source>` que nécessaire pour épuiser la liste des différents formats du fichier audio courant.
 
 ##### Exemple d'utilisation
 
@@ -47,21 +46,19 @@ d'occurence que nécessaire par des balises _source_ contenant la version du fic
 
 On voit ici que le fichier audio est disponible en deux formats :
 
-- mp3
-- ogg
+- `mp3`
+- `ogg`
 
 Il y a donc deux fichiers :
 
-- original.mp3
-- original.ogg
+- `original.mp3`
+- `original.ogg`
 
-Se trouvant à l'adresse :
+Se trouvant à l'adresse "[http://www.nyan.cat/music/](http://www.nyan.cat/music/)".
 
-http://www.nyan.cat/music/
+Finalement, on obtient le résultat suivant :
 
-Finalement on obtient le résultat suivant :
-
-.:CodeHighlight::HTML::False::<audio controls style="width: 100%">
+.:CodeHighlight::HTML::False::<audio controls style="width: 100%;">
     <source src="http://www.nyan.cat/music/original.mp3" type="audio/mp3">
     <source src="http://www.nyan.cat/music/original.ogg" type="audio/ogg">
     Your browser does not support the audio element.
@@ -79,12 +76,12 @@ librairie tierce [Pygments](https://pygments.org/).
 
 Ce motif prend trois arguments :
 
-- __language__ : Indique le langage du texte d'entrée. La liste des langages
+- __`language`__ : indique le langage du texte d'entrée. La liste des langages
 supportés par Pygments est disponible [ici](https://pygments.org/languages/).
-Si vous ne souhaitez pas coloriser le texte d'entrée, utilisez la valeur "Text".
-- __display_line_numbers__ : Il s'agit d'un booléen indiquant à VenC si vous
+Si vous ne souhaitez pas coloriser le texte d'entrée, utilisez la valeur `Text`.
+- __`display_line_numbers`__ : il s'agit d'un booléen indiquant à VenC si vous
 souhaitez générer le numéro des lignes dans le rendu.
-- __input_code__ : Le code source que vous souhaitez formater.
+- __`input_code`__ : le code source que vous souhaitez formater.
 
 Par exemple, l'utilisation ci-dessous du motif :
 
@@ -133,7 +130,7 @@ Générerait le code HTML suivant :
     </div>
 </div>:.
 
-Qui rend ensuite à l'écran comme ça :
+Qui rend ensuite à l'écran ce résultat :
 
 .:CodeHighlight::C::False::
 #include <stdio.h>
@@ -144,9 +141,9 @@ int main(int argc, char ** argv) {
 }:.
 
 Le style CSS du code source ainsi formaté est généré automatiquement
-par VenC dans un fichier et est placé dans le répertoire "extra" de
+par VenC dans un fichier et est placé dans le répertoire "`extra`" de
 votre projet. Ces fichiers doivent être explicitement inclus dans votre
-page à l'aide du motif [GetStyleSheets](.:GetChapterAttributeByIndex::path::4.3:.#getstylesheets).
+page à l'aide du motif [`GetStyleSheets`](.:GetChapterAttributeByIndex::path::4.3:.#getstylesheets).
 
 Dans l'exemple précédent, le fichier CSS créé serait le suivant :
 
@@ -160,54 +157,55 @@ définir un style appliqué aux éléments enfants de la balise :
 Par exemple pour la documentation que vous êtes en train de lire,
 le style CSS suivant est appliqué :
 
-.:CodeHighlight::CSS::False::blockquote, pre
-    {background-color: #202020;
+.:CodeHighlight::CSS::False::blockquote, pre {
+    background-color: #202020;
     margin: 0px;
     border-radius: 3px;
     padding: 3px;
     padding-left: 10px;
     padding-right: 10px;
     color: #808080;
-    overflow-x: scroll;}:.
+    overflow-x: scroll;
+}:.
 
-Il est important que le style ainsi définit soit inclut dans header.html
-APRÈS utilisation du motifs
-[GetStyleSheets](.:GetChapterAttributeByIndex::path::4.3:.#getstylesheets).
+Il est important que le style ainsi défini soit inclus dans `header.html`
+**après** utilisation du motif
+[`GetStyleSheets`](.:GetChapterAttributeByIndex::path::4.3:.#getstylesheets).
 
 #### CodeHighlightInclude
 
 > .:Escape:: .:CodeHightlightInclude::language::display_line_numbers::filename:. :.
 
-Ce motif fonctionne exactement comme le précédent motif [CodeHighlight](.:GetChapterAttributeByIndex::path::4.4.3:.#codehighlight),
+Ce motif fonctionne exactement comme le précédent motif [`CodeHighlight`](.:GetChapterAttributeByIndex::path::4.4.3:.#codehighlight),
 à la différence que le dernier argument ne contient pas de code source
 mais le nom de fichier dans lequel se trouve celui-ci. Ce fichier source
-doit être placé dans le répertoire includes de votre projet.
+doit être placé dans le répertoire `includes` de votre projet.
 
 Ce motif est donc à préférer au précédent quand le code source est très
 long, et que vous ne souhaitez pas "polluer" votre publication avec du
 code.
 
-Notons que tout ce qui se trouve à l'intérieur du fichier ainsi inclu
+Notons que tout ce qui se trouve à l'intérieur du fichier ainsi inclus
 n'est pas traité par le moteur de motifs de VenC.
 
 #### DisableMarkup
 
 > .:Escape:: .:DisableMarkup::content:. :.
 
-Ce motif permet d'empécher l'interpréteur de langage de balisage de traiter
+Ce motif permet d'empêcher l'interpréteur de langage de balisage de traiter
 le texte passé en paramètre. Attention cependant, VenC y reconnaît toujours ses propres motifs.
 
 Ce motif ne prend qu'un seul paramètre.
 
-- __content__ : Le texte pour lequel on veut désactiver l'interpréteur de langage de balisage.
+- __`content`__ : le texte pour lequel on veut désactiver l'interpréteur de langage de balisage.
 
 #### Escape
 
 > .:Escape:: .:Escape::content:. :.
 
-Identique à [DisableMarkup](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup)
+Identique à [`DisableMarkup`](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup),
 mais permet d'ignorer également les motifs contenus à l'intérieur du texte de
-l'unique argument content.
+l'unique argument `content`.
 
 #### GetEmbedContent
 
@@ -219,7 +217,7 @@ dans votre publication.
 
 Le seul argument de ce motif est :
 
-- **content_url** : il s'agit de l'URL de la ressource embarquée que vous voulez inclure.
+- **`content_url`** : il s'agit de l'URL de la ressource embarquée que vous voulez inclure.
 
 Par exemple, l'utilisation du motif comme ci-dessous :
 
@@ -250,10 +248,10 @@ Le résultat étant :
 
 .:GetEmbedContent::https://www.youtube.com/watch?v=y8Kyi0WNg40:.
 
-Pour fonctionner ce motif utilise une liste de providers disponibles
+Pour fonctionner ce motif utilise une liste de plateformes disponibles
 [ici](https://oembed.com/providers.json) et inclus avec VenC.
 
-L'utilisation de ce motif génère des données misent en cache dans le
+L'utilisation de ce motif génère des données mises en cache dans le
 répertoire de votre projet.
 
 #### GetVenCVersion
@@ -267,10 +265,10 @@ générée.
 
 > .:Escape:: .:HTML::content:. :.
 
-Identique à [DisableMarkup](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup) mais rajoute des balises &lt;/p&gt; et &lt;p&gt; respectivement au début et à la fin du texte de sortie.
+Identique à [`DisableMarkup`](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup), mais rajoute des balises `</p>` et `<p>`, respectivement au début et à la fin du texte de sortie.
 
-Si vous voulez intégrer du code HTML dans votre publication, préférez ce motif à [DisableMarkup](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup)
-qui lui risquerait de produire in fine une page avec des erreurs de validation w3c.
+Si vous voulez intégrer du code HTML dans votre publication, préférez ce motif à [`DisableMarkup`](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup)
+qui lui risquerait de produire *in fine* une page avec des erreurs de validation W3C.
 
 #### IncludeFile
 
@@ -281,8 +279,8 @@ Celui-ci ne doit comporter que des caractères imprimables.
 
 Ce motif prend au minimum deux arguments :
 
-- __filename__ : Le chemin du fichier à inclure dans la page. Celui-ci doit se trouver dans le répertoire includes de votre projet. Si le fichier n'existe pas ou n'est pas accessible, VenC lève une exception.
-- __arg1, arg2, ...__ : Ces paramètres sont optionnels. Il vous permettent de formater l'intérieur du fichier à inclure en remplaçant des variables numérotés (venc_arg_1, venc_arg_2, venc_arg_n) qui s'y trouverait par la valeur de chacun des paramètres correspondant.
+- __`filename`__ : le chemin du fichier à inclure dans la page. Celui-ci doit se trouver dans le répertoire `includes` de votre projet. Si le fichier n'existe pas ou n'est pas accessible, VenC lève une exception.
+- __`arg1`, `arg2`, ...__ : ces paramètres sont optionnels. Il vous permettent de formater l'intérieur du fichier à inclure en remplaçant des variables numérotées (`venc_arg_1`, `venc_arg_2`, `venc_arg_n`) qui s'y trouverait par la valeur de chacun des paramètres correspondant.
 
 ##### Un premier exemple
 
@@ -290,13 +288,13 @@ Avec un fichier contenant plein de trucs longs et compliqués que nous appellero
 
 > plein-de-truc-longs-et-compliqués.txt
 
-Et qui se trouverait dans le répertoire includes de votre projet.
+Et qui se trouverait dans le répertoire `includes` de votre projet.
 Nous utiliserions alors le motif comme suit :
 
 > .:Escape:: .:IncludeFile::plein-de-truc-longs-et-compliqués.txt:. :.
 
 Notons que tout ce qui se trouve à l'intérieur du fichier ainsi inclus
-n'est pas traité par les interpréteurs de langage balisé.
+n'est pas traité par les interpréteurs de langage de balisage.
 
 ##### Second exemple
 
@@ -309,15 +307,17 @@ Soit le fichier :
 
 Qui contiendrait :
 
-.:CodeHighlight::TEXT::False::Voilà les choses qu'il faut que je fasse avant de mourrir
+.:CodeHighlight::TEXT::False::Voilà les choses qu'il faut que je fasse avant de mourir :
  - {venc_arg_1}
  - {venc_arg_2}
  - {venc_arg_3}
  - {venc_arg_4}:.
 
-En utilisant le motif IncludeFile comme suit :
+En utilisant le motif `IncludeFile` comme suit :
 
-.:CodeHighlight::TEXT::False:: .:Escape:: .:IncludeFile::liste_de_choses_à_faire.txt::
+.:CodeHighlight::TEXT::False::
+.:Escape::
+.:IncludeFile::liste_de_choses_à_faire.txt::
 Libérer la Corée du Nord::
 Terraformer la lune::
 Découvrir la matière exotique et commercialiser les trous de ver pour le voyage interstellaire::
@@ -329,7 +329,7 @@ Nous obtiendrions :
 
 .:CodeHighlight::Text::False::Voilà les choses qu'il faut que je fasse avant de mourrir
  - Libérer la Corée du Nord
- - Terraformer la lune
+ - Terraformer la Lune
  - Découvrir la matière exotique et commercialiser les trous de ver pour le voyage interstellaire
  - Nourrir Tacos, mon chien:.
 
@@ -340,33 +340,33 @@ page générée par VenC.
 
 > .:Escape:: .:IncludeFileIfExists::filename[::arg1][::arg2][...]:. :.
 
-Identique à [IncludeFile](.:GetChapterAttributeByIndex::path::4.4.3:.#includefile) mais le motif
-est ignoré si le fichier à inclure est inaccessible ou n'existe pas.
+Identique à [`IncludeFile`](.:GetChapterAttributeByIndex::path::4.4.3:.#includefile), mais le motif
+est ignoré si le fichier à inclure est inaccessible ou s'il n'existe pas.
 
 #### Kroki
 
 > .:Escape:: .:Kroki::endpoint::format::code[::provider]:. :.
 
 [Kroki](https://kroki.io/) est une API en ligne permettant de générer des diagrammes depuis une description textuelle. VenC permet
-d'utiliser cette API nativement mais nécessite tout de même que la librairie python [requests](https://fr.python-requests.org/en/latest/) soit installé.
+d'utiliser cette API nativement, mais nécessite tout de même que la librairie Python [`requests`](https://fr.python-requests.org/en/latest/) soit installée.
 
 Les arguments sont les suivants :
 
-- __endpoint__ : Le nom du type de diagramme que vous souhaitez générer. Vous pouvez consulter la liste de ces types de diagramme [ici](https://kroki.io/#support)
-- __format__ : Le format de l'image retourné par le serveur :
-  - __png__
-  - __svg__
-- __code__ : La description textuelle du Diagramm que vous voulez générer.
-- __provider__ : Il s'agit du serveur depuis lequel l'API est utilisé. Par défaut il s'agit de [https://kroki.io](https://kroki.io/).
+- __`endpoint`__ : le nom du type de diagramme que vous souhaitez générer. Vous pouvez consulter la liste de ces types de diagramme [ici](https://kroki.io/#support).
+- __`format`__ : le format de l'image retourné par le serveur :
+  - __`png`__
+  - __`svg`__
+- __`code`__ : la description textuelle du diagramme que vous voulez générer.
+- __`provider`__ : il s'agit du serveur depuis lequel l'API est utilisée. Par défaut, il s'agit de [https://kroki.io](https://kroki.io/).
 
-VenC récupère l'image est l'enregistre dans le répertoire [extra](.:GetChapterAttributeByIndex::path::3.1:.). Celle-ci est ensuite copié à la racine du blog.
-Le motif renvoie quand à lui un balise _img_ de la forme :
+VenC récupère l'image est l'enregistre dans le répertoire [`extra`](.:GetChapterAttributeByIndex::path::3.1:.). Celle-ci est ensuite copiée à la racine du blog.
+Le motif renvoie quant à lui un balise `img` de la forme :
 
 .:CodeHighlight::HTML::False::<img class="__VENC_KROKI__" src="../kroki_2b7b50208100ca9a40a3138ee72e62f7.svg">:.
 
 ##### Exemple basé sur celui proposé sur le site du projet
 
-On se propose de générer un diagramme UML avec PlantUML au format png :
+On se propose de générer un diagramme UML avec PlantUML au format PNG :
 
 .:CodeHighlight::TEXT::False:: .:Escape::
 .:Kroki::
@@ -425,7 +425,7 @@ Ce qui donnerait :
 
 > .:Escape:: .:Kroki::endpoint::format::filename[::provider]:. :.
 
-Identique à [Kroki](.:GetChapterAttributeByIndex::path::4.4.3:.#kroki) mais l'argument _code_ est remplacé par _filename_.
+Identique à [Kroki](.:GetChapterAttributeByIndex::path::4.4.3:.#kroki), mais l'argument `code` est remplacé par `filename`.
 Il s'agit du nom de fichier contenant le code décrivant le diagramme. Si le fichier n'existe pas ou n'est pas accessible,
 VenC s'arrête sur une erreur.
 
@@ -438,12 +438,12 @@ populaire langage LaTeX. Ainsi, vous pouvez facilement inclure dans votre
 publication des formules mathématiques.
 
 Cette fonctionnalité dépend d'une librairie tierce, indépendante de VenC.
-En cas de problème ou de difficulté vous pourriez vouloir signaler un bug
-sur la page du projet latex2mathml.
+En cas de problème ou de difficulté, vous pourriez vouloir signaler un bug
+sur la page du projet [latex2mathml](https://pypi.org/project/latex2mathml/).
 
 Le seul argument du motif est :
 
-- __latex_code__ : le code source LaTeX de la formule que vous souhaitez intégrer.
+- __`latex_code`__ : le code source LaTeX de la formule que vous souhaitez intégrer.
 
 Par exemple :
 
@@ -495,10 +495,10 @@ Le résultat étant :
 
 Ce motif permet de formater du texte avec la couleur de son choix et prend deux arguments :
 
-- __input_text__ : Le texte à formater. Peut contenir d'autres motifs.
-- __color__ : La couleur désirée telle que spécifiée par [CSS](https://developer.mozilla.org/fr/docs/Web/CSS/color_value).
+- __`input_text`__ : le texte à formater. Peut contenir d'autres motifs.
+- __`color`__ : la couleur désirée, telle que spécifiée par [CSS](https://developer.mozilla.org/fr/docs/Web/CSS/color_value).
 
-Par exemple
+Par exemple :
 
 > .:Escape:: .:SetColor::red::Texte de couleur rouge:. :.
 
@@ -506,21 +506,21 @@ Produira le code HTML suivant :
 
 .:CodeHighlight::HTML::False::<span class="__VENC_TEXT_COLOR__" style="color: red;">Texte de couleur rouge</span>:.
 
-On remarque que la balise <span> a pour class __VENC_TEXT_COLOR__ ce qui
+On remarque que la balise `<span>` a pour classe `__VENC_TEXT_COLOR__`, ce qui
 permet plus de contrôle lors de la mise en page de votre blog.
 
 #### SetStyle
 
 > .:Escape:: .:SetStyle::tag_id::tag_class::content:. :.
 
-Ce motif permet d'assigner un id et une class CSS à une paire de balises
-span ajoutée par VenC pour encapsuler le texte passé en paramètre.
+Ce motif permet d'assigner un `id` et une classe CSS à une paire de balises
+`span` (une ouvrante et une fermante) ajoutée par VenC pour encapsuler le texte passé en paramètre.
 
 Ce motif prend donc trois paramètres :
 
-- __tag_id__ : Le nom de l'id CSS à assigner au texte.
-- __tag_class__ : Le nom de la classe CSS à assigner au texte.
-- __content__ : Le texte auquel vous souhaitez appliquer un style CSS.
+- __`tag_id`__ : le nom de l'`id` CSS à assigner au texte.
+- __`tag_class`__ : le nom de la classe CSS à assigner au texte.
+- __`content`__ : le texte auquel vous souhaitez appliquer un style CSS.
 
 Par exemple :
 
@@ -528,7 +528,7 @@ Par exemple :
 
 Produirait :
 
-.:CodeHighlight::HTML::False::<span id="ma_class" class="ma_class">Un texte quelconque à formater.</span>:.
+.:CodeHighlight::HTML::False::<span id="mon_id" class="ma_class">Un texte quelconque à formater.</span>:.
 
 #### Table
 
@@ -536,7 +536,7 @@ Produirait :
 
 Ce motif permet d'organiser du contenu dans un tableau. Le motif a un nombre illimité d'arguments. Chaque argument correspond au contenu d'une cellule.
 
-Quand VenC détect qu'un argument est égal à la valeur _NewLine_, une nouvelle ligne est insérée,
+Quand VenC détecte qu'un argument est égal à la valeur `NewLine`, une nouvelle ligne est insérée,
 puis VenC poursuit l'ajout des cellules du tableau pour chaque argument.
 
 Par exemple, pour créer un tableau de quatre cellules et deux lignes :
@@ -561,22 +561,22 @@ Ce qui produira le code suivant :
     </table>
 </div>:.
 
-Comme on le voit, il est possible d'utiliser des motifs VenC à l'intérieur du motif Table.
+Comme on le voit, il est possible d'utiliser des motifs VenC à l'intérieur du motif `Table`.
 Remarquons également que pour chaque cellule, les caractères blancs au début et à la fin de l'argument correspondant sont effacés.
 
 #### Video
 
 > .:Escape:: .:Video::source::extensions[::poster]:. :.
 
-Ce motif fonctionne comme [Audio](.:GetChapterAttributeByIndex::path::4.4.3:.#audio), il possède cependant un argument supplémentaire
+Ce motif fonctionne comme [`Audio`](.:GetChapterAttributeByIndex::path::4.4.3:.#audio), il possède cependant un argument supplémentaire
 pour ajouter une vignette.
 
-Ce motif permet donc d'inclure un fichier vidéo dans la page. Pour ce faire, le fichier [video.html](.:GetChapterAttributeByIndex::path::3.6:.)
+Ce motif permet donc d'inclure un fichier vidéo dans la page. Pour ce faire, le fichier [`video.html`](.:GetChapterAttributeByIndex::path::3.6:.)
 faisant partie du thème est formaté avec les paramètres passés au motif :
 
-- __source__ : Il s'agit de l'URL ou du chemin de la vidéo. Il peut s'agir d'un chemin absolu ou relatif. S'il s'agit d'un chemin relatif, vous pouvez utiliser [GetRelativeRoot](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot). Attention, l'URL ou le chemin passé en paramètre ne doit pas contenir l'extension du fichier.
-- __extensions__ : Pour assurer la compatibilité de votre contenu avec les différents navigateurs du marché, il est recommandé d'avoir plusieurs sources de la même vidéo en différents formats. Ce paramètre est donc une liste des extensions disponibles pour votre vidéo. Les éléments de la liste sont séparés par une virgule.
-- __poster__ : Il est possible d'avoir une image de fond, en remplacement de la vidéo quand celle-ci n'est pas encore lancée. Ce paramètre contient donc l'URL ou le chemin relatif (vous pouvez également utiliser [GetRelativeRoot](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot)) ou absolu de ladite image.
+- __`source`__ : il s'agit de l'URL ou du chemin de la vidéo. Il peut s'agir d'un chemin absolu ou relatif. S'il s'agit d'un chemin relatif, vous pouvez utiliser [`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot). Attention, l'URL ou le chemin passé en paramètre ne doit pas contenir l'extension du fichier.
+- __`extensions`__ : pour assurer la compatibilité de votre contenu avec les différents navigateurs du marché, il est recommandé d'avoir plusieurs sources de la même vidéo en différents formats. Ce paramètre est donc une liste des extensions disponibles pour votre vidéo. Les éléments de la liste sont séparés par une virgule.
+- __`poster`__ : il est possible d'avoir une image de fond, en remplacement de la vidéo quand celle-ci n'est pas encore lancée. Ce paramètre contient donc l'URL ou le chemin relatif (vous pouvez également utiliser [`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot)) ou absolu de ladite image.
 
 #### Exemple de fichier video.html
 
@@ -585,9 +585,9 @@ faisant partie du thème est formaté avec les paramètres passés au motif :
 Your browser does not support the video tag.
 </video>:.
 
-Ce qui est important ici, c'est la [variable python](https://docs.python.org/fr/3/tutorial/inputoutput.html#the-string-format-method) _source_ que VenC remplace par autant
-d'occurence que nécessaire par des balises _source_ contenant la version du fichier courant.
-Également la variable _poster_ contient l'url du poster passé en argument au motif.
+Ce qui est important ici, c'est la [variable Python](https://docs.python.org/fr/3/tutorial/inputoutput.html#the-string-format-method) `source` que VenC remplace par autant de balises `<source>` que nécessaire pour épuiser la liste des différents formats du fichier vidéo courant.
+
+La variable optionnelle `poster` contient l'URL de l'image de fond passée en argument au motif.
 
 ##### Exemple d'utilisation
 

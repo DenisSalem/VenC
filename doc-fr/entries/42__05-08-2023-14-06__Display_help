@@ -1,9 +1,9 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Afficher l'aide-mémoire
+  - ''
 chapter: '5.8'
+title: Afficher l'aide-mémoire
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Vous avez oublié comment faire telle ou telle chose ?
@@ -11,6 +11,6 @@ Cette commande affiche dans le terminal les commandes disponibles !
 
 > venc -h
 
-ou
+Ou :
 
 > venc --help

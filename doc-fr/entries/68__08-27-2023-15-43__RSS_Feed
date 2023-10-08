@@ -1,9 +1,12 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-title: Flux RSS
+  - ''
 chapter: '7.5.5.2'
+title: Flux RSS
+TODO:
+  - Check if RSS code is really RSS (and not a mixture with Atom from copy/paste).
+  - Fix unexpected behavior of ToC (seems to work with `toc_level_level_{level}` here).
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Nous allons voir ici comment programmer les trois fichiers qui composent le flux RSS :
@@ -11,27 +14,31 @@ Nous allons voir ici comment programmer les trois fichiers qui composent le flux
 .:GetEntryToC::
     <ul>::
     <li>::
-    <a href="#{id}" class="toc_level_{level}">{title}</a>::
+    <a href="#{id}" class="toc_level_level_{level}"><code>{title}</code></a>::
     </li>::
     </ul>
 :.
 
-Pour en savoir plus sur le format RSS rendez-vous [ici](https://www.w3schools.com/xml/xml_rss.asp)
+Pour en savoir plus sur le format RSS, rendez-vous [ici](https://www.w3schools.com/xml/xml_rss.asp).
 
 ## rssHeader.html
 
 .:CodeHighlight::XML::True::<?xml version="1.0" encoding="UTF-8" ?>.:Escape::
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-      <atom:link href=".:GetBlogURL:..:GetRelativeLocation:./rss_feed.xml" rel="self" type="application/rss+xml" />
+      <atom:link
+        href=".:GetBlogURL:..:GetRelativeLocation:./rss_feed.xml"
+        rel="self"
+        type="application/rss+xml"
+      />
       <title>.:GetBlogName:. .:GetThreadName::| {value}:.</title>
       <link>.:GetBlogURL:..:GetRelativeLocation:.</link>
       <description>.:GetBlogDescription:.</description>:. :.
 
-Sans grande surprise ça fonctionne un peu comme le flux Atom vu au chapitre [7.5.5.1](.:GetChapterAttributeByIndex::path::7.5.5.1:.#atomheader-xml) :
+Sans grande surprise, ça fonctionne un peu comme le flux Atom vu au chapitre [7.5.5.1](.:GetChapterAttributeByIndex::path::7.5.5.1:.#atomheader-xml).
 
-On indique dans l'en-tête, ligne 5 et 7, l'URL du site avec [GetBlogURL](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogurl) et
-[GetRelativeLocation](.:GetChapterAttributeByIndex::path::4.3:.#getrelativelocation).
+On indique dans l'entête, aux lignes 5 et 7, l'URL du site avec [`GetBlogURL`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogurl) et
+[`GetRelativeLocation`](.:GetChapterAttributeByIndex::path::4.3:.#getrelativelocation).
 
 ## rssEntry.html 
 
@@ -47,14 +54,14 @@ On indique dans l'en-tête, ligne 5 et 7, l'URL du site avec [GetBlogURL](.:GetC
       </description>
     </item>:. :.
 
-L'utilisation de [GetBlogURL](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogurl) et [GetEntryPath](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrypath) ligne 3 et 4 sert le même usage que
-celui démontré dans [atomEntry.xml](.:GetChapterAttributeByIndex::path::7.5.5.1:.#atomentry-xml)
+L'utilisation de [`GetBlogURL`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogurl) et de [`GetEntryPath`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrypath) aux lignes 3 et 4 sert le même usage que
+celui montré dans [`atomEntry.xml`](.:GetChapterAttributeByIndex::path::7.5.5.1:.#atomentry-xml).
 
-Idem pour [GetEntryPreview](.:GetChapterAttributeByIndex::path::4.3:.#getentrypreview), on peut également utiliser [GetEntryContent](.:GetChapterAttributeByIndex::path::4.3:.#getentrycontent).
+Idem pour [`GetEntryPreview`](.:GetChapterAttributeByIndex::path::4.3:.#getentrypreview), on peut également utiliser [`GetEntryContent`](.:GetChapterAttributeByIndex::path::4.3:.#getentrycontent).
 
 ## rssFooter.html
 
 .:CodeHighlight::XML::False::   </channel>
 </rss>:.
 
-Rien à faire de bien compliqué si ce n'est fermer ce qui a été ouvert. Trivial !
+Rien à faire de bien compliqué, si ce n'est fermer ce qui a été ouvert. Trivial !

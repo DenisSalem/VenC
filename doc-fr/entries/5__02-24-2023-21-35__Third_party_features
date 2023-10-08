@@ -1,27 +1,27 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
-chapter: 1.2.3
-title: Fonctionnalité tierces et dépendances
+  - ''
+chapter: '1.2.3'
+title: Fonctionnalités tierces et dépendances
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Sur ce sujet nous avons malheureusement moins de marge de manoeuvre.
+Sur ce sujet nous avons malheureusement moins de marge de manœuvre.
 
-Ce que nous pouvons faire cependant c'est réaliser des choix judicieux dans ce qu'il convient de réimplémenter
-et ce qu'il convient d'importer. En l'occurrence nous avons fait le choix de développer notre
+Ce que nous pouvons faire cependant, c'est réaliser des choix judicieux dans ce qu'il convient de réimplémenter
+et ce qu'il convient d'importer. En l'occurrence, nous avons fait le choix de développer notre
 propre système de balises pour l'aide à la mise en page de votre projet. VenC ne dépend donc pas
-d'un moteur de template tier comme [Jinja](https://jinja.palletsprojects.com) et
-voit ses performances amélioriées dans la mesure où le moteur de template interne
+d'un moteur de template tiers comme [Jinja](https://jinja.palletsprojects.com) et
+voit ses performances amélioriées, dans la mesure où le moteur de template interne
 à VenC est fortement couplé avec le reste du code et a bénéficié d'un effort
 d'optimisations substantiel.
 
-Autant que possible nous faisons également en sorte que les librairies tierces de VenC soient optionnels pour minimiser le nombre de composant installé
+Autant que possible nous faisons également en sorte que les librairies tierces de VenC soient optionnelles pour minimiser le nombre de composants installés
 sur votre machine.
 
-Pour le moment VenC requier au minimum les librairies python suivantes :
+Pour le moment VenC requiert au minimum les librairies Python suivantes :
 
-- pyyaml
-- unidecode
+- PyYAML
+- Unidecode
 
-Celles-ci sont normalement installés automatiquement avec VenC.
+Celles-ci sont normalement installées automatiquement avec VenC.

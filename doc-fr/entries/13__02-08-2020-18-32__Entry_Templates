@@ -1,7 +1,7 @@
 authors:
-- Denis Salem
+  - Denis Salem
 categories:
-- ''
+  - ''
 chapter: '3.5'
 title: Les templates de publication
 ---VENC-BEGIN-PREVIEW---
@@ -10,30 +10,30 @@ Un template est en fait une publication vierge qui a cependant été
 préformatée pour contenir des choses redondantes à rédiger ou à
 programmer manuellement. Typiquement, pour une galerie, vous pourriez
 vouloir un template qui contiendrait déjà la ou les balises Markdown pour inclure
-une ou plusieurs images, les champs __categories__ et __tags__ préremplis, etc.
+une ou plusieurs images, les champs __`categories`__ et __`tags`__ préremplis, etc.
 
 Par exemple :
 
 .:CodeHighlightInclude::Text::False::template_example:.
 
-VenC est livrés avec des exemples de templates. En voici la liste :
+VenC est livré avec des exemples de templates. En voici la liste :
+
+- __`oEmbed`__ : permet de créer une publication avec du contenu acquis avec l'API [`oEmbed`](https://oembed.com/).
+- __`images`__ : permet de créer une publication avec une ou plusieurs images.
+- __`kroki`__ : permet de créer une publication embarquant un diagramme [Kroki](https://kroki.io/), en chargeant le code de celui-ci depuis un fichier dans le répertoire `includes` de votre projet.
+- __`pygmentize`__ : permet de créer une publication qui inclue du code source avec coloration syntaxique depuis un fichier dans le répertoire `includes` de votre projet.
 
 _Parmi ces templates, certains servent surtout à illustrer l'usage de certaines fonctionnalités de VenC._
 
-- __oEmbed__ : Permet de crée une publication avec du contenu acqui avec l'API [oEmbed](https://oembed.com/).
-- __images__ : Permet de crée une publication avec une ou plusieurs images.
-- __kroki__ : Permet de crée une publication embarquant un diagramme [Kroki](https://kroki.io/) en chargeant le code de celui-ci depuis un fichier dans le répertoire _includes_ de votre projet.
-- __pygmentize__ : Permet de créer une publication qui inclue du code source avec coloration syntaxique depuis un fichier dans le répertoire _includes_ de votre projet.
-
-Ces templates sont normallement installés dans
+Ces templates sont normallement installés dans :
 
 > ~/.local/share/VenC/themes_templates
 
-Pour utiliser un template il suffit de passer son nom de fichier (sans le chemin)
+Pour utiliser un template, il suffit de passer son nom de fichier (sans le chemin)
 à VenC au moment de la création d'une nouvelle publication. Par exemple :
 
 > .:SetColor::green::jeanrochefort@anonymous:. .:SetColor::cyan::~ $:. venc -ne "Amanite tue-mouches" champignons_magiques
 
-VenC va d'abord essayer de trouver votre template dans le
-[répertoire templates](.:GetChapterAttributeByIndex::path::3.1:.) de votre blog.
-Sinon, il essayera de le trouver parmi ceux prédéfinis et listés plus haut.
+VenC va d'abord essayer de trouver votre template dans le répertoire
+[`templates`](.:GetChapterAttributeByIndex::path::3.1:.) de votre blog.
+Sinon, il essayera de le trouver parmi les templates de publication prédéfinis, qui sont listés plus haut.

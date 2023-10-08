@@ -1,74 +1,79 @@
 authors:
-- 'Denis Salem'
+  - Denis Salem
 categories:
-- ''
+  - ''
 chapter: '7.5.2.3'
-title: Afficher les categories
+title: Afficher les catégories
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-De façon similaire aux archives il faut que dans votre fichier de configuration
-l'option disable_categories soit configuré correctement.
+De façon similaire aux archives, il faut que dans votre fichier de configuration
+l'option `disable_categories` soit configurée correctement.
 
-Il y a plusieurs façon d'afficher les categories de votre blog :
+Il y a plusieurs façons d'afficher les catégories de votre blog :
 
-- Sous forme d'arbre
-- Sous forme d'un nuage de categories
+- Sous la forme d'un arbre.
+- Sous la forme d'un nuage de catégories.
 
 Nous verrons les deux cas.
 
-Pour commencer nous allons préparer le terrains pour que le thème soit
+Pour commencer, nous allons préparer le terrain pour que le thème soit
 modulable par les utilisateurs finaux.
 
-Entre les balises __header__ que vous avez ajouté dans le chapitre
-[7.5.2.1](.:GetChapterAttributeByIndex::path::7.5.2.1:.) ajoutez maintenant le code suivant :
+Entre les balises __`header`__ que vous avez ajoutées dans le chapitre
+[7.5.2.1](.:GetChapterAttributeByIndex::path::7.5.2.1:.), ajoutez maintenant le code suivant :
 
-.:CodeHighlight::HTML::False:: .:Escape::
+.:CodeHighlight::HTML::False::
+.:Escape::
 .:IfBlogMetadataIsTrue::disable_categories::
-    <!-- Bloc HTML à conserver si la variable vaut true -->
+    <!-- Bloc HTML à conserver si la variable vaut `true` -->
     ::
-    <!-- Bloc HTML à conserver si la variable vaut false -->
+    <!-- Bloc HTML à conserver si la variable vaut `false` -->
 :.
-:. :.
+:.
+:.
 
-À l'aide de [IfBlogMetadataIsTrue](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue)
-on test si les pages des categories doivent être crées pas VenC. On peut aller plus loin et demander à VenC
-de conserver ou non des blocs de codes de façon plus précise de la façon suivante :
+À l'aide du motif [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue),
+on teste si les pages des catégories doivent être créées par VenC. On peut aller plus loin, en demandant à VenC
+de conserver ou non des blocs de codes de façon plus précise, de la façon suivante :
 
-.:CodeHighlight::HTML::False:: .:Escape::
+.:CodeHighlight::HTML::False::
+.:Escape::
 .:IfBlogMetadataIsTrue::disable_categories::
-    <!-- Bloc HTML à conserver si la variable vaut true -->
+    <!-- Bloc HTML à conserver si la variable vaut `true` -->
     ::
         .:IfBlogMetadataIsTrue::display_categories_as_list::
-            <!-- Bloc HTML à conserver si la variable vaut true -->
+            <!-- Bloc HTML à conserver si la variable vaut `true` -->
         :.
         
         .:IfBlogMetadataIsTrue::display_categories_as_tree::
-            <!-- Bloc HTML à conserver si la variable vaut true -->
+            <!-- Bloc HTML à conserver si la variable vaut `true` -->
         :.
 :.
-:. :.
+:.
+:.
 
-On utilise à nouveau [IfBlogMetadataIsTrue](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue) pour tester
-les variables suivantes (à noter que ce ne sont pas des options réservés par VenC, vous pouvez donc définir les votres si vous
-le souhaitez):
+On utilise à nouveau [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue) pour tester
+les variables suivantes (à noter que ce ne sont pas des options réservées par VenC, vous pouvez donc définir les vôtres si vous
+le souhaitez) :
 
-- display_categories_as_tree
-- display_categories_as_list
+- `display_categories_as_tree`
+- `display_categories_as_list`
 
-Se faisant, vous pourrez controler depuis votre fichier de configuration
-quel types d'affichages vous souhaitez pour vos categories ! Malin !
+Ce faisant, vous pourrez contrôler depuis votre fichier de configuration
+quels types d'affichage vous souhaitez pour vos catégories ! Malin !
 
-On arrive maintenant au gros morceau : l'affichage de la liste des categories !
+On arrive maintenant au gros morceau : l'affichage de la liste des catégories !
 
-## Affichage des categories en nuage
+## Affichage des catégories en nuage
 
 C'est le cas le plus simple. Nous allons pour ce faire utiliser
-[GetFlattenedBlogCategories](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories).
+[`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories).
 
 Par exemple :
 
 .:CodeHighlight::HTML::False::<ul id="blogcategorieslist">
-.:Escape::  .:GetFlattenedBlogCategories::
+.:Escape::
+.:GetFlattenedBlogCategories::
   <li class="blogcategoriesitem">
     <a href="{path}" title="{value} ({count})">{value}</a>
   </li>
@@ -76,103 +81,106 @@ Par exemple :
   :. :.
 </ul>:. 
 
-Ici on définit une liste avec la balise HTML _ul_. On y insère le motif VenC
-[GetFlattenedBlogCategories](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories).
+Ici, on définit une liste avec la balise HTML `ul`. On y insère le motif VenC
+[`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories).
 qui va générer itérativement les items de la liste. Nous y écrivons donc en premier argument dudit motif
-le couple de balise _li_ qui correspond à l'item courant de la liste.
+le couple de balise `li`, qui correspond à l'item courant de la liste.
 
 Enfin, les variables du motif permettent de récupérer respectivement :
 
-- le chemin de la categorie courante
-- le nom de la categorie courante
-- le nombre de publications associées à la categories courante
+- Le chemin de la catégorie courante.
+- Le nom de la catégorie courante.
+- Le nombre de publications associées à la catégorie courante.
 
-Il n'y a plus qu'à insérer tout ça dans le code que nous avons préparé dans la balise _header_ :
+Il n'y a plus qu'à insérer tout ça dans le code que nous avons préparé dans la balise `header` :
 
-.:CodeHighlight::HTML::False:: .:Escape::
+.:CodeHighlight::HTML::False::
+.:Escape::
 .:IfBlogMetadataIsTrue::disable_categories::
-    <!-- Bloc HTML à conserver si la variable vaut true -->
+    <!-- Bloc HTML à conserver si la variable vaut `true` -->
     ::
         .:IfBlogMetadataIsTrue::display_categories_as_list::
             <ul id="blogcategorieslist">
-            .:Escape::  .:GetFlattenedBlogCategories::
+            .:GetFlattenedBlogCategories::
               <li class="blogcategoriesitem">
                 <a href="{path}" title="{value} ({count})">{value}</a>
               </li>
               ::
-              :. :.
+            :.
             </ul>
         :.
         
         .:IfBlogMetadataIsTrue::display_categories_as_tree::
-            <!-- Bloc HTML à conserver si la variable vaut true -->
+            <!-- Bloc HTML à conserver si la variable vaut `true` -->
         :.
 :.
-:. :.
+:.
+:.
 
-## Affichage des categories en arbre
+## Affichage des catégories en arbre
 
-Cet affichage est un peu plus complexe et ne se prette pas à toutes
-les mises en page mais il a le mérite de rendre plus clair l'organisation
+Cet affichage est un peu plus complexe et ne se prête pas à toutes
+les mises en page, mais il a le mérite de rendre plus clair l'organisation
 de votre site.
 
-L'idée de l'affichage en arbre de categories c'est de mettre en évidence le fait
-que plusieurs sous categories peuvent appartenir à une categorie parente.
+L'idée de l'affichage en arbre de catégories, c'est de mettre en évidence le fait
+que plusieurs sous-catégories peuvent appartenir à une catégorie parente.
 
-Par exemple si votre blog parle de science et d'art vous aurez donc deux categories
-de bases. Pour avoir plus de granularité sur l'organisation de vos publications, vous
-pouvez indiquez à VenC qu'une publication traite aussi de peinture ou de litterature.
-Deux sous categories de la categorie 'Art'. Et bien sur, il n'y a pas de limite d'imbrications
-de categories, ce qui vous laisse beaucoup de latitude pour trier vos publications.
+Par exemple, si votre blog parle de science et d'art, vous aurez donc deux catégories
+de base. Pour avoir plus de granularité sur l'organisation de vos publications, vous
+pouvez indiquez à VenC qu'une publication traite aussi de peinture ou de littérature.
+Deux sous-catégories de la catégorie "Art". Et bien sur, il n'y a pas de limite dans l'imbrication
+de catégories, ce qui vous laisse beaucoup de latitude pour trier vos publications.
 
-Pour savoir comment définir des categories dans une publication,
+Pour savoir comment définir des catégories dans une publication,
 rendez-vous [ici](.:GetChapterAttributeByIndex::path::3.3:.#categories).
 
-Pour afficher un arbre hierarchique de categorie on utilise le _motif_ 
-VenC [GetBlogCategoriesTree](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestree).
-La documentation technique propose l'exemple suivant qui convient tout à fait
+Pour afficher un arbre hiérarchique de catégories, on utilise le _motif_ 
+VenC [`GetBlogCategoriesTree`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestree).
+La documentation technique propose l'exemple suivant, qui convient tout à fait
 à la majorité des cas de figure :
 
 .:CodeHighlight::HTML::False::
-.:Escape:: .:GetBlogCategoriesTree::
+.:Escape::
+.:GetBlogCategoriesTree::
     <ul>::
     <li><a href="{path}" title="{count} publications">{value}</a>::
     {childs}</li>::
     </ul>
-:. :.
+:.
+:.
 :.
 
 Ce _motif_ fonctionne différement de 
-[GetFlattenedBlogCategories](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories) :
+[`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories). En effet, il faut indiquer à la fonction :
 
-En effet il faut indiquer à la fonction
+- Les textes d'ouverture et de fermeture du
+nœud courant (respectivement les arguments 1 et 4).
+- Le texte d'ouverture et de fermeture de l'item courant à l'intérieur du nœud courant (respectivement
+les arguments 2 et 3).
 
-- Le texte d'ouverture et de fermeture du
-noeud courant (respectivement l'argument 1 et 4)
-- Le texte d'ouveture et de fermeture de l'item courant à l'intérieur du noeud courant (respectivement
-l'argument 2 et 3).
+On remarque également que comme pour [`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories),
+on peut utiliser les variables __`path`__, __`count`__ et __`value`__.
 
-On remarque également que comme pour [GetFlattenedBlogCategories](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories)
-on peut utiliser les variables __path__, __count__ et __value__.
-
-Enfin un autre élément est requis pour crée une structure récursive de catégorie c'est la
-variable __childs__ qui contient le noeud enfant. Si vous oubliez de placer cette variable dans l'argument 2 ou 3 le résultat
+Enfin, un autre élément est requis pour créer une structure récursive de catégories : c'est la
+variable __`childs`__, qui contient le nœud enfant. Si vous oubliez de placer cette variable dans les arguments 2 ou 3, le résultat
 de l'appel du _motif_ ne sera pas celui attendu.
 
-Avec ça on est bon et on peut maintenant placer notre code dans celui que nous avons préparé dans la balise _header_ de notre en-tête hmtl :
+Avec ça on est bon et on peut maintenant placer notre code dans celui que nous avons préparé dans la balise `header` de notre entête HTML :
 
-.:CodeHighlight::HTML::False:: .:Escape::
+.:CodeHighlight::HTML::False::
+.:Escape::
 .:IfBlogMetadataIsTrue::disable_categories::
-    <!-- Bloc HTML à conserver si la variable vaut true -->
+    <!-- Bloc HTML à conserver si la variable vaut `true` -->
     ::
         .:IfBlogMetadataIsTrue::display_categories_as_list::
             <ul id="blogcategorieslist">
-            .:Escape::  .:GetFlattenedBlogCategories::
+            .:GetFlattenedBlogCategories::
               <li class="blogcategoriesitem">
                 <a href="{path}" title="{value} ({count})">{value}</a>
               </li>
               ::
-              :. :.
+            :.
             </ul>
         :.
         
@@ -185,6 +193,7 @@ Avec ça on est bon et on peut maintenant placer notre code dans celui que nous 
             :.
         :.
 :.
-:. :.
+:.
+:.
 
 Et voilà, c'est tout bon pour les catégories !
