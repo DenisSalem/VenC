@@ -277,7 +277,7 @@ qui lui risquerait de produire *in fine* une page avec des erreurs de validation
 Ce motif permet d'inclure le contenu d'un fichier dans la publication courante.
 Celui-ci ne doit comporter que des caractères imprimables.
 
-Ce motif prend au minimum deux arguments :
+Ce motif prend au minimum un arguments :
 
 - __`filename`__ : le chemin du fichier à inclure dans la page. Celui-ci doit se trouver dans le répertoire `includes` de votre projet. Si le fichier n'existe pas ou n'est pas accessible, VenC lève une exception.
 - __`arg1`, `arg2`, ...__ : ces paramètres sont optionnels. Il vous permettent de formater l'intérieur du fichier à inclure en remplaçant des variables numérotées (`venc_arg_1`, `venc_arg_2`, `venc_arg_n`) qui s'y trouverait par la valeur de chacun des paramètres correspondant.
