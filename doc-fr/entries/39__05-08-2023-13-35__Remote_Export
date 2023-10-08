@@ -3,7 +3,7 @@ authors:
 categories:
   - ''
 chapter: '5.5'
-title: Exporter le blog vers un serveur FTP
+title: Générer le blog et le transférer sur un serveur FTP
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Pour exporter le blog et le téléverser dans la foulée vers un serveur FTP, vous pouvez utiliser :
