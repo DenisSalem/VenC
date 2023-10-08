@@ -1,5 +1,7 @@
 authors: 'Denis Salem'
-categories: 'Photographies > Nature'
+categories: 
+  - Photographies:
+     - Nature
 title: Champignons trop mignons (mais pas commestibles, alors calme-toi)
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
