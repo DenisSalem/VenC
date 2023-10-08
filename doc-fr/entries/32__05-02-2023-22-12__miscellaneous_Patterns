@@ -366,7 +366,7 @@ Le motif renvoie quant à lui un balise `img` de la forme :
 
 ##### Exemple basé sur celui proposé sur le site du projet
 
-On se propose de générer un diagramme UML avec PlantUML au format PNG :
+On se propose de générer un diagramme UML avec PlantUML au format SVG :
 
 .:CodeHighlight::TEXT::False:: .:Escape::
 .:Kroki::
