@@ -42,10 +42,10 @@ def flatten_current_level(items):
         else:
             yield item, []
             
-def filter_categories(categories, entry_index):
+def filter_categories(categories, entry_id):
     return [
             category for category in categories \
-            if entry_index == None or (entry_index in category.related_to)
+            if entry_id == None or (entry_id in category.related_to)
         ]
         
 class Taxonomy:       
@@ -63,7 +63,7 @@ class Taxonomy:
             for entry_index in range(0, len(self.entries)):
                 current_entry = self.entries[entry_index]
                 self.build_tree(
-                    entry_index,
+                    current_entry.id,
                     current_entry.raw_categories,
                     self.entries_per_categories,
                     self.categories_leaves,
@@ -73,7 +73,7 @@ class Taxonomy:
                 
             self.categories_leaves = self.extract_leaves(None)
     
-    def build_tree(self, entry_index, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders=''):     
+    def build_tree(self, entry_id, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders=''):     
         from venc3.datastore.configuration import get_blog_configuration
         category_directory_name = get_blog_configuration()["path"]["category_directory_name"]
 
@@ -92,14 +92,14 @@ class Taxonomy:
                 if node.value == item:
                     node.count +=1
                     node.weight_tracker.update()
-                    node.related_to.append(entry_index)
+                    node.related_to.append(entry_id)
                     match = node
                     break
     
             if match == None:
                 metadata = MetadataNode(
                     item, 
-                    entry_index,
+                    entry_id,
                     quirk_encoding(path),
                     weight_tracker
                 )
@@ -108,14 +108,14 @@ class Taxonomy:
                 blog_output_leaves.append(metadata)
                 
             if len(sub_items):
-                self.build_tree(entry_index, sub_items, match.childs if match != None else metadata.childs, blog_output_leaves, weight_tracker, path)
-            
-    def extract_leaves(self, filter_by_entry_index, branch=None):
+                self.build_tree(entry_id, sub_items, match.childs if match != None else metadata.childs, blog_output_leaves, weight_tracker, path)
+    
+    def extract_leaves(self, filter_by_entry_id, branch=None):
         if branch == None:
             branch = self.entries_per_categories
         
-        output = [category for category in filter_categories(branch, filter_by_entry_index)]
-        for category in filter_categories(branch, filter_by_entry_index):
-            output += self.extract_leaves(filter_by_entry_index, category.childs)
+        output = [category for category in filter_categories(branch, filter_by_entry_id)]
+        for category in filter_categories(branch, filter_by_entry_id):
+            output += self.extract_leaves(filter_by_entry_id, category.childs)
         
         return output

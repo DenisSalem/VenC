@@ -314,12 +314,14 @@ class DatastorePatterns:
 
             else:
                 entry.html_categories_tree[key] = self.build_html_categories_tree(
+                    pattern,
                     open_node,
                     open_branch,
                     close_branch,
                     clode_node,
-                    entry.categories_tree
+                    self.extract_leaves(entry.id)
                 )
+
         
         return entry.html_categories_tree[key]
             

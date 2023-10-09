@@ -101,7 +101,7 @@ class CategoriesThread(Thread):
                 continue
             
             # do actual context
-            entries = [self.datastore.entries[entry_index] for entry_index in node.related_to]
+            entries = [entry for entry in self.datastore.entries if entry.id in node.related_to]
             self.organize_entries( entries[::-1] if self.datastore.blog_configuration["reverse_thread_order"] else entries )
             super().do()
             indentation_type = "   " if len_root - 1  == i else "│  "
