@@ -231,3 +231,8 @@ Permet de contrôler le nombre de processus enfants lors de la génération de v
 Cette option permet de controller le volume d'octets transitant d'un sous-processus à un autre. Il permet une optimisation fine
 des fonctions de parallélisme de VenC. La valeur par défaut est normalement optimale et est fixée à *512*. Vous pouvez néanmoins effectuer
 des tests pour voir ce qui est le plus rapide chez vous.
+
+## pygmentize_style
+
+Il est possible de controller le style de coloration syntaxique proposé par [Pygmentize](https://pygments.org) en assignant
+un des noms de style documenté [ici](https://pygments.org/docs/styles/#builtin-styles) à cette option.
