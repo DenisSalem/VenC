@@ -23,6 +23,12 @@ class CodeHighlight:
     def __init__(self):
         from venc3.datastore import datastore
         self._override = datastore.blog_configuration["code_highlight_css_override"]
+        try:
+            self._style = datastore.blog_configuration["pygmentize_style"]
+            
+        except KeyError:
+            self._style = "default"
+          
         self.includes = dict()
 
     def export_style_sheets(self):
@@ -57,7 +63,7 @@ def highlight(pattern, langage, display_line_numbers, input_code):
         name = "venc_source_"+langage.replace('+','Plus')
 
         lexer = pygments.lexers.get_lexer_by_name(langage, stripall=False)
-        formatter = pygments.formatters.HtmlFormatter(linenos=(True if display_line_numbers=="True" else False), cssclass=name)
+        formatter = pygments.formatters.HtmlFormatter(style=code_highlight._style, linenos=(True if display_line_numbers=="True" else False), cssclass=name)
         
         result = "<div class=\"__VENC_PYGMENTIZE_WRAPPER__\">"+pygments.highlight(input_code.replace("\:",":"), lexer, formatter).replace(".:","&period;:").replace(":.",":&period;")+"</div>"
         if pattern.root == pattern.parent and pattern.root.has_markup_language:
