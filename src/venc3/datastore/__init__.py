@@ -137,34 +137,35 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
                     else:
                         from venc3.prompt import notify
                         notify(("chapter_has_no_entry", index), color="YELLOW")
-    
-    def build_entry_html_toc(self, toc, open_ul, open_li, content_format, close_li, close_ul):
-        output = ""
-        previous = None
-        for i in range(0, len(toc)):
+                        
+    def build_entry_html_toc(self, toc, open_ul, open_li, content_format, close_li, close_ul):             
+        output = open_ul
+        i = 0
+        while i < len(toc):                    
             current = toc[i]
-            
-            if previous == None:
-                output += open_ul+open_li
-                
-            elif current[0] > previous[0]:
-                output += open_ul+open_li
-            
-            elif current[0] < previous[0]:
-                output += ((close_li+close_ul)*(previous[0]-current[0]))+close_li+open_li
-            else:
-                output +=close_li+open_li
-            
-            output += content_format.format(**{
+            output += open_li+content_format.format(**{
                 "level": current[0],
                 "title": current[1],
                 "id":current[2]
             })
             
-            previous = current
-            
-        return output+(close_li+close_ul) * previous[0]
-        
+            if i+1 < len(toc):
+                if current[0] < toc[i+1][0]:
+                    sub_list = []
+                    for item in toc[i+1:]:
+                        if current[0] < item[0]:
+                           sub_list.append(item)
+                        else:
+                          break 
+                      
+                    output += self.build_entry_html_toc(sub_list, open_ul, open_li, content_format, close_li, close_ul)
+                    i += len(sub_list)
+                    
+            output += close_li
+            i += 1
+          
+        return output+close_ul
+
     def build_html_chapters(self, lo, io, ic, lc, top, level):          
         if top == []:
             return ''
