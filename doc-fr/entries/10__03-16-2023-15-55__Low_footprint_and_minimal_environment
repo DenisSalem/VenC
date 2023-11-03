@@ -10,7 +10,7 @@ VenC est un outil en ligne de commande, vous pouvez donc éditer votre site et v
 La documentation que vous lisez est également lisible dans un navigateur non-graphique sans problème de mise en page, par
 exemple avec un navigateur comme [Links](http://links.twibright.com/).
 
-Par ailleurs, à ce jour, toutes les versions de VenC devraient fonctionner avec la version 3.5 ou supérieur de Python.
+Par ailleurs, à ce jour, toutes les versions de VenC devraient fonctionner avec la version 3.5 ou supérieure de Python.
 
 Des efforts substantiels d'optimisation ont été mis en œuvre pour rendre le code le
 plus rapide et léger possible.
