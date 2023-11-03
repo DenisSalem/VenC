@@ -174,11 +174,11 @@ Il est important que le style ainsi défini soit inclus dans `header.html`
 
 En effet, le nouveau style écrasera le précédent s'il est placé après. Par exemple :
 
-
 .:CodeHighlight::HTML::False::
    .:Escape:: .:GetStyleSheets:. :.
     <link rel="stylesheet" href="../cheat_sheet.css" type="text/css">
 :.
+
 #### CodeHighlightInclude
 
 > .:Escape:: .:CodeHightlightInclude::language::display_line_numbers::filename:. :.

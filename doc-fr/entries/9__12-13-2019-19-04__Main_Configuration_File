@@ -235,6 +235,6 @@ des tests pour voir ce qui est le plus rapide chez vous.
 ## pygmentize_style
 
 Il est possible de controller le style de coloration syntaxique proposé par [Pygmentize](https://pygments.org) en assignant
-un des noms de style documenté [ici](https://pygments.org/docs/styles/#builtin-styles) à cette option. Si vous changez le style est que
-`code_highlight_css_override` est configuré avec `False` alors il faut supprimer les feuilles de styles déjà généré par VenC dans
+un des noms de style documenté [ici](https://pygments.org/docs/styles/#builtin-styles) à cette option. Si vous changez le style et que
+`code_highlight_css_override` est configuré avec `False`, alors il faut supprimer les feuilles de styles déjà générées par VenC dans
 le répertoire `extra`.

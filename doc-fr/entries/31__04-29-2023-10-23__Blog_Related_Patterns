@@ -464,7 +464,7 @@ correspond généralement au fichier `index.html` et qui devrait se trouver
 
 > .:Escape:: .:GetGenerationTimestamp::time_format:. :.
 
-Ce motif renvoie la date formatée correspondant au moment où la page courante a été générée, quand VenC export votre site. Par exemple avec : 
+Ce motif renvoie la date formatée correspondant au moment où la page courante a été générée, quand VenC exporte votre site, par exemple avec : 
 
 > venc -xb
 
