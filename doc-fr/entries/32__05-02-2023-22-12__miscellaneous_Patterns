@@ -172,7 +172,7 @@ Il est important que le style ainsi défini soit inclus dans `header.html`
 **après** utilisation du motif
 [`GetStyleSheets`](.:GetChapterAttributeByIndex::path::4.3:.#getstylesheets).
 
-En effet le nouveau style écrasera le précédent s'il est placé après. Par exemple :
+En effet, le nouveau style écrasera le précédent s'il est placé après. Par exemple :
 
 
 .:CodeHighlight::HTML::False::
