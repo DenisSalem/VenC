@@ -21,7 +21,7 @@ Vous pouvez également mettre à jour VenC avec :
 
 Vous pourriez vouloir utiliser VenC dans une version en développement indisponible sur PyPI.
 Pour ça vous pouvez cloner le projet depuis [Framagit](https://framagit.org/denissalem/VenC/)
-ou [GitHub](https://github.com/DenisSalem/VenC) avec la commande [git](https://git-scm.com/).
+ou [GitHub](https://github.com/DenisSalem/VenC) avec la commande [`git`](https://git-scm.com/).
 
 Il faut ensuite sélectionner la branche que vous désirez. En effet, la branche `master` correspond à la version
 de VenC disponible sur PyPI. Si vous voulez une autre version pas encore officiellement sortie en grande pompe,
@@ -37,7 +37,7 @@ Ceci étant fait, rendez vous dans le répertoire __`src`__ et utilisez le scrip
 
 > ./setup.py install --user
 
-Cette dernière commande échouera si `setuptools` n'est pas installé. `setuptools` est disponible en installant [pip](https://pypi.python.org/pypi/pip).
+Cette dernière commande échouera si `setuptools` n'est pas installé. `setuptools` peut s'installer avec [`pip`](https://pypi.python.org/pypi/pip), en utilisant `pip install setuptools`.
 
 ## Fichiers installés
 
