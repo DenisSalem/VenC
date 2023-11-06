@@ -564,12 +564,12 @@ class DatastorePatterns:
             
         return open_node + (''.join(items))+ close_node
 
-    def get_flattened_categories(self, pattern, string, separator, filter_by_entry_index = None):
+    def get_flattened_categories(self, pattern, string, separator, from_entry = False):
         if self.blog_configuration["disable_categories"]:
             return ''
             
-        key = string+'::'+separator+'::'+str(filter_by_entry_index)
-        cache = self.requested_entry.html_categories_leaves if filter_by_entry_index != None else self.html_categories_leaves
+        key = string+'::'+separator+'::'+str(self.requested_entry.id if from_entry else None)
+        cache = self.requested_entry.html_categories_leaves if from_entry else self.html_categories_leaves
 
         if not key in cache.keys():
             output = merge(
@@ -578,7 +578,7 @@ class DatastorePatterns:
                     "count" : node.count,
                     "weight" : round(node.count / self.categories_weight_tracker.value, 2),
                     "path" : node.path
-                } for node in self.extract_leaves(filter_by_entry_index) ],
+                } for node in self.extract_leaves( self.requested_entry.id if from_entry else None) ],
                 string,
                 separator,
                 pattern
@@ -590,7 +590,7 @@ class DatastorePatterns:
         
     def get_flattened_entry_categories(self, pattern, string, separator):
         '''value,count,weight,path'''
-        return self.get_flattened_categories(pattern, string, separator, self.requested_entry.index)
+        return self.get_flattened_categories(pattern, string, separator, True)
 
     def get_flattened_blog_categories(self, pattern, string, separator):
         '''value,count,weight,path'''
