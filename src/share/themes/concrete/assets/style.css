@@ -28,6 +28,7 @@ footer ul li
   
 aside
   {width: 25%;
+  margin-top: 8px;
   display:block;
   float: left;}
 
@@ -135,9 +136,9 @@ blockquote, pre
   {margin-right: 1em;}
     
 #blog_categories,
+#blog_chapters,
 #blog_chapters
-  {width: 256px;
-  width: 90%;
+  {width: 90%;
   margin: auto;
   display: block;}
     
@@ -152,3 +153,18 @@ blockquote, pre
 #previous_link
   {margin-right: 10px;
   float: left;}    
+
+@media screen and (max-width: 1560px) {
+  aside {
+    margin: auto;
+    margin-top: 8px;
+    width: 50%;
+    min-width: 800px;
+    float: none;
+  }
+
+#blog_categories,
+#blog_chapters,
+#blog_chapters
+  {width: 100%;}
+}
