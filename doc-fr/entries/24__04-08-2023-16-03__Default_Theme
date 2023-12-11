@@ -6,4 +6,37 @@ chapter: '3.6.3'
 title: Thème par défaut
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-TODO
+
+## Usage
+
+Pour vous faciliter la vie, VenC est livré avec au moins un thème qui peut vous service de base pour créer le votre. C'est également idéal pour voir comment
+sont mit en pratique certains concept de VenC. Quand vous installez VenC ce thème est placé dans
+
+> ~/.local/share/VenC/themes/concrete
+
+Ce thème s'appel `concrete`. Vous pouvez donc l'utiliser en générant votre site avec :
+
+> venc -xb concrete
+
+ou en l'installant localement dans votre projet avec [la commande suivante](.:GetChapterAttributeByIndex::path::5.9:.) :
+
+> venc -it concrete
+
+L'avantage de cette dernière méthode étant qu'elle vous permet de modifier le thème en profondeur.
+
+## Configuration
+
+Ce théme peut être adapté à vos besoins sans le modifier directement à l'aide d'une série de variable à
+définir dans votre [fichier de configuration principal](.:GetChapterAttributeByIndex::path::3.2:.) :
+
+- __`disable_infinite_scroll`__ :
+- __`custom_scripts`__ :
+- __`custom_styles`__ :
+- __`disable_blog_hashtags`__ :
+- __`disable_categories_tree`__ :
+- __`disable_chapters`__ :
+- __`force_entry_content`__ :
+- __`disable_entry_hashtags`__ :
+- __`loading_image`__ :
+- __`include_in_footer`__ :
+
