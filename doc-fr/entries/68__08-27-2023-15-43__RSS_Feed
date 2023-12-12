@@ -25,11 +25,6 @@ Pour en savoir plus sur le format RSS, rendez-vous [ici](https://www.w3schools.c
 .:CodeHighlight::XML::True::<?xml version="1.0" encoding="UTF-8" ?>.:Escape::
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-      <atom:link
-        href=".:GetBlogURL:..:GetRelativeLocation:./rss_feed.xml"
-        rel="self"
-        type="application/rss+xml"
-      />
       <title>.:GetBlogName:. .:GetThreadName::| {value}:.</title>
       <link>.:GetBlogURL:..:GetRelativeLocation:.</link>
       <description>.:GetBlogDescription:.</description>:. :.
