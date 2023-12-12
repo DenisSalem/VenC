@@ -4,8 +4,6 @@ categories:
   - ''
 chapter: '7.5.5.2'
 title: Flux RSS
-TODO:
-  - Check if RSS code is really RSS (and not a mixture with Atom from copy/paste).
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Nous allons voir ici comment programmer les trois fichiers qui composent le flux RSS :
