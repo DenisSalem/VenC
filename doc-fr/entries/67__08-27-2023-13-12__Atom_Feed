@@ -4,12 +4,8 @@ categories:
   - ''
 chapter: '7.5.5.1'
 title: Flux Atom
-TODO:
-  - Add URL in link for pattern `GetGenerationTimestamp`.
-  - Fix unexpected behavior of ToC (seems to work with `toc_level_{level}` here).
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-
 Nous allons voir ici comment programmer les trois fichiers qui composent le flux Atom :
 
 .:GetEntryToC::
@@ -49,7 +45,7 @@ Comme on peut le voir, il y a des similitudes avec ce qui a été réalisé et m
 Les nouveautés ici, c'est que l'on construit des URL uniques avec [`GetBlogURL`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogurl) et
 [`GetRelativeLocation`](.:GetChapterAttributeByIndex::path::4.3:.#getrelativelocation) comme on peut le voir aux lignes 4, 9 et 13.
 
-On utilise également à la ligne 14 le _motif_ [`GetGenerationTimestamp`]() pour avoir l'horodatage de la dernière génération du site, ce qui permet d'avoir du même
+On utilise également à la ligne 14 le _motif_ [`GetGenerationTimestamp`](.:GetChapterAttributeByIndex::path::4.4.2:.#getgenerationtimestamp) pour avoir l'horodatage de la dernière génération du site, ce qui permet d'avoir du même
 coup la date de génération du flux Atom.
 
 ## atomEntry.xml

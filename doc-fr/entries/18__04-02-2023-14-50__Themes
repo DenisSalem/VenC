@@ -4,9 +4,6 @@ categories:
   - ''
 chapter: '3.6'
 title: Thèmes
-TODO:
-  - URL in link to know more about config.yaml.
-  - URL to the tutorials section.
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Un thème est l'ensemble des fragments qui seront assemblés et
@@ -31,7 +28,7 @@ style CSS ou des scripts JS.
   
 - __`config.yaml`__ : un fichier de configuration [YAML](https://yaml.org/) permettant
 d'indiquer les dépendances du thème, de supplanter des options de
-configuration et de décrire le thème. Plus d'infos [ici](TODO).
+configuration et de décrire le thème. Plus d'infos [ici](.:GetChapterAttributeByIndex::path::3.6.1:.).
 
 Comme vous l'avez sans doute compris, VenC met bout à bout les morceaux
 de votre blog en formattant l'entête (`header.html`), puis en répétant autant
@@ -53,7 +50,7 @@ dans :
 Ce thème en l'état offre un aperçu de ce qu'il est possible de faire avec VenC.
 C'est une solide base pour créer le vôtre.
 
-Vous pouvez également vous aider de la "[section des tutoriels](TODO)",
+Vous pouvez également vous aider de la "[section des tutoriels](.:GetChapterAttributeByIndex::path::7:.)",
 dans laquelle sont décrites des techniques pour réaliser des mises en
 pages très spécifiques et pour lesquelles l'utilisation du langage de
 balisage interne de VenC sera illustrée.

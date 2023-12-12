@@ -6,7 +6,6 @@ chapter: '7.5.5.2'
 title: Flux RSS
 TODO:
   - Check if RSS code is really RSS (and not a mixture with Atom from copy/paste).
-  - Fix unexpected behavior of ToC (seems to work with `toc_level_level_{level}` here).
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Nous allons voir ici comment programmer les trois fichiers qui composent le flux RSS :
