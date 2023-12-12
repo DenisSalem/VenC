@@ -39,4 +39,3 @@ définir dans votre [fichier de configuration principal](.:GetChapterAttributeBy
 - __`disable_entry_hashtags`__ : Il s'agit d'un `booléen` pour désactiver l'affichage du nuage de catégories des publications.
 - __`loading_image`__ : Il s'agit du nom de fichier d'une éventuelle image de chargement à afficher quand le défilement infini est activé.
 - __`include_in_footer`__ : Il s'agit du nom de fichier d'un éventuelle pied de page HTML à inclure.
-

@@ -4,8 +4,6 @@ categories:
   - ''
 chapter: '3.6.2.3'
 title: Arbre
-TODO:
-  - Add URL to links.
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Ce module JavaScript permet d'animer et de condenser une liste hiérarchique de catégories ou une table des matières générées avec un pattern VenC.
@@ -52,7 +50,7 @@ voir être exportés pendant la génération de votre blog.
 
 ## Structure d'une liste hiérarchique
 
-Vous pouvez appliquer le module arbre à des listes hiérarchiques, qui sont générées par VenC avec le pattern __[`GetChapters`](TODO)__ ou avec le pattern __[`TreeForBlogCategories`](TODO)__.
+Vous pouvez appliquer le module arbre à des listes hiérarchiques, qui sont générées par VenC avec le pattern __[`GetChapters`](.:GetChapterAttributeByIndex::path::4.4.2:.#getchapters)__ ou avec le pattern __[`TreeForBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#treeforblogcategories)__.
 
 Commençons par observer que l'utilisation de ces deux patterns présentent des similarités :
 

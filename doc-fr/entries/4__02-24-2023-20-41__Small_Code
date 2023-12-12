@@ -4,11 +4,9 @@ categories:
   - ''
 chapter: '1.2.1'
 title: Petit code
-TODO:
-  - Add weight of default theme (when available).
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Le code source applicatif pèse environ 350 ko et les _assets_, constitués
-pour l'essentiel d'un thème par défaut, pèsent moins de TODO.
+pour l'essentiel d'un thème par défaut, pèsent moins de 330 ko.
 VenC étant très léger, il est donc plus facile à maintenir mais aussi
 potentiellement plus rapide.

@@ -4,8 +4,6 @@ categories:
   - ''
 chapter: '4.4.2'
 title: Motifs de blog
-TODO:
-  - Link with URL ".:GetChapterAttributeByIndex::path::4.4.2:.#forblogcategories" is a self-reference and doesn't work (no corresponding section.)
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Ces motifs sont globaux, donc utilisables partout. Comme pour les motifs de publications,
@@ -30,7 +28,7 @@ Les variables de la fonction sont les suivantes :
 - __`count`__ : le nombre de publications dans la période courante.
 - __`weight`__ : le nombre de publications dans la période courante divisé par le nombre maximal de publications par période.
 
-Si la [génération des archives est désactivée](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogcategories), le motif est ignoré et supprimé.
+Si la [génération des archives est désactivée](.:GetChapterAttributeByIndex::path::3.2:.#disable-archives), le motif est ignoré et supprimé.
 
 #### ForBlogMetadata
 
