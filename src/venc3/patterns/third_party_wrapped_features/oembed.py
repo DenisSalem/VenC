@@ -30,7 +30,7 @@ def cache_embed_exists(link):
     except FileNotFoundError:
         return ""
 
-def get_embed_content(node, providers, target):  
+def get_embed_content(pattern, providers, target):  
     from urllib.parse import urlparse
     url = urlparse(target)
 
@@ -39,7 +39,7 @@ def get_embed_content(node, providers, target):
 
     except IndexError:
         from venc3.exceptions import VenCException
-        raise VenCException(("unknown_provider", url.netloc), node)
+        raise VenCException(("unknown_provider", url.netloc), pattern)
     
     try:
         from urllib.request import Request, urlopen
@@ -57,20 +57,20 @@ def get_embed_content(node, providers, target):
 
     except Exception as e:
         from venc3.exceptions import VenCException
-        raise VenCException(("connectivity_issue", str(e)), node)
+        raise VenCException(("connectivity_issue", str(e)), pattern)
 
     if stream.getcode() != 200:
         from venc3.exceptions import VenCException
-        raise VenCException(("ressource_unavailable", url.geturl()), node)
+        raise VenCException(("ressource_unavailable", url.geturl()), pattern)
 
     try:
         import json
         html = "<div class=\"__VENC_OEMBED__\">"+json.loads(content)["html"]+"</div>"
-        html = "</p>"+html+"<p>" if node.root.has_markup_language else html
+        html = "</p>"+html+"<p>" if pattern.root.has_markup_language else html
         
     except Exception as e:
         from venc3.exceptions import VenCException
-        raise VenCException(("response_is_not_json", url.geturl(), content), node)
+        raise VenCException(("response_is_not_json", url.geturl(), content), pattern)
         
     try:
         import hashlib, shutil
@@ -86,7 +86,7 @@ def get_embed_content(node, providers, target):
         
     return html
 
-def wrapper_embed_content(node, content_url):
+def wrapper_embed_content(pattern, content_url):
     global embed_content_cache
     embed_content_cache = cache_embed_exists(content_url)
     if embed_content_cache != "":
@@ -105,4 +105,4 @@ def wrapper_embed_content(node, content_url):
                 for e in p["endpoints"]:
                     embed_providers["oembed"][p["provider_url"]].append(e["url"])
                     
-    return get_embed_content(node, embed_providers, content_url)
+    return get_embed_content(pattern, embed_providers, content_url)

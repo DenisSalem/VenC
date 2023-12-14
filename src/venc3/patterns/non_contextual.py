@@ -28,7 +28,7 @@ def disable_markup(pattern, *content):
     return '::'.join(content)
     
 def html(pattern, *content):
-    return "</p>"+('::'.join(content))+"<p>"
+    return "</p>"+('::'.join(content))+"<p>" if pattern.root.has_markup_language else '::'.join(content)
     
 def get_venc_version(pattern):
     return venc_version
@@ -109,8 +109,9 @@ def table(pattern, *argv):
     join = ''.join
     for row in tr:
         output += "<tr>"+join(row)+"</tr>"
-        
-    return output + "</table></div>"
+    
+    output = output + "</table></div>"
+    return "</p>"+output+"<p>" if pattern.root.has_markup_language else output
 
 def escape_walk(root, node):
     for pattern in node.sub_patterns[::-1]:
