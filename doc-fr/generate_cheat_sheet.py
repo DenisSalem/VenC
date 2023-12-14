@@ -28,7 +28,7 @@ for index in source.keys():
         else:
             attr = getattr(source[index][1], symbol)
         variables = ("<ul>"+''.join(["<li><code>"+v+"</code></li>" for v in attr.__doc__.split(',')])+"</ul>") if attr.__doc__ != None else ""
-        args = ', '.join([(name if name != "argv" else "arg 1</li><li>arg 2</li><li>arg n...") for name in inspect.signature(attr).parameters if not name in ["self","pattern","raise_error", "raise_exception"]])
+        args = ', '.join([("<code>"+name+"</code>" if name != "argv" else "<code>arg 1</code></li><li><code>arg 2</code></li><li><code>arg n...</code>") for name in inspect.signature(attr).parameters if not name in ["self","pattern","raise_error", "raise_exception"]])
         value = "<a href=\".:GetChapterAttributeByIndex::path::"+index+":.#"+pattern.lower()+"\"><code>"+pattern+"</code></a>"
         patterns.append((
             pattern,
@@ -42,5 +42,5 @@ print("Motifs::Arguments::Variables::NewLine::")
 items = sorted(patterns, key = lambda x: x[0])
 for i in range(0, len(items)):
     pattern = items[i]
-    print(pattern[1]+"::<ul>"+''.join(["<li><code>"+v+"</code></li>" for v in pattern[2].split(",") if len(v)])+"</ul>::"+pattern[3]+("::NewLine::" if i < len(items)-1 else ""))
+    print(pattern[1]+"::<ul>"+''.join(["<li>"+v+"</li>" for v in pattern[2].split(",") if len(v)])+"</ul>::"+pattern[3]+("::NewLine::" if i < len(items)-1 else ""))
 print(":.")

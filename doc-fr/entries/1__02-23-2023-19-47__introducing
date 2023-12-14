@@ -5,7 +5,6 @@ categories:
 chapter: '1'
 title: Présentation
 TODO:
-  - Verify that all generated anchors correspond to the hand-made references.
   - Verify W3C compliance.
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
