@@ -1,0 +1,6 @@
+authors:
+categories:
+title: {venc_entry_title}
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+.:GetEmbedContent::{embed_content}:.

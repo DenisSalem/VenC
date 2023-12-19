@@ -44,8 +44,15 @@ def die(msg, color="RED", extra=""):
     os._exit(-1)
 
 # Being verborse is nice, with colours it's better
-def notify(msg, color="GREEN"):
-    print(get_formatted_message(msg, color), flush=True)
+def notify(message_format, color="GREEN", prepend=""):
+    from venc3.l10n import messages; 
+    if len(message_format) > 1:
+        message_attr, *format_args = message_format
+        msg = getattr(messages, message_attr).format(*format_args)
+    else:
+        msg = getattr(messages, message_format[0])
+            
+    print(get_formatted_message(prepend+msg, color), flush=True)
 
 # Take care of setting up colours in printed out message
 def get_formatted_message(msg, color="GREEN", prompt="VenC: "):

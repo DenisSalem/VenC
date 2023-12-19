@@ -50,31 +50,38 @@ class Boundary:
 class Pattern:
     FLAG_NONE = 0
     FLAG_NON_CONTEXTUAL = 1
-    FLAG_CONTEXTUAL = 2
-    FLAG_NON_PARALLELIZABLE = 4
-    FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 8 # NOT IMPLEMENTED YET
-    FLAG_ALL = 15
+    FLAG_ENTRY_RELATED = 2
+    FLAG_CONTEXTUAL = 4
+    FLAG_NON_PARALLELIZABLE = 8
+    FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 16 # NOT IMPLEMENTED YET
+    FLAG_ALL = 31
     
     def __init__(self, s, o, c, sub_patterns, root):
         self.ID = '\x00'+str(id(self))+'\x00'
         self.o, self.c = o, c
         self.root = root
         self.payload = s[o+2:c-2].split('::')
+        self.payload_index = 0
         self.sub_patterns = sub_patterns
         offset = o + len(self.payload[0]) + 4
         limit = offset
         i = 0
         payload_index = 1
-       
         len_sub_patterns = len(sub_patterns)
-        for item in self.payload[1:]:
-            limit += len(item)
+        
+        # Is there an embed sub_pattern in
+        if len(sub_patterns) and sub_patterns[0].o > o and sub_patterns[0].c < offset:
+            from venc3.exceptions import VenCException
+            raise VenCException(("this_pattern_is_embed_in_the_name_of_another_one", sub_patterns[0].payload[0]), sub_patterns[0])
+        
+        for arg in self.payload[1:]:
+            limit += len(arg)
             while i < len_sub_patterns and sub_patterns[i].o < limit:
                 sub_pattern = sub_patterns[i]
                 sub_pattern.o -= offset
                 sub_pattern.c -= offset
                 sub_pattern.parent = self
-                sub_pattern.payload_index = payload_index
+                sub_pattern.payload_index += payload_index
                 i+=1
                 
             limit+=2
@@ -82,35 +89,59 @@ class Pattern:
             payload_index +=1
             
         pattern_name = self.payload[0]
+        
+        if pattern_name == "GetEntryContent":
+            root.match_get_entry_content = True
+            
+        if pattern_name == "GetEntryPreview":
+            root.match_get_entry_preview = True
+        
+        if pattern_name == "PreviewIfInThreadElseContent":
+            root.match_get_entry_content = True
+            root.match_get_entry_preview = True
+
         self.name_id = id(pattern_name)
 
         self.flags = Pattern.FLAG_NONE
+        
         if pattern_name in PatternsMap.CONTEXTUALS.keys():
             self.flags = Pattern.FLAG_CONTEXTUAL
         
         for key in PatternsMap.NON_CONTEXTUALS.keys():
-            if pattern_name in PatternsMap.NON_CONTEXTUALS[key].keys():
+            if key != "entries" and pattern_name in PatternsMap.NON_CONTEXTUALS[key].keys():
                 self.flags = Pattern.FLAG_NON_CONTEXTUAL
                 break
+
+        if pattern_name in PatternsMap.NON_CONTEXTUALS["entries"]:
+            self.flags = Pattern.FLAG_ENTRY_RELATED
             
         if pattern_name in PatternsMap.NON_PARALLELIZABLES.keys():
             self.flags |= Pattern.FLAG_NON_PARALLELIZABLE
 
         if not self.flags:
-            from venc3.exceptions import UnknownPattern
-            raise UnknownPattern(self, root)
+            root.unknown_patterns.append(self)
             
 class PatternTree:
-    def __init__(self, string, context=""):
+    def __init__(self, string, context="", has_markup_language=False):
+        self.has_markup_language = has_markup_language
         self.string = string
         self.context = context
+        self.unknown_patterns = []
         self.has_non_parallelizables = False
+        self.match_get_entry_content = False
+        self.match_get_entry_preview = False
         self.sub_patterns = self.__build_tree(
             self.__get_boundaries(string)
         )
+        
         for pattern in self.sub_patterns:
             pattern.parent = self
             pattern.payload_index = 0
+
+        for pattern in self.unknown_patterns:
+            if type(pattern.parent) == PatternTree or pattern.parent.payload[0] != "Escape":
+                from venc3.exceptions import UnknownPattern
+                raise UnknownPattern(pattern, self)
               
     def __find_pattern_boundaries(string, symbol, boundary_type):
       index = 0
@@ -204,6 +235,15 @@ class PatternTree:
         # markup syntax might also change order of patterns in string
         # so it has to be reordered.
         self.sub_patterns = sorted(self.sub_patterns, key = lambda x: x.o)
+        
+    def match_pattern_flags(self, flag, sub_patterns=None):
+        nodes = self.sub_patterns if sub_patterns == None else sub_patterns
+        pattern_names = []
+        for pattern in nodes:
+            if flag & pattern.flags:
+                pattern_names.append(pattern)
+            pattern_names += self.match_pattern_flags(flag, sub_patterns=pattern.sub_patterns)
+        return pattern_names
 
 class Processor:
     def __init__(self):
@@ -213,8 +253,7 @@ class Processor:
     def apply_pattern(self, parent, pattern, flags, payload_offset, recursion_error_triggered_by):
         if recursion_error_triggered_by == pattern.name_id:
             from venc3.exceptions import VenCException
-            from venc3.l10n import messages
-            raise VenCException(messages.pattern_recursion_error.format(pattern.payload[0]), pattern)
+            raise VenCException(("pattern_recursion_error", pattern.payload[0]), pattern)
             
         if pattern.payload[0] != "Escape":
             self.process(pattern, flags, recursion_error_triggered_by)
@@ -227,9 +266,9 @@ class Processor:
             except TypeError as e:
                 from venc3.exceptions import WrongPatternArgumentsNumber
                 raise WrongPatternArgumentsNumber(pattern, pattern.root, self.functions[pattern_name], args)
-                
-            len_chunk = len(chunk)
             
+            len_chunk = len(chunk)
+
             if type(parent) == Pattern:
                 if payload_offset[1] != pattern.payload_index:
                     payload_offset[0] = 0
@@ -240,7 +279,7 @@ class Processor:
                 payload_offset[0] += len_chunk - pattern.c + pattern.o
                     
             else:
-                ss = parent.string          
+                ss = parent.string
                 parent.string = ss[:pattern.o + payload_offset[0]] + chunk + ss[pattern.c + payload_offset[0]:]
                 payload_offset[0] += len_chunk - pattern.c + pattern.o
                 

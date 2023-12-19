@@ -20,15 +20,12 @@
 import codecs
 import os
 
-import json
-
 from venc3.helpers import quirk_encoding
-from venc3.prompt import notify
 from venc3.threads import Thread
-from venc3.l10n import messages
 
 class EntriesThread(Thread):
     def __init__(self):
+        from venc3.l10n import messages
         super().__init__(messages.export_single_entries)
         self.entries_per_page = 1 #override value
         self.organize_entries(self.datastore.entries)
@@ -50,7 +47,8 @@ class EntriesThread(Thread):
             })
         
         except KeyError as e:
-            die(messages.variable_error_in_filename.format(str(e)))
+            from venc3.prompt import die
+            die(("variable_error_in_filename", str(e)))
             
     def if_in_first_page(self, node, string1, string2=''):
         return string2.strip()
@@ -82,14 +80,14 @@ class EntriesThread(Thread):
 
         except:
             from venc3.exceptions import VenCException
-            raise VenCException(messages.arg_must_be_an_integer.format("length"), node)        
+            raise VenCException(("arg_must_be_an_integer","length"), node)        
         
         try:
             output += string.format(**params) + separator
             
         except KeyError as e:
             from venc3.exceptions import VenCException
-            raise VenCException(messages.unknown_contextual.format(str(e)[1:-1]), node)
+            raise VenCException(("unknown_contextual",str(e)[1:-1]), node)
             
         for i in range(0, length):
             next_entry =  None if self.current_entry_index >=  len(self.entries) - 2 else self.entries[self.current_entry_index+1]
@@ -150,23 +148,15 @@ class EntriesThread(Thread):
             from venc3.l10n import messages
             from venc3.prompt import die
             die(
-              messages.current_entry_is_overriding_the_following.format(
+              ("current_entry_is_overriding_the_following",
                 self.current_entry.id,
                 '\n'.join(
                     ["\t- #"+str(t[0])+" "+t[1] for t in self.known_written_path if t[2] == written_path]
                 )
               )
             )
-    
-    def do_jsonld(self, entry):
-        dump = json.dumps(self.datastore.entries_as_jsonld[self.current_entry.id])
-        f = open(self.current_export_path+"/"+str(entry.id)+".jsonld", 'w')
-        f.write(dump.replace("\\u001a", self.relative_origin))
             
-    def do(self):
-        if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
-            notify(self.indentation_level+'└─ '+messages.generating_jsonld_docs)
-            
+    def do(self):           
         self.page_number = 0
         self.current_page = 0
         if len(self.pages):
@@ -176,13 +166,3 @@ class EntriesThread(Thread):
                     self.pre_iteration()
                     self.do_iteration(entry)
                     self.post_iteration()
-                    if self.datastore.enable_jsonld:
-                        self.do_jsonld(entry)
-
-
-    def get_JSONLD(self, node):
-        if self.datastore.enable_jsonld and self.enable_jsonld:
-            return '<script type="application/ld+json" src="entry'+str(self.current_entry.id)+'.jsonld"></script>'
-            
-        return ''
-

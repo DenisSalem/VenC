@@ -25,9 +25,6 @@ import subprocess
 
 from venc3.datastore.configuration import get_blog_configuration
 from venc3.datastore.entry import yield_entries_content
-from venc3.prompt import notify
-from venc3.prompt import die
-from venc3.l10n import messages
 
 import venc3.datastore.entry as Entry
 
@@ -37,30 +34,68 @@ class MinimalEntry:
         for key in data.keys():
             setattr(self, key, data["key"])
 
-def new_entry(entry_name, template_name=""):        
+def new_entry(params):
+    default_template_args = {
+        "value" :  "{value}",
+        "count" :  "{count}",
+        "weight" : "{weight}",
+        "path" :   "{path}",
+    }
+    
+    entry = dict()
+    try:
+        entry["ID"] = max([ int(filename.split("__")[0]) for filename in yield_entries_content()]) + 1
+
+    except ValueError:
+        entry["ID"] = 1
+        
+    if len(params) == 3:
+        entry_name, template_name, template_args = params
+        import json
+        try:
+            template_args = json.loads(template_args)
+            if not "venc_entry_title" in template_args.keys():
+                template_args["venc_entry_title"] = entry_name
+                
+            if not "venc_entry_id" in template_args.keys():
+                template_args["venc_entry_id"] = entry["ID"]
+            
+        except Exception as e:
+            from venc3.exceptions import VenCException
+            VenCException(("exception_place_holder", "JSON: "+str(e))).die()
+
+    elif len(params) == 2:
+        entry_name, template_name = params
+        template_args = {"venc_entry_title":entry_name}
+        
+    elif len(params) == 1:
+      entry_name = params[0]
+      template_name = ''
+      template_args = {"venc_entry_title":entry_name}
+
+    else:
+        from venc3.exceptions import VenCException
+        VenCException(("wrong_args_number","<= 3",len(params))).die()
+
+    for default_key in default_template_args.keys():
+        if not default_key in template_args.keys():
+            template_args[default_key] = default_template_args[default_key]
+
     blog_configuration = get_blog_configuration()            
     content =   {
-        "authors":	[''],
-		    "tags":		[''],
+        "authors": [''],
 		    "categories":	[''],
-        "title":entry_name
+        "title": entry_name
     }
 
     try:
         wd = os.listdir(os.getcwd())
 
     except OSError:
-        die(messages.cannot_read_in.format(os.getcwd()))
+        from venc3.exceptions import VenCException
+        VenCException(("cannot_read_in", os.getcwd())).die()
 
-    date = datetime.datetime.now()
-
-    entry = dict()
     raw_entry_date = datetime.datetime.now()
-    try:
-        entry["ID"] = max([ int(filename.split("__")[0]) for filename in yield_entries_content()]) + 1
-
-    except ValueError:
-        entry["ID"] = 1
 
     entry["title"] = entry_name
     entry["month"] = raw_entry_date.month
@@ -70,58 +105,58 @@ def new_entry(entry_name, template_name=""):
     entry["minute"] = raw_entry_date.minute
     entry["date"] = raw_entry_date
 
-    entry_date = date.strftime("%m-%d-%Y-%H-%M")
-    output_filename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entry_date+"__"+entry["title"].replace(' ','_')
+    entry_date = raw_entry_date.strftime("%m-%d-%Y-%H-%M")
+    from venc3.helpers import quirk_encoding
+    output_filename = os.getcwd()+'/entries/'+str(entry["ID"])+"__"+entry_date+"__"+quirk_encoding(entry["title"]).replace(' ','_').replace('/','-')
 
     stream = codecs.open(output_filename, 'w', encoding="utf-8")
     if not len(template_name):
         output = yaml.dump(content, default_flow_style=False, allow_unicode=True) + "---VENC-BEGIN-PREVIEW---\n---VENC-END-PREVIEW---\n"
-   
     else:
-        found_template = False
-        templates_paths = [
-            os.getcwd()+'/templates/'+template_name,
-            os.path.expanduser("~/.local/share/VenC/themes_templates/"+template_name)
-        ]
-        for template_path in templates_paths:
-            try:
-                output = open(template_path, 'r').read().replace(".:GetEntryTitle:.", entry_name)
-                found_template = True
-                break
-                
-            except FileNotFoundError:
-                pass
-                
-            except PermissionError:
-                os.remove(output_filename)
-                die(messages.wrong_permissions.format(template_path))
+        from venc3.helpers import get_template
+        from venc3.exceptions import VenCException
         
-        if not found_template:
-            os.remove(output_filename)
-            notify(messages.file_not_found.format(templates_paths[0]), color="RED")
-            die(messages.file_not_found.format(templates_paths[1]))
+        try:
+            output = get_template(template_name, entry_name, template_args)
             
+        except VenCException as e:
+            os.remove(output_filename)
+            e.die()
+    
     stream.write(output)
     stream.close()
 
     try:
-        command = [arg for arg in blog_configuration["text_editor"].split(' ') if arg != '']
-        command.append(output_filename)
-        subprocess.call(command) 
+        if not "text_editor" in blog_configuration.keys():
+            from venc3.prompt import notify
+            notify(("missing_mandatory_field_in_blog_conf", "text_editor"), "YELLOW")
+        
+        elif type(blog_configuration["text_editor"]) != list:
+            from venc3.prompt import notify
+            notify(("blog_metadata_is_not_a_list", "text_editor"), "YELLOW")
+            
+        else:
+            command = [str(arg) for arg in blog_configuration["text_editor"] if arg != '']
+            command.append(output_filename)
+            subprocess.call(command) 
 
     except FileNotFoundError:
         os.remove(output_filename)
-        die(messages.unknown_command.format(blog_configuration["text_editor"]))
+        from venc3.prompt import die
+        die(("unknown_command", blog_configuration["text_editor"]))
+        
+    from venc3.prompt import notify
+    notify(("entry_written",))
 
-    notify(messages.entry_written)
-
-def new_blog(*blog_names):
+def new_blog(blog_names):
     if len(blog_names) < 1:
-        die(messages.missing_params.format("--new-blog"))
-
+        from venc3.prompt import die
+        die(("missing_params", "--new-blog"))
+        
+    from venc3.l10n import messages
     default_configuration =	{
-        "blog_name":			        messages.blog_name,
-        "disable_threads":              "",
+        "blog_name":			              messages.blog_name,
+        "disable_threads":              [],
         "disable_archives":             False,
         "disable_categories":           False,
         "disable_chapters":             True,
@@ -129,42 +164,33 @@ def new_blog(*blog_names):
         "disable_main_thread":          False,
         "disable_rss_feed":             False,
         "disable_atom_feed":            False,
-        "text_editor":                  "nano",
+        "text_editor":                  ["nano"],
         "date_format":                  "%A %d. %B %Y",
-        "author_name":			        messages.your_name,
-        "blog_description":		        messages.blog_description,
-        "blog_keywords":	            messages.blog_keywords,
-        "author_description":		    messages.about_you,
-        "license":			            messages.license,
-        "blog_url":			            messages.blog_url,
+        "blog_url":			                messages.blog_url,
         "ftp_host":                     messages.ftp_host,
-        "blog_language":	            messages.blog_language,
-        "author_email":	                messages.your_email,
         "code_highlight_css_override":  False,
         "path":	{
             "ftp":                      messages.ftp_path,
-            "entries_sub_folders":      "",
+            "entries_sub_folders":      "{entry_title}",
             "categories_sub_folders":   "",
-            "archives_sub_folders":        "",
+            "archives_sub_folders":     "",
             "chapters_sub_folders":     "chapters",
-            "index_file_name":		    "index{page_number}.html",
+            "index_file_name":		        "index{page_number}.html",
             "category_directory_name":	"{category}",
-            "chapter_directory_name":	"{chapter_name}",
-			"archives_directory_name":	"%Y-%m",
-			"entry_file_name":		    "entry{entry_id}.html",
-			"rss_file_name":		    "rss.xml",
-			"atom_file_name":		    "atom.xml"
+            "chapter_directory_name": 	"{chapter_name}",
+			      "archives_directory_name":	"%Y-%m",
+			      "entry_file_name":		        "index.html",
+			      "rss_file_name":		          "rss.xml",
+			      "atom_file_name":		        "atom.xml"
         },
         "entries_per_pages":		    10,
         "columns":			            1,
-        "feed_lenght":	        	    5,
+        "feed_length":	        	    5,
         "reverse_thread_order":		    True,
         "markup_language":              "Markdown",
         "path_encoding":                "",
         "server_port":                  8888,
         "sort_by":                      "id",
-        "enable_jsonld":                False,
-        "enable_jsonp":					False,
         "parallel_processing": 1
     }
     for folder_name in blog_names:
@@ -172,7 +198,8 @@ def new_blog(*blog_names):
             os.mkdir(folder_name)
 
         except OSError:
-            die(messages.file_already_exists.format("--new-blog",os.getcwd()+'/'+folder_name))
+            from venc3.prompt import die
+            die(("file_already_exists", "--new-blog", os.getcwd()+'/'+folder_name))
 
         os.mkdir(folder_name+'/'+"blog")
         os.mkdir(folder_name+'/'+"entries")
@@ -181,6 +208,8 @@ def new_blog(*blog_names):
         os.mkdir(folder_name+'/'+"extra")
         os.mkdir(folder_name+'/'+"templates")
         stream = codecs.open(folder_name+'/'+'blog_configuration.yaml', 'w',encoding="utf-8")
+        default_configuration["blog_name"] = folder_name
         yaml.dump(default_configuration, stream, default_flow_style=False, allow_unicode=True)
 
-    notify(messages.blog_created if len(blog_names) == 1 else messages.blogs_created)
+    from venc3.prompt import notify
+    notify(("blog_created" if len(blog_names) == 1 else "blogs_created",))

@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2022 Denis Salem
+#    Copyright 2016, 2023 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -17,26 +17,18 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+# TODO : Replace all argument name "node" by "pattern" to avoid confusion
 
-
-class PatternsMap():
-    FLAG_NONE = 0
-    FLAG_NON_CONTEXTUAL = 1
-    FLAG_CONTEXTUAL = 2
-    FLAG_NON_PARALLELIZABLE = 4
-    FLAG_WAIT_FOR_CHILDREN_TO_BE_PROCESSED = 8 # NOT IMPLEMENTED YET
-    FLAG_ALL = 15
-    
+class PatternsMap():    
     CONTEXTUALS = { # All of the below is loaded from Thread instanciated classes
         "ForPages":	                    "for_pages",
         "GetEntryContent":              "get_entry_content",
         "GetEntryPreview":              "get_entry_preview",
-        "GetJSON-LD":	                  "get_JSONLD",
         "GetNextPage":	                "get_next_page",
         "GetPreviousPage":	            "get_previous_page",
         "GetRandomNumber":	            "get_random_number",
         "GetRelativeLocation":	        "get_relative_location",
-        "GetRelativeOrigin":	          "get_relative_origin",
+        "GetRelativeRoot":	            "get_relative_root",
         "GetStyleSheets":	              "get_style_sheets",
         "GetThreadName":	              "get_thread_name",
         "IfInArchives":	                "if_in_archives",
@@ -54,14 +46,12 @@ class PatternsMap():
 
     NON_CONTEXTUALS = { # all of the below is loaded from datastore
         "entries" : { 
-            "ForBlogMetadata":              "for_blog_metadata",
-            "ForBlogMetadataIfExists":      "for_blog_metadata_if_exists",
             "ForEntryAuthors":	            "for_entry_authors",
             "ForEntryMetadata":	            "for_entry_metadata",
             "ForEntryMetadataIfExists":	    "for_entry_metadata_if_exists",   
-            "ForEntryTags":	                "for_entry_tags",
-            "GetEntryAttributeByID" :       "get_entry_attribute_by_id",
             "GetEntryArchivePath":	        "get_entry_archive_path",
+            "GetEntryCategoriesTree":	      "get_entry_categories_tree",
+            "GetEntryChapterLevel":         "get_entry_chapter_level",
             "GetEntryChapterPath":          "get_entry_chapter_path",
             "GetEntryDate":	                "get_entry_date",
             "GetEntryDay":	                "get_entry_day",
@@ -70,37 +60,41 @@ class PatternsMap():
             "GetEntryMetadata":	            "get_entry_metadata",
             "GetEntryMetadataIfExists":     "get_entry_metadata_if_exists",
             "GetEntryMetadataIfNotNull":    "get_entry_metadata_if_not_null",
+            "GetEntryMetadataTree":         "get_entry_metadata_tree",
+            "GetEntryMetadataTreeIfExists": "get_entry_metadata_tree_if_exists",
             "GetEntryMinute":	              "get_entry_minute",
             "GetEntryMonth":	              "get_entry_month",
             "GetEntryPath":	                "get_entry_path",
             "GetEntryTitle":	              "get_entry_title",
             "GetEntryToC":                  "get_entry_toc",
             "GetEntryYear":	                "get_entry_year",
+            "GetFlattenedEntryCategories":	"get_flattened_entry_categories",
             "IfEntryMetadataIsTrue":	      "if_entry_metadata_is_true",
-            "LeavesForEntryCategories":	    "leaves_for_entry_categories",
-            "TreeForEntryCategories":	      "tree_for_entry_categories",
-            "TreeForEntryMetadata":         "tree_for_entry_metadata",
-            "TreeForEntryMetadataIfExists": "tree_for_entry_metadata_if_exists",   
         },
         "blog": {
             "ForBlogArchives":	            "for_blog_archives",
+            "ForBlogMetadata":              "for_blog_metadata",
+            "ForBlogMetadataIfExists":      "for_blog_metadata_if_exists",
             "ForEntriesSet":	              "for_entries_set",
             "GetAuthorDescription":	        "get_author_description",
             "GetAuthorEmail":               "get_author_email",
             "GetAuthorName":	              "get_author_name",
+            "GetBlogCategoriesTree":	      "get_blog_categories_tree",
             "GetBlogDescription":	          "get_blog_description",
-            "GetBlogKeywords":	            "get_blog_keywords",
             "GetBlogLanguage":	            "get_blog_language",
             "GetBlogLicense":	              "get_blog_license",
             "GetBlogMetadata":	            "get_blog_metadata",
             "GetBlogMetadataIfExists":	    "get_blog_metadata_if_exists",
             "GetBlogMetadataIfNotNull":	    "get_blog_metadata_if_not_null",
+            "GetBlogMetadataTree":          "get_blog_metadata_tree",
+            "GetBlogMetadataTreeIfExists":  "get_blog_metadata_tree_if_exists",
             "GetBlogName":	                "get_blog_name",
             "GetBlogURL":	                  "get_blog_url",
             "GetChapterAttributeByIndex" :  "get_chapter_attribute_by_index",
             "GetChapters" :                 "get_chapters",
+            "GetEntryAttributeByID" :       "get_entry_attribute_by_id",
+            "GetFlattenedBlogCategories":	  "get_flattened_blog_categories",
             "GetRootPage":	                "get_root_page",
-            "GetEmbedContent":	            "wrapper_embed_content",
             "GetGenerationTimestamp":	      "get_generation_timestamp",
             "IfAtomEnabled":	              "if_atom_enabled",
             "IfBlogMetadataIsTrue":	        "if_blog_metadata_is_true",
@@ -109,11 +103,7 @@ class PatternsMap():
             "IfFeedsEnabled":	              "if_feeds_enabled",
             "IfInfiniteScrollEnabled":	      "if_infinite_scroll_enabled",
             "IfRSSEnabled":	                "if_rss_enabled",
-            "LeavesForBlogCategories":	    "leaves_for_blog_categories",
             "RangeEntriesByID":             "range_entries_by_id",
-            "TreeForBlogCategories":	      "tree_for_blog_categories",
-            "TreeForBlogMetadata":          "tree_for_blog_metadata",
-            "TreeForBlogMetadataIfExists":  "tree_for_blog_metadata_if_exists",   
         },
         "extra": { # Loaded from function localy imported
             "Audio":	                  "venc3.patterns.theme.get_audio",
@@ -121,10 +111,13 @@ class PatternsMap():
             "CodeHighlightInclude":	    "venc3.patterns.third_party_wrapped_features.pygmentize.highlight_include",
             "DisableMarkup":	          "venc3.patterns.non_contextual.disable_markup",
             "Escape":                   "venc3.patterns.non_contextual.escape",
+            "GetEmbedContent":	           "venc3.patterns.third_party_wrapped_features.oembed.wrapper_embed_content",
             "GetVenCVersion":	          "venc3.patterns.non_contextual.get_venc_version",
+            "HTML":                     "venc3.patterns.non_contextual.html",
             "IncludeFile":	            "venc3.patterns.non_contextual.include_file",
             "IncludeFileIfExists":	    "venc3.patterns.non_contextual.include_file_if_exists",
             "Kroki":	                  "venc3.patterns.third_party_wrapped_features.kroki.kroki",
+            "KrokiFromFile":	          "venc3.patterns.third_party_wrapped_features.kroki.kroki_from_file",
             "Latex2MathML":	            "venc3.patterns.third_party_wrapped_features.latex2mathml.latex_2_mathml",
             "SetColor":	                "venc3.patterns.non_contextual.set_color",
             "SetStyle":	                "venc3.patterns.non_contextual.set_style",
@@ -150,6 +143,8 @@ class PatternsMap():
             "non_parallelizable": dict()
         }
         
+        from venc3.patterns.processor import Pattern
+        
         for pattern_name in PatternsMap.NON_CONTEXTUALS["extra"].keys():
             pattern_location = PatternsMap.NON_CONTEXTUALS["extra"][pattern_name].split('.')
             function = pattern_location[-1]
@@ -172,5 +167,3 @@ def init_pattern_map():
     patterns_map = PatternsMap()
         
 patterns_map = None
-
-        

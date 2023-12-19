@@ -26,8 +26,7 @@ def VenCreStructuredText(source):
 
     except ModuleNotFoundError:
         from venc3.prompt import die
-        from venc3.l10n import messages
-        die(messages.module_not_found.format('docutils'))
+        die(("module_not_found", 'docutils'))
             
     except SystemMessage as e:
         from venc3.markup_languages import handle_markup_language_error

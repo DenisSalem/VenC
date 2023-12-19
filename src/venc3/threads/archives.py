@@ -21,7 +21,6 @@ import os
 import json
 
 from venc3.helpers import quirk_encoding
-from venc3.prompt import notify
 from venc3.threads import Thread
 
 class ArchivesThread(Thread):
@@ -49,8 +48,8 @@ class ArchivesThread(Thread):
         
         tree_special_char = '└' if i == len_archives-1 else '├'
 
-                
-        notify("│\t "+tree_special_char+"─ "+archive.value+"...")
+        from venc3.prompt import notify
+        notify(("exception_place_holder", archive.value+"..."), prepend="│\t "+tree_special_char+"─ ")
         self.export_path = str("blog/"+self.sub_folders+'/'+quirk_encoding(archive.value)+'/')
         os.makedirs(self.export_path)
         self.organize_entries([
@@ -69,29 +68,3 @@ class ArchivesThread(Thread):
                 continue
                 
             super().do()
-            if self.datastore.enable_jsonld or self.datastore.enable_jsonp:
-                from venc3.l10n import messages
-                notify("│\t "+('│' if i != len_archives-1 else ' ')+"  └─ "+messages.generating_jsonld_doc)
-                
-                blog_url = self.datastore.blog_configuration["blog_url"]
-                archive_as_jsonld = self.datastore.archives_as_jsonld[archive.value]
-                archive_as_jsonld["breadcrumb"]["itemListElement"].append({
-                    "@type": "ListItem",
-                    "position": 2,
-                    "item": {
-                        "@id": blog_url+'/'+self.sub_folders+archive.value+"/archives.jsonld",
-                        "url": blog_url+'/'+self.sub_folders+archive.value,
-                        "name": self.datastore.blog_configuration["blog_name"] +' | '+archive.value
-                    }
-                })
-                archive_as_jsonld["@id"] = blog_url+'/'+self.sub_folders+archive.value+"/archives.jsonld"
-                archive_as_jsonld["url"] = blog_url+'/'+self.sub_folders+archive.value
-                dump = json.dumps(archive_as_jsonld)
-                f = open("blog/"+self.sub_folders+'/'+archive.value+"/archives.jsonld", 'w')
-                f.write(dump)
-
-    def get_JSONLD(self, node):
-        if self.current_page == 0 and self.enable_jsonld:
-            return '<script type="application/ld+json" src="archives.jsonld"></script>'
-        
-        return ''

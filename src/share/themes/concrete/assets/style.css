@@ -1,0 +1,177 @@
+body {
+    background-image: url('concrete.png');
+    background-position: center;
+    background-color: rgba(192,192,192,1);
+    font-family: Arial;
+}
+
+header,
+footer
+  {width: 50%;
+  min-width: 800px;
+  display: box;
+  margin: auto;
+  font-weight: bold;}
+
+footer
+  {margin-top: 10px;
+  min-height: 2.5em;}
+  
+footer ul
+  {list-style-type: none;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px}
+
+footer ul li
+  {display: inline-block;}
+  
+aside
+  {width: 25%;
+  margin-top: 8px;
+  display:block;
+  float: left;}
+
+hr
+  {border-top: 1px solid black;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  width: 90%;}
+
+blockquote, pre
+  {background-image: url('concrete.png');
+  background-position: center;
+  background-color: rgba(92,92,92,1);
+  margin: 0px;
+  padding: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #808080;
+  overflow-x: scroll;
+  box-shadow: 0px 3px 5px rgba(0,0,0,0.5) inset, 0px -1px 0px rgba(255,255,255,0.3) inset;}
+
+.entry table
+  {width: 100%;}
+  
+.entry table td
+  {border: 1px solid rgba(0,0,0,0.5);
+  box-shadow: 0px 1px 0px rgba(255,255,255,0.3) inset;
+  padding-left:10px;
+  padding-right: 10px;}
+    
+.entry h1,
+.entry h2,
+.entry h3,
+.entry h4,
+.entry h5
+  {text-align: center;
+  margin-right:-10px;
+  margin-left:-10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border: 1px solid rgba(0,0,0,0.8);
+  border-left: none;
+  border-right: none;
+  background-color: rgba(255,255,255,1);
+  background-image: url('concrete.png');
+  box-shadow: 0px 3px 5px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.3) inset;}
+
+.entry p,
+.entry ul li
+  {text-align: justify;}
+  
+.entry
+  {display: block;
+  margin: auto;
+  width: calc(50% - 20px);
+  min-width: 780px;
+  margin-top: 0.5em;
+  padding-left:10px;
+  padding-right:10px;}
+
+.engrave,
+.__VENC_TREE_BUTTON_SHOW__,
+.__VENC_TREE_BUTTON_DISABLED__,
+.__VENC_TREE_BUTTON_HIDE__,
+#__VENC_NAVIGATION__ a,
+.entry a,
+.entry h1,
+.entry h2,
+.entry h3,
+.entry h4,
+.entry h5
+  {color: rgba(0,0,0,0.8);
+  text-shadow: 0px 1px 0px rgba(255,255,255,0.8), 0px -1px 0px rgba(0,0,0,1);
+  text-decoration: none;}
+
+.engrave:hover,
+.__VENC_TREE_BUTTON_SHOW__:hover,
+.__VENC_TREE_BUTTON_DISABLED__:hover,
+.__VENC_TREE_BUTTON_HIDE__:hover,
+#__VENC_NAVIGATION__ a:hover,
+.entry a:hover
+  {text-shadow: 0px -1px 0px rgba(255,255,255,0.8), 0px 1px 0px rgba(0,0,0,1);
+  color: rgba(192,192,192,0.1);}
+
+.entry a
+  {font-weight: bold;}
+  
+.title
+  {text-align: center;
+  letter-spacing: 5px;}
+  
+.box
+  {border: 1px solid rgba(0,0,0,0.8);
+  background-color: rgba(255,255,255,1);
+  background-image: url('concrete.png');
+  box-shadow: 0px 3px 5px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.3) inset;}
+
+.hashtags li
+  {display: inline;
+  margin-left: 0.25em;
+  margin-right: 0.25em;}
+    
+.__VENC_OEMBED__
+  {display: block;
+  margin: auto;
+  text-align: center;}
+    
+.__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_DISABLED__, .__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_HIDE__
+  {margin-right: 1em;}
+
+.__VENC_PYGMENTIZE_WRAPPER__ table td
+  {border: none;
+  padding: 0px;}
+  
+#blog_categories,
+#blog_chapters,
+#blog_chapters
+  {width: 90%;
+  margin: auto;
+  display: block;}
+    
+#__VENC_NAVIGATION__
+  {text-align: center;
+  margin: 10px;}
+  
+#next_link
+  {margin-left: 10px;
+  float: right;}
+
+#previous_link
+  {margin-right: 10px;
+  float: left;}    
+
+@media screen and (max-width: 1560px) {
+  aside {
+    margin: auto;
+    margin-top: 8px;
+    width: 50%;
+    min-width: 800px;
+    float: none;
+  }
+
+#blog_categories,
+#blog_chapters,
+#blog_chapters
+  {width: 100%;}
+}

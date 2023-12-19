@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!-- Proudly generated with VenC-.:GetVenCVersion:. -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>.:GetBlogName:.</title>
+        .:GetStyleSheets:.
+        <link rel="stylesheet" href=".:GetRelativeRoot:.style.css" type="text/css" >
+        <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Scripts-Bootstrap-0.0.0.js"></script>
+        .:IfInfiniteScrollEnabled::
+            .:IfInThread::
+                <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Infinite-Scroll-1.2.0.js"></script>
+            ::
+        
+            :.
+            <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Tree-0.2.0.js"></script>
+            <script type="text/javascript">
+                VENC_TREE.ul_style = function(ul) {
+                    ul.style.listStyleType = "none";
+                }
+            </script>
+        :.
+        .:ForBlogMetadataIfExists::custom_scripts::<script type="text/javascript" src=".:GetRelativeRoot:.{value}"></script>:.
+        .:ForBlogMetadataIfExists::custom_styles::<link rel="stylesheet" href=".:GetRelativeRoot:.{value}" type="text/css" >:.
+    </head>
+    <body>
+        <div>
+            <header class="box engrave title"><h1><a class="engrave" href=".:GetRelativeRoot:./">.:GetBlogName:.</a></h1></header>
+            <aside>
+                .:IfCategories::
+                <div class="box" id="blog_categories">
+                    <p class="engrave title"><b>CATEGORIES</b></p>
+                    .:IfBlogMetadataIsTrue::disable_blog_hashtags::
+                    ::
+                        <hr>
+                        <ul class="hashtags">.:GetFlattenedBlogCategories::<li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>:: :.</ul>
+                    :.
+                    
+                    .:IfBlogMetadataIsTrue::disable_categories_tree::
+                    ::
+                        <hr>
+                        <div class="__VENC_TREE_ROOT__">.:GetBlogCategoriesTree::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>:.</div>
+                    :.
+                </div>
+                :.
+                .:IfChapters::
+                <div class="box" id="blog_chapters">
+                    <p class="engrave title"><b>CHAPTERS</b></p>
+                    .:IfBlogMetadataIsTrue::disable_chapters::
+                    ::
+                        <hr>
+                        <div class="__VENC_TREE_ROOT__">
+                            .:GetChapters::
+                                <ul class="chapter-level{level} __VENC_TREE_NODE__">::
+                                <li>{index}. <a class="engrave" href="{path}">{title}</a>::
+                                </li>::
+                                </ul>
+                            :.
+                        </div>
+                    :.
+                </div>
+                :.
+            </aside>

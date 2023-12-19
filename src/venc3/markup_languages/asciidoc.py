@@ -29,8 +29,7 @@ def VenCAsciiDoc(source, attributes):
     
     except ModuleNotFoundError:
         from venc3.prompt import die
-        from venc3.l10n import messages
-        die(messages.module_not_found.format('asciidoc3'))
+        die(("module_not_found", "asciidoc3"))
     
     infile = io.StringIO(source.string)
     outfile = io.StringIO()

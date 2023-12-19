@@ -19,7 +19,7 @@
 
 def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
     output_context = []
-    from venc3.datastore import multiprocessing_thread_params
+    from venc3.datastore.entries import multiprocessing_thread_params
     send_in.send(multiprocessing_thread_params)
     chunked_filenames = multiprocessing_thread_params["chunked_filenames"]
     try:
@@ -45,11 +45,10 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
 def worker(worker_id, send_out, recv_in, single_process_argv=None):
     from venc3.datastore.entry import Entry
     from venc3.prompt import notify
-    from venc3.l10n import messages
 
     worker_params = send_out.recv()
     
-    notify("│  "+("└─ " if worker_id == worker_params["workers_count"] - 1 else "├─ ")+messages.start_thread.format(worker_id+1))
+    notify(("start_thread", worker_id+1), prepend="│  "+("└─ " if worker_id == worker_params["workers_count"] - 1 else "├─ "))
     
     chunk = send_out.recv()
 
@@ -59,7 +58,6 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
             output.append(Entry(
                 filename,
                 worker_params["paths"],
-                worker_params["jsonld_required"],
             ))
         
         recv_in.send(output)
@@ -67,6 +65,6 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
         chunk = send_out.recv()
             
 def finish(worker_id):
-    from venc3.datastore import multiprocessing_thread_params
+    from venc3.datastore.entries import multiprocessing_thread_params
     multiprocessing_thread_params["entries"] += multiprocessing_thread_params["chunked_filenames"][worker_id]
     multiprocessing_thread_params["chunked_filenames"][worker_id] = None

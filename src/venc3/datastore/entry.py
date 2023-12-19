@@ -19,70 +19,74 @@
 
 import datetime
 import os
-import time
-import unidecode
-import urllib.parse
-import yaml
 
 from venc3.helpers import quirk_encoding
-from venc3.prompt import die
-from venc3.prompt import notify
-from venc3.l10n import messages
-from venc3.datastore.metadata import MetadataNode
-from venc3.datastore.metadata import build_categories_tree
-from venc3.exceptions import VenCException
-from venc3.exceptions import MalformedPatterns
 from venc3.patterns.processor import PatternTree
 
 class Entry:  
-    def __init__(self, filename, paths, build_internal_categories_tree):
+    def __init__(self, filename, paths):
         date_format = paths["archives_directory_name"]
         self.previous_entry = None
         self.next_entry = None
         self.chapter = None  # will be overriden at chapters datastructure generation
-        self.schemadotorg = {}
         self.title = ''
 
         # Loading
         raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()
-
         entry_parted = raw_data.split("---VENC-BEGIN-PREVIEW---\n")
         if len(entry_parted) == 2:
             entry_parted = [entry_parted[0]] + entry_parted[1].split("---VENC-END-PREVIEW---\n")
             if len(entry_parted) == 3:
-                self.preview = PatternTree(entry_parted[1], filename)
-                self.content = PatternTree(entry_parted[2], filename)
-                    
+                import yaml
                 try:
                     metadata = yaml.load(entry_parted[0], Loader=yaml.FullLoader)
 
                 except yaml.scanner.ScannerError as e:
-                    raise VenCException(messages.possible_malformed_entry.format(filename, ''), context=filename, extra=str(e))
+                    from venc3.exceptions import VenCException
+                    raise VenCException(("possible_malformed_entry", filename, ''), context=filename, extra=str(e))
+                    
+                if "markup_language" in metadata.keys():
+                    markup_language = metadata["markup_language"]
+                else:
+                    from venc3.datastore.configuration import get_blog_configuration
+                    markup_language = get_blog_configuration()["markup_language"]
+                    
+                # TODO : OPTIMISATION IMPORT theme and pre process only if required
+                self.preview = PatternTree(entry_parted[1], filename+":preview", False if markup_language == "none" else True)
+                self.content = PatternTree(entry_parted[2], filename+":content", False if markup_language == "none" else True)
 
             else:
+                from venc3.l10n import messages; 
                 cause = messages.missing_separator_in_entry.format("---VENC-END-PREVIEW---")
-                raise VenCException(messages.possible_malformed_entry.format(filename, cause), context=filename)
+                from venc3.exceptions import VenCException
+                raise VenCException(("possible_malformed_entry", filename, cause), context=filename)
         else:
+            from venc3.l10n import messages; 
             cause = messages.missing_separator_in_entry.format("---VENC-BEGIN-PREVIEW---")
-            raise VenCException(messages.possible_malformed_entry.format(filename, cause), context=filename)
+            from venc3.exceptions import VenCException
+            raise VenCException(("possible_malformed_entry", filename, cause), context=filename)
         
         # Setting up optional metadata
         for key in metadata.keys():
-            if not key in ("authors", "tags", "categories", "title"):
+            if not key in ("authors", "categories", "title"):
                 if metadata[key] != None:
-                    if key == "https://schema.org":
-                        self.schemadotorg = metadata[key]
-                    else:
-                        setattr(self, key, metadata[key])
+                    setattr(self, key, metadata[key])
                         
                 else:
-                    notify(messages.invalid_or_missing_metadata.format(key, filename), color="YELLOW")
+                    from venc3.prompt import notify
+                    notify(("invalid_or_missing_metadata", key, filename), color="YELLOW")
                     setattr(self, key, '')
 
         # Fix missing or incorrect metadata
-        for key in ("authors", "tags", "categories", "title"):
+        for key in ("authors", "categories", "title"):
             if key not in metadata.keys() or metadata[key] == None:
                 metadata[key] = '' if key == "title" else []
+
+        try:
+            self.chapter_level = str(len(str(metadata["chapter"]).split('.')))
+            
+        except:
+            pass
     
         self.raw_metadata = metadata
         self.filename = filename
@@ -101,15 +105,11 @@ class Entry:
         self.title = metadata["title"].replace(".:GetEntryTitle:.",'') # sanitize
 
         if type(metadata["authors"]) != list:
-            raise VenCException(messages.entry_metadata_is_not_a_list.format("authors", self.id), context=filename)
+            from venc3.exceptions import VenCException
+            raise VenCException(("entry_metadata_is_not_a_list", "authors", self.id), context=filename)
             
-        self.authors = tuple(metadata["authors"])              
-
-        if type(metadata["tags"]) != list:
-            raise VenCException(messages.entry_metadata_is_not_a_list.format("tags", self.id), context=filename)
+        self.authors = tuple(metadata["authors"])
             
-        self.tags = tuple(metadata["tags"])
-
         params = {
             "entry_id": self.id,
             "entry_title": self.title
@@ -122,28 +122,12 @@ class Entry:
         )
         
         if type(metadata["categories"]) != list:
-            raise VenCException(messages.entry_metadata_is_not_a_list.format("categories", self.id), context=filename)
+            from venc3.exceptions import VenCException
+            raise VenCException(("entry_metadata_is_not_a_list", "categories", self.id), context=filename)
 
         self.raw_categories = metadata["categories"]
-        self.categories_leaves = None
-        self.categories_tree = []
-        if build_internal_categories_tree:
-            self.categories_tree = []
-            self.categories_leaves = []
-            build_categories_tree(
-                None,
-                self.raw_categories,
-                self.categories_tree,
-                self.categories_leaves,
-                None,
-                sub_folders="\x1a"+paths["categories_sub_folders"]
-            )
-        else:
-            self.categories_tree = None
-            self.categories_leaves = None
         
         self.html_categories_tree = {}
-        self.html_tags = {}
         self.html_authors = {}
         self.html_categories_leaves = {}
         self.html_for_metadata = {}
@@ -170,13 +154,16 @@ def yield_entries_content():
                     raise ValueError
 
             except ValueError:
-                notify(messages.invalid_entry_filename.format(filename), "YELLOW")
+                from venc3.prompt import notify
+                notify(("invalid_entry_filename", filename), "YELLOW")
 
             except IndexError:
-                notify(messages.invalid_entry_filename.format(filename), "YELLOW")
+                from venc3.prompt import notify
+                notify(("invalid_entry_filename", filename), "YELLOW")
     
     except FileNotFoundError:
-        die(messages.file_not_found.format(os.getcwd()+"/entries"))
+        from venc3.prompt import die
+        die(("file_not_found", os.getcwd()+"/entries"))
 
 def get_latest_entryID():
     entries_list = sorted(yield_entries_content(), key = lambda entry : int(entry.split("__")[0]))

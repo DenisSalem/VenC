@@ -19,11 +19,9 @@
 
 import importlib
 
-from venc3.l10n import messages
-from venc3.prompt import notify
-
 def handle_markup_language_error(message, line=None, string=None):
-    notify(message, "RED")
+    from venc3.prompt import notify
+    notify(("exception_place_holder", message), "RED")
     if string != None:
         lines = string.split('\n')
         for lineno in range(0,len(lines)):
@@ -36,7 +34,7 @@ def handle_markup_language_error(message, line=None, string=None):
 
 def import_wrapper(markup_language):
     key = {
-        "Markdown" :         ("markdown",         "VenCMarkdown",         "markdown2"),
+        "Markdown" :         ("markdown",         "VenCMarkdown",         "mistletoe"),
         "asciidoc" :         ("asciidoc",         "VenCAsciiDoc",         "asciidoc3"),
         "reStructuredText" : ("restructuredtext", "VenCreStructuredText", "docutils")
     }
@@ -47,13 +45,15 @@ def import_wrapper(markup_language):
         
     except ModuleNotFoundError:
         from venc3.prompt import die
-        die(messages.module_not_found.format(key[markup_language][2]))  
+        die(("module_not_found", key[markup_language][2]))  
 
-def process_markup_language(source, markup_language, entry=None):
+def process_markup_language(source, markup_language, entry):
     if markup_language == "Markdown":
-        venc_markdown = import_wrapper(markup_language)(extras=["header-ids", "footnotes", "toc"])
-        string = venc_markdown.convert(source.string)
-        entry.toc = tuple(venc_markdown.table_of_content)
+        do_table_of_content = ":content" == source.context[-8:]
+        venc_markdown = import_wrapper(markup_language)(do_table_of_content)
+        string = venc_markdown.render(source.string)
+        if do_table_of_content:
+            entry.toc = tuple(venc_markdown.renderer.table_of_content)
 
     elif markup_language == "asciidoc":
         string = import_wrapper(markup_language)(source, {})
@@ -63,8 +63,10 @@ def process_markup_language(source, markup_language, entry=None):
         string = import_wrapper(markup_language)(source)
                 
     elif markup_language != "none":
+        from venc3.l10n import messages
         err = messages.unknown_markup_language.format(markup_language, source.context)
         handle_markup_language_error(err)
+        
     else:
         return
         

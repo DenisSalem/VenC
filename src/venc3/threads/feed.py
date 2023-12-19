@@ -18,11 +18,10 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc3.threads import Thread
-from venc3.prompt import notify
-from venc3.l10n import messages
 
 class FeedThread(Thread):
     def __init__(self, feed_type, prompt, indentation_type):
+        from venc3.l10n import messages
         super().__init__(prompt+"─ "+getattr(messages, "generating_"+feed_type), indentation_type)
         self.footer = getattr(self.theme, feed_type+"_footer")
         self.header = getattr(self.theme, feed_type+"_header")
@@ -33,7 +32,7 @@ class FeedThread(Thread):
         self.column_closing = ''
         self.columns_number = 1
         self.filename = self.datastore.blog_configuration["path"][feed_type+"_file_name"]
-        self.entries_per_page = self.datastore.blog_configuration["feed_lenght"]
+        self.entries_per_page = self.datastore.blog_configuration["feed_length"]
         self.in_thread = True
         self.content_type = feed_type
 
@@ -42,10 +41,6 @@ class FeedThread(Thread):
         self.relative_origin = relative_origin
         self.organize_entries(entries)
         super().do()
-    
-    def get_JSONLD(self, node):
-        from venc3.exceptions import VenCException
-        raise VenCException(messages.unknown_pattern.format("GetJSONLD"), node)
 
     def if_in_feed(self, node, string1, string2=''):
         return string1.strip()

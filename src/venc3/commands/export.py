@@ -21,31 +21,38 @@ import subprocess
 
 from venc3.exceptions import VenCException, MalformedPatterns
 from venc3.helpers import rm_tree_error_handler
-from venc3.l10n import messages
 from venc3.patterns.non_contextual import theme_includes_dependencies
 from venc3.patterns.processor import Processor, Pattern
 from venc3.prompt import notify
 
 def copy_recursively(src, dest):
     import errno, os, shutil
-    for filename in os.listdir(src):
+    try:
+        listdir = os.listdir(src)
+    except Exception as e:
+        from venc3.exceptions import VenCException
+        VenCException(("exception_place_holder", e)).die()
+        
+    for filename in listdir:
         try:
             shutil.copytree(src+filename, dest+filename)
     
         except shutil.Error as e:
-            notify(messages.directory_not_copied % e, "YELLOW")
-
+            from venc3.prompt import notify
+            notify(("directory_not_copied", str(e)), "YELLOW")
+            
         except OSError as e:
             if e.errno == errno.ENOTDIR:
                 shutil.copy(src+filename, dest+filename)
 
             else:
-                notify(messages.directory_not_copied % e, "YELLOW")
+                from venc3.prompt import notify
+                notify(("directory_not_copied", str(e)), "YELLOW")
                 
-def export_and_remote_copy(theme_name=''):
-    export_blog(theme_name='')
+def export_via_ftp(params):
+    export_blog(params)
     from venc3.commands.remote import remote_copy
-    remote_copy()
+    remote_copy(None)
 
 def setup_pattern_processor(parallel=False):        
     processor = Processor()
@@ -59,7 +66,8 @@ def setup_pattern_processor(parallel=False):
     return processor
             
 def process_non_parallelizables(datastore, patterns_map, thread_params):
-    notify("├─ "+messages.process_non_parallelizable)
+    from venc3.prompt import notify
+    notify(("process_non_parallelizable",), prepend="├─ ")
     pattern_processor = Processor()
     pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
     from venc3.patterns.processor import Pattern
@@ -152,8 +160,9 @@ def process_non_contextual_patterns():
         if datastore.workers_count > 1:
             process_non_parallelizables(datastore, patterns_map, thread_params)
             pattern_processor.set_patterns(patterns_map.non_contextual["non_parallelizable"])
-        
+                    
         flags = Pattern.FLAG_NON_CONTEXTUAL | Pattern.FLAG_NON_PARALLELIZABLE
+
         pattern_processor.process(theme.header, flags)
         pattern_processor.process(theme.footer, flags)
         pattern_processor.process(theme.rss_header, flags)
@@ -164,13 +173,15 @@ def process_non_contextual_patterns():
     except VenCException as e:    
         e.die()
 
-def export_blog(theme_name=''):
+def export_blog(params):
+    theme_name = params[0] if len(params) else ''
     import time
+        
     start_timestamp = time.time()
     from venc3.datastore import init_datastore
     datastore = init_datastore()
     
-    notify("├─ "+messages.pre_process)
+    notify(("pre_process",), prepend="├─ ")
     
     from venc3.datastore.theme import init_theme
     init_theme(theme_name)
@@ -181,7 +192,7 @@ def export_blog(theme_name=''):
     
     process_non_contextual_patterns()
     if not datastore.blog_configuration["disable_single_entries"]:
-        notify("├─ "+messages.link_entries)
+        notify(("link_entries",), prepend="├─ ")
         # Add required link between entries
         entries = datastore.entries
         for entry_index in range(0, len(entries)):
@@ -200,6 +211,7 @@ def export_blog(theme_name=''):
         from venc3.threads.main import MainThread
         thread = MainThread()
         thread.do()
+        
         if not datastore.blog_configuration["disable_archives"]:
             from venc3.threads.archives import ArchivesThread
             thread = ArchivesThread()
@@ -224,7 +236,7 @@ def export_blog(theme_name=''):
         e.die()
         
     # Copy assets and extra files
-    notify('└─ '+messages.copy_assets_and_extra_files)
+    notify(("copy_assets_and_extra_files",), prepend="└─ ")
     from venc3.patterns.third_party_wrapped_features.pygmentize import code_highlight
     from venc3.datastore.theme import theme, theme_assets_dependencies
     code_highlight.export_style_sheets()
@@ -238,14 +250,16 @@ def export_blog(theme_name=''):
             shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
 
         except FileNotFoundError as e:
-            notify(messages.file_not_found.format(e.filename), color="YELLOW")
+            notify(("file_not_found", e.filename), color="YELLOW")
     
-    notify(messages.task_done_in_n_seconds.format(round(time.time() - start_timestamp,6)))
+    notify(("task_done_in_n_seconds", round(time.time() - start_timestamp,6)))
 
-def edit_and_export(entry_filename=''):    
-    if not len(entry_filename):
-        from venc3.helpers import die
-        die(messages.missing_params.format("--edit-and-export"))
+def edit_and_export(params):    
+    if len(paramas):
+        entry_filename= params[0]
+    else:
+        from venc3.prompt import die
+        die(("missing_params", "--edit-and-export"))
     
     from venc3.datastore import init_datastore
     datastore = init_datastore()
@@ -253,16 +267,16 @@ def edit_and_export(entry_filename=''):
     try:
         if type(datastore.blog_configuration["text_editor"]) != list:
             from venc3.helpers import die
-            die(messages.blog_metadata_is_not_a_list.format("text_editor"))
+            die(("blog_metadata_is_not_a_list", "text_editor"))
 
         proc = subprocess.Popen(datastore.blog_configuration["text_editor"]+[entry_filename])
         proc.wait()
 
     except TypeError:
         from venc3.helpers import die
-        die(messages.unknown_text_editor.format(datastore.blog_configuration["text_editor"]))
+        die(("unknown_text_editor", datastore.blog_configuration["text_editor"]))
     
     except Exception as e:
         raise e
     
-    export_blog()
+    export_blog(params[1:])
