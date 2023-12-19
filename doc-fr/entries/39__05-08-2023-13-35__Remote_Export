@@ -23,7 +23,7 @@ Ou encore à :
 > venc --export-blog [thème]
 
 Cependant, VenC utilise les informations du [fichier de
-configuration principal](.:GetChapterAttributeByIndex::path::3.2:.)
+configuration principale](.:GetChapterAttributeByIndex::path::3.2:.)
 pour transférer votre projet exporté sur un [serveur distant prédéfini](.:GetChapterAttributeByIndex::path::3.2:.#ftp-host) à l'[emplacement désiré](.:GetChapterAttributeByIndex::path::3.2:.#ftp).
 
 

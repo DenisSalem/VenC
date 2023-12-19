@@ -50,4 +50,6 @@ chose comme ceci :
 
 Pas de grande modification, si ce n'est l'ajout du _motif_ et d'une paire de balises __`div`__ pour pouvoir plus tard personnaliser le style CSS de notre publication.
 
-Voilà pour une version minimale du fichier __`entry.html`__, dans les chapitres suivants nous verrons ce qu'il possible de faire d'autre de plus élaboré !
+Voilà pour une version minimale du fichier __`entry.html`__.
+
+Dans les chapitres suivants, nous verrons des modifications plus avancées pour personnaliser ce fichier selon vos besoins.

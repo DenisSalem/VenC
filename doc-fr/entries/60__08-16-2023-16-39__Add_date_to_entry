@@ -20,8 +20,7 @@ Par exemple, ligne 3 :
     </div>:.
 </div>:.
 
-Souvent, les publications sont regroupées par période de dates de publication (par mois par exemple). Il est possible comme on
-l'a vu d'accéder à ces archives. Une bonne pratique est donc d'associer la date ainsi affichée
+Souvent, les publications sont regroupées par période de dates de publication (par mois par exemple). Il est possible d'accéder à ces archives. Une bonne pratique est donc d'associer la date ainsi affichée
 à un lien vers l'archive correspondante. On utilise pour ça [`GetEntryArchivePath`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentryarchivepath).
 
 En changeant la ligne 3 en conséquence, on a alors par exemple :

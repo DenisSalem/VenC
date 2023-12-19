@@ -8,10 +8,10 @@ title: Structure du thème
 ---VENC-END-PREVIEW---
 Un thème est composé d'un ensemble de fichiers que VenC charge en mémoire
 et dont il va se servir pour générer votre site. Nous allons créer dans cette première partie
-ces fichiers dont nous avons besoins et nous les remplirons au fur et à mesure dans la suite de
+ces fichiers dont nous avons besoin et nous les remplirons au fur et à mesure dans la suite de
 ce tutoriel.
 
-Pour commencer placez vous dans la racine de votre projet :
+Pour commencer, placez-vous dans la racine de votre projet :
 
 .:CodeHighlight::shell-session::False::anonyme@anonymous /path/to/your/project $ ls
 blog  blog_configuration.yaml  caches  entries  extra  includes  theme:.
@@ -20,7 +20,7 @@ Si vous n'avez pas déjà [installé un thème](.:GetChapterAttributeByIndex::pa
 
 Nous allons y créer à l'intérieur deux répertoires :
 
-- __`assets`__ : nous allons le laisser vide pour le moment, mais on peux déjà faire remarquer que c'est ici que vous mettrez des choses comme vos feuilles de style CSS.
+- __`assets`__ : nous allons le laisser vide pour le moment, mais on peut déjà faire remarquer que c'est ici que vous mettrez des choses comme vos feuilles de style CSS.
 - __`chunks`__ : c'est le répertoire contenant les fameux fichiers dont nous parlions un peu plus haut.
 
 .:CodeHighlight::shell-session::False::anonyme@anonymous ~ $ cd /path/to/your/project/theme
@@ -41,8 +41,8 @@ Ceci étant fait, on va créer les _morceaux_ composant notre site __dans le ré
     video.html \
     autio.html:.
 
-Se pose donc maintenant la question de ce à quoi sert ces fichiers. On peut remarquer une récurrence
-dans le nom de ceux là :
+Se pose donc maintenant la question de ce à quoi servent ces fichiers. On peut remarquer une récurrence
+dans le nom de ceux-là :
 
 .:Table:: <code>header.html</code>    :: <code>entry.html</code>    :: <code>footer.html</code>    :: NewLine ::
           <code>rssHeader.xml</code>  :: <code>rssEntry.xml</code>  :: <code>rssFooter.xml</code>  :: NewLine ::
@@ -61,7 +61,7 @@ interpréter.
 
 C'est la même logique qui est utilisée pour les flux Atom et RSS.
 
-Voilà pour les neufs premiers fichiers.
+Voilà pour les neuf premiers fichiers.
 
 Il reste maintenant __`video.html`__ et __`audio.html`__ : HTML5 permet d'inclure dans une page du contenu
 multimedia. Il existe un lecteur par défaut avec une configuration minimale, mais il est aussi possible

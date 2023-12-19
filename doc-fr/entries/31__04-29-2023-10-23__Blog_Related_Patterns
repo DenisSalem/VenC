@@ -15,7 +15,7 @@ exécutés une et une seule fois.
 > .:Escape:: .:ForBlogArchives::string::separator:. :.
 
 Ce motif permet de récupérer la liste des périodes archivées.
-Le format de la période de temps est défini dans le fichier de configuration
+Le format de la période est défini dans le fichier de configuration
 principal par [`archives_directory_name`](.:GetChapterAttributeByIndex::path::3.2:.#archives-directory-name).
 
 - __`string`__ : le premier argument contient le texte à formater pour chaque élément de la liste de période.
@@ -26,7 +26,7 @@ Les variables de la fonction sont les suivantes :
 - __`value`__ : la période courante, telle que définie par [`archives_directory_name`](.:GetChapterAttributeByIndex::path::3.2:.#archives-directory-name) dans le fichier de configuration principal du blog.
 - __`path`__ : le chemin relatif la période archivée.
 - __`count`__ : le nombre de publications dans la période courante.
-- __`weight`__ : le nombre de publications dans la période courante divisé par le nombre maximal de publications par période.
+- __`weight`__ : le nombre de publications dans la période courante, divisé par le nombre maximal de publications par période.
 
 Si la [génération des archives est désactivée](.:GetChapterAttributeByIndex::path::3.2:.#disable-archives), le motif est ignoré et supprimé.
 
@@ -73,7 +73,7 @@ Les variables pouvant être utilisées sont par défaut :
 - **`archive_path`** : le chemin relatif vers le groupe d'archives de la publication courante.
 - **`chapter_path`** : le chemin relatif vers le chapitre correspondant à la publication courante. Si la génération de chapitre est désactivée, la variable est ignorée.
 
-Il est également possible d'accéder à n'importe quelle métadonnnée définie par l'utilisateur dans une publication. Si
+Il est également possible d'accéder à n'importe quelle métadonnée définie par l'utilisateur dans une publication. Si
 la métadonnée n'existe pas le nom de la variable est simplement ignoré.
 
 #### GetAuthorDescription
@@ -117,7 +117,7 @@ Les variables de ce motif sont les suivantes :
 - __`value`__ : le nom de la catégorie courante.
 - __`path`__ : le chemin relatif de la catégorie courante.
 - __`count`__ : le nombre de publications dans la catégorie courante.
-- __`weight`__ : le nombre de publications dans la catégorie courante divisé par le nombre de publications appartenant à une categorie.
+- __`weight`__ : le nombre de publications dans la catégorie courante, divisé par le nombre de publications appartenant à une catégorie.
 - __`childs`__ : contient le résultat de la récursion suivante du motif.
 
 Par exemple, pour créer un menu déroulant on peut utiliser le motif comme ci-dessous :
@@ -168,7 +168,7 @@ catégories filles, alors les arguments `open_node` et `close_node` sont ajouté
 une nouvelle liste de sous-catégories est générée entre ces deux arguments,
 en utilisant les arguments `open_branch` et `close_branch`.
 
-Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
+Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
 
 #### GetBlogDescription
 
@@ -258,7 +258,7 @@ Si le second argument n'est pas défini, le motif renvoie directement la variabl
 :. :.
 :.
 
-Ce pattern permet de formater sous la forme d'un arbre une metadonnée de blog qui serait une structure de données.
+Ce pattern permet de formater sous la forme d'un arbre une métadonnée de blog qui serait une structure de données.
 
 Les arguments de ce motif sont les suivants :
 
@@ -275,7 +275,7 @@ Ce motif possède les variables suivantes :
 - **`value`** : contient la valeur de l'item courant. Vous pouvez utiliser cette variable dans les arguments `value` et `value_childs`.
 - **`childs`** : contient le bloc enfant de l'item courant. Vous ne pouvez utiliser cette variable que dans l'argument `value_childs`.
 
-Un exemple d'utilisation de ce pattern ci-dessous. Étant donnée la métadonnée de publication suivante :
+Un exemple d'utilisation de ce pattern ci-dessous. Étant donné la métadonnée de publication suivante :
 
 .:CodeHighlight::YAML::False::
 tree_test:
@@ -438,7 +438,7 @@ Permet de récupérer sous la forme d'une liste chaque item de l'arbre des caté
 
 Si la génération des fils de publications triés par catégories est désactivée, ce motif est ignoré.
 
-Les argument de ce motif sont :
+Les arguments de ce motif sont :
 
 - __`string`__ : la chaîne de caractères correspondant à l'item courant.
 - __`separator`__ : la chaîne de caractères qui sert de séparateur entre chaque item.
@@ -447,14 +447,14 @@ Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
 - __`count`__ : le nombre de publications dans cette catégorie.
-- __`weight`__ : le nombre de publications dans cette catégorie divisé par le nombre de publications ayant une catégorie.
+- __`weight`__ : le nombre de publications dans cette catégorie, divisé par le nombre de publications ayant une catégorie.
 - __`path`__ : le chemin relatif menant au fil de publications de la catégorie courante.
 
 #### GetRootPage
 
 > .:Escape:: .:GetRootPage:. :.
 
-Ce motif renvoie le chemin relatif vers la page principal du blog qui
+Ce motif renvoie le chemin relatif vers la page principale du blog qui
 correspond généralement au fichier `index.html` et qui devrait se trouver
 à la racine de votre site.
 
@@ -477,7 +477,7 @@ Le seul paramètre de ce motif est :
 La fonction teste si VenC est [configuré](.:GetChapterAttributeByIndex::path::3.2:.#disable-atom-feed) pour générer un flux Atom.
 
 - __`string1`__ : texte retourné si la condition est remplie.
-- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas définie, le motif est ignoré et supprimé.
+- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas défini, le motif est ignoré et supprimé.
 
 #### IfBlogMetadataIsTrue
 
@@ -495,19 +495,19 @@ Ce motif possède les arguments suivant :
 
 > .:Escape:: .:IfCategories::string1[::string2]:. :.
 
-La fonction teste si des catégories existent et si la génération des pages de celles-ci est bien activée dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
+La fonction teste si des catégories existent et si la génération des pages de celles-ci est bien activée dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
 
 - __`string1`__ : texte retourné si la condition est remplie.
-- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas définie, le motif est ignoré et supprimé.
+- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas défini, le motif est ignoré et supprimé.
 
 #### IfChapters
 
 > .:Escape:: .:IfChapters::string1[::string2]:. :.
 
-La fonction teste si des chapitres existent et si la génération des pages de ceux-là est bien activée dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#disable-chapters).
+La fonction teste si des chapitres existent et si la génération des pages de ceux-là est bien activée dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::3.2:.#disable-chapters).
 
 - __`string1`__ : texte retourné si la condition est remplie.
-- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas définie, le motif est ignoré et supprimé.
+- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas défini, le motif est ignoré et supprimé.
 
 #### IfFeedsEnabled
 
@@ -516,16 +516,16 @@ La fonction teste si des chapitres existent et si la génération des pages de c
 La fonction teste si VenC est configuré pour générer un flux RSS et/ou un flux Atom.
 
 - __`string1`__ : texte retourné si la condition est remplie.
-- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas définie, le motif est ignoré et supprimé.
+- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas défini, le motif est ignoré et supprimé.
 
 #### IfInfiniteScrollEnabled
 
 > .:Escape:: .:IfInfiniteScrollEnabled::string1[::string2]:. :.
 
-Permet de tester si l'option `disable_infinite_scroll` est définie dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.) et, si c'est le cas, quelle en est la valeur booléenne.
+Permet de tester si l'option `disable_infinite_scroll` est définie dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::3.2:.) et, si c'est le cas, quelle en est la valeur booléenne.
 
 - __`string1`__ : texte retourné si la variable testée vaut `True`.
-- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas définie, le motif est ignoré et supprimé.
+- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas défini, le motif est ignoré et supprimé.
 
 #### IfRSSEnabled
 
@@ -534,7 +534,7 @@ Permet de tester si l'option `disable_infinite_scroll` est définie dans le fich
 La fonction teste si VenC est [configuré](.:GetChapterAttributeByIndex::path::3.2:.#disable-rss-feed) pour générer un flux RSS.
 
 - __`string1`__ : texte retourné si la condition est remplie.
-- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas définie, le motif est ignoré et supprimé.
+- __`string2`__ : optionnel. Texte retourné si la condition est fausse, et si en plus `string2` n'est pas défini, le motif est ignoré et supprimé.
 
 #### RangeEntriesByID
 

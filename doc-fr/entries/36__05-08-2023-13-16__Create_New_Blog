@@ -17,7 +17,7 @@ Ou :
 VenC crée le répertoire contenant les sources du blog à l'endroit où vous tapez la commande :
 
 .:CodeHighlight::shell-session::False::jeanrochefort@anonymous ~ $ venc --new-blog "MonSuperBlog"
-VenC: Votre blog a été crée !:.
+VenC: Votre blog a été créé !:.
 
 En listant le contenu du dossier, vous devriez avoir quelque chose du genre :
 

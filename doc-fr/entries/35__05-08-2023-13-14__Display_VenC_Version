@@ -15,4 +15,4 @@ Ou :
 > venc --version
 
 Cette commande affiche également la version de Python utilisée avec VenC, ainsi
-que la version des modules installés.
+que la version de chacun des modules installés.

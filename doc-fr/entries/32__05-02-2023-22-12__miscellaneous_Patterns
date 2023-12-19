@@ -255,7 +255,7 @@ Le résultat étant :
 
 .:GetEmbedContent::https://www.youtube.com/watch?v=y8Kyi0WNg40:.
 
-Pour fonctionner ce motif utilise une liste de plateformes disponibles
+Pour fonctionner, ce motif utilise une liste de plateformes disponibles
 [ici](https://oembed.com/providers.json) et inclus avec VenC.
 
 L'utilisation de ce motif génère des données mises en cache dans le
@@ -287,7 +287,7 @@ Celui-ci ne doit comporter que des caractères imprimables.
 Ce motif prend au minimum un argument :
 
 - __`filename`__ : le chemin du fichier à inclure dans la page. Celui-ci doit se trouver dans le répertoire `includes` de votre projet. Si le fichier n'existe pas ou n'est pas accessible, VenC lève une exception.
-- __`arg1`, `arg2`, ...__ : ces paramètres sont optionnels. Il vous permettent de formater l'intérieur du fichier à inclure en remplaçant des variables numérotées (`venc_arg_1`, `venc_arg_2`, `venc_arg_n`) qui s'y trouverait par la valeur de chacun des paramètres correspondant.
+- __`arg1`, `arg2`, ...__ : ces paramètres sont optionnels. Ils vous permettent de formater l'intérieur du fichier à inclure en remplaçant des variables numérotées (`venc_arg_1`, `venc_arg_2`, `venc_arg_n`) qui s'y trouverait par la valeur de chacun des paramètres correspondant.
 
 ##### Un premier exemple
 
@@ -367,7 +367,7 @@ Les arguments sont les suivants :
 - __`provider`__ : il s'agit du serveur depuis lequel l'API est utilisée. Par défaut, il s'agit de [https://kroki.io](https://kroki.io/).
 
 VenC récupère l'image est l'enregistre dans le répertoire [`extra`](.:GetChapterAttributeByIndex::path::3.1:.). Celle-ci est ensuite copiée à la racine du blog.
-Le motif renvoie quant à lui un balise `img` de la forme :
+Le motif renvoie quant à lui une balise `img` de la forme :
 
 .:CodeHighlight::HTML::False::<img class="__VENC_KROKI__" src="../kroki_2b7b50208100ca9a40a3138ee72e62f7.svg">:.
 

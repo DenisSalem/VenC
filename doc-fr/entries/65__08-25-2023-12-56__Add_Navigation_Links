@@ -13,11 +13,11 @@ Comme on s'en doute, votre blog n'affiche pas toutes les publications d'un fil s
 de pagination que vous pouvez configurer [ici](.:GetChapterAttributeByIndex::path::3.2:.#entries-per-pages). En
 conséquence, il faut que le visiteur de votre site puisse naviguer entre ces différentes pages.
 
-Pour cela on uitlise trois _motifs_ différents :
+Pour cela on uitilise trois _motifs_ différents :
 
 - [`GetNextPage`](.:GetChapterAttributeByIndex::path::4.3:.#getnextpage) : permet de récupérer la page suivante si elle existe, sinon le _motif_ est ignoré.
 - [`GetPreviousPage`](.:GetChapterAttributeByIndex::path::4.3:.#getpreviouspage) : permet de récupérer la page précédente si elle existe, sinon le _motif_ est ignoré.
-- [`ForPages`](.:GetChapterAttributeByIndex::path::4.3:.#forpages) : permet de générer un liste de pages numérotées. La page courante correspond à l'item au centre de la liste.
+- [`ForPages`](.:GetChapterAttributeByIndex::path::4.3:.#forpages) : permet de générer une liste de pages numérotées. La page courante correspond à l'item au centre de la liste.
 
 En reprenant l'exemple du chapitre précédent, nous aurions alors aux lignes 8 à 14 :
 
