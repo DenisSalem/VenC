@@ -44,13 +44,15 @@
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Auto reload blog/ when server is running if blog is modified
     TODO | Add nested archives.
-
-# version 3.1.0
+    
+# version 3.1.x
     TODO | Verify header id uniqueness or warn about W3C complience.
-    TODO | validate documentation w3c complience.
     TODO | Settings data must validated or it may break the entire software without clean recovery
-    WIP  | Update doc accordingly.
-    WIP  | Add relevant templates for themes.
+    
+# version 3.1.0
+    DONE | Add relevant templates for themes.
+    DONE | validate documentation w3c complience.
+    DONE | Update doc accordingly.
     DONE | requests lib is replaced with urllib.
     DONE | Add GetEntryToC.
     DONE | Add HTML pattern.
