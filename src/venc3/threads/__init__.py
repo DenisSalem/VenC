@@ -23,15 +23,14 @@ from math import ceil
 import unidecode
 
 from venc3.helpers import quirk_encoding
-from venc3.prompt import notify
-from venc3.l10n import messages
 from venc3.patterns.processor import Processor, Pattern
 from venc3.patterns.third_party_wrapped_features.pygmentize import get_style_sheets
 
 def undefined_variable(match):
     from venc3.prompt import die
     die(
-        messages.undefined_variable.format(
+        (
+            "undefined_variable",
             match,
             current_source.ressource
         ), 
@@ -43,20 +42,16 @@ def undefined_variable(match):
 
 class Thread:
     def __init__(self, prompt, indentation_type = "├─ "):
-        from venc3.patterns.contextual import get_random_number
         from venc3.datastore import datastore
         from venc3.datastore.theme import theme
-        from venc3.patterns.patterns_map import patterns_map
-        
-        self.get_random_number = get_random_number
-        
+        from venc3.patterns.patterns_map import patterns_map        
         self.workers_count = datastore.workers_count
         self.indentation_level = "│  "
         self.patterns_map = patterns_map
         self.datastore = datastore
-        self.enable_jsonld = datastore.blog_configuration["enable_jsonld"] or datastore.blog_configuration["enable_jsonp"]
         # Notify wich thread is processed
-        notify(indentation_type+prompt)
+        from venc3.prompt import notify
+        notify(("exception_place_holder", prompt),prepend=indentation_type)
 
         self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])
         self.disable_threads = datastore.disable_threads
@@ -81,8 +76,22 @@ class Thread:
             { key : getattr(self, value)  for key,value, in patterns_map.CONTEXTUALS.items()}
         )
 
-    def get_style_sheets(self, node):
-        return get_style_sheets(node).replace("\x1a", self.relative_origin)
+    def get_random_number(self, pattern, min_value, max_value, precision):    
+            import random
+            try:
+                v = float(min_value) + random.random() * (float(max_value) - float(min_value))
+                return str(int(v)) if int(precision) == 0 else str(round(v, int(precision)))
+                
+            except ValueError as e:
+                from venc3.exceptions import VenCException
+                faulty_arg_name = {v: k for k, v in locals().items()}[e.args[0].split('\'')[1]]
+                
+                raise VenCException(
+                    ("wrong_pattern_argument", faulty_arg_name[1:], locals()[faulty_arg_name], "GetRandomNumber", str(e)),
+                    pattern
+                )
+    def get_style_sheets(self, pattern):
+        return get_style_sheets(pattern).replace("\x1a", self.relative_origin)
 
     def return_page_around(self, string, params):
         try:
@@ -92,13 +101,14 @@ class Thread:
             raise UnknownContextual(str(e)[1:-1])
             
     # Must be called in child class
-    def get_relative_location(self, node):
+    def get_relative_location(self, pattern):
         return self.export_path[5:]
         
-    def get_relative_origin(self, node):
+    def get_relative_root(self, pattern):
         return self.relative_origin
 
-    def get_thread_name(self, node, string1='', string2=''):
+    def get_thread_name(self, pattern, string1='', string2=''):
+        '''value'''
         if len(self.thread_name):
             return string1.format(**{"value":self.thread_name})
         
@@ -117,7 +127,8 @@ class Thread:
         self.pages_count = len(self.pages)
 
     # Must be called in child class
-    def get_next_page(self, node, string):
+    def get_next_page(self, pattern, string):
+        '''page_number,entry_id,entry_title,path'''
         if self.current_page < self.pages_count - 1:
             params = {
                 "page_number" : str(self.current_page + 1),
@@ -140,17 +151,16 @@ class Thread:
             except KeyError as e:
                 from venc3.exceptions import VenCException
                 raise VenCException(
-                    messages.unknown_contextual.format(
-                        (str(e)[1:-1])
-                    ),
-                    node
+                    ("unknown_contextual", str(e)[1:-1]),
+                    pattern
                 )
 
         else:
             return str()
 
     # Must be called in child class
-    def get_previous_page(self, node, string):
+    def get_previous_page(self, pattern, string):
+        '''page_number,entry_id,entry_title,path'''
         if self.current_page > 0:
             params = {
                 "page_number" : str(self.current_page - 1) if self.current_page - 1 != 0 else '',
@@ -173,17 +183,16 @@ class Thread:
             except KeyError as e:
                 from venc3.exceptions import VenCException
                 raise VenCException(
-                    messages.unknown_contextual.format(
-                        (str(e)[1:-1])
-                    ),
-                    node
+                    ("unknown_contextual", str(e)[1:-1]),
+                    pattern
                 )
                 
         else:
             return str()
 
     # Must be called in child class
-    def for_pages(self, node, length, string, separator):           
+    def for_pages(self, pattern, length, string, separator):
+        '''page_number,entry_id,entry_title,path'''
         if self.pages_count <= 1:
             return str()
 
@@ -192,7 +201,7 @@ class Thread:
 
         except:
             from venc3.exceptions import VenCException
-            raise VenCException(messages.arg_must_be_an_integer.format("length"), node)
+            raise VenCException(("arg_must_be_an_integer", "length"), pattern)
             
         output = str()
         page_number = 0
@@ -209,67 +218,77 @@ class Thread:
                     ) + separator
                     
                 except KeyError as e:
-                    raise VenCException(messages.unknown_contextual.format(str(e)[1:-1]), node)
+                    raise VenCException(("unknown_contextual",str(e)[1:-1]), pattern)
 
             page_number +=1
         
         return output[:-len(separator)]
 
-    def get_JSONLD(self, node):
-        return ''
-
-    def get_entry_content(self, node):
+    def get_entry_content(self, pattern):
+        if not hasattr(self, "current_entry"):
+            from venc3.exceptions import PatternsCannotBeUsedHere
+            raise PatternsCannotBeUsedHere([pattern])
+            
         content = deepcopy(self.current_entry.content)
-        self.processor.process(content, Pattern.FLAG_CONTEXTUAL, id(node.payload[0]))
+        self.processor.process(content, Pattern.FLAG_CONTEXTUAL, id(pattern.payload[0]))
         return content.string
         
-    def get_entry_preview(self, node):
+    def get_entry_preview(self, pattern):
+        if not hasattr(self, "current_entry"):
+            from venc3.exceptions import PatternsCannotBeUsedHere
+            raise PatternsCannotBeUsedHere([pattern])
+            
         preview = deepcopy(self.current_entry.preview)
-        self.processor.process(preview, Pattern.FLAG_CONTEXTUAL, id(node.payload[0]))
+        self.processor.process(preview, Pattern.FLAG_CONTEXTUAL, id(pattern.payload[0]))
         return preview.string
       
-    def preview_if_in_thread_else_content(self, node):
+    def preview_if_in_thread_else_content(self, pattern):
+        if not hasattr(self, "current_entry"):
+            from venc3.exceptions import PatternsCannotBeUsedHere
+            raise PatternsCannotBeUsedHere([pattern])
+            
         if self.in_thread:
             preview = deepcopy(self.current_entry.preview)
-            self.processor.process(content, Pattern.FLAG_CONTEXTUAL, id(node.payload[0]))
+            self.processor.process(preview, Pattern.FLAG_CONTEXTUAL, id(pattern.payload[0]))
             return preview.string
+            
         else:
             content = deepcopy(self.current_entry.content)
-            self.processor.process(content, Pattern.FLAG_CONTEXTUAL,id(node.payload[0]))
+            self.processor.process(content, Pattern.FLAG_CONTEXTUAL,id(pattern.payload[0]))
             return content.string            
         
-    def if_pages(self, node, string1, string2=''):
+    def if_pages(self, pattern, string1, string2=''):
         if self.pages_count > 1:
             return string1.strip()
             
         else:
             return string2.strip()
                     
-    def if_in_first_page(self, node, string1, string2=''):
+    def if_in_first_page(self, pattern, string1, string2=''):
         return string1.strip() if self.current_page == 0 else string2.strip()
             
-    def if_in_last_page(self, node, string1, string2=''):
+    def if_in_last_page(self, pattern, string1, string2=''):
         return string1.strip() if self.current_page == len(self.pages) -1 else string2.strip()
 
-    def if_in_entry_id(self, node, entry_id, string1, string2=''):
+    def if_in_entry_id(self, pattern, entry_id, string1, string2=''):
         return string2.strip()
 
-    def if_in_main_thread(self, node, string1, string2=''):
+    def if_in_main_thread(self, pattern, string1, string2=''):
         return string2.strip()
             
-    def if_in_categories(self, node, string1, string2=''):
+    def if_in_categories(self, pattern, string1, string2=''):
         return string2.strip()
             
-    def if_in_archives(self, node, string1, string2=''):
+    def if_in_archives(self, pattern, string1, string2=''):
         return string2
         
-    def if_in_thread(self, node, string1, string2=''):
+    def if_in_thread(self, pattern, string1, string2=''):
         return (string1 if self.in_thread else string2).strip()
 
-    def if_in_thread_and_has_feeds(self, node, string1, string2=''):
+    def if_in_thread_and_has_feeds(self, pattern, string1, string2=''):
         return (string1 if self.thread_has_feeds else string2).strip()
         
-    def if_in_feed(self, node, string1, string2=''):
+    def if_in_feed(self, pattern, string1, string2=''):
         return string2.strip()
 
     def format_filename(self, value):
@@ -282,7 +301,7 @@ class Thread:
 
         except KeyError as e:
             from venc3.prompt import die
-            die(messages.variable_error_in_filename.format(str(e)))
+            die(("variable_error_in_filename", str(e)))
 
     # Overridden in child class (EntriesThread)
     def setup_context(self, entry):
@@ -303,7 +322,7 @@ class Thread:
         stream.write(output.replace("\x1a", self.relative_origin))
         stream.close()
 
-    # QUESTION : Why the fuck using global current_source ?
+    # TODO : QUESTION : Why the fuck using global current_source ?
     def pre_iteration(self):
         header = deepcopy(self.header)
         self.processor.process(header, Pattern.FLAG_CONTEXTUAL)
@@ -317,6 +336,7 @@ class Thread:
         self.columns_counter = 0
         for column in self.columns:
             self.output += self.column_opening.format(self.columns_counter)+column+self.column_closing
+            self.columns_counter+=1
                   
         footer = deepcopy(self.footer)
         self.processor.process(footer, Pattern.FLAG_CONTEXTUAL)

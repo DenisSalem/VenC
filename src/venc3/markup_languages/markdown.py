@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2023 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -17,20 +17,40 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import markdown2 as markdown
+from html import unescape
 
-class VenCMarkdown(markdown.Markdown):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.table_of_content = []
+from mistletoe import HTMLRenderer
+from mistletoe import Document
+
+class VenCRenderer(HTMLRenderer):
+    def __init__(self, do_table_of_content):
+        self.table_of_content = [] if do_table_of_content else None
+        super().__init__()
+
+    def render_link(self, token):
+        return '<a href="{target}" title="{title}">{inner}</a>'.format(
+            target=token.target,
+            title=token.title,
+            inner=self.render_inner(token)
+        )
         
-    def header_id_from_text(self, text, prefix, n):
-        self.table_of_content.append((
-            n,
-            text,
-            super().header_id_from_text(text, prefix, n)
-        ))
-        return self.table_of_content[-1][2]
-        
-    
-    
+    def render_heading(self, token):
+        template = '<h{level} id="{header_id}">{inner}</h{level}>'
+        inner = self.render_inner(token)
+        header_id = ''.join(e.lower() if e.isalnum() else '-' for e in unescape(inner) )
+        if self.table_of_content != None:
+            self.table_of_content.append((
+                token.level,
+                inner,
+                header_id
+            ))
+
+        # TODO : It is possible to control default header level
+        return template.format(level=token.level, inner=inner, header_id=header_id)
+
+class VenCMarkdown:
+    def __init__(self, do_table_of_content):
+        self.renderer = VenCRenderer(do_table_of_content)
+
+    def render(self, input_text):
+        return self.renderer.render(Document(input_text))

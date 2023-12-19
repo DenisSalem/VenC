@@ -17,55 +17,23 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
-import os
-import shutil
-
-from venc3.datastore.configuration import get_blog_configuration
-from venc3.prompt import msg_format
-from venc3.prompt import notify
-from venc3.prompt import die
-from venc3.l10n import messages
-
-def print_themes():
+def install_theme(params):
     import os
-    import yaml
-
-    themes_folder = os.path.expanduser('~')+"/.local/share/VenC/themes/"
-    for theme in os.listdir(themes_folder):
-        if "config.yaml" in os.listdir(themes_folder+theme) and not os.path.isdir(themes_folder+theme+"/config.yaml"):
-            config = yaml.load(
-                open(themes_folder+theme+"/config.yaml",'r').read(),
-                Loader=yaml.FullLoader
-            )
-            try:
-                description = getattr(messages, config["info"]["description"])
-                        
-            except AttributeError:
-                description = config["info"]["description"]
-                
-            except KeyError:
-                description = messages.theme_has_no_description
-                
-            except TypeError:
-                description = messages.theme_has_no_description
-
-        else:
-            description = messages.theme_has_no_description
-
-        print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
-
-def install_theme(argv):
-    if len(argv) < 1:
-        print_themes()
-        return
+    import shutil
+    
+    if len(params):
+        theme = params[0]
+    else:
+        from venc3.prompt import die
+        die(("missing_params", "--install-theme"))
         
-    blog_configuration = get_blog_configuration()
-    if blog_configuration == None:
-        notify(messages.no_blog_configuration)
-        return
+    from venc3.datastore.configuration import get_blog_configuration
+    from venc3.prompt import notify
 
-    new_folder_name = "theme "+str(datetime.datetime.now()).replace(':','-')
+    blog_configuration = get_blog_configuration() # will fail nicely if no configuration available
+
+    import datetime
+    new_folder_name = "theme-"+str(datetime.datetime.now()).replace(':','-')
 
     try:
         shutil.move("theme", new_folder_name)
@@ -74,15 +42,16 @@ def install_theme(argv):
         pass
 
     try:
-        shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+argv[0], "theme")
-        notify(messages.theme_installed)
+        shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+theme, "theme")
+        
+        notify(("theme_installed",))
        
     except FileNotFoundError as e:
-        notify(messages.theme_doesnt_exists.format("'"+argv[0]+"'"),color='RED')
+        notify(("theme_doesnt_exists", "'"+theme+"'"),color='RED')
         ''' Restore previous states '''
         try:
             shutil.move(new_folder_name, "theme")
 
         except Exception as e:
-            die(str(e))
+            die(("exception_place_holder", str(e)))
 

@@ -20,6 +20,7 @@
 from unidecode import unidecode
 from urllib.parse import quote
 
+from venc3.exceptions import VenCException
 from venc3.helpers import quirk_encoding
 
 class Chapter:
@@ -27,7 +28,12 @@ class Chapter:
         self.sub_chapters = []
         self.index = index
         self.entry_index = entry.index
+        self.entry_id = entry.id
+        self.title = entry.title
         self.path = path
+
+    def __str__(self):
+        return self.index
         
 class MetadataNode:
     def __init__(self, value, entry_index, path="", weight_tracker = None):
@@ -40,60 +46,9 @@ class MetadataNode:
         self.related_to = [entry_index]
         self.childs = list()
 
-def categories_to_keywords(branch):
-    for item, sub_items in flatten_current_level(branch):
-        if len(sub_items):
-            for sub_item in catecories_to_keyword(sub_items):
-                yield sub_item
-        else:
-            yield item
-    
-def flatten_current_level(items):
-    for item in items:
-        if type(item) == dict:
-            for key in item.keys():
-                if type(item[key]) != list:
-                    from venc3.exceptions import VenCException
-                    raise VenCException("PAS UNE LISTE")
-                    
-                yield key, item[key]
-        else:
-            yield item, []
-
 class WeightTracker:
     def __init__(self):
         self.value = 0
         
     def update(self):
-        self.value+=1
-
-def build_categories_tree(entry_index, input_list, output_branch, output_leaves, weight_tracker, sub_folders=''):    
-    for item, sub_items in flatten_current_level(input_list):
-        if not len(item):
-            continue
-
-        match = None
-        path = sub_folders
-        for node in output_branch:
-            if node.value == item:
-                node.count +=1
-                if weight_tracker != None:
-                    node.weight_tracker.update()        
-                node.related_to.append(entry_index)
-                match = node
-                break
-
-        if not match:
-            path += quirk_encoding(str(item)+'/')
-            metadata = MetadataNode(
-                item, 
-                entry_index,
-                quirk_encoding(path),
-                weight_tracker
-              )
-
-            output_branch.append(metadata) 
-            output_leaves.append(metadata)
-            
-        if len(sub_items):
-            build_categories_tree(entry_index, sub_items, node.childs if match else metadata.childs, output_leaves, weight_tracker, sub_folders=path)
+        self.value += 1

@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2023 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -17,4 +17,5 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-venc_version = "3.0.0"
+venc_version = "3.1.0"
+__version__ = venc_version # PEP396

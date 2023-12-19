@@ -19,73 +19,70 @@
 
 import datetime
 
-from venc3.datastore.metadata import Chapter
-from venc3.datastore.metadata import build_categories_tree
-
-def merge(iterable, string, separator, node):
+def merge(iterable, string, separator, pattern):
     try:
         return separator.join([string.format(**something) for something in iterable])
     
     except KeyError as e:
         from venc3.exceptions import VenCException
-        from venc3.l10n import messages
-        raise VenCException(messages.unknown_contextual.format(str(e)), node)
+        raise VenCException(("unknown_contextual", str(e)), pattern)
 
 class DatastorePatterns:
-    def if_categories(self, node, if_true, if_false=''):
+    def if_categories(self, pattern, if_true, if_false=''):
         if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:
             return if_true
             
         else:
             return if_false
     
-    def if_chapters(self, node, if_true, if_false=''):
+    def if_chapters(self, pattern, if_true, if_false=''):
         if self.chapters_index != [] and not self.blog_configuration["disable_chapters"]:
             return if_true
             
         else:
             return if_false
     
-    def if_feeds_enabled(self, node, if_true, if_false=''):
+    def if_feeds_enabled(self, pattern, if_true, if_false=''):
         if self.blog_configuration["disable_atom_feed"] and self.blog_configuration["disable_rss_feed"]:
-            return if_false.replace("{relative_origin}", "\x1a")
+            return if_false
             
         else: 
-            return if_true.replace("{relative_origin}", "\x1a")
+            return if_true
         
-    def if_atom_enabled(self, node, if_true, if_false=''):
+    def if_atom_enabled(self, pattern, if_true, if_false=''):
         if self.blog_configuration["disable_atom_feed"]:
-            return if_false.replace("{relative_origin}", "\x1a")
+            return if_false
 
         else: 
-            return if_true.replace("{relative_origin}", "\x1a")
+            return if_true
 
-    def if_metadata_is_true(self, key, if_true, if_false, source):            
+    def if_metadata_is_true(self, key, if_true, if_false, source):          
         try:
-            if type(source) == Entry and getattr(source, key):
+            if type(source) == dict and source[key]:
                 return if_true.strip()
 
-            elif source[key]:
+            elif getattr(source,key):
                 return if_true.strip()
         
-        except:
+        except (AttributeError, KeyError) as e:
             pass
         
         return if_false.strip()
-    def if_blog_metadata_is_true(self, node, key, if_true, if_false=''):
-        return self.if_metadata_is_true(key, if_true, if_false, self.blog_configuration)
+        
+    def if_blog_metadata_is_true(self, pattern, metadata_name, if_true, if_false=''):
+        return self.if_metadata_is_true(metadata_name, if_true, if_false, self.blog_configuration)
 
-    def if_entry_metadata_is_true(self, node, key, if_true, if_false=''):
-        return self.if_metadata_is_true(key, if_true, if_false, self.requested_entry)
+    def if_entry_metadata_is_true(self, pattern, metadata_name, if_true, if_false=''):
+        return self.if_metadata_is_true(metadata_name, if_true, if_false, self.requested_entry)
                 
-    def if_rss_enabled(self, node, if_true, if_false=''):
+    def if_rss_enabled(self, pattern, if_true, if_false=''):
         if self.blog_configuration["disable_rss_feed"]:
-            return if_false.replace("{relative_origin}", "\x1a")
+            return if_false
             
         else:
-            return if_true.replace("{relative_origin}", "\x1a")
+            return if_true
 
-    def if_infinite_scroll_enabled(self, node, if_true, if_false=''):            
+    def if_infinite_scroll_enabled(self, pattern, if_true, if_false=''):            
         try:
             if self.blog_configuration["disable_infinite_scroll"]:
                 return if_false
@@ -95,54 +92,60 @@ class DatastorePatterns:
                     
         except KeyError:
             return if_true
-            
-    def get_chapters(self, node, lo, io, ic, lc):
-        key = lo+io+ic+lc
+                        
+    def get_chapters(self, pattern, list_open, item_open, item_close, list_close):
+        '''index,title,path,level'''
+        key = list_open+item_open+item_close+list_close
         if not key in self.html_chapters.keys():
-            self.html_chapters[key] = self.build_html_chapters(lo, io, ic, lc, self.chapters_index, 0)
+            self.html_chapters[key] = self.build_html_chapters(list_open, item_open, item_close, list_close, self.chapters_index, 0)
 
         return self.html_chapters[key]
 
-    def get_entry_toc(self, node, open_ul, open_li, content, close_li, close_ul):
-        key = open_ul+open_li+content+close_li+close_ul
-        if not key in self.cache_entry_tocs.keys():
-            self.cache_entry_tocs[key] = self.build_entry_html_toc(self.requested_entry, open_ul, open_li, content, close_li, close_ul)
-        return self.cache_entry_tocs[key]
-        
-    def get_generation_timestamp(self, node, time_format):
+    def get_entry_toc(self, pattern, open_ul, open_li, content, close_li, close_ul):
+        '''id,level,title'''
+        if hasattr(self.requested_entry, "toc"):
+            output = self.build_entry_html_toc(self.requested_entry.toc, open_ul, open_li, content, close_li, close_ul)
+            return "</p>"+output+"<p>" if pattern.root == pattern.parent and pattern.root.has_markup_language else output
+
+        else:
+            return ""
+            
+    def get_generation_timestamp(self, pattern, time_format):
         return datetime.datetime.strftime(self.generation_timestamp, time_format)
             
-    def get_blog_metadata(self, node, field_name):
+    def get_blog_metadata(self, pattern, metadata_name):
         # if exception is raised it will be automatically be catch by processor.
         try:
-            return str(self.blog_configuration[field_name])
+            return str(self.blog_configuration[metadata_name])
             
         except KeyError:
-            raise VenCException(
-                messages.blog_has_no_metadata_like.format(field_name),
-                context=self
-            )
+            raise VenCException(("blog_has_no_metadata_like", metadata_name), context=self)
             
-    def get_blog_metadata_if_exists(self, node, field_name, if_true='', if_false='', ok_if_null=True):
+    def get_blog_metadata_if_exists(self, pattern, metadata_name, if_true='', if_false='', ok_if_null=True):
         try:
-            value = self.blog_configuration[field_name]
+            value = self.blog_configuration[metadata_name]
             
         except KeyError:
             return if_false
         
         if len(if_true):
-            if ok_if_null or len(value):
+            if ok_if_null or (value != None and len(str(value))):
                 return if_true.format(**{"value" : value,"{relative_origin}":"\x1a"})
                   
             else:
                 return if_false
         else:
             return value
-
-    def get_blog_metadata_if_not_null(self, node, field_name, if_true='', if_false='', ):
-        return self.get_blog_metadata_if_exists(node, field_name, if_true, if_false, ok_if_null=False)
-
-    def get_entry_attribute_by_id(self, node, attribute, identifier):            
+            
+    def get_blog_metadata_if_not_null(self, pattern, metadata_name, if_true='', if_false=''):
+        try:
+            return self.get_blog_metadata_if_exists(pattern, metadata_name, if_true, if_false, ok_if_null=False)
+            
+        except Exception as e:
+            import traceback
+            print(traceback.format_exc())
+            
+    def get_entry_attribute_by_id(self, pattern, attribute, identifier):            
         key = attribute+identifier
         if not key in self.cache_get_entry_attribute_by_id.keys():
             try:
@@ -151,40 +154,45 @@ class DatastorePatterns:
             
             except ValueError:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.id_must_be_an_integer, node)
+                raise VenCException(("id_must_be_an_integer",), pattern)
                 
             except AttributeError as e:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.entry_has_no_metadata_like.format(argv[0]), node)
+                raise VenCException(("entry_has_no_metadata_like", attribute), pattern)
 
             except IndexError:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.cannot_retrieve_entry_attribute_because_wrong_id, node)
+                raise VenCException(("cannot_retrieve_entry_attribute_because_wrong_id",), pattern)
             
         return self.cache_get_entry_attribute_by_id[key]
-        
-    def get_entry_chapter_path(self, node):
+    
+    def get_entry_chapter_level(self, pattern):
+        try:
+            return self.requested_entry.chapter_level
+            
+        except:
+            return ''
+            
+    def get_entry_chapter_path(self, pattern):
         if self.blog_configuration["disable_chapters"]:
             return ''
         else:
+            from venc3.datastore.metadata import Chapter
             return self.requested_entry.chapter.path if hasattr(self.requested_entry, "chapter") and type(self.requested_entry.chapter) == Chapter else ''
 
-    def get_entry_metadata(self, node, metadata_name):            
+    def get_entry_metadata(self, pattern, metadata_name):
         try:
             return str(getattr(self.requested_entry, metadata_name))
             
         except AttributeError:
             from venc3.exceptions import VenCException
-            from venc3.l10n import messages
             raise VenCException(
-                messages.entry_has_no_metadata_like.format(metadata_name),
-                node
+                ("entry_has_no_metadata_like", metadata_name),
+                pattern
             )
             
-    def get_entry_metadata_if_exists(self, node, metadata_name, string='', string2='', ok_if_null=True):
+    def get_entry_metadata_if_exists(self, pattern, metadata_name, string='', string2='', ok_if_null=True):
+        '''value'''
         try:
             value = str(getattr(self.requested_entry,metadata_name ))
 
@@ -194,104 +202,109 @@ class DatastorePatterns:
         if string == '':
             return value
 
-        if len(value) or ok_if_null:
-            return string.format(**{"value" : value, "relative_origin": "\x1a"})
+        if ok_if_null or (value != None and len(value)):
+            return string.format(**{"value" : value})
             
         else:
             return string2
             
-    def get_entry_metadata_if_not_null(self, node, metadata_name, string='', string2=''):
-        return self.get_entry_metadata_if_exists(node, metadata_name, string, string2, ok_if_null=False)
+    def get_entry_metadata_if_not_null(self, pattern, metadata_name, string='', string2=''):
+        '''value'''
+        return self.get_entry_metadata_if_exists(pattern, metadata_name, string, string2, ok_if_null=False)
         
-    def get_entry_title(self, node):
+    def get_entry_title(self, pattern):
         return self.requested_entry.title
     
-    def get_entry_id(self, node):
+    def get_entry_id(self, pattern):
         return str(self.requested_entry.id)
             
-    def get_entry_year(self, node):
+    def get_entry_year(self, pattern):
         return self.requested_entry.date.year
 
-    def get_entry_month(self, node):
+    def get_entry_month(self, pattern):
         return self.requested_entry.date.month
         
-    def get_entry_day(self, node):
+    def get_entry_day(self, pattern):
         return self.requested_entry.date.day
 
-    def get_entry_hour(self, node):
+    def get_entry_hour(self, pattern):
         return self.requested_entry.date.hour
     
-    def get_entry_minute(self, node):
+    def get_entry_minute(self, pattern):
         return self.requested_entry.date.minute
 
-    def get_entry_date(self, node, date_format=''):
+    def get_entry_date(self, pattern, date_format=''):
         return self.requested_entry.date.strftime(
             date_format if len(date_format) else self.blog_configuration["date_format"]
         )
 
-    def get_entry_archive_path(self, node):
+    def get_entry_archive_path(self, pattern):
         return "\x1a"+self.requested_entry.date.strftime(
             self.blog_configuration["path"]["archives_directory_name"]
         )
     
-    def get_chapter_attribute_by_index(self, node, attribute, index):
+    def get_chapter_attribute_by_index(self, pattern, attribute, index):
         if self.blog_configuration["disable_chapters"]:
             return ""
         
         key = attribute+index
         if not key in self.cache_get_chapter_attribute_by_index.keys():
             try:
-                self.cache_get_chapter_attribute_by_index[key] = getattr(self.raw_chapters[index].chapter, attribute)
+                self.cache_get_chapter_attribute_by_index[key] = str(getattr(self.raw_chapters[index].chapter, attribute))
                 
             except KeyError as e:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.there_is_no_chapter_with_index.format(index), node)
+                raise VenCException(("there_is_no_chapter_with_index", index), pattern)
                 
             except AttributeError as e:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.chapter_has_no_attribute_like.format(attribute), node)
+                raise VenCException(("chapter_has_no_attribute_like", attribute), pattern)
                 
         return self.cache_get_chapter_attribute_by_index[key]
             
-    def get_entry_path(self, node):
-        return '' if self.blog_configuration["disable_single_entries"] else self.requested_entry.path
+    def get_entry_path(self, pattern):
+        if self.blog_configuration["disable_single_entries"]:
+            return ""
+            
+        else:
+            if self.requested_entry.path[-10:] == "index.html":
+                return self.requested_entry.path[:-10]
+            else:
+                return self.requested_entry.path
 
-    def get_author_name(self, node):
-        return self.blog_configuration["author_name"]
+    def get_author_name(self, pattern):
+        return self.get_blog_metadata_if_exists(pattern, "author_name")
 
-    def get_blog_name(self, node):
+    def get_blog_name(self, pattern):
         return self.blog_configuration["blog_name"]
         
-    def get_blog_description(self, node):
-        return self.blog_configuration["blog_description"]
-        
-    def get_blog_keywords(self, node):
-        return self.blog_configuration["blog_keywords"]
+    def get_blog_description(self, pattern):
+        return self.get_blog_metadata_if_exists(pattern, "blog_description")
 
-    def get_author_description(self, node):
-        return self.blog_configuration["author_description"]
+    def get_author_description(self, pattern):
+        return self.get_blog_metadata_if_exists(pattern, "author_description")
+
         
-    def get_blog_license(self, node):
-        return self.blog_configuration["license"]
+    def get_blog_license(self, pattern):
+        return self.get_blog_metadata_if_exists(pattern, "license")
     
-    def get_blog_url(self, node):
+    def get_blog_url(self, pattern):
         return self.blog_configuration["blog_url"]
     
-    def get_blog_language(self, node):
-        return self.blog_configuration["blog_language"]
+    def get_blog_language(self, pattern):
+        return self.get_blog_metadata_if_exists(pattern, "blog_language")
     
-    def get_author_email(self, node):
-        return self.blog_configuration["author_email"]
+    def get_author_email(self, pattern):
+        return self.get_blog_metadata_if_exists(pattern, "author_email")
 
-    def get_root_page(self, node):
+    def get_root_page(self, pattern):
         if self.root_page == None:
             self.root_page =  "\x1a"+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
             
         return self.root_page
         
-    def tree_for_entry_categories(self, node, open_node, open_branch, close_branch, clode_node):
+    def get_entry_categories_tree(self, pattern, open_node, open_branch, close_branch, clode_node):
+        '''value,count,weight,path,childs'''
         key = open_node+open_branch+close_branch+clode_node
         entry = self.requested_entry
 
@@ -300,49 +313,20 @@ class DatastorePatterns:
                 entry.html_categories_tree[key] = ''
 
             else:
-                DatastorePatterns.build_entry_entry_categories_tree(entry)
                 entry.html_categories_tree[key] = self.build_html_categories_tree(
+                    pattern,
                     open_node,
                     open_branch,
                     close_branch,
                     clode_node,
-                    entry.categories_tree
+                    self.extract_leaves(entry.id)
                 )
+
         
         return entry.html_categories_tree[key]
-
-    def build_entry_entry_categories_tree(self, entry, path):
-        if entry.categories_leaves == None:
-            entry.categories_tree = []
-            entry.categories_leaves = []
-            build_categories_tree(
-                None,
-                entry.raw_categories,
-                entry.categories_tree,
-                entry.categories_leaves,
-                None,
-                sub_folders="\x1a" + path
-            )
-            entry.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
-
-    def build_blog_categories_tree(self, path):
-        if self.entries_per_categories == None:
-            self.entries_per_categories = []
-            self.categories_leaves = []
-            path = self.blog_configuration["path"]["categories_sub_folders"]
-            for entry_index in range(0, len(self.entries)):
-                current_entry = self.entries[entry_index]
-                build_categories_tree(
-                  entry_index,
-                  current_entry.raw_categories,
-                  self.entries_per_categories,
-                  self.categories_leaves,
-                  self.categories_weight_tracker,
-                  sub_folders="\x1a"+path
-                )
-            self.categories_leaves = [category for category in self.categories_leaves if len(category.childs) == 0]
-                
-    def tree_for_blog_categories(self, node, open_node, open_branch, close_branch, clode_node):
+            
+    def get_blog_categories_tree(self, pattern, open_node, open_branch, close_branch, clode_node):
+        '''value,count,weight,path,childs'''
         key = open_node+open_branch+close_branch+clode_node
         # compute once categories tree and deliver baked html
         if not key in self.html_categories_tree.keys():
@@ -350,9 +334,8 @@ class DatastorePatterns:
                 self.html_categories_tree[key] = ''
 
             else:
-                self.build_blog_categories_tree(self.blog_configuration["path"]["categories_sub_folders"])
                 self.html_categories_tree[key] = self.build_html_categories_tree(
-                    node, 
+                    pattern, 
                     open_node,
                     open_branch,
                     close_branch,
@@ -362,8 +345,7 @@ class DatastorePatterns:
 
         return self.html_categories_tree[key]
         
-        
-    def range_entries_by_id(self, node, begin_at, end_at):
+    def range_entries_by_id(self, pattern, begin_at, end_at):
         key = 'rang_entries_by_id,'+begin_at+','+end_at
         if not str(id(key)) in self.cache_entries_subset.keys():
             try:
@@ -373,9 +355,8 @@ class DatastorePatterns:
                 from venc3.exceptions import VenCException
                 from venc3.l10n import messages
                 raise VenCException(
-                    messages.wrong_pattern_argument.format("begin_at", begin_at, "RangeEntriesByID")+' '+
-                    messages.pattern_argument_must_be_integer,
-                    node
+                    ("wrong_pattern_argument", "begin_at", begin_at, "RangeEntriesByID", messages.pattern_argument_must_be_integer),
+                    pattern
                 )
             
             try:
@@ -385,9 +366,8 @@ class DatastorePatterns:
                 from venc3.exceptions import VenCException
                 from venc3.l10n import messages
                 raise VenCException(
-                    messages.wrong_pattern_argument.format("end_at", end_at, "RangeEntriesByID")+' '+
-                    messages.pattern_argument_must_be_integer,
-                    node
+                    ("wrong_pattern_argument", "end_at", end_at, "RangeEntriesByID", messages.pattern_argument_must_be_integer),
+                    pattern
                 )
             
             entries = []
@@ -395,17 +375,17 @@ class DatastorePatterns:
                 entries = [entry for entry in self.entries if end_at >= entry.id >= begin_at]
                 
             elif end_at < begin_at:
-                entries = [entry for entry in self.entries if end_at >= entry.id >= begin_at]
+                entries = [entry for entry in self.entries[::-1] if end_at <= entry.id <= begin_at]
     
             else:
                 entries = []
             
-            print(len(entries))
             self.cache_entries_subset[str(id(key))] = entries
             
         return str(id(key))
             
-    def for_entries_set(self, node, entries_subset_key, string):
+    def for_entries_set(self, pattern, entries_subset_key, string):
+        '''id,title,path,archive_path,chapter_path,...'''
         output = ""
         try:
             entries = self.cache_entries_subset[entries_subset_key.strip()]
@@ -414,9 +394,8 @@ class DatastorePatterns:
             from venc3.exceptions import VenCException
             from venc3.l10n import messages
             raise VenCException(
-                messages.wrong_pattern_argument.format("entries_subset_key", entries_subset_key, "ForEntriesSet")+' '+
-                messages.argument_does_not_match_with_any_entries_subset,
-                node
+                ("wrong_pattern_argument", "entries_subset_key", entries_subset_key, "ForEntriesSet", messages.argument_does_not_match_with_any_entries_subset),
+                pattern
             )
         
         date_format = self.blog_configuration["date_format"]
@@ -425,9 +404,9 @@ class DatastorePatterns:
             dataset = {
                 "id" : entry.id,
                 "title": entry.title,
-                "url": entry.path,
+                "path": entry.path,
                 "archive_path": "\x1a"+entry.date.strftime(archives_directory_name),
-                "reference_id":str(id(entry))
+                "chapter_path": entry.chapter.path if entry.chapter != None else ""
             }
             dataset.update({ 
                 attr: getattr(entry, attr) for attr in dir(entry) if type(getattr(entry, attr)) in [str, int, float]
@@ -441,7 +420,8 @@ class DatastorePatterns:
                     
         return output
 
-    def for_blog_archives(self, node, string, separator):
+    def for_blog_archives(self, pattern, string, separator):
+        '''value,path,count,weight'''
         key = string+','+separator
         if not key in self.cache_blog_archives.keys():
             if self.blog_configuration["disable_archives"]:
@@ -454,55 +434,57 @@ class DatastorePatterns:
                     "count" : o.count,
                     "weight" : round(o.count / o.weight_tracker.value,2)
                 } for o in self.entries_per_archives if o.value not in self.disable_threads]
-                self.cache_blog_archives[key] = merge(archives, string, separator, node)
+                self.cache_blog_archives[key] = merge(archives, string, separator, pattern)
 
         return self.cache_blog_archives[key]
 
-    def for_blog_metadata(self, node, metadata_name, string, separator):
-        return self.for_blog_metadata_if_exists(node, metadata_name, string, separator, raise_exception=True)
+    def for_blog_metadata(self, pattern, metadata_name, string, separator=''):
+        '''value'''
+        return self.for_blog_metadata_if_exists(pattern, metadata_name, string, separator, raise_exception=True)
 
-    def for_blog_metadata_if_exists(self, node, metadata_name, string, separator, raise_exception=False):
+    def for_blog_metadata_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):
+        '''value'''
         key = metadata_name+','+string+','+separator+','+str(raise_exception)
         if not key in self.html_for_metadata:
             if not metadata_name in self.blog_configuration.keys():
                 if raise_exception:
-                    from venc3.l10n import messages
-                    raise VenCException(messages. blog_has_no_metadata_like.format(metadata_name), node)
+                    from venc3.exceptions import VenCException
+                    raise VenCException(("blog_has_no_metadata_like", metadata_name), pattern)
                     
                 self.html_for_metadata[key] = ""
                 return ""
                 
             if type(self.blog_configuration[metadata_name]) != list:
                 if raise_exception:
-                    from venc3.l10n import messages
-                    raise VenCException(messages)
+                    from venc3.exceptions import VenCException
+                    raise VenCException(("blog_metadata_is_not_a_list", metadata_name), pattern)
                     
                 self.html_for_metadata[key] = ""
                 
-            self.html_for_metadata[key] = merge([{"value": v} for v in self.blog_configuration[metadata_name]], string, separator, node)
+            self.html_for_metadata[key] = merge([{"value": v} for v in self.blog_configuration[metadata_name]], string, separator, pattern)
         
         return self.html_for_metadata[key]
 
-    def for_entry_metadata(self, node, variable_name, string, separator):
-        return self.for_entry_metadata_if_exists(node, variable_name, string, separator, raise_exception=True)
+    def for_entry_metadata(self, pattern, metadata_name, string, separator=''):
+        '''value'''
+        return self.for_entry_metadata_if_exists(pattern, metadata_name, string, separator, raise_exception=True)
 
-    def for_entry_metadata_if_exists(self, node, variable_name, string, separator, raise_exception=False):        
+    def for_entry_metadata_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):    
+        '''value'''    
         entry = self.requested_entry
-        key = variable_name+string+separator
+        key = metadata_name+string+separator
             
         if not key in entry.html_for_metadata:
             try:
-                l = getattr(entry, variable_name)
+                l = getattr(entry, metadata_name)
                 if not type(l) in [list, tuple]:
                     from venc3.exceptions import VenCException
-                    from venc3.l10n import messages
-                    raise VenCException(messages.entry_metadata_is_not_a_list.format(variable_name, entry), node)
+                    raise VenCException(("entry_metadata_is_not_a_list", metadata_name, entry), pattern)
                 
             except AttributeError as e:
                 if raise_exception:
                     from venc3.exceptions import VenCException
-                    from venc3.l10n import messages
-                    raise VenCException(messages.entry_has_no_metadata_like.format(variable_name), node)
+                    raise VenCException(("entry_has_no_metadata_like", metadata_name), pattern)
                 else:
                     entry.html_for_metadata[key] = ""
                     return ""
@@ -514,55 +496,56 @@ class DatastorePatterns:
                 
             except KeyError as e:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.unknown_contextual.format(e), node)
+                raise VenCException(("unknown_contextual", str(e)), pattern)
             
         return entry.html_for_metadata[key]
             
-    def for_entry_authors(self, node, string, separator=' '):
-        return self.for_entry_metadata(node, "authors", string, separator)
+    def for_entry_authors(self, pattern, string, separator=' '):
+        '''value'''
+        return self.for_entry_metadata(pattern, "authors", string, separator)
 
-    def for_entry_tags(self, node, string, separator=' '):
-        return self.for_entry_metadata(node, "tags", string, separator)
+    def get_blog_metadata_tree(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node):
+        '''value,tree'''
+        return self.get_blog_metadata_tree_if_exists(pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
 
-    def tree_for_blog_metadata(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node):
-        return self.tree_for_blog_metadata_if_exists(node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
-
-    def tree_for_blog_metadata_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
-        key = source+','+open_node+','+open_branch+value_childs+','+value+','+close_branch+','+close_node+','+str(raise_exception)
+    def get_blog_metadata_tree_if_exists(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
+        '''value,childs'''
+        metadata_name = metadata_name.strip()
+        key = metadata_name+','+open_node+','+open_branch+value_childs+','+value+','+close_branch+','+close_node+','+str(raise_exception)
         if key in self.html_tree_for_blog_metadata.keys():
             return self.html_tree_for_blog_metadata[key]
             
-        if not source in self.blog_configuration.keys():
+        if not metadata_name in self.blog_configuration.keys():
             if raise_exception:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.blog_has_no_metadata_like.format(source), node)
+                raise VenCException(("blog_has_no_metadata_like", metadata_name), pattern)
                 
             else:
                 self.html_tree_for_blog_metadata[key] = ""
                 return ""
                 
-        self.html_tree_for_blog_metadata[key] = self.tree_for_metadata(node, self.blog_configuration[source], open_node, open_branch, value_childs, value, close_branch, close_node)
+        self.html_tree_for_blog_metadata[key] = self.tree_for_metadata(self.blog_configuration[metadata_name], open_node, open_branch, value_childs, value, close_branch, close_node)
         return self.html_tree_for_blog_metadata[key]
         
-    def tree_for_entry_metadata(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node):
-        return self.tree_for_entry_metadata_if_exists (node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
+    def get_entry_metadata_tree(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node):
+        '''value,childs'''
+        return self.get_entry_metadata_tree_if_exists(pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
         
-    def tree_for_entry_metadata_if_exists(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
+    def get_entry_metadata_tree_if_exists(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
+        '''value,childs'''
         entry = self.requested_entry
-        if not hasattr(entry, source):
+        source = metadata_name.strip()
+        if not hasattr(entry, metadata_name):
             if raise_exception:
                 from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(messages.entry_has_no_metadata_like.format(source), node)
+                raise VenCException(("entry_has_no_metadata_like", metadata_name), pattern)
                 
             else:
                 return ""
                 
-        return self.tree_for_metadata(node, getattr(entry, source), open_node, open_branch, value_childs, value, close_branch, close_node)
+        return self.tree_for_metadata(getattr(entry, metadata_name), open_node, open_branch, value_childs, value, close_branch, close_node)
                     
-    def tree_for_metadata(self, node, source, open_node, open_branch, value_childs, value, close_branch, close_node):
+    def tree_for_metadata(self, source, open_node, open_branch, value_childs, value, close_branch, close_node):
         try:
             items = [
                 open_branch+value.format(
@@ -570,80 +553,45 @@ class DatastorePatterns:
                 )+close_branch if type(item) != dict else open_branch+value_childs.format(
                     **{
                         "value" : tuple(item.keys())[0],
-                        "childs": self.tree_for_metadata(node, tuple(item.values())[0], open_node, open_branch, value_childs, value, close_branch, close_node)
+                        "childs": self.tree_for_metadata(tuple(item.values())[0], open_node, open_branch, value_childs, value, close_branch, close_node)
                     }
                 )+close_branch for item in source
             ]
+            
         except KeyError as e:
             from venc3.exceptions import VenCException
-            from venc3.l10n import messages
-            raise VenCException(messages.unknown_contextual.format(e), node)
+            raise VenCException(("unknown_contextual", str(e)), pattern)
             
         return open_node + (''.join(items))+ close_node
 
-    def leaves_for_entry_categories(self, node, string, separator):
-        key = string+separator
-        entry = self.requested_entry
-        if not key in entry.html_categories_leaves.keys():
-            if self.blog_configuration["disable_categories"]:
-                entry.html_categories_leaves[key] = ''
-
-            else:
-                self.build_entry_entry_categories_tree(entry)
-                entry.html_categories_leaves[key] = merge(
-                    [ {
-                        "value" : node.value,
-                        "count" : node.count,
-                        "weight" : round(node.count / self.categories_weight_tracker.value, 2),
-                        "path" : node.path
-                    } for node in entry.categories_leaves],
-                    string,
-                    separator,
-                    node
-                )
-
-
-        
-        return entry.html_categories_leaves[key]
-
-    def leaves_for_blog_categories(self, node, string, separator):
-        key = string+separator
-
-        if not key in self.html_categories_leaves.keys():
-            if self.blog_configuration["disable_categories"]:
-                self.html_categories_leaves[key] = ''
-
-            else:
-                self.build_blog_categories_tree()
-                self.html_categories_leaves[key] = merge(
-                    [ {
-                        "value" : node.value,
-                        "count" : node.count,
-                        "weight" : round(node.count / self.categories_weight_tracker.value,2),
-                        "path" : node.path
-                    } for node in self.categories_leaves],
-                    string,
-                    separator,
-                    node
-                )
-        
-        return self.html_categories_leaves[key]
-        
-    def wrapper_embed_content(self, node, content_url):
-        cache = self.cache_embed_exists(content_url)
-        if cache != "":
-            return cache
-
-        else:
-            if self.embed_providers == dict():
-                f = open(os.path.expanduser("~")+"/.local/share/VenC/embed_providers/oembed.json")
-                self.embed_providers["oembed"] = {}
-                j = json.load(f)
-                for p in j:
-                    self.embed_providers["oembed"][p["provider_url"]] = []
-                    for e in p["endpoints"]:
-                        self.embed_providers["oembed"][p["provider_url"]].append(e["url"])
-
-        return get_embed_content(node, self.embed_providers, content_url)
-
+    def get_flattened_categories(self, pattern, string, separator, from_entry = False):
+        if self.blog_configuration["disable_categories"]:
+            return ''
             
+        key = string+'::'+separator+'::'+str(self.requested_entry.id if from_entry else None)
+        cache = self.requested_entry.html_categories_leaves if from_entry else self.html_categories_leaves
+
+        if not key in cache.keys():
+            output = merge(
+                [ {
+                    "value" : node.value,
+                    "count" : node.count,
+                    "weight" : round(node.count / self.categories_weight_tracker.value, 2),
+                    "path" : node.path
+                } for node in self.extract_leaves( self.requested_entry.id if from_entry else None) ],
+                string,
+                separator,
+                pattern
+            )
+        
+            cache[key] = output
+        
+        return cache[key]
+        
+    def get_flattened_entry_categories(self, pattern, string, separator):
+        '''value,count,weight,path'''
+        return self.get_flattened_categories(pattern, string, separator, True)
+
+    def get_flattened_blog_categories(self, pattern, string, separator):
+        '''value,count,weight,path'''
+        return self.get_flattened_categories(pattern, string, separator)

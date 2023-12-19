@@ -26,9 +26,8 @@ import sys
 
 # Workaround to have both installation procedure from setup.py and pip
 # copying data files in the right place. 
-dst_prefix = ''
-if ' '.join(sys.argv) == "./setup.py install --user":
-    dst_prefix = site.USER_BASE+'/'
+
+dst_prefix = site.USER_BASE+'/' if ' '.join(sys.argv) == "./setup.py install --user" else ''
 
 dst_themes_path = dst_prefix+"share/VenC/themes/"
 src_themes_path = "share/themes/"
@@ -64,19 +63,6 @@ extra_files.append(
     )
 
 )
-extra_files.append(
-    (
-        dst_prefix+"share/VenC/themes_assets/dejavu-fonts-ttf-2.37/",
-        ["share/themes_assets/dejavu-fonts-ttf-2.37/"+filename for filename in listdir("share/themes_assets/dejavu-fonts-ttf-2.37")]
-    )
-)
-
-extra_files.append(
-    (
-        dst_prefix+"share/VenC/themes_includes/",
-        ["share/themes_includes/"+filename for filename in listdir("share/themes_includes")]
-    )
-)
 
 extra_files.append(
     (
@@ -87,7 +73,7 @@ extra_files.append(
 
 setup(
     name='VenC',
-    version='3.0.0',
+    version='3.1.0',
     description='A static blog generator.',
     author='Denis Salem',
     author_email='denissalem@tuxfamily.org',
@@ -113,7 +99,6 @@ setup(
     ],
     install_requires=[
           'pyyaml',
-          'requests',
           'unidecode'
     ],
     scripts=['venc'],

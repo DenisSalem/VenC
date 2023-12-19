@@ -19,8 +19,6 @@
 
 import os
 
-from venc3.helpers import quirk_encoding
-from venc3.prompt import notify
 from venc3.threads import Thread
 
 class ChaptersThread(Thread):
@@ -42,6 +40,8 @@ class ChaptersThread(Thread):
         return string2.strip()
         
     def setup_chapters_context(self, i, top, len_top):
+        from venc3.helpers import quirk_encoding
+        from venc3.prompt import notify
         node = top[i]
             
         if i == len_top-1:
@@ -50,7 +50,7 @@ class ChaptersThread(Thread):
         else:
             tree_special_char = '├'
         entry = self.datastore.entries[node.entry_index]
-        notify(self.indentation_level+tree_special_char+"─ "+node.index+' '+entry.title+"...")
+        notify(("exception_place_holder", node.index+' '+entry.title+"..."), prepend=self.indentation_level+tree_special_char+"─ ")
         self.thread_name = entry.title
         folder_name = quirk_encoding(
             self.folder_name.format(**{
@@ -98,9 +98,3 @@ class ChaptersThread(Thread):
         
                 # Restore states
                 self.indentation_level = self.indentation_level[:-3]
-                
-    def get_JSONLD(self, node):
-        if self.current_page == 0 and self.enable_jsonld:
-            return '<script type="application/ld+json" src="chapters.jsonld"></script>'
-        
-        return ''
