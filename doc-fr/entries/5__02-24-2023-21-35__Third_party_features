@@ -12,7 +12,7 @@ Ce que nous pouvons faire cependant, c'est réaliser des choix judicieux dans ce
 et ce qu'il convient d'importer. En l'occurrence, nous avons fait le choix de développer notre
 propre système de balises pour l'aide à la mise en page de votre projet. VenC ne dépend donc pas
 d'un moteur de template tiers comme [Jinja](https://jinja.palletsprojects.com) et
-voit ses performances amélioriées, dans la mesure où le moteur de template interne
+voit ses performances améliorées, dans la mesure où le moteur de template interne
 à VenC est fortement couplé avec le reste du code et a bénéficié d'un effort
 d'optimisations substantiel.
 

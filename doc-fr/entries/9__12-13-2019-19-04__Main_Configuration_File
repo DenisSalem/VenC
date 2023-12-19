@@ -74,7 +74,7 @@ text_editor:
 
 ## date_format
 
-"**%A %d. %B %Y**" par défaut. Définit le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous [ici](http://strftime.org).
+"**%A %d. %B %Y**" par défaut. Définis le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous [ici](http://strftime.org).
 
 ## author_name
 
@@ -82,7 +82,7 @@ Le nom de l'administrateur ou de l'auteur du blog.
 
 ## blog_description
 
-Un très court résumé de ce dont parle votre site.
+Un résumé de ce dont parle votre site.
 
 ## blog_keywords
 
@@ -98,7 +98,7 @@ La licence appliquée au contenu de votre site.
 
 ## blog_url
 
-L'URL du blog. Peut être laissée vide, selon le thème utilisé.
+L'URL du blog. Elle peut être laissée vide, selon le thème utilisé.
 
 ## ftp_host
 
@@ -142,11 +142,11 @@ Le nom du sous-répertoire qui contiendra les catégories.
 
 ### category_directory_name
 
-"`{category}`" par défaut. Définit le répertoire où sera exporté le fil de publication de la catégorie courante. Ce champ devrait donc toujours contenir la variable `{category}`.
+"`{category}`" par défaut. Définis le répertoire où sera exporté le fil de publication de la catégorie courante. Ce champ devrait donc toujours contenir la variable `{category}`.
 
 ### chapter_directory_name
 
-"`{chapter_name}`" par défaut. Définit les noms de répertoire où seront
+"`{chapter_name}`" par défaut. Définis les noms de répertoire où seront
 exportés les chapitres, s'il en existe. Ce champ devrait donc toujours
 contenir la variable `.:DisableMarkup::{chapter_name}:.`.
 
@@ -163,15 +163,15 @@ celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous
 
 ### rss_file_name
 
-"`rss.xml`" par défaut. Définit le nom de fichier du flux RSS.
+"`rss.xml`" par défaut. Définis le nom de fichier du flux RSS.
 
 ### atom_file_name
 
-"`atom.xml`" par défaut. Définit le nom de fichier du flux Atom.
+"`atom.xml`" par défaut. Définis le nom de fichier du flux Atom.
 
 ## entries_per_pages
 
-*10* par défaut. Définit le nombre de publications par page.
+*10* par défaut. Définis le nombre de publications par page.
 
 ## columns
 
@@ -179,7 +179,7 @@ celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous
 
 ## feed_length
 
-*5* par défaut. Définit le nombre de publications à afficher dans le flux RSS.
+*5* par défaut. Définis le nombre de publications à afficher dans le flux RSS.
 
 ## reverse_thread_order
 
@@ -200,7 +200,7 @@ Les valeurs possibles de ce champ sont :
 
 ## server_port
 
-Spécifie le port du server HTTP local. Ce champ est fixé à *8888* par défaut.
+Spécifie le port du serveur HTTP local. Ce champ est fixé à *8888* par défaut.
 
 ## sort_by
 
@@ -224,17 +224,17 @@ manuellement dans l'entête de vos publications.
 
 ## parallel_processing
 
-Permet de contrôler le nombre de processus enfants lors de la génération de votre site avec VenC. Le nombre idéal correspond à votre nombre de cœurs sur votre CPU. Pour les petits blogs, il n'est pas utile d'avoir plus d'un processus.
+Cette option permet de contrôler le nombre de processus enfants lors de la génération de votre site avec VenC. Le nombre idéal correspond à votre nombre de cœurs sur votre CPU. Pour les petits blogs, il n'est pas utile d'avoir plus d'un processus.
 
 ## pipe_flow
 
-Cette option permet de controller le volume d'octets transitant d'un sous-processus à un autre. Il permet une optimisation fine
+Cette option permet de contrôler le volume d'octets transitant d'un sous-processus à un autre. Il permet une optimisation fine
 des fonctions de parallélisme de VenC. La valeur par défaut est normalement optimale et est fixée à *512*. Vous pouvez néanmoins effectuer
 des tests pour voir ce qui est le plus rapide chez vous.
 
 ## pygmentize_style
 
-Il est possible de controller le style de coloration syntaxique proposé par [Pygmentize](https://pygments.org) en assignant
+Il est possible de contrôler le style de coloration syntaxique proposé par [Pygmentize](https://pygments.org) en assignant
 un des noms de style documenté [ici](https://pygments.org/docs/styles/#builtin-styles) à cette option. Si vous changez le style et que
 `code_highlight_css_override` est configuré avec `False`, alors il faut supprimer les feuilles de styles déjà générées par VenC dans
 le répertoire `extra`.

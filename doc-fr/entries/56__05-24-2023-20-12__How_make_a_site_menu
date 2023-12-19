@@ -29,15 +29,15 @@ liste simple : il n'est pas possible pour le moment de la rendre hiérarchisée.
 
 Enfin, et dans tous les cas, il faut rappeler que même si vous utilisez les motifs
 VenC correspondant à ces fonctionnalités, elles ne seront pas
-_actives_ si vous ne dite pas explicitement à VenC de le faire.
+_actives_ si vous ne dites pas explicitement à VenC de le faire.
 
 En effet, ces listes sont dans la pratique un moyen de naviguer sur votre
 site et ceci implique donc que VenC a généré le contenu organisé correspondant.
-En l'occurrence, il faut s'assurer que dans votre [fichier de configuration](.:GetChapterAttributeByIndex::path::3.2:.) les options suivantes soient configuré à **`false`** pour activer, respectivement, les archives et les catégories :
+En l'occurrence, il faut s'assurer que dans votre [fichier de configuration](.:GetChapterAttributeByIndex::path::3.2:.) les options suivantes soient configurées à **`false`** pour activer, respectivement, les archives et les catégories :
 
 - [`disable_archives`](.:GetChapterAttributeByIndex::path::3.2:.#disable-archives)
 - [`disable_categories`](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories)
 
 VenC fonctionne de cette manière parce que la responsabilité de ce qui doit être généré relève de l'utilisateur final.
-C'est au thème de s'adapter et d'anticiper que l'utilisateur final veuille ou ne veuille pas générer tel ou tel
+C'est au thème de s'adapter et d'anticiper que l'utilisateur final veut ou ne veut pas générer tel ou tel
 contenu organisé. Si vous prévoyez de créer un thème et de le distribuer sur les Internets, il faudra donc en tenir compte.

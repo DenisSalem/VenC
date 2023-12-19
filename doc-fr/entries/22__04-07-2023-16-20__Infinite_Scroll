@@ -30,7 +30,7 @@ pouvez déplacer le code incluant `VenC-Scripts-Bootstrap` dans le premier argum
 de __`IfInThread`__.
 - Si vous prévoyez de distribuer votre thème, le pattern __`IfInfiniteScrollEnabled`__
 permet d'activer/désactiver l'inclusion du module depuis le fichier de
-configuration principal de votre blog à l'aide de la variable booléenne __`disable_infinite_scroll`__.
+configuration principale de votre blog à l'aide de la variable booléenne __`disable_infinite_scroll`__.
 
 ## Inclure le défilement infini dans votre thème
 

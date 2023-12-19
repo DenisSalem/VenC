@@ -6,7 +6,7 @@ chapter: '3.5.1.1'
 title: 'Premier cas pratique : oEmbed'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Le template `oEmbed` se présente comme ça :
+Le template `oEmbed` se présente ainsi :
 
 .:CodeHighlightInclude::Text::False::oEmbed:.
 

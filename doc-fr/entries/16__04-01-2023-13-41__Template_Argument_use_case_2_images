@@ -6,7 +6,7 @@ chapter: '3.5.1.2'
 title: 'Second cas pratique : images'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Le template `images` se présente comme ça :
+Le template `images` se présente ainsi :
 
 .:CodeHighlightInclude::Text::False::images:.
 
@@ -20,7 +20,7 @@ l'entête [YAML](https://yaml.org/).
 
 Comme la métadonnée d'origine dans l'entête [YAML](https://yaml.org/) du template est appelée dans [`ForEntryMetadata`](.:GetChapterAttributeByIndex::path::4.4.1:.#forentrymetadata), il faut que la variable __`images`__ soit une liste. On doit donc utiliser la commande VenC `--new-entry` comme ci-dessous :
 
-_Pour plus de clarté l'exemple utilise une approche multiligne en bash, comme expliqué [ici](https://stackoverflow.com/a/37222377/3549035)._
+_Pour plus de clarté l'exemple utilise une approche multiligne en Bash, comme expliqué [ici](https://stackoverflow.com/a/37222377/3549035)._
 
 .:CodeHighlight::Bash::False::
 JSON=$(cat <<-END

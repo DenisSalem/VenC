@@ -10,7 +10,7 @@ Les motifs contextuels sont les derniers motifs à être interprétés par VenC 
 motifs sont "contextuels" au sens où leur fonctionnement dépend de choses comme le fil de publications que VenC traite, du numéro de la
 page courante ou de l'emplacement de fichier de la page ainsi généré dans l'arborescence du blog.
 
-Les motifs contextuels sont interprétés autant de fois qu'il y a de pages pour chaque occurrence de l'un de ceux là.
+Les motifs contextuels sont interprétés autant de fois qu'il y a de pages pour chaque occurrence de l'un de ceux-là.
 
 ### ForPages
 
@@ -148,7 +148,7 @@ alors `GetThreadName` permet de récupérer cette valeur dans une chaîne de car
 formatée correspondant à l'argument `string1`. Si au contraire, le fil de publications
 n'a pas de nom alors c'est `string2` qui est renvoyée, par exemple quand VenC traite le fil de publications principal.
 
-En fait, tous les fils de publications ont un nom qui leur sont attribué, sauf pour le
+En fait, chaque fil de publications a un nom qui lui est attribué, sauf pour le
 fil de publications principal.
 
 - __`string1`__ : premier argument du motif, c'est celui qui est renvoyé si le fil de publications a un nom. Pour accéder au nom du fil de publications dans l'argument, il faut utiliser la variable __`value`__. Si c'est cet argument qui doit être utilisé par le motif et qu'il est manquant, le motif renvoie simplement le nom du fil de publications, sans formatage particuler.
@@ -243,7 +243,7 @@ Ce motif n'a pas de variable.
 
 > .:Escape:: .:IfInThreadAndHasFeeds::string1[::string2]:. :.
 
-La fonction teste si le fil de publications courant peut produire un flux Atom et/ou RSS. Seules les catégories et le fil principal valident la condition.
+La fonction teste si le fil de publications courant peut produire un flux Atom et/ou RSS. Seuls les catégories et le fil principal valident la condition.
 
 - __`string1`__ : texte retourné si la condition est remplie.
 - __`string2`__ : texte retourné si la condition n'est pas remplie. Si le second argument est absent, le motif est ignoré et supprimé.
@@ -254,7 +254,7 @@ Ce motif n'a pas de variable.
 
 > .:Escape:: .:IfInThreadAndHasFeeds::string1[::string2]:. :.
 
-La fonction teste si le fil de publications courant peut produire un flux Atom et/ou RSS. Seules les catégories et le fil principal valident la condition.
+La fonction teste si le fil de publications courant peut produire un flux Atom et/ou RSS. Seuls les catégories et le fil principal valident la condition.
 
 - __`string1`__ : texte retourné si la condition est remplie.
 - __`string2`__ : texte retourné si la condition n'est pas remplie. Si le second argument est absent, le motif est ignoré et supprimé.

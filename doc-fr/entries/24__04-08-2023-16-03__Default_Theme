@@ -9,16 +9,16 @@ title: Thème par défaut
 
 ## Usage
 
-Pour vous faciliter la vie, VenC est livré avec au moins un thème qui peut vous service de base pour créer le votre. C'est également idéal pour voir comment
-sont mit en pratique certains concept de VenC. Quand vous installez VenC ce thème est placé dans
+Pour vous faciliter la vie, VenC est livré avec au moins un thème qui peut vous servir de base pour créer le vôtre. C'est également idéal pour voir comment
+sont mis en pratique certains concepts de VenC. Quand vous installez VenC, ce thème est placé dans :
 
 > ~/.local/share/VenC/themes/concrete
 
-Ce thème s'appel `concrete`. Vous pouvez donc l'utiliser en générant votre site avec :
+Ce thème s'appelle `concrete`. Vous pouvez donc l'utiliser en générant votre site avec :
 
 > venc -xb concrete
 
-ou en l'installant localement dans votre projet avec [la commande suivante](.:GetChapterAttributeByIndex::path::5.9:.) :
+Ou en l'installant localement dans votre projet avec [la commande suivante](.:GetChapterAttributeByIndex::path::5.9:.) :
 
 > venc -it concrete
 
@@ -29,13 +29,13 @@ L'avantage de cette dernière méthode étant qu'elle vous permet de modifier le
 Ce théme peut être adapté à vos besoins sans le modifier directement à l'aide d'une série de variable à
 définir dans votre [fichier de configuration principal](.:GetChapterAttributeByIndex::path::3.2:.) :
 
-- __`disable_infinite_scroll`__ : Il s'agit d'un `booléen` permetant de désactiver le script JS de [défilement infini](.:GetChapterAttributeByIndex::path::3.6.2.2:.).
-- __`custom_scripts`__ : Il s'agit d'une liste contenant les noms de fichier de scripts que vous souhaitez inclure. Ceux là doivent être placés dans le répertoire `extra` de votre projet.
-- __`custom_styles`__ : Il s'agit d'une liste contenant les noms de fichier de feuilles de styles que vous souhaitez inclure. Ceux là doivent être placés dans le répertoire `extra` de votre projet.
-- __`disable_blog_hashtags`__ : Il s'agit d'un `booléen` pour désactiver l'affichage du nuage de catégories sous la forme de hashtag.
-- __`disable_categories_tree`__ : Il s'agit d'un `booléen` pour désactiver l'affichage des catégories sous la forme d'arbre hierarchique.
-- __`disable_chapters`__ : Il s'agit d'un `booléen` pour désactiver l'affichage de la liste des chapitres.
-- __`force_entry_content`__ : Il s'agit d'un `booléen` pour forcer l'affichage du contenu des publications dans les fils de publications.
-- __`disable_entry_hashtags`__ : Il s'agit d'un `booléen` pour désactiver l'affichage du nuage de catégories des publications.
-- __`loading_image`__ : Il s'agit du nom de fichier d'une éventuelle image de chargement à afficher quand le défilement infini est activé.
-- __`include_in_footer`__ : Il s'agit du nom de fichier d'un éventuelle pied de page HTML à inclure.
+- __`disable_infinite_scroll`__ : il s'agit d'un `booléen` permetant de désactiver le script JS de [défilement infini](.:GetChapterAttributeByIndex::path::3.6.2.2:.).
+- __`custom_scripts`__ : il s'agit d'une liste contenant les noms de fichier de scripts que vous souhaitez inclure. Ceux-là doivent être placés dans le répertoire `extra` de votre projet.
+- __`custom_styles`__ : il s'agit d'une liste contenant les noms de fichier de feuilles de styles que vous souhaitez inclure. Ceux-là doivent être placés dans le répertoire `extra` de votre projet.
+- __`disable_blog_hashtags`__ : il s'agit d'un `booléen` pour désactiver l'affichage du nuage de catégories sous la forme de hashtag.
+- __`disable_categories_tree`__ : il s'agit d'un `booléen` pour désactiver l'affichage des catégories sous la forme d'arbre hierarchique.
+- __`disable_chapters`__ : il s'agit d'un `booléen` pour désactiver l'affichage de la liste des chapitres.
+- __`force_entry_content`__ : il s'agit d'un `booléen` pour forcer l'affichage du contenu des publications dans les fils de publications.
+- __`disable_entry_hashtags`__ : il s'agit d'un `booléen` pour désactiver l'affichage du nuage de catégories des publications.
+- __`loading_image`__ : il s'agit du nom de fichier d'une éventuelle image de chargement à afficher quand le défilement infini est activé.
+- __`include_in_footer`__ : il s'agit du nom de fichier d'un éventuel pied de page HTML à inclure.

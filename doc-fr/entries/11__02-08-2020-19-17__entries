@@ -37,7 +37,7 @@ C'est la liste des auteurs de la publication, séparés par une virgule. Par exe
 
 ### categories
 
-C'est la liste des categories de la publication au format [YAML](https://yaml.org/). Comme ces categories peuvent contenir des sous-catégories, les listes peuvent-être imbriquées. Par exemple : 
+C'est la liste des catégories de la publication au format [YAML](https://yaml.org/). Comme ces catégories peuvent contenir des sous-catégories, les listes peuvent être imbriquées. Par exemple : 
 
 .:CodeHighlight::yaml::false::
 categories:
@@ -51,7 +51,7 @@ categories:
 
 ### tags
 
-C'est la liste des mot-clefs de la publication au format [YAML](https://yaml.org/). Par exemple :
+C'est la liste des mots-clefs de la publication au format [YAML](https://yaml.org/). Par exemple :
 
 .:CodeHighlight::yaml::false::
 tags:
@@ -96,4 +96,4 @@ VenC supporte trois langages de balisage :
 - __[`reStructuredText`](http://docutils.sourceforge.net/rst.html)__ : un peu plus complet et puissant que Markdown.
 - __[`asciidoc`](https://asciidoc.org)__ : un peu plus complet et puissant que Markdown.
 - __`none`__ : le langage de balisage est désactivé. Permet d'incorporer
-de l'HTML/CSS dans une publication.
+du HTML et du CSS dans une publication.

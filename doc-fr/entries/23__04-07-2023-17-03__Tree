@@ -10,12 +10,12 @@ Ce module JavaScript permet d'animer et de condenser une liste hiérarchique de 
 
 En effet, si la liste d'éléments contenue dans l'un de ces types d'objets
 est très longue, ce peut être visuellement rédhibitoire. Ce module
-permet donc de plier/déplier les sous-parties d'une liste.  
+permet donc de plier/déplier les sous-parties d'une liste.
 
 ## Inclure le module arbre dans votre page
 
 Pour pouvoir utiliser ce module, vous devez inclure dans le fichier
-__`header.html`__ de votre thème deux scripts : 
+__`header.html`__ de votre thème deux scripts :
 
 - __`VenC-Scripts-Bootstrap-x.y.z.js`__ : ce script est obligatoire pour faire
 fonctionner n'importe quel module.
@@ -27,7 +27,7 @@ suivante :
 
 .:CodeHighlightInclude::html::False::tree-1:.
 
-Dans cet exemple, on supose que l'on souhaite appliquer le module à une
+Dans cet exemple, on suppose que l'on souhaite appliquer le module à une
 liste hiérarchique de catégories. On utilise donc le pattern __`IfCategories`__ pour
 n'inclure le module que si c'est nécessaire. Si l'on avait souhaité
 utiliser le module pour rendre interactif une table des matières, on
@@ -52,7 +52,7 @@ voir être exportés pendant la génération de votre blog.
 
 Vous pouvez appliquer le module arbre à des listes hiérarchiques, qui sont générées par VenC avec le pattern __[`GetChapters`](.:GetChapterAttributeByIndex::path::4.4.2:.#getchapters)__ ou avec le pattern __[`TreeForBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#treeforblogcategories)__.
 
-Commençons par observer que l'utilisation de ces deux patterns présentent des similarités :
+Commençons par observer que l'utilisation de ces deux patterns présente des similarités :
 
 .:CodeHighlightInclude::html::False::tree-2:.
 
@@ -70,7 +70,7 @@ En particulier, pour que le module arbre fonctionne sur les listes hiérarchique
 
 ## Personnaliser le module arbre
 
-L'API définit une variable globale appelé `VENC_TREE`.
+L'API définit une variable globale appelée `VENC_TREE`.
 
 .:CodeHighlight::Javascript::False::var VENC_TREE = {
     button_show: '+',
@@ -81,9 +81,9 @@ L'API définit une variable globale appelé `VENC_TREE`.
 
 Chaque élément d'une liste hiérarchique se voit assigner un petit bouton qu'il est possible de définir soi-même.
 
-- Pour un élément dépliable, par défaut le bouton est le caractère __`+`__ et est définit dans `button_show`.
-- Pour un élément repliable, par défaut le bouton est le caractère __`-`__ et est définit dans `button_hide`.
-- Pour un élement qui n'est ni dépliable, ni repliable, par défaut le bouton est __`○`__ et n'est pas cliquable. Ce bouton est définit dans `button_disabled`.
+- Pour un élément dépliable, par défaut le bouton est le caractère __`+`__ et est défini dans `button_show`.
+- Pour un élément repliable, par défaut le bouton est le caractère __`-`__ et est défini dans `button_hide`.
+- Pour un élément qui n'est ni dépliable, ni repliable, par défaut le bouton est __`○`__ et n'est pas cliquable. Ce bouton est défini dans `button_disabled`.
 
 Vous n'êtes pas obligé de définir un caractère, ce peut être du texte, ou des éléments HTML.
 
@@ -106,4 +106,4 @@ Il est également possible de reféfinir complétement le style CSS des listes a
 :.
 
 La redéfinition des attributs de __`VENC_TREE`__ doit se faire __après__ avoir
-inclut dans votre page __`VenC-Tree-x.y.z.js`__.
+inclus dans votre page __`VenC-Tree-x.y.z.js`__.

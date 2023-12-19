@@ -16,4 +16,4 @@ Python, ceux qui sont utilisés avec la fonction [`format`](https://docs.python.
 
 > {moo} {foo} {bar}
 
-Pour fonctionner, il faut passer à VenC un troisième argument, au format JSON qui portera les clés-valeurs nécessaires au template.
+Pour fonctionner il faut passer à VenC un troisième argument, au format JSON, qui portera les clés-valeurs nécessaires au template.

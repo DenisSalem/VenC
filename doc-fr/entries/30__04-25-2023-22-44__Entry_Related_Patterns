@@ -78,7 +78,7 @@ Les variables de ce motif sont les suivantes :
 - __`value`__ : le nom de la catégorie courante.
 - __`path`__ : le chemin relatif de la catégorie courante.
 - __`count`__ : le nombre de publications dans la catégorie courante.
-- __`weight`__ : le nombre de publications dans la catégorie courante divisé par le nombre de publications appartenant à une catégorie.
+- __`weight`__ : le nombre de publications dans la catégorie courante, divisé par le nombre de publications appartenant à une catégorie.
 - __`childs`__ : contient le résultat de la récursion suivante du motif.
 
 Par exemple, pour créer un menu déroulant on peut utiliser le motif comme ci-dessous :
@@ -130,7 +130,7 @@ catégories filles, alors les arguments `open_node` et `close_node` sont ajouté
 une nouvelle liste de sous-catégories est générée entre ces deux arguments,
 en utilisant les arguments `open_branch` et `close_branch`.
 
-Ce motif est ignoré et supprimé si la génération des catégories est désactivée	 dans le fichier de [configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
+Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
 
 #### GetEntryChapterLevel
 
@@ -250,7 +250,7 @@ Si le second argument n'est pas défini, l'accesseur renvoie directement la vari
 :. :.
 :.
 
-Ce pattern permet de formater sous la forme d'un arbre une metadonnée d'une publication qui serait une structure de données.
+Ce pattern permet de formater sous la forme d'un arbre une métadonnée d'une publication qui serait une structure de données.
 
 Les arguments de ce motif sont les suivants :
 
@@ -258,7 +258,7 @@ Les arguments de ce motif sont les suivants :
 - **`open_node`** : la chaîne de caractères ouvrant la liste courante.
 - **`open_branch`** : la chaîne de caractères ouvrant l'item courant.
 - **`value_childs`** : la chaîne de caractères composant l'item courant, si celui-ci a des items enfants.
-- **`value`** : la chaîne de caractère composant l'item courant, si celui-ci n'a pas d'item enfant.
+- **`value`** : la chaîne de caractères composant l'item courant, si celui-ci n'a pas d'item enfant.
 - **`close_branch`** : la chaîne de caractères fermant l'item courant.
 - **`clode_node`** : la chaîne de caractères fermant la liste courante.
 
@@ -267,7 +267,7 @@ Ce motif possède les variables suivantes :
 - __`value`__ : contient la valeur de l'item courant. Vous pouvez utiliser cette variable dans les arguments `value` et `value_childs`.
 - __`childs`__ : contient le bloc enfant de l'item courant. Vous ne pouvez utiliser cette variable que dans l'argument `value_childs`.
 
-Voici un exemple d'utilisation de ce pattern. Étant donnée la métadonnée suivante dans l'entête d'une publication :
+Voici un exemple d'utilisation de ce pattern. Étant donné la métadonnée suivante dans l'entête d'une publication :
 
 .:CodeHighlight::YAML::False::
 tree_test:
@@ -353,7 +353,7 @@ dans le __corps__ d'une publication [Markdown](https://daringfireball.net/projec
 - **`close_li`** : la chaîne de caractères fermant l'item courant.
 - **`clode_ul`** : la chaîne de caractères fermant le niveau courant.
 
-Le motif a quelque variables qu'il est possible d'utiliser dans l'argument `content` :
+Le motif a quelques variables qu'il est possible d'utiliser dans l'argument `content` :
 
 - __`id`__ : contient l'`id` HTML de l'entête correspondant à l'item courant.
 - __`title`__ : contient le titre de l'entête correspondant à l'item courant.
@@ -445,7 +445,7 @@ Permet de récupérer sous la forme d'une liste chaque item de l'arbre des caté
 
 Si la génération des fils de publications triés par catégorie est désactivée, ce motif est ignoré.
 
-Les argument de ce motif sont :
+Les arguments de ce motif sont :
 
 - __`string`__ : la chaîne de caractères correspondant à l'item courant.
 - __`separator`__ : la chaîne de caractères qui sert de séparateur entre chaque item.
@@ -454,7 +454,7 @@ Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
 - __`count`__ : le nombre de publications dans cette catégorie.
-- __`weight`__ : le nombre de publications dans cette catégorie divisé par le nombre de publications ayant une catégorie.
+- __`weight`__ : le nombre de publications dans cette catégorie, divisé par le nombre de publications ayant une catégorie.
 - __`path`__ : le chemin relatif menant au fil de publication de la catégorie courante.
 
 #### IfEntryMetadataIsTrue

@@ -19,7 +19,7 @@ le motif [`ForBlogArchives`](.:GetChapterAttributeByIndex::path::4.4.2:.#forblog
 
 L'idée ici est d'itérer à travers la liste des archives de VenC, afin de récupérer la valeur de chaque élément de cette liste. Ici,
 la valeur correspond au nom de l'archive courante. Ce nom est défini par le format de date que vous avez indiqué dans votre fichier
-de configuration principal avec l'option [`archives_directory_name`](.:GetChapterAttributeByIndex::path::3.2:.#archives-directory-name).
+de configuration principale avec l'option [`archives_directory_name`](.:GetChapterAttributeByIndex::path::3.2:.#archives-directory-name).
 
 Mais évidemment le code ci-dessus ne suffit pas, puisque ce que nous
 voulons c'est une liste HTML de liens vers les archives. Du coup, faisons

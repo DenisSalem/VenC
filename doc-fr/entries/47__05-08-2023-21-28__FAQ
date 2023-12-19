@@ -53,7 +53,7 @@ Si malgré tout vous obtenez des erreurs, c'est probablement que votre installat
 
 Cela arrive lorsque VenC est installé avec la version de Python 2 de pip. VenC fonctionne avec Python 3, il faut donc installer VenC avec `pip3`. En général, la version de pip que vous utilisez par défaut correspond à la version de Python également utilisée par défaut sur votre système.
 
-En particulier sur les système basés sur Debian, vous devrez installer `pip3` :
+En particulier sur les systèmes basés sur Debian, vous devrez installer `pip3` :
 
 > sudo apt-get install python3-pip
 
@@ -105,7 +105,7 @@ Si l'environnement système est mal configuré, vous pourriez avoir quelque chos
 .:CodeHighlight::shell-session::False::denissalem@nonagon ~/VenC/VenC-site $ venc -xb
 VenC: unsupported locale setting:.
 
-Cela signifie que vos _locales_, c'est-à-dire vos paramètres régionaux (comme la langue et la disposition de votre clavier), ne sont pas correctement configurées. La résolution de ce problème est spécifique à chaque distribution GNU/Linux.
+Cela signifie que vos _locales_, c'est-à-dire vos paramètres régionaux (comme la langue et la disposition de votre clavier), ne sont pas correctement configurés. La résolution de ce problème est spécifique à chaque distribution GNU/Linux.
 
 ## Où trouver le code source ?
 
