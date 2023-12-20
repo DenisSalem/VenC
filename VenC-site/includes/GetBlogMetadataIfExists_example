@@ -1,5 +1,0 @@
-.:GetBlogMetadataIfExists::mastodon::
-    <a href="{value}" class="social-network-item">
-        <img src="{relative_origin}mastodon.png" alt="Mastodon" title="Mastodon"/>
-    </a>
-:.

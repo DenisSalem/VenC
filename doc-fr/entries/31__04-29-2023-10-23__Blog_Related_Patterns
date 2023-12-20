@@ -170,6 +170,59 @@ en utilisant les arguments `open_branch` et `close_branch`.
 
 Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
 
+
+#### GetBlogCategoriesTreeFromBranches
+
+.:CodeHighlight::Text::False:: .:Escape::
+.:GetBlogCategoriesTree::
+    branches::
+    sub_tree_separator::
+    open_node::
+    open_branch::
+    close_branch::
+    close_node
+:. :.
+:.
+
+Ce `motif` permet de mettre en oeuvre de la taxonomy avancée. En effet, via le premier argument `branches`, ce motif permet de sélectionner une ou plusieurs branches
+de l'arbre des categories pour l'afficher individuellement à l'intérieur de `sub_tree_separator` comme le ferait [`GetBlogCategoriesTree`](#getblogcategoriestree).
+
+Les arguments du motif sont les suivants :
+
+- **`branches`** : contient le nom de la métadonnée définit dans le fichier de configuration qui contient une liste de nom de branche.
+- **`sub_tree_separator`** : contient la chaîne de caractères contenant la branche courante. Pour chaque branches, `sub_tree_separator` est concaténé à la précédente itération.
+- **`open_node`** : contient la chaîne de caractères d'ouverture pour la catégorie parente.
+- **`open_branch`** : contient la chaîne de caractères d'ouverture de la catégorie courante.
+- **`close_branch`** : contient la chaîne de caractères de fermeture de la catégorie courante.
+- **`close_node`** : contient la chaîne de caractères de fermeture de la catégorie parente.
+
+Les variables de ce motif sont les suivantes :
+
+- __`value`__ : le nom de la catégorie courante.
+- __`path`__ : le chemin relatif de la catégorie courante.
+- __`count`__ : le nombre de publications dans la catégorie courante.
+- __`weight`__ : le nombre de publications dans la catégorie courante, divisé par le nombre de publications appartenant à une catégorie.
+- __`childs`__ : contient le résultat de la récursion suivante ou de l'itération courrante du `motif`.
+
+Pour illustrer ce motif un peu complexe nous nous donnons l'arbre de catégories suivant :
+
+.:CodeHighlight::Yaml::False::
+categories:
+  - Medium & Technique:
+    - Dessin
+    - Peintures:
+      - Acrylique
+      - Huile
+    - Sculpture
+    - Infographie
+  - Licence :
+    - CC-By-SA
+    - CC-By-NC-ND
+:.
+
+Nous pourrions vouloir un contrôle plus fin sur l'affichage de ces categories. Par exemple en mettant en valeur `Medium & Technique` et `Licence` qui
+renseigne sur quelque type de catégorie il s'agit.
+
 #### GetBlogDescription
 
 > .:Escape:: .:GetBlogDescription:. :.
@@ -339,7 +392,7 @@ Retourne le titre du blog défini dans [`blog_name`](.:GetChapterAttributeByInde
 
 > .:Escape:: .:GetBlogURL:. :.
 
-Retourne l'URL du blog définie dans [`blog_url`](.:GetChapterAttributeByIndex::path::3.2:.#blog-url).
+Retourne l'URL du blog définie dans [`blog_url`](.:GetChapterAttributeByIndex::path::3.2:.#blog-url). Le pattern est ignoré si `blog_url` n'est pas définit dans le fichier de configuration.
 
 #### GetChapterAttributeByIndex
 

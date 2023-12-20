@@ -6,21 +6,24 @@ chapter: '2'
 title: Installation
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Depuis la version 1.2.0 VenC s'installe avec [pip](https://pypi.python.org/pypi/pip), ce qui rend le processus substantiellement plus simple !
-Attention cependant, VenC utilise Python 3, assurez-vous donc d'utiliser la version correspondante de pip. Sur les systèmes basés sur Debian, il s'agit de `pip3`.
 
-> pip install venc --user
+VenC s'installe avec [pipx](https://pipx.pypa.io/stable/installation/).
 
-N'oubliez pas de rajouter l'argument `--user` : cela installe VenC dans l'environnement utilisateur, au lieu du système, ce qui est fortement recommandé.
+> pipx install venc
 
 Vous pouvez également mettre à jour VenC avec :
 
-> pip install --upgrade venc  
+> pipx upgrade venc
+
+Enfin si vous souhaitez installer un module tiers, par exemple [mistletoe](https://github.com/miyuchina/mistletoe), pour pouvoir utiliser Markdown, il faut
+installer le module dans le même `virtual env` :
+
+> pipx inject venc mistletoe
 
 ## Installation alternative
 
 Vous pourriez vouloir utiliser VenC dans une version en développement indisponible sur PyPI.
-Pour ça vous pouvez cloner le projet depuis [Framagit](https://framagit.org/denissalem/VenC/)
+Pour ça, vous pouvez cloner le projet depuis [Framagit](https://framagit.org/denissalem/VenC/)
 ou [GitHub](https://github.com/DenisSalem/VenC) avec la commande [`git`](https://git-scm.com/).
 
 Il faut ensuite sélectionner la branche que vous désirez. En effet, la branche `master` correspond à la version
@@ -37,27 +40,37 @@ Ceci étant fait, rendez-vous dans le répertoire __`src`__ et utilisez le scrip
 
 > ./setup.py install --user
 
-Cette dernière commande échouera si `setuptools` n'est pas installé. `setuptools` peut s'installer avec [`pip`](https://pypi.python.org/pypi/pip), en utilisant `pip install setuptools`.
+Cette dernière commande échouera si `setuptools` n'est pas installé. `setuptools` peut s'installer avec [`pip`](https://pypi.org/project/pip/) :
+
+> pip install setuptools --user
+
+À noter également que pour installer des modules avec cette méthode alternative, il faudra passer par [`pip`](https://pypi.org/project/pip/).
 
 ## Fichiers installés
 
-Quelle que soit la méthode d'installation, dépendances mises à part, VenC installe également ses ressources dans :
+Dépendances mises à part, VenC installe également ses ressources dans l'un de ces répertoires, selon la méthode d'installation :
 
-> ~/.local/share/VenC
+- __`./setup.py`__: `~/.local/share/VenC` 
+- __`pip`__: `~/.local/share/VenC` 
+- __`pipx`__ : `~/.local/share/pipx/venvs/venc/share/VenC`
 
-On y trouve les thèmes, des assets, des templates, des modules JS et d'autres petites choses utiles au bon fonctionnement
+
+On y trouve les thèmes, des assets, des templates, des modules JavaScript et d'autres petites choses utiles au bon fonctionnement
 de VenC.
-
 
 ## Désinstallation
 
 Pour désinstaller VenC, c'est triste, mais rien de plus simple :
 
-> pip uninstall venc
+> pipx uninstall venc
 
 Et voilà !
 
-Petite précision : les dépendances de VenC ne sont pas désinstallées automatiquement. Ces dépendances sont :
+Petite précision : avec l'ancienne méthode d'installation [`pip`](https://pypi.org/project/pip/), les dépendances de VenC ne sont pas désinstallées automatiquement.
+
+## Dépendances
+
+Les dépendances de VenC sont :
 
 - [PyYAML](https://github.com/yaml/pyyaml) : dépendance nécessaire pour gérer les fichiers de configuration de VenC et les métadonnées des publications.
 - [Unidecode](https://pypi.org/project/Unidecode/) : dépendance nécessaire pour gérer les caractères spéciaux et différents types d'encodage.

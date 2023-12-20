@@ -36,7 +36,7 @@ Empêche VenC de générer les fils de publications des archives. Ce champ est u
 
 ## disable_chapters
 
-Empêche VenC de générer les chapitres. Ce champ est un booléen, fixé à `True` par défaut.
+Empêche VenC de générer les chapitres. Ce champ est un booléen, fixé à `False` par défaut.
 
 ## disable_categories
 
@@ -61,7 +61,10 @@ Empêche VenC de générer un flux Atom. Ce champ est un booléen, fixé à `Fal
 
 ## text_editor
 
-L'éditeur de texte choisi pour éditer une nouvelle publication du blog.
+Par défaut VenC utilise la commande spécifiée dans la variable d'environnement `EDITOR` pour ouvrir et éditer une nouvelle publication.
+
+Il est cependant possible de redéfinir ici l'éditeur de texte choisi pour éditer une nouvelle publication.
+
 Cette variable est une liste dont le premier élément est le nom de la commande et le reste ses arguments.
 
 Par exemple:
@@ -102,7 +105,7 @@ L'URL du blog. Elle peut être laissée vide, selon le thème utilisé.
 
 ## ftp_host
 
-Optionel. Il s'agit du nom d'hôte de votre serveur FTP, s'il existe.
+Il s'agit du nom d'hôte de votre serveur FTP, s'il existe.
 
 ## blog_language
 
