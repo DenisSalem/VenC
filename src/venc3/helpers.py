@@ -45,9 +45,7 @@ def export_extra_data(origin, destination=""):
         raise
 
 def get_base_dir():
-    python_prefix = sys.prefix
-    virtualenv_prefix = sys.real_prefix if hasattr(sys, 'real_prefix') else sys.prefix
-    return virtualenv_prefix if python_prefix != virtualenv_prefix else os.path.expanduser("~")+"/.local"
+    return sys.prefix if sys.prefix != sys.base_prefix else os.path.expanduser("~")+"/.local"
 
 def quirk_encoding(string):
     import unidecode
