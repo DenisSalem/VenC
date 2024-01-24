@@ -75,7 +75,9 @@ def print_themes(params):
     import os
     import yaml
 
-    themes_folder = os.path.expanduser('~')+"/.local/share/VenC/themes/"
+    from venc3.helpers import get_base_dir
+
+    themes_folder = get_base_dir()+"/share/VenC/themes/"
     for theme in os.listdir(themes_folder):
         if "config.yaml" in os.listdir(themes_folder+theme) and not os.path.isdir(themes_folder+theme+"/config.yaml"):
             config = yaml.load(
