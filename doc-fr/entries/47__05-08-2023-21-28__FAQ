@@ -52,7 +52,7 @@ Normalement, VenC gère toutes les erreurs et exceptions de sorte à ne pas inte
 
 Si malgré tout vous obtenez des erreurs, c'est probablement que votre installation n'est pas correcte.
 
-Cela arrive lorsque VenC est installé avec la version Python 2 de [pip](https://pip.pypa.io/en/stable/) ou que vous gérez VenC avec plusieur gestionnaire comme pip3 ou pipx en même temps.
+Cela arrive lorsque VenC est installé avec la version Python 2 de [pip](https://pip.pypa.io/en/stable/) ou que vous installez VenC avec plusieurs gestionnaires comme pip3 ou pipx en même temps.
 
 Assurez vous donc de :
 
