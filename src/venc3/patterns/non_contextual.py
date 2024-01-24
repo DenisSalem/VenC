@@ -49,7 +49,8 @@ def include_file(pattern, filename, *argv, raise_error=True):
         raise VenCException(("wrong_pattern_argument", "path", filename, "include_file"), pattern, pattern.root.string)
     
     include_string = None
-    paths = ("includes/"+filename, shutil.os.path.expanduser("~/.local/share/VenC/themes_includes/"+filename))
+    from venc3.helpers import get_base_dir
+    paths = ("includes/"+filename, get_base_dir()+"/share/VenC/themes_includes/"+filename))
     for path in paths:
         if shutil.os.path.exists(path):
             try:
