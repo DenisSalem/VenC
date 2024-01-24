@@ -6,28 +6,19 @@ chapter: '2'
 title: Installation
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Depuis la version 1.2.0 VenC s'installe avec [pip](https://pypi.python.org/pypi/pip) ou plus récemment encore avec [pipx](https://pipx.pypa.io/stable/installation/).
 
-Attention cependant, VenC utilise Python 3, assurez-vous donc d'utiliser la version correspondante de pip sur les systèmes basés sur Debian avant la version 12, il s'agit de `pip3`.
-
-Sinon, préférez toujours l'utilisation de [pipx](https://pipx.pypa.io/stable/installation/) pour l'installation et la mise à jour de VenC. Et ne mélangez pas l'usage des deux commandes !
+VenC s'installe avec [pipx](https://pipx.pypa.io/stable/installation/).
 
 > pipx install venc
-
-ou bien :
-
-> pip install venc --user
-
-N'oubliez pas de rajouter l'argument `--user` : cela installe VenC dans l'environnement utilisateur, au lieu du système, ce qui est fortement recommandé.
-
 
 Vous pouvez également mettre à jour VenC avec :
 
 > pipx upgrade venc
 
-ou avec l'ancienne méthode
+Enfin si vous souhaitez installer un module tier, par exemple [mistletoe](https://github.com/miyuchina/mistletoe), pour pouvoir utiliser markdown il faut
+installer le module dans le même `virtual env` :
 
-> pip install --upgrade venc
+> pipx inject venc mistletoe
 
 ## Installation alternative
 
@@ -49,7 +40,7 @@ Ceci étant fait, rendez-vous dans le répertoire __`src`__ et utilisez le scrip
 
 > ./setup.py install --user
 
-Cette dernière commande échouera si `setuptools` n'est pas installé. `setuptools` peut s'installer avec [`pip`](https://pypi.python.org/pypi/pip), en utilisant `pip install setuptools`.
+Cette dernière commande échouera si `setuptools` n'est pas installé. `setuptools` peut s'installer avec [`pipx`](https://pipx.pypa.io/stable/installation/), en utilisant `pipx install setuptools`.
 
 ## Fichiers installés
 
@@ -60,16 +51,11 @@ Quelle que soit la méthode d'installation, dépendances mises à part, VenC ins
 On y trouve les thèmes, des assets, des templates, des modules JS et d'autres petites choses utiles au bon fonctionnement
 de VenC.
 
-
 ## Désinstallation
 
 Pour désinstaller VenC, c'est triste, mais rien de plus simple :
 
 > pipx uninstall venc
-
-ou bien, avec l'ancienn méthode :
-
-> pip uninstall venc
 
 Et voilà !
 
