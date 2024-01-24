@@ -26,4 +26,4 @@ VenC propose les fonctionnalités suivantes :
 - Le support de l'API [oEmbed](https://oembed.com).
 - Le support de l'API [Kroki](https://kroki.io/).
 - Le support de contenus audio et vidéo via les balises VenC.
-- Installation facilité via [pip](https://pypi.python.org/pypi/pip).
+- Installation facilité via [pip](https://pypi.python.org/pypi/pip) et [pipx](https://pipx.pypa.io/stable/installation/).

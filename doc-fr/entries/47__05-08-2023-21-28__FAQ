@@ -29,7 +29,8 @@ Et bien c'est très simple camarade, comme dirait Jean-Pierre Coffe, les systèm
 
 ## Commande introuvable
 
-VenC devrait être installé avec pip, dans l'environnement Python, côté utilisateur (pas dans le système donc). De cette façon, le système a besoin de connaître l'emplacement de VenC, dont l'exécutable devrait se trouver dans `~/.local/bin`.
+VenC devrait être installé avec [pipx](https://pipx.pypa.io/stable/installation/) idéalement, sinon avec pip. Avec pip (l'ancienne méthode) l'installation se fait dans l'environnement Python,
+côté utilisateur (pas dans le système donc). De cette façon, le système a besoin de connaître l'emplacement de VenC, dont l'exécutable devrait se trouver dans `~/.local/bin`.
 
 Sur certaines distributions GNU/Linux, comme Archlinux ou Gentoo, la variable d'environnement `PATH` peut être incomplète par défaut, ce qui produit une erreur du type "commande introuvable".
 
@@ -51,9 +52,10 @@ Normalement, VenC gère toutes les erreurs et exceptions de sorte à ne pas inte
 
 Si malgré tout vous obtenez des erreurs, c'est probablement que votre installation n'est pas correcte.
 
-Cela arrive lorsque VenC est installé avec la version de Python 2 de pip. VenC fonctionne avec Python 3, il faut donc installer VenC avec `pip3`. En général, la version de pip que vous utilisez par défaut correspond à la version de Python également utilisée par défaut sur votre système.
+Cela arrive lorsque VenC est installé avec la version de Python 2 de pip. VenC fonctionne avec Python 3, il faut donc installer VenC avec `pip3` ou mieux : 
+[pipx](https://pipx.pypa.io/stable/installation/). En général, la version de pip que vous utilisez par défaut correspond à la version de Python également utilisée par défaut sur votre système.
 
-En particulier sur les systèmes basés sur Debian, vous devrez installer `pip3` :
+En particulier sur les systèmes basés sur Debian avant la version 12, vous devrez installer `pip3` :
 
 > sudo apt-get install python3-pip
 
@@ -64,6 +66,10 @@ Après ça, désinstallez VenC avec la version Python 2 de pip :
 Et réinstallez VenC avec la version Python 3 de pip :
 
 > pip3 install venc --user
+
+ou avec pipx :
+
+> pipx install venc
 
 Ça devrait le faire, sinon c'est que vous avez peut-être trouvé un bug et dans ce cas c'est sympa de le signaler en ouvrant un ticket sur
 [Github](https://github.com/DenisSalem/VenC) ou sur [Framagit](https://framagit.org/denissalem/VenC/). Pensez à indiquer la
