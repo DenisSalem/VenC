@@ -51,6 +51,7 @@
 
 # version 3.1.1
     DONE | Add support for virtual env and pipx install without breakage
+    DONE | Fix type typo whe
 
 # version 3.1.0
     DONE | Add relevant templates for themes.
