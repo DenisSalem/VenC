@@ -13,11 +13,19 @@ title: Foire aux questions
 
 En suivant la [procédure normale](.:GetChapterAttributeByIndex::path::2:.), vous trouverez VenC dans :
 
+> ~/.local/share/pipx/venvs/venc/
+
+si vous avez installé VenC avec `pip` ou `setuptools` :
+
 > ~/.local/lib/python3.w/site-packages/VenC-x.y.z-py3.w.egg
 
 __`w`__ étant la version courante de Python et __`x.y.z`__ la version courante de VenC
 
 Les fichiers additionnels de VenC se trouvent dans :
+
+> ~/.local/share/pipx/venvs/venc/share/VenC
+
+si vous avez installé VenC avec `pip` ou `setuptools` :
 
 > ~/.local/share/VenC
 
