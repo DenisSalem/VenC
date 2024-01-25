@@ -57,7 +57,7 @@ def highlight(pattern, langage, display_line_numbers, input_code):
     
     except:
         from venc3.exceptions import VenCException
-        raise VencException(("module_not_found", "pygments"), pattern)
+        raise VenCException(("module_not_found", "pygments"), pattern)
 
     try:
         name = "venc_source_"+langage.replace('+','Plus')

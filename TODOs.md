@@ -48,7 +48,10 @@
 # version 3.1.x
     TODO | Verify header id uniqueness or warn about W3C complience.
     TODO | Settings data must validated or it may break the entire software without clean recovery
-    
+
+# version 3.1.1
+    DONE | Add support for virtual env and pipx install without breakage
+
 # version 3.1.0
     DONE | Add relevant templates for themes.
     DONE | validate documentation w3c complience.
