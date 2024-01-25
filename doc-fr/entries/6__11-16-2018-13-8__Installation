@@ -40,17 +40,18 @@ Ceci étant fait, rendez-vous dans le répertoire __`src`__ et utilisez le scrip
 
 > ./setup.py install --user
 
-Cette dernière commande échouera si `setuptools` n'est pas installé. `setuptools` peut s'installer avec
-[`pipx`](https://pipx.pypa.io/stable/installation/) ou [`pip`](https://pypi.org/project/pip/). Par exemple :
+Cette dernière commande échouera si `setuptools` n'est pas installé. `setuptools` peut s'installer avec [`pip`](https://pypi.org/project/pip/) :
 
-> pipx install setuptools
+> pip install setuptools --user
+
+À noter également que pour installer des modules avec cette méthode alternative, il faudra passer par [`pip`](https://pypi.org/project/pip/).
 
 ## Fichiers installés
 
 Dépendances mises à part, VenC installe également ses ressources dans l'un de ces répertoires, selon la méthode d'installation :
 
-
-- __`./setup.py`__ : `~/.local/share/VenC` 
+- __`./setup.py`__: `~/.local/share/VenC` 
+- __`pip`__: `~/.local/share/VenC` 
 - __`pipx`__ : `~/.local/share/pipx/venvs/venc/share/VenC`
 
 
