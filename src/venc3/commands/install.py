@@ -42,8 +42,8 @@ def install_theme(params):
         pass
 
     try:
-        shutil.copytree(os.path.expanduser("~")+"/.local/share/VenC/themes/"+theme, "theme")
-        
+        from venc3.helpers import get_base_dir
+        shutil.copytree(get_base_dir()+"/share/VenC/themes/"+theme, "theme")
         notify(("theme_installed",))
        
     except FileNotFoundError as e:
