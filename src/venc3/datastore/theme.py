@@ -64,10 +64,12 @@ class Theme:
 
 def init_theme(theme_name=''):
     import os
+    from venc3.helpers import get_base_dir    
+
 
     # Setting up paths
     theme_folder = "theme/"
-    themes_folder = os.path.expanduser("~")+"/.local/share/VenC/themes/"
+    themes_folder = get_base_dir() + "/share/VenC/themes/"
     if len(theme_name):
         if os.path.isdir(themes_folder+theme_name):
             theme_folder = themes_folder+theme_name+"/"

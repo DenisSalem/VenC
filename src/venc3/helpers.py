@@ -17,6 +17,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+import os 
+import sys
+
 # Sometimes format fail with {something} not found in given dict.
 class SafeFormatDict(dict):
     def __missing__(self, key):
@@ -40,6 +43,9 @@ def export_extra_data(origin, destination=""):
                 shutil.copy(origin+"/"+item, os.getcwd()+"/blog/"+destination+item)
     except:
         raise
+
+def get_base_dir():
+    return sys.prefix if sys.prefix != sys.base_prefix else os.path.expanduser("~")+"/.local"
 
 def quirk_encoding(string):
     import unidecode
@@ -73,11 +79,13 @@ def rm_tree_error_handler(function, path, excinfo):
     
 def get_template(template_name, entry_name='', template_args={}):
     import os
-    
+
+    from venc3.helpers import get_template
+
     found_template = False
     templates_paths = [
         os.getcwd()+'/templates/'+template_name,
-        os.path.expanduser("~/.local/share/VenC/themes_templates/"+template_name)
+        get_base_dir()+"/share/VenC/themes_templates/"+template_name
     ]
     
     for template_path in templates_paths:
