@@ -1,7 +1,0 @@
- <entry>
-   <title>.:GetEntryTitle:.</title>
-   <link href=".:GetEntryPath:."/>
-   <content type="xhtml">
-   .:GetEntryContent:.
-   </content>
- </entry>

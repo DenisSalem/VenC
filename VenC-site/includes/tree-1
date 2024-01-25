@@ -1,4 +1,0 @@
-<script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Scripts-Bootstrap-x.y.z.js"></script>
-.:IfCategories::
-    <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Tree-x.y.z.js"></script>
-:.
