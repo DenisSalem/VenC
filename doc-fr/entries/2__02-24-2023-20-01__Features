@@ -19,11 +19,11 @@ VenC propose les fonctionnalités suivantes :
 - La génération de flux Atom et/ou RSS pour chaque fils de publications.
 - Des permaliens.
 - Un serveur HTTP simple pour effectuer des tests et prévisualiser le site.
-- La gestion et l'édition du blog peuvent être faite entièrement en ligne de commande, dans un environnement non graphique.
+- La gestion et l'édition du blog peuvent être faites entièrement en ligne de commande, dans un environnement non graphique.
 - Le support de [Markdown](https://daringfireball.net/projects/markdown/syntax), [reStructuredText](http://docutils.sourceforge.net/rst.html), [AsciiDoc](https://asciidoc.org/).
 - La mise en ligne du site peut se faire en FTP via VenC.
 - Le support de [pygmentize](http://pygments.org) pour la coloration syntaxique.
 - Le support de l'API [oEmbed](https://oembed.com).
 - Le support de l'API [Kroki](https://kroki.io/).
 - Le support de contenus audio et vidéo via les balises VenC.
-- Installation facilité via [pip](https://pypi.python.org/pypi/pip) et [pipx](https://pipx.pypa.io/stable/installation/).
+- Installation facilitée via [pip](https://pypi.python.org/pypi/pip) et [pipx](https://pipx.pypa.io/stable/installation/).

@@ -15,7 +15,7 @@ En suivant la [procédure normale](.:GetChapterAttributeByIndex::path::2:.), vou
 
 > ~/.local/share/pipx/venvs/venc/
 
-si vous avez installé VenC avec `pip` ou `setuptools` :
+Si vous avez installé VenC avec `pip` ou `setuptools` :
 
 > ~/.local/lib/python3.w/site-packages/VenC-x.y.z-py3.w.egg
 
@@ -25,11 +25,11 @@ Les fichiers additionnels de VenC se trouvent dans :
 
 > ~/.local/share/pipx/venvs/venc/share/VenC
 
-si vous avez installé VenC avec `pip` ou `setuptools` :
+Si vous avez installé VenC avec `pip` ou `setuptools` :
 
 > ~/.local/share/VenC
 
-On y trouve les thèmes, des templates, des assets, des modules JS et d'autres choses.
+On y trouve les thèmes, des templates, des assets, des modules JavaScript et d'autres choses.
 
 ## Pourquoi VenC n'est officiellement supporté que par GNU/Linux ?
 
@@ -64,8 +64,8 @@ Cela arrive lorsque VenC est installé avec la version Python 2 de [pip](https:/
 
 Assurez vous donc de :
 
-- désinstaller tout ce qui a été fait en rapport avec VenC, avec pip2 et/ou pip3.
-- réinstaller VenC et ses dépendances optionnels avec [pipx](https://pipx.pypa.io/stable/installation/).
+- Désinstaller tout ce qui a été fait en rapport avec VenC, avec pip2 et/ou pip3.
+- Réinstaller VenC et ses dépendances optionnelles avec [pipx](https://pipx.pypa.io/stable/installation/).
 
 Ça devrait le faire, sinon c'est que vous avez peut-être trouvé un bug et dans ce cas c'est sympa de le signaler en ouvrant un ticket sur
 [Github](https://github.com/DenisSalem/VenC) ou sur [Framagit](https://framagit.org/denissalem/VenC/). Pensez à indiquer la

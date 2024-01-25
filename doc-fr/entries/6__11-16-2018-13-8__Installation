@@ -15,7 +15,7 @@ Vous pouvez également mettre à jour VenC avec :
 
 > pipx upgrade venc
 
-Enfin si vous souhaitez installer un module tier, par exemple [mistletoe](https://github.com/miyuchina/mistletoe), pour pouvoir utiliser markdown il faut
+Enfin si vous souhaitez installer un module tiers, par exemple [mistletoe](https://github.com/miyuchina/mistletoe), pour pouvoir utiliser Markdown, il faut
 installer le module dans le même `virtual env` :
 
 > pipx inject venc mistletoe
@@ -23,7 +23,7 @@ installer le module dans le même `virtual env` :
 ## Installation alternative
 
 Vous pourriez vouloir utiliser VenC dans une version en développement indisponible sur PyPI.
-Pour ça vous pouvez cloner le projet depuis [Framagit](https://framagit.org/denissalem/VenC/)
+Pour ça, vous pouvez cloner le projet depuis [Framagit](https://framagit.org/denissalem/VenC/)
 ou [GitHub](https://github.com/DenisSalem/VenC) avec la commande [`git`](https://git-scm.com/).
 
 Il faut ensuite sélectionner la branche que vous désirez. En effet, la branche `master` correspond à la version
@@ -55,7 +55,7 @@ Dépendances mises à part, VenC installe également ses ressources dans l'un de
 - __`pipx`__ : `~/.local/share/pipx/venvs/venc/share/VenC`
 
 
-On y trouve les thèmes, des assets, des templates, des modules JS et d'autres petites choses utiles au bon fonctionnement
+On y trouve les thèmes, des assets, des templates, des modules JavaScript et d'autres petites choses utiles au bon fonctionnement
 de VenC.
 
 ## Désinstallation
@@ -66,7 +66,11 @@ Pour désinstaller VenC, c'est triste, mais rien de plus simple :
 
 Et voilà !
 
-Petite précision : Avec l'anclenne méthode d'installation [`pip`](https://pypi.org/project/pip/) les dépendances de VenC ne sont pas désinstallées automatiquement. Ces dépendances sont :
+Petite précision : avec l'ancienne méthode d'installation [`pip`](https://pypi.org/project/pip/), les dépendances de VenC ne sont pas désinstallées automatiquement. Ces dépendances sont :
+
+## Dépendances
+
+Les dépendances de VenC sont :
 
 - [PyYAML](https://github.com/yaml/pyyaml) : dépendance nécessaire pour gérer les fichiers de configuration de VenC et les métadonnées des publications.
 - [Unidecode](https://pypi.org/project/Unidecode/) : dépendance nécessaire pour gérer les caractères spéciaux et différents types d'encodage.
