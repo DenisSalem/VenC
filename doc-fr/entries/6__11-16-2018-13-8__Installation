@@ -65,7 +65,7 @@ Pour désinstaller VenC, c'est triste, mais rien de plus simple :
 
 Et voilà !
 
-Petite précision : les dépendances de VenC ne sont pas désinstallées automatiquement. Ces dépendances sont :
+Petite précision : Avec l'anclenne méthode d'installation [`pip`](https://pypi.org/project/pip/) les dépendances de VenC ne sont pas désinstallées automatiquement. Ces dépendances sont :
 
 - [PyYAML](https://github.com/yaml/pyyaml) : dépendance nécessaire pour gérer les fichiers de configuration de VenC et les métadonnées des publications.
 - [Unidecode](https://pypi.org/project/Unidecode/) : dépendance nécessaire pour gérer les caractères spéciaux et différents types d'encodage.
