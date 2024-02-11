@@ -36,7 +36,7 @@ Empêche VenC de générer les fils de publications des archives. Ce champ est u
 
 ## disable_chapters
 
-Empêche VenC de générer les chapitres. Ce champ est un booléen, fixé à `True` par défaut.
+Empêche VenC de générer les chapitres. Ce champ est un booléen, fixé à `False` par défaut.
 
 ## disable_categories
 
