@@ -34,7 +34,7 @@ def sanitize_optional_fields(blog_configuration):
         "disable_rss_feed" : bool,
         "disable_single_entries": bool,
         "disable_threads": list,
-        "ftp_host": str, # TODO: check when used
+        "ftp_host": str,
         "path_encoding": str, 
         "parallel_processing": int,
         "pipe_flow": int,
@@ -108,11 +108,6 @@ def get_blog_configuration():
             ).read(),
             Loader=yaml.FullLoader
         )
-        
-        # TODO: Not mandatory anymore
-        # - ftp_host
-        # - ftp
-        # - text_editor
         
         #TODO: update doc about mandatory fields
 

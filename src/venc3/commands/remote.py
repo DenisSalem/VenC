@@ -30,6 +30,15 @@ def remote_copy(params):
     from venc3.l10n import messages
     
     blog_configuration = get_blog_configuration()
+    
+    if not "ftp_host" in blog_configuration.keys():
+        from venc3.prompt import die
+        die(("undefined_variable", "ftp_host", "blog_configuration.yml"))
+        
+    if len(blog_configuration["ftp_host"]) == 0:
+        from venc3.prompt import die
+        die(("invalid_value_in_setting", blog_configuration["ftp_host"], "ftp_host"))
+    
     try:
         ftp = ftplib.FTP(blog_configuration["ftp_host"])
         ftp.encoding='latin-1'
@@ -42,6 +51,14 @@ def remote_copy(params):
     user_passwd = getpass.getpass(prompt="VenC: "+messages.user_passwd)
     
     try:
+      if not "ftp" in blog_configuration["paths"].keys():
+          from venc3.prompt import die
+          die(("undefined_variable", "ftp", "blog_configuration.yml"))
+          
+      if len(blog_configuration["paths"]["ftp"]) == 0:
+          from venc3.prompt import die
+          die(("invalid_value_in_setting", blog_configuration["ftp"], "ftp"))
+        
         ftp.login(user=username,passwd=user_passwd)
         ftp.cwd(blog_configuration["paths"]["ftp"])
         notify(("clean_ftp_directory",))
@@ -58,7 +75,6 @@ def remote_copy(params):
         die(("exception_place_holder", str(e)))
 
 def ftp_export_recursively(origin, ftp):
-        
         folder = os.listdir(origin)
         for item in folder:
             if os.path.isdir(origin+"/"+item):

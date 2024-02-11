@@ -23,7 +23,7 @@ import urllib.parse
 
 from venc3.datastore.configuration import get_blog_configuration
 
-blog_configuration = get_blog_configuration()
+blog_configuration = get_blog_configuration() # TODO: Load only in time.
 
 class VenCServer(http.server.CGIHTTPRequestHandler):
     def __init__(self, request, client_address, server):
@@ -41,19 +41,13 @@ class VenCServer(http.server.CGIHTTPRequestHandler):
 def serv(params):
     from venc3.prompt import notify
 
-    try:
-        PORT = params[0] if len(params) else blog_configuration["server_port"]
-        PORT = int(PORT)
-        
-    except ValueError:
-        from venc3.prompt import die
-        die(("server_port_is_invalid", str(PORT)))
+    port = params[0] if len(params) else blog_configuration["server_port"]
         
     try:
         os.chdir("blog/")
-        server_address = ("", PORT)
+        server_address = ("", port)
         notify(("do_not_use_in_production",), color="YELLOW")        
-        notify(("serving_blog", PORT))
+        notify(("serving_blog", port))
         httpd = http.server.HTTPServer(server_address, VenCServer)
         httpd.serve_forever()
 
