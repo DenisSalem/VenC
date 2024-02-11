@@ -22,7 +22,7 @@ BLOG_CONFIGURATION = None
 def sanitize_optional_fields(blog_configuration):
     fields = {
         "blog_keywords": list,
-        "blog_url": str, # TODO: Update documentation, behavior is the same GetBlogLanguage
+        "blog_url": str,
         "code_highlight_css_override": bool,
         "columns": int,
         "disable_archives": bool,
@@ -40,7 +40,7 @@ def sanitize_optional_fields(blog_configuration):
         "pipe_flow": int,
         "server_port": int,
         "sort_by": str,
-        "text_editor": list # TODO: check when used
+        "text_editor": list
     }
 
     for field in fields.keys():
@@ -110,7 +110,6 @@ def get_blog_configuration():
         )
         
         # TODO: Not mandatory anymore
-        # - server port
         # - ftp_host
         # - ftp
         # - text_editor

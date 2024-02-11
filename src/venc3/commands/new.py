@@ -127,18 +127,15 @@ def new_entry(params):
     stream.close()
 
     try:
-        if not "text_editor" in blog_configuration.keys():
-            from venc3.prompt import notify
-            notify(("missing_mandatory_field_in_blog_conf", "text_editor"), "YELLOW")
-        
-        elif type(blog_configuration["text_editor"]) != list:
-            from venc3.prompt import notify
-            notify(("blog_metadata_is_not_a_list", "text_editor"), "YELLOW")
-            
-        else:
+        if "text_editor" in blog_configuration.keys():
             command = [str(arg) for arg in blog_configuration["text_editor"] if arg != '']
-            command.append(output_filename)
-            subprocess.call(command) 
+            if len(command):
+                command = [str(arg) for arg in blog_configuration["text_editor"] if arg != '']
+                command.append(output_filename)
+                subprocess.call(command)
+            else:
+              from venc3.prompt import die
+              die(("invalid_value_in_setting", str(blog_configuration["text_editor"]), "text_editor"))
 
     except FileNotFoundError:
         os.remove(output_filename)
@@ -158,6 +155,7 @@ def new_blog(blog_names):
         "blog_name":            messages.blog_name,
         "date_format":          "%A %d. %B %Y",
         "entries_per_pages":    10,
+        "columns":              1,
         "feed_length":          5,
         "reverse_thread_order": True,
         "markup_language":      "none",

@@ -121,6 +121,7 @@ class Messages:
     no_parallel_processing_default_value = "Aucune valeur définie explicitement pour \"parallel_processing\" dans votre fichier de configuration.\nPar défaut, VenC utilisera {0} processus parallèles."
     wrong_value_for_parallel_processing = "La valeur de \"parallel_processing\" dans votre fichier de configuration est incorrecte, il doit s'agir d'un nombre entier supérieur à 0."
     invalid_variable_name_in_setting = "Variable {0} incorrecte dans \"{1}\" dans votre fichier de configuration."
+    invalid_value_in_setting = "La valeur \"{0}\" dans \"{1}\", dans votre fichier de configuration, est incorrecte."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."
