@@ -155,22 +155,14 @@ def new_blog(blog_names):
         
     from venc3.l10n import messages
     default_configuration =	{
-        "blog_name":			              messages.blog_name,
-        "disable_threads":              [],
-        "disable_archives":             False,
-        "disable_categories":           False,
-        "disable_chapters":             True,
-        "disable_single_entries":       False,
-        "disable_main_thread":          False,
-        "disable_rss_feed":             False,
-        "disable_atom_feed":            False,
-        "text_editor":                  ["nano"],
-        "date_format":                  "%A %d. %B %Y",
-        "blog_url":			                messages.blog_url,
-        "ftp_host":                     messages.ftp_host,
-        "code_highlight_css_override":  False,
-        "path":	{
-            "ftp":                      messages.ftp_path,
+        "blog_name":            messages.blog_name,
+        "date_format":          "%A %d. %B %Y",
+        "entries_per_pages":    10,
+        "columns":              1,
+        "feed_length":          5,
+        "reverse_thread_order": True,
+        "markup_language":      "none",
+        "paths":	{
             "entries_sub_folders":      "{entry_title}",
             "categories_sub_folders":   "",
             "archives_sub_folders":     "",
@@ -183,15 +175,6 @@ def new_blog(blog_names):
 			      "rss_file_name":		          "rss.xml",
 			      "atom_file_name":		        "atom.xml"
         },
-        "entries_per_pages":		    10,
-        "columns":			            1,
-        "feed_length":	        	    5,
-        "reverse_thread_order":		    True,
-        "markup_language":              "Markdown",
-        "path_encoding":                "",
-        "server_port":                  8888,
-        "sort_by":                      "id",
-        "parallel_processing": 1
     }
     for folder_name in blog_names:
         try:

@@ -19,18 +19,25 @@
 
 BLOG_CONFIGURATION = None
 
-def setup_sub_folder(blog_configuration, key):
-    from venc3.helpers import quirk_encoding
-    try:
-        path = quirk_encoding(blog_configuration["path"][key])
-            
-    except UnicodeEncodeError as e:
-        from venc3.exceptions import VenCException
-        raise VenCException(("encoding_error_in_sub_folder_path", key))
-                    
-    blog_configuration["path"][key] = (path if path[-1] == '/' else path+'/' ) if (path != '/' and len(path)) else ''
+def sanitize_optional_fields(blog_configuration):
+    fields = {
+        "blg_url": str,
+        "pipe_flow": int,
+        "sort_by": str,
+    }
+    
+def setup_optional_fields(blog_configuration):
+        sanitize_optional_fields(blog_configuration)
+    
+        if (not "sort_by" in blog_configuration.keys() ) or blog_configuration["sort_by"] in ['', None]:
+            blog_configuration["sort_by"] = "id"
 
-# TODO : Datastructure parsing sux so bad. Need advanced type check and content validation
+        if not "pipe_flow" in blog_configuration.keys():
+            blog_configuration["pipe_flow"] = 512
+            
+        if blog_configuration["blog_url"][-1:] == '/':
+            blog_configuration["blog_url"] = blog_configuration["blog_url"][:-1]
+            
 def get_blog_configuration():
     global BLOG_CONFIGURATION
     if BLOG_CONFIGURATION != None:
@@ -48,81 +55,85 @@ def get_blog_configuration():
             Loader=yaml.FullLoader
         )
         
-        mandatory_fields = [
-            "blog_name",
-            "blog_url",
-            "date_format",
-            "ftp_host",
-            "entries_per_pages",
-            "columns",
-            "feed_length",
-            "reverse_thread_order",
-            "markup_language",
-            "disable_main_thread",
-            "disable_archives",
-            "disable_categories",
-            "disable_chapters",
-            "disable_single_entries",
-            "code_highlight_css_override",
-            "server_port",
-            "disable_rss_feed",
-            "disable_atom_feed",
-            "sort_by",
-        ]
+        # TODO: Not mandatory anymore
+        # - Server port
+        # - ftp stufff
+        # - blog_url
+        # - code_highlight_css_override"
+        # - path_encoding # TODO looks like shit to me
+        # - server_port":                  8888,
+        # - sort_by":                      "id",
+        # - parallel_processing": 1
+        # - code_highlight_css_override":  False,
+        # - disable_threads":              [],
+        # - disable_archives":             False,
+        # - disable_categories":           False,
+        # - disable_chapters":             False,
+        # - disable_single_entries":       False,
+        # - disable_main_thread":          False,
+        # - disable_rss_feed":             False,
+        # - disable_atom_feed":            False,
+        # - text_editor":                  ["nano"],
+        mandatory_fields = {
+            "blog_name" : str,
+            "date_format" : str,
+            "entries_per_pages" : int,
+            "columns" : int,
+            "feed_length" : int,
+            "reverse_thread_order" : bool,
+            "markup_language" : str,
+            "path": dict
+        }
 
-        for field in mandatory_fields:
+        for field in mandatory_fields.keys():
             if not field in blog_configuration.keys():
                 from venc3.prompt import die
                 die(("missing_mandatory_field_in_blog_conf", field))
+            
+            if not type(blog_configuration[field]) == mandatory_fields[field]:
+                from venc3.prompt import die
+                die(("field_is_not_of_type", field, "blog_configuration.yaml", mandatory_fields[field].__name__))
                 
         if "blog_keywords" in blog_configuration.keys() and type(blog_configuration["blog_keywords"]) != list and not blog_configuration["blog_keywords"] == None:
             from venc3.prompt import die
             die(("blog_metadata_is_not_a_list", "blog_keywords"))
         
-        mandatory_fields = [
-            "index_file_name",
-            "category_directory_name",
-            "chapter_directory_name",
-            "archives_directory_name",
-            "entry_file_name",
-            "rss_file_name",
-            "atom_file_name",
-            "ftp",
-            "entries_sub_folders",
-            "categories_sub_folders",
-            "archives_sub_folders",
-            "chapters_sub_folders",
-        ]
+        #TODO: update doc about mandatory fields
+        mandatory_fields = {
+            "index_file_name" : str,
+            "category_directory_name" : str,
+            "chapter_directory_name" : str,
+            "archives_directory_name" : str,
+            "entry_file_name" : str,
+            "rss_file_name" : str,
+            "atom_file_name" : str,
+            "entries_sub_folders" : str,
+            "categories_sub_folders" : str,
+            "archives_sub_folders" : str,
+            "chapters_sub_folders" : str,
+        }
 
         for field in mandatory_fields:
-            if not field in blog_configuration["path"].keys():
+            if not field in blog_configuration["paths"].keys():
                 from venc3.prompt import die
                 die(("missing_mandatory_field_in_blog_conf", field))
                 
-            elif not field in ["index_file_name","ftp","rss_file_name","atom_file_name","entry_file_name","archives_directory_name"]:
-                setup_sub_folder(blog_configuration, field)
+            if not type(blog_configuration["paths"][field]) == mandatory_fields[field]:
+                from venc3.prompt import die
+                die(("field_is_not_of_type", field, "blog_configuration.yaml", mandatory_fields[field].__name__))
                 
-        if not "https://schema.org" in blog_configuration.keys():
-            blog_configuration["https://schema.org"] = {}
-            
         if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText", "asciidoc"]:
             from venc3.prompt import die
             die(("unknown_markup_language", blog_configuration["markup_language"], "blog_configuration.yaml"))
 
-        if (not "sort_by" in blog_configuration.keys() ) or blog_configuration["sort_by"] in ['', None]:
-            blog_configuration["sort_by"] = "id"
-
-        if type(blog_configuration["blog_url"]) == str and blog_configuration["blog_url"][-1:] == '/':
-            blog_configuration["blog_url"] = blog_configuration["blog_url"][:-1]
-
         if "disable_threads" in blog_configuration.keys() and type(blog_configuration["disable_threads"]) != list and blog_configuration["disable_threads"] != None:
             from venc3.prompt import die
             die(("blog_metadata_is_not_a_list", "disable_threads"))
+            
         else:
             blog_configuration["disable_threads"] = []
 
-        if not "pipe_flow" in blog_configuration.keys():
-            blog_configuration["pipe_flow"] = 512
+
             
         BLOG_CONFIGURATION = blog_configuration
         return BLOG_CONFIGURATION
@@ -139,6 +150,3 @@ def get_blog_configuration():
         from venc3.prompt import die, notify
         notify(("in_", "blog_configuration.yaml"), color="RED")
         die(("exception_place_holder", str(e)))
-
-    except VenCException as e:
-        e.die()
