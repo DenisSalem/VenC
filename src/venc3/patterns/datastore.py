@@ -289,8 +289,8 @@ class DatastorePatterns:
         return self.get_blog_metadata_if_exists(pattern, "license")
     
     def get_blog_url(self, pattern):
-        return self.blog_configuration["blog_url"]
-    
+        return self.get_blog_metadata_if_exists(pattern, "blog_url")
+
     def get_blog_language(self, pattern):
         return self.get_blog_metadata_if_exists(pattern, "blog_language")
     

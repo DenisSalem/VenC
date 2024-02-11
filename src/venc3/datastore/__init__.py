@@ -43,8 +43,6 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
         self.root_page = None
         self.blog_configuration = get_blog_configuration()
         self.sort_by = self.blog_configuration["sort_by"]
-
-        self.blog_url = self.blog_configuration["blog_url"]
         self.disable_threads = self.blog_configuration["disable_threads"]
         
         try:

@@ -22,7 +22,7 @@ BLOG_CONFIGURATION = None
 def sanitize_optional_fields(blog_configuration):
     fields = {
         "blog_keywords": list,
-        "blog_url": str, # TODO: check when used
+        "blog_url": str, # TODO: Update documentation, behavior is the same GetBlogLanguage
         "code_highlight_css_override": bool,
         "columns": int,
         "disable_archives": bool,
@@ -49,7 +49,7 @@ def sanitize_optional_fields(blog_configuration):
                 from venc3.prompt import die
                 die(("field_is_not_of_type", field, "blog_configuration.yaml", fields[field].__name__))
                 
-    if not type(blog_configuration["paths"]["ftp"]) == str:  # TODO: check when used
+    if "ftp" in blog_configuration["paths"].keys() and not type(blog_configuration["paths"]["ftp"]) == str:  # TODO: check when used
         from venc3.prompt import die
         die(("field_is_not_of_type", field, "blog_configuration.yaml", fields[field].__name__))
                 
