@@ -41,15 +41,14 @@
 
 # version 3.2.0
     DONE | Use EDITOR environment variable if available.
+    DONE | Enhance blog_configuration sanitation.
     TODO | Add support for advanced taxonomy support.
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Auto reload blog/ when server is running if blog is modified
     TODO | Add nested archives.
-    
-# version 3.1.x
     TODO | Verify header id uniqueness or warn about W3C complience.
-    WIP  | Settings data must validated or it may break the entire software without clean recovery
-
+    TODO | Update doc
+    
 # version 3.1.1
     DONE | Add support for virtual env and pipx install without breakage
     DONE | Fix type typo whe
