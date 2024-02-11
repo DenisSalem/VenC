@@ -339,7 +339,7 @@ Retourne le titre du blog défini dans [`blog_name`](.:GetChapterAttributeByInde
 
 > .:Escape:: .:GetBlogURL:. :.
 
-Retourne l'URL du blog définie dans [`blog_url`](.:GetChapterAttributeByIndex::path::3.2:.#blog-url).
+Retourne l'URL du blog définie dans [`blog_url`](.:GetChapterAttributeByIndex::path::3.2:.#blog-url). Le pattern est ignoré si `blog_url` n'est pas définit dans le fichier de configuration.
 
 #### GetChapterAttributeByIndex
 
