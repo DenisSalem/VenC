@@ -26,8 +26,8 @@ class Archives:
         self.entries_per_archives = []
         self.archives_weight_tracker = WeightTracker()
 
-        path_archives_sub_folders = self.blog_configuration["path"]["archives_sub_folders"]
-        compute_archives = self.blog_configuration["path"]["archives_directory_name"] != '' and not self.blog_configuration["disable_archives"]
+        path_archives_sub_folders = self.blog_configuration["paths"]["archives_sub_folders"]
+        compute_archives = self.blog_configuration["paths"]["archives_directory_name"] != '' and not self.blog_configuration["disable_archives"]
 
         if compute_archives:
             for entry_index in range(0, len(self.entries)):

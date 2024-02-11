@@ -25,10 +25,10 @@ class ChaptersThread(Thread):
     def __init__(self):
         from venc3.l10n import messages
         super().__init__(messages.export_chapters)
-        self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
+        self.filename = self.datastore.blog_configuration["paths"]["index_file_name"]
         self.entries_per_page = self.datastore.blog_configuration["entries_per_pages"]
-        self.folder_name = self.datastore.blog_configuration["path"]["chapter_directory_name"]
-        self.sub_folders = self.datastore.blog_configuration["path"]["chapters_sub_folders"]
+        self.folder_name = self.datastore.blog_configuration["paths"]["chapter_directory_name"]
+        self.sub_folders = self.datastore.blog_configuration["paths"]["chapters_sub_folders"]
         self.relative_origin = str(''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = True
         self.thread_has_feeds = False

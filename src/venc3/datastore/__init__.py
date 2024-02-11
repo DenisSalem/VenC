@@ -93,8 +93,8 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
                 
     def build_chapter_indexes(self):
         # build chapters index
-        path_chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
-        path_chapter_folder_name = self.blog_configuration["path"]["chapter_directory_name"]
+        path_chapters_sub_folders = self.blog_configuration["paths"]["chapters_sub_folders"]
+        path_chapter_folder_name = self.blog_configuration["paths"]["chapter_directory_name"]
         
         for chapter in sorted(self.raw_chapters.keys(), key = lambda x : int(x.replace('.', ''))):
             top = self.chapters_index

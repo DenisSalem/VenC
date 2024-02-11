@@ -59,7 +59,7 @@ class Taxonomy:
         if self.entries_per_categories == None:
             self.entries_per_categories = []
             self.categories_leaves = []
-            path = self.blog_configuration["path"]["categories_sub_folders"]
+            path = self.blog_configuration["paths"]["categories_sub_folders"]
             for entry_index in range(0, len(self.entries)):
                 current_entry = self.entries[entry_index]
                 self.build_tree(
@@ -74,8 +74,7 @@ class Taxonomy:
             self.categories_leaves = self.extract_leaves(None)
     
     def build_tree(self, entry_id, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders=''):     
-        from venc3.datastore.configuration import get_blog_configuration
-        category_directory_name = get_blog_configuration()["path"]["category_directory_name"]
+        category_directory_name = self.blog_configuration["paths"]["category_directory_name"]
 
         for item, sub_items in flatten_current_level(input_list):
             if not len(item):

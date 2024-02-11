@@ -31,8 +31,8 @@ class EntriesThread(Thread):
         self.organize_entries(self.datastore.entries)
         self.current_entry_index=-1
         self.entries = self.datastore.entries
-        self.filename = self.datastore.blog_configuration["path"]["entry_file_name"]
-        self.sub_folders = self.datastore.blog_configuration["path"]["entries_sub_folders"]
+        self.filename = self.datastore.blog_configuration["paths"]["entry_file_name"]
+        self.sub_folders = self.datastore.blog_configuration["paths"]["entries_sub_folders"]
         self.export_path = "blog/"+self.sub_folders
         self.relative_origin = str(''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = False

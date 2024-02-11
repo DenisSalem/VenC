@@ -44,7 +44,7 @@ class Entries:
                     "chunked_filenames" :[],
                     "workers_count" : self.workers_count,
                     "entries": self.entries,
-                    "paths": self.blog_configuration["path"],
+                    "paths": self.blog_configuration["paths"],
                     "cut_threads_kill_workers" : False
                 }
                 for i in range(0, self.workers_count):
@@ -73,7 +73,7 @@ class Entries:
                 for filename in filenames:
                     self.entries.append(Entry(
                         filename,
-                        self.blog_configuration["path"],
+                        self.blog_configuration["paths"],
                     ))
                     
         except VenCException as e:

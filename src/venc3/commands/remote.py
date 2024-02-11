@@ -43,7 +43,7 @@ def remote_copy(params):
     
     try:
         ftp.login(user=username,passwd=user_passwd)
-        ftp.cwd(blog_configuration["path"]["ftp"])
+        ftp.cwd(blog_configuration["paths"]["ftp"])
         notify(("clean_ftp_directory",))
         ftp_clean_destination(ftp)
         notify(("copy_to_ftp_directory",))

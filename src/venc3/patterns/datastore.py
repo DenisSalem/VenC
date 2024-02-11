@@ -240,7 +240,7 @@ class DatastorePatterns:
 
     def get_entry_archive_path(self, pattern):
         return "\x1a"+self.requested_entry.date.strftime(
-            self.blog_configuration["path"]["archives_directory_name"]
+            self.blog_configuration["paths"]["archives_directory_name"]
         )
     
     def get_chapter_attribute_by_index(self, pattern, attribute, index):
@@ -299,7 +299,7 @@ class DatastorePatterns:
 
     def get_root_page(self, pattern):
         if self.root_page == None:
-            self.root_page =  "\x1a"+self.blog_configuration["path"]["index_file_name"].format(**{"page_number":''})
+            self.root_page =  "\x1a"+self.blog_configuration["paths"]["index_file_name"].format(**{"page_number":''})
             
         return self.root_page
         
@@ -399,7 +399,7 @@ class DatastorePatterns:
             )
         
         date_format = self.blog_configuration["date_format"]
-        archives_directory_name = self.blog_configuration["path"]["archives_directory_name"]
+        archives_directory_name = self.blog_configuration["paths"]["archives_directory_name"]
         for entry in entries:
             dataset = {
                 "id" : entry.id,

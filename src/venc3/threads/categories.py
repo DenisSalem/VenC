@@ -26,8 +26,8 @@ class CategoriesThread(Thread):
     def __init__(self):
         from venc3.l10n import messages
         super().__init__(messages.export_categories)
-        self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
-        self.sub_folders = self.datastore.blog_configuration["path"]["categories_sub_folders"]
+        self.filename = self.datastore.blog_configuration["paths"]["index_file_name"]
+        self.sub_folders = self.datastore.blog_configuration["paths"]["categories_sub_folders"]
         self.export_path = "blog/"+self.sub_folders
         self.category_value = ""
         self.relative_origin = ""

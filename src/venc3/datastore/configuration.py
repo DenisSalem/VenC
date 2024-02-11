@@ -30,6 +30,7 @@ def sanitize_optional_fields(blog_configuration):
         "disable_chapters": bool,
         "disable_infinite_scroll" : bool,
         "disable_main_thread": bool,
+        "disable_rss_feed" : bool,
         "disable_single_entries": bool,
         "disable_threads": list,
         "ftp_host": str, # TODO: check when used
@@ -79,6 +80,7 @@ def setup_optional_fields(blog_configuration):
           "disable_categories",
           "disable_chapters",
           "disable_main_thread",
+          "disable_rss_feed",
           "disable_single_entries",
         ]
         
