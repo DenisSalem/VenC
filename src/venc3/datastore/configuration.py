@@ -21,23 +21,69 @@ BLOG_CONFIGURATION = None
 
 def sanitize_optional_fields(blog_configuration):
     fields = {
-        "blg_url": str,
+        "blog_url": str, # TODO: check when used
+        "code_highlight_css_override": bool,
+        "disable_archives": bool,
+        "disable_atom_feed": bool,
+        "disable_categories": bool,
+        "disable_chapters": bool,
+        "disable_main_thread": bool,
+        "disable_single_entries": bool,
+        "disable_threads": list,
+        "ftp_host": str, # TODO: check when used
+        "path_encoding": str, 
+        "parallel_processing": int,
         "pipe_flow": int,
+        "server_port": int,
         "sort_by": str,
+        "text_editor": list # TODO: check when used
     }
-    
+
+    for field in fields.keys():
+        if field in blog_configuration.keys():
+            if not type(blog_configuration[field]) == fields[field]:
+                from venc3.prompt import die
+                die(("field_is_not_of_type", field, "blog_configuration.yaml", fields[field].__name__))
+                
+    if not type(blog_configuration["paths"]["ftp"]) == str:
+        from venc3.prompt import die
+        die(("field_is_not_of_type", field, "blog_configuration.yaml", fields[field].__name__))
+                
 def setup_optional_fields(blog_configuration):
         sanitize_optional_fields(blog_configuration)
     
-        if (not "sort_by" in blog_configuration.keys() ) or blog_configuration["sort_by"] in ['', None]:
+        if not "sort_by" in blog_configuration.keys():
             blog_configuration["sort_by"] = "id"
 
         if not "pipe_flow" in blog_configuration.keys():
             blog_configuration["pipe_flow"] = 512
-            
-        if blog_configuration["blog_url"][-1:] == '/':
-            blog_configuration["blog_url"] = blog_configuration["blog_url"][:-1]
-            
+
+        if not "path_encoding" in blog_configuration.keys():
+            blog_configuration["path_encoding"] = "" # TODO: plz, what da fuck is this shit ?
+
+        if not "disable_threads" in blog_configuration.keys():
+            blog_configuration["disable_threads"] = []
+
+        if not "parallel_processing" in blog_configuration.keys():
+            blog_configuration["parallel_processing"] = 1
+
+        if not "server_port" in blog_configuration.keys():
+            blog_configuration["server_port"] = 8888
+                        
+        fields_set_to_false = [
+          "code_highlight_css_override",
+          "disable_archives",
+          "disable_atom_feed",
+          "disable_categories",
+          "disable_chapters",
+          "disable_main_thread",
+          "disable_single_entries",
+        ]
+        
+        for field in fields_set_to_false:
+            if not field in blog_configuration.keys():
+                blog_configuration[field] = False
+                
 def get_blog_configuration():
     global BLOG_CONFIGURATION
     if BLOG_CONFIGURATION != None:
@@ -56,24 +102,13 @@ def get_blog_configuration():
         )
         
         # TODO: Not mandatory anymore
-        # - Server port
-        # - ftp stufff
-        # - blog_url
-        # - code_highlight_css_override"
-        # - path_encoding # TODO looks like shit to me
-        # - server_port":                  8888,
-        # - sort_by":                      "id",
-        # - parallel_processing": 1
-        # - code_highlight_css_override":  False,
-        # - disable_threads":              [],
-        # - disable_archives":             False,
-        # - disable_categories":           False,
-        # - disable_chapters":             False,
-        # - disable_single_entries":       False,
-        # - disable_main_thread":          False,
-        # - disable_rss_feed":             False,
-        # - disable_atom_feed":            False,
-        # - text_editor":                  ["nano"],
+        # - server port
+        # - ftp_host
+        # - ftp
+        # - text_editor
+        
+        #TODO: update doc about mandatory fields
+
         mandatory_fields = {
             "blog_name" : str,
             "date_format" : str,
@@ -98,7 +133,6 @@ def get_blog_configuration():
             from venc3.prompt import die
             die(("blog_metadata_is_not_a_list", "blog_keywords"))
         
-        #TODO: update doc about mandatory fields
         mandatory_fields = {
             "index_file_name" : str,
             "category_directory_name" : str,
