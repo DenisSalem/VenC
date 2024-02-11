@@ -158,7 +158,6 @@ def new_blog(blog_names):
         "blog_name":            messages.blog_name,
         "date_format":          "%A %d. %B %Y",
         "entries_per_pages":    10,
-        "columns":              1,
         "feed_length":          5,
         "reverse_thread_order": True,
         "markup_language":      "none",

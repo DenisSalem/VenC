@@ -24,6 +24,7 @@ def sanitize_optional_fields(blog_configuration):
         "blog_keywords": list,
         "blog_url": str, # TODO: check when used
         "code_highlight_css_override": bool,
+        "columns": int,
         "disable_archives": bool,
         "disable_atom_feed": bool,
         "disable_categories": bool,
@@ -69,6 +70,9 @@ def setup_optional_fields(blog_configuration):
 
         if not "parallel_processing" in blog_configuration.keys():
             blog_configuration["parallel_processing"] = 1
+            
+        if not "columns" in blog_configuration.keys():
+            blog_configuration["columns"] = 1
 
         if not "server_port" in blog_configuration.keys():
             blog_configuration["server_port"] = 8888
@@ -117,7 +121,6 @@ def get_blog_configuration():
             "blog_name" : str,
             "date_format" : str,
             "entries_per_pages" : int,
-            "columns" : int,
             "feed_length" : int,
             "reverse_thread_order" : bool,
             "markup_language" : str,
