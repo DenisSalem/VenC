@@ -21,12 +21,14 @@ BLOG_CONFIGURATION = None
 
 def sanitize_optional_fields(blog_configuration):
     fields = {
+        "blog_keywords": list,
         "blog_url": str, # TODO: check when used
         "code_highlight_css_override": bool,
         "disable_archives": bool,
         "disable_atom_feed": bool,
         "disable_categories": bool,
         "disable_chapters": bool,
+        "disable_infinite_scroll" : bool,
         "disable_main_thread": bool,
         "disable_single_entries": bool,
         "disable_threads": list,
@@ -45,7 +47,7 @@ def sanitize_optional_fields(blog_configuration):
                 from venc3.prompt import die
                 die(("field_is_not_of_type", field, "blog_configuration.yaml", fields[field].__name__))
                 
-    if not type(blog_configuration["paths"]["ftp"]) == str:
+    if not type(blog_configuration["paths"]["ftp"]) == str:  # TODO: check when used
         from venc3.prompt import die
         die(("field_is_not_of_type", field, "blog_configuration.yaml", fields[field].__name__))
                 
@@ -117,7 +119,7 @@ def get_blog_configuration():
             "feed_length" : int,
             "reverse_thread_order" : bool,
             "markup_language" : str,
-            "path": dict
+            "paths": dict
         }
 
         for field in mandatory_fields.keys():
@@ -128,10 +130,6 @@ def get_blog_configuration():
             if not type(blog_configuration[field]) == mandatory_fields[field]:
                 from venc3.prompt import die
                 die(("field_is_not_of_type", field, "blog_configuration.yaml", mandatory_fields[field].__name__))
-                
-        if "blog_keywords" in blog_configuration.keys() and type(blog_configuration["blog_keywords"]) != list and not blog_configuration["blog_keywords"] == None:
-            from venc3.prompt import die
-            die(("blog_metadata_is_not_a_list", "blog_keywords"))
         
         mandatory_fields = {
             "index_file_name" : str,
@@ -155,20 +153,13 @@ def get_blog_configuration():
             if not type(blog_configuration["paths"][field]) == mandatory_fields[field]:
                 from venc3.prompt import die
                 die(("field_is_not_of_type", field, "blog_configuration.yaml", mandatory_fields[field].__name__))
-                
+
         if not blog_configuration["markup_language"] in ["none", "Markdown", "reStructuredText", "asciidoc"]:
             from venc3.prompt import die
             die(("unknown_markup_language", blog_configuration["markup_language"], "blog_configuration.yaml"))
-
-        if "disable_threads" in blog_configuration.keys() and type(blog_configuration["disable_threads"]) != list and blog_configuration["disable_threads"] != None:
-            from venc3.prompt import die
-            die(("blog_metadata_is_not_a_list", "disable_threads"))
-            
-        else:
-            blog_configuration["disable_threads"] = []
-
-
-            
+        
+        setup_optional_fields(blog_configuration)
+                        
         BLOG_CONFIGURATION = blog_configuration
         return BLOG_CONFIGURATION
 
