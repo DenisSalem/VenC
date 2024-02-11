@@ -129,13 +129,21 @@ def new_entry(params):
     try:
         if "text_editor" in blog_configuration.keys():
             command = [str(arg) for arg in blog_configuration["text_editor"] if arg != '']
+
+        elif "EDITOR" in os.environ.keys():
+            command = [str(arg) for arg in os.environ["EDITOR"].split(' ') if arg != '']
+
+        else:
+            command = None
+
+        if command != None:
             if len(command):
-                command = [str(arg) for arg in blog_configuration["text_editor"] if arg != '']
                 command.append(output_filename)
                 subprocess.call(command)
+                
             else:
-              from venc3.prompt import die
-              die(("invalid_value_in_setting", str(blog_configuration["text_editor"]), "text_editor"))
+                from venc3.prompt import die
+                die(("invalid_value_in_setting", str(blog_configuration["text_editor"]), "text_editor"))
 
     except FileNotFoundError:
         os.remove(output_filename)
@@ -143,7 +151,7 @@ def new_entry(params):
         die(("unknown_command", blog_configuration["text_editor"]))
         
     from venc3.prompt import notify
-    notify(("entry_written",))
+    notify(("entry_written", output_filename))
 
 def new_blog(blog_names):
     if len(blog_names) < 1:

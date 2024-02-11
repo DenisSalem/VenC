@@ -23,7 +23,7 @@ class Messages:
     blogs_created = "Your blogs have been created!"
     chapter_has_a_wrong_index = "In entry #{0}, chapter index format is wrong: {1}."
     theme_installed = "Theme has been installed!"
-    entry_written = "Entry has been saved!"
+    entry_written = "Entry has been saved: {0}"
     file_not_found = "{0}: this file or directory does not exist."
     file_already_exists = "{0}: {1}: file or directory already exists."
     invalid_entry_filename = "{0}: invalid entry filename."

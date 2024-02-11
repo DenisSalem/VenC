@@ -22,7 +22,7 @@ class Messages:
     blogs_created = "Vos blogs ont été créés !"
     chapter_has_a_wrong_index = "Dans la publication #{0}, le format de l'index du chapitre n'est pas correct : {1}."
     theme_installed = "Le thème a bien été installé !"
-    entry_written = "La publication a bien été ajoutée !"
+    entry_written = "La publication a bien été ajoutée : {0}"
     file_not_found = "{0} : ce fichier ou ce dossier n'existe pas."
     file_already_exists = "{0} : {1} : le fichier existe déjà."
     invalid_entry_filename = "{0} : nom de fichier invalide pour une publication."

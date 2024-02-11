@@ -40,6 +40,7 @@
     TODO | Add post-generation warning information. For example calling GetEntryPath while single entry pages is disabled should not be silent.
 
 # version 3.2.0
+    DONE | Use EDITOR environment variable if available.
     TODO | Add support for advanced taxonomy support.
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Auto reload blog/ when server is running if blog is modified
