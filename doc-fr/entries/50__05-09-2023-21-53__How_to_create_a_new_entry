@@ -38,7 +38,7 @@ fonctionner. Le chapitre [3.5.1](.:GetChapterAttributeByIndex::path::3.5.1:.)
 fournit des exemples sur la façon dont cela fonctionne.
 
 À l'issue de cette commande, VenC essaiera d'ouvrir la nouvelle
-publication avec l'éditeur de texte spécifié dans le fichier de
+publication avec l'éditeur de texte spécifié dans la variable d'environnement `EDITOR` ou à défaut dans le fichier de 
 configuration principale [`blog_configuration.yaml`](.:GetChapterAttributeByIndex::path::3.2:.#text-editor).
 
 Maintenant, il faut rédiger le contenu de votre choix. Vous voulez sans doute le faire dans un langage de balisage
