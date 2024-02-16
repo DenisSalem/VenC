@@ -73,7 +73,7 @@ class Taxonomy:
                 
             self.categories_leaves = self.extract_leaves(None)
     
-    def build_tree(self, entry_id, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders=''):     
+    def build_tree(self, entry_id, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders):     
         category_directory_name = self.blog_configuration["paths"]["category_directory_name"]
 
         for item, sub_items in flatten_current_level(input_list):
@@ -82,7 +82,8 @@ class Taxonomy:
     
             match = None
             try:
-                path = sub_folders+'/'+quirk_encoding(category_directory_name.format(**{"category":item}))
+                print(sub_folders)
+                path = sub_folders + ('/' if len(sub_folders) > 1 else '') + quirk_encoding(category_directory_name.format(**{"category":item}))
             except KeyError as e:
                 from venc3.prompt import die
                 die(("invalid_variable_name_in_setting", str(e), "category_directory_name"))

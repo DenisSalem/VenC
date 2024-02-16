@@ -28,7 +28,7 @@ class CategoriesThread(Thread):
         super().__init__(messages.export_categories)
         self.filename = self.datastore.blog_configuration["paths"]["index_file_name"]
         self.sub_folders = self.datastore.blog_configuration["paths"]["categories_sub_folders"]
-        self.export_path = "blog/"+self.sub_folders
+        self.export_path = "blog/"+self.sub_folders+'/'
         self.category_value = ""
         self.relative_origin = ""
         self.in_thread = True
