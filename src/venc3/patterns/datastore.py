@@ -325,24 +325,26 @@ class DatastorePatterns:
         
         return entry.html_categories_tree[key]
     
-    def get_blog_categories_tree_from_branches(self, pattern, branches, sub_tree_separator, open_node, open_branch, close_branch, clode_node):
+    def get_blog_categories_tree_from_branches(self, pattern, branches, sub_tree_separator, open_node, open_branch, close_branch, close_node):
         self.test_blog_configuration_field(pattern, branches, list)
         
         output = ""
         
         for branch_name in self.blog_configuration[branches]:
             node = self.pick_branch(branch_name)
+            print(branch_name, node)
             if node != None:
                 # TODO: Dictionnary may be factorized ?
                 output += sub_tree_separator.format(
-                  **self.node_to_dictionnary(pattern, node, opening_node, opening_branch, closing_branch, closing_node)
+                  **self.node_to_dictionnary(pattern, node, open_node, open_branch, close_branch, close_node)
                 )
+                print(output)
         
         return output
                 
-    def get_blog_categories_tree(self, pattern, open_node, open_branch, close_branch, clode_node):
+    def get_blog_categories_tree(self, pattern, open_node, open_branch, close_branch, close_node):
         '''value,count,weight,path,childs'''
-        key = open_node+open_branch+close_branch+clode_node
+        key = open_node+open_branch+close_branch+close_node
         # compute once categories tree and deliver baked html
         if not key in self.html_categories_tree.keys():
             if self.blog_configuration["disable_categories"]:
@@ -354,7 +356,7 @@ class DatastorePatterns:
                     open_node,
                     open_branch,
                     close_branch,
-                    clode_node,
+                    close_node,
                     self.entries_per_categories
                 )
 

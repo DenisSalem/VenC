@@ -40,6 +40,7 @@
     DONE | Enhance blog_configuration sanitation.
     TODO | Add Wiki pattern.
     WIP  | Add support for advanced taxonomy.
+    TODO | Add RSS and Atom button to concrete
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Auto reload blog/ when server is running if blog is modified
     TODO | Add nested archives.

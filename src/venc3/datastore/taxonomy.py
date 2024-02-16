@@ -82,7 +82,7 @@ class Taxonomy:
     
             match = None
             try:
-                path = sub_folders+quirk_encoding(category_directory_name.format(**{"category":item}))
+                path = sub_folders+'/'+quirk_encoding(category_directory_name.format(**{"category":item}))
             except KeyError as e:
                 from venc3.prompt import die
                 die(("invalid_variable_name_in_setting", str(e), "category_directory_name"))
