@@ -38,6 +38,7 @@
 # version 3.2.0
     DONE | Use EDITOR environment variable if available.
     DONE | Enhance blog_configuration sanitation.
+    DONE | Fix major bug in taxonomy path processing.
     TODO | Add Wiki pattern.
     WIP  | Add support for advanced taxonomy.
     TODO | Add RSS and Atom button to concrete

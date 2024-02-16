@@ -82,8 +82,8 @@ class Taxonomy:
     
             match = None
             try:
-                print(sub_folders)
                 path = sub_folders + ('/' if len(sub_folders) > 1 else '') + quirk_encoding(category_directory_name.format(**{"category":item}))
+                
             except KeyError as e:
                 from venc3.prompt import die
                 die(("invalid_variable_name_in_setting", str(e), "category_directory_name"))
