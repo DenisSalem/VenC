@@ -189,25 +189,28 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
             if node.value in self.disable_threads:
                 continue
 
-            variables = {
-                "value" : node.value,
-                "count" : node.count,
-                "weight" : round(node.count / node.weight_tracker.value,2),
-                "path" : node.path,
-                "childs" : self.build_html_categories_tree(
-                    pattern,
-                    opening_node,
-                    opening_branch,
-                    closing_branch,
-                    closing_node,
-                    node.childs
-                ) if len(node.childs) else ''
-            }
+            variables = self.node_to_dictionnary(pattern, node, opening_node, opening_branch, closing_branch, closing_node)
 
             output_string += opening_branch.format(**variables) +closing_branch.format(**variables)
 
         return output_string + closing_node
-        
+
+    def node_to_dictionnary(self, pattern, node, opening_node, opening_branch, closing_branch, closing_node):
+        return  {
+            "value" : node.value,
+            "count" : node.count,
+            "weight" : round(node.count / node.weight_tracker.value,2),
+            "path" : node.path,
+            "childs" : self.build_html_categories_tree(
+                pattern,
+                opening_node,
+                opening_branch,
+                closing_branch,
+                closing_node,
+                node.childs
+            ) if len(node.childs) else ''
+        }
+
     def update_chapters(self, entry):
         try:
             if type(entry.chapter) == float:
@@ -235,7 +238,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
             ))
         else:
             self.raw_chapters[chapter] = entry
-            
+        
 datastore = None
 
 def init_datastore():

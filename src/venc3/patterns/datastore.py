@@ -324,7 +324,22 @@ class DatastorePatterns:
 
         
         return entry.html_categories_tree[key]
-            
+    
+    def get_blog_categories_tree_from_branches(self, pattern, branches, sub_tree_separator, open_node, open_branch, close_branch, clode_node):
+        self.test_blog_configuration_field(pattern, branches, list)
+        
+        output = ""
+        
+        for branch_name in self.blog_configuration[branches]:
+            node = self.pick_branch(branch_name)
+            if node != None:
+                # TODO: Dictionnary may be factorized ?
+                output += sub_tree_separator.format(
+                  **self.node_to_dictionnary(pattern, node, opening_node, opening_branch, closing_branch, closing_node)
+                )
+        
+        return output
+                
     def get_blog_categories_tree(self, pattern, open_node, open_branch, close_branch, clode_node):
         '''value,count,weight,path,childs'''
         key = open_node+open_branch+close_branch+clode_node
@@ -344,45 +359,6 @@ class DatastorePatterns:
                 )
 
         return self.html_categories_tree[key]
-        
-    def range_entries_by_id(self, pattern, begin_at, end_at):
-        key = 'rang_entries_by_id,'+begin_at+','+end_at
-        if not str(id(key)) in self.cache_entries_subset.keys():
-            try:
-                begin_at= int(begin_at)
-                
-            except ValueError:
-                from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(
-                    ("wrong_pattern_argument", "begin_at", begin_at, "RangeEntriesByID", messages.pattern_argument_must_be_integer),
-                    pattern
-                )
-            
-            try:
-                end_at = int(end_at)
-                
-            except ValueError:
-                from venc3.exceptions import VenCException
-                from venc3.l10n import messages
-                raise VenCException(
-                    ("wrong_pattern_argument", "end_at", end_at, "RangeEntriesByID", messages.pattern_argument_must_be_integer),
-                    pattern
-                )
-            
-            entries = []
-            if end_at > begin_at:
-                entries = [entry for entry in self.entries if end_at >= entry.id >= begin_at]
-                
-            elif end_at < begin_at:
-                entries = [entry for entry in self.entries[::-1] if end_at <= entry.id <= begin_at]
-    
-            else:
-                entries = []
-            
-            self.cache_entries_subset[str(id(key))] = entries
-            
-        return str(id(key))
             
     def for_entries_set(self, pattern, entries_subset_key, string):
         '''id,title,path,archive_path,chapter_path,...'''
@@ -544,25 +520,6 @@ class DatastorePatterns:
                 return ""
                 
         return self.tree_for_metadata(getattr(entry, metadata_name), open_node, open_branch, value_childs, value, close_branch, close_node)
-                    
-    def tree_for_metadata(self, source, open_node, open_branch, value_childs, value, close_branch, close_node):
-        try:
-            items = [
-                open_branch+value.format(
-                    **{"value":item}
-                )+close_branch if type(item) != dict else open_branch+value_childs.format(
-                    **{
-                        "value" : tuple(item.keys())[0],
-                        "childs": self.tree_for_metadata(tuple(item.values())[0], open_node, open_branch, value_childs, value, close_branch, close_node)
-                    }
-                )+close_branch for item in source
-            ]
-            
-        except KeyError as e:
-            from venc3.exceptions import VenCException
-            raise VenCException(("unknown_contextual", str(e)), pattern)
-            
-        return open_node + (''.join(items))+ close_node
 
     def get_flattened_categories(self, pattern, string, separator, from_entry = False):
         if self.blog_configuration["disable_categories"]:
@@ -595,3 +552,83 @@ class DatastorePatterns:
     def get_flattened_blog_categories(self, pattern, string, separator):
         '''value,count,weight,path'''
         return self.get_flattened_categories(pattern, string, separator)
+    
+    def pick_branch(self, branch_name):
+        for node in self.entries_per_categories:
+            if branch_name == node.value:
+                return node
+                
+        return None
+         
+    def range_entries_by_id(self, pattern, begin_at, end_at):
+        key = 'rang_entries_by_id,'+begin_at+','+end_at
+        if not str(id(key)) in self.cache_entries_subset.keys():
+            try:
+                begin_at= int(begin_at)
+                
+            except ValueError:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
+                raise VenCException(
+                    ("wrong_pattern_argument", "begin_at", begin_at, "RangeEntriesByID", messages.pattern_argument_must_be_integer),
+                    pattern
+                )
+            
+            try:
+                end_at = int(end_at)
+                
+            except ValueError:
+                from venc3.exceptions import VenCException
+                from venc3.l10n import messages
+                raise VenCException(
+                    ("wrong_pattern_argument", "end_at", end_at, "RangeEntriesByID", messages.pattern_argument_must_be_integer),
+                    pattern
+                )
+            
+            entries = []
+            if end_at > begin_at:
+                entries = [entry for entry in self.entries if end_at >= entry.id >= begin_at]
+                
+            elif end_at < begin_at:
+                entries = [entry for entry in self.entries[::-1] if end_at <= entry.id <= begin_at]
+    
+            else:
+                entries = []
+            
+            self.cache_entries_subset[str(id(key))] = entries
+            
+        return str(id(key))
+        
+    def test_blog_configuration_field(self, pattern, field_name, field_type):
+        if not field_name in self.blog_configuration.keys():
+            from venc3.exceptions import VenCException
+            raise VenCException(
+                ("undefined_variable", field_name, "blog_configuration.yaml"),
+                pattern
+            )
+            
+        if type(self.blog_configuration[field_name]) != field_type:
+            from venc3.exceptions import VenCException
+            raise VenCException(
+                ("field_is_not_of_type", field_name, field_type),
+                pattern
+            )
+            
+    def tree_for_metadata(self, source, open_node, open_branch, value_childs, value, close_branch, close_node):
+        try:
+            items = [
+                open_branch+value.format(
+                    **{"value":item}
+                )+close_branch if type(item) != dict else open_branch+value_childs.format(
+                    **{
+                        "value" : tuple(item.keys())[0],
+                        "childs": self.tree_for_metadata(tuple(item.values())[0], open_node, open_branch, value_childs, value, close_branch, close_node)
+                    }
+                )+close_branch for item in source
+            ]
+            
+        except KeyError as e:
+            from venc3.exceptions import VenCException
+            raise VenCException(("unknown_contextual", str(e)), pattern)
+            
+        return open_node + (''.join(items))+ close_node

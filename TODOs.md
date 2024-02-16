@@ -38,7 +38,8 @@
 # version 3.2.0
     DONE | Use EDITOR environment variable if available.
     DONE | Enhance blog_configuration sanitation.
-    TODO | Add support for advanced taxonomy support.
+    TODO | Add Wiki pattern.
+    WIP  | Add support for advanced taxonomy.
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Auto reload blog/ when server is running if blog is modified
     TODO | Add nested archives.
