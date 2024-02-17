@@ -522,11 +522,12 @@ class DatastorePatterns:
                 
         return self.tree_for_metadata(getattr(entry, metadata_name), open_node, open_branch, value_childs, value, close_branch, close_node)
 
-    def get_flattened_categories(self, pattern, string, separator, from_entry = False):
+
+    def get_flattened_categories(self, pattern, string, separator, from_entry = False, from_branch = None):
         if self.blog_configuration["disable_categories"]:
             return ''
             
-        key = string+'::'+separator+'::'+str(self.requested_entry.id if from_entry else None)
+        key = string+'::'+separator+'::'+str(self.requested_entry.id if from_entry else None)+(("::"+str(from_branch.value)) if from_branch != None else '' ) 
         cache = self.requested_entry.html_categories_leaves if from_entry else self.html_categories_leaves
 
         if not key in cache.keys():
@@ -536,7 +537,10 @@ class DatastorePatterns:
                     "count" : node.count,
                     "weight" : round(node.count / self.categories_weight_tracker.value, 2),
                     "path" : node.path
-                } for node in self.extract_leaves( self.requested_entry.id if from_entry else None) ],
+                } for node in self.extract_leaves(
+                    self.requested_entry.id if from_entry else None,
+                    from_branch.childs if from_branch != None else None
+                ) ],
                 string,
                 separator,
                 pattern
@@ -544,16 +548,39 @@ class DatastorePatterns:
         
             cache[key] = output
         
-        return cache[key]
+        return cache[key]             
+
+    def get_flattened_categories_from_branches(self, pattern, branches, sub_tree_separator, string, separator, from_entry):
+        branches = branches.strip()
+        self.test_blog_configuration_field(pattern, branches, list)
+        
+        output = ""
+        
+        for branch_name in self.blog_configuration[branches]:
+            node = self.pick_branch(branch_name)
+            if node != None:
+                output += sub_tree_separator.format(**{
+                    "value" : node.value,
+                    "count" : node.count,
+                    "weight" : round(node.count / self.categories_weight_tracker.value, 2),
+                    "path" : node.path,
+                    "childs" : self.get_flattened_categories(pattern, string, separator, from_entry, node)
+                })
+                
+        return output
+                
+    def get_flattened_blog_categories(self, pattern, string, separator):
+        return self.get_flattened_categories(pattern, string, separator)
+
+    def get_flattened_blog_categories_from_branches(self, pattern, branches, sub_tree_separator, string, separator):
+        return self.get_flattened_categories_from_branches(pattern, branches, sub_tree_separator, string, separator, False)         
         
     def get_flattened_entry_categories(self, pattern, string, separator):
-        '''value,count,weight,path'''
         return self.get_flattened_categories(pattern, string, separator, True)
 
-    def get_flattened_blog_categories(self, pattern, string, separator):
-        '''value,count,weight,path'''
-        return self.get_flattened_categories(pattern, string, separator)
-    
+    def get_flattened_entry_categories_from_branches(self, pattern, branches, sub_tree_separator, string, separator):
+        return self.get_flattened_categories_from_branches(pattern, branches, sub_tree_separator, string, separator, True)
+        
     def pick_branch(self, branch_name):
         for node in self.entries_per_categories:
             if branch_name == node.value:
