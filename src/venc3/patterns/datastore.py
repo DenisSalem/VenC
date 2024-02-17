@@ -558,12 +558,13 @@ class DatastorePatterns:
         
         for branch_name in self.blog_configuration[branches]:
             node = self.pick_branch(branch_name)
-            if node != None:
+            # TODO: self.extract_leaves will be called twice ... Boooooo not coooool
+            if node != None and len(self.extract_leaves(self.requested_entry.id if from_entry else None, node.childs)):
                 output += sub_tree_separator.format(**{
-                    "value" : node.value,
-                    "count" : node.count,
+                    "value"  : node.value,
+                    "count"  : node.count,
                     "weight" : round(node.count / self.categories_weight_tracker.value, 2),
-                    "path" : node.path,
+                    "path"   : node.path,
                     "childs" : self.get_flattened_categories(pattern, string, separator, from_entry, node)
                 })
                 
