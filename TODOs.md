@@ -39,14 +39,14 @@
     DONE | Use EDITOR environment variable if available.
     DONE | Enhance blog_configuration sanitation.
     DONE | Fix major bug in taxonomy path processing.
+    DONE | Add support for advanced taxonomy.
+    TODO | Add RSS and Atom button to concrete.
     TODO | Add Wiki pattern.
-    WIP  | Add support for advanced taxonomy.
-    TODO | Add RSS and Atom button to concrete
     TODO | Enhance FTP transfert with multiple connections.
-    TODO | Auto reload blog/ when server is running if blog is modified
+    TODO | Auto reload blog/ when server is running if blog is modified.
     TODO | Add nested archives.
     TODO | Verify header id uniqueness or warn about W3C complience.
-    TODO | Update doc
+    TODO | Update doc.
     TODO | Add post-generation warning information. For example calling GetEntryPath while single entry pages is disabled should not be silent.
     TODO | SetBackgroundColor for text
 
