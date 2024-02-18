@@ -184,18 +184,21 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
         return output
 
     def build_html_categories_tree(self, pattern, opening_node, opening_branch, closing_branch, closing_node, tree):
+        if not len(tree):
+            return ""
+            
         output_string = opening_node
         for node in sorted(tree, key = lambda x : x.value):
             if node.value in self.disable_threads:
                 continue
 
-            variables = self.node_to_dictionnary(pattern, node, opening_node, opening_branch, closing_branch, closing_node)
+            variables = self.node_to_dictionnary(pattern, node, opening_node, opening_branch, closing_branch, closing_node, node.childs)
 
             output_string += opening_branch.format(**variables) +closing_branch.format(**variables)
 
         return output_string + closing_node
 
-    def node_to_dictionnary(self, pattern, node, opening_node, opening_branch, closing_branch, closing_node):
+    def node_to_dictionnary(self, pattern, node, opening_node, opening_branch, closing_branch, closing_node, childs):
         return  {
             "value" : node.value,
             "count" : node.count,
@@ -207,8 +210,8 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
                 opening_branch,
                 closing_branch,
                 closing_node,
-                node.childs
-            ) if len(node.childs) else ''
+                childs
+            )
         }
 
     def update_chapters(self, entry):

@@ -324,19 +324,56 @@ class DatastorePatterns:
 
         
         return entry.html_categories_tree[key]
-    
+
     def get_blog_categories_tree_from_branches(self, pattern, branches, sub_tree_separator, open_node, open_branch, close_branch, close_node):
+        return self.get_categories_tree_from_branches(
+            pattern,
+            branches,
+            sub_tree_separator,
+            open_node,
+            open_branch,
+            close_branch,
+            close_node,
+            None
+        )
+
+    def get_entry_categories_tree_from_branches(self, pattern, branches, sub_tree_separator, open_node, open_branch, close_branch, close_node):
+        return self.get_categories_tree_from_branches(
+            pattern,
+            branches,
+            sub_tree_separator,
+            open_node,
+            open_branch,
+            close_branch,
+            close_node,
+            self.requested_entry
+        )
+
+        
+    def get_categories_tree_from_branches(self, pattern, branches, sub_tree_separator, open_node, open_branch, close_branch, close_node, from_entry):
         branches = branches.strip()
         self.test_blog_configuration_field(pattern, branches, list)
         
         output = ""
         
         for branch_name in self.blog_configuration[branches]:
-            node = self.pick_branch(branch_name)
-            if node != None:
-                # TODO: Dictionnary may be factorized ?
+            node = self.pick_branch(branch_name, None)
+            if node != None and len(node.childs):
+                if from_entry != None:
+                    extracted_branches = self.extract_leaves(from_entry.id, node.childs)
+                    if not len(extracted_branches):
+                        continue
+                        
                 output += sub_tree_separator.format(
-                  **self.node_to_dictionnary(pattern, node, open_node, open_branch, close_branch, close_node)
+                    **self.node_to_dictionnary(
+                        pattern,
+                        node,
+                        open_node,
+                        open_branch,
+                        close_branch,
+                        close_node,
+                        node.childs if from_entry == None else extracted_branches
+                    )
                 )
         
         return output
@@ -560,7 +597,7 @@ class DatastorePatterns:
         output = ""
         
         for branch_name in self.blog_configuration[branches]:
-            node = self.pick_branch(branch_name)
+            node = self.pick_branch(branch_name, None)
             # TODO: self.extract_leaves will be called twice ... Boooooo not coooool
             if node != None and len(self.extract_leaves(self.requested_entry.id if from_entry else None, node.childs)):
                 output += sub_tree_separator.format(**{
@@ -585,8 +622,10 @@ class DatastorePatterns:
     def get_flattened_entry_categories_from_branches(self, pattern, branches, sub_tree_separator, string, separator):
         return self.get_flattened_categories_from_branches(pattern, branches, sub_tree_separator, string, separator, True)
         
-    def pick_branch(self, branch_name):
-        for node in self.entries_per_categories:
+
+        
+    def pick_branch(self, branch_name, extracted_branch):
+        for node in self.entries_per_categories if extracted_branch == None else extracted_branch:
             if branch_name == node.value:
                 return node
                 

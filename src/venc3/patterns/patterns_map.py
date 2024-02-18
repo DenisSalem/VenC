@@ -51,6 +51,7 @@ class PatternsMap():
             "ForEntryMetadataIfExists":	                "for_entry_metadata_if_exists",   
             "GetEntryArchivePath":	                    "get_entry_archive_path",
             "GetEntryCategoriesTree":	                  "get_entry_categories_tree",
+            "GetEntryCategoriesTreeFromBranches":	      "get_entry_categories_tree_from_branches",
             "GetEntryChapterLevel":                     "get_entry_chapter_level",
             "GetEntryChapterPath":                      "get_entry_chapter_path",
             "GetEntryDate":	                            "get_entry_date",
