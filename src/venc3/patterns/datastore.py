@@ -532,15 +532,18 @@ class DatastorePatterns:
 
         if not key in cache.keys():
             output = merge(
-                [ {
-                    "value" : node.value,
-                    "count" : node.count,
-                    "weight" : round(node.count / self.categories_weight_tracker.value, 2),
-                    "path" : node.path
-                } for node in self.extract_leaves(
-                    self.requested_entry.id if from_entry else None,
-                    from_branch.childs if from_branch != None else None
-                ) ],
+                sorted(
+                    [{
+                        "value" : node.value,
+                        "count" : node.count,
+                        "weight" : round(node.count / self.categories_weight_tracker.value, 2),
+                        "path" : node.path
+                    } for node in self.extract_leaves(
+                        self.requested_entry.id if from_entry else None,
+                        from_branch.childs if from_branch != None else None
+                    )],
+                    key = lambda d : d["value"]
+                ),
                 string,
                 separator,
                 pattern
