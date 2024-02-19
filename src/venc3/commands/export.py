@@ -203,7 +203,7 @@ def export_blog(params):
 
     # cleaning directory
     import os, shutil
-    if not os.path.exists('blog')
+    if not os.path.exists('blog'):
         os.makedirs("blog")
     else:
         for filename in os.listdir('blog'):
