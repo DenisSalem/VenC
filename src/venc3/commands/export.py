@@ -203,8 +203,17 @@ def export_blog(params):
 
     # cleaning directory
     import os, shutil
-    shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
-    os.makedirs("blog")
+    if not os.path.exists('blog')
+        os.makedirs("blog")
+    else:
+        for filename in os.listdir('blog'):
+            if os.path.isfile("blog/"+filename):
+                try:
+                    os.remove("blog/"+filename)
+                except Exception as e:
+                    rm_tree_error_handler("os.remove", "blog/"+filename, [e])
+            else:
+                shutil.rmtree("blog/"+filename, ignore_errors=False, onerror=rm_tree_error_handler)
 
     try:
         # Starting second pass and exporting
