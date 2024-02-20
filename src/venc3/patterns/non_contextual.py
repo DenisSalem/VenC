@@ -50,6 +50,7 @@ def include_file(pattern, filename, *argv, raise_error=True):
     
     include_string = None
     from venc3.helpers import get_base_dir
+    filename = filename.strip()
     paths = ("includes/"+filename, get_base_dir()+"/share/VenC/themes_includes/"+filename)
     for path in paths:
         if shutil.os.path.exists(path):
