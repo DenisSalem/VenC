@@ -190,19 +190,11 @@ def export_blog(params):
     from venc3.patterns.patterns_map import init_pattern_map
     init_pattern_map()
     
-    process_non_contextual_patterns()
-    if not datastore.blog_configuration["disable_single_entries"]:
-        notify(("link_entries",), prepend="├─ ")
-        # Add required link between entries
-        entries = datastore.entries
-        for entry_index in range(0, len(entries)):
-            current_entry = entries[entry_index]
-            if entry_index > 0:
-                entries[entry_index-1].next_entry = current_entry
-                current_entry.previous_entry = entries[entry_index-1]
-
-    # cleaning directory
+    # cleaning and setup directories
     import os, shutil
+    if not os.path.exists('extra'):
+        os.makedirs("extra")
+        
     if not os.path.exists('blog'):
         os.makedirs("blog")
     else:
@@ -213,7 +205,19 @@ def export_blog(params):
                 except Exception as e:
                     rm_tree_error_handler("os.remove", "blog/"+filename, [e])
             else:
-                shutil.rmtree("blog/"+filename, ignore_errors=False, onerror=rm_tree_error_handler)
+                shutil.rmtree("blog/"+filename, ignore_errors=False, onerror=rm_tree_error_handler)    
+    
+    process_non_contextual_patterns()
+    
+    if not datastore.blog_configuration["disable_single_entries"]:
+        notify(("link_entries",), prepend="├─ ")
+        # Add required link between entries
+        entries = datastore.entries
+        for entry_index in range(0, len(entries)):
+            current_entry = entries[entry_index]
+            if entry_index > 0:
+                entries[entry_index-1].next_entry = current_entry
+                current_entry.previous_entry = entries[entry_index-1]
 
     try:
         # Starting second pass and exporting
