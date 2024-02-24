@@ -351,6 +351,8 @@ class DatastorePatterns:
 
         
     def get_categories_tree_from_branches(self, pattern, branches, sub_tree_separator, open_node, open_branch, close_branch, close_node, from_entry):
+        '''value,count,weight,path,childs'''
+
         branches = branches.strip()
         self.test_blog_configuration_field(pattern, branches, list)
         
@@ -561,6 +563,8 @@ class DatastorePatterns:
 
 
     def get_flattened_categories(self, pattern, string, separator, from_entry = False, from_branch = None):
+        '''value,count,weight,path'''
+
         if self.blog_configuration["disable_categories"]:
             return ''
             
@@ -614,12 +618,16 @@ class DatastorePatterns:
         return self.get_flattened_categories(pattern, string, separator)
 
     def get_flattened_blog_categories_from_branches(self, pattern, branches, sub_tree_separator, string, separator):
+        '''value,count,weight,path,childs'''
         return self.get_flattened_categories_from_branches(pattern, branches, sub_tree_separator, string, separator, False)         
         
     def get_flattened_entry_categories(self, pattern, string, separator):
+        '''value,count,weight,path'''
+
         return self.get_flattened_categories(pattern, string, separator, True)
 
     def get_flattened_entry_categories_from_branches(self, pattern, branches, sub_tree_separator, string, separator):
+        '''value,count,weight,path,childs'''
         return self.get_flattened_categories_from_branches(pattern, branches, sub_tree_separator, string, separator, True)
         
 
