@@ -44,8 +44,8 @@ def import_wrapper(markup_language):
         return getattr(m, key[markup_language][1])
         
     except ModuleNotFoundError:
-        from venc3.prompt import die
-        die(("module_not_found", key[markup_language][2]))  
+        from venc3.exceptions import VenCException
+        raise VenCException(("module_not_found", key[markup_language][2]))  
 
 def process_markup_language(source, markup_language, entry):
     if markup_language == "Markdown":
