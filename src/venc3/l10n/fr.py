@@ -83,7 +83,7 @@ class Messages:
     nothing_to_serv = "Rien à faire. Essayez venc -xb d'abord."
     theme_has_no_description = "Ce thème n'a pas de description."
     undefined_variable = "{0} n'est  pas défini dans \"{1}\"."
-    entry_has_no_metadata_like = "La publication ne possède pas la métadonnée identifiée par \"{0}\"."
+    entry_has_no_metadata_like = "La publication \"{0}\" ne possède pas la métadonnée identifiée par \"{1}\"."
     blog_has_no_metadata_like = "Le blog ne possède pas la métadonnée identifiée par {0}."
     invalid_range = "Plage de nombres invalide {0}:{1}."
     entry_metadata_is_not_a_list = "La métadonnée \"{0}\" de la publication {1} n'est pas une liste."

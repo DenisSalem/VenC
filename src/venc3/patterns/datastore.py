@@ -158,7 +158,7 @@ class DatastorePatterns:
                 
             except AttributeError as e:
                 from venc3.exceptions import VenCException
-                raise VenCException(("entry_has_no_metadata_like", attribute), pattern)
+                raise VenCException(("entry_has_no_metadata_like", entry.id), pattern)
 
             except IndexError:
                 from venc3.exceptions import VenCException
@@ -187,7 +187,7 @@ class DatastorePatterns:
         except AttributeError:
             from venc3.exceptions import VenCException
             raise VenCException(
-                ("entry_has_no_metadata_like", metadata_name),
+                ("entry_has_no_metadata_like", self.requested_entry.id, metadata_name),
                 pattern
             )
             
@@ -500,7 +500,7 @@ class DatastorePatterns:
             except AttributeError as e:
                 if raise_exception:
                     from venc3.exceptions import VenCException
-                    raise VenCException(("entry_has_no_metadata_like", metadata_name), pattern)
+                    raise VenCException(("entry_has_no_metadata_like", entry.id, metadata_name), pattern)
                 else:
                     entry.html_for_metadata[key] = ""
                     return ""
@@ -554,7 +554,7 @@ class DatastorePatterns:
         if not hasattr(entry, metadata_name):
             if raise_exception:
                 from venc3.exceptions import VenCException
-                raise VenCException(("entry_has_no_metadata_like", metadata_name), pattern)
+                raise VenCException(("entry_has_no_metadata_like", entry.id, metadata_name), pattern)
                 
             else:
                 return ""
