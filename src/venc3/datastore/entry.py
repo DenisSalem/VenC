@@ -41,7 +41,7 @@ class Entry:
                 try:
                     metadata = yaml.load(entry_parted[0], Loader=yaml.FullLoader)
 
-                except yaml.scanner.ScannerError as e:
+                except Exception as e:
                     from venc3.exceptions import VenCException
                     raise VenCException(("possible_malformed_entry", filename, ''), context=filename, extra=str(e))
                     
