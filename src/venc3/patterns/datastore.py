@@ -326,6 +326,8 @@ class DatastorePatterns:
         return entry.html_categories_tree[key]
 
     def get_blog_categories_tree_from_branches(self, pattern, branches, sub_tree_separator, open_node, open_branch, close_branch, close_node):
+        '''value,count,weight,path,childs'''
+
         return self.get_categories_tree_from_branches(
             pattern,
             branches,
@@ -338,6 +340,8 @@ class DatastorePatterns:
         )
 
     def get_entry_categories_tree_from_branches(self, pattern, branches, sub_tree_separator, open_node, open_branch, close_branch, close_node):
+        '''value,count,weight,path,childs'''
+
         return self.get_categories_tree_from_branches(
             pattern,
             branches,
@@ -351,8 +355,6 @@ class DatastorePatterns:
 
         
     def get_categories_tree_from_branches(self, pattern, branches, sub_tree_separator, open_node, open_branch, close_branch, close_node, from_entry):
-        '''value,count,weight,path,childs'''
-
         branches = branches.strip()
         self.test_blog_configuration_field(pattern, branches, list)
         
@@ -615,6 +617,7 @@ class DatastorePatterns:
         return output
                 
     def get_flattened_blog_categories(self, pattern, string, separator):
+        '''value,count,weight,path'''
         return self.get_flattened_categories(pattern, string, separator)
 
     def get_flattened_blog_categories_from_branches(self, pattern, branches, sub_tree_separator, string, separator):
