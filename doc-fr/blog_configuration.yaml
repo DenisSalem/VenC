@@ -2,7 +2,6 @@ author_description:
 author_email: 
 author_name: Denis Salem
 blog_description: Un générateur de site statique qui casse des briques. VenC est tellement rapide qu'il enfreint le principe de causalité et produit de l'énergie surunitaire !
-blog_keywords:
 blog_language: fr
 blog_name: VenC
 blog_url: https://denissalem.tuxfamily.org/VenC
@@ -15,16 +14,13 @@ disable_chapters: false
 disable_main_thread: true
 disable_rss_feed: true
 disable_single_entries: true
-disable_threads: null
-enable_jsonld: false
-enable_jsonp: false
 entries_per_pages: 50
 feed_length: 15
 ftp_host: ftp.tuxfamily.org
 license: 'CC-By-SA'
 markup_language: Markdown
-parallel_processing: 1
-path:
+parallel_processing: 8
+paths:
   archives_directory_name: '%Y-%m'
   archives_sub_folders: ''
   atom_file_name: atom.xml
