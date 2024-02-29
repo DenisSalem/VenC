@@ -100,7 +100,7 @@ def get_template(template_name, entry_name='', template_args={}):
             
             import yaml
             try:
-                parted[0] = yaml.dump(yaml.load(parted[0], Loader=yaml.FullLoader))
+                parted[0] = yaml.dump(yaml.load(parted[0], Loader=yaml.FullLoader),allow_unicode=True)
                 
             except yaml.scanner.ScannerError as e:
                 from venc3.exceptions import VenCException

@@ -633,8 +633,6 @@ class DatastorePatterns:
         '''value,count,weight,path,childs'''
         return self.get_flattened_categories_from_branches(pattern, branches, sub_tree_separator, string, separator, True)
         
-
-        
     def pick_branch(self, branch_name, extracted_branch):
         for node in self.entries_per_categories if extracted_branch == None else extracted_branch:
             if branch_name == node.value:
