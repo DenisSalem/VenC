@@ -183,7 +183,7 @@ Ce motif est ignoré et supprimé si la génération des catégories est désact
 #### GetBlogCategoriesTreeFromBranches
 
 .:CodeHighlight::Text::False:: .:Escape::
-.:GetBlogCategoriesTree::
+.:GetBlogCategoriesTreeFromBranches::
     branches::
     sub_tree_separator::
     open_node::

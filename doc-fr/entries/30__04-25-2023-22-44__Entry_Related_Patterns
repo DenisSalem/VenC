@@ -132,6 +132,23 @@ en utilisant les arguments `open_branch` et `close_branch`.
 
 Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
 
+#### GetEntryCategoriesTreeFromBranches
+
+.:CodeHighlight::Text::False:: .:Escape::
+.:GetEntryCategoriesTreeFromBranches::
+    branches::
+    sub_tree_separator::
+    open_node::
+    open_branch::
+    close_branch::
+    close_node
+:. :.
+:.
+
+Fonctionne comme [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestreefrombranches) mais
+ ne garde que les categories où se trouve la publication courante.
+
+
 #### GetEntryChapterLevel
 
 > .:Escape:: .:GetEntryChapterLevel:. :.
