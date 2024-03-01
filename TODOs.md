@@ -35,20 +35,22 @@
     TODO | Optionnaly Agregate ToC with chapter tree.
     TODO | Add in blog_configuration max_width and max_height for oEmbed content, add specific configuration per providers.
 
+# version 3.3.0
+    TODO | Add Wiki pattern.
+    TODO | Add nested archives.
+    TODO | Verify header id uniqueness or warn about W3C complience.
+    TODO | Add post-generation warning information. For example calling GetEntryPath while single entry pages is disabled should not be silent.
+    TODO | SetBackgroundColor for text
+    
 # version 3.2.0
     DONE | Use EDITOR environment variable if available.
     DONE | Enhance blog_configuration sanitation.
     DONE | Fix major bugs in taxonomy path processing.
     DONE | Add support for advanced taxonomy.
-    TODO | Add RSS and Atom button to concrete.
-    TODO | Add Wiki pattern.
     TODO | Enhance FTP transfert with multiple connections.
+    TODO | Add RSS and Atom button to concrete.
     TODO | Auto reload blog/ when server is running if blog is modified.
-    TODO | Add nested archives.
-    TODO | Verify header id uniqueness or warn about W3C complience.
     TODO | Update doc.
-    TODO | Add post-generation warning information. For example calling GetEntryPath while single entry pages is disabled should not be silent.
-    TODO | SetBackgroundColor for text
 
 # version 3.1.1
     DONE | Add support for virtual env and pipx install without breakage
