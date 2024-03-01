@@ -26,32 +26,29 @@
     </head>
     <body>
         <div>
-            <header class="box engrave title"><h1><a class="engrave" href=".:GetRelativeRoot:./">.:GetBlogName:.</a></h1></header>
+            <header class="box engrave title"><h1><a class="engrave" href=".:GetRelativeRoot:.">.:GetBlogName:.</a></h1></header>
             <aside>
                 .:IfCategories::
                 <div class="box" id="blog_categories">
-                    <p class="engrave title"><b>CATEGORIES</b></p>
-                    .:IfBlogMetadataIsTrue::disable_blog_hashtags::
-                    ::
-                        <hr>
+                    <div id="minified_taxonomy">
                         .:GetFlattenedBlogCategoriesFromBranches::taxonomy::
-                            <p class="title"><a class="engrave" href="{path}">{value}</a></p><ul class="hashtags">{childs}</ul>
+                            <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p><ul class="hashtags">{childs}</ul>
                         ::
-                            <li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>:: :.
-                    :.
-                    
-                    .:IfBlogMetadataIsTrue::disable_categories_tree::
-                    ::
-                        <hr>
+                            <li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>::
+                        :.
+                    </div>
+                    <div id="full_taxonomy">
                         .:GetBlogCategoriesTreeFromBranches::taxonomy::
                             <div class="__VENC_TREE_ROOT__">
-                                <p class="title"><a class="engrave" href="{path}">{value}</a></p>
+                                <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p>
                                 {childs}
                             </div>
-                        ::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>:.
-                    :.
+                        ::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>
+                        :.
+                    </div>
                 </div>
                 :.
+                
                 .:IfChapters::
                 <div class="box" id="blog_chapters">
                     <p class="engrave title"><b>CHAPTERS</b></p>
