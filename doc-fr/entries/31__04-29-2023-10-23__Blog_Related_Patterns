@@ -1,7 +1,16 @@
 authors:
   - Denis Salem
 categories:
-  - ''
+  - Medium & Technique:
+    - Dessin
+    - Peintures:
+      - Acrylique
+      - Huile
+    - Sculpture
+    - Infographie
+  - Licence :
+    - CC-By-SA
+    - CC-By-NC-ND
 chapter: '4.4.2'
 title: Motifs de blog
 ---VENC-BEGIN-PREVIEW---
@@ -189,7 +198,7 @@ de l'arbre des categories pour l'afficher individuellement à l'intérieur de `s
 
 Les arguments du motif sont les suivants :
 
-- **`branches`** : contient le nom de la métadonnée définit dans le fichier de configuration qui contient une liste de nom de branche.
+- **`branches`** : contient le nom de la métadonnée définit dans le fichier de configuration qui elle même contient une liste de nom de branche. Ces noms de branches correspondes correspondent à des items à la racine de l'arbre de categories.
 - **`sub_tree_separator`** : contient la chaîne de caractères contenant la branche courante. Pour chaque branches, `sub_tree_separator` est concaténé à la précédente itération.
 - **`open_node`** : contient la chaîne de caractères d'ouverture pour la catégorie parente.
 - **`open_branch`** : contient la chaîne de caractères d'ouverture de la catégorie courante.
@@ -204,10 +213,9 @@ Les variables de ce motif sont les suivantes :
 - __`weight`__ : le nombre de publications dans la catégorie courante, divisé par le nombre de publications appartenant à une catégorie.
 - __`childs`__ : contient le résultat de la récursion suivante ou de l'itération courrante du `motif`.
 
-Pour illustrer ce motif un peu complexe nous nous donnons l'arbre de catégories suivant :
+Pour illustrer ce motif un peu complexe nous nous donnons pour exemple l'arbre de toutes les catégories d'un blog imaginaire:
 
 .:CodeHighlight::Yaml::False::
-categories:
   - Medium & Technique:
     - Dessin
     - Peintures:
@@ -220,8 +228,74 @@ categories:
     - CC-By-NC-ND
 :.
 
+
 Nous pourrions vouloir un contrôle plus fin sur l'affichage de ces categories. Par exemple en mettant en valeur `Medium & Technique` et `Licence` qui
-renseigne sur quelque type de catégorie il s'agit.
+renseignent sur quel type de catégories il s'agit.
+
+.:CodeHighlight::HTML::False:: .:Escape:: .:GetBlogCategoriesTreeFromBranches::my_taxonomy::
+    <div class="__VENC_TREE_ROOT__">
+        <p class="title"><a class="engrave" href="{path}">{value}</a></p>
+        {childs}
+    </div>
+  ::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>:. :.
+:.
+
+Ici, dans l'exemple, le nom de la métadonnée extraite du [`fichier de configuration`](.:GetChapterAttributeByIndex::path::3.2:.) du blog est `my_taxonomy`. Pour fonctionner
+la métadonnée serait alors définit comm ci-dessous :
+
+.:CodeHighlight::YAML::False::my_taxonomy:
+  - Medium & Technique
+  - Licence:.
+  
+Ce faisant `GetBlogCategoriesTreeFromBranches` va se comporter pour chaque item comme le ferait [`GetBlogCategoriesTree`](#getblogcategoriestree) en prenant pour racine l'item correspondant
+au nom de la branche courrante.
+
+L'utilisation du motif comme dans l'exemple donnerait quelque chose comme :
+
+.:CodeHighlight::HTML::False::<div class="__VENC_TREE_ROOT__">
+  <p class="title">
+    <a class="engrave" href="../Medium-&-Technique">Medium & Technique</a>
+  </p>
+  <ul class="__VENC_TREE_NODE__">
+    <li>
+      <a class="engrave" href="../Medium-&-Technique/Dessin" title="1 entries">Dessin</a>
+    </li>
+    <li>
+      <a class="engrave" href="../Medium-&-Technique/Infographie" title="1 entries">Infographie</a>
+    </li>
+    <li>
+      <a class="engrave" href="../Medium-&-Technique/Peintures" title="1 entries">Peintures</a>
+      <ul class="__VENC_TREE_NODE__">
+        <li>
+          <a class="engrave" href="../Medium-&-Technique/Peintures/Acrylique" title="1 entries">Acrylique</a>
+        </li>
+        <li>
+          <a class="engrave" href="../Medium-&-Technique/Peintures/Huile" title="1 entries">Huile</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a class="engrave" href="../Medium-&-Technique/Sculpture" title="1 entries">Sculpture</a>
+    </li>
+  </ul>
+</div>
+<div class="__VENC_TREE_ROOT__">
+  <p class="title"><a class="engrave" href="../Licence">Licence</a></p>
+  <ul class="__VENC_TREE_NODE__">
+    <li>
+      <a class="engrave" href="../Licence/CC-By-NC-ND" title="1 entries">CC-By-NC-ND</a>
+    </li>
+    <li>
+      <a class="engrave" href="../Licence/CC-By-SA" title="1 entries">CC-By-SA</a>
+    </li>
+  </ul>
+</div>:.
+
+On peut faire remarquer qu'il est possible de définir dans votre [`fichier de configuration`](.:GetChapterAttributeByIndex::path::3.2:.) plusieurs
+listes de branches. Ainsi vous pouvez utiliser `GetBlogCategoriesTreeFromBranches` à différent endroit de votre template graphique avec des valeurs
+différentes pour l'argument `branches`.
+
+Enfin `GetBlogCategoriesTreeFromBranches` ne peut sélectionner que des branches à la racine de l'arbre des categories.
 
 #### GetBlogDescription
 

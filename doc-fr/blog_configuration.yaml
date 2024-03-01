@@ -50,3 +50,6 @@ tree_test:
         - e:
             - f
     - g
+my_taxonomy:
+  - Medium & Technique
+  - Licence
