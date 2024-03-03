@@ -116,7 +116,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
                     if index in self.raw_chapters.keys():
                         entry = self.raw_chapters[index]
                         try:
-                            path = "\x1a"+path_chapters_sub_folders+quirk_encoding(
+                            path = "\x1a/"+path_chapters_sub_folders+quirk_encoding(
                                 path_chapter_folder_name.format(**{
                                     "chapter_name" : entry.title,
                                     "chapter_index" : index
