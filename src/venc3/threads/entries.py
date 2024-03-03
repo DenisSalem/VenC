@@ -120,7 +120,6 @@ class EntriesThread(Thread):
         )
         self.thread_name = self.current_entry.title
         self.relative_origin = str('/'.join([ ".." for p in export_path.split('/')[1:] if p != ''])).replace("//",'/')
-        print(self.relative_origin, export_path.split('/')[1:])
         os.makedirs(export_path, exist_ok=True)
 
 

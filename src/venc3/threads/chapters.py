@@ -59,7 +59,7 @@ class ChaptersThread(Thread):
           })
         )
         self.export_path = "blog/"+self.sub_folders+'/'+folder_name
-        self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ])
+        self.relative_origin = '/'.join([ '..' for f in self.export_path.split("/")[1:] if f != '' ]).replace('//','/')
 
         try:
             os.makedirs(self.export_path)
