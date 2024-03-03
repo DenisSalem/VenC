@@ -239,7 +239,7 @@ class DatastorePatterns:
         )
 
     def get_entry_archive_path(self, pattern):
-        return "\x1a"+self.requested_entry.date.strftime(
+        return "\x1a/"+self.requested_entry.date.strftime(
             self.blog_configuration["paths"]["archives_directory_name"]
         )
     
@@ -299,7 +299,7 @@ class DatastorePatterns:
 
     def get_root_page(self, pattern):
         if self.root_page == None:
-            self.root_page =  "\x1a"+self.blog_configuration["paths"]["index_file_name"].format(**{"page_number":''})
+            self.root_page =  "\x1a/"+self.blog_configuration["paths"]["index_file_name"].format(**{"page_number":''})
             
         return self.root_page
         
@@ -423,7 +423,7 @@ class DatastorePatterns:
                 "id" : entry.id,
                 "title": entry.title,
                 "path": entry.path,
-                "archive_path": "\x1a"+entry.date.strftime(archives_directory_name),
+                "archive_path": "\x1a/"+entry.date.strftime(archives_directory_name),
                 "chapter_path": entry.chapter.path if entry.chapter != None else ""
             }
             dataset.update({ 

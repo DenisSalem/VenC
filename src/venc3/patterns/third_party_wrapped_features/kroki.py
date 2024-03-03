@@ -58,4 +58,4 @@ def kroki(pattern, endpoint, image_format, code, provider = "https://kroki.io/")
                 from venc3.exceptions import VenCException
                 raise VenCException(("exception_place_holder", str(e)), pattern)
               
-    return "<img class=\"__VENC_KROKI__\" src=\"\x1a"+filename+"\">"
+    return "<img class=\"__VENC_KROKI__\" src=\"\x1a/"+filename+"\">"
