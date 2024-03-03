@@ -119,7 +119,7 @@ Par exemple, si la page courante qui est générée se trouve dans le répertoir
 
 Alors le motif renverra :
 
-> ../../../
+> ../../..
 
 ### GetStyleSheets
 
