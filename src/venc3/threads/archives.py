@@ -32,7 +32,7 @@ class ArchivesThread(Thread):
         if len(self.sub_folders) and self.sub_folders[-1] != '/':
             self.sub_folders += '/'
             
-        self.relative_origin = str("../"+''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
+        self.relative_origin = str(".."+'/'.join([ "/.." for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = True
         self.thread_has_feeds = False
 

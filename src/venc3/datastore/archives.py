@@ -44,7 +44,7 @@ class Archives:
                         MetadataNode(
                             formatted_date,
                             entry_index,
-                            path="\x1a"+path_archives_sub_folders+quirk_encoding(formatted_date),
+                            path= ("\x1a/"+path_archives_sub_folders+'/'+quirk_encoding(formatted_date)).replace('//','/'),
                             weight_tracker=self.archives_weight_tracker
                         )
                     )

@@ -123,4 +123,3 @@ def get_template(template_name, entry_name='', template_args={}):
     from venc3.l10n import messages
     msg = "\n"+ messages.file_not_found.format(templates_paths[0])+"\n"+ messages.file_not_found.format(templates_paths[1])
     raise VenCException(("exception_place_holder", msg))
-  

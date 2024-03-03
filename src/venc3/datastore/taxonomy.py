@@ -68,7 +68,7 @@ class Taxonomy:
                     self.entries_per_categories,
                     self.categories_leaves,
                     self.categories_weight_tracker,
-                    sub_folders="\x1a"+path
+                    sub_folders="\x1a/"+path
                 )
                 
             self.categories_leaves = self.extract_leaves(None)
@@ -82,7 +82,7 @@ class Taxonomy:
     
             match = None
             try:
-                path = sub_folders + ('/' if len(sub_folders) > 1 else '') + quirk_encoding(category_directory_name.format(**{"category":item}))
+                path = quirk_encoding(sub_folders + ('/' if len(sub_folders) > 1 else '') + category_directory_name.format(**{"category":item})).replace('//','/')
                 
             except KeyError as e:
                 from venc3.prompt import die
@@ -100,7 +100,7 @@ class Taxonomy:
                 metadata = MetadataNode(
                     item, 
                     entry_id,
-                    quirk_encoding(path),
+                    path,
                     weight_tracker
                 )
     

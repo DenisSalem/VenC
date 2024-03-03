@@ -77,7 +77,7 @@ class CategoriesThread(Thread):
         category_value = self.category_value
         self.category_value += node.value+'/'
         self.export_path += quirk_encoding(node.value)+'/'
-        self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
+        self.relative_origin = '/'.join([ '..' for f in self.export_path.split("/")[1:] if f != '' ]).replace("//",'/')
 
         try:
             os.makedirs(self.export_path)
