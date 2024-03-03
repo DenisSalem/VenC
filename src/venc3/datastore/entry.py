@@ -116,9 +116,7 @@ class Entry:
 
         sf = quirk_encoding(paths["entries_sub_folders"].format(**params))
         self.sub_folder = (sf+'/' if sf[-1] != '/' else sf) if len(sf) else ''
-        self.path = "\x1a"+self.sub_folder+quirk_encoding(
-            paths["entry_file_name"].format(**params)
-        )
+        self.path = "\x1a/"+quirk_encoding(self.sub_folder+paths["entry_file_name"].format(**params)).replace('//','/')
         
         if type(metadata["categories"]) != list:
             from venc3.exceptions import VenCException

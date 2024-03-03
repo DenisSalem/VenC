@@ -7,22 +7,22 @@
         <title>.:GetBlogName:.</title>
         .:GetStyleSheets:.
         <link rel="stylesheet" href=".:GetRelativeRoot:./style.css" type="text/css" >
-        <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Scripts-Bootstrap-0.0.0.js"></script>
+        <script type="text/javascript" src=".:GetRelativeRoot:./VenC-Scripts-Bootstrap-0.0.0.js"></script>
         .:IfInfiniteScrollEnabled::
             .:IfInThread::
-                <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Infinite-Scroll-1.2.0.js"></script>
+                <script type="text/javascript" src=".:GetRelativeRoot:./VenC-Infinite-Scroll-1.2.0.js"></script>
             ::
         
             :.
-            <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Tree-0.2.0.js"></script>
+            <script type="text/javascript" src=".:GetRelativeRoot:./VenC-Tree-0.2.0.js"></script>
             <script type="text/javascript">
                 VENC_TREE.ul_style = function(ul) {
                     ul.style.listStyleType = "none";
                 }
             </script>
         :.
-        .:ForBlogMetadataIfExists::custom_scripts::<script type="text/javascript" src=".:GetRelativeRoot:.{value}"></script>:.
-        .:ForBlogMetadataIfExists::custom_styles::<link rel="stylesheet" href=".:GetRelativeRoot:.{value}" type="text/css" >:.
+        .:ForBlogMetadataIfExists::custom_scripts::<script type="text/javascript" src=".:GetRelativeRoot:./{value}"></script>:.
+        .:ForBlogMetadataIfExists::custom_styles::<link rel="stylesheet" href=".:GetRelativeRoot:./{value}" type="text/css" >:.
     </head>
     <body>
         <div>

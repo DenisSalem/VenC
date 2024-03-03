@@ -34,7 +34,7 @@ class EntriesThread(Thread):
         self.filename = self.datastore.blog_configuration["paths"]["entry_file_name"]
         self.sub_folders = self.datastore.blog_configuration["paths"]["entries_sub_folders"]
         self.export_path = "blog/"+self.sub_folders
-        self.relative_origin = str(''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
+        self.relative_origin = str('/'.join([ ".." for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = False
         self.thread_has_feeds = False
         self.known_written_path = []
@@ -119,7 +119,8 @@ class EntriesThread(Thread):
             })
         )
         self.thread_name = self.current_entry.title
-        self.relative_origin = str(''.join([ "../" for p in export_path.split('/')[1:] if p != ''])).replace("//",'/')
+        self.relative_origin = str('/'.join([ ".." for p in export_path.split('/')[1:] if p != ''])).replace("//",'/')
+        print(self.relative_origin, export_path.split('/')[1:])
         os.makedirs(export_path, exist_ok=True)
 
 
