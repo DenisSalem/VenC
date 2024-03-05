@@ -147,8 +147,8 @@ blockquote, pre
   padding: 0px;}
   
 #blog_categories,
-#blog_chapters,
-#blog_archives
+#CHAPTERS,
+#ARCHIVES
   {width: 90%;
   margin: auto;
   display: block;}
@@ -189,8 +189,8 @@ blockquote, pre
   }
 
   #blog_categories,
-  #blog_chapters,
-  #blog_chapters
+  #CHAPTERS,
+  #ARCHIVES
     {width: 100%;}
     
   #entry_toc_wrapper
@@ -206,3 +206,5 @@ blockquote, pre
     {display: none;}
 }
 
+.__VENC_TREE_NODE__ ul
+  {margin-left: 1em;}
