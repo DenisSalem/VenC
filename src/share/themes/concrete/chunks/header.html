@@ -50,7 +50,7 @@
                 :.
                 
                 .:IfChapters::
-                <div class="box" id="blog_chapters">
+                <div class="box" id="CHAPTERS">
                     <p class="engrave title"><b>CHAPTERS</b></p>
                     .:IfBlogMetadataIsTrue::disable_chapters::
                     ::
@@ -66,4 +66,11 @@
                     :.
                 </div>
                 :.
+                .:IfBlogMetadataIsTrue::disable_archives:: ::
+                <div class="box" id="ARCHIVES">
+                    <p class="engrave title"><b>ARCHIVES</b></p>
+                    <ul>
+                        .:ForBlogArchives::<li><a href="{path}" class="engrave">{value}</a></li>:: :.
+                    </ul>
+                </div>:.
             </aside>
