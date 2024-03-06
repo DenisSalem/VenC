@@ -152,7 +152,25 @@ blockquote, pre
   {width: 90%;
   margin: auto;
   display: block;}
-    
+
+#ARCHIVES,
+.__VENC_TREE_ROOT__
+  {max-height: 52px;
+  overflow: hidden;
+  transition: max-height 0.5s ease;}
+  
+#ARCHIVES:target
+  {max-height: 2048px;}
+  
+#ARCHIVES ul
+  {list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  margin: auto;
+  display: block;
+  text-align: center;
+  margin-bottom: 1em;}
+  
 #__VENC_NAVIGATION__
   {text-align: center;
   margin: 10px;}
