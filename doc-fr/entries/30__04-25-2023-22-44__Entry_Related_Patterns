@@ -76,6 +76,7 @@ Les arguments du motif sont les suivants :
 Les variables de ce motif sont les suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
+- __'html_id'__: Le nom de la catégorie courante, mais formaté pour être utilisé en comme un `ID HTML`.
 - __`path`__ : le chemin relatif de la catégorie courante.
 - __`count`__ : le nombre de publications dans la catégorie courante.
 - __`weight`__ : le nombre de publications dans la catégorie courante, divisé par le nombre de publications appartenant à une catégorie.
@@ -470,6 +471,7 @@ Les arguments de ce motif sont :
 Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
+- __'html_id'__: Le nom de la catégorie courante, mais formaté pour être utilisé en comme un `ID HTML`.
 - __`count`__ : le nombre de publications dans cette catégorie.
 - __`weight`__ : le nombre de publications dans cette catégorie, divisé par le nombre de publications ayant une catégorie.
 - __`path`__ : le chemin relatif menant au fil de publication de la catégorie courante.
