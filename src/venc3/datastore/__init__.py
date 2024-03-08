@@ -193,14 +193,14 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
                 continue
 
             variables = self.node_to_dictionnary(pattern, node, opening_node, opening_branch, closing_branch, closing_node, node.childs)
-
-            output_string += opening_branch.format(**variables) +closing_branch.format(**variables)
+            output_string += opening_branch.format(**variables) + closing_branch.format(**variables)
 
         return output_string + closing_node
 
     def node_to_dictionnary(self, pattern, node, opening_node, opening_branch, closing_branch, closing_node, childs):
-        return  {
+        return {
             "value" : node.value,
+            "html_id": quirk_encoding(node.value),
             "count" : node.count,
             "weight" : round(node.count / node.weight_tracker.value,2),
             "path" : node.path,

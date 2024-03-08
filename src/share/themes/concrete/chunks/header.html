@@ -6,6 +6,23 @@
         <meta charset="utf-8">
         <title>.:GetBlogName:.</title>
         .:GetStyleSheets:.
+        <!-- Forgive me Internet for I have sinned with this ugly CSS menu hack implying questionable semantics. -->
+        <style> 
+            .:ForBlogMetadataIfExists::taxonomy::#toggle-{html_id}:checked ~ .__VENC_TREE_NODE__::, :., #toggle-venc-archives:checked ~ ul
+              {max-height: 4096px;
+              opacity: 1;
+              margin-bottom: 1em;}
+
+            .:ForBlogMetadataIfExists::taxonomy::#toggle-{html_id} ~ .__VENC_TREE_NODE__::, :., #toggle-venc-archives ~ ul
+              {max-height: 0px;
+              overflow: hidden;
+              opacity: 0;
+              padding-top: 0px;
+              padding-bottom: 0px;
+              margin-top: 0px;
+              margin-bottom: 0px;
+              transition: all 0.25s ease 0s;}
+        </style>
         <link rel="stylesheet" href=".:GetRelativeRoot:./style.css" type="text/css" >
         <script type="text/javascript" src=".:GetRelativeRoot:./VenC-Scripts-Bootstrap-0.0.0.js"></script>
         .:IfInfiniteScrollEnabled::
@@ -18,9 +35,12 @@
             <script type="text/javascript">
                 VENC_TREE.ul_style = function(ul) {
                     ul.style.listStyleType = "none";
+                    ul.style.paddingTop = "0px"
+                    ul.style.paddingBottom = "0px";
                 }
             </script>
         :.
+        
         .:ForBlogMetadataIfExists::custom_scripts::<script type="text/javascript" src=".:GetRelativeRoot:./{value}"></script>:.
         .:ForBlogMetadataIfExists::custom_styles::<link rel="stylesheet" href=".:GetRelativeRoot:./{value}" type="text/css" >:.
     </head>
@@ -34,15 +54,23 @@
                         .:GetFlattenedBlogCategoriesFromBranches::taxonomy::
                             <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p><ul class="hashtags">{childs}</ul>
                         ::
-                            <li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>::
+                        <hr>   
+                        ::
+                            <li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>
+                        ::
+                            <span class="middle_dot">・</span>
                         :.
                     </div>
                     <div id="full_taxonomy">
                         .:GetBlogCategoriesTreeFromBranches::taxonomy::
-                            <div class="__VENC_TREE_ROOT__">
+                            <div class="__VENC_TREE_ROOT__" id="{html_id}">
+                                <label class="engrave menu_icon" for="toggle-{html_id}">☰</label>
+                                <input type="checkbox" id="toggle-{html_id}">
                                 <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p>
                                 {childs}
                             </div>
+                        ::
+                        <hr class="taxonomy_separator">    
                         ::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>
                         :.
                     </div>
@@ -68,9 +96,11 @@
                 :.
                 .:IfBlogMetadataIsTrue::disable_archives:: ::
                 <div class="box" id="ARCHIVES">
-                    <p class="title"><a class="engrave" href="#ARCHIVES"><b>ARCHIVES</b></a></p>
+                    <label class="engrave menu_icon" for="toggle-venc-archives">☰</label>
+                    <input type="checkbox" id="toggle-venc-archives">
+                    <p class="title engrave"><b>ARCHIVES</b></p>
                     <ul>
-                        .:ForBlogArchives::<li><a href="{path}" class="engrave">{value}</a></li>:: :.
+                        .:ForBlogArchives::<li><a href="{path}" class="engrave">{value}</a></li>::<span class="middle_dot">・</span>:.
                     </ul>
                 </div>:.
             </aside>

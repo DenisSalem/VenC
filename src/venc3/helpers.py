@@ -49,21 +49,9 @@ def get_base_dir():
 
 def quirk_encoding(string):
     import unidecode
-    return unidecode.unidecode(
-        string.replace(
-            '\'',
-            '-'
-        ).replace(
-            ' ',
-            '-'
-        ).replace(
-            '%',
-            '-'
-        ).replace(
-            ':',
-            '-'
-        )
-    )
+    for char in ['\'',' ','%',':','&','\\']:
+        string = string.replace(char,'-')
+    return unidecode.unidecode(string)
 
 def rm_tree_error_handler(function, path, excinfo):
     from venc3.prompt import notify

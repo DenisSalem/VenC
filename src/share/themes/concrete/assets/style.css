@@ -153,23 +153,16 @@ blockquote, pre
   margin: auto;
   display: block;}
 
-#ARCHIVES,
-.__VENC_TREE_ROOT__
-  {max-height: 52px;
-  overflow: hidden;
-  transition: max-height 0.5s ease;}
-  
-#ARCHIVES:target
-  {max-height: 2048px;}
-  
 #ARCHIVES ul
-  {list-style-type: none;
+  {max-height: 0px;
+  overflow: hidden;
+  transition: all 0.25s ease 0s;
+  list-style-type: none;
   margin: 0px;
   padding: 0px;
   margin: auto;
   display: block;
-  text-align: center;
-  margin-bottom: 1em;}
+  text-align: center;}
   
 #__VENC_NAVIGATION__
   {text-align: center;
@@ -191,10 +184,39 @@ blockquote, pre
   {width: 90%;
   margin: auto;}
 
+#entry_toc ul
+  {padding-left: 30px;}
+  
 #minified_entry_toc
   {display: none;}
 
 #minified_taxonomy
+  {display: none;}
+
+.menu_icon
+  {float: left;
+  margin-left: 1em;}
+
+#ARCHIVES .menu_icon
+  {margin-top: 16px;}
+  
+.__VENC_TREE_ROOT__ input,
+#ARCHIVES input
+  {opacity: 0;
+  width: 1px;
+  height: 1px;
+  float: left}
+  
+.__VENC_TREE_NODE__
+  {padding-left: 20px;}
+
+.taxonomy_separator
+  {width: 100%;
+  border-bottom: 1px solid white;
+  border-top: 2px solid rgba(0,0,0,0.4);
+  margin: 0px;}
+
+.middle_dot
   {display: none;}
   
 @media screen and (max-width: 1560px) {
@@ -211,6 +233,17 @@ blockquote, pre
   #ARCHIVES
     {width: 100%;}
     
+  #ARCHIVES ul
+    {max-height: 4096px;
+    opacity: 1;
+    margin-bottom: 1em;}
+    
+  #ARCHIVES label
+    {display: none;}
+    
+  #ARCHIVES ul li
+    {display: inline;}
+    
   #entry_toc_wrapper
     {display: none;}
     
@@ -222,6 +255,9 @@ blockquote, pre
     
   #full_taxonomy
     {display: none;}
+    
+.middle_dot
+  {display: inline;}
 }
 
 .__VENC_TREE_NODE__ ul
