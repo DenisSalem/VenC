@@ -142,9 +142,15 @@ blockquote, pre
 .__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_DISABLED__, .__VENC_TREE_BUTTON_SHOW__, .__VENC_TREE_BUTTON_HIDE__
   {margin-right: 1em;}
 
+.__VENC_PYGMENTIZE_WRAPPER__ table
+  {table-layout:fixed;}
+
 .__VENC_PYGMENTIZE_WRAPPER__ table td
   {border: none;
   padding: 0px;}
+
+.__VENC_PYGMENTIZE_WRAPPER__ table td:first-child
+  {width: 40px;}
   
 #blog_categories,
 #CHAPTERS,
