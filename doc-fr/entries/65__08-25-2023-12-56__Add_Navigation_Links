@@ -23,7 +23,7 @@ En reprenant l'exemple du chapitre précédent, nous aurions alors aux lignes 8 
 
 .:CodeHighlight::HTML::True::        .:Escape::<footer>
             .:GetBlogMetadataIfExists::loading_image::
-                <img id="__VENC_LOADING__" src=".:GetRelativeRoot:.{value}" />
+                <img id="__VENC_LOADING__" src=".:GetRelativeRoot:./{value}" />
             :.
             .:IncludeFileIfExists::
                 .:GetBlogMetadataIfNotNull::include_in_footer:.        
@@ -63,7 +63,7 @@ Le code ci-dessous actualise ce qui a été déjà fait pour illustrer ces remar
 
 .:CodeHighlight::HTML::True::        .:Escape::<footer>
             .:GetBlogMetadataIfExists::loading_image::
-                <img id="__VENC_LOADING__" src=".:GetRelativeRoot:.{value}" />
+                <img id="__VENC_LOADING__" src=".:GetRelativeRoot:./{value}" />
             :.
             .:IncludeFileIfExists::
                 .:GetBlogMetadataIfNotNull::include_in_footer:.        

@@ -16,7 +16,7 @@ Dans l'exemple ci-dessous, ce sont les lignes 5, 6 et 7 qui nous intéressent :
 
 .:CodeHighlight::HTML::True::        .:Escape::<footer>
             .:GetBlogMetadataIfExists::loading_image::
-                <img id="__VENC_LOADING__" src=".:GetRelativeRoot:.{value}" />
+                <img id="__VENC_LOADING__" src=".:GetRelativeRoot:./{value}" />
             :.
             .:IncludeFileIfExists::
                 .:GetBlogMetadataIfNotNull::include_in_footer:.        

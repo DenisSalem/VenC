@@ -19,7 +19,7 @@ La structure de ce fichier ressemble à ça :
         <meta charset="utf-8">
         <title>.:GetBlogName:. .:GetThreadName::| {value}:.</title>
         .:GetStyleSheets:.
-        <link rel="stylesheet" href=".:GetRelativeRoot:.style.css" type="text/css">
+        <link rel="stylesheet" href=".:GetRelativeRoot:./style.css" type="text/css">
         <meta name="description" content=".:GetBlogDescription:.">
     </head>
     <body>

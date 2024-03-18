@@ -124,7 +124,7 @@ Les arguments du motif sont les suivants :
 Les variables de ce motif sont les suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
-- __'html_id'__: Le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__: Le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
 - __`path`__ : le chemin relatif de la catégorie courante.
 - __`count`__ : le nombre de publications dans la catégorie courante.
 - __`weight`__ : le nombre de publications dans la catégorie courante, divisé par le nombre de publications appartenant à une catégorie.
@@ -186,7 +186,8 @@ Ce motif est ignoré et supprimé si la génération des catégories est désact
 .:CodeHighlight::Text::False:: .:Escape::
 .:GetBlogCategoriesTreeFromBranches::
     branches::
-    sub_tree_separator::
+    sub_tree_string::
+    separator::
     open_node::
     open_branch::
     close_branch::
@@ -195,12 +196,13 @@ Ce motif est ignoré et supprimé si la génération des catégories est désact
 :.
 
 Ce `motif` permet de mettre en oeuvre de la taxonomy avancée. En effet, via le premier argument `branches`, ce motif permet de sélectionner une ou plusieurs branches
-de l'arbre des categories pour l'afficher individuellement à l'intérieur de `sub_tree_separator` comme le ferait [`GetBlogCategoriesTree`](#getblogcategoriestree).
+de l'arbre des categories pour l'afficher individuellement à l'intérieur de `sub_tree_string` comme le ferait [`GetBlogCategoriesTree`](#getblogcategoriestree).
 
 Les arguments du motif sont les suivants :
 
-- **`branches`** : contient le nom de la métadonnée définit dans le fichier de configuration qui elle même contient une liste de nom de branche. Ces noms de branches correspondes correspondent à des items à la racine de l'arbre de categories.
-- **`sub_tree_separator`** : contient la chaîne de caractères contenant la branche courante. Pour chaque branches, `sub_tree_separator` est concaténé à la précédente itération.
+- **`branches`** : contient le nom de la métadonnée définit dans le fichier de configuration qui elle même contient une liste de nom de branche. Ces noms de branches correspondent à des items à la racine de l'arbre de categories.
+- **`sub_tree_string`** : contient la chaîne de caractères contenant la branche courante.
+- **`separator`** : Contient la chaine de caractères de séparation. Chaque itération de la branche courante est jointe avec le contenu de `separator`.
 - **`open_node`** : contient la chaîne de caractères d'ouverture pour la catégorie parente.
 - **`open_branch`** : contient la chaîne de caractères d'ouverture de la catégorie courante.
 - **`close_branch`** : contient la chaîne de caractères de fermeture de la catégorie courante.
@@ -209,7 +211,7 @@ Les arguments du motif sont les suivants :
 Les variables de ce motif sont les suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
-- __'html_id'__: Le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__: Le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
 - __`path`__ : le chemin relatif de la catégorie courante.
 - __`count`__ : le nombre de publications dans la catégorie courante.
 - __`weight`__ : le nombre de publications dans la catégorie courante, divisé par le nombre de publications appartenant à une catégorie.
@@ -236,10 +238,14 @@ renseignent sur quel type de catégories il s'agit.
 
 .:CodeHighlight::HTML::False:: .:Escape:: .:GetBlogCategoriesTreeFromBranches::my_taxonomy::
     <div class="__VENC_TREE_ROOT__">
-        <p class="title"><a class="engrave" href="{path}">{value}</a></p>
+        <p class="title"><a href="{path}">{value}</a></p>
         {childs}
     </div>
-  ::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>:. :.
+  ::<hr>
+  ::<ul class="__VENC_TREE_NODE__">
+  ::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>
+  ::{childs}</li>
+  ::</ul>:. :.
 :.
 
 Ici, dans l'exemple, le nom de la métadonnée extraite du [`fichier de configuration`](.:GetChapterAttributeByIndex::path::3.2:.) du blog est `my_taxonomy`. Pour fonctionner
@@ -281,6 +287,7 @@ L'utilisation du motif comme dans l'exemple donnerait quelque chose comme :
     </li>
   </ul>
 </div>
+<hr>
 <div class="__VENC_TREE_ROOT__">
   <p class="title"><a class="engrave" href="../Licence">Licence</a></p>
   <ul class="__VENC_TREE_NODE__">
@@ -297,7 +304,7 @@ On peut faire remarquer qu'il est possible de définir dans votre [`fichier de c
 listes de branches. Ainsi vous pouvez utiliser `GetBlogCategoriesTreeFromBranches` à différent endroit de votre template graphique avec des valeurs
 différentes pour l'argument `branches`.
 
-Enfin `GetBlogCategoriesTreeFromBranches` ne peut sélectionner que des branches à la racine de l'arbre des categories.
+__Note importante__ : `GetBlogCategoriesTreeFromBranches` ne peut sélectionner que des branches à la racine de l'arbre des categories.
 
 #### GetBlogDescription
 
@@ -575,10 +582,43 @@ Les arguments de ce motif sont :
 Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
-- __'html_id'__: Le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__: Le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
 - __`count`__ : le nombre de publications dans cette catégorie.
 - __`weight`__ : le nombre de publications dans cette catégorie, divisé par le nombre de publications ayant une catégorie.
 - __`path`__ : le chemin relatif menant au fil de publications de la catégorie courante.
+
+#### GetFlattenedBlogCategoriesFromBranches
+
+.:CodeHighlight::Text::Fals:: .:Escape::
+.:GetFlattenedBlogCategoriesFromBranches::
+  branches::
+  sub_tree_string::
+  sub_tree_separator::
+  string::
+  separator
+:.
+:. :.
+
+- __`branches`__ : contient le nom de la métadonnée définit dans le fichier de configuration qui elle
+même contient une liste de nom de branche. Ces noms de branche correspondent à des items à la racine de l'arbre de categories.
+- __`sub_tree_string`__ : Contient la chaine de caractère contenant la branche courante.
+- __`sub_tree_separator`__ : Contient la chaine de caractères de séparation. Chaque itération de la branche courante est jointe avec le contenu de`sub_tree_separator`.
+- __`string`__ : la chaîne de caractères correspondant à l'item courant de la branche courante.
+- __`separator`__ : la chaîne de caractères qui sert de séparateur entre chaque item.
+
+Vous pouvez utiliser les variables suivante dans `sub_tree_string` et `string`
+
+- __`value`__ : le nom de la catégorie courante dans `string` et le nom de la branche courante dans `sub_tree_string`.
+- __`html_id`__: Le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
+- __`count`__ : le nombre de publications dans cette catégorie.
+- __`weight`__ : le nombre de publications dans cette catégorie, divisé par le nombre de publications ayant une catégorie.
+- __`path`__ : le chemin relatif menant au fil de publications de la catégorie courante.
+- __`childs`__ : Fonctionne uniquement dans `sub_tree_string`. Cette variable contient le contenu de la branche courante formaté dans `string`.
+
+Cette fonction combine le concept de [`GetBlogCategoriesTreeFromBranches`](#getblogcategoriestreefrombranches) et de [`GetFlattenedBlogCategories`](#getflattenedblogcategories). C'est à dire
+que les trois premiers arguments servent à exactement la même chose que dans [`GetBlogCategoriesTreeFromBranches`](#getblogcategoriestreefrombranches). Les autres arguments sont identiques à
+ceux dans [`GetFlattenedBlogCategories`](#getflattenedblogcategories). En d'autres termes, ce motif permet de sélectionner une ou plusieurs branches de l'arbre de categories et de construire
+un nuage de categories à partir de ces branches.
 
 #### GetRootPage
 

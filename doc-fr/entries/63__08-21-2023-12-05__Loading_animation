@@ -14,7 +14,7 @@ On peut alors écrire, lignes 2 à 4, quelque chose comme :
 
 .:CodeHighlight::HTML::True::        <footer>.:Escape::
               .:GetBlogMetadataIfExists::loading_image::
-                  <img id="__VENC_LOADING__" src=".:GetRelativeRoot:.{value}" />
+                  <img id="__VENC_LOADING__" src=".:GetRelativeRoot:./{value}" />
               :.
         :.</footer>
     </body>
@@ -28,7 +28,7 @@ Notez que l'attribut `id` a pour valeur __`.:DisableMarkup::__VENC_LOADING__:.`_
 
 Enfin, remarquons à la ligne 3 :
 
-.:CodeHighlight::Text::False::src=.:Escape::".:GetRelativeRoot:.{value}":. :.
+.:CodeHighlight::Text::False::src=.:Escape::".:GetRelativeRoot:./{value}":. :.
 
 Ici la variable __`value`__ portera le nom de fichier contenu dans __`loading_image`__, si ce champ est défini dans votre fichier de configuration.
 

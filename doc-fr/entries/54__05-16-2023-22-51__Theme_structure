@@ -24,7 +24,7 @@ Nous allons y créer à l'intérieur deux répertoires :
 - __`chunks`__ : c'est le répertoire contenant les fameux fichiers dont nous parlions un peu plus haut.
 
 .:CodeHighlight::shell-session::False::anonyme@anonymous ~ $ cd /path/to/your/project/theme
-anonyme@anonymous ~/tutorial/theme $ mkdir assets chunks:.
+anonyme@anonymous /path/to/your/project/theme $ mkdir assets chunks:.
 
 Ceci étant fait, on va créer les _morceaux_ composant notre site __dans le répertoire `chunks`__ :
 

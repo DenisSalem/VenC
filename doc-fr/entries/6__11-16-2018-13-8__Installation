@@ -20,6 +20,8 @@ installer le module dans le même `virtual env` :
 
 > pipx inject venc mistletoe
 
+Une fois installé, pour prendre en mains votre nouveau jouet, le mieux est de commencer par le [tutoriel](.:GetChapterAttributeByIndex::path::7:.).
+
 ## Installation alternative
 
 Vous pourriez vouloir utiliser VenC dans une version en développement indisponible sur PyPI.
