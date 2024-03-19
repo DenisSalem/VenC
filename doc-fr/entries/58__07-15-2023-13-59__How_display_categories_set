@@ -196,4 +196,10 @@ Avec ça on est bon et on peut maintenant placer notre code dans celui que nous 
 :.
 :.
 
-Et voilà, c'est tout bon pour les catégories !
+Et voilà, c'est tout bon pour les catégories ! Si cependant vous voulez aller plus loin, avec un contrôle plus fin de l'affichage et utiliser les fonctions
+de taxonomie avancées vous pouvez également jeter un oeil un oeil à ces fonctions :
+
+- [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestreefrombranches)
+- [`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.##getflattenedblogcategoriesfrombranches)
+- [`GetEntryCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrycategoriestreefrombranches)
+- [`GetFlattenedEntryCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::4.4.1:.##getflattenedentrycategoriesfrombranches)
