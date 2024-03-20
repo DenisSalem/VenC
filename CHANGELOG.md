@@ -47,10 +47,10 @@
     DONE | Enhance blog_configuration sanitation.
     DONE | Fix major bugs in taxonomy path processing.
     DONE | Add support for advanced taxonomy.
+    WIP  | Auto reload blog/ when server is running if blog is modified.
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Add RSS and Atom button to concrete.
-    TODO | Auto reload blog/ when server is running if blog is modified.
-    TODO | Update doc.
+    WIP | Update doc.
 
 # version 3.1.1
     DONE | Add support for virtual env and pipx install without breakage

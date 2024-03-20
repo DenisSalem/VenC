@@ -24,30 +24,6 @@ from venc3.helpers import rm_tree_error_handler
 from venc3.patterns.non_contextual import theme_includes_dependencies
 from venc3.patterns.processor import Processor, Pattern
 from venc3.prompt import notify
-
-def copy_recursively(src, dest):
-    import errno, os, shutil
-    try:
-        listdir = os.listdir(src)
-    except Exception as e:
-        from venc3.exceptions import VenCException
-        VenCException(("exception_place_holder", e)).die()
-        
-    for filename in listdir:
-        try:
-            shutil.copytree(src+filename, dest+filename)
-    
-        except shutil.Error as e:
-            from venc3.prompt import notify
-            notify(("directory_not_copied", str(e)), "YELLOW")
-            
-        except OSError as e:
-            if e.errno == errno.ENOTDIR:
-                shutil.copy(src+filename, dest+filename)
-
-            else:
-                from venc3.prompt import notify
-                notify(("directory_not_copied", str(e)), "YELLOW")
                 
 def export_via_ftp(params):
     export_blog(params)
@@ -253,8 +229,8 @@ def export_blog(params):
     from venc3.patterns.third_party_wrapped_features.pygmentize import code_highlight
     from venc3.datastore.theme import theme, theme_assets_dependencies
     from venc3.helpers import get_base_dir
-
     code_highlight.export_style_sheets()
+    from venc3.helpers import copy_recursively
     copy_recursively("extra/","blog/")
     copy_recursively(theme.theme_folder+"assets/","blog/")
     for depenpency in theme_assets_dependencies:

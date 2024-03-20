@@ -631,6 +631,7 @@ class DatastorePatterns:
 
     def get_flattened_blog_categories_from_branches(self, pattern, branches, sub_tree_string, sub_tree_separator, string, separator):
         '''value,html_id,count,weight,path,childs'''
+        
         return self.get_flattened_categories_from_branches(pattern, branches, sub_tree_string, sub_tree_separator, string, separator, False)         
         
     def get_flattened_entry_categories(self, pattern, string, separator):

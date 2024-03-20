@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2019 Denis Salem
+#    Copyright 2016, 2024 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -19,17 +19,64 @@
 
 import os
 import http.server
+import time
 import urllib.parse 
 
 from venc3.datastore.configuration import get_blog_configuration
+from venc3.helpers import copy_recursively
 
 blog_configuration = get_blog_configuration() # TODO: Load only in time.
 
-class VenCServer(http.server.CGIHTTPRequestHandler):
+WATCHED_FILES = {}
+LAST_WATCH_PASS = time.time()
+
+def get_files(folder=".."):
+    files = []
+    for item in os.listdir(folder):
+        if item in ["extra", "includes", "entries", "theme"] or (folder != ".."):
+            if os.path.isdir(folder+"/"+item):
+                files += get_files(folder+"/"+item)
+            else:
+                files += [folder+"/"+item]
+                
+    return files
+
+def watch_files():
+    global LAST_WATCH_PASS
+    global WATCHED_FILES
+    refresh_extra = False
+    refresh_assets = False
+
+    for path in get_files():
+        WATCHED_FILES[path] = os.path.getmtime(path)
+        if WATCHED_FILES[path] > LAST_WATCH_PASS:
+            if path[:len("../extra")] == "../extra":
+                refresh_extra |= True
+
+            elif path[:len("../theme/assets")] == "../theme/assets":
+                refresh_assets |= True
+                                
+            else:
+              return True
+              
+    if refresh_extra:
+        copy_recursively("../extra/", "./")
+
+    if refresh_assets:
+        copy_recursively("../theme/assets/", "./")
+        
+    LAST_WATCH_PASS = time.time()
+    
+    return False
+        
+class VenCServer(http.server.CGIHTTPRequestHandler):    
     def __init__(self, request, client_address, server):
         super().__init__(request, client_address, server)
     
     def do_GET(self):
+        if watch_files(): # will trigger partial refresh of extra and assets
+            pass
+        
         self.path = urllib.parse.unquote(self.path, encoding=blog_configuration["path_encoding"])
         super().do_GET()
 
@@ -37,8 +84,8 @@ class VenCServer(http.server.CGIHTTPRequestHandler):
         from venc3.datastore.hardcoded_assets import default_error_page
         self.error_message_format = default_error_page
         super().send_error(code, message, explain)
-
-def serv(params):
+            
+def serv(params):            
     from venc3.prompt import notify
 
     port = params[0] if len(params) else blog_configuration["server_port"]
@@ -49,6 +96,7 @@ def serv(params):
         notify(("do_not_use_in_production",), color="YELLOW")        
         notify(("serving_blog", port))
         httpd = http.server.HTTPServer(server_address, VenCServer)
+        update_watched_files()
         httpd.serve_forever()
 
     except OSError as e:
@@ -57,7 +105,7 @@ def serv(params):
         
     except KeyboardInterrupt:
         httpd.server_close()
-
+            
     except FileNotFoundError:
         from venc3.prompt import die
         die(("nothing_to_serv",))
