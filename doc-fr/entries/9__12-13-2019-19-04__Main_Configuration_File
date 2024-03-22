@@ -18,7 +18,7 @@ détaillé ci-dessous, vous n'aurez normalement plus besoin d'y revenir.
 
 ## blog_name
 
-Sans surprise, il s'agit du titre de votre blog.
+Sans surprise, il s'agit du titre de votre blog. Ce champ est obligatoire.
 
 ## disable_threads
 
@@ -77,7 +77,7 @@ text_editor:
 
 ## date_format
 
-"**%A %d. %B %Y**" par défaut. Définis le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous [ici](http://strftime.org).
+"**%A %d. %B %Y**" par défaut. Définis le format de date utilisé à l'intérieur du blog. Le format des dates est en fait le même que celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous [ici](http://strftime.org). Ce champ est obligatoire.
 
 ## author_name
 
@@ -122,9 +122,9 @@ Génère à nouveau le code CSS créé par le module [Pygments](https://pygments
 Attention : si ce champ est fixé à `True`, à chaque exportation de votre blog,
 les anciens codes CSS créés par [Pygments](https://pygments.org/languages/) seront écrasés.
 
-## path
+## paths
 
-Il s'agit d'une variable contenant différents chemins,
+Ce champ et et ce qu'il continent sont obligatoires. Il s'agit d'une variable de type `dict` contenant différents chemins,
 La liste de ces chemins est détaillée ci-dessous.
 
 ### ftp
@@ -174,7 +174,7 @@ celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous
 
 ## entries_per_pages
 
-*10* par défaut. Définis le nombre de publications par page.
+*10* par défaut. Définis le nombre de publications par page. Ce champ est obligatoire.
 
 ## columns
 
@@ -182,11 +182,11 @@ celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous
 
 ## feed_length
 
-*5* par défaut. Définis le nombre de publications à afficher dans le flux RSS.
+*5* par défaut. Définis le nombre de publications à afficher dans le flux RSS. Ce champ est obligatoire.
 
 ## reverse_thread_order
 
-Ce champ est un booléen, fixé à `True` par défaut. Définit l'ordre de publication. Du plus récent au plus ancien (`True`), ou l'inverse (`False`). 
+Ce champ est un booléen, fixé à `True` par défaut. Définit l'ordre de publication. Du plus récent au plus ancien (`True`), ou l'inverse (`False`). Ce champ est obligatoire.
 
 ## markup_language
 
@@ -200,6 +200,8 @@ Les valeurs possibles de ce champ sont :
 - `reStructuredText`
 - `asciidoc`
 - `none`
+
+Ce champ est obligatoire.
 
 ## server_port
 
@@ -241,3 +243,16 @@ Il est possible de contrôler le style de coloration syntaxique proposé par [Py
 un des noms de style documenté [ici](https://pygments.org/docs/styles/#builtin-styles) à cette option. Si vous changez le style et que
 `code_highlight_css_override` est configuré avec `False`, alors il faut supprimer les feuilles de styles déjà générées par VenC dans
 le répertoire `extra`.
+
+## default_theme
+
+Contient le nom du thème par défaut à utiliser :
+Normalement, si vous n'avez pas [installé de thème](.:GetChapterAttributeByIndex::path::5.9:.) dans le dossier de votre projet, vous êtes
+obligé de spécifier le nom d'un thème installé avec VenC au moment de générer votre blog. Par exemple : 
+
+> venc -xb concrete
+
+Si aucun thème n'est installé dans votre projet et si aucun nom de thème n'est passé en paramètre à la commande [`venc -xb`](.:GetChapterAttributeByIndex::path::5.4:.) alors VenC tentera
+d'utiliser l'option `default_theme` pour sélectionner un thème. Si vous n'avez pas de thème installé dans votre projet, il
+est important de définir cette variable  pour que la commande [`venc -s`](.:GetChapterAttributeByIndex::path::5.11:.) fonctionne correctement.
+

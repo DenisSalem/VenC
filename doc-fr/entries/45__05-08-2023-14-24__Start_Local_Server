@@ -15,3 +15,6 @@ Ou :
 Pour prévisualiser votre contenu, vous pouvez lancer un serveur local en
 spécifiant explicitement le port. Si le numéro de port n'est pas fourni, VenC utilisera celui défini dans
 le [fichier de configuration principal](.:GetChapterAttributeByIndex::path::3.2:.#server-port).
+
+À noter que si vous modifiez votre projet, VenC rafraichira votre contenu en régénérant le site automatiquement. Pour
+se faire VenC a besoin de connaitre le [`thème par défaut`](.:GetChapterAttributeByIndex::path::3.2:.#default-theme) à utiliser s'il n'y en a pas déjà un d'installé.
