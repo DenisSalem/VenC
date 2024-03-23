@@ -19,9 +19,11 @@
 
 import os
 import http.server
+from multiprocessing import Process
 import time
 import urllib.parse 
 
+from venc3.commands.export import export_blog
 from venc3.datastore.configuration import get_blog_configuration
 from venc3.helpers import copy_recursively
 
@@ -46,7 +48,8 @@ def watch_files():
     global WATCHED_FILES
     refresh_extra = False
     refresh_assets = False
-
+    refresh_all = False
+    
     for path in get_files():
         WATCHED_FILES[path] = os.path.getmtime(path)
         if WATCHED_FILES[path] > LAST_WATCH_PASS:
@@ -57,25 +60,34 @@ def watch_files():
                 refresh_assets |= True
                                 
             else:
-              return True
+              refresh_all |= True
+              break
               
-    if refresh_extra:
-        copy_recursively("../extra/", "./")
-
-    if refresh_assets:
-        copy_recursively("../theme/assets/", "./")
-        
     LAST_WATCH_PASS = time.time()
+    if refresh_all:
+        return True
+    else:
+        if refresh_extra:
+            copy_recursively("../extra/", "./")
     
-    return False
-        
+        if refresh_assets:
+            copy_recursively("../theme/assets/", "./")
+            
+        return False
+    
+def export_blog_wrapper(params):
+    os.chdir('..')
+    export_blog(params)
+    
 class VenCServer(http.server.CGIHTTPRequestHandler):    
     def __init__(self, request, client_address, server):
         super().__init__(request, client_address, server)
     
     def do_GET(self):
-        if watch_files(): # will trigger partial refresh of extra and assets
-            pass
+        if watch_files(): # will silently trigger partial refresh of extra and assets
+            sub_process = Process(target=export_blog_wrapper,args=([],))
+            sub_process.start()
+            sub_process.join()
         
         self.path = urllib.parse.unquote(self.path, encoding=blog_configuration["path_encoding"])
         super().do_GET()
@@ -96,7 +108,7 @@ def serv(params):
         notify(("do_not_use_in_production",), color="YELLOW")        
         notify(("serving_blog", port))
         httpd = http.server.HTTPServer(server_address, VenCServer)
-        update_watched_files()
+        watch_files()
         httpd.serve_forever()
 
     except OSError as e:

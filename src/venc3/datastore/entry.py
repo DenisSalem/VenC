@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2023 Denis Salem
+#    Copyright 2016, 2024 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -158,9 +158,9 @@ def yield_entries_content():
                 from venc3.prompt import notify
                 notify(("invalid_entry_filename", filename), "YELLOW")
     
-    except FileNotFoundError:
-        from venc3.prompt import die
-        die(("file_not_found", os.getcwd()+"/entries"))
+    except FileNotFoundError as e:
+        from venc3.exceptions import VenCException
+        raise VenCException(("file_not_found", str(e)))
 
 def get_latest_entryID():
     entries_list = sorted(yield_entries_content(), key = lambda entry : int(entry.split("__")[0]))

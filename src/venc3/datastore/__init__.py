@@ -79,7 +79,6 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
         self.cache_entries_subset = {}
         self.cache_get_entry_attribute_by_id = {}
         self.cache_get_chapter_attribute_by_index = {}
-        # ~ self.cache_entry_tocs = {}
         
         self.generation_timestamp = datetime.datetime.now()
         self.raw_chapters = {}
