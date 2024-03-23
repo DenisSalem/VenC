@@ -35,11 +35,12 @@ LAST_WATCH_PASS = time.time()
 def get_files(folder=".."):
     files = []
     for item in os.listdir(folder):
-        if item in ["extra", "includes", "entries", "theme"] or (folder != ".."):
-            if os.path.isdir(folder+"/"+item):
-                files += get_files(folder+"/"+item)
-            else:
-                files += [folder+"/"+item]
+        if item in ["extra", "includes", "entries", "theme", "blog_configuration.yaml"] or (folder != ".."):
+            if item[0] != '.':
+                if os.path.isdir(folder+"/"+item):
+                    files += get_files(folder+"/"+item)
+                else:
+                    files += [folder+"/"+item]
                 
     return files
 
