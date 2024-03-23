@@ -47,7 +47,7 @@
     DONE | Enhance blog_configuration sanitation.
     DONE | Fix major bugs in taxonomy path processing.
     DONE | Add support for advanced taxonomy.
-    WIP  | Auto reload blog/ when server is running if blog is modified.
+    DONE | Auto reload blog/ when server is running if blog is modified.
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Add RSS and Atom button to concrete.
     WIP | Update doc.
