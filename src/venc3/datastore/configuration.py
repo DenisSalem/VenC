@@ -25,6 +25,7 @@ def sanitize_optional_fields(blog_configuration):
         "blog_url": str,
         "code_highlight_css_override": bool,
         "columns": int,
+        "default_theme": str,
         "disable_archives": bool,
         "disable_atom_feed": bool,
         "disable_categories": bool,
@@ -56,26 +57,20 @@ def sanitize_optional_fields(blog_configuration):
 def setup_optional_fields(blog_configuration):
         sanitize_optional_fields(blog_configuration)
     
-        if not "sort_by" in blog_configuration.keys():
-            blog_configuration["sort_by"] = "id"
-
-        if not "pipe_flow" in blog_configuration.keys():
-            blog_configuration["pipe_flow"] = 512
-
-        if not "path_encoding" in blog_configuration.keys():
-            blog_configuration["path_encoding"] = "" # TODO: plz, what da fuck is this shit ?
-
-        if not "disable_threads" in blog_configuration.keys():
-            blog_configuration["disable_threads"] = []
-
-        if not "parallel_processing" in blog_configuration.keys():
-            blog_configuration["parallel_processing"] = 1
+        default_values = {
+            "default_theme" : '',
+            "sort_by" : "id",
+            "pipe_flow" : 512,
+            "path_encoding": "", # TODO: plz, what da fuck is this shit ?
+            "disable_threads" : [],
+            "parallel_processing" : 1,
+            "columns" : 1,
+            "server_port" : 8888
+        }
             
-        if not "columns" in blog_configuration.keys():
-            blog_configuration["columns"] = 1
-
-        if not "server_port" in blog_configuration.keys():
-            blog_configuration["server_port"] = 8888
+        for field in default_values.keys():
+            if not field in blog_configuration.keys():
+                blog_configuration[field] = default_values[field]
                         
         fields_set_to_false = [
           "code_highlight_css_override",

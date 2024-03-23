@@ -149,8 +149,7 @@ def process_non_contextual_patterns():
     except VenCException as e:    
         e.die()
 
-def export_blog(params):
-    theme_name = params[0] if len(params) else ''
+def export_blog(params):    
     import time
         
     start_timestamp = time.time()
@@ -160,6 +159,7 @@ def export_blog(params):
     notify(("pre_process",), prepend="├─ ")
     
     from venc3.datastore.theme import init_theme
+    theme_name = params[0] if len(params) else datastore.blog_configuration["default_theme"]
     init_theme(theme_name)
     from venc3.patterns.third_party_wrapped_features.pygmentize import init_code_highlight
     init_code_highlight()
