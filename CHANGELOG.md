@@ -4,10 +4,11 @@
     TODO | Add Incremental blog update.
     TODO | Add support for sub-sites within main site.
     TODO | Add support for single pages.
-    TODO | Add folder for blog_configuration, with multiple configuration file (for splitting the actual one).
-    TODO | Automatically merge all known entry authors into blog authors.
+
     
 # version 3.x.x
+    TODO | Add folder for blog_configuration, with multiple configuration file (for splitting the actual one).
+    TODO | Automatically merge all known entry authors into blog authors.
     TODO | https://github.com/all-contributors/all-contributors
     WIP  | Replace as much as possible usage of list with tuple.
     WIP  | Client-side search engine.
@@ -30,7 +31,6 @@
     TODO | Get input bytes and output bytes so not only we know the times but also the bandwidth
     TODO | Because of fully recursive pattern, some contextual variable might be useless, like {relative_origin}
     TODO | Concatenate user defined blog keywords with entries keywords.
-    TODO | Atom feed generation might be invalid, see : https://openweb.eu.org/articles/comment-construire-un-flux-atom
     TODO | https://pypi.org/project/pylint/
     TODO | Optionnaly Agregate ToC with chapter tree.
     TODO | Add in blog_configuration max_width and max_height for oEmbed content, add specific configuration per providers.
@@ -40,7 +40,6 @@
     TODO | Add nested archives.
     TODO | Verify header id uniqueness or warn about W3C complience.
     TODO | Add post-generation warning information. For example calling GetEntryPath while single entry pages is disabled should not be silent.
-    TODO | SetBackgroundColor for text
     
 # version 3.2.0
     DONE | Use EDITOR environment variable if available.
@@ -50,6 +49,7 @@
     DONE | Auto reload blog/ when server is running if blog is modified.
     TODO | Enhance FTP transfert with multiple connections.
     TODO | Add RSS and Atom button to concrete.
+    TODO | SetBackgroundColor for text
     WIP | Update doc.
 
 # version 3.1.1

@@ -77,7 +77,7 @@ class Taxonomy:
         category_directory_name = self.blog_configuration["paths"]["category_directory_name"]
 
         for item, sub_items in flatten_current_level(input_list):
-            if not len(item):
+            if not len(str(item)):
                 continue
     
             match = None
@@ -89,7 +89,7 @@ class Taxonomy:
                 die(("invalid_variable_name_in_setting", str(e), "category_directory_name"))
                 
             for node in blog_output_tree:
-                if node.value == item:
+                if node.value == str(item):
                     node.count +=1
                     node.weight_tracker.update()
                     node.related_to.append(entry_id)
@@ -98,7 +98,7 @@ class Taxonomy:
     
             if match == None:
                 metadata = MetadataNode(
-                    item, 
+                    str(item), 
                     entry_id,
                     path,
                     weight_tracker
