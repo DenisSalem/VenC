@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2024 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -22,9 +22,44 @@ import ftplib
 
 from venc3.prompt import notify
 
+def get_remote_files(ftp):
+    items = list()
+    for item in ftp.mlsd():
+        filename, info = item
+        if not filename in [".", ".."]:
+            if info["type"] == "dir":
+                cwd = ftp.pwd()
+                ftp.cwd(ftp.pwd()+"/"+filename)
+                items.append((ftp.pwd(), info))
+                items += get_remote_files(ftp)
+                ftp.cwd(cwd)
+                
+            else:
+                items.append((ftp.pwd()+"/"+filename, info))
+            
+    return items
+    
+def get_local_files(directory):
+    items = list()
+    for item in os.listdir(directory):
+        items.append(
+            (
+                directory+"/"+item,
+                {
+                    "type": "dir" if os.path.isdir(directory+"/"+item) else "file",
+                    "modify": os.path.getmtime(directory+"/"+item),
+                    "size": os.path.getsize(directory+"/"+item)
+                }
+            )
+        )
+        
+        if items[-1][1]["type"] == "dir":
+            items += get_local_files(directory+"/"+item)
+            
+    return items
+          
 def remote_copy(params):
     import getpass
-    import socket
 
     from venc3.datastore.configuration import get_blog_configuration
     from venc3.l10n import messages
@@ -34,87 +69,60 @@ def remote_copy(params):
     if not "ftp_host" in blog_configuration.keys():
         from venc3.prompt import die
         die(("undefined_variable", "ftp_host", "blog_configuration.yml"))
+
+    if not "ftp_port" in blog_configuration.keys():
+        blog_configuration["ftp_port"] = 21
         
     if len(blog_configuration["ftp_host"]) == 0:
         from venc3.prompt import die
         die(("invalid_value_in_setting", blog_configuration["ftp_host"], "ftp_host"))
     
     try:
-        ftp = ftplib.FTP(blog_configuration["ftp_host"])
-        ftp.encoding='latin-1'
-
-    except socket.gaierror as e:
-        from venc3.prompt import die
-        die(("exception_place_holder", str(e)))
+        ftp = ftplib.FTP()
+        ftp.encoding='latin-1' # TODO: is this necessary ?
+        ftp.connect(blog_configuration["ftp_host"], blog_configuration["ftp_port"], timeout=10)
         
-    username = input("VenC: "+messages.username)
-    user_passwd = getpass.getpass(prompt="VenC: "+messages.user_passwd)
+        username = input("VenC: "+messages.username)
+        user_passwd = getpass.getpass(prompt="VenC: "+messages.user_passwd)
     
-    try:
-      if not "ftp" in blog_configuration["paths"].keys():
-          from venc3.prompt import die
-          die(("undefined_variable", "ftp", "blog_configuration.yml"))
+        if not "ftp" in blog_configuration["paths"].keys():
+            from venc3.prompt import die
+            die(("undefined_variable", "ftp", "blog_configuration.yml"))
+            
+        if len(blog_configuration["paths"]["ftp"]) == 0:
+            from venc3.prompt import die
+            die(("invalid_value_in_setting", blog_configuration["ftp"], "ftp"))
           
-      if len(blog_configuration["paths"]["ftp"]) == 0:
-          from venc3.prompt import die
-          die(("invalid_value_in_setting", blog_configuration["ftp"], "ftp"))
-        
         ftp.login(user=username,passwd=user_passwd)
         ftp.cwd(blog_configuration["paths"]["ftp"])
-        notify(("clean_ftp_directory",))
-        ftp_clean_destination(ftp)
-        notify(("copy_to_ftp_directory",))
-        ftp_export_recursively(os.getcwd()+"/blog", ftp)
+        
+        notify(("sync_ftp_directory",))
+        local_files = { item[0][len(os.getcwd()+"/blog/"):] : item for item in get_local_files(os.getcwd()+"/blog") }
+        remote_files = { item[0][len('/'+blog_configuration["paths"]["ftp"]+'/'):] : item for item in get_remote_files(ftp) }        
+        
+        to_delete = {}
+        to_update = {}
+        to_create = {}
+        for item in local_files.keys():
+            if not item in remote_files.keys():
+                to_create[item] = local_files[item]
+            elif local_files[item]["size"] != remote_files[item]["size"]:
+                to_update[item] = local_files[item]
+                
+        for item in remote_files.keys():
+            if not item in loca_files.keys():
+                to_delete[item] = remote_files[item]
     
-    except TimeoutError as e:
+        from venc3.prompt import get_formatted_message
+        for item in to_create.keys():
+            print(get_formatted_message(item[0], color="GREEN", prompt=""))
+            
+        for item in to_update.keys():
+            print(get_formatted_message(item[0], color="YELLOW", prompt=""))
+            
+        for item in to_delete.keys():
+            print(get_formatted_message(item[0], color="RED", prompt=""))
+          
+    except Exception as e:
         from venc3.prompt import die
         die(("exception_place_holder", str(e)))
-    
-    except ftplib.error_perm as e:
-        from venc3.prompt import die
-        die(("exception_place_holder", str(e)))
-
-def ftp_export_recursively(origin, ftp):
-        folder = os.listdir(origin)
-        for item in folder:
-            if os.path.isdir(origin+"/"+item):
-                try:
-                    try:
-                        ftp.mkd(item)
-
-                    except ftplib.error_perm as e:
-                        if not ": File exists" in str(e.args):
-                            from venc3.prompt import die
-                            die(("exception_place_holder", str(e)))
-                    
-                    ftp.cwd(ftp.pwd()+"/"+item)
-                    ftp_export_recursively(origin+"/"+item, ftp)
-                    ftp.cwd(ftp.pwd()[:-len("/"+item)])
-
-                except Exception as e:
-                    notify(("exception_place_holder", item+": "+str(e)), color="YELLOW")
-
-            else:
-                notify(("item_uploaded_to_server", ftp.pwd()+"/"+item))
-                ftp.storbinary("STOR "+ftp.pwd()+"/"+item, open(origin+"/"+item, 'rb'))
-
-def ftp_clean_destination(ftp):
-    listing = list()
-    listing = ftp.nlst()
-
-    for item in listing:
-        if item not in ['.','..']:
-            try:
-                ftp.delete(item)
-                notify(("item_deleted_from_server", ftp.pwd()+"/"+item))
-
-
-            except Exception:
-                try:
-                    ftp.rmd(item)
-                    notify(("item_deleted_from_server", ftp.pwd()+"/"+item))
-
-                except:
-                    ftp.cwd(ftp.pwd()+"/"+item)
-                    ftp_clean_destination(ftp)
-                    ftp.cwd(ftp.pwd()[:-len("/"+item)])

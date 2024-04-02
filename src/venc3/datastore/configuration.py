@@ -35,7 +35,9 @@ def sanitize_optional_fields(blog_configuration):
         "disable_rss_feed" : bool,
         "disable_single_entries": bool,
         "disable_threads": list,
+        "ftp_sessions": int,
         "ftp_host": str,
+        "ftp_port": int,
         "path_encoding": str, 
         "parallel_processing": int,
         "pipe_flow": int,
@@ -50,9 +52,12 @@ def sanitize_optional_fields(blog_configuration):
                 from venc3.prompt import die
                 die(("field_is_not_of_type", field, "blog_configuration.yaml", fields[field].__name__))
                 
-    if "ftp" in blog_configuration["paths"].keys() and not type(blog_configuration["paths"]["ftp"]) == str:  # TODO: check when used
-        from venc3.prompt import die
-        die(("field_is_not_of_type", field, "blog_configuration.yaml", fields[field].__name__))
+    if "ftp" in blog_configuration["paths"].keys():
+        if not type(blog_configuration["paths"]["ftp"]) == str:  # TODO: check when used
+            from venc3.prompt import die
+            die(("field_is_not_of_type", field, "blog_configuration.yaml", fields[field].__name__))
+        else:
+            blog_configuration["paths"]["ftp"] = '/'.join([directory for directory in blog_configuration["paths"]["ftp"].split('/') if len(directory) ])
                 
 def setup_optional_fields(blog_configuration):
         sanitize_optional_fields(blog_configuration)
