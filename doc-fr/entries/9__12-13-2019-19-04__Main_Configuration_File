@@ -103,9 +103,23 @@ La licence appliquée au contenu de votre site.
 
 L'URL du blog. Elle peut être laissée vide, selon le thème utilisé.
 
+## ftp_encoding
+
+Par défaut l'encodage des sessions `FTP` est en `latin-1` mais ça pourrait ne pas convenir à la configuration
+de votre serveur vous pouvez donc définir l'encodage qui va bien ici.
+
 ## ftp_host
 
-Il s'agit du nom d'hôte de votre serveur FTP, s'il existe.
+Il s'agit du nom d'hôte ou de l'adresse `IP` de votre serveur `FTP`.
+
+## ftp_port
+
+Il s'agit du `port` de l'hôte de votre serveur `FTP`. Si ce champ n'est pas définit il est fixé à 21 par défaut.
+
+## ftp_sessions
+
+Il s'agit d'un nombre entier spécifiant le nombre simultané de connexion FTP que VenC va utiliser pour transférer votre site. Par défaut
+ce nombre est fixé à 4.
 
 ## blog_language
 

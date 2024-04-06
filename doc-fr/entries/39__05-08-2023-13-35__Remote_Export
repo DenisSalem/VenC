@@ -24,6 +24,12 @@ Ou encore à :
 
 Cependant, VenC utilise les informations du [fichier de
 configuration principale](.:GetChapterAttributeByIndex::path::3.2:.)
-pour transférer votre projet exporté sur un [serveur distant prédéfini](.:GetChapterAttributeByIndex::path::3.2:.#ftp-host) à l'[emplacement désiré](.:GetChapterAttributeByIndex::path::3.2:.#ftp).
+pour transférer votre projet exporté sur un [serveur distant prédéfini](.:GetChapterAttributeByIndex::path::3.2:.#ftp-host)
+à l'[emplacement désiré](.:GetChapterAttributeByIndex::path::3.2:.#ftp).
 
+Vous pouvez également paramétrer les choses suivantes dans le [fichier de configuration principale](.:GetChapterAttributeByIndex::path::3.2:.) :
+
+- [Le port du serveur](.:GetChapterAttributeByIndex::path::3.2:.#ftp-port)
+- [L'encodage du serveur](.:GetChapterAttributeByIndex::path::3.2:.#ftp-encoding)
+- [Le nombre de sessions simultanées](.:GetChapterAttributeByIndex::path::3.2:.#ftp-sessions)
 
