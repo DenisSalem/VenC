@@ -47,7 +47,7 @@
     DONE | Fix major bugs in taxonomy path processing.
     DONE | Add support for advanced taxonomy.
     DONE | Auto reload blog/ when server is running if blog is modified.
-    TODO | Enhance FTP transfert with multiple connections.
+    DONE | Enhance FTP transfert. See framagit issue #80.
     TODO | Add RSS and Atom button to concrete.
     TODO | SetBackgroundColor for text
     WIP | Update doc.
