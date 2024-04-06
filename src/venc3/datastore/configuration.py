@@ -35,9 +35,10 @@ def sanitize_optional_fields(blog_configuration):
         "disable_rss_feed" : bool,
         "disable_single_entries": bool,
         "disable_threads": list,
-        "ftp_sessions": int,
+        "ftp_encoding": str,
         "ftp_host": str,
         "ftp_port": int,
+        "ftp_sessions": int,
         "path_encoding": str, 
         "parallel_processing": int,
         "pipe_flow": int,
@@ -70,7 +71,10 @@ def setup_optional_fields(blog_configuration):
             "disable_threads" : [],
             "parallel_processing" : 1,
             "columns" : 1,
-            "server_port" : 8888
+            "server_port" : 8888,
+            "ftp_port": 21,
+            "ftp_encoding": "latin-1",
+            "ftp_sessions": 4
         }
             
         for field in default_values.keys():
