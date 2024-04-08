@@ -94,7 +94,7 @@ class DatastorePatterns:
             return if_true
                         
     def get_chapters(self, pattern, list_open, item_open, item_close, list_close):
-        '''index,title,path,level'''
+        '''index,title,path,level,html_id'''
         key = list_open+item_open+item_close+list_close
         if not key in self.html_chapters.keys():
             self.html_chapters[key] = self.build_html_chapters(list_open, item_open, item_close, list_close, self.chapters_index, 0)
@@ -443,7 +443,8 @@ class DatastorePatterns:
         return output
 
     def for_blog_archives(self, pattern, string, separator):
-        '''value,path,count,weight'''
+        '''value,path,count,weight,html_id'''
+        from venc3.helpers import quirk_encoding
         key = string+','+separator
         if not key in self.cache_blog_archives.keys():
             if self.blog_configuration["disable_archives"]:
@@ -452,6 +453,7 @@ class DatastorePatterns:
             else:
                 archives = [{
                     "value" : o.value,
+                    "html_id" : quirk_encoding(o.value),
                     "path" : o.path,
                     "count" : o.count,
                     "weight" : round(o.count / o.weight_tracker.value,2)
@@ -461,11 +463,11 @@ class DatastorePatterns:
         return self.cache_blog_archives[key]
 
     def for_blog_metadata(self, pattern, metadata_name, string, separator=''):
-        '''value'''
+        '''value,html_id'''
         return self.for_blog_metadata_if_exists(pattern, metadata_name, string, separator, raise_exception=True)
 
     def for_blog_metadata_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):
-        '''value'''
+        '''value,html_id'''
         key = metadata_name+','+string+','+separator+','+str(raise_exception)
         if not key in self.html_for_metadata:
             if not metadata_name in self.blog_configuration.keys():
@@ -487,11 +489,11 @@ class DatastorePatterns:
         return self.html_for_metadata[key]
 
     def for_entry_metadata(self, pattern, metadata_name, string, separator=''):
-        '''value'''
+        '''value,html_id'''
         return self.for_entry_metadata_if_exists(pattern, metadata_name, string, separator, raise_exception=True)
 
     def for_entry_metadata_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):    
-        '''value'''    
+        '''value,html_id'''    
         entry = self.requested_entry
         key = metadata_name+string+separator
             
@@ -523,15 +525,15 @@ class DatastorePatterns:
         return entry.html_for_metadata[key]
             
     def for_entry_authors(self, pattern, string, separator=' '):
-        '''value'''
+        '''value,html_id'''
         return self.for_entry_metadata(pattern, "authors", string, separator)
 
     def get_blog_metadata_tree(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node):
-        '''value,tree'''
+        '''value,tree,html_id'''
         return self.get_blog_metadata_tree_if_exists(pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
 
     def get_blog_metadata_tree_if_exists(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
-        '''value,childs'''
+        '''value,childs,html_id'''
         metadata_name = metadata_name.strip()
         key = metadata_name+','+open_node+','+open_branch+value_childs+','+value+','+close_branch+','+close_node+','+str(raise_exception)
         if key in self.html_tree_for_blog_metadata.keys():
@@ -550,11 +552,11 @@ class DatastorePatterns:
         return self.html_tree_for_blog_metadata[key]
         
     def get_entry_metadata_tree(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node):
-        '''value,childs'''
+        '''value,childs,html_id'''
         return self.get_entry_metadata_tree_if_exists(pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=True)
         
     def get_entry_metadata_tree_if_exists(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node, raise_exception=False):
-        '''value,childs'''
+        '''value,childs,html_id'''
         entry = self.requested_entry
         source = metadata_name.strip()
         if not hasattr(entry, metadata_name):
@@ -569,7 +571,7 @@ class DatastorePatterns:
 
 
     def get_flattened_categories(self, pattern, string, separator, from_entry = False, from_branch = None):
-        '''value,count,weight,path'''
+        '''value,count,weight,path,html_id'''
 
         if self.blog_configuration["disable_categories"]:
             return ''
@@ -603,6 +605,8 @@ class DatastorePatterns:
         return cache[key]             
 
     def get_flattened_categories_from_branches(self, pattern, branches, sub_tree_string, sub_tree_separator, string, separator, from_entry):
+        '''value,count,weight,path,html_id'''
+
         branches = branches.strip()
         self.test_blog_configuration_field(pattern, branches, list)
         
@@ -705,6 +709,7 @@ class DatastorePatterns:
             )
             
     def tree_for_metadata(self, source, open_node, open_branch, value_childs, value, close_branch, close_node):
+        from venc3.helpers import quirk_encoding
         try:
             items = [
                 open_branch+value.format(
@@ -712,6 +717,7 @@ class DatastorePatterns:
                 )+close_branch if type(item) != dict else open_branch+value_childs.format(
                     **{
                         "value" : tuple(item.keys())[0],
+                        "html_id" : quirk_encoding(tuple(item.keys())[0]),
                         "childs": self.tree_for_metadata(tuple(item.values())[0], open_node, open_branch, value_childs, value, close_branch, close_node)
                     }
                 )+close_branch for item in source

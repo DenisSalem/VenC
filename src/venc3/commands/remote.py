@@ -84,7 +84,7 @@ def ftp_session(session_id, blog_configuration, username, user_passwd):
                 break                    
 
         while len(to_delete.keys()):
-            for item in sorted(to_delete].keys(), key=lambda x:to_delete[x]["priority"], reverse=True):
+            for item in sorted(to_delete.keys(), key=lambda x:to_delete[x]["priority"], reverse=True):
                 if not cross_thread_lookup(item, "to_delete"):
                     try:
                         if to_delete[item]["type"] == "dir":

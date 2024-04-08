@@ -168,11 +168,14 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
             return ''
             
         output = lo.format(**{"level" :level})
-
+        
+        from venc3.helpers import quirk_encoding
+        
         for sub_chapter in top:
             output += io.format(**{
                 "index": sub_chapter.index,
                 "title": self.entries[sub_chapter.entry_index].title,
+                "html_id" : quirk_encoding(self.entries[sub_chapter.entry_index].title),
                 "path":  sub_chapter.path,
                 "level": level
             })
