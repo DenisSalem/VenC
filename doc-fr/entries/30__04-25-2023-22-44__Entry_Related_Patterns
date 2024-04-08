@@ -28,7 +28,10 @@ un thème :
 
 Retourne la liste des auteurs de la publication.
 
-Le premier argument est une chaîne de caractères à formater avec la variable `{value}` contenant le nom de l'auteur courant.
+Le premier argument est une chaîne de caractères à formater avec les variables
+
+- __`value`__ : contient le nom de l'auteur courant.
+- __`html_id`__: le nom de l'auteur courant, mais formaté pour être utilisé comme un `ID HTML`.
 
 Le second paramètre est une chaîne de caractères servant de séparateur.
 
@@ -38,8 +41,10 @@ Le second paramètre est une chaîne de caractères servant de séparateur.
 
 Il est possible de définir des métadonnées sous la forme de listes.
 
-Le premier argument est une chaîne de caractères à formater avec la variable 
-`{value}` contenant l'élément courant de la liste.
+Le premier argument est une chaîne de caractères à formater avec les variables :
+
+- __`value`__ : contient l'élément courant de la liste.
+- __`html_id`__ : le nom de la catégorie courante, mais formaté pour être utilisé comme un ID HTML.
 
 Le second paramètre est une chaîne de caractères servant de séparateur.
 
@@ -283,6 +288,7 @@ Les arguments de ce motif sont les suivants :
 Ce motif possède les variables suivantes :
 
 - __`value`__ : contient la valeur de l'item courant. Vous pouvez utiliser cette variable dans les arguments `value` et `value_childs`.
+- __`html_id`__ : le nom de la métadonnée courante, mais formaté pour être utilisé comme un ID HTML.
 - __`childs`__ : contient le bloc enfant de l'item courant. Vous ne pouvez utiliser cette variable que dans l'argument `value_childs`.
 
 Voici un exemple d'utilisation de ce pattern. Étant donné la métadonnée suivante dans l'entête d'une publication :
@@ -471,7 +477,7 @@ Les arguments de ce motif sont :
 Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
-- __`html_id`__: Le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
 - __`count`__ : le nombre de publications dans cette catégorie.
 - __`weight`__ : le nombre de publications dans cette catégorie, divisé par le nombre de publications ayant une catégorie.
 - __`path`__ : le chemin relatif menant au fil de publication de la catégorie courante.

@@ -19,7 +19,7 @@ feed_length: 15
 ftp_host: ftp.tuxfamily.org
 license: 'CC-By-SA'
 markup_language: Markdown
-parallel_processing: 8
+parallel_processing: 1
 paths:
   archives_directory_name: '%Y-%m'
   archives_sub_folders: ''
