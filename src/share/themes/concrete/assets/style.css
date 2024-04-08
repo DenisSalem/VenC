@@ -88,13 +88,18 @@ blockquote, pre
   padding-right:10px;
   padding-bottom: 10px;}
 
+#__VENC_NAVIGATION__ a,
+.entry a
+  {text-decoration: underline;
+  color: rgba(0,0,0,0.8);
+  text-shadow: 0px 1px 0px rgba(255,255,255,1);}
+  
 .engrave,
 .__VENC_TREE_BUTTON_SHOW__,
 .__VENC_TREE_BUTTON_DISABLED__,
 .__VENC_TREE_BUTTON_HIDE__,
-#__VENC_NAVIGATION__ a,
-.entry a,
 .entry h1,
+.entry h1 a,
 .entry h2,
 .entry h3,
 .entry h4,
