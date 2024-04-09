@@ -112,10 +112,9 @@ Motifs::Arguments::Variables::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.3:.#latex2mathml"><code>Latex2MathML</code></a>::<ul><li><code>tex_math_string</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.3:.#previewifinthreadelsecontent"><code>PreviewIfInThreadElseContent</code></a>::<ul></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.2:.#rangeentriesbyid"><code>RangeEntriesByID</code></a>::<ul><li><code>begin_at</code></li><li> <code>end_at</code></li></ul>::::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::4.4.3:.#setbackgroundcolor"><code>SetBackgroundColor</code></a>::<ul><li><code>color</code></li><li> <code>string</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.3:.#setcolor"><code>SetColor</code></a>::<ul><li><code>color</code></li><li> <code>string</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.3:.#setstyle"><code>SetStyle</code></a>::<ul><li><code>tag_id</code></li><li> <code>tag_class</code></li><li> <code>string</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.3:.#table"><code>Table</code></a>::<ul><li><code>arg 1</code></li><li><code>arg 2</code></li><li><code>arg n...</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.3:.#video"><code>Video</code></a>::<ul><li><code>source</code></li><li> <code>extensions</code></li><li> <code>poster</code></li></ul>::<ul><li><code>source</code></li><li><code>poster</code></li></ul>
 :.
-
-

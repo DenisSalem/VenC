@@ -499,6 +499,15 @@ Le résultat étant :
 
 .:Latex2MathML::\overline{z^{n+1}} = {\overline{z}}^{n+1}:.
 
+#### SetBackgroundColor
+
+> .:Escape:: .:SetBackgroundColor::color::input_text:. :.
+
+Ce motif permet de formater du texte avec la couleur de fond de son choix et prend deux arguments :
+
+- __`input_text`__ : le texte à formater. Peut contenir d'autres motifs.
+- __`color`__ : la couleur désirée, telle que spécifiée par [CSS](https://developer.mozilla.org/fr/docs/Web/CSS/color_value).
+
 #### SetColor
 
 > .:Escape:: .:SetColor::color::input_text:. :.
