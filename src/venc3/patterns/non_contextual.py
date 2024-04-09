@@ -32,7 +32,10 @@ def html(pattern, *content):
     
 def get_venc_version(pattern):
     return venc_version
-    
+
+def set_background_color(pattern, color, string):        
+    return "<span class=\"__VENC_TEXT_COLOR__\" style=\"background-color: "+color+";\">"+string+"</span>"
+        
 def set_color(pattern, color, string):        
     return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+color+";\">"+string+"</span>"
 

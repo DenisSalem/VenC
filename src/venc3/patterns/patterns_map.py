@@ -123,6 +123,7 @@ class PatternsMap():
             "Kroki":	                  "venc3.patterns.third_party_wrapped_features.kroki.kroki",
             "KrokiFromFile":	          "venc3.patterns.third_party_wrapped_features.kroki.kroki_from_file",
             "Latex2MathML":	            "venc3.patterns.third_party_wrapped_features.latex2mathml.latex_2_mathml",
+            "SetBackgroundColor":	      "venc3.patterns.non_contextual.set_background_color",
             "SetColor":	                "venc3.patterns.non_contextual.set_color",
             "SetStyle":	                "venc3.patterns.non_contextual.set_style",
             "Table":	                  "venc3.patterns.non_contextual.table",
