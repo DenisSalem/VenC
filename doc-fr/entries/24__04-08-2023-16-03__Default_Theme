@@ -49,3 +49,5 @@ le théme utilise une métadonnée __obligatoire__ nommée `taxonomy` contenant 
 - __`force_entry_content`__ : il s'agit d'un `booléen` pour forcer l'affichage du contenu des publications dans les fils de publications.
 - __`loading_image`__ : il s'agit du nom de fichier d'une éventuelle image de chargement à afficher quand le défilement infini est activé.
 - __`include_in_footer`__ : il s'agit du nom de fichier d'un éventuel pied de page HTML à inclure.
+- __`disable_rss_feed`__ : Empêche VenC de générer un flux RSS. Ce champ est un booléen, fixé à `False` par défaut.
+- __`disable_atom_feed`__ : Empêche VenC de générer un flux Atom. Ce champ est un booléen, fixé à `False` par défaut.
