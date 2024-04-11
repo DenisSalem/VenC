@@ -22,6 +22,22 @@ un thème :
 - [`atomEntry.html`](.:GetChapterAttributeByIndex::path::3.6:.)
 - [`rssEntry.html`](.:GetChapterAttributeByIndex::path::3.6:.)
 
+#### CherryPickEntryMetadata
+
+> .:Escape:: .:CherryPickEntryMetadata::branch_1[::branch_2::branch_n]:. :.
+
+Permet de récupérer le contenu de la métadonnée contenu dans un ou plusieurs dictionnaires. Pour ce faire cette fonction prend
+au moins un paramètre qui désigne le nom d'un champ à la racine du document Yaml d'une publication.
+
+Par exemple :
+
+> .:Escape:: .:CherryPickEntryMetadata::moo::foo::bar:. :.
+
+#### CherryPickEntryMetadataIfExists
+
+Identique à [`CherryPickEntryMetadata`](.:GetChapterAttributeByIndex::path::4.4.1:.#cherrypickentrymetadata) mais est ignoré en cas
+d'erreur.
+
 #### ForEntryAuthors
 
 > .:Escape:: .:ForEntryAuthors::string::separator:. :.

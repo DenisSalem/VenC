@@ -19,6 +19,22 @@ Ces motifs sont globaux, donc utilisables partout. Comme pour les motifs de publ
 ce sont les premiers à être interprétés par VenC. Contrairement aux motifs contextuels, ceux-là sont
 exécutés une et une seule fois.
 
+#### CherryPickBlogMetadata
+
+> .:Escape:: .:CherryPickBlogMetadata::branch_1[::branch_2::branch_n]:. :.
+
+Permet de récupérer le contenu de la métadonnée contenu dans un ou plusieurs dictionnaires. Pour ce faire cette fonction prend
+au moins un paramètre qui désigne le nom d'un champ à la racine du [fichier de configuration principale](.:GetChapterAttributeByIndex::path::3.2:.).
+
+Par exemple :
+
+> .:Escape:: .:CherryPickBlogMetadata::paths::rss_file_name:. :.
+
+#### CherryPickBlogMetadataIfExists
+
+Identique à [`CherryPickBlogMetadata`](.:GetChapterAttributeByIndex::path::4.4.2:.#cherrypickblogmetadata) mais est ignoré en cas
+d'erreur.
+
 #### ForBlogArchives
 
 > .:Escape:: .:ForBlogArchives::string::separator:. :.
@@ -180,7 +196,7 @@ catégories filles, alors les arguments `open_node` et `close_node` sont ajouté
 une nouvelle liste de sous-catégories est générée entre ces deux arguments,
 en utilisant les arguments `open_branch` et `close_branch`.
 
-Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
+Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le [fichier de configuration principale](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
 
 
 #### GetBlogCategoriesTreeFromBranches
@@ -202,7 +218,7 @@ de l'arbre des categories pour l'afficher individuellement à l'intérieur de `s
 
 Les arguments du motif sont les suivants :
 
-- **`branches`** : contient le nom de la métadonnée définit dans le fichier de configuration qui elle même contient une liste de nom de branche. Ces noms de branches correspondent à des items à la racine de l'arbre de categories.
+- **`branches`** : contient le nom de la métadonnée définit dans le [`fichier de configuration`](.:GetChapterAttributeByIndex::path::3.2:.) qui elle même contient une liste de nom de branche. Ces noms de branches correspondent à des items à la racine de l'arbre de categories.
 - **`sub_tree_string`** : contient la chaîne de caractères contenant la branche courante.
 - **`separator`** : Contient la chaine de caractères de séparation. Chaque itération de la branche courante est jointe avec le contenu de `separator`.
 - **`open_node`** : contient la chaîne de caractères d'ouverture pour la catégorie parente.
