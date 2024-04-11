@@ -83,7 +83,7 @@ class Messages:
     theme_has_no_description = "This theme has no description."
     undefined_variable = "{0} is undefined in {1}."
     entry_has_no_metadata_like = "Entry has no metadata identified by \"{0}\"."
-    blog_has_no_metadata_like = "Blog has no metadata identified by {0}."
+    blog_has_no_metadata_like = "Blog has no metadata identified by \"{0}\"."
     invalid_range = "Invalid range {0}:{1}."
     entry_metadata_is_not_a_list = "Metadata identified by \"{0}\" from entry {1} is not a list."
     blog_metadata_is_not_a_list = "Metadata identified by \"{0}\" blog configuration file is not a list."

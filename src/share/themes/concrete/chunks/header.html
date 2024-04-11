@@ -4,6 +4,10 @@
     <head>
         <meta name="generator" content="VenC-.:GetVenCVersion:." />
         <meta charset="utf-8">
+        .:IfInThread::
+            .:IfRSSEnabled::<link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="rss_feed.xml" />:.
+            .:IfAtomEnabled::<link rel="alternate" type="application/atom+xml" title=".:GetBlogName:." href="atom_feed.xml" />:.
+        :.
         <title>.:GetBlogName:.</title>
         .:GetStyleSheets:.
         <!-- Forgive me Internet for I have sinned with this ugly CSS menu hack implying questionable semantics. -->

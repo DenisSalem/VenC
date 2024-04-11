@@ -28,6 +28,53 @@ def merge(iterable, string, separator, pattern):
         raise VenCException(("unknown_contextual", str(e)), pattern)
 
 class DatastorePatterns:
+    def cherry_pick_metadata(self, pattern, source, if_exists,  path):
+        from venc3.datastore.entry import Entry
+
+        if not len(path):
+            from venc3.exceptions import VenCException
+            raise VenCException(("wrong_args_number", ">= 1", "0"), context=self)
+            
+        try:
+            node = getattr(source, path[0]) if type(source) == Entry else source[path[0]]
+            previous_key = path[0]
+            for key in path[1:]:
+                node = node[key]
+                previous_key = key
+
+            return str(node)
+            
+        except TypeError:
+            from venc3.exceptions import VenCException
+            raise VenCException(("field_is_not_of_type", previous_key, source.title if type(source) == Entry else"blog_configuration.yaml", dict), pattern)
+            
+        except Exception as e:
+            if not type(e) in[KeyError, AttributeError]:
+                raise e
+            
+            if if_exists:
+                return ""
+                
+            if type(source) == Entry:
+                exception_params = ("entry_has_no_metadata_like", source.title, ' -> '.join(path))
+            else:
+                exception_params = ("blog_has_no_metadata_like", ' -> '.join(path))
+                
+            from venc3.exceptions import VenCException
+            raise VenCException(exception_params, pattern)
+            
+    def cherry_pick_blog_metadata(self, pattern, *path):
+        return self.cherry_pick_metadata(pattern, self.blog_configuration, False, path)
+
+    def cherry_pick_blog_metadata_if_exists(self, pattern, *path):
+        return self.cherry_pick_metadata(pattern, self.blog_configuration, True, path)
+
+    def cherry_pick_entry_metadata(self, pattern, *path):
+        return self.cherry_pick_metadata(pattern, self.requested_entry, False, path)
+
+    def cherry_pick_entry_metadata_if_exists(self, pattern, *path):
+        return self.cherry_pick_metadata(pattern, self.requested_entry, True, path)
+        
     def if_categories(self, pattern, if_true, if_false=''):
         if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:
             return if_true
@@ -119,7 +166,8 @@ class DatastorePatterns:
             return str(self.blog_configuration[metadata_name])
             
         except KeyError:
-            raise VenCException(("blog_has_no_metadata_like", metadata_name), context=self)
+            from venc3.exceptions import VenCException
+            raise VenCException(("blog_has_no_metadata_like", metadata_name), pattern)
             
     def get_blog_metadata_if_exists(self, pattern, metadata_name, if_true='', if_false='', ok_if_null=True):
         try:

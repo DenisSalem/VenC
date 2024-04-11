@@ -48,9 +48,10 @@
     DONE | Add support for advanced taxonomy.
     DONE | Auto reload blog/ when server is running if blog is modified.
     DONE | Enhance FTP transfert. See framagit issue #80.
-    DONE | SetBackgroundColor for text
-    TODO | Add RSS and Atom button to concrete.
-    WIP | Update doc.
+    DONE | Add SetBackgroundColor for text
+    WIP  | Add CherryPick*Metadata
+    WIP  | Add RSS and Atom button to concrete.
+    WIP  | Update doc.
 
 # version 3.1.1
     DONE | Add support for virtual env and pipx install without breakage

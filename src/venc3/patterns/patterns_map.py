@@ -46,6 +46,8 @@ class PatternsMap():
 
     NON_CONTEXTUALS = { # all of the below is loaded from datastore
         "entries" : { 
+            "CherryPickEntryMetadata":                  "cherry_pick_entry_metadata",
+            "CherryPickEntryMetadataIfExists":          "cherry_pick_entry_metadata_if_exists",
             "ForEntryAuthors":	                        "for_entry_authors",
             "ForEntryMetadata":	                        "for_entry_metadata",
             "ForEntryMetadataIfExists":	                "for_entry_metadata_if_exists",   
@@ -74,6 +76,8 @@ class PatternsMap():
             "IfEntryMetadataIsTrue":	                  "if_entry_metadata_is_true",
         },
         "blog": {
+            "CherryPickBlogMetadata":                 "cherry_pick_blog_metadata",
+            "CherryPickBlogMetadataIfExists":         "cherry_pick_blog_metadata_if_exists",
             "ForBlogArchives":	                      "for_blog_archives",
             "ForBlogMetadata":                        "for_blog_metadata",
             "ForBlogMetadataIfExists":                "for_blog_metadata_if_exists",
@@ -115,7 +119,7 @@ class PatternsMap():
             "CodeHighlightInclude":	    "venc3.patterns.third_party_wrapped_features.pygmentize.highlight_include",
             "DisableMarkup":	          "venc3.patterns.non_contextual.disable_markup",
             "Escape":                   "venc3.patterns.non_contextual.escape",
-            "GetEmbedContent":	           "venc3.patterns.third_party_wrapped_features.oembed.wrapper_embed_content",
+            "GetEmbedContent":	        "venc3.patterns.third_party_wrapped_features.oembed.wrapper_embed_content",
             "GetVenCVersion":	          "venc3.patterns.non_contextual.get_venc_version",
             "HTML":                     "venc3.patterns.non_contextual.html",
             "IncludeFile":	            "venc3.patterns.non_contextual.include_file",
