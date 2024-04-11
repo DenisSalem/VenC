@@ -4,6 +4,8 @@ categories:
   - ''
 chapter: '1'
 title: Présentation
+test:
+  a : 1
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 VenC est un logiciel libre écrit en Python conçu pour GNU/Linux, dont le développement a commencé en 2012 pour gérer et créer vos blogs statiques via la console. Avec VenC, tout est fichier texte, il n'y a pas de base de données.

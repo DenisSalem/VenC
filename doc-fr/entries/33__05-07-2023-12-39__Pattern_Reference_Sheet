@@ -19,6 +19,10 @@ s'offrent à vous.
 .:Table::
 Motifs::Arguments::Variables::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.3:.#audio"><code>Audio</code></a>::<ul><li><code>source</code></li><li> <code>extensions</code></li></ul>::<ul><li><code>source</code></li></ul>::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::4.4.2:.#cherrypickblogmetadata"><code>CherryPickBlogMetadata</code></a>::<ul><li><code>branch</code></li></ul>::::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::4.4.2:.#cherrypickblogmetadataifexists"><code>CherryPickBlogMetadataIfExists</code></a>::<ul><li><code>branch</code></li></ul>::::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::4.4.1:.#cherrypickentrymetadata"><code>CherryPickEntryMetadata</code></a>::<ul><li><code>branch</code></li></ul>::::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::4.4.1:.#cherrypickentrymetadataifexists"><code>CherryPickEntryMetadataIfExists</code></a>::<ul><li><code>branch</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.3:.#codehighlight"><code>CodeHighlight</code></a>::<ul><li><code>langage</code></li><li> <code>display_line_numbers</code></li><li> <code>input_code</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.3:.#codehighlightinclude"><code>CodeHighlightInclude</code></a>::<ul><li><code>langage</code></li><li> <code>display_line_numbers</code></li><li> <code>filename</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup"><code>DisableMarkup</code></a>::<ul><li><code>content</code></li></ul>::::NewLine::
@@ -40,8 +44,8 @@ Motifs::Arguments::Variables::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.2:.#getbloglanguage"><code>GetBlogLanguage</code></a>::<ul></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.2:.#getbloglicense"><code>GetBlogLicense</code></a>::<ul></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadata"><code>GetBlogMetadata</code></a>::<ul><li><code>metadata_name</code></li></ul>::::NewLine::
-<a href=".:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadataifexists"><code>GetBlogMetadataIfExists</code></a>::<ul><li><code>metadata_name</code></li><li> <code>if_true</code></li><li> <code>if_false</code></li><li> <code>ok_if_null</code></li></ul>::::NewLine::
-<a href=".:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadataifnotnull"><code>GetBlogMetadataIfNotNull</code></a>::<ul><li><code>metadata_name</code></li><li> <code>if_true</code></li><li> <code>if_false</code></li></ul>::::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadataifexists"><code>GetBlogMetadataIfExists</code></a>::<ul><li><code>metadata_name</code></li><li> <code>if_true</code></li><li> <code>if_false</code></li><li> <code>ok_if_null</code></li></ul>::<ul><li><code>value</code></li></ul>::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadataifnotnull"><code>GetBlogMetadataIfNotNull</code></a>::<ul><li><code>metadata_name</code></li><li> <code>if_true</code></li><li> <code>if_false</code></li></ul>::<ul><li><code>value</code></li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadatatree"><code>GetBlogMetadataTree</code></a>::<ul><li><code>metadata_name</code></li><li> <code>open_node</code></li><li> <code>open_branch</code></li><li> <code>value_childs</code></li><li> <code>value</code></li><li> <code>close_branch</code></li><li> <code>close_node</code></li></ul>::<ul><li><code>value</code></li><li><code>tree</code></li><li><code>html_id</code></li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadatatreeifexists"><code>GetBlogMetadataTreeIfExists</code></a>::<ul><li><code>metadata_name</code></li><li> <code>open_node</code></li><li> <code>open_branch</code></li><li> <code>value_childs</code></li><li> <code>value</code></li><li> <code>close_branch</code></li><li> <code>close_node</code></li></ul>::<ul><li><code>value</code></li><li><code>childs</code></li><li><code>html_id</code></li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::4.4.2:.#getblogname"><code>GetBlogName</code></a>::<ul></ul>::::NewLine::
