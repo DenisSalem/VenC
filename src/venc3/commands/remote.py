@@ -62,7 +62,7 @@ def ftp_session(session_id, blog_configuration, username, user_passwd):
         pwd = blog_configuration["paths"]["ftp"]
         to_create = BATCH[session_id]["to_create"]
         to_delete = BATCH[session_id]["to_delete"]
-        while len(session["to_create"].keys()):
+        while len(to_create.keys()):
             for item in sorted(to_create.keys(), key=lambda x:to_create[x]["priority"], reverse=True):
                 path = item.split('/')
                 if len(path) == 1 or not cross_thread_lookup('/'.join(path[:-1]), "to_create"):

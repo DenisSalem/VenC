@@ -49,8 +49,9 @@
     DONE | Auto reload blog/ when server is running if blog is modified.
     DONE | Enhance FTP transfert. See framagit issue #80.
     DONE | Add SetBackgroundColor for text
-    WIP  | Add CherryPick*Metadata
-    WIP  | Add RSS and Atom button to concrete.
+    DONE | Add CherryPick*Metadata
+    DONE | Add GetLastEntryTimestamp
+    DONE | Add RSS and Atom button to concrete.
     WIP  | Update doc.
 
 # version 3.1.1
