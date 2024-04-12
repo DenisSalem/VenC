@@ -78,6 +78,11 @@ def watch_files():
     
 def export_blog_wrapper(params):
     os.chdir('..')
+
+    from venc3.datastore import configuration
+    configuration.BLOG_CONFIGURATION = None
+    get_blog_configuration()
+    
     export_blog(params)
     
 class VenCServer(http.server.CGIHTTPRequestHandler):    
