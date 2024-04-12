@@ -63,17 +63,17 @@ class DatastorePatterns:
             from venc3.exceptions import VenCException
             raise VenCException(exception_params, pattern)
             
-    def cherry_pick_blog_metadata(self, pattern, *path):
-        return self.cherry_pick_metadata(pattern, self.blog_configuration, False, path)
+    def cherry_pick_blog_metadata(self, pattern, *branch):
+        return self.cherry_pick_metadata(pattern, self.blog_configuration, False, branch)
 
-    def cherry_pick_blog_metadata_if_exists(self, pattern, *path):
-        return self.cherry_pick_metadata(pattern, self.blog_configuration, True, path)
+    def cherry_pick_blog_metadata_if_exists(self, pattern, *branch):
+        return self.cherry_pick_metadata(pattern, self.blog_configuration, True, branch)
 
-    def cherry_pick_entry_metadata(self, pattern, *path):
-        return self.cherry_pick_metadata(pattern, self.requested_entry, False, path)
+    def cherry_pick_entry_metadata(self, pattern, *branch):
+        return self.cherry_pick_metadata(pattern, self.requested_entry, False, branch)
 
-    def cherry_pick_entry_metadata_if_exists(self, pattern, *path):
-        return self.cherry_pick_metadata(pattern, self.requested_entry, True, path)
+    def cherry_pick_entry_metadata_if_exists(self, pattern, *branch):
+        return self.cherry_pick_metadata(pattern, self.requested_entry, True, branch)
         
     def if_categories(self, pattern, if_true, if_false=''):
         if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:
@@ -170,6 +170,7 @@ class DatastorePatterns:
             raise VenCException(("blog_has_no_metadata_like", metadata_name), pattern)
             
     def get_blog_metadata_if_exists(self, pattern, metadata_name, if_true='', if_false='', ok_if_null=True):
+        '''value'''
         try:
             value = self.blog_configuration[metadata_name]
             
@@ -178,7 +179,7 @@ class DatastorePatterns:
         
         if len(if_true):
             if ok_if_null or (value != None and len(str(value))):
-                return if_true.format(**{"value" : value,"{relative_origin}":"\x1a"})
+                return if_true.format(**{"value" : value})
                   
             else:
                 return if_false
@@ -186,6 +187,7 @@ class DatastorePatterns:
             return value
             
     def get_blog_metadata_if_not_null(self, pattern, metadata_name, if_true='', if_false=''):
+        '''value'''
         try:
             return self.get_blog_metadata_if_exists(pattern, metadata_name, if_true, if_false, ok_if_null=False)
             

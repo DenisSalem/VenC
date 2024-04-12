@@ -28,8 +28,6 @@ class Entries:
 
         from venc3.prompt import notify
         notify(("loading_entries",), prepend="┌─ ")
-
-
         
         from venc3.exceptions import VenCException
         

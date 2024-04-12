@@ -5,8 +5,8 @@
         <meta name="generator" content="VenC-.:GetVenCVersion:." />
         <meta charset="utf-8">
         .:IfInThread::
-            .:IfRSSEnabled::<link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href="rss_feed.xml" />:.
-            .:IfAtomEnabled::<link rel="alternate" type="application/atom+xml" title=".:GetBlogName:." href="atom_feed.xml" />:.
+            .:IfRSSEnabled::<link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href=".:CherryPickBlogMetadata::paths::rss_file_name:." />:.
+            .:IfAtomEnabled::<link rel="alternate" type="application/atom+xml" title=".:GetBlogName:." href=".:CherryPickBlogMetadata::paths::atom_file_name:." />:.
         :.
         <title>.:GetBlogName:.</title>
         .:GetStyleSheets:.
@@ -49,6 +49,13 @@
         .:ForBlogMetadataIfExists::custom_styles::<link rel="stylesheet" href=".:GetRelativeRoot:./{value}" type="text/css" >:.
     </head>
     <body>
+      .:IfInThreadAndHasFeeds::
+      .:IfFeedsEnabled::
+      <div id="__VENC_FEEDS_HEADER__">
+          .:IfRSSEnabled::<a href=".:CherryPickBlogMetadata::paths::rss_file_name:.">RSS</a>:..:IfRSSEnabled:: .:IfAtomEnabled::⋅:: :. :: :..:IfAtomEnabled::<a href=".:CherryPickBlogMetadata::paths::atom_file_name:.">ATOM</a>:.
+      </div>
+      :.
+      :.
         <div>
             <header class="box engrave title"><h1><a class="engrave" href=".:GetRelativeRoot:.">.:GetBlogName:.</a></h1></header>
             <aside>

@@ -115,7 +115,6 @@ class Thread:
         else:
             return string2
                 
-            
     # Must be called in child class
     def organize_entries(self, entries):
         self.pages = list()
@@ -126,6 +125,13 @@ class Thread:
 
         self.pages_count = len(self.pages)
 
+    def get_last_entry_timestamp(self, pattern, time_format):
+        from venc3.exceptions import VenCException
+        raise VenCException(
+            ("you_cannot_use_this_pattern_here", "GetLastEntryTimestamp", pattern.root.context),
+            pattern
+        )
+        
     # Must be called in child class
     def get_next_page(self, pattern, string):
         '''page_number,entry_id,entry_title,path'''

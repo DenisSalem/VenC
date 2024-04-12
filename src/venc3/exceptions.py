@@ -29,7 +29,6 @@ class VenCException(Exception):
         from venc3.l10n import messages
         if len(message_format) > 1:
             message_attr, *format_args = message_format
-            print(getattr(messages, message_attr), message_attr, format_args)
             self.message = getattr(messages, message_attr).format(*format_args)
         else:
             self.message = getattr(messages, message_format[0])
