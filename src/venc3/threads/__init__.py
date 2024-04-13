@@ -140,7 +140,8 @@ class Thread:
                 "page_number" : str(self.current_page + 1),
                 "entry_id" : '',
                 "entry_title": '',
-                "path" : ''
+                "path" : '',
+                "chapter": ''
             }
 
             if self.in_thread:
@@ -172,7 +173,8 @@ class Thread:
                 "page_number" : str(self.current_page - 1) if self.current_page - 1 != 0 else '',
                 "entry_id" : '',
                 "entry_title": '',
-                "path" : ''
+                "path" : '',
+                "chapter" : ''
             }
 
             if self.in_thread:
