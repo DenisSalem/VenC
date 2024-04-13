@@ -6,7 +6,7 @@ chapter: '7.5.2.2'
 title: Créer une liste d'archives
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Avant toute chose, comme nous l'avons vu précédement, il faut que dans votre fichier de configuration
+Avant toute chose, comme nous l'avons vu précédemment, il faut que dans votre fichier de configuration
 l'option [`disable_archives`](.:GetChapterAttributeByIndex::path::3.2:.#disable-archives) soit configurée correctement.
 
 Entre les balises `header` que nous avons ajoutées à la fin du fichier `header.html`, nous allons ajouter le code suivant en utilisant 

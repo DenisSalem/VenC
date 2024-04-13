@@ -26,8 +26,8 @@ un thème :
 
 > .:Escape:: .:CherryPickEntryMetadata::branch_1[::branch_2::branch_n]:. :.
 
-Permet de récupérer le contenu de la métadonnée contenu dans un ou plusieurs dictionnaires. Pour ce faire cette fonction prend
-au moins un paramètre qui désigne le nom d'un champ à la racine du document Yaml d'une publication.
+Permet de récupérer le contenu de la métadonnée contenue dans un ou plusieurs dictionnaires. Pour ce faire, cette fonction prend
+au moins un paramètre qui désigne le nom d'un champ à la racine du document YAML d'une publication.
 
 Par exemple :
 
@@ -35,7 +35,7 @@ Par exemple :
 
 #### CherryPickEntryMetadataIfExists
 
-Identique à [`CherryPickEntryMetadata`](.:GetChapterAttributeByIndex::path::4.4.1:.#cherrypickentrymetadata) mais est ignoré en cas
+Identique à [`CherryPickEntryMetadata`](.:GetChapterAttributeByIndex::path::4.4.1:.#cherrypickentrymetadata), mais est ignoré en cas
 d'erreur.
 
 #### ForEntryAuthors
@@ -44,10 +44,10 @@ d'erreur.
 
 Retourne la liste des auteurs de la publication.
 
-Le premier argument est une chaîne de caractères à formater avec les variables
+Le premier argument est une chaîne de caractères à formater avec les variables :
 
 - __`value`__ : contient le nom de l'auteur courant.
-- __`html_id`__: le nom de l'auteur courant, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__: le nom de l'auteur courant, mais formaté pour être utilisé comme un identifiant HTML.
 
 Le second paramètre est une chaîne de caractères servant de séparateur.
 
@@ -60,7 +60,7 @@ Il est possible de définir des métadonnées sous la forme de listes.
 Le premier argument est une chaîne de caractères à formater avec les variables :
 
 - __`value`__ : contient l'élément courant de la liste.
-- __`html_id`__ : le nom de la catégorie courante, mais formaté pour être utilisé comme un ID HTML.
+- __`html_id`__ : le nom de la catégorie courante, mais formaté pour être utilisé comme un identifiant HTML.
 
 Le second paramètre est une chaîne de caractères servant de séparateur.
 
@@ -97,7 +97,7 @@ Les arguments du motif sont les suivants :
 Les variables de ce motif sont les suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
-- __`html_id`__: Le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un identifiant HTML.
 - __`path`__ : le chemin relatif de la catégorie courante.
 - __`count`__ : le nombre de publications dans la catégorie courante.
 - __`weight`__ : le nombre de publications dans la catégorie courante, divisé par le nombre de publications appartenant à une catégorie.
@@ -168,7 +168,7 @@ Ce motif est ignoré et supprimé si la génération des catégories est désact
 :.
 
 Fonctionne comme [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestreefrombranches) mais
- ne garde que les categories où se trouve la publication courante.
+ ne garde que les catégories où se trouve la publication courante.
 
 
 #### GetEntryChapterLevel
@@ -304,7 +304,7 @@ Les arguments de ce motif sont les suivants :
 Ce motif possède les variables suivantes :
 
 - __`value`__ : contient la valeur de l'item courant. Vous pouvez utiliser cette variable dans les arguments `value` et `value_childs`.
-- __`html_id`__ : le nom de la métadonnée courante, mais formaté pour être utilisé comme un ID HTML.
+- __`html_id`__ : le nom de la métadonnée courante, mais formaté pour être utilisé comme un identifiant HTML.
 - __`childs`__ : contient le bloc enfant de l'item courant. Vous ne pouvez utiliser cette variable que dans l'argument `value_childs`.
 
 Voici un exemple d'utilisation de ce pattern. Étant donné la métadonnée suivante dans l'entête d'une publication :
@@ -384,7 +384,7 @@ Retourne le titre de la publication.
 
 > .:Escape:: .:GetEntryToC::open_ul::open_li::content::close_li::close_ul:. :.
 
-Ce motif permet de générer une table des matières multi-niveaux sur la base des titres présents
+Ce motif permet de générer une table des matières multiniveaux sur la base des titres présents
 dans le __corps__ d'une publication [Markdown](https://daringfireball.net/projects/markdown/syntax#header).
 
 - **`open_ul`** : la chaîne de caractères ouvrant le niveau courant.
@@ -444,7 +444,7 @@ Alors le code HTML généré ressemblerait à :
     </li>
 </ul>:.
 
-Ce qui donne : 
+Ce qui donne :
 
 .:HTML::<ul>
     <li>
@@ -493,7 +493,7 @@ Les arguments de ce motif sont :
 Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
-- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un identifiant HTML.
 - __`count`__ : le nombre de publications dans cette catégorie.
 - __`weight`__ : le nombre de publications dans cette catégorie, divisé par le nombre de publications ayant une catégorie.
 - __`path`__ : le chemin relatif menant au fil de publication de la catégorie courante.
@@ -511,7 +511,7 @@ Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 :. :.
 
 Identique à [`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategoriesfrombranches)
-mais ne récupère que les categories de la publication courante.
+mais ne récupère que les catégories de la publication courante.
 
 #### IfEntryMetadataIsTrue
 

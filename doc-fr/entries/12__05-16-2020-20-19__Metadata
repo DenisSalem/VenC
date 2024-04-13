@@ -16,7 +16,7 @@ Il y a trois types possibles de métadonnées pour VenC.
 
 C'est le type par défaut de la plupart des métadonnées. Par exemple :
 
-.:CodeHighlight::Yaml::False::
+.:CodeHighlight::YAML::False::
 free_artist: 'Revolution Void'
 :.
 
@@ -25,7 +25,7 @@ free_artist: 'Revolution Void'
 C'est par exemple le type par défaut des champs `tags` et `authors` dans une publication. Il s'agit d'une
 liste d'éléments formatés selon la convention de [YAML](https://yaml.org/). Par exemple :
 
-.:CodeHighlight::Yaml::False::
+.:CodeHighlight::YAML::False::
 liste_de_chose_à_faire:
   - 'Devenir un dieu du code'
   - 'Niquer le capitalisme'
@@ -36,7 +36,7 @@ liste_de_chose_à_faire:
 
 Il se présente comme spécifié par le format [YAML](https://yaml.org/). Le champ `categories` en est un exemple :
 
-.:CodeHighlight::yaml::false::
+.:CodeHighlight::YAML::false::
 categories:
   - Libre:
     - GNU/Linux:

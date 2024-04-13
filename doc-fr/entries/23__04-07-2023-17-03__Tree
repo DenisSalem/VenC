@@ -95,7 +95,7 @@ Vous pouvez assigner la valeur que vous souhaitez à l'un de ses trois attributs
 </script>
 :.
 
-Il est également possible de reféfinir complétement le style CSS des listes ayant la classe **`.:DisableMarkup::__VENC_TREE_NODE__:.`** avec `ul_style`. Par exemple :
+Il est également possible de redéfinir complètement le style CSS des listes ayant la classe **`.:DisableMarkup::__VENC_TREE_NODE__:.`** avec `ul_style`. Par exemple :
 
 .:CodeHighlight::html::False::
 <script type="text/javascript">

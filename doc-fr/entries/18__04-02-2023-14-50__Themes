@@ -31,7 +31,7 @@ d'indiquer les dépendances du thème, de supplanter des options de
 configuration et de décrire le thème. Plus d'informations [ici](.:GetChapterAttributeByIndex::path::3.6.1:.).
 
 Comme vous l'avez sans doute compris, VenC met bout à bout les morceaux
-de votre blog en formattant l'entête (`header.html`), puis en répétant autant
+de votre blog en formatant l'entête (`header.html`), puis en répétant autant
 de fois qu'il y a de publications sur une page le formatage du corps de la publication (`entry.html`).
 La page courante est alors terminée en y ajoutant le pied de
 page (`footer.html`), également formaté.

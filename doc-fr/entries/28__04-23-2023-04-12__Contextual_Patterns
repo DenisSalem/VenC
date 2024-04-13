@@ -49,7 +49,7 @@ Ce pattern renvoie le résumé de la publication courante.
 
 > .:Escape:: .:GetLastEntryTimestamp::time_format:. :.
 
-Permet de récupérer la date formatée avec `time_format` de la dernière publication, c'est à dire celle avec l'`ID` le plus grand.
+Permet de récupérer la date formatée avec `time_format` de la dernière publication, c'est-à-dire de la publication avec l'`id` le plus grand.
 
 ### GetNextPage
 

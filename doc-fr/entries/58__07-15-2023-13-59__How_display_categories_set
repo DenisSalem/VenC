@@ -151,7 +151,7 @@ La documentation technique propose l'exemple suivant, qui convient tout à fait
 :.
 :.
 
-Ce _motif_ fonctionne différement de 
+Ce _motif_ fonctionne différemment de 
 [`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories). En effet, il faut indiquer à la fonction :
 
 - Les textes d'ouverture et de fermeture du
@@ -196,8 +196,7 @@ Avec ça on est bon et on peut maintenant placer notre code dans celui que nous 
 :.
 :.
 
-Et voilà, c'est tout bon pour les catégories ! Si cependant vous voulez aller plus loin, avec un contrôle plus fin de l'affichage et utiliser les fonctions
-de taxonomie avancées vous pouvez également jeter un oeil un oeil à ces fonctions :
+Et voilà, c'est tout bon pour les catégories ! Si cependant vous voulez aller plus loin, avec un contrôle plus fin de l'affichage et utiliser les fonctions avancées de taxonomie vous pouvez également jeter un œil à ces fonctions :
 
 - [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestreefrombranches)
 - [`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.##getflattenedblogcategoriesfrombranches)

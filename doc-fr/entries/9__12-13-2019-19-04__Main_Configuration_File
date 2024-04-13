@@ -24,7 +24,7 @@ Sans surprise, il s'agit du titre de votre blog. Ce champ est obligatoire.
 
 Empêche VenC de générer les fils de publications spécifiés dans une liste. Les noms de fils peuvent appartenir à des catégories ou à des archives. Par exemple :
 
-.:CodeHighlight::yaml::False::
+.:CodeHighlight::YAML::False::
 disable_threads:
   - Categorie naze
   - 24/01/1990
@@ -67,9 +67,9 @@ Il est cependant possible de redéfinir ici l'éditeur de texte choisi pour édi
 
 Cette variable est une liste dont le premier élément est le nom de la commande et le reste ses arguments.
 
-Par exemple:
+Par exemple :
 
-.:CodeHighlight::Yaml::False::
+.:CodeHighlight::YAML::False::
 text_editor:
   - geany
   - -i
@@ -105,21 +105,20 @@ L'URL du blog. Elle peut être laissée vide, selon le thème utilisé.
 
 ## ftp_encoding
 
-Par défaut l'encodage des sessions `FTP` est en `latin-1` mais ça pourrait ne pas convenir à la configuration
+Par défaut l'encodage des sessions FTP est en `latin-1` mais ça pourrait ne pas convenir à la configuration
 de votre serveur vous pouvez donc définir l'encodage qui va bien ici.
 
 ## ftp_host
 
-Il s'agit du nom d'hôte ou de l'adresse `IP` de votre serveur `FTP`.
+Il s'agit du nom d'hôte ou de l'adresse IP de votre serveur `FTP`.
 
 ## ftp_port
 
-Il s'agit du `port` de l'hôte de votre serveur `FTP`. Si ce champ n'est pas définit il est fixé à 21 par défaut.
+Il s'agit du numéro de port à utiliser pour se connecter à votre serveur FTP. Si ce champ n'est pas défini, il est fixé à 21 par défaut.
 
 ## ftp_sessions
 
-Il s'agit d'un nombre entier spécifiant le nombre simultané de connexion FTP que VenC va utiliser pour transférer votre site. Par défaut
-ce nombre est fixé à 4.
+Il s'agit d'un nombre entier spécifiant le nombre simultané de connexion FTP que VenC va utiliser pour transférer votre site. Par défaut, ce nombre est fixé à 4.
 
 ## blog_language
 
@@ -138,7 +137,8 @@ les anciens codes CSS créés par [Pygments](https://pygments.org/languages/) se
 
 ## paths
 
-Ce champ et et ce qu'il continent sont obligatoires. Il s'agit d'une variable de type `dict` contenant différents chemins,
+Ce champ et ce qu'il contient sont obligatoires. Il s'agit d'une variable de type `dict` contenant différents chemins.
+
 La liste de ces chemins est détaillée ci-dessous.
 
 ### ftp
@@ -260,13 +260,12 @@ le répertoire `extra`.
 
 ## default_theme
 
-Contient le nom du thème par défaut à utiliser :
-Normalement, si vous n'avez pas [installé de thème](.:GetChapterAttributeByIndex::path::5.9:.) dans le dossier de votre projet, vous êtes
+Contient le nom du thème par défaut à utiliser. Normalement, si vous n'avez pas [installé de thème](.:GetChapterAttributeByIndex::path::5.9:.) dans le dossier de votre projet, vous êtes
 obligé de spécifier le nom d'un thème installé avec VenC au moment de générer votre blog. Par exemple : 
 
 > venc -xb concrete
 
-Si aucun thème n'est installé dans votre projet et si aucun nom de thème n'est passé en paramètre à la commande [`venc -xb`](.:GetChapterAttributeByIndex::path::5.4:.) alors VenC tentera
+Si aucun thème n'est installé dans votre projet et si aucun nom de thème n'est passé en paramètre à la commande [`venc -xb`](.:GetChapterAttributeByIndex::path::5.4:.), alors VenC tentera
 d'utiliser l'option `default_theme` pour sélectionner un thème. Si vous n'avez pas de thème installé dans votre projet, il
-est important de définir cette variable  pour que la commande [`venc -s`](.:GetChapterAttributeByIndex::path::5.11:.) fonctionne correctement.
+est important de définir cette variable pour que la commande [`venc -s`](.:GetChapterAttributeByIndex::path::5.11:.) fonctionne correctement.
 

@@ -8,7 +8,7 @@ categories:
       - Huile
     - Sculpture
     - Infographie
-  - Licence :
+  - Licence:
     - CC-By-SA
     - CC-By-NC-ND
 chapter: '4.4.2'
@@ -23,7 +23,7 @@ exécutés une et une seule fois.
 
 > .:Escape:: .:CherryPickBlogMetadata::branch_1[::branch_2::branch_n]:. :.
 
-Permet de récupérer le contenu de la métadonnée contenu dans un ou plusieurs dictionnaires. Pour ce faire cette fonction prend
+Permet de récupérer le contenu de la métadonnée contenu dans un ou plusieurs dictionnaires. Pour ce faire, cette fonction prend
 au moins un paramètre qui désigne le nom d'un champ à la racine du [fichier de configuration principale](.:GetChapterAttributeByIndex::path::3.2:.).
 
 Par exemple :
@@ -32,7 +32,7 @@ Par exemple :
 
 #### CherryPickBlogMetadataIfExists
 
-Identique à [`CherryPickBlogMetadata`](.:GetChapterAttributeByIndex::path::4.4.2:.#cherrypickblogmetadata) mais est ignoré en cas
+Identique à [`CherryPickBlogMetadata`](.:GetChapterAttributeByIndex::path::4.4.2:.#cherrypickblogmetadata), mais est ignoré en cas
 d'erreur.
 
 #### ForBlogArchives
@@ -49,7 +49,7 @@ principal par [`archives_directory_name`](.:GetChapterAttributeByIndex::path::3.
 Les variables de la fonction sont les suivantes :
 
 - __`value`__ : la période courante, telle que définie par [`archives_directory_name`](.:GetChapterAttributeByIndex::path::3.2:.#archives-directory-name) dans le fichier de configuration principal du blog.
-- __`html_id`__ : le nom de l'archive courante, mais formaté pour être utilisé comme un ID HTML.
+- __`html_id`__ : le nom de l'archive courante, mais formaté pour être utilisé comme un identifiant HTML.
 - __`path`__ : le chemin relatif la période archivée.
 - __`count`__ : le nombre de publications dans la période courante.
 - __`weight`__ : le nombre de publications dans la période courante, divisé par le nombre maximal de publications par période.
@@ -71,7 +71,7 @@ a trois arguments :
 Vous pouvez utiliser la variable suivante dans l'argument `string` :
 
 - __`value`__ : contient la valeur de l'item courant.
-- __`html_id`__ : le nom de la métadonnée courante, mais formaté pour être utilisé comme un ID HTML.
+- __`html_id`__ : le nom de la métadonnée courante, mais formaté pour être utilisé comme un identifiant HTML.
 
 #### ForBlogMetadataIfExists
 
@@ -90,7 +90,7 @@ d'en afficher les attributs.
 Il y a deux arguments :
 
 - **`entries_subset_key`** : il s'agit de la clé correspondant au sous-ensemble de publications retourné par [`RangeEntriesByID`](.:GetChapterAttributeByIndex::path::4.4.2:.#rangeentriesbyid).
-- **`string`** : la chaîne de caractères à formater comportant les variables référençant les attributs de la publication courante. 
+- **`string`** : la chaîne de caractères à formater comportant les variables référençant les attributs de la publication courante.
 
 Les variables pouvant être utilisées sont par défaut :
 
@@ -142,7 +142,7 @@ Les arguments du motif sont les suivants :
 Les variables de ce motif sont les suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
-- __`html_id`__: Le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un identifiant HTML.
 - __`path`__ : le chemin relatif de la catégorie courante.
 - __`count`__ : le nombre de publications dans la catégorie courante.
 - __`weight`__ : le nombre de publications dans la catégorie courante, divisé par le nombre de publications appartenant à une catégorie.
@@ -213,14 +213,14 @@ Ce motif est ignoré et supprimé si la génération des catégories est désact
 :. :.
 :.
 
-Ce `motif` permet de mettre en oeuvre de la taxonomy avancée. En effet, via le premier argument `branches`, ce motif permet de sélectionner une ou plusieurs branches
-de l'arbre des categories pour l'afficher individuellement à l'intérieur de `sub_tree_string` comme le ferait [`GetBlogCategoriesTree`](#getblogcategoriestree).
+Ce motif permet de mettre en œuvre la taxonomie avancée. En effet, via le premier argument `branches`, ce motif permet de sélectionner une ou plusieurs branches
+de l'arbre des catégories pour l'afficher individuellement à l'intérieur de `sub_tree_string` comme le ferait [`GetBlogCategoriesTree`](#getblogcategoriestree).
 
 Les arguments du motif sont les suivants :
 
-- **`branches`** : contient le nom de la métadonnée définit dans le [`fichier de configuration`](.:GetChapterAttributeByIndex::path::3.2:.) qui elle même contient une liste de nom de branche. Ces noms de branches correspondent à des items à la racine de l'arbre de categories.
+- **`branches`** : contient le nom de la métadonnée définie dans le [`fichier de configuration`](.:GetChapterAttributeByIndex::path::3.2:.), qui elle même contient une liste de noms de branches. Ces noms de branches correspondent à des items à la racine de l'arbre des catégories.
 - **`sub_tree_string`** : contient la chaîne de caractères contenant la branche courante.
-- **`separator`** : Contient la chaine de caractères de séparation. Chaque itération de la branche courante est jointe avec le contenu de `separator`.
+- **`separator`** : contient la chaîne de caractères de séparation. Chaque itération de la branche courante est jointe avec le contenu de `separator`.
 - **`open_node`** : contient la chaîne de caractères d'ouverture pour la catégorie parente.
 - **`open_branch`** : contient la chaîne de caractères d'ouverture de la catégorie courante.
 - **`close_branch`** : contient la chaîne de caractères de fermeture de la catégorie courante.
@@ -229,15 +229,15 @@ Les arguments du motif sont les suivants :
 Les variables de ce motif sont les suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
-- __`html_id`__: Le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un identifiant HTML.
 - __`path`__ : le chemin relatif de la catégorie courante.
 - __`count`__ : le nombre de publications dans la catégorie courante.
 - __`weight`__ : le nombre de publications dans la catégorie courante, divisé par le nombre de publications appartenant à une catégorie.
-- __`childs`__ : contient le résultat de la récursion suivante ou de l'itération courrante du `motif`.
+- __`childs`__ : contient le résultat de la récursion suivante ou de l'itération courante du `motif`.
 
-Pour illustrer ce motif un peu complexe nous nous donnons pour exemple l'arbre de toutes les catégories d'un blog imaginaire:
+Pour illustrer ce motif un peu complexe, nous nous donnons pour exemple l'arbre de toutes les catégories d'un blog imaginaire :
 
-.:CodeHighlight::Yaml::False::
+.:CodeHighlight::YAML::False::
   - Medium & Technique:
     - Dessin
     - Peintures:
@@ -251,8 +251,8 @@ Pour illustrer ce motif un peu complexe nous nous donnons pour exemple l'arbre d
 :.
 
 
-Nous pourrions vouloir un contrôle plus fin sur l'affichage de ces categories. Par exemple en mettant en valeur `Medium & Technique` et `Licence` qui
-renseignent sur quel type de catégories il s'agit.
+Nous pourrions vouloir un contrôle plus fin sur l'affichage de ces catégories. Par exemple en mettant en valeur `Medium & Technique` et `Licence`, qui
+renseignent sur le type de catégories concerné.
 
 .:CodeHighlight::HTML::False:: .:Escape:: .:GetBlogCategoriesTreeFromBranches::my_taxonomy::
     <div class="__VENC_TREE_ROOT__">
@@ -267,14 +267,14 @@ renseignent sur quel type de catégories il s'agit.
 :.
 
 Ici, dans l'exemple, le nom de la métadonnée extraite du [`fichier de configuration`](.:GetChapterAttributeByIndex::path::3.2:.) du blog est `my_taxonomy`. Pour fonctionner
-la métadonnée serait alors définit comm ci-dessous :
+la métadonnée serait alors définie comme ci-dessous :
 
 .:CodeHighlight::YAML::False::my_taxonomy:
   - Medium & Technique
   - Licence:.
   
-Ce faisant `GetBlogCategoriesTreeFromBranches` va se comporter pour chaque item comme le ferait [`GetBlogCategoriesTree`](#getblogcategoriestree) en prenant pour racine l'item correspondant
-au nom de la branche courrante.
+Ce faisant `GetBlogCategoriesTreeFromBranches` va se comporter pour chaque item comme le ferait [`GetBlogCategoriesTree`](#getblogcategoriestree), en prenant pour racine l'item correspondant
+au nom de la branche courante.
 
 L'utilisation du motif comme dans l'exemple donnerait quelque chose comme :
 
@@ -322,7 +322,7 @@ On peut faire remarquer qu'il est possible de définir dans votre [`fichier de c
 listes de branches. Ainsi vous pouvez utiliser `GetBlogCategoriesTreeFromBranches` à différent endroit de votre template graphique avec des valeurs
 différentes pour l'argument `branches`.
 
-__Note importante__ : `GetBlogCategoriesTreeFromBranches` ne peut sélectionner que des branches à la racine de l'arbre des categories.
+__Note importante__ : `GetBlogCategoriesTreeFromBranches` ne peut sélectionner que des branches à la racine de l'arbre des catégories.
 
 #### GetBlogDescription
 
@@ -427,7 +427,7 @@ Les arguments de ce motif sont les suivants :
 Ce motif possède les variables suivantes :
 
 - **`value`** : contient la valeur de l'item courant. Vous pouvez utiliser cette variable dans les arguments `value` et `value_childs`.
-- __`html_id`__ : le nom de la métadonnée courante, mais formaté pour être utilisé comme un ID HTML.
+- __`html_id`__ : le nom de la métadonnée courante, mais formaté pour être utilisé comme un identifiant HTML.
 - **`childs`** : contient le bloc enfant de l'item courant. Vous ne pouvez utiliser cette variable que dans l'argument `value_childs`.
 
 Un exemple d'utilisation de ce pattern ci-dessous. Étant donné la métadonnée de publication suivante :
@@ -533,7 +533,7 @@ Les variables contextuelles de la fonction sont les suivantes :
   - Un chapitre avec l'index `'3.2'` aurait le niveau 1.
   - Un chapitre avec l'index `'4.2.1'` aurait le niveau 2.
 - __`title`__ : le titre du chapitre courant.
-- __`html_id`__ : Le titre du chapitre courant, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__ : le titre du chapitre courant, mais formaté pour être utilisé comme un identifiant HTML.
 - __`path`__ : le chemin relatif du chapitre courant.
 
 Une utilisation typique du motif serait :
@@ -602,7 +602,7 @@ Les arguments de ce motif sont :
 Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
-- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un identifiant HTML.
 - __`count`__ : le nombre de publications dans cette catégorie.
 - __`weight`__ : le nombre de publications dans cette catégorie, divisé par le nombre de publications ayant une catégorie.
 - __`path`__ : le chemin relatif menant au fil de publications de la catégorie courante.
@@ -619,26 +619,25 @@ Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 :.
 :. :.
 
-- __`branches`__ : contient le nom de la métadonnée définit dans le fichier de configuration qui elle
-même contient une liste de nom de branche. Ces noms de branche correspondent à des items à la racine de l'arbre de categories.
-- __`sub_tree_string`__ : Contient la chaine de caractère contenant la branche courante.
-- __`sub_tree_separator`__ : Contient la chaine de caractères de séparation. Chaque itération de la branche courante est jointe avec le contenu de`sub_tree_separator`.
+- __`branches`__ : contient le nom de la métadonnée définie dans le fichier de configuration, qui elle-même contient une liste de noms de branche. Ces noms de branche correspondent à des items à la racine de l'arbre des catégories.
+- __`sub_tree_string`__ : contient la chaîne de caractères contenant la branche courante.
+- __`sub_tree_separator`__ : contient la chaîne de caractères de séparation. Chaque itération de la branche courante est jointe avec le contenu de`sub_tree_separator`.
 - __`string`__ : la chaîne de caractères correspondant à l'item courant de la branche courante.
 - __`separator`__ : la chaîne de caractères qui sert de séparateur entre chaque item.
 
-Vous pouvez utiliser les variables suivante dans `sub_tree_string` et `string`
+Vous pouvez utiliser les variables suivantes dans `sub_tree_string` et `string`
 
 - __`value`__ : le nom de la catégorie courante dans `string` et le nom de la branche courante dans `sub_tree_string`.
-- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un `ID HTML`.
+- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un identifiant HTML.
 - __`count`__ : le nombre de publications dans cette catégorie.
 - __`weight`__ : le nombre de publications dans cette catégorie, divisé par le nombre de publications ayant une catégorie.
 - __`path`__ : le chemin relatif menant au fil de publications de la catégorie courante.
-- __`childs`__ : Fonctionne uniquement dans `sub_tree_string`. Cette variable contient le contenu de la branche courante formaté dans `string`.
+- __`childs`__ : fonctionne uniquement dans `sub_tree_string`. Cette variable contient le contenu de la branche courante formaté dans `string`.
 
-Cette fonction combine le concept de [`GetBlogCategoriesTreeFromBranches`](#getblogcategoriestreefrombranches) et de [`GetFlattenedBlogCategories`](#getflattenedblogcategories). C'est à dire
+Cette fonction combine le concept de [`GetBlogCategoriesTreeFromBranches`](#getblogcategoriestreefrombranches) et de [`GetFlattenedBlogCategories`](#getflattenedblogcategories). C'est-à-dire
 que les trois premiers arguments servent à exactement la même chose que dans [`GetBlogCategoriesTreeFromBranches`](#getblogcategoriestreefrombranches). Les autres arguments sont identiques à
-ceux dans [`GetFlattenedBlogCategories`](#getflattenedblogcategories). En d'autres termes, ce motif permet de sélectionner une ou plusieurs branches de l'arbre de categories et de construire
-un nuage de categories à partir de ces branches.
+ceux dans [`GetFlattenedBlogCategories`](#getflattenedblogcategories). En d'autres termes, ce motif permet de sélectionner une ou plusieurs branches de l'arbre des catégories et de construire
+un nuage de catégories à partir de ces branches.
 
 #### GetRootPage
 

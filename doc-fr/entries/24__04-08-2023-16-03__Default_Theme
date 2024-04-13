@@ -26,28 +26,28 @@ L'avantage de cette dernière méthode étant qu'elle vous permet de modifier le
 
 ## Configuration
 
-Ce théme peut être adapté à vos besoins sans le modifier directement à l'aide d'une série de variable à
+Ce thème peut être adapté à vos besoins sans le modifier directement à l'aide d'une série de variables à
 définir dans votre [fichier de configuration principal](.:GetChapterAttributeByIndex::path::3.2:.) :
 
-### Affichage et controle des categories
+### Affichage et contrôle des catégories
 
-Les catégories sont gérés avec [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestreefrombranches) et
+Les catégories sont gérées avec [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestreefrombranches) et
 [`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategoriesfrombranches), en conséquence
-le théme utilise une métadonnée __obligatoire__ nommée `taxonomy` contenant une liste de sous categories à afficher.
+le thème utilise une métadonnée __obligatoire__ nommée `taxonomy` contenant une liste de sous-catégories à afficher.
 
 - __`disable_blog_hashtags`__ : il s'agit d'un `booléen` pour désactiver l'affichage du nuage de catégories sous la forme de hashtag.
-- __`disable_categories_tree`__ : il s'agit d'un `booléen` pour désactiver l'affichage des catégories sous la forme d'arbre hierarchique.
+- __`disable_categories_tree`__ : il s'agit d'un `booléen` pour désactiver l'affichage des catégories sous la forme d'arbre hiérarchique.
 - __`disable_entry_hashtags`__ : il s'agit d'un `booléen` pour désactiver l'affichage du nuage de catégories des publications.
 
 ### Autres options
 
-- __`disable_infinite_scroll`__ : il s'agit d'un `booléen` permetant de désactiver le script JS de [défilement infini](.:GetChapterAttributeByIndex::path::3.6.2.2:.).
-- __`custom_scripts`__ : il s'agit d'une liste contenant les noms de fichier de scripts que vous souhaitez inclure. Ceux-là doivent être placés dans le répertoire `extra` de votre projet.
-- __`custom_styles`__ : il s'agit d'une liste contenant les noms de fichier de feuilles de styles que vous souhaitez inclure. Ceux-là doivent être placés dans le répertoire `extra` de votre projet.
+- __`disable_infinite_scroll`__ : il s'agit d'un `booléen` permettant de désactiver le script JS de [défilement infini](.:GetChapterAttributeByIndex::path::3.6.2.2:.).
+- __`custom_scripts`__ : il s'agit d'une liste contenant les noms des fichiers de scripts que vous souhaitez inclure. Ceux-là doivent être placés dans le répertoire `extra` de votre projet.
+- __`custom_styles`__ : il s'agit d'une liste contenant les noms des fichiers de feuilles de style que vous souhaitez inclure. Ceux-là doivent être placés dans le répertoire `extra` de votre projet.
 - __`disable_chapters`__ : il s'agit d'un `booléen` pour désactiver l'affichage de la liste des chapitres.
 - __`disable_archives`__ : il s'agit d'un `booléen` pour désactiver l'affichage de la liste des archives.
 - __`force_entry_content`__ : il s'agit d'un `booléen` pour forcer l'affichage du contenu des publications dans les fils de publications.
 - __`loading_image`__ : il s'agit du nom de fichier d'une éventuelle image de chargement à afficher quand le défilement infini est activé.
 - __`include_in_footer`__ : il s'agit du nom de fichier d'un éventuel pied de page HTML à inclure.
-- __`disable_rss_feed`__ : Empêche VenC de générer un flux RSS. Ce champ est un booléen, fixé à `False` par défaut.
-- __`disable_atom_feed`__ : Empêche VenC de générer un flux Atom. Ce champ est un booléen, fixé à `False` par défaut.
+- __`disable_rss_feed`__ : empêche VenC de générer un flux RSS. Ce champ est un booléen, fixé à `False` par défaut.
+- __`disable_atom_feed`__ : empêche VenC de générer un flux Atom. Ce champ est un booléen, fixé à `False` par défaut.

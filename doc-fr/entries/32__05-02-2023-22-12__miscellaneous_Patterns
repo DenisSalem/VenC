@@ -179,8 +179,8 @@ En effet, le nouveau style écrasera le précédent s'il est placé après. Par 
     <link rel="stylesheet" href="../cheat_sheet.css" type="text/css">
 :.
 
-Enfin il est possible de changer le théme par défaut utilisé par le module [`Pygments`](https://pygments.org/) avec
-l'option [`pygmentize_style`](.:GetChapterAttributeByIndex::path::3.2:.#pygmentize-style)
+Enfin, il est possible de changer le thème par défaut utilisé par le module [`Pygments`](https://pygments.org/) avec
+l'option [`pygmentize_style`](.:GetChapterAttributeByIndex::path::3.2:.#pygmentize-style).
 
 #### CodeHighlightInclude
 
@@ -296,12 +296,12 @@ Ce motif prend au minimum un argument :
 
 Avec un fichier contenant plein de trucs longs et compliqués que nous appellerons :
 
-> plein-de-truc-longs-et-compliqués.txt
+> plein-de-trucs-longs-et-compliqués.txt
 
 Et qui se trouverait dans le répertoire `includes` de votre projet.
 Nous utiliserions alors le motif comme suit :
 
-> .:Escape:: .:IncludeFile::plein-de-truc-longs-et-compliqués.txt:. :.
+> .:Escape:: .:IncludeFile::plein-de-trucs-longs-et-compliqués.txt:. :.
 
 Notons que tout ce qui se trouve à l'intérieur du fichier ainsi inclus
 n'est pas traité par les interpréteurs de langage de balisage.
