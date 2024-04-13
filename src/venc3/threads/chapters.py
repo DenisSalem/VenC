@@ -32,7 +32,9 @@ class ChaptersThread(Thread):
         self.relative_origin = str(''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = True
         self.thread_has_feeds = False
-        self.chapters_list = sorted(self.datastore.raw_chapters.keys())
+        self.chapters_list = [ [int(v) for v in key.split('.')] for key in self.datastore.raw_chapters.keys() ]
+        self.chapters_list.sort()
+        self.chapters_list = ['.'.join([str(v) for v in l]) for l in self.chapters_list]
 
     def get_next_page(self, pattern, string): #TODO : Any chance to factorize this in parent class ?
         '''page_number,entry_id,entry_title,path,chapter'''
