@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '3.5.1.1'
+chapter: '4.5.1.1'
 title: 'Premier cas pratique : oEmbed'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -12,8 +12,8 @@ Le template `oEmbed` se présente ainsi :
 
 Dans ce template, on voit que l'on a deux placeholders :
 
-- __`.:DisableMarkup::venc_entry_title:.`__  : variable optionnelle, voir "[.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::3.5.2:. :.](.:GetChapterAttributeByIndex::path::3.5.2:.)".
-- __`.:DisableMarkup::embed_content:.`__ : qui est utilisée ici en paramètre de [`GetEmbedContent`](.:GetChapterAttributeByIndex::path::4.4.3:.#getembedcontent).
+- __`.:DisableMarkup::venc_entry_title:.`__  : variable optionnelle, voir "[.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::3.5.2:. :.](.:GetChapterAttributeByIndex::path::4.5.2:.)".
+- __`.:DisableMarkup::embed_content:.`__ : qui est utilisée ici en paramètre de [`GetEmbedContent`](.:GetChapterAttributeByIndex::path::5.4.3:.#getembedcontent).
 
 Pour créer une publication avec le template `oEmbed` il faudrait donc utiliser la commande VenC `--new-entry`, comme ci-dessous :
 

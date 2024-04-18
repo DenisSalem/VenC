@@ -2,15 +2,15 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5.2.2'
+chapter: '3.5.2.2'
 title: Créer une liste d'archives
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Avant toute chose, comme nous l'avons vu précédemment, il faut que dans votre fichier de configuration
-l'option [`disable_archives`](.:GetChapterAttributeByIndex::path::3.2:.#disable-archives) soit configurée correctement.
+l'option [`disable_archives`](.:GetChapterAttributeByIndex::path::4.2:.#disable-archives) soit configurée correctement.
 
 Entre les balises `header` que nous avons ajoutées à la fin du fichier `header.html`, nous allons ajouter le code suivant en utilisant 
-le motif [`ForBlogArchives`](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogarchives) :
+le motif [`ForBlogArchives`](.:GetChapterAttributeByIndex::path::5.4.2:.#forblogarchives) :
 
 .:CodeHighlight::HTML::False::
 .:Escape::
@@ -19,7 +19,7 @@ le motif [`ForBlogArchives`](.:GetChapterAttributeByIndex::path::4.4.2:.#forblog
 
 L'idée ici est d'itérer à travers la liste des archives de VenC, afin de récupérer la valeur de chaque élément de cette liste. Ici,
 la valeur correspond au nom de l'archive courante. Ce nom est défini par le format de date que vous avez indiqué dans votre fichier
-de configuration principale avec l'option [`archives_directory_name`](.:GetChapterAttributeByIndex::path::3.2:.#archives-directory-name).
+de configuration principale avec l'option [`archives_directory_name`](.:GetChapterAttributeByIndex::path::4.2:.#archives-directory-name).
 
 Mais évidemment le code ci-dessus ne suffit pas, puisque ce que nous
 voulons c'est une liste HTML de liens vers les archives. Du coup, faisons
@@ -37,20 +37,20 @@ plutôt quelque chose comme ça :
 Ça n'a plus la même tête, hein ? En effet :
 
 - On a rajouté une paire de balises `ul` pour avoir une liste HTML. L'identifiant de la balise ouvrante vous permettra plus tard d'en définir le style CSS.
-- On a rajouté une paire de balises `li` dans le premier argument de [`ForBlogArchives`](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogarchives). On a également assigné à cette balise une classe, qui vous permettra plus tard d'en définir le style CSS.
+- On a rajouté une paire de balises `li` dans le premier argument de [`ForBlogArchives`](.:GetChapterAttributeByIndex::path::5.4.2:.#forblogarchives). On a également assigné à cette balise une classe, qui vous permettra plus tard d'en définir le style CSS.
 - Dans la balise `li`, on a ajouté une balise `a` pour pouvoir construire notre lien, porté par la variable `path`. On remarque également que l'attribut `title` affichera entre parenthèses le nombre de publications dans l'archive. Ça n'est pas obligatoire, mais c'est tout de même plus sympa, non ?
 - Enfin, entre les balises `a` on retrouve bien la variable `value`, qui porte le nom de l'archive formatée comme indiqué plus haut.
 
 Avec ça, VenC va nous générer ce que nous voulons.
 
-Cependant comme nous l'avons dit dans le chapitre [7.5.3](.:GetChapterAttributeByIndex::path::7.5.2.1:.), la bonne pratique
+Cependant comme nous l'avons dit dans le chapitre [7.5.3](.:GetChapterAttributeByIndex::path::3.5.2.1:.), la bonne pratique
 est de faire en sorte que le thème, __si l'on veut le distribuer__, s'adapte à la configuration du blog. En effet, si jamais les archives
-sont désactivées, alors [`ForBlogArchives`](.:GetChapterAttributeByIndex::path::4.4.2:.#forblogarchives) ne produira rien et on se retrouvera
+sont désactivées, alors [`ForBlogArchives`](.:GetChapterAttributeByIndex::path::5.4.2:.#forblogarchives) ne produira rien et on se retrouvera
 avec une paire de balises `ul` vide. Ça n'est pas très propre. C'est d'autant plus problématique quand la liste est décorée avec un titre ou est
 contenue dans une boîte.
 
 Pour pallier ces problèmes, VenC permet de tester la configuration du projet
-afin d'adapter le thème à la situation avec le motif [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue).
+afin d'adapter le thème à la situation avec le motif [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::5.4.2:.#ifblogmetadataistrue).
 
 .:CodeHighlight::HTML::False:: .:Escape::
 .:IfBlogMetadataIsTrue::disable_archives::
@@ -60,7 +60,7 @@ afin d'adapter le thème à la situation avec le motif [`IfBlogMetadataIsTrue`](
 :.
 :. :.
 
-Ici, ce qu'on teste c'est l'option `disable_archives` avec [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue).
+Ici, ce qu'on teste c'est l'option `disable_archives` avec [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::5.4.2:.#ifblogmetadataistrue).
 Si elle vaut `true`, alors on ne fait rien. Sinon, on met le bloc de code
 que nous avons écrit tout à l'heure, ce qui nous donne au final : 
 

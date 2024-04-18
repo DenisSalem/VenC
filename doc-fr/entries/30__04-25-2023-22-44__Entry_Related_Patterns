@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '4.4.1'
+chapter: '5.4.1'
 title: Motifs de publication
 tree_test:
 - a:
@@ -14,13 +14,13 @@ tree_test:
 - g
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Ces motifs permettent d'accéder à des métadonnées contenues dans une [publication](.:GetChapterAttributeByIndex::path::3.3:.). Ils ne
-peuvent donc pas être utilisés en dehors d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.) ou des fichiers ci-dessous composant
+Ces motifs permettent d'accéder à des métadonnées contenues dans une [publication](.:GetChapterAttributeByIndex::path::4.3:.). Ils ne
+peuvent donc pas être utilisés en dehors d'une [publication](.:GetChapterAttributeByIndex::path::4.3:.) ou des fichiers ci-dessous composant
 un thème :
 
-- [`entry.html`](.:GetChapterAttributeByIndex::path::3.6:.)
-- [`atomEntry.html`](.:GetChapterAttributeByIndex::path::3.6:.)
-- [`rssEntry.html`](.:GetChapterAttributeByIndex::path::3.6:.)
+- [`entry.html`](.:GetChapterAttributeByIndex::path::4.6:.)
+- [`atomEntry.html`](.:GetChapterAttributeByIndex::path::4.6:.)
+- [`rssEntry.html`](.:GetChapterAttributeByIndex::path::4.6:.)
 
 #### CherryPickEntryMetadata
 
@@ -35,7 +35,7 @@ Par exemple :
 
 #### CherryPickEntryMetadataIfExists
 
-Identique à [`CherryPickEntryMetadata`](.:GetChapterAttributeByIndex::path::4.4.1:.#cherrypickentrymetadata), mais est ignoré en cas
+Identique à [`CherryPickEntryMetadata`](.:GetChapterAttributeByIndex::path::5.4.1:.#cherrypickentrymetadata), mais est ignoré en cas
 d'erreur.
 
 #### ForEntryAuthors
@@ -70,7 +70,7 @@ Si la métadonnée spécifiée dans **`metadata_name`** n'existe pas, VenC inter
 
 > .:Escape:: .:ForEntryMetadataIfExists::metadata_name::string::separator:. :.
 
-Identique à [`ForEntryMetadata`](.:GetChapterAttributeByIndex::path::4.4.1:.#forentrymetadata), mais
+Identique à [`ForEntryMetadata`](.:GetChapterAttributeByIndex::path::5.4.1:.#forentrymetadata), mais
 est ignoré si la métadonnée spécifiée dans **`metadata_name`** n'existe pas.
 
 #### GetEntryArchivePath
@@ -152,7 +152,7 @@ catégories filles, alors les arguments `open_node` et `close_node` sont ajouté
 une nouvelle liste de sous-catégories est générée entre ces deux arguments,
 en utilisant les arguments `open_branch` et `close_branch`.
 
-Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
+Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::4.2:.#disable-categories).
 
 #### GetEntryCategoriesTreeFromBranches
 
@@ -167,7 +167,7 @@ Ce motif est ignoré et supprimé si la génération des catégories est désact
 :. :.
 :.
 
-Fonctionne comme [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestreefrombranches) mais
+Fonctionne comme [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestreefrombranches) mais
  ne garde que les catégories où se trouve la publication courante.
 
 
@@ -227,7 +227,7 @@ Retourne l'identifiant unique de la publication.
 > .:Escape:: .:GetEntryMetadata::metadata_name:. :.
 
 Il est possible de définir ses propres champs dans les métadonnées
-d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.) ou d'un [template](.:GetChapterAttributeByIndex::path::3.5:.).
+d'une [publication](.:GetChapterAttributeByIndex::path::4.3:.) ou d'un [template](.:GetChapterAttributeByIndex::path::4.5:.).
 
 Par exemple, si l'on définit le champ suivant :
 
@@ -263,7 +263,7 @@ Il est possible d'utiliser la variable suivante dans l'argument __`string`__ pou
 
 > .:Escape:: .:GetEntryMetadataIfNotNull::metadata_name[::string][::string2]:. :.
 
-Identique à [`GetEntryMetadataIfExists`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadatatreeifexists), mais la métadonnée spécifiée ne doit pas être vide ou être `null`.
+Identique à [`GetEntryMetadataIfExists`](.:GetChapterAttributeByIndex::path::5.4.1:.#getentrymetadatatreeifexists), mais la métadonnée spécifiée ne doit pas être vide ou être `null`.
 
 Par exemple: 
 
@@ -351,7 +351,7 @@ Ce qui donnerait :
 :. :.
 :.
 
-Identique à [`GetEntryMetadataTree`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadatatree), mais le pattern
+Identique à [`GetEntryMetadataTree`](.:GetChapterAttributeByIndex::path::5.4.1:.#getentrymetadatatree), mais le pattern
 est ignoré si la métadonnée indiquée n'existe pas.
 
 #### GetEntryMinute
@@ -510,7 +510,7 @@ Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 :.
 :. :.
 
-Identique à [`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategoriesfrombranches)
+Identique à [`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getflattenedblogcategoriesfrombranches)
 mais ne récupère que les catégories de la publication courante.
 
 #### IfEntryMetadataIsTrue

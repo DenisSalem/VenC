@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.1'
+chapter: '3.1'
 title: Créer son blog en moins de 5 minutes !
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -36,7 +36,7 @@ blog_language: 'fr'
 blog_name: 'Le blog de Jean Rochefort, élu roy de France par les internets.'
 license: 'Licence royale':.
 
-Pour plus d'informations sur la configuration du blog, rendez-vous [ici](.:GetChapterAttributeByIndex::path::3.2:.).
+Pour plus d'informations sur la configuration du blog, rendez-vous [ici](.:GetChapterAttributeByIndex::path::4.2:.).
 
 Et voilà, c'est terminé ! Votre blog est prêt à l'emploi !
 

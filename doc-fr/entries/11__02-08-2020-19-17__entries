@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '3.3'
+chapter: '4.3'
 title: Les publications
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -17,7 +17,7 @@ Le nom de fichier d'une publication est formaté de la façon suivante :
 <id>__<mois>-<jour>-<année>-<heure>-<minute>__<titre>
 :.
 
-Une publication contient une première partie au format [YAML](https://yaml.org/) contenant [les métadonnées](.:GetChapterAttributeByIndex::path::3.4:.) de la publication,
+Une publication contient une première partie au format [YAML](https://yaml.org/) contenant [les métadonnées](.:GetChapterAttributeByIndex::path::4.4:.) de la publication,
 puis une seconde au format Markdown (format par défaut) qui contiendra la publication à proprement parler. Cette seconde partie
 est elle-même scindée en deux. L'une contiendra la prévisualisation de la
 publication, et l'autre son véritable contenu. Vous pouvez évidemment contrôler l'affichage de la prévisualisation et de la publication en fonction de votre template/thème de
@@ -70,7 +70,7 @@ C'est le nom de votre publication, tel que vous l'avez défini au moment de cré
 
 ## Métadonnées optionnelles
 
-Il est également possible de rajouter librement des [champs optionnels](.:GetChapterAttributeByIndex::path::3.4:.). Il y a cependant deux champs réservés :
+Il est également possible de rajouter librement des [champs optionnels](.:GetChapterAttributeByIndex::path::4.4:.). Il y a cependant deux champs réservés :
 
 ### chapter
 

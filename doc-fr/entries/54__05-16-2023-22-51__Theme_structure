@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5.1'
+chapter: '3.5.1'
 title: Structure du thème
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -16,7 +16,7 @@ Pour commencer, placez-vous dans la racine de votre projet :
 .:CodeHighlight::shell-session::False::anonyme@anonymous /path/to/your/project $ ls
 blog  blog_configuration.yaml  caches  entries  extra  includes  theme:.
 
-Si vous n'avez pas déjà [installé un thème](.:GetChapterAttributeByIndex::path::5.9:.), le répertoire `theme` devrait être vide.
+Si vous n'avez pas déjà [installé un thème](.:GetChapterAttributeByIndex::path::6.9:.), le répertoire `theme` devrait être vide.
 
 Nous allons y créer à l'intérieur deux répertoires :
 

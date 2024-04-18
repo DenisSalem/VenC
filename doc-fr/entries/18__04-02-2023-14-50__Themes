@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '3.6'
+chapter: '4.6'
 title: Thèmes
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -23,12 +23,12 @@ style CSS ou des scripts JS.
   - `rssHeader.html`
   - `rssEntry.html`
   - `rssFooter.html`
-  - [`audio.html`](.:GetChapterAttributeByIndex::path::4.4.3:.#audio)
+  - [`audio.html`](.:GetChapterAttributeByIndex::path::5.4.3:.#audio)
   - `video.html`
   
 - __`config.yaml`__ : un fichier de configuration [YAML](https://yaml.org/) permettant
 d'indiquer les dépendances du thème, de supplanter des options de
-configuration et de décrire le thème. Plus d'informations [ici](.:GetChapterAttributeByIndex::path::3.6.1:.).
+configuration et de décrire le thème. Plus d'informations [ici](.:GetChapterAttributeByIndex::path::4.6.1:.).
 
 Comme vous l'avez sans doute compris, VenC met bout à bout les morceaux
 de votre blog en formatant l'entête (`header.html`), puis en répétant autant

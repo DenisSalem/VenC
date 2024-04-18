@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '5.7'
+chapter: '6.7'
 title: Éditer un fichier et exporter le blog
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -13,4 +13,4 @@ Ou :
 > venc --edit-and-export &lt;fichier&gt;
 
 Cette commande ouvre le fichier passé en paramètre avec
-l'éditeur de texte de votre choix, défini dans [`blog_configuration.yaml`](.:GetChapterAttributeByIndex::path::3.2:.text-editor). Puis une fois l'édition terminée, VenC génère l'ensemble du blog.
+l'éditeur de texte de votre choix, défini dans [`blog_configuration.yaml`](.:GetChapterAttributeByIndex::path::4.2:.text-editor). Puis une fois l'édition terminée, VenC génère l'ensemble du blog.

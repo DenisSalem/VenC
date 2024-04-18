@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5.2.1'
+chapter: '3.5.2.1'
 title: Créer un menu
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -33,10 +33,10 @@ _actives_ si vous ne dites pas explicitement à VenC de le faire.
 
 En effet, ces listes sont dans la pratique un moyen de naviguer sur votre
 site et ceci implique donc que VenC a généré le contenu organisé correspondant.
-En l'occurrence, il faut s'assurer que dans votre [fichier de configuration](.:GetChapterAttributeByIndex::path::3.2:.) les options suivantes soient configurées à **`false`** pour activer, respectivement, les archives et les catégories :
+En l'occurrence, il faut s'assurer que dans votre [fichier de configuration](.:GetChapterAttributeByIndex::path::4.2:.) les options suivantes soient configurées à **`false`** pour activer, respectivement, les archives et les catégories :
 
-- [`disable_archives`](.:GetChapterAttributeByIndex::path::3.2:.#disable-archives)
-- [`disable_categories`](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories)
+- [`disable_archives`](.:GetChapterAttributeByIndex::path::4.2:.#disable-archives)
+- [`disable_categories`](.:GetChapterAttributeByIndex::path::4.2:.#disable-categories)
 
 VenC fonctionne de cette manière parce que la responsabilité de ce qui doit être généré relève de l'utilisateur final.
 C'est au thème de s'adapter et d'anticiper que l'utilisateur final veut ou ne veut pas générer tel ou tel

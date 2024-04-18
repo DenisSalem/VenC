@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '3.6.2.2'
+chapter: '4.6.2.2'
 title: Défilement infini
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -38,7 +38,7 @@ Il y a deux façons de procéder :
 
 - Vous pouvez copier le module et sa dépendance dans le répertoire _assets_
 de votre thème depuis __`~/.local/share/VenC/themes_assets`__. C'est cette méthode qui est recommandée.
-- Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::3.6.1:.)
+- Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::4.6.1:.)
 dans lequel vous indiquerez le nom des fichiers des modules que vous souhaitez
 voir être exportés pendant la génération de votre blog.
 

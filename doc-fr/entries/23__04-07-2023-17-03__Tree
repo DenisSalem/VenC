@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '3.6.2.3'
+chapter: '4.6.2.3'
 title: Arbre
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -44,13 +44,13 @@ Il y a deux façons de procéder :
 
 - Vous pouvez copier le module et sa dépendance dans le répertoire assets
 de votre thème depuis __`~/.local/share/VenC/themes_assets`__. C'est cette méthode qui est recommandée si vous souhaitez distribuer votre thème.
-- Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::3.6.1:.)
+- Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::4.6.1:.)
 dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
 voir être exportés pendant la génération de votre blog.
 
 ## Structure d'une liste hiérarchique
 
-Vous pouvez appliquer le module arbre à des listes hiérarchiques, qui sont générées par VenC avec le pattern __[`GetChapters`](.:GetChapterAttributeByIndex::path::4.4.2:.#getchapters)__ ou avec le pattern __[`TreeForBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#treeforblogcategories)__.
+Vous pouvez appliquer le module arbre à des listes hiérarchiques, qui sont générées par VenC avec le pattern __[`GetChapters`](.:GetChapterAttributeByIndex::path::5.4.2:.#getchapters)__ ou avec le pattern __[`TreeForBlogCategories`](.:GetChapterAttributeByIndex::path::5.4.2:.#treeforblogcategories)__.
 
 Commençons par observer que l'utilisation de ces deux patterns présente des similarités :
 

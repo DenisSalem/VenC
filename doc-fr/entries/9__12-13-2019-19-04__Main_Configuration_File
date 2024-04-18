@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '3.2'
+chapter: '4.2'
 title: Fichier de configuration principal
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -260,12 +260,12 @@ le répertoire `extra`.
 
 ## default_theme
 
-Contient le nom du thème par défaut à utiliser. Normalement, si vous n'avez pas [installé de thème](.:GetChapterAttributeByIndex::path::5.9:.) dans le dossier de votre projet, vous êtes
+Contient le nom du thème par défaut à utiliser. Normalement, si vous n'avez pas [installé de thème](.:GetChapterAttributeByIndex::path::6.9:.) dans le dossier de votre projet, vous êtes
 obligé de spécifier le nom d'un thème installé avec VenC au moment de générer votre blog. Par exemple : 
 
 > venc -xb concrete
 
-Si aucun thème n'est installé dans votre projet et si aucun nom de thème n'est passé en paramètre à la commande [`venc -xb`](.:GetChapterAttributeByIndex::path::5.4:.), alors VenC tentera
+Si aucun thème n'est installé dans votre projet et si aucun nom de thème n'est passé en paramètre à la commande [`venc -xb`](.:GetChapterAttributeByIndex::path::6.4:.), alors VenC tentera
 d'utiliser l'option `default_theme` pour sélectionner un thème. Si vous n'avez pas de thème installé dans votre projet, il
-est important de définir cette variable pour que la commande [`venc -s`](.:GetChapterAttributeByIndex::path::5.11:.) fonctionne correctement.
+est important de définir cette variable pour que la commande [`venc -s`](.:GetChapterAttributeByIndex::path::6.11:.) fonctionne correctement.
 

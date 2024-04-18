@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5.4.2'
+chapter: '3.5.4.2'
 title: Ajouter du code HTML personnalisé
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -25,12 +25,12 @@ Dans l'exemple ci-dessous, ce sont les lignes 5, 6 et 7 qui nous intéressent :
     </body>
 </html>:.
 
-[`IncludeFileIfExists`](.:GetChapterAttributeByIndex::path::4.4.3:.#includefileifexists) permet d'inclure un
+[`IncludeFileIfExists`](.:GetChapterAttributeByIndex::path::5.4.3:.#includefileifexists) permet d'inclure un
 fichier du type de votre choix. Généralement, il s'agira d'un fichier contenant du code HTML.
 
-Ici le seul argument de la fonction est retourné par [`GetBlogMetadataIfNotNull`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadataifnotnull),
+Ici le seul argument de la fonction est retourné par [`GetBlogMetadataIfNotNull`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogmetadataifnotnull),
 qui permet de récupérer le nom du fichier à inclure s'il est défini dans le fichier de configuration du blog.
 
 Dans le cas où le nom de fichier n'est pas défini, la fonction renvoie une chaîne de caractères vide transférée à
-[`IncludeFileIfExists`](.:GetChapterAttributeByIndex::path::4.4.3:.#includefileifexists), qui sera ignorée en conséquence.
+[`IncludeFileIfExists`](.:GetChapterAttributeByIndex::path::5.4.3:.#includefileifexists), qui sera ignorée en conséquence.
 

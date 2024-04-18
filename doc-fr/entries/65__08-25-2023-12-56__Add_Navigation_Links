@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5.4.3'
+chapter: '3.5.4.3'
 title: Ajouter des liens de navigation
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -10,14 +10,14 @@ Nous concluons le pied de page avec les liens de navigation. À noter que ce qui
 programmé dans l'entête de votre site.
 
 Comme on s'en doute, votre blog n'affiche pas toutes les publications d'un fil sur une seule page. VenC utilise un système
-de pagination que vous pouvez configurer [ici](.:GetChapterAttributeByIndex::path::3.2:.#entries-per-pages). En
+de pagination que vous pouvez configurer [ici](.:GetChapterAttributeByIndex::path::4.2:.#entries-per-pages). En
 conséquence, il faut que le visiteur de votre site puisse naviguer entre ces différentes pages.
 
 Pour cela on uitilise trois _motifs_ différents :
 
-- [`GetNextPage`](.:GetChapterAttributeByIndex::path::4.3:.#getnextpage) : permet de récupérer la page suivante si elle existe, sinon le _motif_ est ignoré.
-- [`GetPreviousPage`](.:GetChapterAttributeByIndex::path::4.3:.#getpreviouspage) : permet de récupérer la page précédente si elle existe, sinon le _motif_ est ignoré.
-- [`ForPages`](.:GetChapterAttributeByIndex::path::4.3:.#forpages) : permet de générer une liste de pages numérotées. La page courante correspond à l'item au centre de la liste.
+- [`GetNextPage`](.:GetChapterAttributeByIndex::path::5.3:.#getnextpage) : permet de récupérer la page suivante si elle existe, sinon le _motif_ est ignoré.
+- [`GetPreviousPage`](.:GetChapterAttributeByIndex::path::5.3:.#getpreviouspage) : permet de récupérer la page précédente si elle existe, sinon le _motif_ est ignoré.
+- [`ForPages`](.:GetChapterAttributeByIndex::path::5.3:.#forpages) : permet de générer une liste de pages numérotées. La page courante correspond à l'item au centre de la liste.
 
 En reprenant l'exemple du chapitre précédent, nous aurions alors aux lignes 8 à 14 :
 
@@ -39,25 +39,25 @@ En reprenant l'exemple du chapitre précédent, nous aurions alors aux lignes 8 
     </body>
 </html>:.
 
-- __Lignes 8__ et __14__ :  l'utilisation de [`GetPreviousPage`](.:GetChapterAttributeByIndex::path::4.3:.#getpreviouspage) et [`GetNextPage`](.:GetChapterAttributeByIndex::path::4.3:.#getnextpage) devrait être assez intuitive. En effet, on utilise le _motif_
+- __Lignes 8__ et __14__ :  l'utilisation de [`GetPreviousPage`](.:GetChapterAttributeByIndex::path::5.3:.#getpreviouspage) et [`GetNextPage`](.:GetChapterAttributeByIndex::path::5.3:.#getnextpage) devrait être assez intuitive. En effet, on utilise le _motif_
 pour formater le texte passé en argument à la fonction. Dans ce texte, on utilise la variable `{path}` qui contient le chemin vers la page désirée.
 - __Lignes 9__ et __13__ : on ouvre et ferme les balises de la liste HTML qui contiendra la liste des pages du fil de publications.
-- __Lignes 10 à 12__ : avec le _motif_ [`ForPages`](.:GetChapterAttributeByIndex::path::4.3:.#forpages), on indique le nombre de page que l'on souhaite faire apparaître dans la liste. Dans le second argument, on formate l'item à générer en utilisant les variables __`path`__ et __`page_number`__, qui contiennent respectivement le chemin vers la page cible ainsi que
+- __Lignes 10 à 12__ : avec le _motif_ [`ForPages`](.:GetChapterAttributeByIndex::path::5.3:.#forpages), on indique le nombre de page que l'on souhaite faire apparaître dans la liste. Dans le second argument, on formate l'item à générer en utilisant les variables __`path`__ et __`page_number`__, qui contiennent respectivement le chemin vers la page cible ainsi que
 son numéro (ligne 11).
 
-À noter que si la page courante est la première ou la dernière page, alors respectivement les _motifs_ [`GetPreviousPage`](.:GetChapterAttributeByIndex::path::4.3:.#getpreviouspage) et
-[`GetNextPage`](.:GetChapterAttributeByIndex::path::4.3:.#getnextpage) seront ignorés et ne retourneront rien.
+À noter que si la page courante est la première ou la dernière page, alors respectivement les _motifs_ [`GetPreviousPage`](.:GetChapterAttributeByIndex::path::5.3:.#getpreviouspage) et
+[`GetNextPage`](.:GetChapterAttributeByIndex::path::5.3:.#getnextpage) seront ignorés et ne retourneront rien.
 
 Notons également que si vous venez de commencer votre blog, il n'y aura probablement pas beaucoup de publications au début. Ces publications pourraient ne requérir
 qu'une seule page pour être toutes affichées, et il n'y aurait donc pas de liste de pages à afficher non plus.
 
 Du coup tout ça c'est pas mal. Mais on peut encore faire mieux.
 
-- [`IfPages`](.:GetChapterAttributeByIndex::path::4.3:.#ifpages) : par exemple on voit bien que si au début votre site n'est pas très rempli
-comme on l'a dit, alors il n'y aura pas de liste de pages à afficher et le _motif_ [`ForPages`](.:GetChapterAttributeByIndex::path::4.3:.#forpages) sera ignoré. Or, les balises
-HTML qui ouvrent et ferment la liste sont bien présentes, quoi qu'il arrive. On peut résoudre ce problème avec le _motif_ [`IfPages`](.:GetChapterAttributeByIndex::path::4.3:.#ifpages),
+- [`IfPages`](.:GetChapterAttributeByIndex::path::5.3:.#ifpages) : par exemple on voit bien que si au début votre site n'est pas très rempli
+comme on l'a dit, alors il n'y aura pas de liste de pages à afficher et le _motif_ [`ForPages`](.:GetChapterAttributeByIndex::path::5.3:.#forpages) sera ignoré. Or, les balises
+HTML qui ouvrent et ferment la liste sont bien présentes, quoi qu'il arrive. On peut résoudre ce problème avec le _motif_ [`IfPages`](.:GetChapterAttributeByIndex::path::5.3:.#ifpages),
 qui permet d'afficher ou non un bloc de texte selon qu'il existe ou non plusieurs pages sur le fil de publications courant.
-- [`IfInThread`](.:GetChapterAttributeByIndex::path::4.3:.#ifinthread) : avec ce _motif_, il est également possible de contrôler l'affichage des boutons "Suivant" ou "Précédent" selon que l'on est dans une publication individuelle, ou dans une page donnée d'un fil de publications.
+- [`IfInThread`](.:GetChapterAttributeByIndex::path::5.3:.#ifinthread) : avec ce _motif_, il est également possible de contrôler l'affichage des boutons "Suivant" ou "Précédent" selon que l'on est dans une publication individuelle, ou dans une page donnée d'un fil de publications.
 
 Le code ci-dessous actualise ce qui a été déjà fait pour illustrer ces remarques :
 
@@ -81,6 +81,6 @@ Le code ci-dessous actualise ce qui a été déjà fait pour illustrer ces remar
     </body>
 </html>:.
 
-- __Lignes 8__ et __16__ : le _motif_ [`IfInThread`](.:GetChapterAttributeByIndex::path::4.3:.#ifinthread) permet d'ajouter une variable de _motif_ qui sera utilisée par [`GetPreviousPage`](.:GetChapterAttributeByIndex::path::4.3:.#getpreviouspage) et [`GetNextPage`](.:GetChapterAttributeByIndex::path::4.3:.#getnextpage).
+- __Lignes 8__ et __16__ : le _motif_ [`IfInThread`](.:GetChapterAttributeByIndex::path::5.3:.#ifinthread) permet d'ajouter une variable de _motif_ qui sera utilisée par [`GetPreviousPage`](.:GetChapterAttributeByIndex::path::5.3:.#getpreviouspage) et [`GetNextPage`](.:GetChapterAttributeByIndex::path::5.3:.#getnextpage).
 Dans le cas où l'on se trouve sur une publication individuelle, on peut maintenant afficher le titre de la prochaine et de la précédente publication.
-- __Ligne 9__ : [`IfPages`](.:GetChapterAttributeByIndex::path::4.3:.#ifpages) embarque à la fois les balises HTML __`ul`__ et le _motif_ [`ForPages`](.:GetChapterAttributeByIndex::path::4.3:.#forpages). S'il n'y a pas de liste de pages à générer, alors ces éléments sont supprimés.
+- __Ligne 9__ : [`IfPages`](.:GetChapterAttributeByIndex::path::5.3:.#ifpages) embarque à la fois les balises HTML __`ul`__ et le _motif_ [`ForPages`](.:GetChapterAttributeByIndex::path::5.3:.#forpages). S'il n'y a pas de liste de pages à générer, alors ces éléments sont supprimés.

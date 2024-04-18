@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '4.4.3'
+chapter: '5.4.3'
 title: Motifs divers
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -18,12 +18,12 @@ une et une seule fois au moment où VenC les lit.
 
 > .:Escape:: .:Audio::source::extensions:. :.
 
-Ce motif permet d'inclure un fichier audio dans la page. Pour ce faire, le fichier [`audio.html`](.:GetChapterAttributeByIndex::path::3.6:.)
+Ce motif permet d'inclure un fichier audio dans la page. Pour ce faire, le fichier [`audio.html`](.:GetChapterAttributeByIndex::path::4.6:.)
 faisant partie du thème est formaté avec les paramètres passés au motif :
 
 - __`source`__ : il s'agit de l'URL ou du chemin du fichier audio. Il peut s'agir d'un chemin absolu ou 
 relatif. S'il s'agit d'un chemin relatif, vous pouvez utiliser le motif
-[`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot).
+[`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::5.3:.#getrelativeroot).
 Attention, l'URL ou le chemin passé en paramètre ne doit pas contenir l'extension du fichier.
 - __`extensions`__ : pour assurer la compatibilité de votre contenu avec
 les différents navigateurs du marché, il est recommandé d'avoir plusieurs
@@ -143,7 +143,7 @@ int main(int argc, char ** argv) {
 Le style CSS du code source ainsi formaté est généré automatiquement
 par VenC dans un fichier et est placé dans le répertoire "`extra`" de
 votre projet. Ces fichiers doivent être explicitement inclus dans votre
-page à l'aide du motif [`GetStyleSheets`](.:GetChapterAttributeByIndex::path::4.3:.#getstylesheets).
+page à l'aide du motif [`GetStyleSheets`](.:GetChapterAttributeByIndex::path::5.3:.#getstylesheets).
 
 Dans l'exemple précédent, le fichier CSS créé serait le suivant :
 
@@ -170,7 +170,7 @@ le style CSS suivant est appliqué :
 
 Il est important que le style ainsi défini soit inclus dans `header.html`
 **après** utilisation du motif
-[`GetStyleSheets`](.:GetChapterAttributeByIndex::path::4.3:.#getstylesheets).
+[`GetStyleSheets`](.:GetChapterAttributeByIndex::path::5.3:.#getstylesheets).
 
 En effet, le nouveau style écrasera le précédent s'il est placé après. Par exemple :
 
@@ -180,13 +180,13 @@ En effet, le nouveau style écrasera le précédent s'il est placé après. Par 
 :.
 
 Enfin, il est possible de changer le thème par défaut utilisé par le module [`Pygments`](https://pygments.org/) avec
-l'option [`pygmentize_style`](.:GetChapterAttributeByIndex::path::3.2:.#pygmentize-style).
+l'option [`pygmentize_style`](.:GetChapterAttributeByIndex::path::4.2:.#pygmentize-style).
 
 #### CodeHighlightInclude
 
 > .:Escape:: .:CodeHightlightInclude::language::display_line_numbers::filename:. :.
 
-Ce motif fonctionne exactement comme le précédent motif [`CodeHighlight`](.:GetChapterAttributeByIndex::path::4.4.3:.#codehighlight),
+Ce motif fonctionne exactement comme le précédent motif [`CodeHighlight`](.:GetChapterAttributeByIndex::path::5.4.3:.#codehighlight),
 à la différence que le dernier argument ne contient pas de code source
 mais le nom de fichier dans lequel se trouve celui-ci. Ce fichier source
 doit être placé dans le répertoire `includes` de votre projet.
@@ -213,7 +213,7 @@ Ce motif ne prend qu'un seul paramètre.
 
 > .:Escape:: .:Escape::content:. :.
 
-Identique à [`DisableMarkup`](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup),
+Identique à [`DisableMarkup`](.:GetChapterAttributeByIndex::path::5.4.3:.#disablemarkup),
 mais permet d'ignorer également les motifs contenus à l'intérieur du texte de
 l'unique argument `content`.
 
@@ -275,9 +275,9 @@ générée.
 
 > .:Escape:: .:HTML::content:. :.
 
-Identique à [`DisableMarkup`](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup), mais rajoute des balises `</p>` et `<p>`, respectivement au début et à la fin du texte de sortie.
+Identique à [`DisableMarkup`](.:GetChapterAttributeByIndex::path::5.4.3:.#disablemarkup), mais rajoute des balises `</p>` et `<p>`, respectivement au début et à la fin du texte de sortie.
 
-Si vous voulez intégrer du code HTML dans votre publication, préférez ce motif à [`DisableMarkup`](.:GetChapterAttributeByIndex::path::4.4.3:.#disablemarkup)
+Si vous voulez intégrer du code HTML dans votre publication, préférez ce motif à [`DisableMarkup`](.:GetChapterAttributeByIndex::path::5.4.3:.#disablemarkup)
 qui lui risquerait de produire *in fine* une page avec des erreurs de validation W3C.
 
 #### IncludeFile
@@ -350,7 +350,7 @@ page générée par VenC.
 
 > .:Escape:: .:IncludeFileIfExists::filename[::arg1][::arg2][...]:. :.
 
-Identique à [`IncludeFile`](.:GetChapterAttributeByIndex::path::4.4.3:.#includefile), mais le motif
+Identique à [`IncludeFile`](.:GetChapterAttributeByIndex::path::5.4.3:.#includefile), mais le motif
 est ignoré si le fichier à inclure est inaccessible ou s'il n'existe pas.
 
 #### Kroki
@@ -369,7 +369,7 @@ Les arguments sont les suivants :
 - __`code`__ : la description textuelle du diagramme que vous voulez générer.
 - __`provider`__ : il s'agit du serveur depuis lequel l'API est utilisée. Par défaut, il s'agit de [https://kroki.io](https://kroki.io/).
 
-VenC récupère l'image est l'enregistre dans le répertoire [`extra`](.:GetChapterAttributeByIndex::path::3.1:.). Celle-ci est ensuite copiée à la racine du blog.
+VenC récupère l'image est l'enregistre dans le répertoire [`extra`](.:GetChapterAttributeByIndex::path::4.1:.). Celle-ci est ensuite copiée à la racine du blog.
 Le motif renvoie quant à lui une balise `img` de la forme :
 
 .:CodeHighlight::HTML::False::<img class="__VENC_KROKI__" src="../kroki_2b7b50208100ca9a40a3138ee72e62f7.svg">:.
@@ -435,7 +435,7 @@ Ce qui donnerait :
 
 > .:Escape:: .:Kroki::endpoint::format::filename[::provider]:. :.
 
-Identique à [Kroki](.:GetChapterAttributeByIndex::path::4.4.3:.#kroki), mais l'argument `code` est remplacé par `filename`.
+Identique à [Kroki](.:GetChapterAttributeByIndex::path::5.4.3:.#kroki), mais l'argument `code` est remplacé par `filename`.
 Il s'agit du nom de fichier contenant le code décrivant le diagramme. Si le fichier n'existe pas ou n'est pas accessible,
 VenC s'arrête sur une erreur.
 
@@ -587,15 +587,15 @@ Remarquons également que pour chaque cellule, les caractères blancs au début 
 
 > .:Escape:: .:Video::source::extensions[::poster]:. :.
 
-Ce motif fonctionne comme [`Audio`](.:GetChapterAttributeByIndex::path::4.4.3:.#audio), il possède cependant un argument supplémentaire
+Ce motif fonctionne comme [`Audio`](.:GetChapterAttributeByIndex::path::5.4.3:.#audio), il possède cependant un argument supplémentaire
 pour ajouter une vignette.
 
-Ce motif permet donc d'inclure un fichier vidéo dans la page. Pour ce faire, le fichier [`video.html`](.:GetChapterAttributeByIndex::path::3.6:.)
+Ce motif permet donc d'inclure un fichier vidéo dans la page. Pour ce faire, le fichier [`video.html`](.:GetChapterAttributeByIndex::path::4.6:.)
 faisant partie du thème est formaté avec les paramètres passés au motif :
 
-- __`source`__ : il s'agit de l'URL ou du chemin de la vidéo. Il peut s'agir d'un chemin absolu ou relatif. S'il s'agit d'un chemin relatif, vous pouvez utiliser [`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot). Attention, l'URL ou le chemin passé en paramètre ne doit pas contenir l'extension du fichier.
+- __`source`__ : il s'agit de l'URL ou du chemin de la vidéo. Il peut s'agir d'un chemin absolu ou relatif. S'il s'agit d'un chemin relatif, vous pouvez utiliser [`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::5.3:.#getrelativeroot). Attention, l'URL ou le chemin passé en paramètre ne doit pas contenir l'extension du fichier.
 - __`extensions`__ : pour assurer la compatibilité de votre contenu avec les différents navigateurs du marché, il est recommandé d'avoir plusieurs sources de la même vidéo en différents formats. Ce paramètre est donc une liste des extensions disponibles pour votre vidéo. Les éléments de la liste sont séparés par une virgule.
-- __`poster`__ : il est possible d'avoir une image de fond, en remplacement de la vidéo quand celle-ci n'est pas encore lancée. Ce paramètre contient donc l'URL ou le chemin relatif (vous pouvez également utiliser [`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot)) ou absolu de ladite image.
+- __`poster`__ : il est possible d'avoir une image de fond, en remplacement de la vidéo quand celle-ci n'est pas encore lancée. Ce paramètre contient donc l'URL ou le chemin relatif (vous pouvez également utiliser [`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::5.3:.#getrelativeroot)) ou absolu de ladite image.
 
 #### Exemple de fichier video.html
 

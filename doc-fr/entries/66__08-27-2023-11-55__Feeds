@@ -2,10 +2,10 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5.5'
+chapter: '3.5.5'
 title: Syndication
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 VenC peut générer un flux Atom ou RSS en suivant la même logique de construction que celle des pages HTML de votre site, c'est-à-dire avec un entête, un corps et un pied de page.
 Vous pouvez également y utiliser les mêmes _motifs_ que ceux que nous
-avons vus dans les chapitres [7.5.2](.:GetChapterAttributeByIndex::path::7.5.2:.), [7.5.3](.:GetChapterAttributeByIndex::path::7.5.3:.) et [7.5.4](.:GetChapterAttributeByIndex::path::7.5.4:.).
+avons vus dans les chapitres [3.5.2](.:GetChapterAttributeByIndex::path::3.5.2:.), [3.5.3](.:GetChapterAttributeByIndex::path::3.5.3:.) et [3.5.4](.:GetChapterAttributeByIndex::path::3.5.4:.).

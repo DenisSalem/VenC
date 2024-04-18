@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '3.5.1.2'
+chapter: '4.5.1.2'
 title: 'Second cas pratique : images'
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -12,13 +12,13 @@ Le template `images` se présente ainsi :
 
 Dans ce template on voit que l'on a trois placeholders :
 
-- __`.:DisableMarkup::venc_entry_title:.`__  : variable optionnelle, voir "[.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::3.5.2:. :.](.:GetChapterAttributeByIndex::path::3.5.2:.)".
-- __`value`__ : optionnelle, voir "[.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::3.5.2:. :.](.:GetChapterAttributeByIndex::path::3.5.2:.)".
+- __`.:DisableMarkup::venc_entry_title:.`__  : variable optionnelle, voir "[.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::3.5.2:. :.](.:GetChapterAttributeByIndex::path::4.5.2:.)".
+- __`value`__ : optionnelle, voir "[.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::3.5.2:. :.](.:GetChapterAttributeByIndex::path::4.5.2:.)".
 - __`images`__ : ce placeholder est présent dans l'entête de la publication.
 Ça signifie que les valeurs ou les structures de données associées à la clé `images`, dans le code JSON passé en argument, seront ajoutées à
 l'entête [YAML](https://yaml.org/).
 
-Comme la métadonnée d'origine dans l'entête [YAML](https://yaml.org/) du template est appelée dans [`ForEntryMetadata`](.:GetChapterAttributeByIndex::path::4.4.1:.#forentrymetadata), il faut que la variable __`images`__ soit une liste. On doit donc utiliser la commande VenC `--new-entry` comme ci-dessous :
+Comme la métadonnée d'origine dans l'entête [YAML](https://yaml.org/) du template est appelée dans [`ForEntryMetadata`](.:GetChapterAttributeByIndex::path::5.4.1:.#forentrymetadata), il faut que la variable __`images`__ soit une liste. On doit donc utiliser la commande VenC `--new-entry` comme ci-dessous :
 
 _Pour plus de clarté l'exemple utilise une approche multiligne en Bash, comme expliqué [ici](https://stackoverflow.com/a/37222377/3549035)._
 
