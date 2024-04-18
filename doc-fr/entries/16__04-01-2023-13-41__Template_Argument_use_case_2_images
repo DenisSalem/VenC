@@ -12,8 +12,8 @@ Le template `images` se présente ainsi :
 
 Dans ce template on voit que l'on a trois placeholders :
 
-- __`.:DisableMarkup::venc_entry_title:.`__  : variable optionnelle, voir "[.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::3.5.2:. :.](.:GetChapterAttributeByIndex::path::4.5.2:.)".
-- __`value`__ : optionnelle, voir "[.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::3.5.2:. :.](.:GetChapterAttributeByIndex::path::4.5.2:.)".
+- __`.:DisableMarkup::venc_entry_title:.`__  : variable optionnelle, voir "[.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::4.5.2:. :.](.:GetChapterAttributeByIndex::path::4.5.2:.)".
+- __`value`__ : optionnelle, voir "[.:GetEntryAttributeByID::title:: .:GetChapterAttributeByIndex::entry_id::4.5.2:. :.](.:GetChapterAttributeByIndex::path::4.5.2:.)".
 - __`images`__ : ce placeholder est présent dans l'entête de la publication.
 Ça signifie que les valeurs ou les structures de données associées à la clé `images`, dans le code JSON passé en argument, seront ajoutées à
 l'entête [YAML](https://yaml.org/).

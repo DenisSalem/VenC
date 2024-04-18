@@ -24,7 +24,7 @@ style CSS ou des scripts JS.
   - `rssEntry.html`
   - `rssFooter.html`
   - [`audio.html`](.:GetChapterAttributeByIndex::path::5.4.3:.#audio)
-  - `video.html`
+  - [`video.html`](.:GetChapterAttributeByIndex::path::5.4.3:.#video)
   
 - __`config.yaml`__ : un fichier de configuration [YAML](https://yaml.org/) permettant
 d'indiquer les dépendances du thème, de supplanter des options de
@@ -50,7 +50,7 @@ dans :
 Ce thème en l'état offre un aperçu de ce qu'il est possible de faire avec VenC.
 C'est une solide base pour créer le vôtre.
 
-Vous pouvez également vous aider de la "[section des tutoriels](.:GetChapterAttributeByIndex::path::7:.)",
+Vous pouvez également vous aider des "[tutoriels](.:GetChapterAttributeByIndex::path::3:.)",
 dans laquelle sont décrites des techniques pour réaliser des mises en
 pages très spécifiques et pour lesquelles l'utilisation du langage de
 balisage interne de VenC sera illustrée.
