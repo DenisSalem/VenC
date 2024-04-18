@@ -7,7 +7,7 @@ title: Animation de chargement
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 C'est purement cosmétique mais vous pouvez configurer une animation de chargement,
-comme expliqué dans le chapitre [3.6.2.2](.:GetChapterAttributeByIndex::path::4.6.2.2:.#footer-html), lorsque
+comme expliqué dans le chapitre [4.6.2.2](.:GetChapterAttributeByIndex::path::4.6.2.2:.#footer-html), lorsque
 vous utilisez le module JS de défilement infini.
 
 On peut alors écrire, lignes 2 à 4, quelque chose comme :

@@ -14,7 +14,7 @@ la commande suivante :
 
 Cette commande va créer les pages HTML de votre blog en utilisant le thème _[Concrete](.:GetChapterAttributeByIndex::path::4.6.3:.)_.
 Il s'agit du thème par défaut livré avec VenC. Il peut vous servir de base pour construire le vôtre. Pour
-en savoir plus sur la façon dont ça fonctionne, rendez-vous au chapitre [3.6](.:GetChapterAttributeByIndex::path::4.6:.).
+en savoir plus sur la façon dont ça fonctionne, rendez-vous au chapitre [4.6](.:GetChapterAttributeByIndex::path::4.6:.).
 
 VenC utilise par défaut le thème local quand aucun nom de thème ne lui est précisé.
 Si vous avez suivi ce tutoriel depuis le début, le répertoire `theme` de votre projet

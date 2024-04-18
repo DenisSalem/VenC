@@ -40,7 +40,7 @@ Pour en savoir plus sur le format Atom lui-même, rendez-vous [ici](https://vali
      .:GetBlogMetadataIfNotNull::author_email::<email>{value}</email>:.
     </author>:. :.
 
-Comme on peut le voir, il y a des similitudes avec ce qui a été réalisé et montré dans le chapitre [7.5.2](.:GetChapterAttributeByIndex::path::3.5.2:.).
+Comme on peut le voir, il y a des similitudes avec ce qui a été réalisé et montré dans le chapitre [3.5.2](.:GetChapterAttributeByIndex::path::3.5.2:.).
 
 Les nouveautés ici, c'est que l'on construit des URL uniques avec [`GetBlogURL`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogurl) et
 [`GetRelativeLocation`](.:GetChapterAttributeByIndex::path::5.3:.#getrelativelocation) comme on peut le voir aux lignes 4, 9 et 13.

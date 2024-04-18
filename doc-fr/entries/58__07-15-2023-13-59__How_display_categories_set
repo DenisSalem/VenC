@@ -20,7 +20,7 @@ Pour commencer, nous allons préparer le terrain pour que le thème soit
 modulable par les utilisateurs finaux.
 
 Entre les balises __`header`__ que vous avez ajoutées dans le chapitre
-[7.5.2.1](.:GetChapterAttributeByIndex::path::3.5.2.1:.), ajoutez maintenant le code suivant :
+[3.5.2.1](.:GetChapterAttributeByIndex::path::3.5.2.1:.), ajoutez maintenant le code suivant :
 
 .:CodeHighlight::HTML::False::
 .:Escape::
@@ -196,7 +196,8 @@ Avec ça on est bon et on peut maintenant placer notre code dans celui que nous 
 :.
 :.
 
-Et voilà, c'est tout bon pour les catégories ! Si cependant vous voulez aller plus loin, avec un contrôle plus fin de l'affichage et utiliser les fonctions avancées de taxonomie vous pouvez également jeter un œil à ces fonctions :
+Et voilà, c'est tout bon pour les catégories ! Si cependant vous voulez aller plus loin,
+avec un contrôle plus fin de l'affichage et utiliser les fonctions avancées de taxonomie vous pouvez également jeter un œil à ces fonctions :
 
 - [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestreefrombranches)
 - [`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.##getflattenedblogcategoriesfrombranches)

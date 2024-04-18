@@ -27,7 +27,7 @@ Pour en savoir plus sur le format RSS, rendez-vous [ici](https://www.w3schools.c
       <link>.:GetBlogURL:..:GetRelativeLocation:.</link>
       <description>.:GetBlogDescription:.</description>:. :.
 
-Sans grande surprise, ça fonctionne un peu comme le flux Atom vu au chapitre [7.5.5.1](.:GetChapterAttributeByIndex::path::3.5.5.1:.#atomheader-xml).
+Sans grande surprise, ça fonctionne un peu comme le flux Atom vu au chapitre [3.5.5.1](.:GetChapterAttributeByIndex::path::3.5.5.1:.#atomheader-xml).
 
 On indique dans l'entête, aux lignes 5 et 7, l'URL du site avec [`GetBlogURL`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogurl) et
 [`GetRelativeLocation`](.:GetChapterAttributeByIndex::path::5.3:.#getrelativelocation).

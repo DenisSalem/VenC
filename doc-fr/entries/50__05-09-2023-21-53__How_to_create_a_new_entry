@@ -34,7 +34,7 @@ Par exemple :
 > venc -ne "nom de la publication" nom_de_fichier_du_template
 
 À noter que certains templates nécessitent des paramètres supplémentaires pour
-fonctionner. Le chapitre [3.5.1](.:GetChapterAttributeByIndex::path::4.5.1:.)
+fonctionner. Le chapitre [4.5.1](.:GetChapterAttributeByIndex::path::4.5.1:.)
 fournit des exemples sur la façon dont cela fonctionne.
 
 À l'issue de cette commande, VenC essaiera d'ouvrir la nouvelle

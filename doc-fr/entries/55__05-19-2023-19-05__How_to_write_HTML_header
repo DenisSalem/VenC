@@ -7,7 +7,8 @@ title: Créer l'entête HTML
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 
-L'entête HTML de VenC est défini dans le fichier __`header.html`__ du répertoire __`chunks`__ de votre thème. Ce fichier est réutilisé à chaque fois que VenC génère une page HTML. Les _[motifs VenC](.:GetChapterAttributeByIndex::path::4:.)_ permettent
+L'entête HTML de VenC est défini dans le fichier __`header.html`__ du répertoire __`chunks`__ de votre thème. Ce fichier est réutilisé à chaque fois que VenC
+génère une page HTML. Les _[motifs VenC](.:GetChapterAttributeByIndex::path::5:.)_ permettent
 de mettre en contexte cette portion du code pour l'adapter au contexte dans lequel il se trouve.
 
 La structure de ce fichier ressemble à ça :

@@ -74,3 +74,6 @@ blockquote, pre
 .__VENC_PYGMENTIZE_WRAPPER__ table pre
     {max-width: 708px;
     overflow-x: auto;}
+
+#next-page
+    {float: right;}
