@@ -50,3 +50,6 @@ et vous devez les installer explicitement :
 - Pour Markdown, vous aurez besoin de [mistletoe](https://github.com/miyuchina/mistletoe/).
 - Pour AsciiDoc, vous aurez besoin de [asciidoc3](https://asciidoc3.org/).
 - Pour reStructuredText, vous aurez besoin de [docutils](https://docutils.sourceforge.io/index.html).
+
+Une fois que le module que vous souhaitez utiliser est installé il faut indiquer le langage de `markup` dans
+[les métadonnées de votre publication](.:GetChapterAttributeByIndex::path::4.3:.#markup-language).

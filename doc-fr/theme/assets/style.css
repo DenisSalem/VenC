@@ -6,7 +6,11 @@ body
 h1, h2, h3, h4, h5
     {font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
     background-color: #383838;}
-    
+
+h1:target, h2:target, h3:target, h4:target, h5:target
+    {background-color: #408040;
+    transition: background-color 1s ease-out;}
+
 a
     {color: #FFFFFF;}
     
