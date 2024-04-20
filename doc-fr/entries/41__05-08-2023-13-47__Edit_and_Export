@@ -13,4 +13,4 @@ Ou :
 > venc --edit-and-export &lt;fichier&gt;
 
 Cette commande ouvre le fichier passé en paramètre avec
-l'éditeur de texte de votre choix, défini dans [`blog_configuration.yaml`](.:GetChapterAttributeByIndex::path::4.2:.text-editor). Puis une fois l'édition terminée, VenC génère l'ensemble du blog.
+l'éditeur de texte de votre choix, défini dans [`blog_configuration.yaml`](.:GetChapterAttributeByIndex::path::4.2:.#text-editor). Puis une fois l'édition terminée, VenC génère l'ensemble du blog.
