@@ -65,6 +65,7 @@ Ce motif comporte les variables suivantes :
 - **`entry_title`** : si le contexte le permet, cette variable contient le titre de la publication associée à la page suivante. Sinon, la variable est ignorée.
 - **`page_number`** : si le contexte le permet, cette variable contient le numéro de la page suivante. Sinon, la variable est ignorée.
 - **`path`** : contient le chemin relatif de la page suivante, si elle existe.
+- **`chapter`** : si le contexte le permet, contient l'index du chapitre de la page suivante. Sinon, la variable est ignorée.
 
 ### GetPreviousPage
 
@@ -80,6 +81,7 @@ Ce motif possède les variables suivantes :
 - **`entry_title`** : si le contexte le permet, cette variable contient le titre de la publication associée à la page précédente. Sinon, la variable est ignorée.
 - **`page_number`** : si le contexte le permet, cette variable contient le numéro de la page précédente. Sinon, la variable est ignorée.
 - **`path`** : contient le chemin relatif de la page précédente, si elle existe.
+- **`chapter`** : si le contexte le permet, contient l'index du chapitre de la page précédente. Sinon, la variable est ignorée.
 
 ### GetRandomNumber
 
