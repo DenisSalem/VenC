@@ -39,7 +39,7 @@ class ChaptersThread(Thread):
     def get_next_page(self, pattern, string): #TODO : Any chance to factorize this in parent class ?
         '''page_number,entry_id,entry_title,path,chapter'''
         index = self.chapters_list.index(self.pages[self.current_page][-1].chapter.index) + 1
-        if index  < len(self.chapters_list) - 1:
+        if index  < len(self.chapters_list):
             entry = self.datastore.raw_chapters[self.chapters_list[index]]
             params = {
                 "page_number" : '', #TODO: not implemented yet
