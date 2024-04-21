@@ -52,7 +52,7 @@
     DONE | Add CherryPick*Metadata
     DONE | Add GetLastEntryTimestamp
     DONE | Add RSS and Atom button to concrete.
-    WIP  | Update doc.
+    DONE | Update doc.
 
 # version 3.1.1
     DONE | Add support for virtual env and pipx install without breakage
