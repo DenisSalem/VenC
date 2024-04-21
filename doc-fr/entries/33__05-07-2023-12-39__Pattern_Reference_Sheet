@@ -123,3 +123,6 @@ Motifs::Arguments::Variables::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.3:.#table"><code>Table</code></a>::<ul><li><code>arg 1</code></li><li><code>arg 2</code></li><li><code>arg n...</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.3:.#video"><code>Video</code></a>::<ul><li><code>source</code></li><li> <code>extensions</code></li><li> <code>poster</code></li></ul>::<ul><li><code>source</code></li><li><code>poster</code></li></ul>
 :.
+
+
+

@@ -182,6 +182,13 @@ En effet, le nouveau style écrasera le précédent s'il est placé après. Par 
 Enfin, il est possible de changer le thème par défaut utilisé par le module [`Pygments`](https://pygments.org/) avec
 l'option [`pygmentize_style`](.:GetChapterAttributeByIndex::path::4.2:.#pygmentize-style).
 
+En effet, le nouveau style écrasera le précédent s'il est placé après. Par exemple :
+
+.:CodeHighlight::HTML::False::
+   .:Escape:: .:GetStyleSheets:. :.
+    <link rel="stylesheet" href="../cheat_sheet.css" type="text/css">
+:.
+
 #### CodeHighlightInclude
 
 > .:Escape:: .:CodeHightlightInclude::language::display_line_numbers::filename:. :.
