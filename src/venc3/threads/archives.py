@@ -27,12 +27,12 @@ class ArchivesThread(Thread):
     def __init__(self):
         from venc3.l10n import messages
         super().__init__(messages.export_archives)
-        self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
-        self.sub_folders = self.datastore.blog_configuration["path"]["archives_sub_folders"]
+        self.filename = self.datastore.blog_configuration["paths"]["index_file_name"]
+        self.sub_folders = self.datastore.blog_configuration["paths"]["archives_sub_folders"]
         if len(self.sub_folders) and self.sub_folders[-1] != '/':
             self.sub_folders += '/'
             
-        self.relative_origin = str("../"+''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
+        self.relative_origin = str(".."+'/'.join([ "/.." for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = True
         self.thread_has_feeds = False
 

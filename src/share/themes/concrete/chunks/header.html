@@ -2,49 +2,94 @@
 <!-- Proudly generated with VenC-.:GetVenCVersion:. -->
 <html>
     <head>
+        <meta name="generator" content="VenC-.:GetVenCVersion:." />
         <meta charset="utf-8">
+        .:IfInThread::
+            .:IfRSSEnabled::<link rel="alternate" type="application/rss+xml" title=".:GetBlogName:." href=".:CherryPickBlogMetadata::paths::rss_file_name:." />:.
+            .:IfAtomEnabled::<link rel="alternate" type="application/atom+xml" title=".:GetBlogName:." href=".:CherryPickBlogMetadata::paths::atom_file_name:." />:.
+        :.
         <title>.:GetBlogName:.</title>
         .:GetStyleSheets:.
-        <link rel="stylesheet" href=".:GetRelativeRoot:.style.css" type="text/css" >
-        <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Scripts-Bootstrap-0.0.0.js"></script>
+        <!-- Forgive me Internet for I have sinned with this ugly CSS menu hack implying questionable semantics. -->
+        <style> 
+            .:ForBlogMetadataIfExists::taxonomy::#toggle-{html_id}:checked ~ .__VENC_TREE_NODE__::, :., #toggle-venc-archives:checked ~ ul
+              {max-height: 4096px;
+              opacity: 1;
+              margin-bottom: 1em;}
+
+            .:ForBlogMetadataIfExists::taxonomy::#toggle-{html_id} ~ .__VENC_TREE_NODE__::, :., #toggle-venc-archives ~ ul
+              {max-height: 0px;
+              overflow: hidden;
+              opacity: 0;
+              padding-top: 0px;
+              padding-bottom: 0px;
+              margin-top: 0px;
+              margin-bottom: 0px;
+              transition: all 0.25s ease 0s;}
+        </style>
+        <link rel="stylesheet" href=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.style.css" type="text/css" >
+        <script type="text/javascript" src=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.VenC-Scripts-Bootstrap-0.0.0.js"></script>
         .:IfInfiniteScrollEnabled::
             .:IfInThread::
-                <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Infinite-Scroll-1.2.0.js"></script>
+                <script type="text/javascript" src=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.VenC-Infinite-Scroll-1.2.0.js"></script>
             ::
         
             :.
-            <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Tree-0.2.0.js"></script>
+            <script type="text/javascript" src=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.VenC-Tree-0.2.0.js"></script>
             <script type="text/javascript">
                 VENC_TREE.ul_style = function(ul) {
                     ul.style.listStyleType = "none";
+                    ul.style.paddingTop = "0px"
+                    ul.style.paddingBottom = "0px";
                 }
             </script>
         :.
-        .:ForBlogMetadataIfExists::custom_scripts::<script type="text/javascript" src=".:GetRelativeRoot:.{value}"></script>:.
-        .:ForBlogMetadataIfExists::custom_styles::<link rel="stylesheet" href=".:GetRelativeRoot:.{value}" type="text/css" >:.
+        
+        .:ForBlogMetadataIfExists::custom_scripts::<script type="text/javascript" src=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.{value}"></script>:.
+        .:ForBlogMetadataIfExists::custom_styles::<link rel="stylesheet" href=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.{value}" type="text/css" >:.
     </head>
     <body>
+      .:IfInThreadAndHasFeeds::
+      .:IfFeedsEnabled::
+      <div id="__VENC_FEEDS_HEADER__">
+          .:IfRSSEnabled::<a href=".:CherryPickBlogMetadata::paths::rss_file_name:.">RSS</a>:..:IfRSSEnabled:: .:IfAtomEnabled::⋅:: :. :: :..:IfAtomEnabled::<a href=".:CherryPickBlogMetadata::paths::atom_file_name:.">ATOM</a>:.
+      </div>
+      :.
+      :.
         <div>
-            <header class="box engrave title"><h1><a class="engrave" href=".:GetRelativeRoot:./">.:GetBlogName:.</a></h1></header>
+            <header class="box engrave title"><h1><a class="engrave" href=".:GetRelativeRoot:.">.:GetBlogName:.</a></h1></header>
             <aside>
                 .:IfCategories::
                 <div class="box" id="blog_categories">
-                    <p class="engrave title"><b>CATEGORIES</b></p>
-                    .:IfBlogMetadataIsTrue::disable_blog_hashtags::
-                    ::
-                        <hr>
-                        <ul class="hashtags">.:GetFlattenedBlogCategories::<li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>:: :.</ul>
-                    :.
-                    
-                    .:IfBlogMetadataIsTrue::disable_categories_tree::
-                    ::
-                        <hr>
-                        <div class="__VENC_TREE_ROOT__">.:GetBlogCategoriesTree::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>:.</div>
-                    :.
+                    <div id="minified_taxonomy">
+                        .:GetFlattenedBlogCategoriesFromBranches::taxonomy::
+                            <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p><ul class="hashtags">{childs}</ul>
+                        ::
+                        <hr>   
+                        ::
+                            <li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>
+                        ::
+                            <span class="middle_dot">・</span>
+                        :.
+                    </div>
+                    <div id="full_taxonomy">
+                        .:GetBlogCategoriesTreeFromBranches::taxonomy::
+                            <div class="__VENC_TREE_ROOT__" id="{html_id}">
+                                <label class="engrave menu_icon" for="toggle-{html_id}">☰</label>
+                                <input type="checkbox" id="toggle-{html_id}">
+                                <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p>
+                                {childs}
+                            </div>
+                        ::
+                        <hr class="taxonomy_separator">    
+                        ::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>
+                        :.
+                    </div>
                 </div>
                 :.
+                
                 .:IfChapters::
-                <div class="box" id="blog_chapters">
+                <div class="box" id="CHAPTERS">
                     <p class="engrave title"><b>CHAPTERS</b></p>
                     .:IfBlogMetadataIsTrue::disable_chapters::
                     ::
@@ -60,4 +105,13 @@
                     :.
                 </div>
                 :.
+                .:IfBlogMetadataIsTrue::disable_archives:: ::
+                <div class="box" id="ARCHIVES">
+                    <label class="engrave menu_icon" for="toggle-venc-archives">☰</label>
+                    <input type="checkbox" id="toggle-venc-archives">
+                    <p class="title engrave"><b>ARCHIVES</b></p>
+                    <ul>
+                        .:ForBlogArchives::<li><a href="{path}" class="engrave">{value}</a></li>::<span class="middle_dot">・</span>:.
+                    </ul>
+                </div>:.
             </aside>

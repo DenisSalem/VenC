@@ -17,5 +17,5 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-venc_version = "3.1.1"
+venc_version = "3.2.0"
 __version__ = venc_version # PEP396

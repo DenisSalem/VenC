@@ -43,8 +43,6 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
         self.root_page = None
         self.blog_configuration = get_blog_configuration()
         self.sort_by = self.blog_configuration["sort_by"]
-
-        self.blog_url = self.blog_configuration["blog_url"]
         self.disable_threads = self.blog_configuration["disable_threads"]
         
         try:
@@ -81,7 +79,6 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
         self.cache_entries_subset = {}
         self.cache_get_entry_attribute_by_id = {}
         self.cache_get_chapter_attribute_by_index = {}
-        # ~ self.cache_entry_tocs = {}
         
         self.generation_timestamp = datetime.datetime.now()
         self.raw_chapters = {}
@@ -93,8 +90,8 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
                 
     def build_chapter_indexes(self):
         # build chapters index
-        path_chapters_sub_folders = self.blog_configuration["path"]["chapters_sub_folders"]
-        path_chapter_folder_name = self.blog_configuration["path"]["chapter_directory_name"]
+        path_chapters_sub_folders = self.blog_configuration["paths"]["chapters_sub_folders"]
+        path_chapter_folder_name = self.blog_configuration["paths"]["chapter_directory_name"]
         
         for chapter in sorted(self.raw_chapters.keys(), key = lambda x : int(x.replace('.', ''))):
             top = self.chapters_index
@@ -118,7 +115,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
                     if index in self.raw_chapters.keys():
                         entry = self.raw_chapters[index]
                         try:
-                            path = "\x1a"+path_chapters_sub_folders+quirk_encoding(
+                            path = "\x1a/"+path_chapters_sub_folders+quirk_encoding(
                                 path_chapter_folder_name.format(**{
                                     "chapter_name" : entry.title,
                                     "chapter_index" : index
@@ -171,11 +168,14 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
             return ''
             
         output = lo.format(**{"level" :level})
-
+        
+        from venc3.helpers import quirk_encoding
+        
         for sub_chapter in top:
             output += io.format(**{
                 "index": sub_chapter.index,
                 "title": self.entries[sub_chapter.entry_index].title,
+                "html_id" : quirk_encoding(self.entries[sub_chapter.entry_index].title),
                 "path":  sub_chapter.path,
                 "level": level
             })
@@ -186,30 +186,36 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
         return output
 
     def build_html_categories_tree(self, pattern, opening_node, opening_branch, closing_branch, closing_node, tree):
+        if not len(tree):
+            return ""
+            
         output_string = opening_node
         for node in sorted(tree, key = lambda x : x.value):
             if node.value in self.disable_threads:
                 continue
 
-            variables = {
-                "value" : node.value,
-                "count" : node.count,
-                "weight" : round(node.count / node.weight_tracker.value,2),
-                "path" : node.path,
-                "childs" : self.build_html_categories_tree(
-                    pattern,
-                    opening_node,
-                    opening_branch,
-                    closing_branch,
-                    closing_node,
-                    node.childs
-                ) if len(node.childs) else ''
-            }
-
-            output_string += opening_branch.format(**variables) +closing_branch.format(**variables)
+            variables = self.node_to_dictionnary(pattern, node, opening_node, opening_branch, closing_branch, closing_node, node.childs)
+            output_string += opening_branch.format(**variables) + closing_branch.format(**variables)
 
         return output_string + closing_node
-        
+
+    def node_to_dictionnary(self, pattern, node, opening_node, opening_branch, closing_branch, closing_node, childs):
+        return {
+            "value" : node.value,
+            "html_id": quirk_encoding(node.value),
+            "count" : node.count,
+            "weight" : round(node.count / node.weight_tracker.value,2),
+            "path" : node.path,
+            "childs" : self.build_html_categories_tree(
+                pattern,
+                opening_node,
+                opening_branch,
+                closing_branch,
+                closing_node,
+                childs
+            )
+        }
+
     def update_chapters(self, entry):
         try:
             if type(entry.chapter) == float:
@@ -237,7 +243,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
             ))
         else:
             self.raw_chapters[chapter] = entry
-            
+        
 datastore = None
 
 def init_datastore():

@@ -3,12 +3,9 @@
             .:IfInfiniteScrollEnabled::
                 .:IfInThread::
                     .:GetBlogMetadataIfExists::loading_image::
-                        <img id="__VENC_LOADING__" src=".:GetRelativeRoot:.{value}" />
+                        <img id="__VENC_LOADING__" src=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.{value}" />
                       :.
                 :.
-            :.
-            .:IncludeFileIfExists::
-                .:GetBlogMetadataIfNotNull::include_in_footer:.        
             :.
             <div id="__VENC_NAVIGATION__">
                 .:GetPreviousPage::<a id="previous_link" href="{path}">.:IfInThread::←::{entry_title} ←:.</a>:.
@@ -24,5 +21,8 @@
                 .:GetNextPage::<a id="next_link" href="{path}" data-venc-api-infinite-scroll-hook="{path}">.:IfInThread::→::→ {entry_title}:.</a>:.
             </div>
         </footer>
+        .:IncludeFileIfExists::
+            .:GetBlogMetadataIfNotNull::include_in_footer:.        
+        :.
     </body>
 </html>

@@ -59,7 +59,7 @@ class Taxonomy:
         if self.entries_per_categories == None:
             self.entries_per_categories = []
             self.categories_leaves = []
-            path = self.blog_configuration["path"]["categories_sub_folders"]
+            path = self.blog_configuration["paths"]["categories_sub_folders"]
             for entry_index in range(0, len(self.entries)):
                 current_entry = self.entries[entry_index]
                 self.build_tree(
@@ -68,28 +68,28 @@ class Taxonomy:
                     self.entries_per_categories,
                     self.categories_leaves,
                     self.categories_weight_tracker,
-                    sub_folders="\x1a"+path
+                    sub_folders="\x1a/"+path
                 )
                 
             self.categories_leaves = self.extract_leaves(None)
     
-    def build_tree(self, entry_id, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders=''):     
-        from venc3.datastore.configuration import get_blog_configuration
-        category_directory_name = get_blog_configuration()["path"]["category_directory_name"]
+    def build_tree(self, entry_id, input_list, blog_output_tree, blog_output_leaves, weight_tracker, sub_folders):     
+        category_directory_name = self.blog_configuration["paths"]["category_directory_name"]
 
         for item, sub_items in flatten_current_level(input_list):
-            if not len(item):
+            if not len(str(item)):
                 continue
     
             match = None
             try:
-                path = sub_folders+quirk_encoding(category_directory_name.format(**{"category":item}))
+                path = quirk_encoding(sub_folders + ('/' if len(sub_folders) > 1 else '') + category_directory_name.format(**{"category":item})).replace('//','/')
+
             except KeyError as e:
                 from venc3.prompt import die
                 die(("invalid_variable_name_in_setting", str(e), "category_directory_name"))
                 
             for node in blog_output_tree:
-                if node.value == item:
+                if node.value == str(item):
                     node.count +=1
                     node.weight_tracker.update()
                     node.related_to.append(entry_id)
@@ -98,9 +98,9 @@ class Taxonomy:
     
             if match == None:
                 metadata = MetadataNode(
-                    item, 
+                    str(item), 
                     entry_id,
-                    quirk_encoding(path),
+                    path,
                     weight_tracker
                 )
     

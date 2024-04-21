@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2022 Denis Salem
+#    Copyright 2016, 2024 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -17,20 +17,20 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from venc3.patterns.processor import PatternNode
-from venc3.patterns.processor import Processor              # The actual string processor, holding binded methods.
-from venc3.patterns.processor import StringUnderProcessing  # The object holding the string and its states.
+from venc3.patterns.processor import Pattern
+from venc3.patterns.processor import Processor     # The actual string processor, holding binded methods.
+from venc3.patterns.processor import PatternTree   # The object holding the string and its states.
+from venc3.patterns.patterns_map import PatternsMap
 from venc3.prompt import die
 from venc3.prompt import notify
 
 
 
-def test_datastructure(verbose=False):  
-    ref = [ "FUNC"+str(i) for i in range(1,9) ]
+def test_datastructure(verbose=False):            
     def print_tree(nodes, parent, indent='\t'):
         output = []
         for pattern in nodes:                
-            if type(parent) == PatternNode:
+            if type(parent) == Pattern:
                 if verbose:
                     print(indent, parent.args[pattern.parent_argument_index][pattern.o:pattern.c+2], pattern, pattern.name, pattern.args)
                 if parent.args[pattern.parent_argument_index][pattern.o:pattern.c+2] != "\x00"+str(id(pattern))+"\x00":
@@ -40,13 +40,18 @@ def test_datastructure(verbose=False):
                     print(indent, parent._str[pattern.o:pattern.c+2], pattern, pattern.name, pattern.args)              
                 if parent._str[pattern.o:pattern.c+2] != "\x00"+str(id(pattern))+"\x00":
                     die("test_datastructure: identifier mismatch with extracted identifier string from parent.")
-            output += [pattern.name] + print_tree(pattern.sub_strings, pattern, indent=indent+'\t')
+            output += [pattern.name] + print_tree(pattern.string, pattern, indent=indent+'\t')
             
         return output
+
+    ref = [ "FUNC"+str(i) for i in range(1,9) ]
+    for item in ref:
+        PatternsMap.CONTEXTUALS[item] = lambda pattern, *args : "DUMMY PATTERN FOR TEST"
+          
     s = ".:FUNC1:. .:FUNC2:: .:FUNC3::ARG3_1:. :: .:FUNC4::ARG4_1::ARG4_2:. .:FUNC5::ARG5_1::ARG5_2 .:FUNC6:. :. :. .:FUNC7::ARG7_1::ARG7_2 .:FUNC8::ARG8_1::ARG8_2:. :."
 
-    sup = StringUnderProcessing(s, "test_datastructure")
-    if ref != print_tree(sup.sub_strings, sup):
+    sup = PatternTree(s, "test_datastructure")
+    if ref != print_tree(sup.string, sup):
         die("test_datastructure: patterns aren't sorted.")
         
     if verbose:
@@ -60,7 +65,7 @@ def test_process_no_flatten(verbose=False):
         return "another_kind_of_data({0},{1},{2})".format(a,b,c)
 
     s = ".:GET_SOME_DATA::moo::foo:. .:GET_SOME_DATA::bar::foo::moo:. .:GET_ANOTHER_KIND_OF_DATA::zbim:: .:GET_SOME_DATA::zbam::zboom:. :."
-    sup = StringUnderProcessing(s, "test_full_process")
+    sup = PatternTree(s, "test_full_process")
 
     p = Processor()
     p.set_patterns({
@@ -71,7 +76,7 @@ def test_process_no_flatten(verbose=False):
     if verbose:
         print(s)
     
-    p.process(sup, PatternNode.FLAG_ALL)
+    p.process(sup, Pattern.FLAG_ALL)
     
     if verbose:
         print(sup)

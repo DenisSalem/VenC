@@ -41,7 +41,7 @@ class CodeHighlight:
 def get_style_sheets(pattern):
     output = str()
     for filename in code_highlight.includes.keys():
-        output += "<link rel=\"stylesheet\" href=\"\x1a"+filename+"\" type=\"text/css\" >\n"
+        output += "<link rel=\"stylesheet\" href=\"\x1a/"+filename+"\" type=\"text/css\" >\n"
 
     return output
         

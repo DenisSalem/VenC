@@ -24,30 +24,6 @@ from venc3.helpers import rm_tree_error_handler
 from venc3.patterns.non_contextual import theme_includes_dependencies
 from venc3.patterns.processor import Processor, Pattern
 from venc3.prompt import notify
-
-def copy_recursively(src, dest):
-    import errno, os, shutil
-    try:
-        listdir = os.listdir(src)
-    except Exception as e:
-        from venc3.exceptions import VenCException
-        VenCException(("exception_place_holder", e)).die()
-        
-    for filename in listdir:
-        try:
-            shutil.copytree(src+filename, dest+filename)
-    
-        except shutil.Error as e:
-            from venc3.prompt import notify
-            notify(("directory_not_copied", str(e)), "YELLOW")
-            
-        except OSError as e:
-            if e.errno == errno.ENOTDIR:
-                shutil.copy(src+filename, dest+filename)
-
-            else:
-                from venc3.prompt import notify
-                notify(("directory_not_copied", str(e)), "YELLOW")
                 
 def export_via_ftp(params):
     export_blog(params)
@@ -173,8 +149,7 @@ def process_non_contextual_patterns():
     except VenCException as e:    
         e.die()
 
-def export_blog(params):
-    theme_name = params[0] if len(params) else ''
+def export_blog(params):    
     import time
         
     start_timestamp = time.time()
@@ -184,13 +159,32 @@ def export_blog(params):
     notify(("pre_process",), prepend="├─ ")
     
     from venc3.datastore.theme import init_theme
+    theme_name = params[0] if len(params) else datastore.blog_configuration["default_theme"]
     init_theme(theme_name)
     from venc3.patterns.third_party_wrapped_features.pygmentize import init_code_highlight
     init_code_highlight()
     from venc3.patterns.patterns_map import init_pattern_map
     init_pattern_map()
     
+    # cleaning and setup directories
+    import os, shutil
+    if not os.path.exists('extra'):
+        os.makedirs("extra")
+        
+    if not os.path.exists('blog'):
+        os.makedirs("blog")
+    else:
+        for filename in os.listdir('blog'):
+            if os.path.isfile("blog/"+filename):
+                try:
+                    os.remove("blog/"+filename)
+                except Exception as e:
+                    rm_tree_error_handler("os.remove", "blog/"+filename, [e])
+            else:
+                shutil.rmtree("blog/"+filename, ignore_errors=False, onerror=rm_tree_error_handler)    
+    
     process_non_contextual_patterns()
+    
     if not datastore.blog_configuration["disable_single_entries"]:
         notify(("link_entries",), prepend="├─ ")
         # Add required link between entries
@@ -200,11 +194,6 @@ def export_blog(params):
             if entry_index > 0:
                 entries[entry_index-1].next_entry = current_entry
                 current_entry.previous_entry = entries[entry_index-1]
-
-    # cleaning directory
-    import os, shutil
-    shutil.rmtree("blog", ignore_errors=False, onerror=rm_tree_error_handler)
-    os.makedirs("blog")
 
     try:
         # Starting second pass and exporting
@@ -240,8 +229,8 @@ def export_blog(params):
     from venc3.patterns.third_party_wrapped_features.pygmentize import code_highlight
     from venc3.datastore.theme import theme, theme_assets_dependencies
     from venc3.helpers import get_base_dir
-
     code_highlight.export_style_sheets()
+    from venc3.helpers import copy_recursively
     copy_recursively("extra/","blog/")
     copy_recursively(theme.theme_folder+"assets/","blog/")
     for depenpency in theme_assets_dependencies:

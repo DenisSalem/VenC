@@ -127,18 +127,23 @@ def new_entry(params):
     stream.close()
 
     try:
-        if not "text_editor" in blog_configuration.keys():
-            from venc3.prompt import notify
-            notify(("missing_mandatory_field_in_blog_conf", "text_editor"), "YELLOW")
-        
-        elif type(blog_configuration["text_editor"]) != list:
-            from venc3.prompt import notify
-            notify(("blog_metadata_is_not_a_list", "text_editor"), "YELLOW")
-            
-        else:
+        if "text_editor" in blog_configuration.keys():
             command = [str(arg) for arg in blog_configuration["text_editor"] if arg != '']
-            command.append(output_filename)
-            subprocess.call(command) 
+
+        elif "EDITOR" in os.environ.keys():
+            command = [str(arg) for arg in os.environ["EDITOR"].split(' ') if arg != '']
+
+        else:
+            command = None
+
+        if command != None:
+            if len(command):
+                command.append(output_filename)
+                subprocess.call(command)
+                
+            else:
+                from venc3.prompt import die
+                die(("invalid_value_in_setting", str(blog_configuration["text_editor"]), "text_editor"))
 
     except FileNotFoundError:
         os.remove(output_filename)
@@ -146,7 +151,7 @@ def new_entry(params):
         die(("unknown_command", blog_configuration["text_editor"]))
         
     from venc3.prompt import notify
-    notify(("entry_written",))
+    notify(("entry_written", output_filename))
 
 def new_blog(blog_names):
     if len(blog_names) < 1:
@@ -155,22 +160,14 @@ def new_blog(blog_names):
         
     from venc3.l10n import messages
     default_configuration =	{
-        "blog_name":			              messages.blog_name,
-        "disable_threads":              [],
-        "disable_archives":             False,
-        "disable_categories":           False,
-        "disable_chapters":             True,
-        "disable_single_entries":       False,
-        "disable_main_thread":          False,
-        "disable_rss_feed":             False,
-        "disable_atom_feed":            False,
-        "text_editor":                  ["nano"],
-        "date_format":                  "%A %d. %B %Y",
-        "blog_url":			                messages.blog_url,
-        "ftp_host":                     messages.ftp_host,
-        "code_highlight_css_override":  False,
-        "path":	{
-            "ftp":                      messages.ftp_path,
+        "blog_name":            messages.blog_name,
+        "date_format":          "%A %d. %B %Y",
+        "entries_per_pages":    10,
+        "columns":              1,
+        "feed_length":          5,
+        "reverse_thread_order": True,
+        "markup_language":      "none",
+        "paths":	{
             "entries_sub_folders":      "{entry_title}",
             "categories_sub_folders":   "",
             "archives_sub_folders":     "",
@@ -183,15 +180,6 @@ def new_blog(blog_names):
 			      "rss_file_name":		          "rss.xml",
 			      "atom_file_name":		        "atom.xml"
         },
-        "entries_per_pages":		    10,
-        "columns":			            1,
-        "feed_length":	        	    5,
-        "reverse_thread_order":		    True,
-        "markup_language":              "Markdown",
-        "path_encoding":                "",
-        "server_port":                  8888,
-        "sort_by":                      "id",
-        "parallel_processing": 1
     }
     for folder_name in blog_names:
         try:

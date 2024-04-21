@@ -26,4 +26,4 @@ function VENC_ON_LOAD_CALLBACK() {
     }
 }
 
-window.onload = VENC_ON_LOAD_CALLBACK
+window.onload = VENC_ON_LOAD_CALLBACK;

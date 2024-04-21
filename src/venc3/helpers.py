@@ -25,6 +25,31 @@ class SafeFormatDict(dict):
     def __missing__(self, key):
         return '{'+key+'}'
 
+def copy_recursively(src, dest):
+    import errno, os, shutil
+    
+    try:
+        listdir = os.listdir(src)
+    except Exception as e:
+        from venc3.exceptions import VenCException
+        VenCException(("exception_place_holder", e)).die()
+        
+    for filename in listdir:
+        try:
+            shutil.copytree(src+filename, dest+filename)
+    
+        except shutil.Error as e:
+            from venc3.prompt import notify
+            notify(("directory_not_copied", str(e)), "YELLOW")
+            
+        except OSError as e:
+            if e.errno == errno.ENOTDIR:
+                shutil.copy(src+filename, dest+filename)
+
+            else:
+                from venc3.prompt import notify
+                notify(("directory_not_copied", str(e)), "YELLOW")
+                
 def export_extra_data(origin, destination=""):
     import os
     import shutil
@@ -49,21 +74,9 @@ def get_base_dir():
 
 def quirk_encoding(string):
     import unidecode
-    return unidecode.unidecode(
-        string.replace(
-            '\'',
-            '-'
-        ).replace(
-            ' ',
-            '-'
-        ).replace(
-            '%',
-            '-'
-        ).replace(
-            ':',
-            '-'
-        )
-    )
+    for char in ['\'',' ','%',':','&','\\']:
+        string = string.replace(char,'-')
+    return unidecode.unidecode(string)
 
 def rm_tree_error_handler(function, path, excinfo):
     from venc3.prompt import notify
@@ -100,7 +113,7 @@ def get_template(template_name, entry_name='', template_args={}):
             
             import yaml
             try:
-                parted[0] = yaml.dump(yaml.load(parted[0], Loader=yaml.FullLoader))
+                parted[0] = yaml.dump(yaml.load(parted[0], Loader=yaml.FullLoader),allow_unicode=True)
                 
             except yaml.scanner.ScannerError as e:
                 from venc3.exceptions import VenCException
@@ -123,4 +136,3 @@ def get_template(template_name, entry_name='', template_args={}):
     from venc3.l10n import messages
     msg = "\n"+ messages.file_not_found.format(templates_paths[0])+"\n"+ messages.file_not_found.format(templates_paths[1])
     raise VenCException(("exception_place_holder", msg))
-  

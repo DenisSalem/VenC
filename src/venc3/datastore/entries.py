@@ -28,15 +28,14 @@ class Entries:
 
         from venc3.prompt import notify
         notify(("loading_entries",), prepend="┌─ ")
-
-        from venc3.datastore.entry import yield_entries_content
-        filenames = [filename for filename in yield_entries_content()]
-        
-        self.chunks_len = (len(filenames)//self.workers_count)+1
         
         from venc3.exceptions import VenCException
         
         try:
+            from venc3.datastore.entry import yield_entries_content
+            filenames = [filename for filename in yield_entries_content()]
+            
+            self.chunks_len = (len(filenames)//self.workers_count)+1      
             if self.workers_count > 1:
                 # There we setup chunks of entries send to workers throught dispatchers
                 global multiprocessing_thread_params
@@ -44,7 +43,7 @@ class Entries:
                     "chunked_filenames" :[],
                     "workers_count" : self.workers_count,
                     "entries": self.entries,
-                    "paths": self.blog_configuration["path"],
+                    "paths": self.blog_configuration["paths"],
                     "cut_threads_kill_workers" : False
                 }
                 for i in range(0, self.workers_count):
@@ -73,7 +72,7 @@ class Entries:
                 for filename in filenames:
                     self.entries.append(Entry(
                         filename,
-                        self.blog_configuration["path"],
+                        self.blog_configuration["paths"],
                     ))
                     
         except VenCException as e:

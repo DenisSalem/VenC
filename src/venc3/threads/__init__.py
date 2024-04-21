@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2022 Denis Salem
+#    Copyright 2016, 2024 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -115,7 +115,6 @@ class Thread:
         else:
             return string2
                 
-            
     # Must be called in child class
     def organize_entries(self, entries):
         self.pages = list()
@@ -126,6 +125,13 @@ class Thread:
 
         self.pages_count = len(self.pages)
 
+    def get_last_entry_timestamp(self, pattern, time_format):
+        from venc3.exceptions import VenCException
+        raise VenCException(
+            ("you_cannot_use_this_pattern_here", "GetLastEntryTimestamp", pattern.root.context),
+            pattern
+        )
+        
     # Must be called in child class
     def get_next_page(self, pattern, string):
         '''page_number,entry_id,entry_title,path'''
@@ -134,7 +140,8 @@ class Thread:
                 "page_number" : str(self.current_page + 1),
                 "entry_id" : '',
                 "entry_title": '',
-                "path" : ''
+                "path" : '',
+                "chapter": ''
             }
 
             if self.in_thread:
@@ -166,7 +173,8 @@ class Thread:
                 "page_number" : str(self.current_page - 1) if self.current_page - 1 != 0 else '',
                 "entry_id" : '',
                 "entry_title": '',
-                "path" : ''
+                "path" : '',
+                "chapter" : ''
             }
 
             if self.in_thread:

@@ -32,7 +32,10 @@ def html(pattern, *content):
     
 def get_venc_version(pattern):
     return venc_version
-    
+
+def set_background_color(pattern, color, string):        
+    return "<span class=\"__VENC_TEXT_COLOR__\" style=\"background-color: "+color+";\">"+string+"</span>"
+        
 def set_color(pattern, color, string):        
     return "<span class=\"__VENC_TEXT_COLOR__\" style=\"color: "+color+";\">"+string+"</span>"
 
@@ -50,6 +53,7 @@ def include_file(pattern, filename, *argv, raise_error=True):
     
     include_string = None
     from venc3.helpers import get_base_dir
+    filename = filename.strip()
     paths = ("includes/"+filename, get_base_dir()+"/share/VenC/themes_includes/"+filename)
     for path in paths:
         if shutil.os.path.exists(path):

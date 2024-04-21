@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2022 Denis Salem
+#    Copyright 2016, 2024 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -31,12 +31,13 @@ class FeedThread(Thread):
         self.column_opening = ''
         self.column_closing = ''
         self.columns_number = 1
-        self.filename = self.datastore.blog_configuration["path"][feed_type+"_file_name"]
+        self.filename = self.datastore.blog_configuration["paths"][feed_type+"_file_name"]
         self.entries_per_page = self.datastore.blog_configuration["feed_length"]
         self.in_thread = True
         self.content_type = feed_type
 
     def do(self, entries, export_path, relative_origin):
+        self.last_entry = entries[-1]
         self.export_path = export_path
         self.relative_origin = relative_origin
         self.organize_entries(entries)
@@ -45,4 +46,6 @@ class FeedThread(Thread):
     def if_in_feed(self, node, string1, string2=''):
         return string1.strip()
             
-
+    def get_last_entry_timestamp(self, pattern, time_format):
+        import datetime
+        return datetime.datetime.strftime(self.last_entry.date, time_format)

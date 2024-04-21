@@ -6,7 +6,7 @@
  <title>.:GetBlogName:. .:GetThreadName::| {value}:.</title>
     .:GetBlogMetadataIfNotNull::blog_description::<subtitle>{value}</subtitle>:.
     .:GetBlogMetadataIfNotNull::blog_url::<id>{value}.:GetRelativeLocation:.</id>:.
- <updated>.:GetGenerationTimestamp::%Y-%m-%dT%H:%M:%SZ:.</updated>
+ <updated>.:GetLastEntryTimestamp::%Y-%m-%dT%H:%M:%SZ:.</updated>
  <author>
    .:GetBlogMetadataIfNotNull::author_name::<name>{value}</name>:.
    .:GetBlogMetadataIfNotNull::author_email::<email>{value}</email>:.

@@ -25,13 +25,67 @@ class ChaptersThread(Thread):
     def __init__(self):
         from venc3.l10n import messages
         super().__init__(messages.export_chapters)
-        self.filename = self.datastore.blog_configuration["path"]["index_file_name"]
+        self.filename = self.datastore.blog_configuration["paths"]["index_file_name"]
         self.entries_per_page = self.datastore.blog_configuration["entries_per_pages"]
-        self.folder_name = self.datastore.blog_configuration["path"]["chapter_directory_name"]
-        self.sub_folders = self.datastore.blog_configuration["path"]["chapters_sub_folders"]
+        self.folder_name = self.datastore.blog_configuration["paths"]["chapter_directory_name"]
+        self.sub_folders = self.datastore.blog_configuration["paths"]["chapters_sub_folders"]
         self.relative_origin = str(''.join([ "../" for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = True
         self.thread_has_feeds = False
+        self.chapters_list = [ [int(v) for v in key.split('.')] for key in self.datastore.raw_chapters.keys() ]
+        self.chapters_list.sort()
+        self.chapters_list = ['.'.join([str(v) for v in l]) for l in self.chapters_list]
+
+    def get_next_page(self, pattern, string): #TODO : Any chance to factorize this in parent class ?
+        '''page_number,entry_id,entry_title,path,chapter'''
+        index = self.chapters_list.index(self.pages[self.current_page][-1].chapter.index) + 1
+        if index  < len(self.chapters_list):
+            entry = self.datastore.raw_chapters[self.chapters_list[index]]
+            params = {
+                "page_number" : '', #TODO: not implemented yet
+                "entry_id" : entry.id,
+                "entry_title": entry.title,
+                "path" : entry.chapter.path,
+                "chapter" : entry.chapter.index
+            }
+
+            try:
+                return string.format(**params)
+                
+            except KeyError as e:
+                from venc3.exceptions import VenCException
+                raise VenCException(
+                    ("unknown_contextual", str(e)[1:-1]),
+                    pattern
+                )
+
+        else:
+            return str()
+            
+    def get_previous_page(self, pattern, string): #TODO : Any chance to factorize this in parent class ?
+        '''page_number,entry_id,entry_title,path,chapter'''
+        index = self.chapters_list.index(self.pages[self.current_page][0].chapter.index) - 1
+        if index >= 0:
+            entry = self.datastore.raw_chapters[self.chapters_list[index]]
+            params = {
+                "page_number" : '', #TODO: not implemented yet
+                "entry_id" : entry.id,
+                "entry_title": entry.title,
+                "path" : entry.chapter.path,
+                "chapter" : entry.chapter.index
+            }
+            try:
+                return string.format(**params)
+
+            except KeyError as e:
+                from venc3.exceptions import VenCException
+                raise VenCException(
+                    ("unknown_contextual", str(e)[1:-1]),
+                    pattern
+                )
+                
+        else:
+            return str()
 
     def if_in_first_page(self, node, string1, string2=''):
         return string2.strip()
@@ -59,7 +113,7 @@ class ChaptersThread(Thread):
           })
         )
         self.export_path = "blog/"+self.sub_folders+'/'+folder_name
-        self.relative_origin = ''.join([ '../' for f in self.export_path.split("/")[1:] if f != '' ])
+        self.relative_origin = '/'.join([ '..' for f in self.export_path.split("/")[1:] if f != '' ]).replace('//','/')
 
         try:
             os.makedirs(self.export_path)
@@ -69,7 +123,7 @@ class ChaptersThread(Thread):
             
         return (node)
     
-    def extract_sub_chapters(self, sub_chapters):
+    def extract_sub_chapters(self, sub_chapters): # TODO : Investigate yielding usage here for better efficiency
         output = []
         output_append = output.append
         for c in sub_chapters:
@@ -79,8 +133,7 @@ class ChaptersThread(Thread):
                     output_append(sc_entries)
         
         return output
-        
-        
+            
     def do(self, top=None):          
         if top == None:
             top = self.datastore.chapters_index

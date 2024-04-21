@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2023 Denis Salem
+#    Copyright 2016, 2024 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -28,7 +28,6 @@ class Entry:
         date_format = paths["archives_directory_name"]
         self.previous_entry = None
         self.next_entry = None
-        self.chapter = None  # will be overriden at chapters datastructure generation
         self.title = ''
 
         # Loading
@@ -41,7 +40,7 @@ class Entry:
                 try:
                     metadata = yaml.load(entry_parted[0], Loader=yaml.FullLoader)
 
-                except yaml.scanner.ScannerError as e:
+                except Exception as e:
                     from venc3.exceptions import VenCException
                     raise VenCException(("possible_malformed_entry", filename, ''), context=filename, extra=str(e))
                     
@@ -117,9 +116,7 @@ class Entry:
 
         sf = quirk_encoding(paths["entries_sub_folders"].format(**params))
         self.sub_folder = (sf+'/' if sf[-1] != '/' else sf) if len(sf) else ''
-        self.path = "\x1a"+self.sub_folder+quirk_encoding(
-            paths["entry_file_name"].format(**params)
-        )
+        self.path = "\x1a/"+quirk_encoding(self.sub_folder+paths["entry_file_name"].format(**params)).replace('//','/')
         
         if type(metadata["categories"]) != list:
             from venc3.exceptions import VenCException
@@ -161,9 +158,9 @@ def yield_entries_content():
                 from venc3.prompt import notify
                 notify(("invalid_entry_filename", filename), "YELLOW")
     
-    except FileNotFoundError:
-        from venc3.prompt import die
-        die(("file_not_found", os.getcwd()+"/entries"))
+    except FileNotFoundError as e:
+        from venc3.exceptions import VenCException
+        raise VenCException(("file_not_found", str(e)))
 
 def get_latest_entryID():
     entries_list = sorted(yield_entries_content(), key = lambda entry : int(entry.split("__")[0]))
