@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5'
+chapter: '3.5'
 title: Créer votre thème
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -13,7 +13,7 @@ C'est ce que nous allons voir dans la joie et la bonne humeur dans ce qui va sui
 Le prérequis étant tout de même d'avoir quelques notions en HTML,
 il faut également noter que ce chapitre et l'ensemble des parties qui le
 composent n'ont pas vocation à faire de vous des mages noirs spé _web
-design_. L'enjeux ici est de voir comment intégrer les fonctionnalités
+design_. L'enjeu ici est de voir comment intégrer les fonctionnalités
 de VenC dans du code HTML, tout en comprenant la structure des fichiers
 composant un thème.
 

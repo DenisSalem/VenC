@@ -2,11 +2,11 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '5.12'
+chapter: '6.12'
 title: Afficher les arguments d'un template de publication
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-L'utilisation d'un [template de publication](.:GetChapterAttributeByIndex::path::3.5:.) peut nécessiter
+L'utilisation d'un [template de publication](.:GetChapterAttributeByIndex::path::4.5:.) peut nécessiter
 l'utilisation d'arguments supplémentaires pour celui-ci. Encore faut-il les connaître et
 savoir comment ils sont utilisés !
 

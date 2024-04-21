@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '3.6'
+chapter: '4.6'
 title: Thèmes
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -23,15 +23,15 @@ style CSS ou des scripts JS.
   - `rssHeader.html`
   - `rssEntry.html`
   - `rssFooter.html`
-  - [`audio.html`](.:GetChapterAttributeByIndex::path::4.4.3:.#audio)
-  - `video.html`
+  - [`audio.html`](.:GetChapterAttributeByIndex::path::5.4.3:.#audio)
+  - [`video.html`](.:GetChapterAttributeByIndex::path::5.4.3:.#video)
   
 - __`config.yaml`__ : un fichier de configuration [YAML](https://yaml.org/) permettant
 d'indiquer les dépendances du thème, de supplanter des options de
-configuration et de décrire le thème. Plus d'informations [ici](.:GetChapterAttributeByIndex::path::3.6.1:.).
+configuration et de décrire le thème. Plus d'informations [ici](.:GetChapterAttributeByIndex::path::4.6.1:.).
 
 Comme vous l'avez sans doute compris, VenC met bout à bout les morceaux
-de votre blog en formattant l'entête (`header.html`), puis en répétant autant
+de votre blog en formatant l'entête (`header.html`), puis en répétant autant
 de fois qu'il y a de publications sur une page le formatage du corps de la publication (`entry.html`).
 La page courante est alors terminée en y ajoutant le pied de
 page (`footer.html`), également formaté.
@@ -50,7 +50,7 @@ dans :
 Ce thème en l'état offre un aperçu de ce qu'il est possible de faire avec VenC.
 C'est une solide base pour créer le vôtre.
 
-Vous pouvez également vous aider de la "[section des tutoriels](.:GetChapterAttributeByIndex::path::7:.)",
+Vous pouvez également vous aider des "[tutoriels](.:GetChapterAttributeByIndex::path::3:.)",
 dans laquelle sont décrites des techniques pour réaliser des mises en
 pages très spécifiques et pour lesquelles l'utilisation du langage de
 balisage interne de VenC sera illustrée.

@@ -17,6 +17,7 @@ disable_single_entries: true
 entries_per_pages: 50
 feed_length: 15
 ftp_host: ftp.tuxfamily.org
+ftp_port: 21
 license: 'CC-By-SA'
 markup_language: Markdown
 parallel_processing: 8
@@ -28,7 +29,7 @@ paths:
   category_directory_name: '{category}'
   chapter_directory_name: '{chapter_name}'
   chapters_sub_folders: ''
-  entries_sub_folders: 'DEBUG/{entry_title}/'
+  entries_sub_folders: '{entry_title}'
   entry_file_name: index.html
   ftp: venc/venc.software-web/htdocs/
   index_file_name: index{page_number}.html
@@ -50,3 +51,6 @@ tree_test:
         - e:
             - f
     - g
+my_taxonomy:
+  - Medium & Technique
+  - Licence

@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '4.3'
+chapter: '5.3'
 title: Motifs contextuels
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -33,7 +33,7 @@ Ce motif comporte les variables suivantes :
 
 > .:Escape:: .:GetEntryContent:. :.
 
-Ce pattern ne peut pas être utilisé dans un [template](.:GetChapterAttributeByIndex::path::3.5:.), ni dans le corps d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.), cela provoquerait une erreur de récursion.
+Ce pattern ne peut pas être utilisé dans un [template](.:GetChapterAttributeByIndex::path::4.5:.), ni dans le corps d'une [publication](.:GetChapterAttributeByIndex::path::4.3:.), cela provoquerait une erreur de récursion.
 
 Ce pattern renvoie le contenu complet de la publication courante.
 
@@ -41,9 +41,15 @@ Ce pattern renvoie le contenu complet de la publication courante.
 
 > .:Escape:: .:GetEntryPreview:. :.
 
-Ce pattern ne peut pas être utilisé dans un [template](.:GetChapterAttributeByIndex::path::3.5:.), ni dans le résumé d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.), cela provoquerait une erreur de récursion.
+Ce pattern ne peut pas être utilisé dans un [template](.:GetChapterAttributeByIndex::path::4.5:.), ni dans le résumé d'une [publication](.:GetChapterAttributeByIndex::path::4.3:.), cela provoquerait une erreur de récursion.
 
 Ce pattern renvoie le résumé de la publication courante.
+
+### GetLastEntryTimestamp
+
+> .:Escape:: .:GetLastEntryTimestamp::time_format:. :.
+
+Permet de récupérer la date formatée avec `time_format` de la dernière publication, c'est-à-dire de la publication avec l'`id` le plus grand.
 
 ### GetNextPage
 
@@ -59,6 +65,7 @@ Ce motif comporte les variables suivantes :
 - **`entry_title`** : si le contexte le permet, cette variable contient le titre de la publication associée à la page suivante. Sinon, la variable est ignorée.
 - **`page_number`** : si le contexte le permet, cette variable contient le numéro de la page suivante. Sinon, la variable est ignorée.
 - **`path`** : contient le chemin relatif de la page suivante, si elle existe.
+- **`chapter`** : si le contexte le permet, contient l'index du chapitre de la page suivante. Sinon, la variable est ignorée.
 
 ### GetPreviousPage
 
@@ -74,6 +81,7 @@ Ce motif possède les variables suivantes :
 - **`entry_title`** : si le contexte le permet, cette variable contient le titre de la publication associée à la page précédente. Sinon, la variable est ignorée.
 - **`page_number`** : si le contexte le permet, cette variable contient le numéro de la page précédente. Sinon, la variable est ignorée.
 - **`path`** : contient le chemin relatif de la page précédente, si elle existe.
+- **`chapter`** : si le contexte le permet, contient l'index du chapitre de la page précédente. Sinon, la variable est ignorée.
 
 ### GetRandomNumber
 
@@ -119,7 +127,7 @@ Par exemple, si la page courante qui est générée se trouve dans le répertoir
 
 Alors le motif renverra :
 
-> ../../../
+> ../../..
 
 ### GetStyleSheets
 
@@ -276,7 +284,7 @@ Ce motif n'a pas de variable.
 
 > .:Escape:: .:PreviewIfInThreadElseContent:. :.
 
-Ce pattern ne peut être utilisé que dans [`entry.html`](.:GetChapterAttributeByIndex::path::3.6:.).
+Ce pattern ne peut être utilisé que dans [`entry.html`](.:GetChapterAttributeByIndex::path::4.6:.).
 
 Il renvoie le résumé de la publication courante si VenC génère la page dans un fil de publications.
 Sinon, VenC renvoie le contenu complet de la publication courante.

@@ -2,25 +2,25 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5.4.1'
+chapter: '3.5.4.1'
 title: Animation de chargement
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 C'est purement cosmétique mais vous pouvez configurer une animation de chargement,
-comme expliqué dans le chapitre [3.6.2.2](.:GetChapterAttributeByIndex::path::3.6.2.2:.#footer-html), lorsque
+comme expliqué dans le chapitre [4.6.2.2](.:GetChapterAttributeByIndex::path::4.6.2.2:.#footer-html), lorsque
 vous utilisez le module JS de défilement infini.
 
 On peut alors écrire, lignes 2 à 4, quelque chose comme :
 
 .:CodeHighlight::HTML::True::        <footer>.:Escape::
               .:GetBlogMetadataIfExists::loading_image::
-                  <img id="__VENC_LOADING__" src=".:GetRelativeRoot:.{value}" />
+                  <img id="__VENC_LOADING__" src=".:GetRelativeRoot:./{value}" />
               :.
         :.</footer>
     </body>
 </html>:.
 
-Avec [`GetBlogMetadataIfExists`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogmetadataifexists), on teste ici si une image
+Avec [`GetBlogMetadataIfExists`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogmetadataifexists), on teste ici si une image
 de chargement a bien été définie dans le fichier de configuration principal. Si tel est le cas, alors la balise __`img`__ est ajoutée.
 
 Notez que l'attribut `id` a pour valeur __`.:DisableMarkup::__VENC_LOADING__:.`__. Cela permet au module JS de retrouver l'élément
@@ -28,10 +28,10 @@ Notez que l'attribut `id` a pour valeur __`.:DisableMarkup::__VENC_LOADING__:.`_
 
 Enfin, remarquons à la ligne 3 :
 
-.:CodeHighlight::Text::False::src=.:Escape::".:GetRelativeRoot:.{value}":. :.
+.:CodeHighlight::Text::False::src=.:Escape::".:GetRelativeRoot:./{value}":. :.
 
 Ici la variable __`value`__ portera le nom de fichier contenu dans __`loading_image`__, si ce champ est défini dans votre fichier de configuration.
 
 Enfin, comme souvent avec VenC quand on référence une ressource dans un
-fichier HTML, on utilise le motif [`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::4.3:.#getrelativeroot)
+fichier HTML, on utilise le motif [`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::5.3:.#getrelativeroot)
 qui permet de construire le chemin relatif du fichier qu'on référence.

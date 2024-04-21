@@ -2,11 +2,11 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5.6'
+chapter: '3.5.6'
 title: Multimédia
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Lorsque vous utilisez les _motifs_ [`Audio`](.:GetChapterAttributeByIndex::path::4.4.3:.#audio) ou [`Video`](.:GetChapterAttributeByIndex::path::4.4.3:.#video), VenC renvoie respectivement
+Lorsque vous utilisez les _motifs_ [`Audio`](.:GetChapterAttributeByIndex::path::5.4.3:.#audio) ou [`Video`](.:GetChapterAttributeByIndex::path::5.4.3:.#video), VenC renvoie respectivement
 le contenu formaté des fichiers __`audio.html`__ et __`video.html`__ de votre thème.
 
 Selon ce que vous envisagez de faire, vous pourriez avoir besoin de définir des règles CSS supplémentaires dans le répertoire `assets` de votre thème. Vous pourriez également vouloir utiliser des scripts JS

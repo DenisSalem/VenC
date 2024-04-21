@@ -2,8 +2,18 @@ body
     {background-color: #404040;
     color: #FFFFFF;
     font-family: arial;}
+
+h1, h2, h3, h4, h5
+    {font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
+    background-color: #383838;}
+
+h1:target, h2:target, h3:target, h4:target, h5:target
+    {background-color: #408040;
+    transition: background-color 1s ease-out;}
+
 a
-    {color: #FFFFFF;}    
+    {color: #FFFFFF;}
+    
 hr
     {height: 0px;
     border-bottom: 1px solid #404040;
@@ -19,12 +29,15 @@ blockquote, pre
     padding-left: 10px;
     padding-right: 10px;
     color: #808080;
-    overflow-x: auto;}
+    overflow-x: auto;
+    font-size: 12px;
+    font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;}
 
 .chapter_title
     {background-color: #303030;
     font-size: 2em;
-    font-weight: bolder;}
+    font-weight: bolder;
+    font-family: arial;}
 
 .entry 
     {width: 768px;
@@ -61,3 +74,10 @@ blockquote, pre
 
 .__VENC_TREE_NODE__
     {padding-left:20px;}
+
+.__VENC_PYGMENTIZE_WRAPPER__ table pre
+    {max-width: 708px;
+    overflow-x: auto;}
+
+#next-page
+    {float: right;}

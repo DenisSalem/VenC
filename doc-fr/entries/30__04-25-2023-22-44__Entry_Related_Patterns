@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '4.4.1'
+chapter: '5.4.1'
 title: Motifs de publication
 tree_test:
 - a:
@@ -14,13 +14,29 @@ tree_test:
 - g
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Ces motifs permettent d'accéder à des métadonnées contenues dans une [publication](.:GetChapterAttributeByIndex::path::3.3:.). Ils ne
-peuvent donc pas être utilisés en dehors d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.) ou des fichiers ci-dessous composant
+Ces motifs permettent d'accéder à des métadonnées contenues dans une [publication](.:GetChapterAttributeByIndex::path::4.3:.). Ils ne
+peuvent donc pas être utilisés en dehors d'une [publication](.:GetChapterAttributeByIndex::path::4.3:.) ou des fichiers ci-dessous composant
 un thème :
 
-- [`entry.html`](.:GetChapterAttributeByIndex::path::3.6:.)
-- [`atomEntry.html`](.:GetChapterAttributeByIndex::path::3.6:.)
-- [`rssEntry.html`](.:GetChapterAttributeByIndex::path::3.6:.)
+- [`entry.html`](.:GetChapterAttributeByIndex::path::4.6:.)
+- [`atomEntry.html`](.:GetChapterAttributeByIndex::path::4.6:.)
+- [`rssEntry.html`](.:GetChapterAttributeByIndex::path::4.6:.)
+
+#### CherryPickEntryMetadata
+
+> .:Escape:: .:CherryPickEntryMetadata::branch_1[::branch_2::branch_n]:. :.
+
+Permet de récupérer le contenu de la métadonnée contenue dans un ou plusieurs dictionnaires. Pour ce faire, cette fonction prend
+au moins un paramètre qui désigne le nom d'un champ à la racine du document YAML d'une publication.
+
+Par exemple :
+
+> .:Escape:: .:CherryPickEntryMetadata::moo::foo::bar:. :.
+
+#### CherryPickEntryMetadataIfExists
+
+Identique à [`CherryPickEntryMetadata`](.:GetChapterAttributeByIndex::path::5.4.1:.#cherrypickentrymetadata), mais est ignoré en cas
+d'erreur.
 
 #### ForEntryAuthors
 
@@ -28,7 +44,10 @@ un thème :
 
 Retourne la liste des auteurs de la publication.
 
-Le premier argument est une chaîne de caractères à formater avec la variable `{value}` contenant le nom de l'auteur courant.
+Le premier argument est une chaîne de caractères à formater avec les variables :
+
+- __`value`__ : contient le nom de l'auteur courant.
+- __`html_id`__: le nom de l'auteur courant, mais formaté pour être utilisé comme un identifiant HTML.
 
 Le second paramètre est une chaîne de caractères servant de séparateur.
 
@@ -38,8 +57,10 @@ Le second paramètre est une chaîne de caractères servant de séparateur.
 
 Il est possible de définir des métadonnées sous la forme de listes.
 
-Le premier argument est une chaîne de caractères à formater avec la variable 
-`{value}` contenant l'élément courant de la liste.
+Le premier argument est une chaîne de caractères à formater avec les variables :
+
+- __`value`__ : contient l'élément courant de la liste.
+- __`html_id`__ : le nom de la catégorie courante, mais formaté pour être utilisé comme un identifiant HTML.
 
 Le second paramètre est une chaîne de caractères servant de séparateur.
 
@@ -49,7 +70,7 @@ Si la métadonnée spécifiée dans **`metadata_name`** n'existe pas, VenC inter
 
 > .:Escape:: .:ForEntryMetadataIfExists::metadata_name::string::separator:. :.
 
-Identique à [`ForEntryMetadata`](.:GetChapterAttributeByIndex::path::4.4.1:.#forentrymetadata), mais
+Identique à [`ForEntryMetadata`](.:GetChapterAttributeByIndex::path::5.4.1:.#forentrymetadata), mais
 est ignoré si la métadonnée spécifiée dans **`metadata_name`** n'existe pas.
 
 #### GetEntryArchivePath
@@ -76,6 +97,7 @@ Les arguments du motif sont les suivants :
 Les variables de ce motif sont les suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
+- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un identifiant HTML.
 - __`path`__ : le chemin relatif de la catégorie courante.
 - __`count`__ : le nombre de publications dans la catégorie courante.
 - __`weight`__ : le nombre de publications dans la catégorie courante, divisé par le nombre de publications appartenant à une catégorie.
@@ -130,7 +152,24 @@ catégories filles, alors les arguments `open_node` et `close_node` sont ajouté
 une nouvelle liste de sous-catégories est générée entre ces deux arguments,
 en utilisant les arguments `open_branch` et `close_branch`.
 
-Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::3.2:.#disable-categories).
+Ce motif est ignoré et supprimé si la génération des catégories est désactivée dans le fichier de [configuration principale](.:GetChapterAttributeByIndex::path::4.2:.#disable-categories).
+
+#### GetEntryCategoriesTreeFromBranches
+
+.:CodeHighlight::Text::False:: .:Escape::
+.:GetEntryCategoriesTreeFromBranches::
+    branches::
+    sub_tree_separator::
+    open_node::
+    open_branch::
+    close_branch::
+    close_node
+:. :.
+:.
+
+Fonctionne comme [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestreefrombranches) mais
+ ne garde que les catégories où se trouve la publication courante.
+
 
 #### GetEntryChapterLevel
 
@@ -188,7 +227,7 @@ Retourne l'identifiant unique de la publication.
 > .:Escape:: .:GetEntryMetadata::metadata_name:. :.
 
 Il est possible de définir ses propres champs dans les métadonnées
-d'une [publication](.:GetChapterAttributeByIndex::path::3.3:.) ou d'un [template](.:GetChapterAttributeByIndex::path::3.5:.).
+d'une [publication](.:GetChapterAttributeByIndex::path::4.3:.) ou d'un [template](.:GetChapterAttributeByIndex::path::4.5:.).
 
 Par exemple, si l'on définit le champ suivant :
 
@@ -224,7 +263,7 @@ Il est possible d'utiliser la variable suivante dans l'argument __`string`__ pou
 
 > .:Escape:: .:GetEntryMetadataIfNotNull::metadata_name[::string][::string2]:. :.
 
-Identique à [`GetEntryMetadataIfExists`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadatatreeifexists), mais la métadonnée spécifiée ne doit pas être vide ou être `null`.
+Identique à [`GetEntryMetadataIfExists`](.:GetChapterAttributeByIndex::path::5.4.1:.#getentrymetadatatreeifexists), mais la métadonnée spécifiée ne doit pas être vide ou être `null`.
 
 Par exemple: 
 
@@ -265,6 +304,7 @@ Les arguments de ce motif sont les suivants :
 Ce motif possède les variables suivantes :
 
 - __`value`__ : contient la valeur de l'item courant. Vous pouvez utiliser cette variable dans les arguments `value` et `value_childs`.
+- __`html_id`__ : le nom de la métadonnée courante, mais formaté pour être utilisé comme un identifiant HTML.
 - __`childs`__ : contient le bloc enfant de l'item courant. Vous ne pouvez utiliser cette variable que dans l'argument `value_childs`.
 
 Voici un exemple d'utilisation de ce pattern. Étant donné la métadonnée suivante dans l'entête d'une publication :
@@ -311,7 +351,7 @@ Ce qui donnerait :
 :. :.
 :.
 
-Identique à [`GetEntryMetadataTree`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrymetadatatree), mais le pattern
+Identique à [`GetEntryMetadataTree`](.:GetChapterAttributeByIndex::path::5.4.1:.#getentrymetadatatree), mais le pattern
 est ignoré si la métadonnée indiquée n'existe pas.
 
 #### GetEntryMinute
@@ -344,7 +384,7 @@ Retourne le titre de la publication.
 
 > .:Escape:: .:GetEntryToC::open_ul::open_li::content::close_li::close_ul:. :.
 
-Ce motif permet de générer une table des matières multi-niveaux sur la base des titres présents
+Ce motif permet de générer une table des matières multiniveaux sur la base des titres présents
 dans le __corps__ d'une publication [Markdown](https://daringfireball.net/projects/markdown/syntax#header).
 
 - **`open_ul`** : la chaîne de caractères ouvrant le niveau courant.
@@ -404,7 +444,7 @@ Alors le code HTML généré ressemblerait à :
     </li>
 </ul>:.
 
-Ce qui donne : 
+Ce qui donne :
 
 .:HTML::<ul>
     <li>
@@ -453,9 +493,25 @@ Les arguments de ce motif sont :
 Dans l'argument `string` vous pouvez utiliser les variables suivantes :
 
 - __`value`__ : le nom de la catégorie courante.
+- __`html_id`__: le nom de la catégorie courante, mais formaté pour être utilisé comme un identifiant HTML.
 - __`count`__ : le nombre de publications dans cette catégorie.
 - __`weight`__ : le nombre de publications dans cette catégorie, divisé par le nombre de publications ayant une catégorie.
 - __`path`__ : le chemin relatif menant au fil de publication de la catégorie courante.
+
+#### GetFlattenedEntryCategoriesFromBranches
+
+.:CodeHighlight::Text::Fals:: .:Escape::
+.:GetFlattenedBlogCategoriesFromBranches::
+  branches::
+  sub_tree_string::
+  sub_tree_separator::
+  string::
+  separator
+:.
+:. :.
+
+Identique à [`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getflattenedblogcategoriesfrombranches)
+mais ne récupère que les catégories de la publication courante.
 
 #### IfEntryMetadataIsTrue
 

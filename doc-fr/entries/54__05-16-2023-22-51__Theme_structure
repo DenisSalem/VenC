@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5.1'
+chapter: '3.5.1'
 title: Structure du thème
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -16,7 +16,7 @@ Pour commencer, placez-vous dans la racine de votre projet :
 .:CodeHighlight::shell-session::False::anonyme@anonymous /path/to/your/project $ ls
 blog  blog_configuration.yaml  caches  entries  extra  includes  theme:.
 
-Si vous n'avez pas déjà [installé un thème](.:GetChapterAttributeByIndex::path::5.9:.), le répertoire `theme` devrait être vide.
+Si vous n'avez pas déjà [installé un thème](.:GetChapterAttributeByIndex::path::6.9:.), le répertoire `theme` devrait être vide.
 
 Nous allons y créer à l'intérieur deux répertoires :
 
@@ -24,7 +24,7 @@ Nous allons y créer à l'intérieur deux répertoires :
 - __`chunks`__ : c'est le répertoire contenant les fameux fichiers dont nous parlions un peu plus haut.
 
 .:CodeHighlight::shell-session::False::anonyme@anonymous ~ $ cd /path/to/your/project/theme
-anonyme@anonymous ~/tutorial/theme $ mkdir assets chunks:.
+anonyme@anonymous /path/to/your/project/theme $ mkdir assets chunks:.
 
 Ceci étant fait, on va créer les _morceaux_ composant notre site __dans le répertoire `chunks`__ :
 
@@ -51,7 +51,7 @@ dans le nom de ceux-là :
 Pour construire une page, VenC prend d'abord un entête (`header.html`) où il va chercher des motifs
 VenC à interpréter.
 
-Puisque VenC est spécialisé dans la construction de blogs, il va ensuitre mettre bout à bout
+Puisque VenC est spécialisé dans la construction de blogs, il va ensuite mettre bout à bout
 le corps d'une publication (`entry.html`) pour chaque publication à afficher sur la page courante.
 Comme pour l'entête, VenC va y chercher des motifs à interpréter.
 
@@ -64,6 +64,6 @@ C'est la même logique qui est utilisée pour les flux Atom et RSS.
 Voilà pour les neuf premiers fichiers.
 
 Il reste maintenant __`video.html`__ et __`audio.html`__ : HTML5 permet d'inclure dans une page du contenu
-multimedia. Il existe un lecteur par défaut avec une configuration minimale, mais il est aussi possible
+multimédia. Il existe un lecteur par défaut avec une configuration minimale, mais il est aussi possible
 de personnaliser ce lecteur pour avoir les fonctionnalités et l'apparence que vous souhaitez. C'est donc dans
 ces deux derniers fichiers que ça va se jouer.

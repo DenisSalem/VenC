@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5.2.3'
+chapter: '3.5.2.3'
 title: Afficher les catégories
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -20,7 +20,7 @@ Pour commencer, nous allons préparer le terrain pour que le thème soit
 modulable par les utilisateurs finaux.
 
 Entre les balises __`header`__ que vous avez ajoutées dans le chapitre
-[7.5.2.1](.:GetChapterAttributeByIndex::path::7.5.2.1:.), ajoutez maintenant le code suivant :
+[3.5.2.1](.:GetChapterAttributeByIndex::path::3.5.2.1:.), ajoutez maintenant le code suivant :
 
 .:CodeHighlight::HTML::False::
 .:Escape::
@@ -32,7 +32,7 @@ Entre les balises __`header`__ que vous avez ajoutées dans le chapitre
 :.
 :.
 
-À l'aide du motif [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue),
+À l'aide du motif [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::5.4.2:.#ifblogmetadataistrue),
 on teste si les pages des catégories doivent être créées par VenC. On peut aller plus loin, en demandant à VenC
 de conserver ou non des blocs de codes de façon plus précise, de la façon suivante :
 
@@ -52,7 +52,7 @@ de conserver ou non des blocs de codes de façon plus précise, de la façon sui
 :.
 :.
 
-On utilise à nouveau [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue) pour tester
+On utilise à nouveau [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::5.4.2:.#ifblogmetadataistrue) pour tester
 les variables suivantes (à noter que ce ne sont pas des options réservées par VenC, vous pouvez donc définir les vôtres si vous
 le souhaitez) :
 
@@ -67,7 +67,7 @@ On arrive maintenant au gros morceau : l'affichage de la liste des catégories !
 ## Affichage des catégories en nuage
 
 C'est le cas le plus simple. Nous allons pour ce faire utiliser
-[`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories).
+[`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::5.4.2:.#getflattenedblogcategories).
 
 Par exemple :
 
@@ -82,7 +82,7 @@ Par exemple :
 </ul>:. 
 
 Ici, on définit une liste avec la balise HTML `ul`. On y insère le motif VenC
-[`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories).
+[`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::5.4.2:.#getflattenedblogcategories).
 qui va générer itérativement les items de la liste. Nous y écrivons donc en premier argument dudit motif
 le couple de balise `li`, qui correspond à l'item courant de la liste.
 
@@ -133,10 +133,10 @@ Deux sous-catégories de la catégorie "Art". Et bien sûr, il n'y a pas de limi
 de catégories, ce qui vous laisse beaucoup de latitude pour trier vos publications.
 
 Pour savoir comment définir des catégories dans une publication,
-rendez-vous [ici](.:GetChapterAttributeByIndex::path::3.3:.#categories).
+rendez-vous [ici](.:GetChapterAttributeByIndex::path::4.3:.#categories).
 
 Pour afficher un arbre hiérarchique de catégories, on utilise le _motif_ 
-VenC [`GetBlogCategoriesTree`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestree).
+VenC [`GetBlogCategoriesTree`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestree).
 La documentation technique propose l'exemple suivant, qui convient tout à fait
 à la majorité des cas de figure :
 
@@ -151,15 +151,15 @@ La documentation technique propose l'exemple suivant, qui convient tout à fait
 :.
 :.
 
-Ce _motif_ fonctionne différement de 
-[`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories). En effet, il faut indiquer à la fonction :
+Ce _motif_ fonctionne différemment de 
+[`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::5.4.2:.#getflattenedblogcategories). En effet, il faut indiquer à la fonction :
 
 - Les textes d'ouverture et de fermeture du
 nœud courant (respectivement les arguments 1 et 4).
 - Le texte d'ouverture et de fermeture de l'item courant à l'intérieur du nœud courant (respectivement
 les arguments 2 et 3).
 
-On remarque également que comme pour [`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories),
+On remarque également que comme pour [`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::5.4.2:.#getflattenedblogcategories),
 on peut utiliser les variables __`path`__, __`count`__ et __`value`__.
 
 Enfin, un autre élément est requis pour créer une structure récursive de catégories : c'est la
@@ -196,4 +196,10 @@ Avec ça on est bon et on peut maintenant placer notre code dans celui que nous 
 :.
 :.
 
-Et voilà, c'est tout bon pour les catégories !
+Et voilà, c'est tout bon pour les catégories ! Si cependant vous voulez aller plus loin,
+avec un contrôle plus fin de l'affichage et utiliser les fonctions avancées de taxonomie vous pouvez également jeter un œil à ces fonctions :
+
+- [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestreefrombranches)
+- [`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.##getflattenedblogcategoriesfrombranches)
+- [`GetEntryCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::5.4.1:.#getentrycategoriestreefrombranches)
+- [`GetFlattenedEntryCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::5.4.1:.##getflattenedentrycategoriesfrombranches)

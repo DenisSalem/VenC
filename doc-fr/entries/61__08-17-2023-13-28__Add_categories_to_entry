@@ -2,27 +2,27 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.5.3.2'
+chapter: '3.5.3.2'
 title: Ajouter et utiliser les catégories de la publication
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Comme pour les archives, une publication peut appartenir à des catégories. Naturellement, vous pouvez afficher ces catégories
 dans votre publication. La récupération et l'affichage de ces catégories
-fonctionnent exactement de la même façon que dans le chapitre [7.5.2.3](.:GetChapterAttributeByIndex::path::7.5.2.3:.), mais au lieu d'utiliser ces _motifs_ :
+fonctionnent exactement de la même façon que dans le chapitre [3.5.2.3](.:GetChapterAttributeByIndex::path::3.5.2.3:.), mais au lieu d'utiliser ces _motifs_ :
 
-- [`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::4.4.2:.#getflattenedblogcategories)
-- [`GetBlogCategoriesTree`](.:GetChapterAttributeByIndex::path::4.4.2:.#getblogcategoriestree)
+- [`GetFlattenedBlogCategories`](.:GetChapterAttributeByIndex::path::5.4.2:.#getflattenedblogcategories)
+- [`GetBlogCategoriesTree`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestree)
 
 On utilisera les _motifs_ suivants :
 
-- [`GetFlattenedEntryCategories`](.:GetChapterAttributeByIndex::path::4.4.1:.#getflattenedentrycategories)
-- [`GetEntryCategoriesTree`](.:GetChapterAttributeByIndex::path::4.4.1:.#getentrycategoriestree)
+- [`GetFlattenedEntryCategories`](.:GetChapterAttributeByIndex::path::5.4.1:.#getflattenedentrycategories)
+- [`GetEntryCategoriesTree`](.:GetChapterAttributeByIndex::path::5.4.1:.#getentrycategoriestree)
 
 En effet, ces deux _motifs_ récupèrent uniquement les catégories associées à la publication courante. La plupart du temps, dans
-une publication, on utilisera plutôt [`GetFlattenedEntryCategories`](.:GetChapterAttributeByIndex::path::4.4.1:.#getflattenedentrycategories).
+une publication, on utilisera plutôt [`GetFlattenedEntryCategories`](.:GetChapterAttributeByIndex::path::5.4.1:.#getflattenedentrycategories).
 En effet, afficher l'arbre des catégories spécique à la publication n'est pertinent que dans des cas très spécifiques.
 
-En se basant sur le chapitre [7.5.2.3](.:GetChapterAttributeByIndex::path::7.5.2.3:.) et sur ce que nous avons vu précédemment, nous aurions alors
+En se basant sur le chapitre [3.5.2.3](.:GetChapterAttributeByIndex::path::3.5.2.3:.) et sur ce que nous avons vu précédemment, nous aurions alors
 quelque chose ça :
 
 .:CodeHighlight::HTML::True::<div class="entry" .:Escape::id="entry.:GetEntryID:.">
@@ -60,8 +60,8 @@ quelque chose ça :
 
 Quelques remarques :
 
-- Comme dans le chapitre [7.5.2.3](.:GetChapterAttributeByIndex::path::7.5.2.3:.), on s'assure que VenC est bien configuré pour générer les catégories en premier lieu.
+- Comme dans le chapitre [3.5.2.3](.:GetChapterAttributeByIndex::path::3.5.2.3:.), on s'assure que VenC est bien configuré pour générer les catégories en premier lieu.
 - Ici, on teste deux variables __`display_entry_categories_as_list`__ et __`display_entry_categories_as_tree`__ qui doivent se trouver dans le fichier de configuration du blog. Or, nous pouvons imaginer
 que l'on veuille contrôler l'affichage de nos catégories depuis la publication elle-même, c'est-à-dire en testant une métadonnée de la publication. Pour ce faire, on utiliserait par
-exemple le _motif_ [`IfEntryMetadataIsTrue`](.:GetChapterAttributeByIndex::path::4.4.1:.#ifentrymetadataistrue)
-à la place de [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::4.4.2:.#ifblogmetadataistrue).
+exemple le _motif_ [`IfEntryMetadataIsTrue`](.:GetChapterAttributeByIndex::path::5.4.1:.#ifentrymetadataistrue)
+à la place de [`IfBlogMetadataIsTrue`](.:GetChapterAttributeByIndex::path::5.4.2:.#ifblogmetadataistrue).

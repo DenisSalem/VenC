@@ -2,12 +2,12 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '4.2'
+chapter: '5.2'
 title: Variables de motif
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Certains motifs comportent des _variables_. Il s'agit de valeurs accessibles depuis/dans les arguments du motif.
-Ces variables se présentent sous la forme de [placeholder](https://docs.python.org/3/library/string.html#format-examples) Python,
+Ces variables se présentent sous la forme de [`placeholder`](https://docs.python.org/3/library/string.html#format-examples) Python,
 ceux qui sont utilisés avec la fonction [`format`](https://docs.python.org/3/library/string.html#format-examples). Par exemple :
 
 > .:Escape:: .:PoudreDePerlinpinpin::{carabistouille}:. :.

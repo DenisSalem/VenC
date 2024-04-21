@@ -2,14 +2,14 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '3.5.1'
+chapter: '4.5.1'
 title: Arguments d'un template
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Les templates supportent la paramétrisation au moment de l'exécution de la commande `--new-entry`. C'est le cas par exemple du template `oEmbed` ou `images`.
 Quand un template est appelé sans ses arguments, la création de la publication échoue.
 
-Avant d'utiliser un template, il faut donc connaître ses arguments à l'aide de la commande [`--template-arguments`](.:GetChapterAttributeByIndex::path::5.12:.).
+Avant d'utiliser un template, il faut donc connaître ses arguments à l'aide de la commande [`--template-arguments`](.:GetChapterAttributeByIndex::path::6.12:.).
 
 Les paramètres de template prennent la forme de [placeholder](https://docs.python.org/3/library/string.html#format-examples)
 Python, ceux qui sont utilisés avec la fonction [`format`](https://docs.python.org/3/library/string.html#format-examples). Par exemple :

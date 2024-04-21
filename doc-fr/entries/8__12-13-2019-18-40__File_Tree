@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '3.1'
+chapter: '4.1'
 title: Arborescence
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -12,7 +12,7 @@ Lorsque vous créez un nouveau projet, VenC produit un certain nombre de répert
 - __`blog`__ : _le dossier dans lequel est exporté le projet._
 - __`extra`__ : _un dossier contenant des ressources quelconques copiées vers `blog/` au moment de l'exportation._
 - __`entries`__ : _contient toutes les publications sous forme de fichiers textes numérotés et datés._
-- __`theme`__ : _contient les templates HTML, les feuilles de style et éventuellement les scripts JS._
+- __`theme`__ : _contient les templates HTML, les feuilles de style, d'éventuels scripts JS ou des images._
 - __`templates`__ : _contient des modèles vierges pour de futures publications._
-- __`includes`__ : _ce répertoire contient des fichiers HTML que vous pouvez inclure n'importe où dans votre projet avec la fonction [`IncludeFile`](.:GetChapterAttributeByIndex::path::4.4.3:.#includefile)._
-- __`caches`__ : _ce répertoire n'est pas généré automatiquement à la création de votre projet. Mais il peut apparaître plus tard, notamment si vous utilisez la fonction [`GetEmbedContent`](.:GetChapterAttributeByIndex::path::4.4.3:.#getembedcontent)._
+- __`includes`__ : _ce répertoire contient des fichiers HTML que vous pouvez inclure n'importe où dans votre projet avec la fonction [`IncludeFile`](.:GetChapterAttributeByIndex::path::5.4.3:.#includefile)._
+- __`caches`__ : _ce répertoire n'est pas généré automatiquement à la création de votre projet. Mais il peut apparaître plus tard, notamment si vous utilisez la fonction [`GetEmbedContent`](.:GetChapterAttributeByIndex::path::5.4.3:.#getembedcontent)._

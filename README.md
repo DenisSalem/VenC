@@ -2,4 +2,4 @@
 
 # Documentation
 
-- [VenC 3.1.1 - Français](https://venc.software/)
+- [VenC 3.2.0 - Français](https://venc.software/)

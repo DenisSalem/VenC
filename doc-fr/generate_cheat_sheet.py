@@ -10,16 +10,16 @@ from venc3.threads import Thread
 patterns = []
 
 source = {
-    "4.3" :  (PatternsMap.CONTEXTUALS, Thread),
-    "4.4.1" : (PatternsMap.NON_CONTEXTUALS["entries"], DatastorePatterns),
-    "4.4.2" : (PatternsMap.NON_CONTEXTUALS["blog"], DatastorePatterns),
-    "4.4.3" : (PatternsMap.NON_CONTEXTUALS["extra"], )
+    "5.3" :  (PatternsMap.CONTEXTUALS, Thread),
+    "5.4.1" : (PatternsMap.NON_CONTEXTUALS["entries"], DatastorePatterns),
+    "5.4.2" : (PatternsMap.NON_CONTEXTUALS["blog"], DatastorePatterns),
+    "5.4.3" : (PatternsMap.NON_CONTEXTUALS["extra"], )
 }
 
 for index in source.keys():
     for pattern in source[index][0]:
         symbol = source[index][0][pattern]
-        if index == "4.4.3":
+        if index == "5.4.3":
             pattern_location = symbol.split('.')
             function = pattern_location[-1]
             module = '.'+pattern_location[-2]

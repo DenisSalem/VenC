@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '7.4'
+chapter: '3.4'
 title: Comment mettre en ligne votre site
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -14,7 +14,7 @@ Mais ce peut être un peu fastidieux quand on sait que VenC peut
 prendre en charge le transfert de votre blog via FTP.
 
 Pour que VenC puisse mettre en ligne votre blog, vous devez lui fournir
-quelques informations dans le fichier [`blog_configuration.yaml`](.:GetChapterAttributeByIndex::path::3.2:.) :
+quelques informations dans le fichier [`blog_configuration.yaml`](.:GetChapterAttributeByIndex::path::4.2:.) :
 
 - **`ftp_host`** : l'adresse du serveur FTP de destination. 
 - **`path`**:

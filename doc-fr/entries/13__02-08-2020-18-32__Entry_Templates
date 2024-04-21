@@ -2,7 +2,7 @@ authors:
   - Denis Salem
 categories:
   - ''
-chapter: '3.5'
+chapter: '4.5'
 title: Les templates de publication
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
@@ -35,5 +35,5 @@ Pour utiliser un template, il suffit de passer son nom de fichier (sans le chemi
 > .:SetColor::green::jeanrochefort@anonymous:. .:SetColor::cyan::~ $:. venc -ne "Amanite tue-mouches" champignons_magiques
 
 VenC va d'abord essayer de trouver votre template dans le répertoire
-[`templates`](.:GetChapterAttributeByIndex::path::3.1:.) de votre blog.
+[`templates`](.:GetChapterAttributeByIndex::path::4.1:.) de votre blog.
 Sinon, il essayera de le trouver parmi les templates de publication prédéfinis, qui sont listés plus haut.

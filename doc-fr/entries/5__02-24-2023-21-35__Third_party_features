@@ -14,7 +14,7 @@ propre système de balises pour l'aide à la mise en page de votre projet. VenC 
 d'un moteur de template tiers comme [Jinja](https://jinja.palletsprojects.com) et
 voit ses performances améliorées, dans la mesure où le moteur de template interne
 à VenC est fortement couplé avec le reste du code et a bénéficié d'un effort
-d'optimisations substantiel.
+d'optimisations substantielles.
 
 Autant que possible nous faisons également en sorte que les librairies tierces de VenC soient optionnelles pour minimiser le nombre de composants installés
 sur votre machine.
