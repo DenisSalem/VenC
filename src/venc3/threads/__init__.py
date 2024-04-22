@@ -91,7 +91,7 @@ class Thread:
                     pattern
                 )
     def get_style_sheets(self, pattern):
-        return get_style_sheets(pattern).replace("\x1a", self.relative_origin)
+        return get_style_sheets(pattern).replace("\x1a", self.relative_origin if len(self.relative_origin) else ".")
 
     def return_page_around(self, string, params):
         try:
@@ -327,7 +327,7 @@ class Thread:
             'w',
             encoding="utf-8"
         )
-        stream.write(output.replace("\x1a", self.relative_origin))
+        stream.write(output.replace("\x1a", self.relative_origin if len(self.relative_origin) else "."))
         stream.close()
 
     # TODO : QUESTION : Why the fuck using global current_source ?
@@ -351,7 +351,7 @@ class Thread:
         
         self.output += footer.string
         
-        self.write_file(self.output.replace("\x1a",self.relative_origin), self.page_number)
+        self.write_file(self.output.replace("\x1a",self.relative_origin if len(self.relative_origin) else "."), self.page_number)
 
         self.page_number += 1
         self.current_page = self.page_number
@@ -396,7 +396,7 @@ class Thread:
                 'w',
                 encoding="utf-8"
             )
-            stream.write(output.replace("\x1a", self.relative_origin))
+            stream.write(output.replace("\x1a", self.relative_origin if len(self.relative_origin) else "."))
             stream.close()
         else:
             self.iterate_through_pages()

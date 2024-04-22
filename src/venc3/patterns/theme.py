@@ -30,7 +30,7 @@ def get_media(media_type, target, extensions, poster=''):
     f["poster"] = ""
     
     if media_type == "video":
-        f["poster"] = poster.strip().format(**{"relative_origin" : "\x1a"})
+        f["poster"] = poster.strip().format(**{"relative_origin" : "\x1a/"})
 
     return getattr(theme, media_type).format(**f)
 
