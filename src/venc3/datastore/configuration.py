@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2023 Denis Salem
+#    Copyright 2016, 2024 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -35,6 +35,7 @@ def sanitize_optional_fields(blog_configuration):
         "disable_rss_feed" : bool,
         "disable_single_entries": bool,
         "disable_threads": list,
+        "filter_from_main_thread": list(),
         "ftp_encoding": str,
         "ftp_host": str,
         "ftp_port": int,
@@ -44,7 +45,7 @@ def sanitize_optional_fields(blog_configuration):
         "pipe_flow": int,
         "server_port": int,
         "sort_by": str,
-        "text_editor": list
+        "text_editor": list,
     }
 
     for field in fields.keys():
@@ -72,9 +73,10 @@ def setup_optional_fields(blog_configuration):
             "parallel_processing" : 1,
             "columns" : 1,
             "server_port" : 8888,
+            "filter_from_main_thread": [],
             "ftp_port": 21,
             "ftp_encoding": "latin-1",
-            "ftp_sessions": 4
+            "ftp_sessions": 4,
         }
             
         for field in default_values.keys():

@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#   Copyright 2016, 2021 Denis Salem
+#   Copyright 2016, 2024 Denis Salem
 
 #    This file is part of VenC.
 #
@@ -73,7 +73,7 @@ extra_files.append(
 
 setup(
     name='VenC',
-    version='3.2.1',
+    version='3.3.0',
     description='A static blog generator.',
     author='Denis Salem',
     author_email='denissalem@tuxfamily.org',

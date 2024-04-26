@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2022 Denis Salem
+#    Copyright 2016, 2024 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -20,6 +20,14 @@
 from venc3.threads import Thread
 
 class MainThread(Thread):
+    def filter_categories(entry, categories_to_remove):
+        for category in entry.categories:
+            if category.value in categories_to_remove:
+                return False
+                
+        return True
+        
+      
     def __init__(self):
         from venc3.l10n import messages
         super().__init__(messages.export_main_thread)
@@ -28,11 +36,13 @@ class MainThread(Thread):
             self.pages_count = 0
 
         else:
-            self.organize_entries([
+            entries = [
                 entry for entry in datastore.get_entries(
                     datastore.blog_configuration["reverse_thread_order"]
                 )
-            ])
+            ]
+            categories_to_remove = datastore.blog_configuration["filter_from_main_thread"]
+            self.organize_entries([entry for entry in entries if filter_categories(entry, categories_to_remove)])
 
         self.filename = self.datastore.blog_configuration["paths"]["index_file_name"]
         self.relative_origin = ""
