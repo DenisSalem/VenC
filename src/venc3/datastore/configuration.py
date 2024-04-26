@@ -21,43 +21,43 @@ BLOG_CONFIGURATION = None
 
 def sanitize_optional_fields(blog_configuration):
     fields = {
-        "blog_keywords": list,
-        "blog_url": str,
-        "code_highlight_css_override": bool,
-        "columns": int,
-        "default_theme": str,
-        "disable_archives": bool,
-        "disable_atom_feed": bool,
-        "disable_categories": bool,
-        "disable_chapters": bool,
-        "disable_infinite_scroll" : bool,
-        "disable_main_thread": bool,
-        "disable_rss_feed" : bool,
-        "disable_single_entries": bool,
-        "disable_threads": list,
-        "filter_from_main_thread": list(),
-        "ftp_encoding": str,
-        "ftp_host": str,
-        "ftp_port": int,
-        "ftp_sessions": int,
-        "path_encoding": str, 
-        "parallel_processing": int,
-        "pipe_flow": int,
-        "server_port": int,
-        "sort_by": str,
-        "text_editor": list,
+        "blog_keywords": (list,),
+        "blog_url": (str,),
+        "code_highlight_css_override": (bool,),
+        "columns": (int,),
+        "default_theme": (str,),
+        "disable_archives": (bool,),
+        "disable_atom_feed": (bool,),
+        "disable_categories": (bool,),
+        "disable_chapters": (bool,),
+        "disable_infinite_scroll" : (bool,),
+        "disable_main_thread": (bool,),
+        "disable_rss_feed" : (bool,),
+        "disable_single_entries": (bool,),
+        "disable_threads": (list,),
+        "filter_from_main_thread": (list,),
+        "ftp_encoding": (str,),
+        "ftp_host": (str,),
+        "ftp_port": (int,),
+        "ftp_sessions": (int,),
+        "path_encoding": (str,),
+        "parallel_processing": (int,),
+        "pipe_flow": (int,),
+        "server_port": (int,),
+        "sort_by": (str,),
+        "text_editor": (list,),
     }
 
     for field in fields.keys():
         if field in blog_configuration.keys():
-            if not type(blog_configuration[field]) == fields[field]:
+            if not type(blog_configuration[field]) in fields[field]:
                 from venc3.prompt import die
-                die(("field_is_not_of_type", field, "blog_configuration.yaml", fields[field].__name__))
+                die(("field_is_not_of_type", field, "blog_configuration.yaml", str(fields[field])))
                 
     if "ftp" in blog_configuration["paths"].keys():
         if not type(blog_configuration["paths"]["ftp"]) == str:  # TODO: check when used
             from venc3.prompt import die
-            die(("field_is_not_of_type", field, "blog_configuration.yaml", fields[field].__name__))
+            die(("field_is_not_of_type", field, "blog_configuration.yaml", str(fields[field])))
         else:
             blog_configuration["paths"]["ftp"] = '/'.join([directory for directory in blog_configuration["paths"]["ftp"].split('/') if len(directory) ])
                 

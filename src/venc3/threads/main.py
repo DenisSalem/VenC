@@ -21,8 +21,8 @@ from venc3.threads import Thread
 
 class MainThread(Thread):
     def filter_categories(entry, categories_to_remove):
-        for category in entry.categories:
-            if category.value in categories_to_remove:
+        for category in entry.raw_categories:
+            if category in categories_to_remove:
                 return False
                 
         return True
@@ -42,7 +42,7 @@ class MainThread(Thread):
                 )
             ]
             categories_to_remove = datastore.blog_configuration["filter_from_main_thread"]
-            self.organize_entries([entry for entry in entries if filter_categories(entry, categories_to_remove)])
+            self.organize_entries([entry for entry in entries if MainThread.filter_categories(entry, categories_to_remove)])
 
         self.filename = self.datastore.blog_configuration["paths"]["index_file_name"]
         self.relative_origin = ""
