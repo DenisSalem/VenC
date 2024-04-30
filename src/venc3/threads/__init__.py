@@ -265,12 +265,12 @@ class Thread:
             self.processor.process(content, Pattern.FLAG_CONTEXTUAL,id(pattern.payload[0]))
             return content.string            
         
-    def if_entries_in_page_has_metadata(self, pattern, metadata_name):
+    def if_entries_in_page_has_metadata(self, pattern, metadata_name, string_1, string_2=''):
         for entry in self.pages[self.current_page]:
             if hasattr(entry, metadata_name):
-                return True
+                return string_1
                 
-        return False
+        return string_2
 
     def if_pages(self, pattern, string1, string2=''):
         if self.pages_count > 1:
