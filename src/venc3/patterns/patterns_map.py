@@ -32,6 +32,7 @@ class PatternsMap():
         "GetRelativeRoot":	            "get_relative_root",
         "GetStyleSheets":	              "get_style_sheets",
         "GetThreadName":	              "get_thread_name",
+        "IfEntriesInPageHasMetadata":   "if_entries_in_page_has_metadata",
         "IfInArchives":	                "if_in_archives",
         "IfInCategories":	              "if_in_categories",
         "IfInEntryID":	                "if_in_entry_id",
