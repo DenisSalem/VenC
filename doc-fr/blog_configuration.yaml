@@ -18,6 +18,7 @@ entries_per_pages: 50
 feed_length: 15
 ftp_host: ftp.tuxfamily.org
 ftp_port: 21
+ftp_sessions: 8
 license: 'CC-By-SA'
 markup_language: Markdown
 parallel_processing: 8

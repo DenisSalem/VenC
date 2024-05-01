@@ -18,6 +18,8 @@ Le ou les séparateurs d'argument à l'intérieur d'un `motif` sont représenté
 
 > ::
 
+*__Important : Pour le moment, à l'intérieur d'un argument, un motif imbriqué ne peut pas être adjacent aux symbols séparant les arguement .__*
+
 Un `motif` a donc la forme suivante :
 
 > .:Escape:: .:PatternName[::Argument 1][::Argument 2][::Argument N] ... :. :.
