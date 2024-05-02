@@ -180,6 +180,10 @@ def remote_copy(params):
           
         print_ftp_response(ftp.login(user=username,passwd=user_passwd))
         print_ftp_response(ftp.cwd(blog_configuration["paths"]["ftp"]))
+
+        import time
+        start_timestamp = time.time()
+        
         notify(("sync_ftp_directory",))
         ftp_base_path = blog_configuration["paths"]["ftp"]
         local_files = { item[0][len(os.getcwd()+"/blog"):] : item[1] for item in get_local_files(os.getcwd()+"/blog") }
@@ -227,7 +231,9 @@ def remote_copy(params):
 
         for thread_worker in worker_threads:
             thread_worker.join()
-            
+
+        notify(("task_done_in_n_seconds", round(time.time() - start_timestamp, 6)))
+
     except Exception as e:
         from venc3.prompt import die
         die(("exception_place_holder", str(e)))
