@@ -20,12 +20,14 @@
 import os
 import http.server
 from multiprocessing import Process
+import shutil
 import time
 import urllib.parse 
 
 from venc3.commands.export import export_blog
 from venc3.datastore.configuration import get_blog_configuration
 from venc3.helpers import copy_recursively
+from venc3.prompt import notify
 
 blog_configuration = get_blog_configuration() # TODO: Load only in time.
 
@@ -51,7 +53,8 @@ def watch_files():
     refresh_assets = False
     refresh_all = False
     
-    for path in get_files():
+    files = get_files()
+    for path in files:
         WATCHED_FILES[path] = os.path.getmtime(path)
         if WATCHED_FILES[path] > LAST_WATCH_PASS:
             if path[:len("../extra")] == "../extra":
@@ -63,11 +66,40 @@ def watch_files():
             else:
               refresh_all |= True
               break
+    
+    keys = tuple(WATCHED_FILES.keys())
+    
+    for filename in keys:
+      if not filename in files:
+          WATCHED_FILES.pop(filename)
+          to_delete = None
+          if filename[:len("../extra")] == "../extra" and filename != "../extra":
+              to_delete = "blog"+filename[len("../extra"):]
+              
+          elif filename[:len("../theme/assets")] == "../theme/assets" and filename != "../theme/assets":
+              to_delete = "blog"+ filename[len("../theme/assets"):]
+              
+          else:
+              refresh_all |= True
+              break
+          
+          if to_delete != None:
+              notify(("deleting_file", to_delete))
+              if os.path.isdir("../"+to_delete):
+                  shutil.rmtree("../"+to_delete)
+                  
+              else:
+                  os.unlink("../"+to_delete)         
               
     LAST_WATCH_PASS = time.time()
+    
     if refresh_all:
         return True
+        
     else:
+        if refresh_extra or refresh_assets:
+            notify(("copy_assets_and_extra_files",))
+            
         if refresh_extra:
             copy_recursively("../extra/", "./")
     
@@ -90,7 +122,7 @@ class VenCServer(http.server.CGIHTTPRequestHandler):
         super().__init__(request, client_address, server)
     
     def do_GET(self):
-        if watch_files(): # will silently trigger partial refresh of extra and assets
+        if watch_files(): # will trigger partial refresh of extra and assets
             sub_process = Process(target=export_blog_wrapper,args=([],))
             sub_process.start()
             sub_process.join()
@@ -104,8 +136,6 @@ class VenCServer(http.server.CGIHTTPRequestHandler):
         super().send_error(code, message, explain)
             
 def serv(params):            
-    from venc3.prompt import notify
-
     port = params[0] if len(params) else blog_configuration["server_port"]
         
     try:
