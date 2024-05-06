@@ -39,11 +39,9 @@ def get_files(folder=".."):
     for item in os.listdir(folder):
         if item in ["extra", "includes", "entries", "theme", "blog_configuration.yaml"] or (folder != ".."):
             if item[0] != '.':
+                files += [folder+"/"+item]
                 if os.path.isdir(folder+"/"+item):
                     files += get_files(folder+"/"+item)
-                else:
-                    files += [folder+"/"+item]
-                
     return files
 
 def watch_files():
@@ -56,8 +54,8 @@ def watch_files():
     files = get_files()
     for path in files:
         WATCHED_FILES[path] = os.path.getmtime(path)
-        if WATCHED_FILES[path] > LAST_WATCH_PASS:
-            if path[:len("../extra")] == "../extra":
+        if WATCHED_FILES[path] > LAST_WATCH_PASS and not os.path.isdir(path):
+            if path[:len("../extra")] == "../extra" :
                 refresh_extra |= True
 
             elif path[:len("../theme/assets")] == "../theme/assets":
@@ -85,12 +83,15 @@ def watch_files():
           
           if to_delete != None:
               notify(("deleting_file", to_delete))
-              if os.path.isdir("../"+to_delete):
-                  shutil.rmtree("../"+to_delete)
-                  
-              else:
-                  os.unlink("../"+to_delete)         
-              
+              try:
+                  if os.path.isdir("../"+to_delete):
+                      shutil.rmtree("../"+to_delete)
+                      
+                  else:
+                          os.unlink("../"+to_delete)         
+              except FileNotFoundError:
+                  pass
+                      
     LAST_WATCH_PASS = time.time()
     
     if refresh_all:
