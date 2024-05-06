@@ -55,7 +55,6 @@ class Thread:
 
         self.entries_per_page = int(datastore.blog_configuration["entries_per_pages"])
         self.disable_threads = datastore.disable_threads
-        self.most_recent_entry_timestamp = None
 
         # Setup useful data
         self.theme = theme
