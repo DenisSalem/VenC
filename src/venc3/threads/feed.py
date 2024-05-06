@@ -37,7 +37,6 @@ class FeedThread(Thread):
         self.content_type = feed_type
 
     def do(self, entries, export_path, relative_origin):
-        self.last_entry = entries[-1]
         self.export_path = export_path
         self.relative_origin = relative_origin
         self.organize_entries(entries)
@@ -45,7 +44,3 @@ class FeedThread(Thread):
 
     def if_in_feed(self, node, string1, string2=''):
         return string1.strip()
-            
-    def get_last_entry_timestamp(self, pattern, time_format):
-        import datetime
-        return datetime.datetime.strftime(self.last_entry.date, time_format)
