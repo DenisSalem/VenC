@@ -41,6 +41,13 @@
     TODO | Verify header id uniqueness or warn about W3C complience.
     TODO | Add post-generation warning information. For example calling GetEntryPath while single entry pages is disabled should not be silent.
     
+# version 3.2.2
+    DONE | Framagit issue #91 : Adding or modifying file in extra/ and/or theme/assets was refresh site with venc -s
+    TODO | Framagit issue #92 : GetLastEntryTimestamp is not relevant when used in another thread. 
+    
+# version 3.2.1
+    DONE | Fix framagit issue #87 : {path} variable was broken and return absolute path 
+    
 # version 3.2.0
     DONE | Use EDITOR environment variable if available.
     DONE | Enhance blog_configuration sanitation.

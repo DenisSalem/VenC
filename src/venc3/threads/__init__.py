@@ -118,6 +118,9 @@ class Thread:
     # Must be called in child class
     def organize_entries(self, entries):
         self.pages = list()
+        
+        self.most_recent_entry_date = max([entry.date for entry in entries])
+        
         for i in range(0, ceil(len(entries)/self.entries_per_page)):
             self.pages.append(
                 entries[i*self.entries_per_page:(i+1)*self.entries_per_page]
@@ -126,11 +129,8 @@ class Thread:
         self.pages_count = len(self.pages)
 
     def get_last_entry_timestamp(self, pattern, time_format):
-        from venc3.exceptions import VenCException
-        raise VenCException(
-            ("you_cannot_use_this_pattern_here", "GetLastEntryTimestamp", pattern.root.context),
-            pattern
-        )
+        import datetime
+        return datetime.datetime.strftime(self.most_recent_entry_date, time_format)
         
     # Must be called in child class
     def get_next_page(self, pattern, string):

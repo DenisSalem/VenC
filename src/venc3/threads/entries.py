@@ -49,7 +49,14 @@ class EntriesThread(Thread):
         except KeyError as e:
             from venc3.prompt import die
             die(("variable_error_in_filename", str(e)))
-            
+
+    def get_last_entry_timestamp(self, pattern, time_format):
+        from venc3.exceptions import VenCException
+        raise VenCException(
+            ("you_cannot_use_this_pattern_here", "GetLastEntryTimestamp", pattern.root.context),
+            pattern
+        )
+        
     def if_in_first_page(self, node, string1, string2=''):
         return string2.strip()
 
