@@ -49,19 +49,6 @@ categories:
     - Android
 :.
 
-### tags
-
-C'est la liste des mots-clefs de la publication au format [YAML](https://yaml.org/). Par exemple :
-
-.:CodeHighlight::YAML::false::
-tags:
-  - TheGIMP
-  - OpenGL
-  - Vulkan
-  - Inkscape
-  - Blender
-:.
-
 ### title
 
 C'est le nom de votre publication, tel que vous l'avez défini au moment de créer la publication avec la commande :
