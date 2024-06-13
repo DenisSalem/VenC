@@ -44,13 +44,6 @@ Ceci étant fait, rendez-vous dans le répertoire __`src`__ et utilisez le scrip
 
 L'installation des modules fonctionne alors comme dans la méthode classique.
 
-## Fichiers installés
-
-Dépendances mises à part, VenC installe ses ressources dans `~/.local/share/pipx/venvs/venc/share/VenC` ou `/usr/share/VenC`.
-
-On y trouve les thèmes, des assets, des templates, des modules JavaScript et d'autres petites choses utiles au bon fonctionnement
-de VenC.
-
 ## Désinstallation
 
 Pour désinstaller VenC, c'est triste, mais rien de plus simple :
