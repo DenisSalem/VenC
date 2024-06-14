@@ -64,15 +64,15 @@ class Theme:
 
 def init_theme(theme_name=''):
     import os
+    from venc3 import package_data_path
     from venc3.helpers import get_base_dir    
-
 
     # Setting up paths
     theme_folder = "theme/"
-    themes_folder = get_base_dir() + "/share/VenC/themes/"
+    package_themes_folder = package_data_path+"/themes/"
     if len(theme_name):
-        if os.path.isdir(themes_folder+theme_name):
-            theme_folder = themes_folder+theme_name+"/"
+        if os.path.isdir(package_themes_folder+theme_name):
+            theme_folder = package_themes_folder+theme_name+"/"
             
         else:
             from venc3.prompt import die
@@ -83,7 +83,7 @@ def init_theme(theme_name=''):
         die(("file_not_found", theme_folder))
     
     # Override blog configuration
-    if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(themes_folder+"/config.yaml"):
+    if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(package_themes_folder+"/config.yaml"):
         import yaml
         config = yaml.load(open(theme_folder+"/config.yaml",'r').read(), Loader=yaml.FullLoader)
         if "override" in config.keys():

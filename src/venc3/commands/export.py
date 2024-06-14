@@ -235,7 +235,8 @@ def export_blog(params):
     copy_recursively(theme.theme_folder+"assets/","blog/")
     for depenpency in theme_assets_dependencies:
         try:
-            shutil.copyfile(get_base_dir()+"/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
+            from venc3 import package_data_path
+            shutil.copyfile(package_data_path+"/themes_assets/"+depenpency, "blog/"+depenpency)
         
         except IsADirectoryError:
             shutil.copytree(get_base_dir()+"/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
