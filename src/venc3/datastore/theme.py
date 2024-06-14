@@ -65,7 +65,6 @@ class Theme:
 def init_theme(theme_name=''):
     import os
     from venc3 import package_data_path
-    from venc3.helpers import get_base_dir    
 
     # Setting up paths
     theme_folder = "theme/"

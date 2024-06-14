@@ -228,7 +228,6 @@ def export_blog(params):
     notify(("copy_assets_and_extra_files",), prepend="└─ ")
     from venc3.patterns.third_party_wrapped_features.pygmentize import code_highlight
     from venc3.datastore.theme import theme, theme_assets_dependencies
-    from venc3.helpers import get_base_dir
     code_highlight.export_style_sheets()
     from venc3.helpers import copy_recursively
     copy_recursively("extra/","blog/")
@@ -239,7 +238,7 @@ def export_blog(params):
             shutil.copyfile(package_data_path+"/themes_assets/"+depenpency, "blog/"+depenpency)
         
         except IsADirectoryError:
-            shutil.copytree(get_base_dir()+"/share/VenC/themes_assets/"+depenpency, "blog/"+depenpency)
+            shutil.copytree(package_data_path+"/themes_assets/"+depenpency, "blog/"+depenpency)
 
         except FileNotFoundError as e:
             notify(("file_not_found", e.filename), color="YELLOW")

@@ -69,9 +69,6 @@ def export_extra_data(origin, destination=""):
     except:
         raise
 
-def get_base_dir():
-    return sys.prefix if sys.prefix != sys.base_prefix else os.path.expanduser("~")+"/.local"
-
 def quirk_encoding(string):
     import unidecode
     for char in ['\'',' ','%',':','&','\\']:
@@ -94,11 +91,11 @@ def get_template(template_name, entry_name='', template_args={}):
     import os
 
     from venc3.helpers import get_template
-
+    from venc3 import package_data_path
     found_template = False
     templates_paths = [
         os.getcwd()+'/templates/'+template_name,
-        get_base_dir()+"/share/VenC/themes_templates/"+template_name
+        package_data_path+"/themes_templates/"+template_name
     ]
     
     for template_path in templates_paths:
