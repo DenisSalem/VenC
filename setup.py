@@ -19,6 +19,8 @@
 
 from setuptools import setup, find_namespace_packages
 
+print(find_namespace_packages(where="src"))
+
 setup(
     name='VenC',
     version='3.2.3',
@@ -38,7 +40,11 @@ setup(
           'pyyaml',
           'unidecode'
     ],
-    scripts=['venc'],
+    entry_points={
+        'console_scripts': [
+            'venc=venc3.main:venc_entry_point',
+        ]
+    },
     packages=find_namespace_packages(where="src"),
     package_dir={"": "src"},
     package_data={
