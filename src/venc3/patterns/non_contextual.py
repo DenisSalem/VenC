@@ -53,7 +53,7 @@ def include_file(pattern, filename, *argv, raise_error=True):
     
     include_string = None
     filename = filename.strip()
-    paths = ("includes/"+filename)
+    paths = ("includes/"+filename,)
     for path in paths:
         if shutil.os.path.exists(path):
             try:
