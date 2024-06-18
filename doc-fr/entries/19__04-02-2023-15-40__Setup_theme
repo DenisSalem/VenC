@@ -19,4 +19,4 @@ Celui-ci est structuré de la façon suivante :
   - __`version`__ : optionnel. Indique la version du thème.
   - __`author`__ : optionnel. Indique le ou les auteurs du thème.
 - __`override`__ : ce champ est optionnel et contient les propriétés remplaçant ou s'ajoutant à celles du fichier de configuration principal. Typiquement, un thème qui fonctionne avec trois colonnes, par exemple, devra inclure le champ "`columns`" ayant la valeur 3.
-- __`.:DisableMarkup::assets_dependencies:.`__ : il s'agit d'une liste contenant les assets (images, feuilles de styles, scripts) contenu dans `.:DisableMarkup::~/.local/share/VenC/themes_assets:.`. C'est notamment utile pour inclure des modules VenC JavaScript.
+- __`.:DisableMarkup::assets_dependencies:.`__ : il s'agit d'une liste contenant les assets (images, feuilles de styles, scripts) contenu dans [`.:DisableMarkup::$pkgdir/venc3/package_data/themes_assets:.`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--). C'est notamment utile pour inclure des modules VenC JavaScript.

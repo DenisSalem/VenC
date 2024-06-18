@@ -27,7 +27,9 @@ Si vous ne spécifiez pas de nom de template de publication, VenC produira une p
 totalement vierge. Le nom de template est en fait le nom de fichier du
 template désiré. Les fichiers de template se trouvent dans le répertoire `templates` de votre projet ou dans :
 
-> ~/.local/share/VenC/themes_templates
+> $pkgdir/venc3/package_data/themes_templates
+
+`$pkgdir` étant le répertoire où se trouve VenC.
 
 Par exemple :
 

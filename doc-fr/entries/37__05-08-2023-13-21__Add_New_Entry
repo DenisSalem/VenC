@@ -18,9 +18,7 @@ _Attention à ne pas confondre la notion de [template graphique](.:GetChapterAtt
 
 Si vous ne spécifiez pas de nom de template de publication, VenC produira une [publication](.:GetChapterAttributeByIndex::path::4.3:.) totalement vierge.
 Le nom de template de publication est en fait le nom de fichier du template désiré, se trouvant soit dans le
-répertoire `templates` de votre projet, soit dans le répertoire des `templates` par défaut :
-
-> ~/.local/share/VenC/themes_templates/
+répertoire `templates` de votre projet, soit dans le répertoire des `templates` par défaut : [`$pkgdir/venc3/package_data/themes_templates`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--).
 
 À l'issue de cette commande, VenC essaiera d'ouvrir la nouvelle [publication](.:GetChapterAttributeByIndex::path::4.3:.) avec
 l'éditeur de texte spécifié dans le fichier de configuration principal
