@@ -40,6 +40,7 @@ def venc_entry_point():
     parser = argparse.ArgumentParser(prog="VenC", usage="\n"+USAGE, add_help=False)
     parser.add_argument("-h", "--help", help="", action='store_const', const=".print")
     parser.add_argument("-v", "--version", help="", action='store_const', const=".print")
+    parser.add_argument("-pp", "--print-path", help="", action='store_const', const=".print")
     parser.add_argument("-pt", "--print-themes", help="", action='store_const', const=".print")
     parser.add_argument("-ta", "--template-arguments", help="", action='store_const', const=".print")
     parser.add_argument("-nb", "--new-blog", help="", action='store_const', const=".new")

@@ -70,7 +70,10 @@ def template_arguments(params):
         except VenCException as e:
             e.die()
 
-
+def print_path(params):
+    from venc3 import package_data_path
+    print(package_data_path)
+    
 def print_themes(params):
     import os
     import yaml
