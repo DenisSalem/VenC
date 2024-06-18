@@ -43,7 +43,7 @@ Il n'est pas forcément évident de créer un thème de toutes pièces et vous
 n'avez peut-être pas envie de perdre trop de temps à tester le
 fonctionnement de tout ça. Le meilleur moyen de créer un thème soi-même
 est de jeter un œil au thème __`concrete`__ normalement installé avec VenC
-dans : [`$pkgdir/venc3/package_data/themes/concrete`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--).
+dans : [`$(venc -pp)/themes/concrete`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--).
 
 
 Ce thème en l'état offre un aperçu de ce qu'il est possible de faire avec VenC.

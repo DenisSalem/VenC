@@ -43,7 +43,7 @@ ou __`IfChapters`__.
 Il y a deux façons de procéder :
 
 - Vous pouvez copier le module et sa dépendance dans le répertoire assets
-de votre thème depuis [`$pkgdir/venc3/package_data/themes_assets`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--). C'est cette méthode qui est recommandée si vous souhaitez distribuer votre thème.
+de votre thème depuis [`$(venc -pp)/themes_assets`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--). C'est cette méthode qui est recommandée si vous souhaitez distribuer votre thème.
 - Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::4.6.1:.)
 dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
 voir être exportés pendant la génération de votre blog.

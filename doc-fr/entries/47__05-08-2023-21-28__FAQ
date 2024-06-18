@@ -11,29 +11,11 @@ title: Foire aux questions
 
 ## Où se trouvent les fichiers de VenC une fois qu'il est installé ?
 
-En suivant la [procédure](.:GetChapterAttributeByIndex::path::2:.), vous trouverez VenC dans 
+Les fichiers additionnels se trouvent dans le répertoire indiqué par la commande
 
-> ~/.local/share/pipx/venvs/
+> venc -pp
 
-Si vous avez installé VenC avec `pip` :
-
-*__`x`__ étant la version courante de Python*
-
-> ~/.local/lib/python3.x/site-packages/
-
-Les fichiers additionnels de VenC se trouvent dans le package `venc3`
-
-> ~/.local/share/pipx/venvs/venc/lib/python3.x/site-packages/venc3/package_data/
-
-Si vous avez installé VenC avec `pip`:
-
-> ls ~/.local/lib/python3.w/site-packages/venc3/package_data/
-
-On y trouve les thèmes, des templates, des assets, des modules JavaScript et d'autres choses.
-
-Si votre distribution propose un package pour VenC alors il faut regarder où se trouvent les packages Python. Ce chemin devrait avoir la forme suivante pour les fichiers additionnels :
-
-> $pkgdir/venc3/package_data
+Le package `venc` étant le répertoire parent où se trouve les modules Python.
 
 ## Pourquoi VenC n'est officiellement supporté que par GNU/Linux ?
 

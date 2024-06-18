@@ -7,7 +7,7 @@ title: Modules JavaScript
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 VenC fournit quelques modules JavaScript pour vous aider à mettre en page votre contenu.
-Ces scripts sont installés dans le dossier : [`$pkgdir/venc3/package_data/themes_assets`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--)
+Ces scripts sont installés dans le dossier : [`$(venc -pp)/themes_assets`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--)
 
 Ce chapitre présente ces modules et en explique le fonctionnement.
 

@@ -23,4 +23,4 @@ Le nom du template correspond ici au nom du fichier du template et __non pas son
 VenC va chercher le template dans :
 
 - `/chemin/de/votre/projet/templates/`
-- [`$pkgdir/venc3/package_data/themes_templates`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--)
+- [`$(venc -pp)/themes_templates`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--)
