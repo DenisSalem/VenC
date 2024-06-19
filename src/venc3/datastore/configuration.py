@@ -44,7 +44,8 @@ def sanitize_optional_fields(blog_configuration):
         "pipe_flow": int,
         "server_port": int,
         "sort_by": str,
-        "text_editor": list
+        "text_editor": list,
+        "themes_locations": list
     }
 
     for field in fields.keys():
@@ -74,7 +75,8 @@ def setup_optional_fields(blog_configuration):
             "server_port" : 8888,
             "ftp_port": 21,
             "ftp_encoding": "latin-1",
-            "ftp_sessions": 4
+            "ftp_sessions": 4,
+            "themes_locations": []
         }
             
         for field in default_values.keys():

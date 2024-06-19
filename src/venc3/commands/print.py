@@ -79,30 +79,38 @@ def print_themes(params):
     import yaml
 
     from venc3 import package_data_path
-    themes_folder = package_data_path+"/themes/"
-    for theme in os.listdir(themes_folder):
-        if "config.yaml" in os.listdir(themes_folder+theme) and not os.path.isdir(themes_folder+theme+"/config.yaml"):
-            config = yaml.load(
-                open(themes_folder+theme+"/config.yaml",'r').read(),
-                Loader=yaml.FullLoader
-            )
-            try:
-                description = config["info"]["description"]
-                                        
-            except KeyError:
+    from venc3.datastore.configuration import BLOG_CONFIGURATION
+    paths = [package_data_path+"/themes/"] + (BLOG_CONFIGURATION["themes_locations"] if BLOG_CONFIGURATION != None else [])
+    for path in paths:
+        try:
+            files = os.listdir(path)
+          
+        except Exception as e:
+            continue
+            
+        for theme in files:
+            if "config.yaml" in os.listdir(themes_folder+theme) and not os.path.isdir(themes_folder+theme+"/config.yaml"):
+                config = yaml.load(
+                    open(themes_folder+theme+"/config.yaml",'r').read(),
+                    Loader=yaml.FullLoader
+                )
+                try:
+                    description = config["info"]["description"]
+                                            
+                except KeyError:
+                    from venc3.l10n import messages
+                    description = messages.theme_has_no_description
+                    
+                except TypeError:
+                    from venc3.l10n import messages
+                    description = messages.theme_has_no_description
+    
+            else:
                 from venc3.l10n import messages
                 description = messages.theme_has_no_description
-                
-            except TypeError:
-                from venc3.l10n import messages
-                description = messages.theme_has_no_description
-
-        else:
-            from venc3.l10n import messages
-            description = messages.theme_has_no_description
-
-        from venc3.prompt import msg_format
-        print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
+    
+            from venc3.prompt import msg_format
+            print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
 
 def version(params):
     from venc3 import venc_version
