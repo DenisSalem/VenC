@@ -83,15 +83,15 @@ def print_themes(params):
     paths = [package_data_path+"/themes/"] + (BLOG_CONFIGURATION["themes_locations"] if BLOG_CONFIGURATION != None else [])
     for path in paths:
         try:
-            files = os.listdir(path)
+            themes_folder = os.listdir(path)
           
         except Exception as e:
             continue
             
-        for theme in files:
-            if "config.yaml" in os.listdir(themes_folder+theme) and not os.path.isdir(themes_folder+theme+"/config.yaml"):
+        for theme in themes_folder:
+            if "config.yaml" in os.listdir(path+'/'+theme) and not os.path.isdir(path+'/'+theme+"/config.yaml"):
                 config = yaml.load(
-                    open(themes_folder+theme+"/config.yaml",'r').read(),
+                    open(path+'/'+theme+"/config.yaml",'r').read(),
                     Loader=yaml.FullLoader
                 )
                 try:
