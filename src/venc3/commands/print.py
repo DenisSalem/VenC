@@ -79,8 +79,9 @@ def print_themes(params):
     import yaml
 
     from venc3 import package_data_path
-    from venc3.datastore.configuration import BLOG_CONFIGURATION
-    paths = [package_data_path+"/themes/"] + (BLOG_CONFIGURATION["themes_locations"] if BLOG_CONFIGURATION != None else [])
+    from venc3.datastore.configuration import get_blog_configuration
+    blog_configuration = get_blog_configuration()
+    paths = [package_data_path+"/themes/"] + (blog_configuration["paths"]["themes_locations"] if blog_configuration != None else [])
     for path in paths:
         try:
             themes_folder = os.listdir(path)
@@ -89,7 +90,7 @@ def print_themes(params):
             continue
             
         for theme in themes_folder:
-            if "config.yaml" in os.listdir(path+'/'+theme) and not os.path.isdir(path+'/'+theme+"/config.yaml"):
+            if (os.path.isdir(path+'/'+theme) and "config.yaml" in os.listdir(path+'/'+theme)) and not os.path.isdir(path+'/'+theme+"/config.yaml"):
                 config = yaml.load(
                     open(path+'/'+theme+"/config.yaml",'r').read(),
                     Loader=yaml.FullLoader
@@ -109,8 +110,9 @@ def print_themes(params):
                 from venc3.l10n import messages
                 description = messages.theme_has_no_description
     
-            from venc3.prompt import msg_format
-            print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
+            if os.path.isdir(path+'/'+theme) and "assets" in os.listdir(path+'/'+theme) and "chunks" in os.listdir(path+'/'+theme):
+                from venc3.prompt import msg_format
+                print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
 
 def version(params):
     from venc3 import venc_version

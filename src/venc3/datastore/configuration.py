@@ -76,7 +76,6 @@ def setup_optional_fields(blog_configuration):
             "ftp_port": 21,
             "ftp_encoding": "latin-1",
             "ftp_sessions": 4,
-            "themes_locations": []
         }
             
         for field in default_values.keys():
@@ -97,6 +96,15 @@ def setup_optional_fields(blog_configuration):
         for field in fields_set_to_false:
             if not field in blog_configuration.keys():
                 blog_configuration[field] = False
+                
+        if not "themes_locations" in blog_configuration["paths"].keys():
+            blog_configuration["paths"]["themes_locations"] = ()
+            
+        else:
+            import os
+            blog_configuration["paths"]["themes_locations"] = [
+                os.path.expanduser(path) for path in blog_configuration["paths"]["themes_locations"]
+            ]
                 
 def get_blog_configuration():
     global BLOG_CONFIGURATION
@@ -148,6 +156,7 @@ def get_blog_configuration():
             "categories_sub_folders" : str,
             "archives_sub_folders" : str,
             "chapters_sub_folders" : str,
+
         }
 
         for field in mandatory_fields:
@@ -164,7 +173,7 @@ def get_blog_configuration():
             die(("unknown_markup_language", blog_configuration["markup_language"], "blog_configuration.yaml"))
         
         setup_optional_fields(blog_configuration)
-                        
+        
         BLOG_CONFIGURATION = blog_configuration
         return BLOG_CONFIGURATION
 
