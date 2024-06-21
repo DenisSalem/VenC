@@ -1,0 +1,17 @@
+authors:
+  - 'Denis Salem'
+chapter: '6.13'
+title: Afficher le chemin d'installation
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+Selon que vous avez installé VenC dans un virtual env utilisateur ou dans le système le chemin des ressources
+de VenC sera différent. Pour savoir où sont installés ces fichiers vous pouvez utiliser :
+
+> venc --print-path
+
+ou
+
+> venc -pp
+
+Le répertoire parent correspond à l'endroit où se trouve le code source de VenC.
