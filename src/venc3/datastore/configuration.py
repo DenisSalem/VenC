@@ -64,8 +64,9 @@ def sanitize_optional_fields(blog_configuration):
     if "themes_locations" in blog_configuration["paths"].keys():
         if not type(blog_configuration["paths"]["themes_locations"]) == list:
             from venc3.prompt import die
-            die(("field_is_not_of_type", "themes_locations", "blog_configuration.yaml", str(blog_configuration["paths"]["themes_locations"])))
-            
+            die(("field_is_not_of_type", "themes_locations", "blog_configuration.yaml", list.__name__))
+        
+        import os
         blog_configuration["paths"]["themes_locations"] = [
             os.path.expanduser(path) for path in blog_configuration["paths"]["themes_locations"]
         ]
