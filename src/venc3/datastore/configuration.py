@@ -108,7 +108,7 @@ def setup_optional_fields(blog_configuration):
                 blog_configuration[field] = False
                 
         if not "themes_locations" in blog_configuration["paths"].keys():
-            blog_configuration["paths"]["themes_locations"] = ()
+            blog_configuration["paths"]["themes_locations"] = []
                 
 def get_blog_configuration():
     global BLOG_CONFIGURATION
