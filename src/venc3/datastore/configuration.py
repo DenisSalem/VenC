@@ -60,7 +60,16 @@ def sanitize_optional_fields(blog_configuration):
             die(("field_is_not_of_type", field, "blog_configuration.yaml", str(fields[field])))
         else:
             blog_configuration["paths"]["ftp"] = '/'.join([directory for directory in blog_configuration["paths"]["ftp"].split('/') if len(directory) ])
-                
+
+    if "themes_locations" in blog_configuration["paths"].keys():
+        if not type(blog_configuration["paths"]["themes_locations"]) == list:
+            from venc3.prompt import die
+            die(("field_is_not_of_type", "themes_locations", "blog_configuration.yaml", str(blog_configuration["paths"]["themes_locations"])))
+            
+        blog_configuration["paths"]["themes_locations"] = [
+            os.path.expanduser(path) for path in blog_configuration["paths"]["themes_locations"]
+        ]
+        
 def setup_optional_fields(blog_configuration):
         sanitize_optional_fields(blog_configuration)
     
@@ -97,6 +106,9 @@ def setup_optional_fields(blog_configuration):
         for field in fields_set_to_false:
             if not field in blog_configuration.keys():
                 blog_configuration[field] = False
+                
+        if not "themes_locations" in blog_configuration["paths"].keys():
+            blog_configuration["paths"]["themes_locations"] = ()
                 
 def get_blog_configuration():
     global BLOG_CONFIGURATION
@@ -148,6 +160,7 @@ def get_blog_configuration():
             "categories_sub_folders" : str,
             "archives_sub_folders" : str,
             "chapters_sub_folders" : str,
+
         }
 
         for field in mandatory_fields:
@@ -164,7 +177,7 @@ def get_blog_configuration():
             die(("unknown_markup_language", blog_configuration["markup_language"], "blog_configuration.yaml"))
         
         setup_optional_fields(blog_configuration)
-                        
+        
         BLOG_CONFIGURATION = blog_configuration
         return BLOG_CONFIGURATION
 

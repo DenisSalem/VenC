@@ -70,37 +70,49 @@ def template_arguments(params):
         except VenCException as e:
             e.die()
 
-
+def print_path(params):
+    from venc3 import package_data_path
+    print(package_data_path)
+    
 def print_themes(params):
     import os
     import yaml
 
-    from venc3.helpers import get_base_dir
-
-    themes_folder = get_base_dir()+"/share/VenC/themes/"
-    for theme in os.listdir(themes_folder):
-        if "config.yaml" in os.listdir(themes_folder+theme) and not os.path.isdir(themes_folder+theme+"/config.yaml"):
-            config = yaml.load(
-                open(themes_folder+theme+"/config.yaml",'r').read(),
-                Loader=yaml.FullLoader
-            )
-            try:
-                description = config["info"]["description"]
-                                        
-            except KeyError:
+    from venc3 import package_data_path
+    from venc3.datastore.configuration import get_blog_configuration
+    blog_configuration = get_blog_configuration()
+    paths = [package_data_path+"/themes/"] + (blog_configuration["paths"]["themes_locations"] if blog_configuration != None else [])
+    for path in paths:
+        try:
+            themes_folder = os.listdir(path)
+          
+        except Exception as e:
+            continue
+            
+        for theme in themes_folder:
+            if (os.path.isdir(path+'/'+theme) and "config.yaml" in os.listdir(path+'/'+theme)) and not os.path.isdir(path+'/'+theme+"/config.yaml"):
+                config = yaml.load(
+                    open(path+'/'+theme+"/config.yaml",'r').read(),
+                    Loader=yaml.FullLoader
+                )
+                try:
+                    description = config["info"]["description"]
+                                            
+                except KeyError:
+                    from venc3.l10n import messages
+                    description = messages.theme_has_no_description
+                    
+                except TypeError:
+                    from venc3.l10n import messages
+                    description = messages.theme_has_no_description
+    
+            else:
                 from venc3.l10n import messages
                 description = messages.theme_has_no_description
-                
-            except TypeError:
-                from venc3.l10n import messages
-                description = messages.theme_has_no_description
-
-        else:
-            from venc3.l10n import messages
-            description = messages.theme_has_no_description
-
-        from venc3.prompt import msg_format
-        print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
+    
+            if os.path.isdir(path+'/'+theme) and "assets" in os.listdir(path+'/'+theme) and "chunks" in os.listdir(path+'/'+theme):
+                from venc3.prompt import msg_format
+                print("- "+msg_format["GREEN"]+theme+msg_format["END"]+":", description)
 
 def version(params):
     from venc3 import venc_version

@@ -97,9 +97,9 @@ def wrapper_embed_content(pattern, content_url):
         if embed_providers == dict():
             import os
             import json
-            from venc3.helpers import get_base_dir
-
-            f = open(get_base_dir()+"/share/VenC/embed_providers/oembed.json")
+            from venc3 import package_data_path
+            
+            f = open(package_data_path+"/oembed_providers.json")
             embed_providers["oembed"] = {}
             j = json.load(f)
             for p in j:

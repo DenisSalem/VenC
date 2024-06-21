@@ -64,17 +64,20 @@ class Theme:
 
 def init_theme(theme_name=''):
     import os
-    from venc3.helpers import get_base_dir    
-
+    from venc3 import package_data_path
+    from venc3.datastore import datastore
 
     # Setting up paths
     theme_folder = "theme/"
-    themes_folder = get_base_dir() + "/share/VenC/themes/"
+    themes_locations = [package_data_path+"/themes/"]+(datastore.blog_configuration["paths"]["themes_locations"] if datastore.blog_configuration != None else [])
+    
     if len(theme_name):
-        if os.path.isdir(themes_folder+theme_name):
-            theme_folder = themes_folder+theme_name+"/"
-            
-        else:
+        for themes_location in themes_locations:
+            if os.path.isdir(themes_location+'/'+theme_name):
+                theme_folder = themes_location+'/'+theme_name+"/"
+                break;
+                
+        if theme_folder == "theme/" and len(theme_name):
             from venc3.prompt import die
             die(("theme_doesnt_exists", theme_name))
     
@@ -83,13 +86,12 @@ def init_theme(theme_name=''):
         die(("file_not_found", theme_folder))
     
     # Override blog configuration
-    if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(themes_folder+"/config.yaml"):
+    if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(theme_folder+"/config.yaml"):
         import yaml
         config = yaml.load(open(theme_folder+"/config.yaml",'r').read(), Loader=yaml.FullLoader)
         if "override" in config.keys():
             from venc3.prompt import notify
             if type(config["override"]) == dict:
-                from venc3.datastore import datastore
                 for param in config["override"].keys():
                     notify(
                       (
