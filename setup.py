@@ -23,7 +23,7 @@ print(find_namespace_packages(where="src"))
 
 setup(
     name='VenC',
-    version='3.2.3',
+    version='3.3.0',
     description='A static blog generator.',
     author='Denis Salem',
     author_email='denissalem@tuxfamily.org',
