@@ -29,7 +29,7 @@ template désiré. Les fichiers de template se trouvent dans le répertoire `tem
 
 > $(venc -pp)/themes_templates
 
-`$pkgdir` étant le répertoire où se trouve VenC.
+`venc -pp` étant le répertoire où se trouve VenC.
 
 Par exemple :
 

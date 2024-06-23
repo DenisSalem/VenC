@@ -11,7 +11,7 @@ title: Foire aux questions
 
 ## Où se trouvent les fichiers de VenC une fois qu'il est installé ?
 
-Les fichiers additionnels se trouvent dans le répertoire indiqué par la commande
+Les fichiers additionnels se trouvent dans le répertoire indiqué par la commande :
 
 > venc -pp
 

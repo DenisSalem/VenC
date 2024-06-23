@@ -188,7 +188,7 @@ celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous
 
 ### themes_locations
 
-Il s'agit d'une liste optionnelle contenant un ou plusieurs chemin vers des répertoires contenant des [thèmes](https://venc.software/Themes/).
+Il s'agit d'une liste optionnelle contenant un ou plusieurs chemins vers des répertoires contenant des [thèmes](https://venc.software/Themes/).
 
 ## entries_per_pages
 
