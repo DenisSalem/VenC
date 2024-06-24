@@ -38,7 +38,7 @@ Puis, sélectionnez la branche qui vous intéresse avec :
 
 > git checkout nom_de_la_branche
 
-Ceci étant fait, utilisez le script d'installation à la racine du `repository`:
+Ceci étant fait, utilisez le script d'installation à la racine du `repository` :
 
 > pipx install .
 
