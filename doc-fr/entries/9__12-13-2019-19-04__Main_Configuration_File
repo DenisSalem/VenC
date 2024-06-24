@@ -186,6 +186,10 @@ celui utilisé par Python. Pour en savoir plus sur ce format, rendez-vous
 
 "`atom.xml`" par défaut. Définis le nom de fichier du flux Atom.
 
+### themes_locations
+
+Il s'agit d'une liste optionnelle contenant un ou plusieurs chemins vers des répertoires contenant des [thèmes](https://venc.software/Themes/).
+
 ## entries_per_pages
 
 *10* par défaut. Définis le nombre de publications par page. Ce champ est obligatoire.

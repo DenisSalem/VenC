@@ -38,27 +38,11 @@ Puis, sélectionnez la branche qui vous intéresse avec :
 
 > git checkout nom_de_la_branche
 
-Ceci étant fait, rendez-vous dans le répertoire __`src`__ et utilisez le script d'installation :
+Ceci étant fait, utilisez le script d'installation à la racine du `repository` :
 
-> ./setup.py install --user
+> pipx install .
 
-Cette dernière commande échouera si `setuptools` n'est pas installé. `setuptools` peut s'installer avec [`pip`](https://pypi.org/project/pip/) :
-
-> pip install setuptools --user
-
-À noter également que pour installer des modules avec cette méthode alternative, il faudra passer par [`pip`](https://pypi.org/project/pip/).
-
-## Fichiers installés
-
-Dépendances mises à part, VenC installe également ses ressources dans l'un de ces répertoires, selon la méthode d'installation :
-
-- __`./setup.py`__: `~/.local/share/VenC` 
-- __`pip`__: `~/.local/share/VenC` 
-- __`pipx`__ : `~/.local/share/pipx/venvs/venc/share/VenC`
-
-
-On y trouve les thèmes, des assets, des templates, des modules JavaScript et d'autres petites choses utiles au bon fonctionnement
-de VenC.
+L'installation des modules fonctionne alors comme dans la méthode classique.
 
 ## Désinstallation
 
@@ -67,8 +51,6 @@ Pour désinstaller VenC, c'est triste, mais rien de plus simple :
 > pipx uninstall venc
 
 Et voilà !
-
-Petite précision : avec l'ancienne méthode d'installation [`pip`](https://pypi.org/project/pip/), les dépendances de VenC ne sont pas désinstallées automatiquement.
 
 ## Dépendances
 

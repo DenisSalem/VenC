@@ -10,9 +10,7 @@ title: Thème par défaut
 ## Usage
 
 Pour vous faciliter la vie, VenC est livré avec au moins un thème qui peut vous servir de base pour créer le vôtre. C'est également idéal pour voir comment
-sont mis en pratique certains concepts de VenC. Quand vous installez VenC, ce thème est placé dans :
-
-> ~/.local/share/VenC/themes/concrete
+sont mis en pratique certains concepts de VenC. Quand vous installez VenC, ce thème est placé dans : [`$(venc -pp)/themes/concrete`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--)
 
 Ce thème s'appelle `concrete`. Vous pouvez donc l'utiliser en générant votre site avec :
 

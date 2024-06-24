@@ -25,9 +25,7 @@ VenC est livré avec des exemples de templates. En voici la liste :
 
 _Parmi ces templates, certains servent surtout à illustrer l'usage de certaines fonctionnalités de VenC._
 
-Ces templates sont normalement installés dans :
-
-> ~/.local/share/VenC/themes_templates
+Ces templates sont normalement installés dans : [`$(venc -pp)/themes_templates`](.:GetChapterAttributeByIndex::path::7:./#où-se-trouvent-les-fichiers-de-venc-une-fois-qu-il-est-installé--).
 
 Pour utiliser un template, il suffit de passer son nom de fichier (sans le chemin)
 à VenC au moment de la création d'une nouvelle publication. Par exemple :
