@@ -31,6 +31,7 @@ USAGE = \
     "-rc\t--remote-copy\n" +\
     "-h\t--help\n" +\
     "-it\t--install-theme <"+messages.theme_name+">\n" \
+    "-pp\t--print-path<"+messages.print_path+">\n" \
     "-pt\t--print-themes\n" \
     "-ta\t--template-arguments <"+messages.arg_template_name+">"\
     
