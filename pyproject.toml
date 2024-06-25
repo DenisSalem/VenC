@@ -28,11 +28,24 @@ license = {file = "LICENSE.md"}
 authors = [
     {name = "Denis Salem", email = "denissalem@tuxfamily.org"}
 ]
+classifiers=[
+    "Environment :: Console",
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3"
+]
 urls = {source = "framagit.org/denissalem/VenC", documentation = "venc.software"}
 scripts = {venc = "venc3.main:venc_entry_point"}
+
+[tool.setuptools]
+include-package-data = true
+
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["venc3"]
 
 [tool.setuptools.package-data]
-"*" = ["*"]
+"venc3.package_data" = ["*.json"]
+"venc3.package_data.themes.concrete" = ["*.yaml"]
+"venc3.package_data.themes.concrete.assets" = ["*.css"]
+"venc3.package_data.themes.concrete.chunks" = ["*.html","*.xml"]
+"venc3.package_data.themes_assets" = ["*.png","*.js"]
+"venc3.package_data.themes_templates" = ["*"]
