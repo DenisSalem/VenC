@@ -16,13 +16,12 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["flit_core"]
+build-backend = "flit_core.buildapi"
 
 [project]
 name = "VenC"
 version = "3.2.4"
-dependencies = ['pyyaml','unidecode']
 description = "A static blog generator."
 license = {file = "LICENSE.md"}
 authors = [
@@ -33,19 +32,18 @@ classifiers=[
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3"
 ]
-urls = {source = "framagit.org/denissalem/VenC", documentation = "venc.software"}
-scripts = {venc = "venc3.main:venc_entry_point"}
+urls = {source = "https://framagit.org/denissalem/VenC", documentation = "https://venc.software"}
+dependencies = ["pyyaml","unidecode"]
 
-[tool.setuptools]
-include-package-data = true
+[project.optional-dependencies]
+mardown = ["mistletoe"]
+latex2MathML = ["latex2mathml"]
+rst = ["docutils"]
+pygments = ["pygments"]
+asciidor = ["asciidoc3"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[project.scripts]
+venc = "venc3.main:venc_entry_point"
 
-[tool.setuptools.package-data]
-"venc3.package_data" = ["*.json"]
-"venc3.package_data.themes.concrete" = ["*.yaml"]
-"venc3.package_data.themes.concrete.assets" = ["*.css"]
-"venc3.package_data.themes.concrete.chunks" = ["*.html","*.xml"]
-"venc3.package_data.themes_assets" = ["*.png","*.js"]
-"venc3.package_data.themes_templates" = ["*"]
+[tool.flit.module]
+name = "venc3"
