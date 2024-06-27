@@ -35,15 +35,11 @@ classifiers=[
 urls = {source = "https://framagit.org/denissalem/VenC", documentation = "https://venc.software"}
 dependencies = ["pyyaml","unidecode"]
 
-[project.optional-dependencies]
-mardown = ["mistletoe"]
-latex2MathML = ["latex2mathml"]
-rst = ["docutils"]
-pygments = ["pygments"]
-asciidor = ["asciidoc3"]
-
 [project.scripts]
 venc = "venc3.main:venc_entry_point"
 
 [tool.flit.module]
 name = "venc3"
+
+[tool.flit.sdist]
+exclude = ["test/"]
