@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2023 Denis Salem
+ * Copyright 2016, 2024 Denis Salem
  * 
  * This file is part of VenC.
  * 
@@ -25,7 +25,7 @@ var VENC_INFINITE_SCROLL = {
 	interval : 250,
 	xmlhttp : Object,
 	timer: Object,
-    loading_image : undefined,
+  loading_image : undefined,
 	imageDefaultSetup: function(img) {},
 	entryDefaultSetup: function(entry) {
 		entry.style.opacity = "0.0";
@@ -117,6 +117,9 @@ function VENC_INFINITE_SCROLL_UPDATE_DOM() {
 					}
 				}
 				currentColumns[i].appendChild(entriesClones[j]);
+        if (typeof VENC_MEDIA_VIEWER_CONTENTS !== 'undefined') {
+            VENC_MEDIA_VIEWER_BIND_CALLBACK(entriesClones[j])
+        }
 			}
 		}
 		// Update Hook
@@ -137,7 +140,7 @@ function VENC_INFINITE_SCROLL_UPDATE_DOM() {
 	}
 };
 
-function VENC_INFINITE_SCROLL_RUN() {
+function VENC_INFINITE_SCROLL_RUN() {    
   	if (VENC_INFINITE_SCROLL.end) {
 		clearInterval(VENC_INFINITE_SCROLL.timer);
 		console.log("VenC: Done.")
@@ -158,14 +161,15 @@ function VENC_INFINITE_SCROLL_RUN() {
 	}
 	currentColumns = document.getElementsByClassName("__VENC_COLUMN__");
 	viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-	for (i=0; i < currentColumns.length; i++) {
-		if (currentColumns[i].clientHeight <= viewPortHeight + window.pageYOffset) {
-			if ((VENC_INFINITE_SCROLL.queue == 0 || VENC_INFINITE_SCROLL.dontWait) && !VENC_INFINITE_SCROLL.end) {
-				VENC_INFINITE_SCROLL.getContent();
-				return 1;
-			}
-		}
-	}
+
+  page_height = Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );
+  if (page_height <= viewPortHeight + window.pageYOffset + 512) { // Add a 512px offset because height / offset computation is really painful ...
+      if ((VENC_INFINITE_SCROLL.queue == 0 || VENC_INFINITE_SCROLL.dontWait) && !VENC_INFINITE_SCROLL.end) {
+        VENC_INFINITE_SCROLL.getContent();
+        return 1;
+      }
+  }
+
 	return 0;
 };
 
