@@ -6,11 +6,11 @@ chapter: '6.6'
 title: Copier le blog vers un serveur FTP
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-> venc -rc
+> venc -rc [action]
 
 Ou :
 
-> venc --remote-copy
+> venc --remote-copy [action]
 
 Cette commande permet de copier le blog courant sur votre [serveur FTP](.:GetChapterAttributeByIndex::path::4.2:.#ftp-host) à
 l'[emplacement](.:GetChapterAttributeByIndex::path::4.2:.#ftp) que vous aurez défini dans votre [fichier de configuration principal](.:GetChapterAttributeByIndex::path::4.2:.),
@@ -22,3 +22,17 @@ Vous pouvez également paramétrer les choses suivantes dans le [fichier de conf
 - [Le port du serveur](.:GetChapterAttributeByIndex::path::4.2:.#ftp-port)
 - [L'encodage du serveur](.:GetChapterAttributeByIndex::path::4.2:.#ftp-encoding)
 - [Le nombre de sessions simultanées](.:GetChapterAttributeByIndex::path::4.2:.#ftp-sessions)
+
+## Transfert sélectif
+
+Par défaut `VenC` réalise un transfert de fichier intelligent en comparant tous les fichiers locaux dans `blog` et ceux en ligne sur le serveur FTP.
+
+Or, pour tout un tas de raison pratiques vous pourriez vouloir ne transférer que certains type de fichiers. La commande `-rc` ou --remote-copy` peut donc prendre
+l'un des arguments suivants pour effectuer l'__action__ correspondante :
+
+- __default__ : C'est l'action par défaut, équivaut à ne pas passer d'argument du tout. Transfert tout le répertoire `blog` en effectuant des tests d'optimisation de bande passante.
+- __force-all__ : Force le transfert de tous le repertoire `blog` sans effectuer de tests d'optimisation de bande passante.
+- __force-extra__ : Transfert le contenu du repertoire `extra` sans effectuer de tests d'optimisation de bande passante.
+- __force-js__ : Transfert tous les fichiers javascript en `.js` du répertoire `blog` sans effectuer de tests d'optimisation de bande passante.
+- __force-css__ : Transfert toutes les feuilles de styles en `.css` du répertoire `blog` sans effectuer de tests d'optimisation de bande passante.
+- __force-assets__ : Transfert toutes les feuilles de styles en `.css` et tous les fichiers javascript en `.js` du répertoire `blog` sans effectuer de tests d'optimisation de bande passante.

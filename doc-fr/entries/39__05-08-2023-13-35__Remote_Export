@@ -14,13 +14,13 @@ Ou :
 
 > venc --export-via-ftp [thème]
 
-Cette commande est identique à :
+Cette commande est équivalente à :
 
-> venc -xb [thème]
+> venc -xb [thème] && venc -rc
 
 Ou encore à :
 
-> venc --export-blog [thème]
+> venc --export-blog [thème] && venc --remote-copy
 
 Cependant, VenC utilise les informations du [fichier de
 configuration principale](.:GetChapterAttributeByIndex::path::4.2:.)
@@ -32,4 +32,3 @@ Vous pouvez également paramétrer les choses suivantes dans le [fichier de conf
 - [Le port du serveur](.:GetChapterAttributeByIndex::path::4.2:.#ftp-port)
 - [L'encodage du serveur](.:GetChapterAttributeByIndex::path::4.2:.#ftp-encoding)
 - [Le nombre de sessions simultanées](.:GetChapterAttributeByIndex::path::4.2:.#ftp-sessions)
-
