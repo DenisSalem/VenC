@@ -123,6 +123,7 @@ class Messages:
     invalid_value_in_setting = "La valeur \"{0}\" dans \"{1}\", dans votre fichier de configuration, est incorrecte."
     deleting_file = "Suppression de {0} ..."
     print_path="Affiche le chemin d'installation de Venc où se trouvent les fichiers additionnels."
+    wrong_command_argument="{0}: Mauvais argument \"{1}\", est attendu l'un de ces valeurs : {2}."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."

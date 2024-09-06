@@ -123,7 +123,7 @@ class Messages:
     invalid_value_in_setting = "Invalid value \"{0}\" in \"{1}\" within your configuration file."
     deleting_file = "Deleting {0} ..."
     print_path="Print the path were VenC's additionnal files are located."
-
+    wrong_command_argument="{0}: Wrong argument \"{1}\", expected one of the following values : {2}."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Generating RSS feed..."
     generating_atom = "Generating Atom feed..."

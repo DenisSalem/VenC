@@ -28,7 +28,7 @@ from venc3.prompt import notify
 def export_via_ftp(params):
     export_blog(params)
     from venc3.commands.remote import remote_copy
-    remote_copy(None)
+    remote_copy([])
 
 def setup_pattern_processor(parallel=False):        
     processor = Processor()

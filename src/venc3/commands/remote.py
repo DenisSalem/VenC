@@ -151,6 +151,19 @@ def print_ftp_response(response):
         )
         
 def remote_copy(params):
+    actions = ["force-all","force-js","force-css","force-assets","force-extra","default"]
+    if len(params) > 1:
+        from venc3.exceptions import VenCException
+        VenCException(("wrong_args_number","<= 1",len(params))).die()
+    else:
+        if not len(params):
+            action = "default"
+        elif params[0] in actions:
+            action = params[0]
+        else:
+            from venc3.exceptions import VenCException
+            VenCException(("wrong_command_argument", "venc-rc", params[0], ', '.join(actions))).die()
+          
     import getpass
 
     from venc3.datastore.configuration import get_blog_configuration
@@ -184,10 +197,27 @@ def remote_copy(params):
         import time
         start_timestamp = time.time()
         
-        notify(("sync_ftp_directory",))
+        if action == "default":
+            notify(("sync_ftp_directory",))
         ftp_base_path = blog_configuration["paths"]["ftp"]
-        local_files = { item[0][len(os.getcwd()+"/blog"):] : item[1] for item in get_local_files(os.getcwd()+"/blog") }
-        remote_files = { item[0][len(ftp_base_path)+(1 if len(ftp_base_path) > 1 else 0):] : item[1] for item in get_remote_files(ftp) }
+        
+        # SETUP LOCAL FILES
+        if action in ["default", "force-all"]:
+            local_files = { item[0][len(os.getcwd()+"/blog"):] : item[1] for item in get_local_files(os.getcwd()+"/blog") }
+        
+        elif action == "force-extra":
+            local_files = { item[0][len(os.getcwd()+"/extra"):] : item[1] for item in get_local_files(os.getcwd()+"/extra") }
+            
+        else:
+            if action == "force-css":
+                ext_filter = ["css"]
+            elif action == "force-js":
+                ext_filter = ["js"]
+            else:
+                ext_filter = ["js", "css"]
+            local_files = { item[0][len(os.getcwd()+"/blog"):] : item[1] for item in get_local_files(os.getcwd()+"/blog") if item[0].split(".")[-1] in ext_filter}
+        
+        remote_files = { item[0][len(ftp_base_path)+(1 if len(ftp_base_path) > 1 else 0):] : item[1] for item in get_remote_files(ftp) } if action == "default" else {}
         ftp.quit()
 
         to_delete = {}
