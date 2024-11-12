@@ -17,9 +17,10 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+from venc3.patterns.contextuals.feeds import FeedThreadPatterns
 from venc3.threads import Thread
 
-class FeedThread(Thread):
+class FeedThread(Thread, FeedThreadPatterns):
     def __init__(self, feed_type, prompt, indentation_type):
         from venc3.l10n import messages
         super().__init__(prompt+"─ "+getattr(messages, "generating_"+feed_type), indentation_type)
@@ -41,6 +42,3 @@ class FeedThread(Thread):
         self.relative_origin = relative_origin
         self.organize_entries(entries)
         super().do()
-
-    def if_in_feed(self, node, string1, string2=''):
-        return string1.strip()

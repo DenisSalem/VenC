@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2022 Denis Salem
+#    Copyright 2016, 2024 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -20,6 +20,7 @@
 import os
 
 from venc3.helpers import quirk_encoding
+from venc3.patterns.contextuals.categories import CategoriesThreadPatterns
 from venc3.threads import Thread
 
 class CategoriesThread(Thread):
@@ -36,9 +37,6 @@ class CategoriesThread(Thread):
 
         self.disable_rss_feed = self.datastore.blog_configuration["disable_rss_feed"]
         self.disable_atom_feed = self.datastore.blog_configuration["disable_atom_feed"]
- 
-    def if_in_categories(self, node, string1, string2=''):
-        return string1.strip()
 
     def do_feeds(self, entries, node, indentation_type):
         entries = sorted(entries, key = lambda entry : entry.id, reverse=True)[0:self.datastore.blog_configuration["feed_length"]]

@@ -21,9 +21,10 @@ import os
 import json
 
 from venc3.helpers import quirk_encoding
+from venc3.patterns.contextuals.archives import ArchivesThreadPatterns
 from venc3.threads import Thread
 
-class ArchivesThread(Thread):
+class ArchivesThread(Thread, ArchivesThreadPatterns):
     def __init__(self):
         from venc3.l10n import messages
         super().__init__(messages.export_archives)
@@ -35,9 +36,6 @@ class ArchivesThread(Thread):
         self.relative_origin = str(".."+'/'.join([ "/.." for p in self.sub_folders.split('/') if p != ''])).replace("//",'/')
         self.in_thread = True
         self.thread_has_feeds = False
-
-    def if_in_archives(self, node, string1, string2=''):
-        return string1.strip()
 
     def setup_archive_context(self, i, len_archives):
         archive = self.datastore.entries_per_archives[i]

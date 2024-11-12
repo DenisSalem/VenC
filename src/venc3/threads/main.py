@@ -17,9 +17,10 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+from venc3.patterns.contextuals.main import MainThreadPatterns
 from venc3.threads import Thread
 
-class MainThread(Thread):
+class MainThread(Thread, MainThreadPatterns):
     def filter_categories(entry, categories_to_remove):
         for category in entry.raw_categories:
             if category in categories_to_remove:
@@ -27,7 +28,6 @@ class MainThread(Thread):
                 
         return True
         
-      
     def __init__(self):
         from venc3.l10n import messages
         super().__init__(messages.export_main_thread)
@@ -49,7 +49,6 @@ class MainThread(Thread):
         self.export_path = "blog/"
         self.in_thread = True
         self.thread_has_feeds = True
-
             
     def get_feed_entries(self):
         entries = []
@@ -79,6 +78,3 @@ class MainThread(Thread):
     def do(self):
         super().do()
         self.do_feeds()
-                
-    def if_in_main_thread(self, node, string1, string2=''):
-        return string1.strip()

@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2020 Denis Salem
+#    Copyright 2016, 2024 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -19,9 +19,10 @@
 
 import os
 
+from venc3.patterns.contextuals.chapters import ChaptersThreadPatterns
 from venc3.threads import Thread
 
-class ChaptersThread(Thread):
+class ChaptersThread(Thread, ChaptersThreadPatterns):
     def __init__(self):
         from venc3.l10n import messages
         super().__init__(messages.export_chapters)
@@ -36,63 +37,6 @@ class ChaptersThread(Thread):
         self.chapters_list.sort()
         self.chapters_list = ['.'.join([str(v) for v in l]) for l in self.chapters_list]
 
-    def get_next_page(self, pattern, string): #TODO : Any chance to factorize this in parent class ?
-        '''page_number,entry_id,entry_title,path,chapter'''
-        index = self.chapters_list.index(self.pages[self.current_page][-1].chapter.index) + 1
-        if index  < len(self.chapters_list):
-            entry = self.datastore.raw_chapters[self.chapters_list[index]]
-            params = {
-                "page_number" : '', #TODO: not implemented yet
-                "entry_id" : entry.id,
-                "entry_title": entry.title,
-                "path" : entry.chapter.path,
-                "chapter" : entry.chapter.index
-            }
-
-            try:
-                return string.format(**params)
-                
-            except KeyError as e:
-                from venc3.exceptions import VenCException
-                raise VenCException(
-                    ("unknown_contextual", str(e)[1:-1]),
-                    pattern
-                )
-
-        else:
-            return str()
-            
-    def get_previous_page(self, pattern, string): #TODO : Any chance to factorize this in parent class ?
-        '''page_number,entry_id,entry_title,path,chapter'''
-        index = self.chapters_list.index(self.pages[self.current_page][0].chapter.index) - 1
-        if index >= 0:
-            entry = self.datastore.raw_chapters[self.chapters_list[index]]
-            params = {
-                "page_number" : '', #TODO: not implemented yet
-                "entry_id" : entry.id,
-                "entry_title": entry.title,
-                "path" : entry.chapter.path,
-                "chapter" : entry.chapter.index
-            }
-            try:
-                return string.format(**params)
-
-            except KeyError as e:
-                from venc3.exceptions import VenCException
-                raise VenCException(
-                    ("unknown_contextual", str(e)[1:-1]),
-                    pattern
-                )
-                
-        else:
-            return str()
-
-    def if_in_first_page(self, node, string1, string2=''):
-        return string2.strip()
-    
-    def if_in_last_page(self, node, string1, string2=''):
-        return string2.strip()
-        
     def setup_chapters_context(self, i, top, len_top):
         from venc3.helpers import quirk_encoding
         from venc3.prompt import notify
