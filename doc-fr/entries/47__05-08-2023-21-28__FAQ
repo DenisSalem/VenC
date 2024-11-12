@@ -9,6 +9,12 @@ title: Foire aux questions
 
 .:GetEntryToC::<ul>::<li>::<a href="#{id}">{title}</a>::</li>::</ul>:.
 
+## Librairies Javascript cassées
+
+Lié à l'[issue framagit #101](https://framagit.org/denissalem/VenC/-/issues/101) normalement résolu. Toutes librairies
+Javascript tierces devraient être importé dans la page AVANT les modules Javascripts VenC. Si ça ne fonctionne pas, merci
+d'ouvrir une issue sur [Framagit](https://framagit.org/denissalem/VenC/-/issues) en détaillant votre problème.
+
 ## Où se trouvent les fichiers de VenC une fois qu'il est installé ?
 
 En suivant la [procédure normale](.:GetChapterAttributeByIndex::path::2:.), vous trouverez VenC dans :
