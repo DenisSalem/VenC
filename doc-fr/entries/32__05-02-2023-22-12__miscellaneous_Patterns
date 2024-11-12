@@ -507,7 +507,8 @@ Le résultat étant :
 .:Latex2MathML::\overline{z^{n+1}} = {\overline{z}}^{n+1}:.
 
 __Important : Il est possible que l'affichage du résultat ne soit pas optimal dans votre navigateur. Il est alors recommandé
-d'inclure dans votre site les polices d'écritures adapté à MathML disponible [ici](https://github.com/fred-wang/MathFonts/tree/main).__
+d'inclure dans votre site les polices d'écritures adapté à MathML disponible [ici](https://github.com/fred-wang/MathFonts/tree/main).
+Vous pouvez tester si l'affichage est correct [ici](http://eyeasme.com/Joe/MathML/MathML_browser_test.html)__
 
 #### SetBackgroundColor
 
