@@ -80,7 +80,7 @@ class VenCException(Exception):
             len_before = len(patterns)
             
         if type(highlight) == Pattern:
-            from venc3.patterns.non_contextual import escape
+            from venc3.patterns.non_contextuals import escape
             faulty_pattern =  ".:"+highlight.payload[0]+("::" if len(highlight.payload[1:]) else "")+escape(highlight)+":."
                 
             self.extra = self.extra.replace(faulty_pattern, '\033[91m' + faulty_pattern + '\033[0m')

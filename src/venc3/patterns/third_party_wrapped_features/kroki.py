@@ -18,7 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 def kroki_from_file(pattern, endpoint, image_format, filename, provider = "https://kroki.io/"):
-    from venc3.patterns.non_contextual import include_file
+    from venc3.patterns.non_contextuals import include_file
     code = include_file(pattern, filename)
     return kroki(pattern, endpoint, image_format, code, provider)
     

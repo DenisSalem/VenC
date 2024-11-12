@@ -21,7 +21,7 @@ import subprocess
 
 from venc3.exceptions import VenCException, MalformedPatterns
 from venc3.helpers import rm_tree_error_handler
-from venc3.patterns.non_contextual import theme_includes_dependencies
+from venc3.patterns.non_contextuals import theme_includes_dependencies
 from venc3.patterns.processor import Processor, Pattern
 from venc3.prompt import notify
                 

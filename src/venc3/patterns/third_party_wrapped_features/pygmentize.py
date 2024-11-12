@@ -46,7 +46,7 @@ def get_style_sheets(pattern):
     return output
         
 def highlight_include(pattern, langage, display_line_numbers, filename):
-    from venc3.patterns.non_contextual import include_file
+    from venc3.patterns.non_contextuals import include_file
     string = include_file(pattern, filename, [])
     return highlight(pattern, langage, display_line_numbers, string)
     
