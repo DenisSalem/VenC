@@ -34,7 +34,25 @@ class Chapter:
 
     def __str__(self):
         return self.index
-        
+
+class EntryMetadata:
+    def __init__(ID, raw_date, metadata):
+        self.id = ID
+        self.date = datetime.datetime(
+            year=int(raw_date[2]),
+            month=int(raw_date[0]),
+            day=int(raw_date[1]),
+            hour=int(raw_date[3]),
+            minute=int(raw_date[4])
+        )
+        self.title = metadata["title"].replace(".:GetEntryTitle:.",'') # sanitize
+        self.formatted_date = self.date.strftime(date_format)
+
+        if type(metadata["authors"]) != list:
+            from venc3.exceptions import VenCException
+            raise VenCException(("entry_metadata_is_not_a_list", "authors", self.id), context=filename)
+            
+        self.authors = tuple(metadata["authors"])      
 class MetadataNode:
     def __init__(self, value, entry_index, path="", weight_tracker = None):
         self.count = 1

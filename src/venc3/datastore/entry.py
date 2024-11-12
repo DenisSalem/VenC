@@ -89,26 +89,13 @@ class Entry:
     
         self.raw_metadata = metadata
         self.filename = filename
-        self.id = int(filename.split('__')[0])
-        
-        raw_date = filename.split('__')[1].split('-')
-        self.date = datetime.datetime(
-            year=int(raw_date[2]),
-            month=int(raw_date[0]),
-            day=int(raw_date[1]),
-            hour=int(raw_date[3]),
-            minute=int(raw_date[4])
+        self.metadata = EntryMetadata(
+          int(filename.split('__')[0],
+          filename.split('__')[1].split('-'),
+          metadata
         )
-        self.formatted_date = self.date.strftime(date_format)
-
-        self.title = metadata["title"].replace(".:GetEntryTitle:.",'') # sanitize
-
-        if type(metadata["authors"]) != list:
-            from venc3.exceptions import VenCException
-            raise VenCException(("entry_metadata_is_not_a_list", "authors", self.id), context=filename)
-            
-        self.authors = tuple(metadata["authors"])
-            
+      
+         
         params = {
             "entry_id": self.id,
             "entry_title": self.title
