@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2023 Denis Salem
+ * Copyright 2016, 2024 Denis Salem
  * 
  * This file is part of VenC.
  * 
@@ -18,8 +18,14 @@
  */
  
 var VENC_ON_LOAD_CALLBACK_REGISTER = [];
+var VENC_THIRD_PARTY_ON_LOAD_CALLBACK = window.onload;
 
 function VENC_ON_LOAD_CALLBACK() {
+
+    if (VENC_THIRD_PARTY_ON_LOAD_CALLBACK !== null) {
+        VENC_THIRD_PARTY_ON_LOAD_CALLBACK();
+    }
+    
     var i;
     for (i = 0; i < VENC_ON_LOAD_CALLBACK_REGISTER.length; i++) {
         VENC_ON_LOAD_CALLBACK_REGISTER[i]();
