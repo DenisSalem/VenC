@@ -26,6 +26,7 @@ class Messages:
     entry_written = "Entry has been saved: {0}"
     file_not_found = "{0}: this file or directory does not exist."
     file_already_exists = "{0}: {1}: file or directory already exists."
+    is_a_directory = "{0} is a directory."
     invalid_entry_filename = "{0}: invalid entry filename."
     blog_name = "Blog name"
     blog_url = "The URL of your blog"

@@ -60,12 +60,12 @@ def include_file(pattern, filename, *argv, raise_error=True):
                 include_string = open(path, 'r').read()
                 break
                 
-            except PermissionError:
+            except (PermissionError, IsADirectoryError) as e:
                 if not raise_error:
                     return ""
                     
                 from venc3.exceptions import VenCException
-                raise VenCException(("wrong_permissions", path), pattern, pattern.root.string)
+                raise VenCException(("wrong_permissions" if type(e) == PermissionError else "is_a_directory", path), pattern, pattern.root.string)
                 
     if include_string == None:
         if not raise_error:

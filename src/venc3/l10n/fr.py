@@ -25,6 +25,7 @@ class Messages:
     entry_written = "La publication a bien été ajoutée : {0}"
     file_not_found = "{0} : ce fichier ou ce dossier n'existe pas."
     file_already_exists = "{0} : {1} : le fichier existe déjà."
+    is_a_directory = "{0} est un répertoire."
     invalid_entry_filename = "{0} : nom de fichier invalide pour une publication."
     blog_name = "Nom du blog"
     blog_url = "L'URL du blog"

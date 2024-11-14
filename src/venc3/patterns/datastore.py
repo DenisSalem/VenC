@@ -30,6 +30,7 @@ def merge(iterable, string, separator, pattern):
 class DatastorePatterns:
     def cherry_pick_metadata(self, pattern, source, if_exists,  path):
         from venc3.datastore.entry import Entry
+        from venc3.datastore.metadata import EntryMetadata
 
         if not len(path):
             from venc3.exceptions import VenCException
@@ -46,7 +47,7 @@ class DatastorePatterns:
             
         except TypeError:
             from venc3.exceptions import VenCException
-            raise VenCException(("field_is_not_of_type", previous_key, source.title if type(source) == Entry else"blog_configuration.yaml", dict), pattern)
+            raise VenCException(("field_is_not_of_type", previous_key, source.title if type(source) == EntryMetadata else "blog_configuration.yaml", dict), pattern)
             
         except Exception as e:
             if not type(e) in[KeyError, AttributeError]:
@@ -55,7 +56,7 @@ class DatastorePatterns:
             if if_exists:
                 return ""
                 
-            if type(source) == Entry:
+            if type(source) == EntryMetadata:
                 exception_params = ("entry_has_no_metadata_like", source.title, ' -> '.join(path))
             else:
                 exception_params = ("blog_has_no_metadata_like", ' -> '.join(path))

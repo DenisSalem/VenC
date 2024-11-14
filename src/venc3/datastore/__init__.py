@@ -237,7 +237,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
                 "chapter_already_exists",
                 entry.metadata.title,
                 entry.id,
-                self.raw_chapters[chapter].title,
+                self.raw_chapters[chapter].metadata.title,
                 self.raw_chapters[chapter].id,
                 chapter
             ))
