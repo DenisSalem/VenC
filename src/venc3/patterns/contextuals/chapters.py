@@ -26,7 +26,7 @@ class ChaptersThreadPatterns:
             params = {
                 "page_number" : '', #TODO: not implemented yet
                 "entry_id" : entry.id,
-                "entry_title": entry.title,
+                "entry_title": entry.metadata.title,
                 "path" : entry.chapter.path,
                 "chapter" : entry.chapter.index
             }
@@ -52,7 +52,7 @@ class ChaptersThreadPatterns:
             params = {
                 "page_number" : '', #TODO: not implemented yet
                 "entry_id" : entry.id,
-                "entry_title": entry.title,
+                "entry_title": entry.metadata.title,
                 "path" : entry.chapter.path,
                 "chapter" : entry.chapter.index
             }

@@ -45,7 +45,7 @@ class EntriesThreadPatterns:
         output = ""
         params = {
             "entry_id":str(self.current_entry.id),
-            "entry_title":str(self.current_entry.title),
+            "entry_title":str(self.current_entry.metadata.title),
             "page_number":'',
             "path": self.current_entry.path
         }
@@ -70,14 +70,14 @@ class EntriesThreadPatterns:
         
             if next_entry != None:
                 params["entry_id"] = next_entry.id
-                params["entry_title"] = next_entry.title
+                params["entry_title"] = next_entry.metadata.title
                 params["path"] = next_entry.path
                 output += string.format(**params) + separator
                 next_entry = next_entry.next_entry
             
             if previous_entry != None:
                 params["entry_id"] = previous_entry.id
-                params["entry_title"] = previous_entry.title
+                params["entry_title"] = previous_entry.metadata.title
                 params["path"] = previous_entry.path
                 output = string.format(**params) + separator + output
                 previous_entry = previous_entry.previous_entry

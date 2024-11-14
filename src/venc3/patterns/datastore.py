@@ -480,7 +480,7 @@ class DatastorePatterns:
         for entry in entries:
             dataset = {
                 "id" : entry.id,
-                "title": entry.title,
+                "title": entry.metadata.title,
                 "path": entry.path,
                 "archive_path": "\x1a/"+entry.date.strftime(archives_directory_name),
                 "chapter_path": entry.chapter.path if entry.chapter != None else ""

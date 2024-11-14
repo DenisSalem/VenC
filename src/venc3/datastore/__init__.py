@@ -235,7 +235,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
             from venc3.prompt import die
             die((
                 "chapter_already_exists",
-                entry.title,
+                entry.metadata.title,
                 entry.id,
                 self.raw_chapters[chapter].title,
                 self.raw_chapters[chapter].id,
