@@ -20,6 +20,7 @@
 import datetime
 import os
 
+from venc3.datastore.metadata import EntryMetadata
 from venc3.helpers import quirk_encoding
 from venc3.patterns.processor import PatternTree
 
@@ -64,41 +65,33 @@ class Entry:
             cause = messages.missing_separator_in_entry.format("---VENC-BEGIN-PREVIEW---")
             from venc3.exceptions import VenCException
             raise VenCException(("possible_malformed_entry", filename, cause), context=filename)
-        
-        # Setting up optional metadata
-        for key in metadata.keys():
-            if not key in ("authors", "categories", "title"):
-                if metadata[key] != None:
-                    setattr(self, key, metadata[key])
-                        
-                else:
-                    from venc3.prompt import notify
-                    notify(("invalid_or_missing_metadata", key, filename), color="YELLOW")
-                    setattr(self, key, '')
-
-        # Fix missing or incorrect metadata
-        for key in ("authors", "categories", "title"):
-            if key not in metadata.keys() or metadata[key] == None:
-                metadata[key] = '' if key == "title" else []
-
+                
         try:
             self.chapter_level = str(len(str(metadata["chapter"]).split('.')))
             
         except:
             pass
-    
-        self.raw_metadata = metadata
+
+        self.id = int(filename.split('__')[0])
         self.filename = filename
-        self.metadata = EntryMetadata(
-          int(filename.split('__')[0],
-          filename.split('__')[1].split('-'),
-          metadata
+        raw_date = filename.split('__')[1].split('-')
+        self.date = datetime.datetime(
+            year=int(raw_date[2]),
+            month=int(raw_date[0]),
+            day=int(raw_date[1]),
+            hour=int(raw_date[3]),
+            minute=int(raw_date[4])
         )
-      
+
+        self.formatted_date = self.date.strftime(date_format)
+            
+        self.raw_metadata = metadata
+        
+        self.metadata = EntryMetadata(metadata)
          
         params = {
             "entry_id": self.id,
-            "entry_title": self.title
+            "entry_title": self.metadata.title
         }
 
         sf = quirk_encoding(paths["entries_sub_folders"].format(**params))

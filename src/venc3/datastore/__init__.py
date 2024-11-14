@@ -218,10 +218,10 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
 
     def update_chapters(self, entry):
         try:
-            if type(entry.chapter) == float:
+            if type(entry.metadata.chapter) == float:
                 notify(("chapter_type_is_ambiguous", entry.id), color="YELLOW")
                 
-            chapter = str(entry.chapter)
+            chapter = str(entry.metadata.chapter)
             [ int(level) for level in chapter.split('.') if level != '']
 
         except ValueError as e: # weak test to check attribute conformity

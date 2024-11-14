@@ -70,10 +70,10 @@ class DatastorePatterns:
         return self.cherry_pick_metadata(pattern, self.blog_configuration, True, branch)
 
     def cherry_pick_entry_metadata(self, pattern, *branch):
-        return self.cherry_pick_metadata(pattern, self.requested_entry, False, branch)
+        return self.cherry_pick_metadata(pattern, self.requested_entry.metadata, False, branch)
 
     def cherry_pick_entry_metadata_if_exists(self, pattern, *branch):
-        return self.cherry_pick_metadata(pattern, self.requested_entry, True, branch)
+        return self.cherry_pick_metadata(pattern, self.requested_entry.metadata, True, branch)
         
     def if_categories(self, pattern, if_true, if_false=''):
         if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:
@@ -120,7 +120,7 @@ class DatastorePatterns:
         return self.if_metadata_is_true(metadata_name, if_true, if_false, self.blog_configuration)
 
     def if_entry_metadata_is_true(self, pattern, metadata_name, if_true, if_false=''):
-        return self.if_metadata_is_true(metadata_name, if_true, if_false, self.requested_entry)
+        return self.if_metadata_is_true(metadata_name, if_true, if_false, self.requested_entry.metadata)
                 
     def if_rss_enabled(self, pattern, if_true, if_false=''):
         if self.blog_configuration["disable_rss_feed"]:
@@ -232,7 +232,7 @@ class DatastorePatterns:
 
     def get_entry_metadata(self, pattern, metadata_name):
         try:
-            return str(getattr(self.requested_entry, metadata_name))
+            return str(getattr(self.requested_entry.metadata, metadata_name))
             
         except AttributeError:
             from venc3.exceptions import VenCException
@@ -244,7 +244,7 @@ class DatastorePatterns:
     def get_entry_metadata_if_exists(self, pattern, metadata_name, string='', string2='', ok_if_null=True):
         '''value'''
         try:
-            value = str(getattr(self.requested_entry,metadata_name ))
+            value = str(getattr(self.requested_entry.metadata, metadata_name ))
 
         except AttributeError:
             return string2
@@ -289,7 +289,7 @@ class DatastorePatterns:
         )
 
     def get_entry_archive_path(self, pattern):
-        return "\x1a/"+self.requested_entry.date.strftime(
+        return "\x1a/"+self.requested_entry.metadata.date.strftime(
             self.blog_configuration["paths"]["archives_directory_name"]
         )
     
@@ -334,7 +334,6 @@ class DatastorePatterns:
     def get_author_description(self, pattern):
         return self.get_blog_metadata_if_exists(pattern, "author_description")
 
-        
     def get_blog_license(self, pattern):
         return self.get_blog_metadata_if_exists(pattern, "license")
     
@@ -549,7 +548,7 @@ class DatastorePatterns:
             
         if not key in entry.html_for_metadata:
             try:
-                l = getattr(entry, metadata_name)
+                l = getattr(entry.metadata, metadata_name)
                 if not type(l) in [list, tuple]:
                     from venc3.exceptions import VenCException
                     raise VenCException(("entry_metadata_is_not_a_list", metadata_name, entry), pattern)
@@ -609,7 +608,7 @@ class DatastorePatterns:
         '''value,childs,html_id'''
         entry = self.requested_entry
         source = metadata_name.strip()
-        if not hasattr(entry, metadata_name):
+        if not hasattr(entry.metadata, metadata_name):
             if raise_exception:
                 from venc3.exceptions import VenCException
                 raise VenCException(("entry_has_no_metadata_like", entry.id, metadata_name), pattern)
@@ -617,7 +616,7 @@ class DatastorePatterns:
             else:
                 return ""
                 
-        return self.tree_for_metadata(getattr(entry, metadata_name), open_node, open_branch, value_childs, value, close_branch, close_node)
+        return self.tree_for_metadata(getattr(entry.metadata, metadata_name), open_node, open_branch, value_childs, value, close_branch, close_node)
 
 
     def get_flattened_categories(self, pattern, string, separator, from_entry = False, from_branch = None):
