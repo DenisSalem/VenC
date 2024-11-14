@@ -17,7 +17,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-class EntriesThreadPatterns:
+from venc3.patterns.contextuals import ThreadPatterns
+
+class EntriesThreadPatterns(ThreadPatterns):
     def get_last_entry_timestamp(self, pattern, time_format):
         from venc3.exceptions import VenCException
         raise VenCException(

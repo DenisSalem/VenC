@@ -23,7 +23,7 @@ from venc3.helpers import quirk_encoding
 from venc3.patterns.contextuals.categories import CategoriesThreadPatterns
 from venc3.threads import Thread
 
-class CategoriesThread(Thread):
+class CategoriesThread(Thread, CategoriesThreadPatterns):
     def __init__(self):
         from venc3.l10n import messages
         super().__init__(messages.export_categories)

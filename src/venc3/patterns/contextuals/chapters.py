@@ -17,7 +17,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-class ChaptersThreadPatterns:
+from venc3.patterns.contextuals import ThreadPatterns
+
+class ChaptersThreadPatterns(ThreadPatterns):
     def get_next_page(self, pattern, string): #TODO : Any chance to factorize this in parent class ?
         '''page_number,entry_id,entry_title,path,chapter'''
         index = self.chapters_list.index(self.pages[self.current_page][-1].chapter.index) + 1

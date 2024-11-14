@@ -40,7 +40,7 @@ def undefined_variable(match):
         )
     )
 
-class Thread(ThreadPatterns):
+class Thread:
     def __init__(self, prompt, indentation_type = "├─ "):
         from venc3.datastore import datastore
         from venc3.datastore.theme import theme

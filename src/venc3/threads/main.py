@@ -17,6 +17,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
+
 from venc3.patterns.contextuals.main import MainThreadPatterns
 from venc3.threads import Thread
 

@@ -17,6 +17,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-class MainThreadPatterns:
+from venc3.patterns.contextuals import ThreadPatterns
+
+class MainThreadPatterns(ThreadPatterns):
     def if_in_main_thread(self, node, string1, string2=''):
         return string1.strip()
