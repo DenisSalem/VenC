@@ -44,7 +44,7 @@ class EntriesThread(Thread, EntriesThreadPatterns):
         try:
             return self.filename.format(**{
                 'entry_id': self.current_entry.id,
-                'entry_title': self.current_entry.title
+                'entry_title': self.current_entry.metadata.title
             })
         
         except KeyError as e:
@@ -57,10 +57,10 @@ class EntriesThread(Thread, EntriesThreadPatterns):
         export_path = quirk_encoding(
             self.export_path.format(**{
                     'entry_id': self.current_entry.id,
-                    'entry_title': self.current_entry.title
+                    'entry_title': self.current_entry.metadata.title
             })
         )
-        self.thread_name = self.current_entry.title
+        self.thread_name = self.current_entry.metadata.title
         self.relative_origin = str('/'.join([ ".." for p in export_path.split('/')[1:] if p != ''])).replace("//",'/')
         os.makedirs(export_path, exist_ok=True)
 
@@ -68,7 +68,7 @@ class EntriesThread(Thread, EntriesThreadPatterns):
     def write_file(self, output, file_id):
         export_path = quirk_encoding(self.export_path.format(**{
             'entry_id': self.current_entry.id,
-            'entry_title': self.current_entry.title
+            'entry_title': self.current_entry.metadata.title
         }))
         written_path = export_path+'/'+self.format_filename()
         stream = codecs.open(
@@ -82,7 +82,7 @@ class EntriesThread(Thread, EntriesThreadPatterns):
         if not written_path in [t[2] for t in self.known_written_path]:
             self.known_written_path.append((
                 self.current_entry.id,
-                self.current_entry.title,
+                self.current_entry.metadata.title,
                 written_path
             ))
             

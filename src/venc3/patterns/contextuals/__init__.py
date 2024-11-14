@@ -76,7 +76,7 @@ class ThreadPatterns:
             else:
                 params["path"] = self.current_entry.next_entry.path
                 params["entry_id"] = self.current_entry.next_entry.id
-                params["entry_title"] = self.current_entry.next_entry.title
+                params["entry_title"] = self.current_entry.next_entry.metadata.title
                     
             try:
                 return string.format(**params)
@@ -107,7 +107,7 @@ class ThreadPatterns:
 
             else:
                     params["entry_id"] = self.current_entry.previous_entry.id
-                    params["entry_title"] = self.current_entry.previous_entry.title
+                    params["entry_title"] = self.current_entry.previous_entry.metadata.title
                     params["path"] = self.current_entry.previous_entry.path
 
             try:

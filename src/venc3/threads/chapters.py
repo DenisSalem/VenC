@@ -48,11 +48,11 @@ class ChaptersThread(Thread, ChaptersThreadPatterns):
         else:
             tree_special_char = '├'
         entry = self.datastore.entries[node.entry_index]
-        notify(("exception_place_holder", node.index+' '+entry.title+"..."), prepend=self.indentation_level+tree_special_char+"─ ")
-        self.thread_name = entry.title
+        notify(("exception_place_holder", node.index+' '+entry.metadata.title+"..."), prepend=self.indentation_level+tree_special_char+"─ ")
+        self.thread_name = entry.metadata.title
         folder_name = quirk_encoding(
             self.folder_name.format(**{
-              "chapter_name" : entry.title,
+              "chapter_name" : entry.metadata.title,
               "chapter_index": node.index
           })
         )

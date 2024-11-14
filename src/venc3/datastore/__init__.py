@@ -117,7 +117,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
                         try:
                             path = "\x1a/"+path_chapters_sub_folders+quirk_encoding(
                                 path_chapter_folder_name.format(**{
-                                    "chapter_name" : entry.title,
+                                    "chapter_name" : entry.metadata.title,
                                     "chapter_index" : index
                                 })
                             )
@@ -174,8 +174,8 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
         for sub_chapter in top:
             output += io.format(**{
                 "index": sub_chapter.index,
-                "title": self.entries[sub_chapter.entry_index].title,
-                "html_id" : quirk_encoding(self.entries[sub_chapter.entry_index].title),
+                "title": self.entries[sub_chapter.entry_index].metadata.title,
+                "html_id" : quirk_encoding(self.entries[sub_chapter.entry_index].metadata.title),
                 "path":  sub_chapter.path,
                 "level": level
             })

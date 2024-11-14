@@ -29,7 +29,6 @@ class Entry:
         date_format = paths["archives_directory_name"]
         self.previous_entry = None
         self.next_entry = None
-        self.title = ''
 
         # Loading
         raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()

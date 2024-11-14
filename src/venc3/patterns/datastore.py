@@ -200,19 +200,25 @@ class DatastorePatterns:
         if not key in self.cache_get_entry_attribute_by_id.keys():
             try:
                 entry = [entry for entry in self.entries if entry.id == int(identifier)][0]
-                self.cache_get_entry_attribute_by_id[key] = getattr(entry, attribute)
             
             except ValueError:
                 from venc3.exceptions import VenCException
                 raise VenCException(("id_must_be_an_integer",), pattern)
-                
-            except AttributeError as e:
-                from venc3.exceptions import VenCException
-                raise VenCException(("entry_has_no_metadata_like", entry.id), pattern)
 
             except IndexError:
                 from venc3.exceptions import VenCException
                 raise VenCException(("cannot_retrieve_entry_attribute_because_wrong_id",), pattern)
+                
+                
+            try:
+                self.cache_get_entry_attribute_by_id[key] = getattr(entry, attribute)
+                
+            except AttributeError as e:
+                try:
+                    self.cache_get_entry_attribute_by_id[key] = getattr(entry.metadata, attribute)
+                except AttributeError as e:
+                    from venc3.exceptions import VenCException
+                    raise VenCException(("entry_has_no_metadata_like", entry.id), pattern)
             
         return self.cache_get_entry_attribute_by_id[key]
     
@@ -263,7 +269,7 @@ class DatastorePatterns:
         return self.get_entry_metadata_if_exists(pattern, metadata_name, string, string2, ok_if_null=False)
         
     def get_entry_title(self, pattern):
-        return self.requested_entry.title
+        return self.requested_entry.metadata.title
     
     def get_entry_id(self, pattern):
         return str(self.requested_entry.id)
