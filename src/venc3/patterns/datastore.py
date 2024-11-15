@@ -296,7 +296,7 @@ class DatastorePatterns:
         )
 
     def get_entry_archive_path(self, pattern):
-        return "\x1a/"+self.requested_entry.metadata.date.strftime(
+        return "\x1a/"+self.requested_entry.date.strftime(
             self.blog_configuration["paths"]["archives_directory_name"]
         )
     
