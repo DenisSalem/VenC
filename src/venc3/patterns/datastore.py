@@ -608,6 +608,7 @@ class DatastorePatterns:
                 entry.html_for_metadata[key] = separator.join([
                      string.format(**{"value": item.strip(),"html_id":quirk_encoding(item.strip())}) for item in l
                 ])
+
                 
             except KeyError as e:
                 from venc3.exceptions import VenCException
@@ -635,15 +636,13 @@ class DatastorePatterns:
                     entry.html_for_metadata[key] = ""
                     return ""
                 
-            try:
-                from venc3.helpers import quirk_encoding
-                entry.html_for_metadata[key] = separator.join([
-                     string.format(**{"value": item.strip(),"html_id":quirk_encoding(item.strip())}) for item in l
-                ])
-                
-            except KeyError as e:
-                from venc3.exceptions import VenCException
-                raise VenCException(("unknown_contextual", str(e)), pattern)
+            from venc3.helpers import quirk_encoding
+            entry.html_for_metadata[key] = merge([{
+                "key": str(tuple(v.keys())[0]).strip(),
+                "value": str(tuple(v.values())[0]).strip(),
+                "key_html_id": quirk_encoding(str(tuple(v.keys())[0]).strip()),
+                "value_html_id": quirk_encoding(str(tuple(v.values())[0]).strip()),
+            } for v in l], string, separator, pattern)
             
         return entry.html_for_metadata[key]
                     
