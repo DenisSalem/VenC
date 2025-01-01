@@ -46,13 +46,15 @@ class PatternsMap():
         "PreviewIfInThreadElseContent": "preview_if_in_thread_else_content",
     }
 
-    NON_CONTEXTUALS = { # all of the below is loaded from datastore
+    NON_CONTEXTUALS = {
         "blog": {
             "CherryPickBlogMetadata":                 "cherry_pick_blog_metadata",
             "CherryPickBlogMetadataIfExists":         "cherry_pick_blog_metadata_if_exists",
             "ForBlogArchives":	                      "for_blog_archives",
             "ForBlogMetadata":                        "for_blog_metadata",
             "ForBlogMetadataIfExists":                "for_blog_metadata_if_exists",
+            "ForBlogMetadataByKeyValue":              "for_blog_metadata_by_key_value",
+            "ForBlogMetadataByKeyValueIfExists":      "for_blog_metadata_by_key_value_if_exists",
             "ForEntriesSet":	                        "for_entries_set",
             "GetAuthorDescription":	                  "get_author_description",
             "GetAuthorEmail":                         "get_author_email",
