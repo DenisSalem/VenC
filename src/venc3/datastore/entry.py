@@ -25,13 +25,14 @@ from venc3.helpers import quirk_encoding
 from venc3.patterns.processor import PatternTree
 
 class Entry:  
-    def __init__(self, filename, paths):
+    def __init__(self, entry_path, paths):
         date_format = paths["archives_directory_name"]
         self.previous_entry = None
         self.next_entry = None
 
         # Loading
-        raw_data = open(os.getcwd()+"/entries/"+filename,'r').read()
+        raw_data = open(entry_path,'r').read()
+        filename = entry_path.split('/')[-1]
         entry_parted = raw_data.split("---VENC-BEGIN-PREVIEW---\n")
         if len(entry_parted) == 2:
             entry_parted = [entry_parted[0]] + entry_parted[1].split("---VENC-END-PREVIEW---\n")
@@ -108,40 +109,10 @@ class Entry:
         self.html_categories_leaves = {}
         self.html_for_metadata = {}
         
-# Iterate through entries folder
-def yield_entries_content():
-    try:
-        for filename in os.listdir(os.getcwd()+"/entries"):
-            exploded_filename = filename.split("__")
-            try:
-                date = exploded_filename[1].split('-')
-                entry_id = int(exploded_filename[0])
-                datetime.datetime(
-                    year=int(date[2]),
-                    month=int(date[0]),
-                    day=int(date[1]),
-                    hour=int(date[3]),
-                    minute=int(date[4])
-                ) 
-                if entry_id >= 0:
-                    yield filename
 
-                else:
-                    raise ValueError
-
-            except ValueError:
-                from venc3.prompt import notify
-                notify(("invalid_entry_filename", filename), "YELLOW")
-
-            except IndexError:
-                from venc3.prompt import notify
-                notify(("invalid_entry_filename", filename), "YELLOW")
-    
-    except FileNotFoundError as e:
-        from venc3.exceptions import VenCException
-        raise VenCException(("file_not_found", str(e)))
 
 def get_latest_entryID():
+    from venc3.datastore.entries import yield_entries_content
     entries_list = sorted(yield_entries_content(), key = lambda entry : int(entry.split("__")[0]))
     if len(entries_list) != 0:
         return int(entries_list[-1].split("__")[0])

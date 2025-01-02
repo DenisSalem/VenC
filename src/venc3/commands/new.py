@@ -24,7 +24,7 @@ import datetime
 import subprocess
 
 from venc3.datastore.configuration import get_blog_configuration
-from venc3.datastore.entry import yield_entries_content
+from venc3.datastore.entries import yield_entries_content
 
 import venc3.datastore.entry as Entry
 

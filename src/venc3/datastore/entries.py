@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2023 Denis Salem
+#    Copyright 2016, 2025 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -21,6 +21,42 @@ from venc3.datastore.entry import Entry
 
 multiprocessing_thread_params = None
 
+# Iterate through entries folder
+def yield_entries_content():
+    import os
+    try:
+        for r, d, files in os.walk(os.getcwd()+"/entries"):
+            for filename in files:
+                exploded_filename = filename.split("__")
+                try:
+                    date = exploded_filename[1].split('-')
+                    entry_id = int(exploded_filename[0])
+                    import datetime
+                    datetime.datetime(
+                        year=int(date[2]),
+                        month=int(date[0]),
+                        day=int(date[1]),
+                        hour=int(date[3]),
+                        minute=int(date[4])
+                    ) 
+                    if entry_id >= 0:
+                        yield r+'/'+filename
+    
+                    else:
+                        raise ValueError
+    
+                except ValueError:
+                    from venc3.prompt import notify
+                    notify(("invalid_entry_filename", filename), "YELLOW")
+    
+                except IndexError:
+                    from venc3.prompt import notify
+                    notify(("invalid_entry_filename", filename), "YELLOW")
+    
+    except FileNotFoundError as e:
+        from venc3.exceptions import VenCException
+        raise VenCException(("file_not_found", str(e)))
+
 class Entries:
     def init_entries(self):
       
@@ -32,10 +68,9 @@ class Entries:
         from venc3.exceptions import VenCException
         
         try:
-            from venc3.datastore.entry import yield_entries_content
-            filenames = [filename for filename in yield_entries_content()]
+            paths = [path for path in yield_entries_content()]
             
-            self.chunks_len = (len(filenames)//self.workers_count)+1      
+            self.chunks_len = (len(paths)//self.workers_count)+1      
             if self.workers_count > 1:
                 # There we setup chunks of entries send to workers throught dispatchers
                 global multiprocessing_thread_params
@@ -47,10 +82,10 @@ class Entries:
                     "cut_threads_kill_workers" : False
                 }
                 for i in range(0, self.workers_count):
-                    multiprocessing_thread_params["chunked_filenames"].append(filenames[:self.chunks_len])
-                    filenames = filenames[self.chunks_len:]
+                    multiprocessing_thread_params["chunked_filenames"].append(paths[:self.chunks_len])
+                    paths = paths[self.chunks_len:]
                     
-                filenames = None
+                paths = None
                 
                 from venc3.parallelism import Parallelism
                 from venc3.parallelism.build_entries import dispatcher
@@ -69,9 +104,9 @@ class Entries:
                 parallelism.join()
                     
             else:
-                for filename in filenames:
+                for path in paths:
                     self.entries.append(Entry(
-                        filename,
+                        path,
                         self.blog_configuration["paths"],
                     ))
                     
