@@ -11,7 +11,7 @@ Lorsque vous créez un nouveau projet, VenC produit un certain nombre de répert
 
 - __`blog`__ : _le dossier dans lequel est exporté le projet._
 - __`extra`__ : _un dossier contenant des ressources quelconques copiées vers `blog/` au moment de l'exportation._
-- __`entries`__ : _contient toutes les publications sous forme de fichiers textes numérotés et datés._
+- __`entries`__ : _contient toutes les publications sous forme de fichiers textes numérotés et datés. Ces publications peuvent être organisés dans des sous répertoires pour plus de confort._
 - __`theme`__ : _contient les templates HTML, les feuilles de style, d'éventuels scripts JS ou des images._
 - __`templates`__ : _contient des modèles vierges pour de futures publications._
 - __`includes`__ : _ce répertoire contient des fichiers HTML que vous pouvez inclure n'importe où dans votre projet avec la fonction [`IncludeFile`](.:GetChapterAttributeByIndex::path::5.4.3:.#includefile)._
