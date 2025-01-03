@@ -71,7 +71,61 @@ a trois arguments :
 Vous pouvez utiliser la variable suivante dans l'argument `string` :
 
 - __`value`__ : contient la valeur de l'item courant.
-- __`html_id`__ : le nom de la métadonnée courante, mais formaté pour être utilisé comme un identifiant HTML.
+- __`html_id`__ : la valeur de la métadonnée courante, mais formaté pour être utilisé comme un identifiant HTML.
+
+À Noter que le _formatage_ de __`string`__ se fait au sens de Python. C'est à dire que les methodes de formatages de chaines
+de charactères fonctionne comme pour Python :
+
+> string.format(**{"value":item, ...})
+
+Si `item` (l'élément courant de la liste) est un `dictionnaire` il est possible de faire quelque chose comme
+
+> .:Escape:: .:ForBlogMetadata::some_yaml_metadata::{value[key]}::,:. :.
+
+#### ForBlogMetadataByKeyValue
+
+> .:Escape:: .:ForBlogMetadataByKeyValue::metadata_name::string[::separator]:. :.
+
+Comme pour [`ForBlogMetadata`](#forblogmetadata) ce motif permet de récuper des informations dans une liste, à la différence qu'ici
+les éléments de la liste sont une paire de clef valeur, par exemple :
+
+```
+gamers_rank:
+  - "Dade Murphy": 5
+  - "Emmanuel Goldstein": 4
+  - "Kate Libby": 5
+  - "Ramon Sanchez": 3
+  - "Paul Cook": 2 
+```
+
+Ce motif a trois arguments :
+
+- __`metadata_name`__ : le nom de la métadonnée que l'on souhaite récupérer. Si la métadonnée n'existe pas, VenC s'arrête avec un message d'erreur.
+- __`string`__ : le second argument contient le texte à formater pour chaque paire de la liste.
+- __`separator`__ : le troisième argument, optionnel, contient le texte utilisé comme séparateur pour chaque item.
+
+Vous pouvez utiliser la variable suivante dans l'argument `string` :
+
+- __`key`__ : contient la clef de la paire courante.
+- __`value`__ : contient la valeur de la paire courante.
+- __`value_html_id`__ : la valeur de l'item courant, mais formaté pour être utilisé comme un identifiant HTML.
+- __`key_html_id`__ : la valeur de l'item courant, mais formaté pour être utilisé comme un identifiant HTML.
+
+À Noter que le _formatage_ de __`string`__ se fait au sens de Python. C'est à dire que les methodes de formatages de chaines
+de charactères fonctionne comme pour Python :
+
+> string.format(**{"value":item, ...})
+
+Si `item` (l'élément courant de la liste) est un `dictionnaire` il est possible de faire quelque chose comme
+
+> .:Escape:: .:ForBlogMetadata::some_yaml_metadata::{value[key]}::,:. :.
+
+#### ForBlogMetadataByKeyValueIfExists
+
+> .:Escape:: .:ForBlogMetadataByKeyValueIfExists::metadata_name::string[::separator]:. :.
+
+Identique à [`ForBlogMetadataByKeyValue`](#forblogmetadatabykeyvalue), mais
+si la métadonnée demandée n'existe pas, le motif est ignoré.
 
 #### ForBlogMetadataIfExists
 
