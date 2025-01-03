@@ -5,12 +5,12 @@ import inspect
 
 from venc3.patterns.datastore import DatastorePatterns
 from venc3.patterns.patterns_map import PatternsMap
-from venc3.threads import Thread
+from venc3.patterns.contextuals import ThreadPatterns
 
 patterns = []
 
 source = {
-    "5.3" :  (PatternsMap.CONTEXTUALS, Thread),
+    "5.3" :  (PatternsMap.CONTEXTUALS, ThreadPatterns),
     "5.4.1" : (PatternsMap.NON_CONTEXTUALS["entries"], DatastorePatterns),
     "5.4.2" : (PatternsMap.NON_CONTEXTUALS["blog"], DatastorePatterns),
     "5.4.3" : (PatternsMap.NON_CONTEXTUALS["extra"], )
