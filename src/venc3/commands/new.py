@@ -44,7 +44,7 @@ def new_entry(params):
     
     entry = dict()
     try:
-        entry["ID"] = max([ int(filename.split("__")[0]) for filename in yield_entries_content()]) + 1
+        entry["ID"] = max([ int(filename.split("/")[-1].split("__")[0]) for filename in yield_entries_content()]) + 1
 
     except ValueError:
         entry["ID"] = 1
