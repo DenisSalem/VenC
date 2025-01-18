@@ -579,17 +579,23 @@ class DatastorePatterns:
                 
             from venc3.helpers import quirk_encoding
             if key_value:
-                cache[key] = merge([{
-                    "key": str(tuple(v.keys())[0]).strip(),
-                    "value": str(tuple(v.values())[0]).strip(),
-                    "key_html_id": quirk_encoding(str(tuple(v.keys())[0]).strip()),
-                    "value_html_id": quirk_encoding(str(tuple(v.values())[0]).strip()),
-                } for v in l], string, separator, pattern)
+                try:
+                    cache[key] = merge([{
+                        "key": str(tuple(v.keys())[0]).strip(),
+                        "value": str(tuple(v.values())[0]).strip(),
+                        "key_html_id": quirk_encoding(str(tuple(v.keys())[0]).strip()),
+                        "value_html_id": quirk_encoding(str(tuple(v.values())[0]).strip()),
+                    } for v in l], string, separator, pattern)
+                    
+                except AttributeError as e:
+                    from venc3.exceptions import VenCException
+                    raise VenCException(("list_from_metadata_has_non_key_value_item", metadata_name), pattern)
+
             else:
                 cache[key] = merge([{
-                    "value": v.strip(),
-                    "html_id":quirk_encoding(v.strip())
-                } for v in self.blog_configuration[metadata_name]], string, separator, pattern)
+                    "value": str(v).strip(),
+                    "html_id":quirk_encoding(str(v).strip())
+                } for v in l], string, separator, pattern)
 
         return cache[key]
                 

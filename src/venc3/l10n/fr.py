@@ -125,6 +125,8 @@ class Messages:
     deleting_file = "Suppression de {0} ..."
     print_path="Affiche le chemin d'installation de Venc où se trouvent les fichiers additionnels."
     wrong_command_argument="{0}: Mauvais argument \"{1}\", est attendu l'un de ces valeurs : {2}."
+    list_from_metadata_has_non_key_value_item="La Liste dans \"{0}\" a des éléments qui ne sont pas de la forme clef/valeur."
+
     # Will not be hooked by l10n_cleanup
     generating_rss = "Génération du flux RSS..."
     generating_atom = "Génération du flux Atom..."
