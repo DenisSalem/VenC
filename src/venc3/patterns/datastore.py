@@ -520,135 +520,83 @@ class DatastorePatterns:
 
     def for_blog_metadata_by_key_value(self, pattern, metadata_name, string, separator=''):
         '''value,key,value_html_id,key_html_id'''
-        return self.for_blog_metadata_by_key_value_if_exists(pattern, metadata_name, string, separator, raise_exception=True)
+        return self._for_metadata(self.blog_configuration, pattern, metadata_name, string, separator, True, True)
 
-    def for_blog_metadata_by_key_value_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):
+    def for_blog_metadata_by_key_value_if_exists(self, pattern, metadata_name, string, separator=''):
         '''value,key,value_html_id,key_html_id'''
-        key = metadata_name+','+string+','+separator+','+str(raise_exception)
-        if not key in self.html_for_metadata:
-            if not metadata_name in self.blog_configuration.keys():
-                if raise_exception:
-                    from venc3.exceptions import VenCException
-                    raise VenCException(("blog_has_no_metadata_like", metadata_name), pattern)
-                    
-                self.html_for_metadata[key] = ""
-                return ""
-                
-            if type(self.blog_configuration[metadata_name]) != list:
-                if raise_exception:
-                    from venc3.exceptions import VenCException
-                    raise VenCException(("blog_metadata_is_not_a_list", metadata_name), pattern)
+        return self._for_metadata(self.blog_configuration, pattern, metadata_name, string, separator, False, True)
 
-            from venc3.helpers import quirk_encoding
-            self.html_for_metadata[key] = merge([{
-                "key": str(tuple(v.keys())[0]).strip(),
-                "value": str(tuple(v.values())[0]).strip(),
-                "key_html_id": quirk_encoding(str(tuple(v.keys())[0]).strip()),
-                "value_html_id": quirk_encoding(str(tuple(v.values())[0]).strip()),
-            } for v in self.blog_configuration[metadata_name]], string, separator, pattern)
-        
-        return self.html_for_metadata[key]
-                
     def for_blog_metadata(self, pattern, metadata_name, string, separator=''):
         '''value,html_id'''
-        return self.for_blog_metadata_if_exists(pattern, metadata_name, string, separator, raise_exception=True)
+        return self._for_metadata(self.blog_configuration, pattern, metadata_name, string, separator, True, False)
 
-    def for_blog_metadata_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):
+    def for_blog_metadata_if_exists(self, pattern, metadata_name, string, separator=''):
         '''value,html_id'''
-        key = metadata_name+','+string+','+separator+','+str(raise_exception)
-        if not key in self.html_for_metadata:
-            if not metadata_name in self.blog_configuration.keys():
-                if raise_exception:
-                    from venc3.exceptions import VenCException
-                    raise VenCException(("blog_has_no_metadata_like", metadata_name), pattern)
-                    
-                self.html_for_metadata[key] = ""
-                return ""
-                
-            if type(self.blog_configuration[metadata_name]) != list:
-                if raise_exception:
-                    from venc3.exceptions import VenCException
-                    raise VenCException(("blog_metadata_is_not_a_list", metadata_name), pattern)
-
-            from venc3.helpers import quirk_encoding
-            self.html_for_metadata[key] = merge([{"value": v.strip(),"html_id":quirk_encoding(v.strip())} for v in self.blog_configuration[metadata_name]], string, separator, pattern)
-        
-        return self.html_for_metadata[key]
+        return self._for_metadata(self.blog_configuration, pattern, metadata_name, string, separator, False, False)
 
     def for_entry_metadata(self, pattern, metadata_name, string, separator=''):
         '''value,html_id'''
-        return self.for_entry_metadata_if_exists(pattern, metadata_name, string, separator, raise_exception=True)
+        return self._for_metadata(self.requested_entry, pattern, metadata_name, string, separator, True, False)
 
     def for_entry_metadata_by_key_value(self, pattern, metadata_name, string, separator=''):
         '''value,key,value_html_id,key_html_id'''
-        return self.for_entry_metadata_by_key_value_if_exists(pattern, metadata_name, string, separator, raise_exception=True)
+        return self._for_metadata(self.requested_entry, pattern, metadata_name, string, separator, True, True)
         
-    def for_entry_metadata_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):    
+    def for_entry_metadata_if_exists(self, pattern, metadata_name, string, separator=''):    
         '''value,html_id'''    
-        entry = self.requested_entry
-        key = metadata_name+string+separator
-            
-        if not key in entry.html_for_metadata:
+        return self._for_metadata(self.requested_entry, pattern, metadata_name, string, separator, False, False)
+
+    def for_entry_metadata_by_key_value_if_exists(self, pattern, metadata_name, string, separator=''):
+        '''value,html_id'''    
+        return self._for_metadata(self.requested_entry, pattern, metadata_name, string, separator, False, True)
+             
+    def _for_metadata(self, source, pattern, metadata_name, string, separator, raise_exception, key_value):
+        print(source)
+        source_is_entry = type(source) != dict
+        cache = source.html_for_metadata if source_is_entry else self.html_for_metadata
+        key = metadata_name+"::"+string+"::"+separator
+        
+        if not key in cache :
             try:
-                l = getattr(entry.metadata, metadata_name)
+                l = getattr(source.metadata, metadata_name) if source_is_entry else self.blog_configuration[metadata_name]
                 if not type(l) in [list, tuple]:
                     from venc3.exceptions import VenCException
-                    raise VenCException(("entry_metadata_is_not_a_list", metadata_name, entry), pattern)
+                    raise VenCException(
+                        ("entry_metadata_is_not_a_list", metadata_name, source) if source_is_entry else ("blog_metadata_is_not_a_list", metadata_name),
+                        pattern
+                    )
                 
-            except AttributeError as e:
+            except (AttributeError, KeyError) as e:
                 if raise_exception:
                     from venc3.exceptions import VenCException
-                    raise VenCException(("entry_has_no_metadata_like", entry.id, metadata_name), pattern)
-                else:
-                    entry.html_for_metadata[key] = ""
-                    return ""
-                
-            try:
-                from venc3.helpers import quirk_encoding
-                entry.html_for_metadata[key] = separator.join([
-                     string.format(**{"value": item.strip(),"html_id":quirk_encoding(item.strip())}) for item in l
-                ])
+                    if source_is_entry:
+                        raise VenCException(("entry_has_no_metadata_like", source.id, metadata_name), pattern)
+                    else:
+                        raise VenCException(("blog_has_no_metadata_like", metadata_name), pattern)
 
-                
-            except KeyError as e:
-                from venc3.exceptions import VenCException
-                raise VenCException(("unknown_contextual", str(e)), pattern)
-            
-        return entry.html_for_metadata[key]
-
-    def for_entry_metadata_by_key_value_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):    
-        '''value,html_id'''    
-        entry = self.requested_entry
-        key = metadata_name+string+separator
-            
-        if not key in entry.html_for_metadata:
-            try:
-                l = getattr(entry.metadata, metadata_name)
-                if not type(l) in [list, tuple]:
-                    from venc3.exceptions import VenCException
-                    raise VenCException(("entry_metadata_is_not_a_list", metadata_name, entry), pattern)
-                
-            except AttributeError as e:
-                if raise_exception:
-                    from venc3.exceptions import VenCException
-                    raise VenCException(("entry_has_no_metadata_like", entry.id, metadata_name), pattern)
                 else:
-                    entry.html_for_metadata[key] = ""
+                    cache[key] = ""
                     return ""
                 
             from venc3.helpers import quirk_encoding
-            entry.html_for_metadata[key] = merge([{
-                "key": str(tuple(v.keys())[0]).strip(),
-                "value": str(tuple(v.values())[0]).strip(),
-                "key_html_id": quirk_encoding(str(tuple(v.keys())[0]).strip()),
-                "value_html_id": quirk_encoding(str(tuple(v.values())[0]).strip()),
-            } for v in l], string, separator, pattern)
-            
-        return entry.html_for_metadata[key]
-                    
+            if key_value:
+                cache[key] = merge([{
+                    "key": str(tuple(v.keys())[0]).strip(),
+                    "value": str(tuple(v.values())[0]).strip(),
+                    "key_html_id": quirk_encoding(str(tuple(v.keys())[0]).strip()),
+                    "value_html_id": quirk_encoding(str(tuple(v.values())[0]).strip()),
+                } for v in l], string, separator, pattern)
+            else:
+                cache[key] = merge([{
+                    "value": v.strip(),
+                    "html_id":quirk_encoding(v.strip())
+                } for v in self.blog_configuration[metadata_name]], string, separator, pattern)
+
+        return cache[key]
+                
     def for_entry_authors(self, pattern, string, separator=' '):
         '''value,html_id'''
-        return self.for_entry_metadata(pattern, "authors", string, separator)
+        return self._for_metadata(self.requested_entry, pattern, "authors", string, separator, True, False)
 
     def get_blog_metadata_tree(self, pattern, metadata_name, open_node, open_branch, value_childs, value, close_branch, close_node):
         '''value,tree,html_id'''
