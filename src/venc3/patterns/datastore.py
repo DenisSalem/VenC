@@ -185,7 +185,7 @@ class DatastorePatterns:
             else:
                 return if_false
         else:
-            return value
+            return str(value)
             
     def get_blog_metadata_if_not_null(self, pattern, metadata_name, if_true='', if_false=''):
         '''value'''
