@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2024 Denis Salem
+#    Copyright 2016, 2025 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -32,7 +32,8 @@ class Entry:
 
         # Loading
         raw_data = open(entry_path,'r').read()
-        filename = entry_path.split('/')[-1]
+        self.filename = entry_path.split('/')[-1]
+        
         entry_parted = raw_data.split("---VENC-BEGIN-PREVIEW---\n")
         if len(entry_parted) == 2:
             entry_parted = [entry_parted[0]] + entry_parted[1].split("---VENC-END-PREVIEW---\n")
@@ -43,7 +44,7 @@ class Entry:
 
                 except Exception as e:
                     from venc3.exceptions import VenCException
-                    raise VenCException(("possible_malformed_entry", filename, ''), context=filename, extra=str(e))
+                    raise VenCException(("possible_malformed_entry", self.filename, ''), context=self.filename, extra=str(e))
                     
                 if "markup_language" in metadata.keys():
                     markup_language = metadata["markup_language"]
@@ -52,19 +53,19 @@ class Entry:
                     markup_language = get_blog_configuration()["markup_language"]
                     
                 # TODO : OPTIMISATION IMPORT theme and pre process only if required
-                self.preview = PatternTree(entry_parted[1], filename+":preview", False if markup_language == "none" else True)
-                self.content = PatternTree(entry_parted[2], filename+":content", False if markup_language == "none" else True)
+                self.preview = PatternTree(entry_parted[1], self.filename+":preview", False if markup_language == "none" else True)
+                self.content = PatternTree(entry_parted[2], self.filename+":content", False if markup_language == "none" else True)
 
             else:
                 from venc3.l10n import messages; 
                 cause = messages.missing_separator_in_entry.format("---VENC-END-PREVIEW---")
                 from venc3.exceptions import VenCException
-                raise VenCException(("possible_malformed_entry", filename, cause), context=filename)
+                raise VenCException(("possible_malformed_entry", self.filename, cause), context=self.filename)
         else:
             from venc3.l10n import messages; 
             cause = messages.missing_separator_in_entry.format("---VENC-BEGIN-PREVIEW---")
             from venc3.exceptions import VenCException
-            raise VenCException(("possible_malformed_entry", filename, cause), context=filename)
+            raise VenCException(("possible_malformed_entry", self.filename, cause), context=self.filename)
                 
         try:
             self.chapter_level = str(len(str(metadata["chapter"]).split('.')))
@@ -72,9 +73,8 @@ class Entry:
         except:
             pass
 
-        self.id = int(filename.split('__')[0])
-        self.filename = filename
-        raw_date = filename.split('__')[1].split('-')
+        self.id = int(self.filename.split('__')[0])
+        raw_date = self.filename.split('__')[1].split('-')
         self.date = datetime.datetime(
             year=int(raw_date[2]),
             month=int(raw_date[0]),
@@ -87,7 +87,7 @@ class Entry:
             
         self.raw_metadata = metadata
         
-        self.metadata = EntryMetadata(metadata)
+        self.metadata = EntryMetadata(metadata, self)
          
         params = {
             "entry_id": self.id,
@@ -100,7 +100,7 @@ class Entry:
         
         if type(metadata["categories"]) != list:
             from venc3.exceptions import VenCException
-            raise VenCException(("entry_metadata_is_not_a_list", "categories", self.id), context=filename)
+            raise VenCException(("entry_metadata_is_not_a_list", "categories", self.id), context=self.filename)
 
         self.raw_categories = metadata["categories"]
         

@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2023 Denis Salem
+#    Copyright 2016, 2025 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -36,7 +36,7 @@ class Chapter:
         return self.index
 
 class EntryMetadata:
-    def __init__(self, metadata):                       
+    def __init__(self, metadata, entry):                       
         # Fix missing or incorrect metadata
         for key in ("authors", "categories", "title"):
             if key not in metadata.keys() or metadata[key] == None:
@@ -46,7 +46,7 @@ class EntryMetadata:
 
         if type(metadata["authors"]) != list:
             from venc3.exceptions import VenCException
-            raise VenCException(("entry_metadata_is_not_a_list", "authors", self.id), context=filename)
+            raise VenCException(("entry_metadata_is_not_a_list", "authors", entry.id), context=filename)
                     
         # Setting up optional metadata
         for key in metadata.keys():
@@ -55,7 +55,7 @@ class EntryMetadata:
                     
             else:
                 from venc3.prompt import notify
-                notify(("invalid_or_missing_metadata", key, filename), color="YELLOW")
+                notify(("invalid_or_missing_metadata", key, entry.filename), color="YELLOW")
                 setattr(self, key, '')
                             
 class MetadataNode:

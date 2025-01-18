@@ -267,8 +267,12 @@ class Processor:
                 from venc3.exceptions import WrongPatternArgumentsNumber
                 raise WrongPatternArgumentsNumber(pattern, pattern.root, self.functions[pattern_name], args)
             
-            len_chunk = len(chunk)
-
+            try:
+                len_chunk = len(chunk)
+            except TypeError as e:
+                print(pattern_name, args)
+                raise e
+                
             if type(parent) == Pattern:
                 if payload_offset[1] != pattern.payload_index:
                     payload_offset[0] = 0
@@ -305,7 +309,6 @@ class Processor:
                 parent_sub_patterns_filtered_append(pattern)
                 
             if len(leftovers):
-                
                 parent_payload = parent.payload[pattern.payload_index] if type(parent) == Pattern else parent.string
                 for leftover in leftovers:
                     o = parent_payload.find(leftover.ID)
