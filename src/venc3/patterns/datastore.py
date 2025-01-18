@@ -551,7 +551,6 @@ class DatastorePatterns:
         return self._for_metadata(self.requested_entry, pattern, metadata_name, string, separator, False, True)
              
     def _for_metadata(self, source, pattern, metadata_name, string, separator, raise_exception, key_value):
-        print(source)
         source_is_entry = type(source) != dict
         cache = source.html_for_metadata if source_is_entry else self.html_for_metadata
         key = metadata_name+"::"+string+"::"+separator
