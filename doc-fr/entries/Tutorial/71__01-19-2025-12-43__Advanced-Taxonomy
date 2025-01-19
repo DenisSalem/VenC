@@ -1,0 +1,138 @@
+authors:
+  - 'Denis Salem'
+categories: []
+title: Taxonomie avancée
+chapter: 3.5.7
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+
+Avant la version 3.2 vous ne pouviez organiser vos publications “que” par catégories hiérarchisées. C’était déjà pas mal dans la mesure où ça
+permettait de créer des menus arborescents pour organiser votre contenu, mais parfois ça n’est pas suffisant. Par exemple, tout à fait au hasard,
+vous êtes un⋅e artiste et vous gérez votre portfolio avec VenC. Vous pourriez alors avoir un menu de la forme suivante pour organiser vos œuvres :
+
+```
+- Peintures
+  - Huile
+  - Acrylique
+  - Aquarelle
+- Dessins
+  - Encre
+  - Crayon
+- Mediums Mixtes
+```
+
+Et comme vous êtes un⋅e bon⋅ne p'tit⋅e libriste auto-radicalisé⋅e sur Framasoft et LinuxFr vos œuvres sont en partie sous licence CC-By-SA. En partie seulement car oui, vous faites aussi des fanarts, des travaux dérivés d’œuvres sous licences propriétaires. Vous voulez donc séparer ce qui est véritablement libre de ce qui ne l’est pas. En générant par exemple ce type de menu :
+
+```
+# Mediums
+
+- Peintures
+  - Huile
+  - Acrylique
+  - Aquarelle
+- Dessins
+  - Encre
+  - Crayon
+- Mixtes
+
+# Licences
+
+- CC
+  - By-NC-ND
+  - By-SA
+- Copyright
+- Licence Art Libre
+```
+
+C'est précisément le genre de chose que permettent de faire les nouveaux `motifs` qui on été ajouté dans la version 3.2.
+
+- [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestreefrombranches)
+- [`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getflattenedblogcategoriesfrombranches)
+- [`GetEntryCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::5.4.1:.#getentrycategoriestreefrombranches)
+- [`GetFlattenedEntryCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::5.4.1:.#getflattenedentrycategoriesfrombranches)
+
+Avec ça vous serez en mesure de trier et organiser très finement votre contenu.
+
+Alors comment ça marche ?
+
+L’idée est la suivante : puisque l’arbre de toutes les catégories construit à partir de toutes les publications est un arbre hiérarchisé, il suffit de sélectionner une ou plusieurs branches de cet arbre pour créer nos menus et présenter notre contenu de la façon qu’il nous plaira.
+
+Dans notre exemple précédent l’arbre hierarchisé de toutes les catégories aurait donc la forme suivante :
+
+```
+- Mediums:
+  - Peintures:
+    - Huile
+    - Acrylique
+    - Aquarelle
+  - Dessins:
+    - Encre
+    - Crayon
+  - Mixtes
+- Licences:
+  - CC:
+    - By-NC-ND
+    - By-SA
+  - Copyright
+  - Licence Art Libre
+```
+
+Pour générer deux menus `Mediums` et `Licences` il faut définir une métadonnée dans notre fichier de configuration, par exemple:
+
+```
+menus:
+  - Mediums
+  - Licences
+```
+
+Selon que l'on souhaite des nuages de tags ou des arbres hierarchisés de catégories on utilisera respectivement
+[`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getflattenedblogcategoriesfrombranches) ou
+[`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestreefrombranches).
+
+Ici nous allons prendre l'exemple des menus hierarchisés :
+
+
+```
+.:Escape:: .:GetBlogCategoriesTreeFromBranches::
+    branches::
+    sub_tree_string::
+    separator::
+    open_node::
+    open_branch::
+    close_branch::
+    close_node
+:. 
+:.
+```
+
+[`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestreefrombranches) fonctionne comme
+[`GetBlogCategoriesTree`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestree) que nous avons déjà vu dans le [chapitre 3.5.2.3](.:GetChapterAttributeByIndex::path::3.5.2.3:.) auquel on ajoute trois nouveaux paramètre
+
+- __`branches`__ : le nom de la métadonnée contenant nos branches: Ici il s'agit de `menus`.
+- __`sub_tree_string`__ : C'est là que vous pouvez mettre le code `HTML` contenant le menu correspondant à la branche courrante.
+- __`separator`__ : C'est ici que vous pouvez mettre le code HTML séparant chaque menu.
+
+Dans notre exemple nous pourrions alors utiliser le `motifs` comme ci-dessous
+
+.:CodeHighlight::HTML::False::
+.:Escape::
+  .:GetBlogCategoriesTreeFromBranches::menus::
+        <div class="__VENC_TREE_ROOT__">
+            <p class="title"><a href="{path}">{value}</a></p>
+            {childs}
+        </div>
+      ::<hr>
+      ::<ul class="__VENC_TREE_NODE__">
+      ::<li><a href="{path}" title="{value} has {count} entries">{value}</a>
+      ::{childs}</li>
+      ::</ul>
+  :. 
+:.
+:.
+
+Pour chaque branches (`Mediums` et `Licences`) VenC va générer en `HTML` l'arbre des categories à partir des branches sélectionnées:
+
+- Chacun de ces arbres sera contenu dans un élément `div`.
+- Chacun de ces éléments `div` sera séparé par une ligne `hr`
+
+Et voilà !
