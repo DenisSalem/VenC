@@ -280,7 +280,7 @@ est important de définir cette variable pour que la commande [`venc -s`](.:GetC
 ## filter_from_main_thread
 
 Il s'agit d'une liste contenant des noms de categories dont les publications ne doivent pas apparaitre dans le fil de publication principal. Un cas typique
-serait de vouloir empécher les publications d'une catégorie donnée d'appaitre dans le fil principal ou de créer des pages individuelles.
+serait de vouloir empécher des publications `NSFW` d'appaitre dans le fil principal ou de [créer des pages individuelles](.:GetChapterAttributeByIndex::path::3.5.8:.).
 
 Supposons que l'on veuille préserver le fil principal de publications appartenant à la catégorie `NSFW`.
 On ferait alors quelque chose comme
