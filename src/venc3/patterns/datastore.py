@@ -546,7 +546,6 @@ class DatastorePatterns:
         '''value,html_id'''    
         return self._for_metadata(self.requested_entry, pattern, metadata_name, string, separator, False, False)
 
-
     def for_entry_metadata_by_key_value_if_exists(self, pattern, metadata_name, string, separator=''):
         '''value,html_id'''    
         return self._for_metadata(self.requested_entry, pattern, metadata_name, string, separator, False, True)
