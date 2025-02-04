@@ -617,7 +617,7 @@ class DatastorePatterns:
         return entry.html_for_metadata[key]
 
     def for_entry_metadata_by_key_value_if_exists(self, pattern, metadata_name, string, separator='', raise_exception=False):    
-        '''value,html_id'''    
+        '''value,key,value_html_id,key_html_id'''
         entry = self.requested_entry
         key = metadata_name+string+separator
             
