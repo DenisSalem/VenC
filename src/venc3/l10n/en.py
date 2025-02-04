@@ -125,6 +125,7 @@ class Messages:
     deleting_file = "Deleting {0} ..."
     print_path="Print the path were VenC's additionnal files are located."
     wrong_command_argument="{0}: Wrong argument \"{1}\", expected one of the following values : {2}."
+    list_from_metadata_has_non_key_value_item="List from \"{0}\" has non key/value items."
     # Will not be hooked by l10n_cleanup
     generating_rss = "Generating RSS feed..."
     generating_atom = "Generating Atom feed..."

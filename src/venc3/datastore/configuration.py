@@ -78,6 +78,7 @@ def setup_optional_fields(blog_configuration):
             "default_theme" : '',
             "sort_by" : "id",
             "pipe_flow" : 512,
+            "pipe_flow" : 512,
             "path_encoding": "", # TODO: plz, what da fuck is this shit ?
             "disable_threads" : [],
             "parallel_processing" : 1,
@@ -182,15 +183,11 @@ def get_blog_configuration():
         BLOG_CONFIGURATION = blog_configuration
         return BLOG_CONFIGURATION
 
-    except FileNotFoundError:
+    except (FileNotFoundError, PermissionError):
         from venc3.prompt import die
         die(("no_blog_configuration",))
 
-    except PermissionError:
-        from venc3.prompt import die
-        die(("no_blog_configuration",))
-
-    except yaml.scanner.ScannerError as e:
+    except (yaml.scanner.ScannerError, yaml.parser.ParserError) as e:
         from venc3.prompt import die, notify
         notify(("in_", "blog_configuration.yaml"), color="RED")
         die(("exception_place_holder", str(e)))

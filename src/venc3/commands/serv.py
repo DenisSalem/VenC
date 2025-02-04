@@ -136,9 +136,14 @@ class VenCServer(http.server.CGIHTTPRequestHandler):
         self.error_message_format = default_error_page
         super().send_error(code, message, explain)
             
-def serv(params):            
-    port = params[0] if len(params) else blog_configuration["server_port"]
+def serv(params):          
+    try:
+        port = int(params[0]) if len(params) else blog_configuration["server_port"]
         
+    except ValueError:
+        from venc3.prompt import die
+        die(("arg_must_be_an_integer", "server_port",))
+    
     try:
         os.chdir("blog/")
         server_address = ("", port)
