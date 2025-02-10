@@ -7,11 +7,11 @@
           
           VENC_WEB_GL = {
               vertex_shader_source : `
-                  attribute vec4 vertex_position;
+                  attribute vec3 vertex_position;
                   uniform mat4 model_view_matrix;
                   uniform mat4 projection_matrix;
                   void main() {
-                      gl_Position = projection_matrix *  model_view_matrix * vertex_position;
+                      gl_Position = projection_matrix *  model_view_matrix * vec4(vertex_position,1.0);
                   }
               `,
               fragment_shader_source : `
@@ -98,14 +98,28 @@
                   mat4.translate(
                       model_view_matrix, // matrice de destination
                       model_view_matrix, // matrice de déplacement
-                      [-0.0, 0.0, -6.0],
+                      [-0.0, 0.0, -5],
                   ); // quantité de déplacement
                 
+
+                  mat4.rotate(
+                      model_view_matrix, // matrice de destination
+                      model_view_matrix, // matrice de déplacement
+                      5,
+                      [0, 0, 1],
+                  );
+                  
+                  mat4.rotate(
+                      model_view_matrix, // matrice de destination
+                      model_view_matrix, // matrice de déplacement
+                      5,
+                      [0, 1, 0],
+                  );
 
                   context.gl.bindBuffer(context.gl.ARRAY_BUFFER, buffers.position);
                   context.gl.vertexAttribPointer(
                       context.program_info.attributes_locations.vertex_position,
-                      2, // components count
+                      3, // components count
                       context.gl.FLOAT, // type
                       false, // normalize
                       0, // stride
@@ -129,9 +143,9 @@
                   );
                 
                   context.gl.drawArrays(
-                      context.gl.TRIANGLE_STRIP,
+                      context.gl.TRIANGLES,
                       0, // offset
-                      4, // vertex count
+                      buffers.vertex_count, // vertex count
                   );
               }
 
@@ -140,26 +154,59 @@
           window.onload = function() {
               context = VENC_WEB_GL.init(document.querySelector("#glCanvas"));
               
-              // Créer un tampon des positions pour le carré.
-            
+              // Loading binary data should be there             
               const position_buffer = context.gl.createBuffer();
-            
-              // Définir le positionBuffer comme étant celui auquel appliquer les opérations
-              // de tampon à partir d'ici.
             
               context.gl.bindBuffer(context.gl.ARRAY_BUFFER, position_buffer);
             
-              // Créer maintenant un tableau des positions pour le carré.
-            
-              const positions = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0];
-            
-              // Passer mainenant la liste des positions à WebGL pour construire la forme.
-              // Nous faisons cela en créant un Float32Array à partir du tableau JavaScript,
-              // puis en l'utilisant pour remplir le tampon en cours.
-            
+              const positions = [
+                  1.000000, 1.000000, 1.000000,
+                  -1.000000, 1.000000, 1.000000,
+                  -1.000000, -1.000000, 1.000000,
+                  1.000000, 1.000000, 1.000000,
+                  -1.000000, -1.000000, 1.000000,
+                  1.000000, -1.000000, 1.000000,
+                  
+                  1.000000, -1.000000, -1.000000,
+                  1.000000, -1.000000, 1.000000,
+                  -1.000000, -1.000000, 1.000000,
+                  1.000000, -1.000000, -1.000000,
+                  -1.000000, -1.000000, 1.000000,
+                  -1.000000, -1.000000, -1.000000,
+                  
+                  -1.000000, -1.000000, -1.000000
+                  -1.000000, -1.000000, 1.000000
+                  -1.000000, 1.000000, 1.000000
+                  -1.000000, -1.000000, -1.000000,
+                  -1.000000, 1.000000, 1.000000,
+                  -1.000000, 1.000000, -1.000000,
+                  
+                  -1.000000, 1.000000, -1.000000,
+                  1.000000, 1.000000, -1.000000,
+                  1.000000, -1.000000, -1.000000,
+                  -1.000000, 1.000000, -1.000000,
+                  1.000000, -1.000000, -1.000000,
+                  -1.000000, -1.000000, -1.000000,
+                  
+                  1.000000, 1.000000, -1.000000,
+                  1.000000, 1.000000, 1.000000,
+                  1.000000, -1.000000, 1.000000,
+                  1.000000, 1.000000, -1.000000,
+                  1.000000, -1.000000, 1.000000,
+                  1.000000, -1.000000, -1.000000,
+                  
+                  -1.000000, 1.000000, -1.000000,
+                  -1.000000, 1.000000, 1.000000,
+                  1.000000, 1.000000, 1.000000,
+                  -1.000000, 1.000000, -1.000000,
+                  1.000000, 1.000000, 1.000000,
+                  1.000000, 1.000000, -1.000000
+              ]
+           
               context.gl.bufferData(context.gl.ARRAY_BUFFER, new Float32Array(positions), context.gl.STATIC_DRAW);
             
               buffers =  {
+                vertex_count: positions.length / 3,
                 position: position_buffer,
               };
       
