@@ -50,7 +50,9 @@
               },
               init: function(canvas) {
                   VENC_WEB_GL_CONTEXT = {
-                    gl: canvas.getContext("webgl")
+                    gl: canvas.getContext("webgl"),
+                    rotation_x: 0,
+                    rotation_y: 0,
                   };
                   
                   if (!VENC_WEB_GL_CONTEXT.gl) {
@@ -105,18 +107,18 @@
                   mat4.rotate(
                       model_view_matrix, // matrice de destination
                       model_view_matrix, // matrice de déplacement
-                      5,
-                      [0, 0, 1],
+                      context.rotation_x,
+                      [1, 0, 0],
                   );
                   
                   mat4.rotate(
                       model_view_matrix, // matrice de destination
                       model_view_matrix, // matrice de déplacement
-                      5,
+                      context.rotation_y,
                       [0, 1, 0],
                   );
 
-                  context.gl.bindBuffer(context.gl.ARRAY_BUFFER, buffers.position);
+                  context.gl.bindBuffer(context.gl.ARRAY_BUFFER, context.buffers.position);
                   context.gl.vertexAttribPointer(
                       context.program_info.attributes_locations.vertex_position,
                       3, // components count
@@ -145,7 +147,7 @@
                   context.gl.drawArrays(
                       context.gl.TRIANGLES,
                       0, // offset
-                      buffers.vertex_count, // vertex count
+                      context.buffers.vertex_count, // vertex count
                   );
               }
 
@@ -154,7 +156,32 @@
           window.onload = function() {
               context = VENC_WEB_GL.init(document.querySelector("#glCanvas"));
               
-              // Loading binary data should be there             
+              // Loading binary data should be there   
+              
+              raw_normals = [
+                  0.000000, 0.000000, 1.000000,
+                  0.000000, 0.000000, 1.000000,
+                  0.000000, -1.000000, 0.000000,
+                  0.000000, -1.000000, 0.000000,
+                  -1.000000, 0.000000, 0.000000,
+                  -1.000000, 0.000000, 0.000000,
+                  0.000000, 0.000000, -1.000000,
+                  0.000000, 0.000000, -1.000000,
+                  1.000000, 0.000000, 0.000000,
+                  1.000000, 0.000000, 0.000000,
+                  0.000000, 1.000000, 0.000000,
+                  0.000000, 1.000000, 0.000000,
+              ]
+              
+              normals = []
+              for (var i = 0; i < raw_normals; i+=3) {
+                  for (var j = 0; j<3; j+=1) {
+                     normals.push(raw_normals[i])
+                     normals.push(raw_normals[i+1])
+                     normals.push(raw_normals[i+2])
+                  }
+              }
+                        
               const position_buffer = context.gl.createBuffer();
             
               context.gl.bindBuffer(context.gl.ARRAY_BUFFER, position_buffer);
@@ -163,6 +190,7 @@
                   1.000000, 1.000000, 1.000000,
                   -1.000000, 1.000000, 1.000000,
                   -1.000000, -1.000000, 1.000000,
+                  
                   1.000000, 1.000000, 1.000000,
                   -1.000000, -1.000000, 1.000000,
                   1.000000, -1.000000, 1.000000,
@@ -170,13 +198,15 @@
                   1.000000, -1.000000, -1.000000,
                   1.000000, -1.000000, 1.000000,
                   -1.000000, -1.000000, 1.000000,
+                  
                   1.000000, -1.000000, -1.000000,
                   -1.000000, -1.000000, 1.000000,
                   -1.000000, -1.000000, -1.000000,
                   
-                  -1.000000, -1.000000, -1.000000
-                  -1.000000, -1.000000, 1.000000
-                  -1.000000, 1.000000, 1.000000
+                  -1.000000, -1.000000, -1.000000,
+                  -1.000000, -1.000000, 1.000000,
+                  -1.000000, 1.000000, 1.000000,
+                  
                   -1.000000, -1.000000, -1.000000,
                   -1.000000, 1.000000, 1.000000,
                   -1.000000, 1.000000, -1.000000,
@@ -184,6 +214,7 @@
                   -1.000000, 1.000000, -1.000000,
                   1.000000, 1.000000, -1.000000,
                   1.000000, -1.000000, -1.000000,
+                  
                   -1.000000, 1.000000, -1.000000,
                   1.000000, -1.000000, -1.000000,
                   -1.000000, -1.000000, -1.000000,
@@ -191,28 +222,26 @@
                   1.000000, 1.000000, -1.000000,
                   1.000000, 1.000000, 1.000000,
                   1.000000, -1.000000, 1.000000,
+                  
                   1.000000, 1.000000, -1.000000,
                   1.000000, -1.000000, 1.000000,
-                  1.000000, -1.000000, -1.000000,
-                  
-                  -1.000000, 1.000000, -1.000000,
-                  -1.000000, 1.000000, 1.000000,
-                  1.000000, 1.000000, 1.000000,
-                  -1.000000, 1.000000, -1.000000,
-                  1.000000, 1.000000, 1.000000,
-                  1.000000, 1.000000, -1.000000
+                  1.000000, -1.000000, -1.000000
               ]
            
               context.gl.bufferData(context.gl.ARRAY_BUFFER, new Float32Array(positions), context.gl.STATIC_DRAW);
-            
-              buffers =  {
+              context.buffers =  {
                 vertex_count: positions.length / 3,
                 position: position_buffer,
               };
       
-              VENC_WEB_GL.draw_scene(context, buffers);
-  
+           		context.timer = setInterval(render, 40, context);  
           };
+          
+          function render(context) {
+              context.rotation_x+=0.05;
+              context.rotation_y+=0.025;
+              VENC_WEB_GL.draw_scene(context);
+          }
           
       </script>
       <style type="text/css">
