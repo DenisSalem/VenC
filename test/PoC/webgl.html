@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <script type="text/javascript">          
+          VENC_WEB_GL = {
+              vertex_shader_source : `
+                  attribute vec4 vertex_position;
+                  uniform mat4 model_view_matrix;
+                  uniform mat4 projection_matrix;
+                  void main() {
+                      gl_Position = projection_matrix *  model_view_matrix * vertex_position;
+                  }
+              `,
+              fragment_shader_source : `
+                  void main() {
+                    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+                  }
+              `,
+              init_shader_program : function(gl) {
+                  const vertex_shader = this.load_shader(gl, gl.VERTEX_SHADER, this.vertex_shader_source);
+                  const fragment_shader = this.load_shader(gl, gl.FRAGMENT_SHADER, this.fragment_shader_source);
+                      
+                  const shader_program = gl.createProgram();
+                  gl.attachShader(shader_program, vertex_shader);
+                  gl.attachShader(shader_program, fragment_shader);
+                  gl.linkProgram(shader_program);
+            
+                  if (!gl.getProgramParameter(shader_program, gl.LINK_STATUS)) {
+                      console.log("VenC: gl.getProgramParameter(shaderProgram, gl.LINK_STATUS) has failed with the following message:\n"+gl.getProgramInfoLog(shader_program));
+                      return null;
+                  }
+            
+                  return shader_program;
+              },
+              load_shader : function(gl, type, source) {
+                  const shader = gl.createShader(type);
+                  gl.shaderSource(shader, source);
+                  gl.compileShader(shader);
+                        
+                  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                      console.log("VenC: gl.getShaderParameter(shader, gl.COMPILE_STATUS) has failed with the following message:\n"+ gl.getShaderInfoLog(shader));
+                      gl.deleteShader(shader);
+                      return null;
+                  }
+              
+                  return shader;
+              },
+              init: function(canvas) {
+                  VENC_WEB_GL_CONTEXT = {
+                    gl: canvas.getContext("webgl")
+                  };
+                  
+                  if (!VENC_WEB_GL_CONTEXT.gl) {
+                      console.log("VenC: Cannot initialize WebGL.");
+                      return null;
+                  }
+
+                  VENC_WEB_GL_CONTEXT.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+                  VENC_WEB_GL_CONTEXT.gl.clear(VENC_WEB_GL_CONTEXT.gl.COLOR_BUFFER_BIT | VENC_WEB_GL_CONTEXT.gl.DEPTH_BUFFER_BIT);
+                  
+                  VENC_WEB_GL_CONTEXT.shader_program = VENC_WEB_GL.init_shader_program(VENC_WEB_GL_CONTEXT.gl);
+                  VENC_WEB_GL_CONTEXT.program_info = {
+                      attributes_locations: {
+                        vertex_position: VENC_WEB_GL_CONTEXT.gl.getAttribLocation(VENC_WEB_GL_CONTEXT.shader_program, "vertex_position"),
+                      },
+                      uniform_locations: {
+                        projection_matrix: VENC_WEB_GL_CONTEXT.gl.getUniformLocation(VENC_WEB_GL_CONTEXT.shader_program, "projection_matrix"),
+                        model_view_matrix: VENC_WEB_GL_CONTEXT.gl.getUniformLocation(VENC_WEB_GL_CONTEXT.shader_program, "model_view_matrix"),
+                      }
+                  };
+                  return VENC_WEB_GL_CONTEXT;
+                  
+              }
+          };
+          
+          window.onload = function() {
+              context = VENC_WEB_GL.init(document.querySelector("#glCanvas"));
+          };
+          
+      </script>
+  </head>
+  <body>
+      <canvas id="glCanvas">
+      </canvas>
+  </body>
+</html>
