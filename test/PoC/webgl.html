@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <script type="text/javascript">          
+      <script src="gl-matrix-min.js" type="text/javascript"></script>
+      <script type="text/javascript">
+          const { mat2, mat2d, mat4, mat3, quat, quat2, vec2, vec3, vec4 } = glMatrix;
+          
           VENC_WEB_GL = {
               vertex_shader_source : `
                   attribute vec4 vertex_position;
@@ -68,19 +71,110 @@
                         model_view_matrix: VENC_WEB_GL_CONTEXT.gl.getUniformLocation(VENC_WEB_GL_CONTEXT.shader_program, "model_view_matrix"),
                       }
                   };
-                  return VENC_WEB_GL_CONTEXT;
                   
+                  return VENC_WEB_GL_CONTEXT;
+              },
+              draw_scene: function(context, buffers) {
+                  context.gl.clearColor(0.0, 0.0, 0.0, 1.0); // TODO: should be user defined
+                  context.gl.clearDepth(1.0);
+                  context.gl.enable(context.gl.DEPTH_TEST);
+                  context.gl.depthFunc(context.gl.LEQUAL);
+                              
+                  context.gl.clear(context.gl.COLOR_BUFFER_BIT | context.gl.DEPTH_BUFFER_BIT);
+                
+                  const field_of_view = (45 * Math.PI) / 180; // en radians
+                  const aspect = context.gl.canvas.clientWidth / context.gl.canvas.clientHeight;
+                  const z_near = 0.1;
+                  const z_far = 100.0;
+                  const projection_matrix = mat4.create();
+                
+                  mat4.perspective(projection_matrix, field_of_view, aspect, z_near, z_far);
+                
+                  const model_view_matrix = mat4.create();
+                
+                  // Commencer maintenant à déplacer la position de dessin un peu vers là où
+                  // nous voulons commencer à dessiner le carré.
+                
+                  mat4.translate(
+                      model_view_matrix, // matrice de destination
+                      model_view_matrix, // matrice de déplacement
+                      [-0.0, 0.0, -6.0],
+                  ); // quantité de déplacement
+                
+
+                  context.gl.bindBuffer(context.gl.ARRAY_BUFFER, buffers.position);
+                  context.gl.vertexAttribPointer(
+                      context.program_info.attributes_locations.vertex_position,
+                      2, // components count
+                      context.gl.FLOAT, // type
+                      false, // normalize
+                      0, // stride
+                      0, // offset
+                  );
+                  
+                  context.gl.enableVertexAttribArray(context.program_info.attributes_locations.vertex_position);
+                                
+                  context.gl.useProgram(context.shader_program);
+                                
+                  context.gl.uniformMatrix4fv(
+                      context.program_info.uniform_locations.projection_matrix,
+                      false,
+                      projection_matrix,
+                  );
+                  
+                  context.gl.uniformMatrix4fv(
+                      context.program_info.uniform_locations.model_view_matrix,
+                      false,
+                      model_view_matrix,
+                  );
+                
+                  context.gl.drawArrays(
+                      context.gl.TRIANGLE_STRIP,
+                      0, // offset
+                      4, // vertex count
+                  );
               }
+
           };
           
           window.onload = function() {
               context = VENC_WEB_GL.init(document.querySelector("#glCanvas"));
+              
+              // Créer un tampon des positions pour le carré.
+            
+              const position_buffer = context.gl.createBuffer();
+            
+              // Définir le positionBuffer comme étant celui auquel appliquer les opérations
+              // de tampon à partir d'ici.
+            
+              context.gl.bindBuffer(context.gl.ARRAY_BUFFER, position_buffer);
+            
+              // Créer maintenant un tableau des positions pour le carré.
+            
+              const positions = [1.0, 1.0, -1.0, 1.0, 1.0, -1.0, -1.0, -1.0];
+            
+              // Passer mainenant la liste des positions à WebGL pour construire la forme.
+              // Nous faisons cela en créant un Float32Array à partir du tableau JavaScript,
+              // puis en l'utilisant pour remplir le tampon en cours.
+            
+              context.gl.bufferData(context.gl.ARRAY_BUFFER, new Float32Array(positions), context.gl.STATIC_DRAW);
+            
+              buffers =  {
+                position: position_buffer,
+              };
+      
+              VENC_WEB_GL.draw_scene(context, buffers);
+  
           };
           
       </script>
+      <style type="text/css">
+          canvas {
+          }
+      </style>
   </head>
   <body>
-      <canvas id="glCanvas">
+      <canvas id="glCanvas" width="1024" height="480">
       </canvas>
   </body>
 </html>
