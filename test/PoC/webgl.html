@@ -8,15 +8,33 @@
           VENC_WEB_GL = {
               vertex_shader_source : `
                   attribute vec3 vertex_position;
+                  attribute vec3 vertex_normal;
+
+                  uniform mat4 normal_matrix;
                   uniform mat4 model_view_matrix;
                   uniform mat4 projection_matrix;
+                  
+                  varying highp vec3 lighting;
+    
                   void main() {
+                      vec3 ambient_light = vec3(0.5, 0.5, 0.5);
+                      vec3 directional_light_color = vec3(0.5, 0.5, 0.75);
+                      vec3 directional_vector = normalize(vec3(0.5, 0.5, 0.75));
+                      
+                      vec4 transformed_normal = normal_matrix * vec4(vertex_normal, 1.0);
+    
+                      float directional = max(dot(transformed_normal.xyz, directional_vector), 0.0);
+                      
+                      lighting = ambient_light + (directional_light_color * directional);
+                  
                       gl_Position = projection_matrix *  model_view_matrix * vec4(vertex_position,1.0);
                   }
               `,
               fragment_shader_source : `
+                  varying highp vec3 lighting;
+
                   void main() {
-                    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+                    gl_FragColor = vec4(lighting.rgb, 1.0);
                   }
               `,
               init_shader_program : function(gl) {
@@ -64,16 +82,19 @@
                   VENC_WEB_GL_CONTEXT.gl.clear(VENC_WEB_GL_CONTEXT.gl.COLOR_BUFFER_BIT | VENC_WEB_GL_CONTEXT.gl.DEPTH_BUFFER_BIT);
                   
                   VENC_WEB_GL_CONTEXT.shader_program = VENC_WEB_GL.init_shader_program(VENC_WEB_GL_CONTEXT.gl);
+                  
                   VENC_WEB_GL_CONTEXT.program_info = {
                       attributes_locations: {
                         vertex_position: VENC_WEB_GL_CONTEXT.gl.getAttribLocation(VENC_WEB_GL_CONTEXT.shader_program, "vertex_position"),
+                        normal: VENC_WEB_GL_CONTEXT.gl.getAttribLocation(VENC_WEB_GL_CONTEXT.shader_program, "vertex_normal"),
                       },
                       uniform_locations: {
                         projection_matrix: VENC_WEB_GL_CONTEXT.gl.getUniformLocation(VENC_WEB_GL_CONTEXT.shader_program, "projection_matrix"),
                         model_view_matrix: VENC_WEB_GL_CONTEXT.gl.getUniformLocation(VENC_WEB_GL_CONTEXT.shader_program, "model_view_matrix"),
+                        normal_matrix:     VENC_WEB_GL_CONTEXT.gl.getUniformLocation(VENC_WEB_GL_CONTEXT.shader_program, "normal_matrix")
                       }
                   };
-                  
+              
                   return VENC_WEB_GL_CONTEXT;
               },
               draw_scene: function(context, buffers) {
@@ -115,20 +136,8 @@
                       model_view_matrix, // matrice de destination
                       model_view_matrix, // matrice de déplacement
                       context.rotation_y,
-                      [0, 1, 0],
+                      [0, 1, 0]
                   );
-
-                  context.gl.bindBuffer(context.gl.ARRAY_BUFFER, context.buffers.position);
-                  context.gl.vertexAttribPointer(
-                      context.program_info.attributes_locations.vertex_position,
-                      3, // components count
-                      context.gl.FLOAT, // type
-                      false, // normalize
-                      0, // stride
-                      0, // offset
-                  );
-                  
-                  context.gl.enableVertexAttribArray(context.program_info.attributes_locations.vertex_position);
                                 
                   context.gl.useProgram(context.shader_program);
                                 
@@ -144,6 +153,38 @@
                       model_view_matrix,
                   );
                 
+                  var normal_matrix = mat4.create();
+                  mat4.invert(normal_matrix, model_view_matrix);
+                  mat4.transpose(normal_matrix, normal_matrix);
+                  
+                  context.gl.uniformMatrix4fv(
+                    context.program_info.uniform_locations.normal_matrix,
+                    false,
+                    new Float32Array(normal_matrix)
+                  );
+
+                  context.gl.bindBuffer(context.gl.ARRAY_BUFFER, context.buffers.position);
+                  context.gl.vertexAttribPointer(
+                      context.program_info.attributes_locations.vertex_position,
+                      3, // components count
+                      context.gl.FLOAT, // type
+                      false, // normalize
+                      0, // stride
+                      0, // offset
+                  );
+                  context.gl.enableVertexAttribArray(context.program_info.attributes_locations.vertex_position);
+
+                  context.gl.bindBuffer(context.gl.ARRAY_BUFFER, context.buffers.normal);
+                  context.gl.vertexAttribPointer(
+                      context.program_info.attributes_locations.normal,
+                      3, // components count // On devrait pouvoir optimiser cette partie en indiquant qu'il n'y a qu'une seul composante.
+                      context.gl.FLOAT, // type
+                      false, // normalize
+                      0, // stride
+                      0, // offset
+                  );
+                  context.gl.enableVertexAttribArray(context.program_info.attributes_locations.normal);
+                  
                   context.gl.drawArrays(
                       context.gl.TRIANGLES,
                       0, // offset
@@ -157,7 +198,6 @@
               context = VENC_WEB_GL.init(document.querySelector("#glCanvas"));
               
               // Loading binary data should be there   
-              
               raw_normals = [
                   0.000000, 0.000000, 1.000000,
                   0.000000, 0.000000, 1.000000,
@@ -174,18 +214,16 @@
               ]
               
               normals = []
-              for (var i = 0; i < raw_normals; i+=3) {
+              for (var i = 0; i < raw_normals.length; i+=3) {
                   for (var j = 0; j<3; j+=1) {
                      normals.push(raw_normals[i])
                      normals.push(raw_normals[i+1])
                      normals.push(raw_normals[i+2])
                   }
               }
+              
+              console.log(normals.length);
                         
-              const position_buffer = context.gl.createBuffer();
-            
-              context.gl.bindBuffer(context.gl.ARRAY_BUFFER, position_buffer);
-            
               const positions = [
                   1.000000, 1.000000, 1.000000,
                   -1.000000, 1.000000, 1.000000,
@@ -227,13 +265,22 @@
                   1.000000, -1.000000, 1.000000,
                   1.000000, -1.000000, -1.000000
               ]
-           
+                                      
+              const normal_buffer = context.gl.createBuffer();
+              const position_buffer = context.gl.createBuffer();
+            
+              context.gl.bindBuffer(context.gl.ARRAY_BUFFER, position_buffer);
               context.gl.bufferData(context.gl.ARRAY_BUFFER, new Float32Array(positions), context.gl.STATIC_DRAW);
+              
+              context.gl.bindBuffer(context.gl.ARRAY_BUFFER, normal_buffer);
+              context.gl.bufferData(context.gl.ARRAY_BUFFER, new Float32Array(normals), context.gl.STATIC_DRAW);
+              
               context.buffers =  {
                 vertex_count: positions.length / 3,
                 position: position_buffer,
+                normal: normal_buffer
               };
-      
+
            		context.timer = setInterval(render, 40, context);  
           };
           
