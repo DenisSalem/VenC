@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8" />
+      <script src="gl-matrix-min.js" type="text/javascript"></script>
+      <script type="text/javascript">
+          const { mat4 } = glMatrix;
+          
+          function isNumber(value) {
+              return typeof value === 'number';
+          }
+          
+          VENC_WEB_GL = {
+              vertex_shader_source : `
+                  attribute vec3 vertex_position;
+                  attribute vec3 vertex_normal;
+
+                  uniform mat4 normal_matrix;
+                  uniform mat4 model_view_matrix;
+                  uniform mat4 projection_matrix;
+                  
+                  varying highp vec3 lighting;
+    
+                  void main() {
+                      vec3 ambient_light = vec3(0.25, 0.25, 0.25);
+                      vec3 directional_light_color = vec3(0.75, 0.75, 0.75);
+                      vec3 directional_vector = normalize(vec3(1, 1, 1));
+                      
+                      vec4 transformed_normal = normal_matrix * vec4(vertex_normal, 1.0);
+    
+                      float directional = max(dot(transformed_normal.xyz, directional_vector), 0.0);
+                      
+                      lighting = ambient_light + (directional_light_color * directional);
+                  
+                      gl_Position = projection_matrix *  model_view_matrix * vec4(vertex_position,1.0);
+                  }
+              `,
+              fragment_shader_source : `
+                  varying highp vec3 lighting;
+
+                  void main() {
+                    gl_FragColor = vec4(lighting.rgb, 1.0);
+                  }
+              `,
+              init_shader_program : function(gl) {
+                  const vertex_shader = this.load_shader(gl, gl.VERTEX_SHADER, this.vertex_shader_source);
+                  const fragment_shader = this.load_shader(gl, gl.FRAGMENT_SHADER, this.fragment_shader_source);
+                      
+                  const shader_program = gl.createProgram();
+                  gl.attachShader(shader_program, vertex_shader);
+                  gl.attachShader(shader_program, fragment_shader);
+                  gl.linkProgram(shader_program);
+            
+                  if (!gl.getProgramParameter(shader_program, gl.LINK_STATUS)) {
+                      console.log("VenC: gl.getProgramParameter(shaderProgram, gl.LINK_STATUS) has failed with the following message:\n"+gl.getProgramInfoLog(shader_program));
+                      return null;
+                  }
+            
+                  return shader_program;
+              },
+              load_shader : function(gl, type, source) {
+                  const shader = gl.createShader(type);
+                  gl.shaderSource(shader, source);
+                  gl.compileShader(shader);
+                        
+                  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                      console.log("VenC: gl.getShaderParameter(shader, gl.COMPILE_STATUS) has failed with the following message:\n"+ gl.getShaderInfoLog(shader));
+                      gl.deleteShader(shader);
+                      return null;
+                  }
+              
+                  return shader;
+              },
+              init: function(canvas, mesh_url) {
+                  VENC_WEB_GL_CONTEXT = {
+                    gl: canvas.getContext("webgl"),
+                    rotation_x: 0,
+                    rotation_y: 0,
+                    mesh : {
+                        positions : [],
+                        normals : []
+                    },
+                    ready: false
+                  };
+                  
+                  if (!VENC_WEB_GL_CONTEXT.gl) {
+                      console.log("VenC: Cannot initialize WebGL.");
+                      return null;
+                  }
+                  
+                  query = new XMLHttpRequest();                  
+                  query.open("GET", mesh_url, true);
+                  query.responseType = "arraybuffer";
+                  var mesh_data
+                  query.onreadystatechange = function(e) {
+                      if (this.readyState == 4) {
+                          var array_buffer = query.response;
+                          var byte_array = new Uint8Array(array_buffer);
+                          triangles_count =
+                              byte_array[80] +
+                              (byte_array[81] << 8 ) +
+                              (byte_array[82] << 16) +
+                              (byte_array[83] << 24);
+    
+                          console.log("VenC: WebGL: "+mesh_url+" is "+byte_array.length.toString()+" bytes.");                          
+                          console.log("VenC: WebGL: "+mesh_url+" has "+triangles_count.toString()+" triangles.");
+                          
+                          for (i = 84; i < byte_array.length; i+=50) {
+                              // Duplicate each normal for each vertex
+                              for (var j = 0; j < 3; j++) { 
+                                  VENC_WEB_GL_CONTEXT.mesh.normals.push(new DataView(byte_array.slice(i,i+4).reverse().buffer).getFloat32(0));
+                                  VENC_WEB_GL_CONTEXT.mesh.normals.push(new DataView(byte_array.slice(i+4,i+8).reverse().buffer).getFloat32(0));
+                                  VENC_WEB_GL_CONTEXT.mesh.normals.push(new DataView(byte_array.slice(i+8,i+12).reverse().buffer).getFloat32(0));
+                              }
+                              
+                              VENC_WEB_GL_CONTEXT.mesh.positions.push(new DataView(byte_array.slice(i+12,i+16).reverse().buffer).getFloat32(0));
+                              VENC_WEB_GL_CONTEXT.mesh.positions.push(new DataView(byte_array.slice(i+16,i+20).reverse().buffer).getFloat32(0));
+                              VENC_WEB_GL_CONTEXT.mesh.positions.push(new DataView(byte_array.slice(i+20,i+24).reverse().buffer).getFloat32(0));
+                              
+                              VENC_WEB_GL_CONTEXT.mesh.positions.push(new DataView(byte_array.slice(i+24,i+28).reverse().buffer).getFloat32(0));
+                              VENC_WEB_GL_CONTEXT.mesh.positions.push(new DataView(byte_array.slice(i+28,i+32).reverse().buffer).getFloat32(0));
+                              VENC_WEB_GL_CONTEXT.mesh.positions.push(new DataView(byte_array.slice(i+32,i+36).reverse().buffer).getFloat32(0));
+                              
+                              VENC_WEB_GL_CONTEXT.mesh.positions.push(new DataView(byte_array.slice(i+36,i+40).reverse().buffer).getFloat32(0));
+                              VENC_WEB_GL_CONTEXT.mesh.positions.push(new DataView(byte_array.slice(i+40,i+44).reverse().buffer).getFloat32(0));
+                              VENC_WEB_GL_CONTEXT.mesh.positions.push(new DataView(byte_array.slice(i+44,i+48).reverse().buffer).getFloat32(0));
+                          }
+                          VENC_WEB_GL_CONTEXT.shader_program = VENC_WEB_GL.init_shader_program(VENC_WEB_GL_CONTEXT.gl);
+                          
+                          VENC_WEB_GL_CONTEXT.program_info = {
+                              attributes_locations: {
+                                vertex_position: VENC_WEB_GL_CONTEXT.gl.getAttribLocation(VENC_WEB_GL_CONTEXT.shader_program, "vertex_position"),
+                                normal: VENC_WEB_GL_CONTEXT.gl.getAttribLocation(VENC_WEB_GL_CONTEXT.shader_program, "vertex_normal"),
+                              },
+                              uniform_locations: {
+                                projection_matrix: VENC_WEB_GL_CONTEXT.gl.getUniformLocation(VENC_WEB_GL_CONTEXT.shader_program, "projection_matrix"),
+                                model_view_matrix: VENC_WEB_GL_CONTEXT.gl.getUniformLocation(VENC_WEB_GL_CONTEXT.shader_program, "model_view_matrix"),
+                                normal_matrix:     VENC_WEB_GL_CONTEXT.gl.getUniformLocation(VENC_WEB_GL_CONTEXT.shader_program, "normal_matrix")
+                              }
+                          };
+        
+                          const normal_buffer = context.gl.createBuffer();
+                          const position_buffer = context.gl.createBuffer();
+                        
+                          VENC_WEB_GL_CONTEXT.gl.bindBuffer(context.gl.ARRAY_BUFFER, position_buffer);
+                          VENC_WEB_GL_CONTEXT.gl.bufferData(context.gl.ARRAY_BUFFER, new Float32Array(VENC_WEB_GL_CONTEXT.mesh.positions), context.gl.STATIC_DRAW);
+                          
+                          VENC_WEB_GL_CONTEXT.gl.bindBuffer(context.gl.ARRAY_BUFFER, normal_buffer);
+                          VENC_WEB_GL_CONTEXT.gl.bufferData(context.gl.ARRAY_BUFFER, new Float32Array(VENC_WEB_GL_CONTEXT.mesh.normals), context.gl.STATIC_DRAW);
+                          
+                          VENC_WEB_GL_CONTEXT.buffers =  {
+                              vertex_count: VENC_WEB_GL_CONTEXT.mesh.positions.length / 3,
+                              position: position_buffer,
+                              normal: normal_buffer
+                          };
+                          
+                          x_positions = [];
+                          y_positions = [];
+                          z_positions = [];
+                          
+                          for (var i = 0; i< VENC_WEB_GL_CONTEXT.mesh.positions.length; i+=3) {
+                              x_positions.push(VENC_WEB_GL_CONTEXT.mesh.positions[i]);
+                              y_positions.push(VENC_WEB_GL_CONTEXT.mesh.positions[i+1]);
+                              z_positions.push(VENC_WEB_GL_CONTEXT.mesh.positions[i+2]);
+                          }                         
+                          
+                          x_max = Math.max.apply(Math, x_positions); x_min = Math.min.apply(Math, x_positions);
+                          y_max = Math.max.apply(Math, y_positions); y_min = Math.min.apply(Math, y_positions); 
+                          z_max = Math.max.apply(Math, z_positions); z_min = Math.min.apply(Math, z_positions); 
+
+                          VENC_WEB_GL_CONTEXT.scale_ratio = 1 / Math.max(
+                              x_max - x_min,
+                              y_max - y_min,
+                              z_max - z_min
+                          );
+                          
+                          VENC_WEB_GL_CONTEXT.offset_x = (x_max + x_min ) / 2;
+                          VENC_WEB_GL_CONTEXT.offset_y = (y_max + y_min ) / 2;
+                          VENC_WEB_GL_CONTEXT.offset_z = (z_max + z_min ) / 2;
+                
+                          VENC_WEB_GL_CONTEXT.mesh.normals = [];
+                          VENC_WEB_GL_CONTEXT.mesh.positions = [];
+                          VENC_WEB_GL_CONTEXT.ready = true;
+                      }
+                  };
+                   
+                  query.send(); 
+
+                  return VENC_WEB_GL_CONTEXT;
+              },
+              draw_scene: function(context, buffers) {
+                  context.gl.clearDepth(1.0);
+                  context.gl.enable(context.gl.DEPTH_TEST);
+                  context.gl.depthFunc(context.gl.LEQUAL);
+
+                  context.gl.clearColor(0.0, 0.0, 0.0, 0.5); // TODO: should be user defined                              
+                  context.gl.clear(context.gl.COLOR_BUFFER_BIT | context.gl.DEPTH_BUFFER_BIT);
+                
+                  const field_of_view = (45 * Math.PI) / 180; // en radians
+                  const aspect = context.gl.canvas.clientWidth / context.gl.canvas.clientHeight;
+                  const z_near = 0.1;
+                  const z_far = 1000.0;
+                  const projection_matrix = mat4.create();
+
+                                  
+                  mat4.perspective(projection_matrix, field_of_view, aspect, z_near, z_far);
+
+                  model_matrix = mat4.create();
+                  
+                  mat4.translate(
+                      model_matrix,
+                      model_matrix,
+                      [
+                        -context.offset_x*VENC_WEB_GL_CONTEXT.scale_ratio,
+                        -context.offset_y*VENC_WEB_GL_CONTEXT.scale_ratio,
+                        -context.offset_z*VENC_WEB_GL_CONTEXT.scale_ratio
+                      ]
+                  );
+                  
+                  mat4.scale(
+                      model_matrix,
+                      model_matrix,
+                      [
+                        VENC_WEB_GL_CONTEXT.scale_ratio,
+                        VENC_WEB_GL_CONTEXT.scale_ratio,
+                        VENC_WEB_GL_CONTEXT.scale_ratio
+                      ]
+                  );
+                                    
+                  view_matrix = mat4.create();
+                  
+                  mat4.translate(
+                      view_matrix, 
+                      view_matrix,
+                      [
+                        0,
+                        0,
+                        -2.5
+                      ]
+                  );
+                  
+                  //~ mat4.rotate(
+                      //~ model_view_matrix,
+                      //~ model_view_matrix,
+                      //~ context.rotation_x,
+                      //~ [1, 0, 0],
+                  //~ );
+                  
+                  mat4.rotate(
+                      view_matrix,
+                      view_matrix,
+                      context.rotation_y,
+                      [0, 1, 0]
+                  );
+                  
+                  //~ mat4.rotate(
+                      //~ model_view_matrix,
+                      //~ model_view_matrix,
+                      //~ context.rotation_y,
+                      //~ [0, 0, 1]
+                  //~ );
+                  
+                  model_view_matrix = mat4.create();        
+                  
+                  mat4.multiply(model_view_matrix, view_matrix, model_matrix);
+                  
+                  var normal_matrix = mat4.create();
+                  mat4.invert(normal_matrix, view_matrix);
+                  mat4.transpose(normal_matrix, normal_matrix);
+                  
+                  context.gl.useProgram(context.shader_program);
+                                
+                  context.gl.uniformMatrix4fv(
+                      context.program_info.uniform_locations.projection_matrix,
+                      false,
+                      projection_matrix,
+                  );
+                  
+                  context.gl.uniformMatrix4fv(
+                      context.program_info.uniform_locations.model_view_matrix,
+                      false,
+                      model_view_matrix,
+                  );
+                  
+                  context.gl.uniformMatrix4fv(
+                    context.program_info.uniform_locations.normal_matrix,
+                    false,
+                    new Float32Array(normal_matrix)
+                  );
+
+                  context.gl.bindBuffer(context.gl.ARRAY_BUFFER, context.buffers.position);
+                  context.gl.vertexAttribPointer(
+                      context.program_info.attributes_locations.vertex_position,
+                      3, // components count
+                      context.gl.FLOAT, // type
+                      false, // normalize
+                      0, // stride
+                      0, // offset
+                  );
+                  
+                  context.gl.enableVertexAttribArray(context.program_info.attributes_locations.vertex_position);
+
+                  context.gl.bindBuffer(context.gl.ARRAY_BUFFER, context.buffers.normal);
+                  context.gl.vertexAttribPointer(
+                      context.program_info.attributes_locations.normal,
+                      3, // components count
+                      context.gl.FLOAT, // type
+                      false, // normalize
+                      0, // stride
+                      0, // offset
+                  );
+                  
+                  context.gl.enableVertexAttribArray(context.program_info.attributes_locations.normal);
+                  
+                  context.gl.drawArrays(
+                      context.gl.TRIANGLES,
+                      0, // offset
+                      context.buffers.vertex_count, // vertex count
+                  );
+              }
+
+          };
+          
+          window.onload = function() {
+              context = VENC_WEB_GL.init(document.querySelector("#glCanvas"), "./coverguard.stl");
+
+           		context.timer = setInterval(render, 40, context);  
+          };
+          
+          function render(context) {
+              if (context.ready) {
+                  context.rotation_x+=0.125;
+                  context.rotation_y+=0.125;
+                  VENC_WEB_GL.draw_scene(context);
+              }
+              else {
+                  console.log("VenC: WebGL: Mesh is not ready.");
+              }
+          }
+          
+      </script>
+      <style type="text/css">
+          canvas {
+          }
+      </style>
+  </head>
+  <body>
+      <canvas id="glCanvas" width="800" height="800">
+      </canvas>
+  </body>
+</html>
