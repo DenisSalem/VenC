@@ -88,6 +88,42 @@
                       return null;
                   }
                   
+                  VENC_WEB_GL_CONTEXT.canvas = canvas;
+                  VENC_WEB_GL_CONTEXT.tracking = false;
+                  VENC_WEB_GL_CONTEXT.mouse_motions = {
+                      current_x : 0,
+                      current_y : 0,
+                      base_x: 0,
+                      base_y: 0
+                  };
+                  
+                  canvas.addEventListener('mouseup', function(event) {
+                          VENC_WEB_GL_CONTEXT.tracking = false;
+                          VENC_WEB_GL_CONTEXT.mouse_motions = {
+                              current_x : 0,
+                              current_y : 0,
+                              base_x: (VENC_WEB_GL_CONTEXT.mouse_motions.base_x + VENC_WEB_GL_CONTEXT.mouse_motions.current_x) % (2*3.141592),
+                              base_y: (VENC_WEB_GL_CONTEXT.mouse_motions.base_y + VENC_WEB_GL_CONTEXT.mouse_motions.current_y) % (2*3.141592)
+                          };
+                  })
+                  
+                  canvas.addEventListener('mousedown', function(event) {
+                          VENC_WEB_GL_CONTEXT.tracking = true;
+                  })
+
+                  canvas.addEventListener('mousemove', function(event) {
+                          if (VENC_WEB_GL_CONTEXT.tracking) {
+                              const rect = VENC_WEB_GL_CONTEXT.canvas.getBoundingClientRect();
+                              VENC_WEB_GL_CONTEXT.mouse_motions.current_x += event.movementX*0.05;
+                              VENC_WEB_GL_CONTEXT.mouse_motions.current_y += event.movementY*0.05;
+                          }
+                  })
+                  
+                  canvas.addEventListener("wheel", function(event) {
+                      console.log("Scale:", event.deltaY);
+                      VENC_WEB_GL_CONTEXT.scale_ratio += event.deltaY * -0.000001;
+                  });
+                                    
                   query = new XMLHttpRequest();                  
                   query.open("GET", mesh_url, true);
                   query.responseType = "arraybuffer";
@@ -239,26 +275,19 @@
                       ]
                   );
                   
-                  //~ mat4.rotate(
-                      //~ model_view_matrix,
-                      //~ model_view_matrix,
-                      //~ context.rotation_x,
-                      //~ [1, 0, 0],
-                  //~ );
+                  mat4.rotate(
+                      view_matrix,
+                      view_matrix,
+                      context.mouse_motions.base_y,
+                      [1, 0, 0],
+                  );
                   
                   mat4.rotate(
                       view_matrix,
                       view_matrix,
-                      context.rotation_y,
+                      context.mouse_motions.base_x,
                       [0, 1, 0]
                   );
-                  
-                  //~ mat4.rotate(
-                      //~ model_view_matrix,
-                      //~ model_view_matrix,
-                      //~ context.rotation_y,
-                      //~ [0, 0, 1]
-                  //~ );
                   
                   model_view_matrix = mat4.create();        
                   
@@ -324,13 +353,18 @@
           window.onload = function() {
               context = VENC_WEB_GL.init(document.querySelector("#glCanvas"), "./coverguard.stl");
 
-           		context.timer = setInterval(render, 40, context);  
+           		context.timer = setInterval(render, 20, context);  
           };
           
           function render(context) {
               if (context.ready) {
-                  context.rotation_x+=0.125;
-                  context.rotation_y+=0.125;
+                  context.mouse_motions = {
+                      current_x : 0,
+                      current_y : 0,
+                      base_x: (context.mouse_motions.base_x + context.mouse_motions.current_x) % (2*3.141592),
+                      base_y: (context.mouse_motions.base_y + context.mouse_motions.current_y) % (2*3.141592)
+                  };
+                  console.log("Rotation Y", context.mouse_motions.base_x);
                   VENC_WEB_GL.draw_scene(context);
               }
               else {
