@@ -122,7 +122,9 @@
                   canvas.addEventListener("wheel", function(event) {
                       console.log("Scale:", event.deltaY);
                       VENC_WEB_GL_CONTEXT.scale_ratio += event.deltaY * -0.000001;
-                  });
+                      event.preventDefault();
+                  },
+                  false);
                                     
                   query = new XMLHttpRequest();                  
                   query.open("GET", mesh_url, true);
