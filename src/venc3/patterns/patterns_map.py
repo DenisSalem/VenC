@@ -138,6 +138,7 @@ class PatternsMap():
             "SetStyle":	                "venc3.patterns.non_contextuals.set_style",
             "Table":	                  "venc3.patterns.non_contextuals.table",
             "Video":	                  "venc3.patterns.theme.get_video",
+            "WebGL":                    "venc3.patterns.non_contextuals.webgl"
         },
     }
 

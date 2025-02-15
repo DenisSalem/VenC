@@ -184,20 +184,22 @@ function VENC_INFINITE_SCROLL_ON_LOAD() {
     catch (e) {
         console.log("VenC: There is no __VENC_LOADING__ element.");
     }
-	VENC_INFINITE_SCROLL.currentLocation = window.location.pathname.split('/')[window.location.pathname.split('/').length-1]
-	VENC_INFINITE_SCROLL.getPageHook()
-	if (VENC_INFINITE_SCROLL.hideVenCNavigation) {
-        try {
-	 	 	document.getElementById("__VENC_NAVIGATION__").style.display = "none";
-		}
-        catch (e) {
-            console.log("VenC: There is no __VENC_NAVIGATION__ element.");
-        }
-	}
-	if (VENC_INFINITE_SCROLL.end == false) {
-		VENC_INFINITE_SCROLL.domUpdate = VENC_INFINITE_SCROLL_UPDATE_DOM;
-		VENC_INFINITE_SCROLL.timer = setInterval(VENC_INFINITE_SCROLL_RUN, VENC_INFINITE_SCROLL.interval);
-	}
+    VENC_INFINITE_SCROLL.currentLocation = window.location.pathname.split('/')[window.location.pathname.split('/').length-1]
+    VENC_INFINITE_SCROLL.getPageHook()
+    if (VENC_INFINITE_SCROLL.hideVenCNavigation) {
+          try {
+        document.getElementById("__VENC_NAVIGATION__").style.display = "none";
+      }
+          catch (e) {
+              console.log("VenC: There is no __VENC_NAVIGATION__ element.");
+          }
+    }
+    if (VENC_INFINITE_SCROLL.end == false) {
+      VENC_INFINITE_SCROLL.domUpdate = VENC_INFINITE_SCROLL_UPDATE_DOM;
+      VENC_INFINITE_SCROLL.timer = setInterval(VENC_INFINITE_SCROLL_RUN, VENC_INFINITE_SCROLL.interval);
+    }
 };
 
-VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_INFINITE_SCROLL_ON_LOAD);
+if (! typeof VENC_SCRIPT_BOOTSTRAP === 'undefined') {
+    VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_INFINITE_SCROLL_ON_LOAD);
+}

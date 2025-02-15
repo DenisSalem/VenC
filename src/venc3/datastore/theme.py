@@ -91,7 +91,6 @@ def init_theme(theme_name=''):
         fd = open(theme_folder+"config.yaml",'r').read()
         try:
             config = yaml.load(fd, Loader=yaml.FullLoader)
-            fd.close()
         except Exception as e:
             from venc3.exceptions import VenCException
             VenCException(("invalid_yaml_content", theme_folder+"config.yaml", ''), context=theme_folder+"config.yaml", extra=str(e)).die()

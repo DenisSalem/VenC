@@ -17,6 +17,8 @@
  * along with VenC.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// TODO : The following work as expected but the overall code is quite dirty in its internal structure and naming convention.
+
 var VENC_WEB_GL = {
     version: "0.0.0",
     // Matrix related function are based on glMatrix.js
@@ -293,6 +295,43 @@ var VENC_WEB_GL = {
           gl_FragColor = vec4(lighting.rgb, 1.0);
         }
     `,
+    touch_start: function(e) {
+        this.VENC_WEB_GL_CONTEXT.tracking = true;
+        if (e.touches.length === 1) {
+            this.VENC_WEB_GL_CONTEXT.touch_motions = {
+                touch: true,
+                start: {
+                    x: e.touches[0].clientX,
+                    y: e.touches[0].clientY,
+                },
+            };
+        }
+    },                                                
+    touch_move: function(e) {
+        if (!this.VENC_WEB_GL_CONTEXT.touch_motions.touch) {
+            return;
+        }
+        if (e.touches.length === 1) {
+            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += (this.VENC_WEB_GL_CONTEXT.touch_motions.start.x - e.touches[0].clientX)*0.01;
+            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += (this.VENC_WEB_GL_CONTEXT.touch_motions.start.y - e.touches[0].clientY)*0.01;
+            this.VENC_WEB_GL_CONTEXT.touch_motions.start.x = e.touches[0].clientX;
+            this.VENC_WEB_GL_CONTEXT.touch_motions.start.y = e.touches[0].clientY;
+            e.preventDefault();
+        } else if (e.touches.length > 1) { // Case for zoom
+            this.VENC_WEB_GL_CONTEXT.touch_motions = null;
+        }
+        return false;
+    },
+    touch_end: function(e) {
+        this.VENC_WEB_GL_CONTEXT.tracking = false;
+        this.VENC_WEB_GL_CONTEXT.touch_motions.touch = false;
+        this.VENC_WEB_GL_CONTEXT.mouse_motions = {
+            current_x : 0,
+            current_y : 0,
+            base_x: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_x + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x) % (2*3.141592),
+            base_y: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_y + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y) % (2*3.141592)
+        };
+    },
     init_shader_program : function(gl) {
         const vertex_shader = this.load_shader(gl, gl.VERTEX_SHADER, this.vertex_shader_source);
         const fragment_shader = this.load_shader(gl, gl.FRAGMENT_SHADER, this.fragment_shader_source);
@@ -331,7 +370,8 @@ var VENC_WEB_GL = {
               positions : [],
               normals : []
           },
-          ready: false
+          ready: false,
+          mesh_url: mesh_url
         };
         
         if (!canvas.VENC_WEB_GL_CONTEXT.gl) {
@@ -347,6 +387,16 @@ var VENC_WEB_GL = {
             base_y: 0
         };
         
+        canvas.VENC_WEB_GL_CONTEXT.touch_motions = {
+            touch: false,
+            touch_start: {x: 0, y: 0},
+            touch_diff:   {x: 0, y: 0}
+        };
+        
+        canvas.addEventListener('touchstart', VENC_WEB_GL.touch_start, false);        
+        canvas.addEventListener('touchmove',  VENC_WEB_GL.touch_move,  false);        
+        canvas.addEventListener('touchend',   VENC_WEB_GL.touch_end,   false);
+    
         canvas.VENC_WEB_GL_CONTEXT.mouseup_callback = function(event) {
                 this.VENC_WEB_GL_CONTEXT.tracking = false;
                 this.VENC_WEB_GL_CONTEXT.mouse_motions = {
@@ -367,7 +417,6 @@ var VENC_WEB_GL = {
 
         canvas.VENC_WEB_GL_CONTEXT.mousemove_callback = function(event) {
                 if (this.VENC_WEB_GL_CONTEXT.tracking) {
-                    const rect = this.getBoundingClientRect();
                     this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += event.movementX*0.05;
                     this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += event.movementY*0.05;
                 }
@@ -488,7 +537,7 @@ var VENC_WEB_GL = {
         context.gl.enable(context.gl.DEPTH_TEST);
         context.gl.depthFunc(context.gl.LEQUAL);
 
-        context.gl.clearColor(0.0, 0.0, 0.0, 0.0); // TODO: should be user defined                              
+        context.gl.clearColor(0.0, 0.0, 0.0, 0.0);           
         context.gl.clear(context.gl.COLOR_BUFFER_BIT | context.gl.DEPTH_BUFFER_BIT);
       
         const field_of_view = (45 * Math.PI) / 180; // en radians
@@ -603,19 +652,18 @@ var VENC_WEB_GL = {
             VENC_WEB_GL.draw_scene(context);
         }
         else {
-            console.log("VenC: WebGL: Mesh is not ready.");
+            console.log("VenC: WebGL: Mesh", context.mesh_url, "is not ready.");
         }
     }
 };
 
 
 function VENC_WEB_GL_ADD_NEW_CANVAS() {
-    nodes = document.evaluate('//*[@data-venc-webgl-mesh]', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-    
+    nodes = document.evaluate('//*[@data-venc-webgl-mesh]', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);    
     for (var i = 0; i < nodes.snapshotLength; i++) {
         node = nodes.snapshotItem(i)
-        if (! "VENC_WEB_GL_CONTEXT" in node) {
-            VENC_WEB_GL.init(node, node.vencWebglMesh);
+        if (! ("VENC_WEB_GL_CONTEXT" in node)) {
+            VENC_WEB_GL.init(node, node.dataset.vencWebglMesh);
         }
     }
 }
@@ -624,5 +672,6 @@ function VENC_WEB_GL_ON_LOAD() {
     VENC_WEB_GL.timer = setInterval(VENC_WEB_GL_ADD_NEW_CANVAS, 250);
 }
 
-VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_WEB_GL_ON_LOAD);
-
+if (! typeof VENC_SCRIPT_BOOTSTRAP === 'undefined') {
+    VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_WEB_GL_ON_LOAD);
+}

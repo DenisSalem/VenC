@@ -331,4 +331,6 @@ function VENC_MEDIA_VIEWER_ON_LOAD() {
     VENC_MEDIA_VIEWER.timer = setInterval(VENC_MEDIA_VIEWER_REFRESH_CONTENTS, VENC_MEDIA_VIEWER.interval);
 }
 
-VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_MEDIA_VIEWER_ON_LOAD);
+if (! typeof VENC_SCRIPT_BOOTSTRAP === 'undefined') {
+    VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_MEDIA_VIEWER_ON_LOAD);
+}
