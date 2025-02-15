@@ -88,7 +88,14 @@ def init_theme(theme_name=''):
     # Override blog configuration
     if "config.yaml" in os.listdir(theme_folder) and not os.path.isdir(theme_folder+"/config.yaml"):
         import yaml
-        config = yaml.load(open(theme_folder+"/config.yaml",'r').read(), Loader=yaml.FullLoader)
+        fd = open(theme_folder+"config.yaml",'r').read()
+        try:
+            config = yaml.load(fd, Loader=yaml.FullLoader)
+            fd.close()
+        except Exception as e:
+            from venc3.exceptions import VenCException
+            VenCException(("invalid_yaml_content", theme_folder+"config.yaml", ''), context=theme_folder+"config.yaml", extra=str(e)).die()
+                    
         if "override" in config.keys():
             from venc3.prompt import notify
             if type(config["override"]) == dict:

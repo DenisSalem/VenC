@@ -27,6 +27,7 @@ class Messages:
     file_already_exists = "{0} : {1} : le fichier existe déjà."
     is_a_directory = "{0} est un répertoire."
     invalid_entry_filename = "{0} : nom de fichier invalide pour une publication."
+    invalid_yaml_content = "{0}: Erreur YAML:"
     blog_name = "Nom du blog"
     blog_url = "L'URL du blog"
     missing_params = "{0} : paramètres manquants."

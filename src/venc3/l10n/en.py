@@ -27,7 +27,8 @@ class Messages:
     file_not_found = "{0}: this file or directory does not exist."
     file_already_exists = "{0}: {1}: file or directory already exists."
     is_a_directory = "{0} is a directory."
-    invalid_entry_filename = "{0}: invalid entry filename."
+    invalid_entry_filename = "{0}: invalid entry filename.
+    invalid_yaml_content = "{0}: YAML error:"
     blog_name = "Blog name"
     blog_url = "The URL of your blog"
     missing_params = "{0}: missing arguments."
