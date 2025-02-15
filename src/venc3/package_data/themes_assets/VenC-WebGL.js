@@ -18,6 +18,7 @@
  */
 
 var VENC_WEB_GL = {
+    version: "0.0.0",
     // Matrix related function are based on glMatrix.js
     mat4_create: function() {
         var matrix = new Float32Array(16);            
@@ -623,5 +624,5 @@ function VENC_WEB_GL_ON_LOAD() {
     VENC_WEB_GL.timer = setInterval(VENC_WEB_GL_ADD_NEW_CANVAS, 250);
 }
 
-VENC_ON_LOAD_CALLBACK_REGISTER.push(VENC_WEB_GL_ON_LOAD);
+VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_WEB_GL_ON_LOAD);
 

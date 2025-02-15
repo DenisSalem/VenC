@@ -18,6 +18,7 @@
  */
 
 var VENC_TREE = {
+    version: "1.0.0",
     button_show: '+',
     button_hide: '-',
     button_disabled: '○',

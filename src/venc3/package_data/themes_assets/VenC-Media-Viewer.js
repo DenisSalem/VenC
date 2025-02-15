@@ -18,6 +18,7 @@
  */
  
 var VENC_MEDIA_VIEWER = {
+    version: "0.0.0",
     wrapper : null,
     image: null,
     video: null,
@@ -330,4 +331,4 @@ function VENC_MEDIA_VIEWER_ON_LOAD() {
     VENC_MEDIA_VIEWER.timer = setInterval(VENC_MEDIA_VIEWER_REFRESH_CONTENTS, VENC_MEDIA_VIEWER.interval);
 }
 
-VENC_ON_LOAD_CALLBACK_REGISTER.push(VENC_MEDIA_VIEWER_ON_LOAD);
+VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_MEDIA_VIEWER_ON_LOAD);

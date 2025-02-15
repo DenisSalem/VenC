@@ -16,20 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with VenC.  If not, see <http://www.gnu.org/licenses/>.
  */
+VENC_SCRIPT_BOOTSTRAP = {
+    version: "1.0.0",
+    callbacks_register: [],
+    third_party_on_load: window.onload,
+    venc_on_load: function VENC_ON_LOAD_CALLBACK() {
+        if (VENC_SCRIPT_BOOTSTRAP.third_party_on_load !== null) {
+            VENC_SCRIPT_BOOTSTRAP.third_party_on_load();
+        }
+        
+        var i;
+        for (i = 0; i < VENC_SCRIPT_BOOTSTRAP.callbacks_register.length; i++) {
+            VENC_SCRIPT_BOOTSTRAP.callbacks_register[i]();
+        }
+    }
+};
  
-var VENC_ON_LOAD_CALLBACK_REGISTER = [];
-var VENC_THIRD_PARTY_ON_LOAD_CALLBACK = window.onload;
-
-function VENC_ON_LOAD_CALLBACK() {
-
-    if (VENC_THIRD_PARTY_ON_LOAD_CALLBACK !== null) {
-        VENC_THIRD_PARTY_ON_LOAD_CALLBACK();
-    }
-    
-    var i;
-    for (i = 0; i < VENC_ON_LOAD_CALLBACK_REGISTER.length; i++) {
-        VENC_ON_LOAD_CALLBACK_REGISTER[i]();
-    }
-}
-
-window.onload = VENC_ON_LOAD_CALLBACK;
+window.onload = VENC_SCRIPT_BOOTSTRAP.venc_on_load;

@@ -18,6 +18,7 @@
  */
 
 var VENC_INFINITE_SCROLL = {
+  version: "2.0.0",
 	queue: 0,
 	end: false,
 	hideVenCNavigation: true,
@@ -199,4 +200,4 @@ function VENC_INFINITE_SCROLL_ON_LOAD() {
 	}
 };
 
-VENC_ON_LOAD_CALLBACK_REGISTER.push(VENC_INFINITE_SCROLL_ON_LOAD);
+VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_INFINITE_SCROLL_ON_LOAD);
