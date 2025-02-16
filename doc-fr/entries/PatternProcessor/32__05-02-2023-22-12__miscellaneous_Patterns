@@ -608,7 +608,7 @@ faisant partie du thème est formaté avec les paramètres passés au motif :
 - __`extensions`__ : pour assurer la compatibilité de votre contenu avec les différents navigateurs du marché, il est recommandé d'avoir plusieurs sources de la même vidéo en différents formats. Ce paramètre est donc une liste des extensions disponibles pour votre vidéo. Les éléments de la liste sont séparés par une virgule.
 - __`poster`__ : il est possible d'avoir une image de fond, en remplacement de la vidéo quand celle-ci n'est pas encore lancée. Ce paramètre contient donc l'URL ou le chemin relatif (vous pouvez également utiliser [`GetRelativeRoot`](.:GetChapterAttributeByIndex::path::5.3:.#getrelativeroot)) ou absolu de ladite image.
 
-#### Exemple de fichier video.html
+##### Exemple de fichier video.html
 
 .:CodeHighlight::HTML::False::<video controls poster="{poster}" style="width: 100%;">
 {source}
@@ -633,3 +633,23 @@ La variable optionnelle `poster` contient l'URL de l'image de fond passée en ar
 Finalement, on obtient le résultat suivant :
 
 .:Video::https://www.w3schools.com/html/mov_bbb::mp4,ogg:: .:GetRelativeRoot:.bbb-poster.jpg:.
+
+#### WebGL
+
+> .:Escape:: .:WegGL::mesh_url::width::height:. :.
+
+VenC propose une fonction de visualisation d'objet en 3D rudimentaire pour
+[les fichiers STL binaires](https://fr.wikipedia.org/wiki/Fichier_de_st%C3%A9r%C3%A9olithographie#STL_binaire)
+facile a créer ou convertir avec [Blender](https://www.blender.org/) par exemple.
+
+Cette fonction est typiquement idéal pour présenter des objets dans le cadre de l'impression 3D.
+
+Ce motif prend trois paramètres :
+
+- __`mesh_url`__ : L'URL de votre fichier STL.
+- __`width`__: Un nombre entier qui définit la largeur de la surface de rendu.
+- __`height`__: Un nombre entier qui définit la hauteur de la surface de rendu.
+
+Pour fonctionner ce script nécessite l'import du module javascript [`VenC-WebGL.js`](.:GetChapterAttributeByIndex::path::4.6.2.4:.) dans
+[`header.html`](.:GetChapterAttributeByIndex::path::3.5.2:.). Il faut aussi s'assurer
+qu'il soit physiquement importé via la [`configuration d'un thème`](.:GetChapterAttributeByIndex::path::4.6.1:.).
