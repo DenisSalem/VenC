@@ -16,6 +16,14 @@ Immédiatement après avoir créé votre blog, il s'agira sans doute du premier
 fichier que vous éditerez. Après avoir rempli ces champs, dont l'usage est
 détaillé ci-dessous, vous n'aurez normalement plus besoin d'y revenir.
 
+.:GetEntryToC::
+    <ul>::
+    <li>::
+    <a href="#{id}" class="toc_level_{level}">{title}</a>::
+    </li>::
+    </ul>
+:.
+
 ## blog_name
 
 Sans surprise, il s'agit du titre de votre blog. Ce champ est obligatoire.
@@ -269,3 +277,62 @@ Si aucun thème n'est installé dans votre projet et si aucun nom de thème n'es
 d'utiliser l'option `default_theme` pour sélectionner un thème. Si vous n'avez pas de thème installé dans votre projet, il
 est important de définir cette variable pour que la commande [`venc -s`](.:GetChapterAttributeByIndex::path::6.11:.) fonctionne correctement.
 
+## filter_from_main_thread
+
+Il s'agit d'une liste contenant des noms de categories dont les publications ne doivent pas apparaitre dans le fil de publication principal. Un cas typique
+serait de vouloir empécher des publications `NSFW` d'appaitre dans le fil principal ou de [créer des pages individuelles](.:GetChapterAttributeByIndex::path::3.5.8:.).
+
+Supposons que l'on veuille préserver le fil principal de publications appartenant à la catégorie `NSFW`.
+On ferait alors quelque chose comme
+
+```
+filter_from_main_thread:
+  - NSFW
+```
+
+L'action de filtrer des catégories agi par correspondance exacte aussi si une publication
+est définit avec l'arborescence de categorie suivante
+
+```
+categories:
+  - NSFW:
+    - Hentai:
+      - Tentacles:
+        - Donald Trump X Elon Musk
+```
+
+et que nous avons dans le fichier de configuration principal :
+
+```
+filter_from_main_thread:
+  - NSFW
+```
+
+La publication ne serait alors pas filtré même si techniquement elle appartient à chacunes des catégories de l'arborescence définit plus haut. Pour filtrer
+une tel publication il faut soit:
+
+__Dans le fichier de configuration principal:__
+
+Définir `filter_from_main_thread` comme ci-dessous
+
+```
+filter_from_main_thread:
+  - NSFW:
+    - Hentai:
+      - Tentacles:
+        - Donald Trump X Elon Musk
+```
+
+soit
+
+__Dans la publication:__
+
+
+```
+categories:
+  - NSFW:
+    - Hentai:
+      - Tentacles:
+        - Donald Trump X Elon Musk
+  - NSFW
+```

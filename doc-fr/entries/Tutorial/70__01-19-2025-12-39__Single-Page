@@ -1,0 +1,104 @@
+authors:
+  - 'Denis Salem'
+categories: []
+chapter: 3.5.8
+title: Créer des pages individuels
+---VENC-BEGIN-PREVIEW---
+---VENC-END-PREVIEW---
+Il est possible de créer des pages individuels avec VenC en utilisant deux fonctionnalités :
+
+- [La taxonomie avancée](.:GetChapterAttributeByIndex::path::3.5.7:.)
+- [L'option filter_from_main_thread](.:GetChapterAttributeByIndex::path::4.2:.#filter-from-main-thread)
+
+#### Mise en place du filtre
+
+Une page est toujours une publication, mais elle est isolé du reste des autres à l'aide d'un filtre que l'on met en place dans [`filter_from_main_thread`](.:GetChapterAttributeByIndex::path::4.2:.#filter-from-main-thread) :
+
+```
+...
+filter_from_main_thread:
+  - Pages
+```
+
+Pour qu'une publication soit considéré comme une page il faut lui assigner la catégorie correspondante. Ici ce serait `Pages`.
+
+```
+categories:
+  - Pages:
+    ...
+```
+
+Le titre de votre page doit également figurer en tant que sous catégorie de `Pages`. Par exemple si vous avez une page dont le titre est _À PROPOS_ alors vous devez définir votre catégorie
+comme suit:
+
+```
+categories:
+  - Pages:
+    - À PROPOS
+```
+
+Puisque cette categorie `Pages` est à la racines de `categories` et que vous pourriez vouloir, en plus des pages, avoir des categories de publications, il faut pouvoir isoler ces dernières dans les autres publications concernées :
+
+```
+categories:
+  - Categories:
+    ...
+```
+
+Ainsi vos publications qui ne sont pas des pages mais qui ont une ou plusieurs categories auront toujours comme categorie racine celle que l'on a appelé `Categories`.
+
+#### Générer les menus
+
+Dans votre fichier de configuration vous devez ajouter deux metadonnées :
+
+```
+...
+menu_pages:
+  - Pages
+menu_categories:
+  - Categories
+...
+```
+
+Comme indiqué dans le chapitre de la [taxonomie avancée](.:GetChapterAttributeByIndex::path::3.5.7:.) ces métadonnées vont nous servires à créer deux menus distincts. L'un pour lister
+vos pages, l'autres pour lister vos catégories.
+
+Nous allons donc avoir deux usages de [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestreefrombranches) :
+
+__Pour les pages :__
+
+.:CodeHighlight::HTML::False::
+.:Escape::
+  .:GetBlogCategoriesTreeFromBranches::menu_pages::
+        <div id="menu_pages">
+            <p class="title"><a href="{path}">{value}</a></p>
+            {childs}
+        </div>
+      ::
+      ::<ul class="__VENC_TREE_NODE__">
+      ::<li><a href="{path}" title="{value}">{value}</a>
+      ::{childs}</li>
+      ::</ul>
+  :. 
+:.
+:.
+
+__Pour les categories :__
+
+.:CodeHighlight::HTML::False::
+.:Escape::
+  .:GetBlogCategoriesTreeFromBranches::menu_categories::
+        <div class="menu_categories">
+            <p class="title"><a href="{path}">{value}</a></p>
+            {childs}
+        </div>
+      :: 
+      ::<ul class="__VENC_TREE_NODE__">
+      ::<li><a href="{path}" title="{value} has {count} entries">{value}</a>
+      ::{childs}</li>
+      ::</ul>
+  :. 
+:.
+:.
+
+Et voilà, avec tout ça vos pages sont isolés à la fois des categories, mais aussi du fil de publication principal.
