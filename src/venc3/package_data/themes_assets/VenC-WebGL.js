@@ -325,11 +325,18 @@ var VENC_WEB_GL = {
             Y = e.touches[0].clientY - e.touches[1].clientY;
             len = Math.sqrt(X*X + Y*Y);
             
-            this.VENC_WEB_GL_CONTEXT.scale_ratio *= Math.abs(len / this.VENC_WEB_GL_CONTEXT.touch_motions.pinch_start) > 1 ? 1.01 : 0.99;
+            ratio = Math.abs(len / this.VENC_WEB_GL_CONTEXT.touch_motions.pinch_start);
+            if (ratio > 1) {
+                this.VENC_WEB_GL_CONTEXT.scale_ratio *= 1.02;
+                this.VENC_WEB_GL_CONTEXT.touch_motions.pinch_start = len; 
+            }
+            else if (ratio < 1) {
+                this.VENC_WEB_GL_CONTEXT.scale_ratio *= 0.98;
+                this.VENC_WEB_GL_CONTEXT.touch_motions.pinch_start = len;
+            }
             if (this.VENC_WEB_GL_CONTEXT.scale_ratio < canvas.VENC_WEB_GL_CONTEXT.min_scale_ratio) {
                 this.VENC_WEB_GL_CONTEXT.scale_ratio = canvas.VENC_WEB_GL_CONTEXT.min_scale_ratio;
             }
-            this.VENC_WEB_GL_CONTEXT.touch_motions.pinch_start = len; 
             e.preventDefault();
 
         }
