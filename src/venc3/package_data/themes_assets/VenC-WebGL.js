@@ -305,32 +305,50 @@ var VENC_WEB_GL = {
                     y: e.touches[0].clientY,
                 },
             };
+            e.preventDefault();
+        } else if (e.touches.length === 2){
+            X = e.touches[0].clientX - e.touches[1].clientX;
+            Y = e.touches[0].clientY - e.touches[1].clientY;
+            this.VENC_WEB_GL_CONTEXT.touch_motions.pinch_start = Math.sqrt(X*X + Y*Y);
+            e.preventDefault();
         }
     },                                                
     touch_move: function(e) {
-        if (!this.VENC_WEB_GL_CONTEXT.touch_motions.touch) {
-            return;
-        }
         if (e.touches.length === 1) {
-            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += (this.VENC_WEB_GL_CONTEXT.touch_motions.start.x - e.touches[0].clientX)*0.01;
-            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += (this.VENC_WEB_GL_CONTEXT.touch_motions.start.y - e.touches[0].clientY)*0.01;
+            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x -= (this.VENC_WEB_GL_CONTEXT.touch_motions.start.x - e.touches[0].clientX)*0.01;
+            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y -= (this.VENC_WEB_GL_CONTEXT.touch_motions.start.y - e.touches[0].clientY)*0.01;
             this.VENC_WEB_GL_CONTEXT.touch_motions.start.x = e.touches[0].clientX;
             this.VENC_WEB_GL_CONTEXT.touch_motions.start.y = e.touches[0].clientY;
             e.preventDefault();
-        } else if (e.touches.length > 1) { // Case for zoom
-            this.VENC_WEB_GL_CONTEXT.touch_motions = null;
+        } else if (e.touches.length >= 2) {
+            X = e.touches[0].clientX - e.touches[1].clientX;
+            Y = e.touches[0].clientY - e.touches[1].clientY;
+            len = Math.sqrt(X*X + Y*Y);
+            
+            this.VENC_WEB_GL_CONTEXT.scale_ratio *= Math.abs(len / this.VENC_WEB_GL_CONTEXT.touch_motions.pinch_start) > 1 ? 1.01 : 0.99;
+            if (this.VENC_WEB_GL_CONTEXT.scale_ratio < canvas.VENC_WEB_GL_CONTEXT.min_scale_ratio) {
+                this.VENC_WEB_GL_CONTEXT.scale_ratio = canvas.VENC_WEB_GL_CONTEXT.min_scale_ratio;
+            }
+            this.VENC_WEB_GL_CONTEXT.touch_motions.pinch_start = len; 
+            e.preventDefault();
+
         }
         return false;
     },
     touch_end: function(e) {
-        this.VENC_WEB_GL_CONTEXT.tracking = false;
-        this.VENC_WEB_GL_CONTEXT.touch_motions.touch = false;
-        this.VENC_WEB_GL_CONTEXT.mouse_motions = {
-            current_x : 0,
-            current_y : 0,
-            base_x: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_x + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x) % (2*3.141592),
-            base_y: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_y + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y) % (2*3.141592)
-        };
+      if (e.touches.length === 0 ) {
+          this.VENC_WEB_GL_CONTEXT.tracking = false;
+          this.VENC_WEB_GL_CONTEXT.touch_motions.touch = false;
+          this.VENC_WEB_GL_CONTEXT.mouse_motions = {
+              current_x : 0,
+              current_y : 0,
+              base_x: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_x + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x) % (2*3.141592),
+              base_y: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_y + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y) % (2*3.141592)
+          };
+      } else if (e.touches.length === 1){
+            this.VENC_WEB_GL_CONTEXT.touch_motions.start.x = e.touches[0].clientX;
+            this.VENC_WEB_GL_CONTEXT.touch_motions.start.y = e.touches[0].clientY;
+      }
     },
     init_shader_program : function(gl) {
         const vertex_shader = this.load_shader(gl, gl.VERTEX_SHADER, this.vertex_shader_source);
@@ -390,7 +408,7 @@ var VENC_WEB_GL = {
         canvas.VENC_WEB_GL_CONTEXT.touch_motions = {
             touch: false,
             touch_start: {x: 0, y: 0},
-            touch_diff:   {x: 0, y: 0}
+            pinch_start: {x: 0, y: 0}
         };
         
         canvas.addEventListener('touchstart', VENC_WEB_GL.touch_start, false);        
@@ -515,6 +533,8 @@ var VENC_WEB_GL = {
                     y_max - y_min,
                     z_max - z_min
                 );
+                
+                canvas.VENC_WEB_GL_CONTEXT.min_scale_ratio = canvas.VENC_WEB_GL_CONTEXT.min_scale_ratio / 100;
                 
                 this.VENC_WEB_GL_CONTEXT.offset_x = (x_max + x_min ) / 2;
                 this.VENC_WEB_GL_CONTEXT.offset_y = (y_max + y_min ) / 2;
