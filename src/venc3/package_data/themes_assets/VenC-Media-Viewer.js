@@ -27,6 +27,7 @@ var VENC_MEDIA_VIEWER = {
     title: null,
     image_extensions: ["jpg","jpeg","png","gif","apng","bmp","avif","svg","webp","jfif","pjpeg","pjp"],
     video_extensions: ["mp4","ogg","ogv","3gp","webm","mpeg","mov"],
+    mesh_extensions: ["stl"],
     context: null,
     interval: 250,
     timer : null,
@@ -58,10 +59,10 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
     )
     
     if ( VENC_MEDIA_VIEWER.item_index === 0 && media_index === 0) {
-		VENC_MEDIA_VIEWER.previous_button.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_PREVIOUS_DEACTIVATED";
-	} else {
-		VENC_MEDIA_VIEWER.previous_button.className = "";
-	}
+		    VENC_MEDIA_VIEWER.previous_button.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_PREVIOUS_DEACTIVATED";
+    } else {
+        VENC_MEDIA_VIEWER.previous_button.className = "";
+    }
     
     VENC_MEDIA_VIEWER.carousel.innerHTML = "";
 
@@ -94,6 +95,7 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
     
     if (VENC_MEDIA_VIEWER.image_extensions.includes(file_extension)) {
         VENC_MEDIA_VIEWER.video.style.display = "none";
+        VENC_MEDIA_VIEWER.canvas.style.display = "none";
         VENC_MEDIA_VIEWER.image.style.display = "block";
         VENC_MEDIA_VIEWER.image.src = "";
         VENC_MEDIA_VIEWER.image.style.opacity = "0";
@@ -119,6 +121,7 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
     else if (VENC_MEDIA_VIEWER.video_extensions.includes(file_extension)) {
         VENC_MEDIA_VIEWER.image.style.display = "none";
         VENC_MEDIA_VIEWER.video.style.display = "none";
+        VENC_MEDIA_VIEWER.canvas.style.display = "none";
         VENC_MEDIA_VIEWER.video.autoplay = true;
         VENC_MEDIA_VIEWER.video.loop = true;
         VENC_MEDIA_VIEWER.video.controls = true;
@@ -137,7 +140,6 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
 
             VENC_MEDIA_VIEWER.video.style.marginTop = marginTop.toString()+"px";
             
-            VENC_MEDIA_VIEWER.video.style.position = "fixed";
             VENC_MEDIA_VIEWER.video.style.left = "50%";
             VENC_MEDIA_VIEWER.video.style.top = "50%";
             VENC_MEDIA_VIEWER.video.style.opacity = "1";
@@ -145,6 +147,23 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
         
         VENC_MEDIA_VIEWER.video.src = VENC_MEDIA_VIEWER.medias[media_index];
 
+    } else if (VENC_MEDIA_VIEWER.mesh_extensions.includes(file_extension)) {
+        if (! (typeof VENC_WEB_GL === 'undefined')) {
+            VENC_MEDIA_VIEWER.image.style.display = "none";
+            VENC_MEDIA_VIEWER.video.style.display = "none";
+            scale = Math.min(max_width, max_height);
+            VENC_MEDIA_VIEWER.canvas.width = scale;
+            VENC_MEDIA_VIEWER.canvas.height = scale;
+            VENC_MEDIA_VIEWER.canvas.ready_callback = function() {
+                this.style.left = "50%";
+                this.style.top = "50%";
+                this.style.display = "block";
+                this.style.position = "fixed";
+                this.style.marginLeft = (-this.width/2).toString()+"px";
+                this.style.marginTop = (-this.height/2).toString()+"px";
+            };
+            VENC_WEB_GL.init(canvas, VENC_MEDIA_VIEWER.medias[media_index]);
+        }
     }
 
     VENC_MEDIA_VIEWER.wrapper.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ACTIVATED";
@@ -205,7 +224,6 @@ function VENC_ACTION_CALLBACK(action) {
     if(action === "close") {
         VENC_MEDIA_VIEWER_CLOSE_CALLBACK();
     }
-    console.log("DEBUG", VENC_MEDIA_VIEWER.context, VENC_MEDIA_VIEWER.media_index,  VENC_MEDIA_VIEWER.item_index, action);
     if (VENC_MEDIA_VIEWER.context !== null) {
         if(action === "previous" && VENC_MEDIA_VIEWER.media_index > 0) {
             VENC_MEDIA_VIEWER.media_index--;
@@ -216,14 +234,12 @@ function VENC_ACTION_CALLBACK(action) {
             VENC_MEDIA_VIEWER_SET_MEDIA(VENC_MEDIA_VIEWER.media_index);
         }
         else if(action === "previous" && VENC_MEDIA_VIEWER.media_index == 0 && VENC_MEDIA_VIEWER.item_index > 0) {
-			console.log("DEBUG PREVIOUS",  VENC_MEDIA_VIEWER.context);
             VENC_MEDIA_VIEWER.context = VENC_MEDIA_VIEWER.items[parseInt(VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerItemIndex)-1];
             VENC_MEDIA_VIEWER.item_index = parseInt(VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerItemIndex);
             VENC_MEDIA_VIEWER.media_index = 0;
             VENC_MEDIA_VIEWER_SET_MEDIA(0);
         }
         else if(action === "next" && VENC_MEDIA_VIEWER.media_index >= VENC_MEDIA_VIEWER.medias.length-1 && VENC_MEDIA_VIEWER.item_index+1 < VENC_MEDIA_VIEWER.items.length) {
-			console.log("DEBUG NEXT");            
             VENC_MEDIA_VIEWER.context = VENC_MEDIA_VIEWER.items[parseInt(VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerItemIndex)+1];
             VENC_MEDIA_VIEWER.item_index = parseInt(VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerItemIndex);
             VENC_MEDIA_VIEWER.media_index = 0
@@ -291,6 +307,9 @@ function VENC_MEDIA_VIEWER_ON_LOAD() {
 
     image = document.createElement('img');
     image.onclick = function(event) { event.stopPropagation(); return false;}
+    
+    canvas = document.createElement('canvas');
+    canvas.onclick = function(event) { event.stopPropagation(); return false;}
         
     next = document.createElement('a');
     next.id = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_NEXT";
@@ -312,8 +331,9 @@ function VENC_MEDIA_VIEWER_ON_LOAD() {
     wrapper.appendChild(close_button);
     wrapper.appendChild(next);
     wrapper.appendChild(image);
-    wrapper.appendChild(previous);
     wrapper.appendChild(video);
+    wrapper.appendChild(canvas);
+    wrapper.appendChild(previous);
     wrapper.appendChild(carousel);
     wrapper.appendChild(title);
 
@@ -323,6 +343,7 @@ function VENC_MEDIA_VIEWER_ON_LOAD() {
     VENC_MEDIA_VIEWER.close_button = close_button;
     VENC_MEDIA_VIEWER.image = image;
     VENC_MEDIA_VIEWER.video = video;
+    VENC_MEDIA_VIEWER.canvas = canvas;
     VENC_MEDIA_VIEWER.carousel = carousel;
     VENC_MEDIA_VIEWER.title = title;
     VENC_MEDIA_VIEWER.previous_button = previous;
@@ -331,6 +352,6 @@ function VENC_MEDIA_VIEWER_ON_LOAD() {
     VENC_MEDIA_VIEWER.timer = setInterval(VENC_MEDIA_VIEWER_REFRESH_CONTENTS, VENC_MEDIA_VIEWER.interval);
 }
 
-if (! typeof VENC_SCRIPT_BOOTSTRAP === 'undefined') {
+if (! (typeof VENC_SCRIPT_BOOTSTRAP === 'undefined')) {
     VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_MEDIA_VIEWER_ON_LOAD);
 }

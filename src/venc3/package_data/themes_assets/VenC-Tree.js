@@ -161,6 +161,6 @@ function VENC_TREE_ON_LOAD() {
     }
 }
 
-if (! typeof VENC_SCRIPT_BOOTSTRAP === 'undefined') {
+if (! (typeof VENC_SCRIPT_BOOTSTRAP === 'undefined')) {
   VENC_ON_LOAD_CALLBACK_REGISTER.push(VENC_TREE_ON_LOAD);
 }

@@ -200,6 +200,6 @@ function VENC_INFINITE_SCROLL_ON_LOAD() {
     }
 };
 
-if (! typeof VENC_SCRIPT_BOOTSTRAP === 'undefined') {
+if (! (typeof VENC_SCRIPT_BOOTSTRAP === 'undefined')) {
     VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_INFINITE_SCROLL_ON_LOAD);
 }

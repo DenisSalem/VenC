@@ -21,6 +21,7 @@
 
 var VENC_WEB_GL = {
     version: "0.0.0",
+    ready_callback: function(canvas) {},
     // Matrix related function are based on glMatrix.js
     mat4_create: function() {
         var matrix = new Float32Array(16);            
@@ -387,18 +388,23 @@ var VENC_WEB_GL = {
         return shader;
     },
     init: function(canvas, mesh_url) {
-        canvas.VENC_WEB_GL_CONTEXT = {
-          gl: canvas.getContext("webgl"),
-          rotation_x: 0,
-          rotation_y: 0,
-          mesh : {
-              positions : [],
-              normals : []
-          },
-          ready: false,
-          mesh_url: mesh_url
-        };
-        
+        if (typeof canvas.VENC_WEB_GL_CONTEXT === 'undefined') {
+            canvas.VENC_WEB_GL_CONTEXT = {
+              gl: canvas.getContext("webgl"),
+              rotation_x: 0,
+              rotation_y: 0,
+              mesh : {
+                  positions : [],
+                  normals : []
+              },
+              ready: false,
+              mesh_url: mesh_url
+            };
+        }
+        else {
+            canvas.VENC_WEB_GL_CONTEXT.mesh_url = mesh_url;
+        }
+                
         if (!canvas.VENC_WEB_GL_CONTEXT.gl) {
             console.log("VenC: Cannot initialize WebGL.");
             return null;
@@ -423,34 +429,45 @@ var VENC_WEB_GL = {
         canvas.addEventListener('touchend',   VENC_WEB_GL.touch_end,   false);
     
         canvas.VENC_WEB_GL_CONTEXT.mouseup_callback = function(event) {
-                this.VENC_WEB_GL_CONTEXT.tracking = false;
-                this.VENC_WEB_GL_CONTEXT.mouse_motions = {
-                    current_x : 0,
-                    current_y : 0,
-                    base_x: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_x + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x) % (2*3.141592),
-                    base_y: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_y + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y) % (2*3.141592)
-                };
+            this.VENC_WEB_GL_CONTEXT.tracking = false;
+            this.VENC_WEB_GL_CONTEXT.mouse_motions = {
+                current_x : 0,
+                current_y : 0,
+                base_x: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_x + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x) % (2*3.141592),
+                base_y: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_y + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y) % (2*3.141592)
+            };
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
         };
         
         canvas.addEventListener('mouseup', canvas.VENC_WEB_GL_CONTEXT.mouseup_callback);
         
         canvas.VENC_WEB_GL_CONTEXT.mousedown_callback = function(event) {
-                this.VENC_WEB_GL_CONTEXT.tracking = true;
+            this.VENC_WEB_GL_CONTEXT.tracking = true;
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
         };
         
         canvas.addEventListener('mousedown', canvas.VENC_WEB_GL_CONTEXT.mousedown_callback);
 
         canvas.VENC_WEB_GL_CONTEXT.mousemove_callback = function(event) {
-                if (this.VENC_WEB_GL_CONTEXT.tracking) {
-                    this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += event.movementX*0.05;
-                    this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += event.movementY*0.05;
-                }
+            if (this.VENC_WEB_GL_CONTEXT.tracking) {
+                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += event.movementX*0.05;
+                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += event.movementY*0.05;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
         };
         canvas.addEventListener('mousemove', canvas.VENC_WEB_GL_CONTEXT.mousemove_callback);
         
         canvas.VENC_WEB_GL_CONTEXT.wheel_callback = function(event) {
             this.VENC_WEB_GL_CONTEXT.scale_ratio += event.deltaY * -0.000001;
             event.preventDefault();
+            event.stopPropagation();
+            return false;
         };
         canvas.addEventListener("wheel", canvas.VENC_WEB_GL_CONTEXT.wheel_callback, false);
                           
@@ -550,12 +567,15 @@ var VENC_WEB_GL = {
                 this.VENC_WEB_GL_CONTEXT.mesh.normals = [];
                 this.VENC_WEB_GL_CONTEXT.mesh.positions = [];
                 this.VENC_WEB_GL_CONTEXT.ready = true;
+                if (canvas.ready_callback && typeof canvas.ready_callback == 'function') {
+                    canvas.ready_callback();
+                }
             }
         };
          
         query.send(); 
-
-        canvas.VENC_WEB_GL_CONTEXT.rendering_loop = setInterval(VENC_WEB_GL.render, 20,  canvas.VENC_WEB_GL_CONTEXT);
+        clearTimeout(canvas.VENC_WEB_GL_CONTEXT.rendering_loop);
+        canvas.VENC_WEB_GL_CONTEXT.rendering_loop = setInterval(VENC_WEB_GL.render, 20, canvas.VENC_WEB_GL_CONTEXT);
 
         return canvas.VENC_WEB_GL_CONTEXT;
     },
@@ -690,6 +710,7 @@ function VENC_WEB_GL_ADD_NEW_CANVAS() {
     for (var i = 0; i < nodes.snapshotLength; i++) {
         node = nodes.snapshotItem(i)
         if (! ("VENC_WEB_GL_CONTEXT" in node)) {
+            console.log("DEBUG");
             VENC_WEB_GL.init(node, node.dataset.vencWebglMesh);
         }
     }
@@ -699,6 +720,6 @@ function VENC_WEB_GL_ON_LOAD() {
     VENC_WEB_GL.timer = setInterval(VENC_WEB_GL_ADD_NEW_CANVAS, 250);
 }
 
-if (! typeof VENC_SCRIPT_BOOTSTRAP === 'undefined') {
+if (! (typeof VENC_SCRIPT_BOOTSTRAP === 'undefined')) {
     VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_WEB_GL_ON_LOAD);
 }
