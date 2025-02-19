@@ -53,6 +53,8 @@ function VENC_MEDIA_VIEWER_CAROUSEL_ONCLICK(event) {
 
 function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
     // TODO : In up coming version allow consumer to write positionnment callback
+
+    console.log(VENC_MEDIA_VIEWER.wrapper.className);
     
     VENC_MEDIA_VIEWER.medias = JSON.parse(
         VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerContents
@@ -113,6 +115,7 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
             VENC_MEDIA_VIEWER.image.style.left = "50%";
             VENC_MEDIA_VIEWER.image.style.top = "50%";
             VENC_MEDIA_VIEWER.image.style.opacity = "1";
+            VENC_MEDIA_VIEWER.wrapper.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ACTIVATED" 
         }
         
         newImg.src = VENC_MEDIA_VIEWER.medias[media_index];
@@ -143,6 +146,8 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
             VENC_MEDIA_VIEWER.video.style.left = "50%";
             VENC_MEDIA_VIEWER.video.style.top = "50%";
             VENC_MEDIA_VIEWER.video.style.opacity = "1";
+            VENC_MEDIA_VIEWER.wrapper.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ACTIVATED" 
+
         }, false );
         
         VENC_MEDIA_VIEWER.video.src = VENC_MEDIA_VIEWER.medias[media_index];
@@ -161,12 +166,13 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
                 this.style.position = "fixed";
                 this.style.marginLeft = (-this.width/2).toString()+"px";
                 this.style.marginTop = (-this.height/2).toString()+"px";
+                VENC_MEDIA_VIEWER.wrapper.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ACTIVATED"
             };
             VENC_WEB_GL.init(canvas, VENC_MEDIA_VIEWER.medias[media_index]);
         }
     }
 
-    VENC_MEDIA_VIEWER.wrapper.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ACTIVATED";
+    VENC_MEDIA_VIEWER.wrapper.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ACTIVATED VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ON_LOAD";
     return false;
 }
 
@@ -225,6 +231,7 @@ function VENC_ACTION_CALLBACK(action) {
         VENC_MEDIA_VIEWER_CLOSE_CALLBACK();
     }
     if (VENC_MEDIA_VIEWER.context !== null) {
+
         if(action === "previous" && VENC_MEDIA_VIEWER.media_index > 0) {
             VENC_MEDIA_VIEWER.media_index--;
             VENC_MEDIA_VIEWER_SET_MEDIA(VENC_MEDIA_VIEWER.media_index);
