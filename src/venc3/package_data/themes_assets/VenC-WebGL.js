@@ -454,13 +454,14 @@ var VENC_WEB_GL = {
 
         canvas.VENC_WEB_GL_CONTEXT.mousemove_callback = function(event) {
             if (this.VENC_WEB_GL_CONTEXT.tracking) {
-                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += event.movementX*0.05;
-                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += event.movementY*0.05;
+                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += event.movementX*0.01;
+                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += event.movementY*0.01;
             }
             event.preventDefault();
             event.stopPropagation();
             return false;
         };
+        
         canvas.addEventListener('mousemove', canvas.VENC_WEB_GL_CONTEXT.mousemove_callback);
         
         canvas.VENC_WEB_GL_CONTEXT.wheel_callback = function(event) {

@@ -249,7 +249,7 @@ function VENC_ACTION_CALLBACK(action) {
 }
 
 function VENC_TOUCH_START(e) {
-    if (e.touches.length === 1) {
+    if (e.touches.length === 1 && (e.target != VENC_MEDIA_VIEWER.canvas)) {
         VENC_MEDIA_VIEWER.x_touch_start = e.touches[0].clientX;
         VENC_MEDIA_VIEWER.x_touch_diff = e.touches[0].clientX;
     }
@@ -283,12 +283,7 @@ function VENC_TOUCH_END(e) {
     return false;
 }
 
-function VENC_MEDIA_VIEWER_ON_LOAD() {
-    document.onkeydown = keyPress;
-    document.addEventListener('touchstart', VENC_TOUCH_START, false);        
-    document.addEventListener('touchmove', VENC_TOUCH_MOVE, false);        
-    document.addEventListener('touchend', VENC_TOUCH_END, false);
-    
+function VENC_MEDIA_VIEWER_ON_LOAD() {    
     close_button = document.createElement('a');
     close_button.href = "";
     close_button.onclick = VENC_MEDIA_VIEWER_CLOSE_CALLBACK;
@@ -336,6 +331,11 @@ function VENC_MEDIA_VIEWER_ON_LOAD() {
     wrapper.appendChild(previous);
     wrapper.appendChild(carousel);
     wrapper.appendChild(title);
+
+    document.onkeydown = keyPress;
+    document.addEventListener('touchstart', VENC_TOUCH_START, false);        
+    document.addEventListener('touchmove', VENC_TOUCH_MOVE, false);        
+    document.addEventListener('touchend', VENC_TOUCH_END, false);
 
     document.body.appendChild(wrapper);
             
