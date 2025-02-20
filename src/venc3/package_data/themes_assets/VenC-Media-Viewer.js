@@ -146,6 +146,8 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
             VENC_MEDIA_VIEWER.video.style.left = "50%";
             VENC_MEDIA_VIEWER.video.style.top = "50%";
             VENC_MEDIA_VIEWER.video.style.opacity = "1";
+            VENC_MEDIA_VIEWER.video.style.position = "fixed";
+
             VENC_MEDIA_VIEWER.wrapper.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ACTIVATED" 
 
         }, false );
