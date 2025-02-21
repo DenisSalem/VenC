@@ -61,30 +61,34 @@
             <aside>
                 .:IfCategories::
                 <div class="box" id="blog_categories">
-                    <div id="minified_taxonomy">
-                        .:GetFlattenedBlogCategoriesFromBranches::taxonomy::
-                            <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p><ul class="hashtags">{childs}</ul>
-                        ::
-                        <hr>   
-                        ::
-                            <li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>
-                        ::
-                            <span class="middle_dot">・</span>
-                        :.
-                    </div>
-                    <div id="full_taxonomy">
-                        .:GetBlogCategoriesTreeFromBranches::taxonomy::
-                            <div class="__VENC_TREE_ROOT__" id="{html_id}">
-                                <label class="engrave menu_icon" for="toggle-{html_id}">☰</label>
-                                <input type="checkbox" id="toggle-{html_id}">
-                                <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p>
-                                {childs}
-                            </div>
-                        ::
-                        <hr class="taxonomy_separator">    
-                        ::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>
-                        :.
-                    </div>
+                    .:IfBlogMetadataIsTrue::
+                        <div id="minified_taxonomy">
+                            .:GetFlattenedBlogCategoriesFromBranches::taxonomy::
+                                <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p><ul class="hashtags">{childs}</ul>
+                            ::
+                            <hr>   
+                            ::
+                                <li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>
+                            ::
+                                <span class="middle_dot">・</span>
+                            :.
+                        </div>
+                        <div id="full_taxonomy">
+                            .:GetBlogCategoriesTreeFromBranches::taxonomy::
+                                <div class="__VENC_TREE_ROOT__" id="{html_id}">
+                                    <label class="engrave menu_icon" for="toggle-{html_id}">☰</label>
+                                    <input type="checkbox" id="toggle-{html_id}">
+                                    <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p>
+                                    {childs}
+                                </div>
+                            ::
+                            <hr class="taxonomy_separator">    
+                            ::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>
+                            :.
+                        </div>
+                    ::
+                        .:GetBlogCategoriesTree::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>:.
+                    :.
                 </div>
                 :.
                 

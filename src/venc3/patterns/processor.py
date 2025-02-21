@@ -1,6 +1,6 @@
 #!   /usr/bin/env python3
 
-#    Copyright 2016, 2022 Denis Salem
+#    Copyright 2016, 2025 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -37,6 +37,7 @@
 from time import time
 
 from venc3.patterns.patterns_map import PatternsMap
+from venc3.exceptions import VenCException
 
 class Boundary:
     BONDARY_TYPE_OPENING = 1
@@ -63,6 +64,8 @@ class Pattern:
         self.payload = s[o+2:c-2].split('::')
         self.payload_index = 0
         self.sub_patterns = sub_patterns
+        self.payload_exception = None
+        self.payload_exception_index = None
         offset = o + len(self.payload[0]) + 4
         limit = offset
         i = 0
@@ -252,7 +255,6 @@ class Processor:
     
     def apply_pattern(self, parent, pattern, flags, payload_offset, recursion_error_triggered_by):
         if recursion_error_triggered_by == pattern.name_id:
-            from venc3.exceptions import VenCException
             raise VenCException(("pattern_recursion_error", pattern.payload[0]), pattern)
             
         if pattern.payload[0] != "Escape":
@@ -267,11 +269,16 @@ class Processor:
                 from venc3.exceptions import WrongPatternArgumentsNumber
                 raise WrongPatternArgumentsNumber(pattern, pattern.root, self.functions[pattern_name], args)
             
+            except VenCException as e:
+                chunk = ".:"+pattern_name+"::"+("::".join(args))+":."
+                pattern.payload_exception = e
+
             try:
                 len_chunk = len(chunk)
+                
             except TypeError as e:
-                print(pattern_name, args)
-                raise e
+                    print(pattern_name, args)
+                    raise e
                 
             if type(parent) == Pattern:
                 if payload_offset[1] != pattern.payload_index:
@@ -281,8 +288,14 @@ class Processor:
                 ss = parent.payload[pattern.payload_index]
                 parent.payload[pattern.payload_index] = ss[:pattern.o + payload_offset[0]] + chunk + ss[pattern.c+payload_offset[0]:]
                 payload_offset[0] += len_chunk - pattern.c + pattern.o
-                    
+                if pattern.payload_exception != None:
+                    parent.payload_exception = pattern.payload_exception
+                    parent.payload_exception_index = pattern.payload_index 
+            
             else:
+                if pattern.payload_exception != None:
+                    raise pattern.payload_exception
+                    
                 ss = parent.string
                 parent.string = ss[:pattern.o + payload_offset[0]] + chunk + ss[pattern.c + payload_offset[0]:]
                 payload_offset[0] += len_chunk - pattern.c + pattern.o
