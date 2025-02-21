@@ -87,7 +87,7 @@ Assurez vous donc de :
 ### Signaler un bug ou poser une question aux développeurs
 
 Si vous pensez avoir trouvé un bug ou que vous souhaitez poser une question sur un sujet qui ne serait pas documenté vous
-pouvez ouvrir un ticket sur [Github](https://github.com/DenisSalem/VenC) ou sur [Framagit](https://framagit.org/denissalem/VenC/). 
+pouvez ouvrir un ticket sur [Github](https://github.com/DenisSalem/VenC) ou sur [Framagit](https://framagit.org/denissalem/VenC/).
 
 __Pensez à indiquer la version de VenC__ que vous utilisez, ainsi que la version de Python. Vous pouvez obtenir ces informations d'un coup avec la commande :
 
