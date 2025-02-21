@@ -21,7 +21,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "VenC"
-version = "3.2.5"
+version = "3.2.6"
 description = "A static blog generator."
 license = {file = "LICENSE.md"}
 authors = [
