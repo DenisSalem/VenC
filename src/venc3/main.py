@@ -66,7 +66,7 @@ def venc_entry_point():
 
             exit()
 
-    from venc3.prompt import notify    
+    from venc3.prompt import notify
     if len(args.params):
         notify(("unknown_command", ' '.join(args.params)), "RED")
         

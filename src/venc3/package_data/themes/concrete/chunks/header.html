@@ -28,14 +28,14 @@
               transition: all 0.25s ease 0s;}
         </style>
         <link rel="stylesheet" href=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.style.css" type="text/css" >
-        <script type="text/javascript" src=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.VenC-Scripts-Bootstrap-0.0.0.js"></script>
+        <script type="text/javascript" src=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.VenC-Scripts-Bootstrap.js"></script>
         .:IfInfiniteScrollEnabled::
             .:IfInThread::
-                <script type="text/javascript" src=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.VenC-Infinite-Scroll-1.3.1.js"></script>
+                <script type="text/javascript" src=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.VenC-Infinite-Scroll.js"></script>
             ::
         
             :.
-            <script type="text/javascript" src=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.VenC-Tree-0.2.0.js"></script>
+            <script type="text/javascript" src=".:GetRelativeRoot:..:IfInMainThread::%2e/::/:.VenC-Tree.js"></script>
             <script type="text/javascript">
                 VENC_TREE.ul_style = function(ul) {
                     ul.style.listStyleType = "none";
@@ -50,44 +50,52 @@
     </head>
     <body>
       .:IfInThreadAndHasFeeds::
-      .:IfFeedsEnabled::
-      <div id="__VENC_FEEDS_HEADER__">
-          .:IfRSSEnabled::<a href=".:CherryPickBlogMetadata::paths::rss_file_name:.">RSS</a>:..:IfRSSEnabled:: .:IfAtomEnabled::⋅:: :. :: :..:IfAtomEnabled::<a href=".:CherryPickBlogMetadata::paths::atom_file_name:.">ATOM</a>:.
-      </div>
-      :.
+          .:IfFeedsEnabled::
+          <div id="__VENC_FEEDS_HEADER__">
+              .:IfRSSEnabled::<a href=".:CherryPickBlogMetadata::paths::rss_file_name:.">RSS</a>:..:IfRSSEnabled:: .:IfAtomEnabled::⋅:: :. :: :..:IfAtomEnabled::<a href=".:CherryPickBlogMetadata::paths::atom_file_name:.">ATOM</a>:.
+          </div>
+          :.
       :.
         <div>
             <header class="box engrave title"><h1><a class="engrave" href=".:GetRelativeRoot:.">.:GetBlogName:.</a></h1></header>
             <aside>
                 .:IfCategories::
                 <div class="box" id="blog_categories">
-                    .:IfBlogMetadataIsTrue::
-                        <div id="minified_taxonomy">
-                            .:GetFlattenedBlogCategoriesFromBranches::taxonomy::
-                                <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p><ul class="hashtags">{childs}</ul>
-                            ::
-                            <hr>   
-                            ::
-                                <li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>
-                            ::
-                                <span class="middle_dot">・</span>
-                            :.
-                        </div>
-                        <div id="full_taxonomy">
-                            .:GetBlogCategoriesTreeFromBranches::taxonomy::
-                                <div class="__VENC_TREE_ROOT__" id="{html_id}">
-                                    <label class="engrave menu_icon" for="toggle-{html_id}">☰</label>
-                                    <input type="checkbox" id="toggle-{html_id}">
-                                    <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p>
-                                    {childs}
-                                </div>
-                            ::
-                            <hr class="taxonomy_separator">    
-                            ::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>
-                            :.
-                        </div>
+                    .:IfBlogMetadataIsTrue::taxonomy::
+                        .:IfBlogMetadataIsTrue::disable_blog_hashtags::
+                        ::
+                          <div id="minified_taxonomy">
+                              .:GetFlattenedBlogCategoriesFromBranches::taxonomy::
+                                  <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p><ul class="hashtags">{childs}</ul>
+                              ::
+                              <hr>   
+                              ::
+                                  <li><a class="engrave" href="{path}" title="{count} entries">#{value}</a></li>
+                              ::
+                                  <span class="middle_dot">・</span>
+                              :.
+                          </div>
+                        :.
+                        .:IfBlogMetadataIsTrue::disable_categories_tree::
+                        ::
+                          <div id="full_taxonomy">
+                              .:GetBlogCategoriesTreeFromBranches::taxonomy::
+                                  <div class="__VENC_TREE_ROOT__" id="{html_id}">
+                                      <label class="engrave menu_icon" for="toggle-{html_id}">☰</label>
+                                      <input type="checkbox" id="toggle-{html_id}">
+                                      <p class="engrave title"><a class="engrave" href="{path}"><b>{value}</b></a></p>
+                                      {childs}
+                                  </div>
+                              ::
+                              <hr class="taxonomy_separator">    
+                              ::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>
+                              :.
+                          </div>
+                        :.
                     ::
-                        .:GetBlogCategoriesTree::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>:.
+                        <div id="full_categories_tree" class="__VENC_TREE_ROOT__">
+                            .:GetBlogCategoriesTree::<ul class="__VENC_TREE_NODE__">::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a>::{childs}</li>::</ul>:.
+                        </div>
                     :.
                 </div>
                 :.

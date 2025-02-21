@@ -91,6 +91,7 @@ function VENC_TREE_ADD_BUTTON(button) {
             break
         default:
             a.className = "__VENC_TREE_BUTTON_DISABLED__"
+            a.onclick = function(e) {return false;}
     }
     return a
 }
@@ -162,5 +163,5 @@ function VENC_TREE_ON_LOAD() {
 }
 
 if (! (typeof VENC_SCRIPT_BOOTSTRAP === 'undefined')) {
-  VENC_ON_LOAD_CALLBACK_REGISTER.push(VENC_TREE_ON_LOAD);
+  VENC_SCRIPT_BOOTSTRAP.callbacks_register.push(VENC_TREE_ON_LOAD);
 }

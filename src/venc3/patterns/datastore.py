@@ -19,6 +19,8 @@
 
 import datetime
 
+from venc3.patterns.processor import strip_exception_from_pattern
+
 def merge(iterable, string, separator, pattern):
     try:
         return separator.join([string.format(**something) for something in iterable])
@@ -92,42 +94,47 @@ class DatastorePatterns:
     
     def if_feeds_enabled(self, pattern, if_true, if_false=''):
         if self.blog_configuration["disable_atom_feed"] and self.blog_configuration["disable_rss_feed"]:
+            strip_exception_from_pattern(pattern, 1)
             return if_false
             
         else: 
+            strip_exception_from_pattern(pattern, 2)
             return if_true
         
     def if_atom_enabled(self, pattern, if_true, if_false=''):
         if self.blog_configuration["disable_atom_feed"]:
+            strip_exception_from_pattern(pattern, 1)
             return if_false
 
         else: 
+            strip_exception_from_pattern(pattern, 2)
             return if_true
 
-    def if_metadata_is_true(self, key, if_true, if_false, source):          
+    def if_metadata_is_true(self, pattern, key, if_true, if_false, source):          
         try:
-            if type(source) == dict and source[key]:
-                return if_true.strip()
-
-            elif getattr(source,key):
+            if (type(source) == dict and source[key]) or getattr(source,key):
+                strip_exception_from_pattern(pattern, 2)
                 return if_true.strip()
         
         except (AttributeError, KeyError) as e:
             pass
-        
+
+        strip_exception_from_pattern(pattern, 1)        
         return if_false.strip()
         
     def if_blog_metadata_is_true(self, pattern, metadata_name, if_true, if_false=''):
-        return self.if_metadata_is_true(metadata_name, if_true, if_false, self.blog_configuration)
+        return self.if_metadata_is_true(pattern, metadata_name, if_true, if_false, self.blog_configuration)
 
     def if_entry_metadata_is_true(self, pattern, metadata_name, if_true, if_false=''):
-        return self.if_metadata_is_true(metadata_name, if_true, if_false, self.requested_entry.metadata)
+        return self.if_metadata_is_true(pattern, metadata_name, if_true, if_false, self.requested_entry.metadata)
                 
     def if_rss_enabled(self, pattern, if_true, if_false=''):
         if self.blog_configuration["disable_rss_feed"]:
+            strip_exception_from_pattern(pattern, 1)        
             return if_false
             
         else:
+            strip_exception_from_pattern(pattern, 2)        
             return if_true
 
     def if_infinite_scroll_enabled(self, pattern, if_true, if_false=''):            

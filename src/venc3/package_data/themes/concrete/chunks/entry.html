@@ -32,6 +32,14 @@
                   :.
                   .:IfBlogMetadataIsTrue::disable_entry_hashtags::
                   ::
-                  .:IfInThread:: :: <hr>.:GetFlattenedEntryCategoriesFromBranches::taxonomy::<a href="{path}">{value}</a> : <ul class="hashtags">{childs}</ul>::<hr>::<li><a class="engrave" href="{path}" data-weight="{weight}" title="{count} entries">#{value}</a></li>:: :. :.
+                      .:IfInThread::
+                      ::
+                      <hr>
+                          .:IfBlogMetadataIsTrue::taxonomy::
+                              .:GetFlattenedEntryCategoriesFromBranches::taxonomy::<a href="{path}">{value}</a> : <ul class="hashtags">{childs}</ul>::<hr>::<li><a class="engrave" href="{path}" data-weight="{weight}" title="{count} entries">#{value}</a></li>:: :.
+                          ::
+                              <ul class="hashtags">.:GetFlattenedEntryCategories::<li><a class="engrave" href="{path}" title="{count} entries">{value}</a></li>:: :.</ul>
+                          :.
+                      :.
                   :.
                   </div>

@@ -39,6 +39,11 @@ from time import time
 from venc3.patterns.patterns_map import PatternsMap
 from venc3.exceptions import VenCException
 
+def strip_exception_from_pattern(pattern, payload_index):
+    if payload_index + 1 == pattern.payload_exception_index:
+        pattern.payload_exception = None
+        pattern.payload_exception_index = None
+
 class Boundary:
     BONDARY_TYPE_OPENING = 1
     BONDARY_TYPE_CLOSING = -1
