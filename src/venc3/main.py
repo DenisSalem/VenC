@@ -55,7 +55,7 @@ def venc_entry_point():
     args = parser.parse_args()
     
     commands = [item for item in dir(args) if (not item.startswith('_')) and item != "params"]
-    
+        
     for command in commands:
         module = getattr(args, command)
         if module != None:
@@ -63,9 +63,13 @@ def venc_entry_point():
             module = importlib.import_module(module, "venc3.commands")
             function = getattr(module, command)
             function(args.params)
+
             exit()
-    
-    from venc3.prompt import notify
+
+    from venc3.prompt import notify    
+    if len(args.params):
+        notify(("unknown_command", ' '.join(args.params)), "RED")
+        
     notify(("nothing_to_do",),"GREEN")
     
     #pr.disable()
