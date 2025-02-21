@@ -14,4 +14,4 @@ Ou :
 
 Affiche la liste des thèmes qui sont installés dans : 
 
-> ~/.local/share/VenC/themes
+> $(venc -pp)/themes
