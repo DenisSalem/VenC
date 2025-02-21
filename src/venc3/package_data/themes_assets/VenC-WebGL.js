@@ -316,8 +316,8 @@ var VENC_WEB_GL = {
     },                                                
     touch_move: function(e) {
         if (e.touches.length === 1) {
-            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x -= (this.VENC_WEB_GL_CONTEXT.touch_motions.start.x - e.touches[0].clientX)*0.01;
-            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y -= (this.VENC_WEB_GL_CONTEXT.touch_motions.start.y - e.touches[0].clientY)*0.01;
+            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x -= (this.VENC_WEB_GL_CONTEXT.touch_motions.start.x - e.touches[0].clientX)*(0.01/this.VENC_WEB_GL_CONTEXT.rotation_multiplier);
+            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y -= (this.VENC_WEB_GL_CONTEXT.touch_motions.start.y - e.touches[0].clientY)*(0.01/this.VENC_WEB_GL_CONTEXT.rotation_multiplier);
             this.VENC_WEB_GL_CONTEXT.touch_motions.start.x = e.touches[0].clientX;
             this.VENC_WEB_GL_CONTEXT.touch_motions.start.y = e.touches[0].clientY;
             e.preventDefault();
@@ -454,8 +454,8 @@ var VENC_WEB_GL = {
 
         canvas.VENC_WEB_GL_CONTEXT.mousemove_callback = function(event) {
             if (this.VENC_WEB_GL_CONTEXT.tracking) {
-                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += event.movementX*0.01;
-                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += event.movementY*0.01;
+                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += event.movementX*(0.001/this.VENC_WEB_GL_CONTEXT.rotation_multiplier);
+                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += event.movementY*(0.001/this.VENC_WEB_GL_CONTEXT.rotation_multiplier);
             }
             event.preventDefault();
             event.stopPropagation();
@@ -558,6 +558,8 @@ var VENC_WEB_GL = {
                     y_max - y_min,
                     z_max - z_min
                 );
+                
+                canvas.VENC_WEB_GL_CONTEXT.rotation_multiplier = canvas.VENC_WEB_GL_CONTEXT.scale_ratio;
                 
                 canvas.VENC_WEB_GL_CONTEXT.min_scale_ratio = canvas.VENC_WEB_GL_CONTEXT.min_scale_ratio / 100;
                 
