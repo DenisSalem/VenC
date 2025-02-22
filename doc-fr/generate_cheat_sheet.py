@@ -18,6 +18,7 @@ source = {
 
 for index in source.keys():
     for pattern in source[index][0]:
+        print(pattern)
         symbol = source[index][0][pattern]
         if index == "5.4.3":
             pattern_location = symbol.split('.')
@@ -27,6 +28,7 @@ for index in source.keys():
             attr = getattr(importlib.import_module(module, package), function)
         else:
             attr = getattr(source[index][1], symbol)
+            
         variables = ("<ul>"+''.join(["<li><code>"+v+"</code></li>" for v in attr.__doc__.split(',')])+"</ul>") if attr.__doc__ != None else ""
         args = ', '.join([("<code>"+name+"</code>" if name != "argv" else "<code>arg 1</code></li><li><code>arg 2</code></li><li><code>arg n...</code>") for name in inspect.signature(attr).parameters if not name in ["self","pattern","raise_error", "raise_exception"]])
         value = "<a href=\".:GetChapterAttributeByIndex::path::"+index+":.#"+pattern.lower()+"\"><code>"+pattern+"</code></a>"
@@ -37,8 +39,7 @@ for index in source.keys():
             variables
         ))
 
-print(".:Table::")
-print("Motifs::Arguments::Variables::NewLine::")
+print(".:Table::Motifs::Arguments::Variables::NewLine::")
 items = sorted(patterns, key = lambda x: x[0])
 for i in range(0, len(items)):
     pattern = items[i]

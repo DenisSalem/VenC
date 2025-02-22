@@ -580,3 +580,11 @@ Ce motif possède les arguments suivants :
 - **`if_true`** : le texte à retourner si le test réussit.
 - **`if_false`** : optionnel. Le texte à retourner si le test échoue.
 
+#### IfEntryToCEmpty
+
+> .:Escape:: .:IfEntryToCEmpty::if_true::if_false:. :.
+
+Cette fonction teste si la publication courante a une table des matières vide. 
+
+- **`if_true`** : le texte à retourner si le test réussit.
+- **`if_false`** : le texte à retourner si le test échoue.

@@ -16,8 +16,7 @@ s'offrent à vous.
 - La colonne des arguments indique le nom des paramètres qu'il est possible (et souvent obligatoire) de spécifier à la fonction.
 - La colonne des variables indique le nom des variables qu'il est possible d'utiliser à l'intérieur d'un ou plusieurs arguments.
 
-.:Table::
-Motifs::Arguments::Variables::NewLine::
+.:Table::Motifs::Arguments::Variables::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.3:.#audio"><code>Audio</code></a>::<ul><li><code>source</code></li><li> <code>extensions</code></li></ul>::<ul><li><code>source</code></li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.2:.#cherrypickblogmetadata"><code>CherryPickBlogMetadata</code></a>::<ul><li><code>branch</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.2:.#cherrypickblogmetadataifexists"><code>CherryPickBlogMetadataIfExists</code></a>::<ul><li><code>branch</code></li></ul>::::NewLine::
@@ -36,7 +35,7 @@ Motifs::Arguments::Variables::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.1:.#forentryauthors"><code>ForEntryAuthors</code></a>::<ul><li><code>string</code></li><li> <code>separator</code></li></ul>::<ul><li><code>value</code></li><li><code>html_id</code></li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.1:.#forentrymetadata"><code>ForEntryMetadata</code></a>::<ul><li><code>metadata_name</code></li><li> <code>string</code></li><li> <code>separator</code></li></ul>::<ul><li><code>value</code></li><li><code>html_id</code></li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.1:.#forentrymetadatabykeyvalue"><code>ForEntryMetadataByKeyValue</code></a>::<ul><li><code>metadata_name</code></li><li> <code>string</code></li><li> <code>separator</code></li></ul>::<ul><li><code>value</code></li><li><code>key</code></li><li><code>value_html_id</code></li><li><code>key_html_id</code></li></ul>::NewLine::
-<a href=".:GetChapterAttributeByIndex::path::5.4.1:.#forentrymetadatabykeyvalueifexists"><code>ForEntryMetadataByKeyValueIfExists</code></a>::<ul><li><code>metadata_name</code></li><li> <code>string</code></li><li> <code>separator</code></li></ul>::<ul><li><code>value</code></li><li><code>key</code></li><li><code>value_html_id</code></li><li><code>key_html_id</code></li></ul>::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::5.4.1:.#forentrymetadatabykeyvalueifexists"><code>ForEntryMetadataByKeyValueIfExists</code></a>::<ul><li><code>metadata_name</code></li><li> <code>string</code></li><li> <code>separator</code></li></ul>::<ul><li><code>value</code></li><li><code>html_id</code></li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.1:.#forentrymetadataifexists"><code>ForEntryMetadataIfExists</code></a>::<ul><li><code>metadata_name</code></li><li> <code>string</code></li><li> <code>separator</code></li></ul>::<ul><li><code>value</code></li><li><code>html_id</code></li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.3:.#forpages"><code>ForPages</code></a>::<ul><li><code>length</code></li><li> <code>string</code></li><li> <code>separator</code></li></ul>::<ul><li><code>page_number</code></li><li><code>entry_id</code></li><li><code>entry_title</code></li><li><code>path</code></li></ul>::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.2:.#getauthordescription"><code>GetAuthorDescription</code></a>::<ul></ul>::::NewLine::
@@ -102,6 +101,7 @@ Motifs::Arguments::Variables::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.2:.#ifchapters"><code>IfChapters</code></a>::<ul><li><code>if_true</code></li><li> <code>if_false</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.3:.#ifentriesinpagehavemetadata"><code>IfEntriesInPageHaveMetadata</code></a>::<ul><li><code>metadata_name</code></li><li> <code>string_1</code></li><li> <code>string_2</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.1:.#ifentrymetadataistrue"><code>IfEntryMetadataIsTrue</code></a>::<ul><li><code>metadata_name</code></li><li> <code>if_true</code></li><li> <code>if_false</code></li></ul>::::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::5.4.1:.#ifentrytocempty"><code>IfEntryToCEmpty</code></a>::<ul><li><code>if_true</code></li><li> <code>if_false</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.2:.#iffeedsenabled"><code>IfFeedsEnabled</code></a>::<ul><li><code>if_true</code></li><li> <code>if_false</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.3:.#ifinarchives"><code>IfInArchives</code></a>::<ul><li><code>string1</code></li><li> <code>string2</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.3:.#ifincategories"><code>IfInCategories</code></a>::<ul><li><code>string1</code></li><li> <code>string2</code></li></ul>::::NewLine::
@@ -126,6 +126,6 @@ Motifs::Arguments::Variables::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.3:.#setcolor"><code>SetColor</code></a>::<ul><li><code>color</code></li><li> <code>string</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.3:.#setstyle"><code>SetStyle</code></a>::<ul><li><code>tag_id</code></li><li> <code>tag_class</code></li><li> <code>string</code></li></ul>::::NewLine::
 <a href=".:GetChapterAttributeByIndex::path::5.4.3:.#table"><code>Table</code></a>::<ul><li><code>arg 1</code></li><li><code>arg 2</code></li><li><code>arg n...</code></li></ul>::::NewLine::
-<a href=".:GetChapterAttributeByIndex::path::5.4.3:.#video"><code>Video</code></a>::<ul><li><code>source</code></li><li> <code>extensions</code></li><li> <code>poster</code></li></ul>::<ul><li><code>source</code></li><li><code>poster</code></li></ul>
+<a href=".:GetChapterAttributeByIndex::path::5.4.3:.#video"><code>Video</code></a>::<ul><li><code>source</code></li><li> <code>extensions</code></li><li> <code>poster</code></li></ul>::<ul><li><code>source</code></li><li><code>poster</code></li></ul>::NewLine::
+<a href=".:GetChapterAttributeByIndex::path::5.4.3:.#webgl"><code>WebGL</code></a>::<ul><li><code>uri</code></li><li> <code>width</code></li><li> <code>height</code></li></ul>::
 :.
-
