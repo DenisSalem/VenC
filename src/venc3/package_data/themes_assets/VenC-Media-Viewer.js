@@ -207,6 +207,13 @@ function VENC_MEDIA_VIEWER_DOWNLOAD_CALLBACK(event) {
 }
 
 function VENC_MEDIA_VIEWER_CLOSE_CALLBACK(event) {
+    try {
+        if (VENC_MEDIA_VIEWER.canvas.VENC_WEB_GL_CONTEXT.tracking) {
+            VENC_MEDIA_VIEWER.canvas.dispatchEvent(new Event("mouseup", { bubbles: true, cancelable: true }));
+            return false;
+        }
+    }
+    catch(e) {}
     VENC_MEDIA_VIEWER.wrapper.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_DEACTIVATED";
     VENC_MEDIA_VIEWER.context = null;
     return false;

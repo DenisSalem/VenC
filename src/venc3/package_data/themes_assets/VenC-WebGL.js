@@ -412,6 +412,8 @@ var VENC_WEB_GL = {
         
         canvas.VENC_WEB_GL_CONTEXT.tracking = false;
         canvas.VENC_WEB_GL_CONTEXT.mouse_motions = {
+            start_x: 0,
+            start_y: 0,
             current_x : 0,
             current_y : 0,
             base_x: 0,
@@ -431,6 +433,8 @@ var VENC_WEB_GL = {
         canvas.VENC_WEB_GL_CONTEXT.mouseup_callback = function(event) {
             this.VENC_WEB_GL_CONTEXT.tracking = false;
             this.VENC_WEB_GL_CONTEXT.mouse_motions = {
+                start_x: 0,
+                start_y: 0,
                 current_x : 0,
                 current_y : 0,
                 base_x: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_x + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x) % (2*3.141592),
@@ -444,18 +448,27 @@ var VENC_WEB_GL = {
         canvas.addEventListener('mouseup', canvas.VENC_WEB_GL_CONTEXT.mouseup_callback);
         
         canvas.VENC_WEB_GL_CONTEXT.mousedown_callback = function(event) {
-            this.VENC_WEB_GL_CONTEXT.tracking = true;
+            this.VENC_WEB_GL_CONTEXT.tracking = true;                        
+            this.VENC_WEB_GL_CONTEXT.mouse_motions.start_x = event.layerX;
+            this.VENC_WEB_GL_CONTEXT.mouse_motions.start_y = event.layerY;
             event.preventDefault();
             event.stopPropagation();
             return false;
         };
-        
-        canvas.addEventListener('mousedown', canvas.VENC_WEB_GL_CONTEXT.mousedown_callback);
 
+        canvas.addEventListener('mousedown', canvas.VENC_WEB_GL_CONTEXT.mousedown_callback);
         canvas.VENC_WEB_GL_CONTEXT.mousemove_callback = function(event) {
             if (this.VENC_WEB_GL_CONTEXT.tracking) {
-                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += event.movementX*(0.001/this.VENC_WEB_GL_CONTEXT.rotation_multiplier);
-                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += event.movementY*(0.001/this.VENC_WEB_GL_CONTEXT.rotation_multiplier);
+                z_x = this.width;
+                z_y = this.height;
+                x0 =  this.VENC_WEB_GL_CONTEXT.mouse_motions.start_x;
+                y0 =  this.VENC_WEB_GL_CONTEXT.mouse_motions.start_y;
+              
+                x1 = x0 + event.movementX;
+                y1 = y0 + event.movementY;
+                
+                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += Math.atan(x1/z_x) - Math.atan(x0/z_x);
+                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += Math.atan(y1/z_y) - Math.atan(y0/z_y);
             }
             event.preventDefault();
             event.stopPropagation();
@@ -558,9 +571,7 @@ var VENC_WEB_GL = {
                     y_max - y_min,
                     z_max - z_min
                 );
-                
-                canvas.VENC_WEB_GL_CONTEXT.rotation_multiplier = canvas.VENC_WEB_GL_CONTEXT.scale_ratio;
-                
+                                
                 canvas.VENC_WEB_GL_CONTEXT.min_scale_ratio = canvas.VENC_WEB_GL_CONTEXT.min_scale_ratio / 100;
                 
                 this.VENC_WEB_GL_CONTEXT.offset_x = (x_max + x_min ) / 2;
@@ -595,7 +606,7 @@ var VENC_WEB_GL = {
         const z_near = 0.1;
         const z_far = 1000.0;
         const projection_matrix = VENC_WEB_GL.mat4_perspective(field_of_view, aspect, z_near, z_far);
-
+        
         model_matrix = VENC_WEB_GL.mat4_translate(
             VENC_WEB_GL.mat4_create(),
             [
@@ -694,6 +705,8 @@ var VENC_WEB_GL = {
     render: function(context) {
         if (context.ready) {
             context.mouse_motions = {
+                start_x: 0,
+                start_y: 0,
                 current_x : 0,
                 current_y : 0,
                 base_x: (context.mouse_motions.base_x + context.mouse_motions.current_x) % (2*3.141592),
