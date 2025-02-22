@@ -118,6 +118,7 @@ class PatternsMap():
             "GetFlattenedEntryCategories":	            "get_flattened_entry_categories",
             "GetFlattenedEntryCategoriesFromBranches":	"get_flattened_entry_categories_from_branches",
             "IfEntryMetadataIsTrue":	                  "if_entry_metadata_is_true",
+            "IfEntryToCEmpty":                          "if_entry_toc_empty"
         },
         "extra": { # Loaded from function localy imported
             "Audio":	                  "venc3.patterns.theme.get_audio",

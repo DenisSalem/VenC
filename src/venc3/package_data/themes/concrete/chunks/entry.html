@@ -1,29 +1,36 @@
                   .:IfInThread:: ::
-                      <div id="entry_toc_wrapper">
-                          <div id="entry_toc" class="box">
-                          .:GetEntryToC::
-                              <ul>::
-                              <li>::
-                              <a class="engrave" href="#{id}" class="toc_level_{level}">{title}</a>::
-                              </li>::
-                              </ul>
-                          :. 
+                      .:IfEntryToCEmpty::
+                      ::
+                          <div id="entry_toc_wrapper">
+                              <div id="entry_toc" class="box">
+                              .:GetEntryToC::
+                                  <ul>::
+                                  <li>::
+                                  <a class="engrave" href="#{id}" class="toc_level_{level}">{title}</a>::
+                                  </li>::
+                                  </ul>
+                              :. 
+                              </div>
                           </div>
-                      </div>
+                      :.
                   :.
                   <div class="entry box" id="entry.:GetEntryID:.">
                   <h1><a class="engrave" href=".:GetEntryPath:.">.:GetEntryTitle:.</a></h1>
                   .:IfInThread:: ::
-                  <div id="minified_entry_toc" class="box">
-                          .:GetEntryToC::
-                              <ul>::
-                              <li>::
-                              <a class="engrave" href="#{id}" class="toc_level_{level}">{title}</a>::
-                              </li>::
-                              </ul>
-                          :. 
-                  </div>
-                  <hr>:.
+                      .:IfEntryToCEmpty::
+                      ::
+                          <div id="minified_entry_toc" class="box">
+                                  .:GetEntryToC::
+                                      <ul>::
+                                      <li>::
+                                      <a class="engrave" href="#{id}" class="toc_level_{level}">{title}</a>::
+                                      </li>::
+                                      </ul>
+                                  :. 
+                          </div>
+                          <hr>
+                      :.
+                  :.
                   
                   .:IfBlogMetadataIsTrue::force_entry_content::
                       .:GetEntryContent:.

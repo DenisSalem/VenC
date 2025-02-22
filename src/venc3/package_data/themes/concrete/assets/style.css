@@ -126,7 +126,11 @@ blockquote, pre
 .entry .hashtags
   {display: inline;
   padding-left: 0px;}
-  
+
+.entry .hashtags a,
+#minified_entry_toc a
+  {font-weight: normal;}
+    
 .title
   {text-align: center;
   letter-spacing: 5px;}

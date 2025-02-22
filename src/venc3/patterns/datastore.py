@@ -165,6 +165,15 @@ class DatastorePatterns:
         else:
             return ""
             
+    def if_entry_toc_empty(self, pattern, if_true, if_false):
+        if not (hasattr(self.requested_entry, "toc") and len(self.requested_entry.toc)):
+            strip_exception_from_pattern(pattern, 2)
+            return if_true
+            
+        else:
+            strip_exception_from_pattern(pattern, 1)
+            return if_false
+        
     def get_generation_timestamp(self, pattern, time_format):
         return datetime.datetime.strftime(self.generation_timestamp, time_format)
             
