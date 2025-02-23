@@ -302,24 +302,36 @@ var VENC_WEB_GL = {
             this.VENC_WEB_GL_CONTEXT.touch_motions = {
                 touch: true,
                 start: {
-                    x: e.touches[0].clientX,
-                    y: e.touches[0].clientY,
+                    x: (e.touches[0].clientX-this.getBoundingClientRect().x)-(this.width/2),
+                    y: (e.touches[0].clientY-this.getBoundingClientRect().y)-(this.height/2),
                 },
             };
             e.preventDefault();
         } else if (e.touches.length === 2){
-            X = e.touches[0].clientX - e.touches[1].clientX;
-            Y = e.touches[0].clientY - e.touches[1].clientY;
-            this.VENC_WEB_GL_CONTEXT.touch_motions.pinch_start = Math.sqrt(X*X + Y*Y);
-            e.preventDefault();
+            VENC_WEB_GL.compute_pinch_start(this, e);
         }
-    },                                                
+    },
+    compute_pinch_start: function(canvas, event) {
+            X = event.touches[0].clientX - event.touches[1].clientX;
+            Y = event.touches[0].clientY - event.touches[1].clientY;
+            canvas.VENC_WEB_GL_CONTEXT.touch_motions.pinch_start = Math.sqrt(X*X + Y*Y);
+            event.preventDefault();    
+    },
     touch_move: function(e) {
         if (e.touches.length === 1) {
-            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x -= (this.VENC_WEB_GL_CONTEXT.touch_motions.start.x - e.touches[0].clientX)*(0.01/this.VENC_WEB_GL_CONTEXT.rotation_multiplier);
-            this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y -= (this.VENC_WEB_GL_CONTEXT.touch_motions.start.y - e.touches[0].clientY)*(0.01/this.VENC_WEB_GL_CONTEXT.rotation_multiplier);
-            this.VENC_WEB_GL_CONTEXT.touch_motions.start.x = e.touches[0].clientX;
-            this.VENC_WEB_GL_CONTEXT.touch_motions.start.y = e.touches[0].clientY;
+                z_x = this.width/2;
+                z_y = this.height/2;
+                
+                x0 =  this.VENC_WEB_GL_CONTEXT.touch_motions.start.x;
+                y0 =  this.VENC_WEB_GL_CONTEXT.touch_motions.start.y;
+              
+                x1 = (e.touches[0].clientX-this.getBoundingClientRect().x)-(this.width/2);
+                y1 = (e.touches[0].clientY-this.getBoundingClientRect().y)-(this.height/2);
+                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += Math.atan(x1/z_x) - Math.atan(x0/z_x);
+                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += Math.atan(y1/z_y) - Math.atan(y0/z_y);
+          
+            this.VENC_WEB_GL_CONTEXT.touch_motions.start.x = (e.touches[0].clientX-this.getBoundingClientRect().x)-(this.width/2);
+            this.VENC_WEB_GL_CONTEXT.touch_motions.start.y = (e.touches[0].clientY-this.getBoundingClientRect().y)-(this.height/2);
             e.preventDefault();
         } else if (e.touches.length >= 2) {
             X = e.touches[0].clientX - e.touches[1].clientX;
@@ -344,19 +356,28 @@ var VENC_WEB_GL = {
         return false;
     },
     touch_end: function(e) {
-      if (e.touches.length === 0 ) {
-          this.VENC_WEB_GL_CONTEXT.tracking = false;
-          this.VENC_WEB_GL_CONTEXT.touch_motions.touch = false;
-          this.VENC_WEB_GL_CONTEXT.mouse_motions = {
-              current_x : 0,
-              current_y : 0,
-              base_x: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_x + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x) % (2*3.141592),
-              base_y: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_y + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y) % (2*3.141592)
-          };
-      } else if (e.touches.length === 1){
-            this.VENC_WEB_GL_CONTEXT.touch_motions.start.x = e.touches[0].clientX;
-            this.VENC_WEB_GL_CONTEXT.touch_motions.start.y = e.touches[0].clientY;
-      }
+        if (e.touches.length === 0 ) {
+            this.VENC_WEB_GL_CONTEXT.tracking = false;
+            this.VENC_WEB_GL_CONTEXT.touch_motions.touch = false;
+            this.VENC_WEB_GL_CONTEXT.mouse_motions = {
+                current_x : 0,
+                current_y : 0,
+                base_x: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_x + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x) % (2*3.141592),
+                base_y: (this.VENC_WEB_GL_CONTEXT.mouse_motions.base_y + this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y) % (2*3.141592)
+            };
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        } else if (e.touches.length === 1){
+            this.VENC_WEB_GL_CONTEXT.touch_motions = {
+                touch: true,
+                start: {
+                    x: (e.touches[0].clientX-this.getBoundingClientRect().x)-(this.width/2),
+                    y: (e.touches[0].clientY-this.getBoundingClientRect().y)-(this.height/2),
+                },
+            };
+            e.preventDefault();
+        }
     },
     init_shader_program : function(gl) {
         const vertex_shader = this.load_shader(gl, gl.VERTEX_SHADER, this.vertex_shader_source);
@@ -459,8 +480,8 @@ var VENC_WEB_GL = {
         canvas.addEventListener('mousedown', canvas.VENC_WEB_GL_CONTEXT.mousedown_callback);
         canvas.VENC_WEB_GL_CONTEXT.mousemove_callback = function(event) {
             if (this.VENC_WEB_GL_CONTEXT.tracking) {
-                z_x = this.width;
-                z_y = this.height;
+                z_x = this.width/2;
+                z_y = this.height/2;
                 x0 =  this.VENC_WEB_GL_CONTEXT.mouse_motions.start_x;
                 y0 =  this.VENC_WEB_GL_CONTEXT.mouse_motions.start_y;
               
@@ -645,7 +666,7 @@ var VENC_WEB_GL = {
             context.mouse_motions.base_x,
             [0, 1, 0]
         );
-        
+                
         model_view_matrix = VENC_WEB_GL.mat4_multiply(view_matrix, model_matrix);
         
         var normal_matrix = VENC_WEB_GL.mat4_transpose(
@@ -726,7 +747,6 @@ function VENC_WEB_GL_ADD_NEW_CANVAS() {
     for (var i = 0; i < nodes.snapshotLength; i++) {
         node = nodes.snapshotItem(i)
         if (! ("VENC_WEB_GL_CONTEXT" in node)) {
-            console.log("DEBUG");
             VENC_WEB_GL.init(node, node.dataset.vencWebglMesh);
         }
     }
