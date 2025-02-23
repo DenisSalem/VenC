@@ -317,21 +317,27 @@ var VENC_WEB_GL = {
             canvas.VENC_WEB_GL_CONTEXT.touch_motions.pinch_start = Math.sqrt(X*X + Y*Y);
             event.preventDefault();    
     },
+    compute_rotation: function(canvas, x0, y0, x1, y1) {
+        z_x = canvas.width/2;
+        z_y = canvas.height/2;
+        canvas.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += Math.atan(x1/z_x) - Math.atan(x0/z_x);
+        canvas.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += Math.atan(y1/z_y) - Math.atan(y0/z_y);
+    },
     touch_move: function(e) {
         if (e.touches.length === 1) {
-                z_x = this.width/2;
-                z_y = this.height/2;
-                
-                x0 =  this.VENC_WEB_GL_CONTEXT.touch_motions.start.x;
-                y0 =  this.VENC_WEB_GL_CONTEXT.touch_motions.start.y;
-              
-                x1 = (e.touches[0].clientX-this.getBoundingClientRect().x)-(this.width/2);
-                y1 = (e.touches[0].clientY-this.getBoundingClientRect().y)-(this.height/2);
-                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += Math.atan(x1/z_x) - Math.atan(x0/z_x);
-                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += Math.atan(y1/z_y) - Math.atan(y0/z_y);
-          
-            this.VENC_WEB_GL_CONTEXT.touch_motions.start.x = (e.touches[0].clientX-this.getBoundingClientRect().x)-(this.width/2);
-            this.VENC_WEB_GL_CONTEXT.touch_motions.start.y = (e.touches[0].clientY-this.getBoundingClientRect().y)-(this.height/2);
+            x1 = (e.touches[0].clientX-this.getBoundingClientRect().x)-(this.width/2);
+            y1 = (e.touches[0].clientY-this.getBoundingClientRect().y)-(this.height/2);
+            
+            VENC_WEB_GL.compute_rotation(
+                this,
+                this.VENC_WEB_GL_CONTEXT.touch_motions.start.x,
+                this.VENC_WEB_GL_CONTEXT.touch_motions.start.y,
+                x1,
+                y1
+            );
+
+            this.VENC_WEB_GL_CONTEXT.touch_motions.start.x = x1;
+            this.VENC_WEB_GL_CONTEXT.touch_motions.start.y = y1;
             e.preventDefault();
         } else if (e.touches.length >= 2) {
             X = e.touches[0].clientX - e.touches[1].clientX;
@@ -480,16 +486,19 @@ var VENC_WEB_GL = {
         canvas.addEventListener('mousedown', canvas.VENC_WEB_GL_CONTEXT.mousedown_callback);
         canvas.VENC_WEB_GL_CONTEXT.mousemove_callback = function(event) {
             if (this.VENC_WEB_GL_CONTEXT.tracking) {
-                z_x = this.width/2;
-                z_y = this.height/2;
                 x0 =  this.VENC_WEB_GL_CONTEXT.mouse_motions.start_x;
                 y0 =  this.VENC_WEB_GL_CONTEXT.mouse_motions.start_y;
               
                 x1 = x0 + event.movementX;
                 y1 = y0 + event.movementY;
-                
-                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_x += Math.atan(x1/z_x) - Math.atan(x0/z_x);
-                this.VENC_WEB_GL_CONTEXT.mouse_motions.current_y += Math.atan(y1/z_y) - Math.atan(y0/z_y);
+              
+                VENC_WEB_GL.compute_rotation(
+                    this,
+                    x0,
+                    y0,
+                    x1,
+                    y1
+                )
             }
             event.preventDefault();
             event.stopPropagation();
