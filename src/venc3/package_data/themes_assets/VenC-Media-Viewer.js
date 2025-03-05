@@ -53,15 +53,19 @@ function VENC_MEDIA_VIEWER_CAROUSEL_ONCLICK(event) {
 }
 
 function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
-    // TODO : In up coming version allow consumer to write positionnment callback
-    // This can be done with class name swapping
-    
     VENC_MEDIA_VIEWER.medias = JSON.parse(
         VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerContents
     )
+
+    info_layout = 1;
+    has_title = VENC_MEDIA_VIEWER.context.dataset.hasOwnProperty("vencMediaViewerTitle") && VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerTitle.length > 0;
+    has_carousel = VENC_MEDIA_VIEWER.medias.length > 1;
+    info_layout += has_title;
+    info_layout += has_carousel;
     
     VENC_MEDIA_VIEWER.download.innerHTML = unescape(VENC_MEDIA_VIEWER.medias[media_index]);    
-    VENC_MEDIA_VIEWER.download.href = VENC_MEDIA_VIEWER.medias[media_index];    
+    VENC_MEDIA_VIEWER.download.href = VENC_MEDIA_VIEWER.medias[media_index];  
+    VENC_MEDIA_VIEWER.download.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_DOWNLOAD_LAYOUT_"+info_layout.toString();
     
     if ( VENC_MEDIA_VIEWER.item_index === 0 && media_index === 0) {
 		    VENC_MEDIA_VIEWER.previous_button.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_PREVIOUS_DEACTIVATED";
@@ -71,26 +75,27 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
     
     VENC_MEDIA_VIEWER.carousel.innerHTML = "";
 
-    has_title = VENC_MEDIA_VIEWER.context.dataset.hasOwnProperty("vencMediaViewerTitle") && VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerTitle.length > 0;
+
 
     if (has_title) {
         VENC_MEDIA_VIEWER.title.innerHTML = VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerTitle;
-        VENC_MEDIA_VIEWER.title.style.bottom = VENC_MEDIA_VIEWER.medias.length > 1 ? "2em" : "2.5em";
+        VENC_MEDIA_VIEWER.title.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_TITLE_LAYOUT_"+info_layout.toString();
     }
 
-    if (VENC_MEDIA_VIEWER.medias.length > 1) {
+    if (has_carousel) {
         for (i = 0; i < VENC_MEDIA_VIEWER.medias.length; i++) {
             a = document.createElement('a');
             a.innerHTML = (i == media_index ?  "⬤" : "◯");
-            a.className="VENC_MEDIA_VIEWER_CONTENTS_CAROUSEL_BUTTON";
+            a.className = "VENC_MEDIA_VIEWER_CONTENTS_CAROUSEL_BUTTON";
             a.dataset.media_index = i;
             a.href="";
             a.onclick = VENC_MEDIA_VIEWER_CAROUSEL_ONCLICK;
             VENC_MEDIA_VIEWER.carousel.appendChild(a);
         }
-        if (has_title) {
-            VENC_MEDIA_VIEWER.carousel.style.bottom = has_title ? "3.5em" : "2.5em"; 
-        }
+        VENC_MEDIA_VIEWER.carousel.className = "VENC_MEDIA_VIEWER_CONTENTS_CAROUSEL_LAYOUT_"+info_layout.toString();
+    }
+    else {
+        VENC_MEDIA_VIEWER.carousel.className=""
     }
 
     var file_extension = VENC_MEDIA_VIEWER.medias[media_index].split('.').pop().toLowerCase();
