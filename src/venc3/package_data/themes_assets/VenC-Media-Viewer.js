@@ -75,8 +75,6 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
     
     VENC_MEDIA_VIEWER.carousel.innerHTML = "";
 
-
-
     if (has_title) {
         VENC_MEDIA_VIEWER.title.innerHTML = VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerTitle;
         VENC_MEDIA_VIEWER.title.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_TITLE_LAYOUT_"+info_layout.toString();
@@ -274,6 +272,25 @@ function VENC_ACTION_CALLBACK(action) {
             VENC_MEDIA_VIEWER.item_index = parseInt(VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerItemIndex);
             VENC_MEDIA_VIEWER.media_index = 0
             VENC_MEDIA_VIEWER_SET_MEDIA(0);
+        }
+        else if(action === "next" && VENC_MEDIA_VIEWER.media_index >= VENC_MEDIA_VIEWER.medias.length-1 && VENC_MEDIA_VIEWER.item_index+1 == VENC_MEDIA_VIEWER.items.length) {
+            try {
+                VENC_MEDIA_VIEWER.wrapper.className = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ACTIVATED VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ON_LOAD";
+                VENC_MEDIA_VIEWER.video.style.display = "none";
+                VENC_MEDIA_VIEWER.canvas.style.display = "none";
+                VENC_MEDIA_VIEWER.image.style.display = "none";                
+                VENC_INFINITE_SCROLL.getContent(function() {
+                  	if (VENC_INFINITE_SCROLL.xmlhttp.readyState == 4 && VENC_INFINITE_SCROLL.xmlhttp.status == 200) {
+                      VENC_MEDIA_VIEWER_REFRESH_CONTENTS();
+                      VENC_MEDIA_VIEWER.context = VENC_MEDIA_VIEWER.items[parseInt(VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerItemIndex)+1];
+                      VENC_MEDIA_VIEWER.item_index = parseInt(VENC_MEDIA_VIEWER.context.dataset.vencMediaViewerItemIndex);
+                      VENC_MEDIA_VIEWER.media_index = 0
+                      VENC_MEDIA_VIEWER_SET_MEDIA(0);
+                    }
+                });
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 }

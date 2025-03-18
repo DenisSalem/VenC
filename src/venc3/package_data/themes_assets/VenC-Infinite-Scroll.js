@@ -59,14 +59,21 @@ var VENC_INFINITE_SCROLL = {
 			return;
 		}
 	},
-	getContent : function() {
+	getContent : function(callback) {
 		if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
 			this.xmlhttp = new XMLHttpRequest();
 		}
 		else { // code for IE6, IE5
 			this.xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 		}
-		this.xmlhttp.onreadystatechange = this.domUpdate;
+    if (callback === null ) {
+		  this.xmlhttp.onreadystatechange = this.domUpdate;
+    }else {
+        this.xmlhttp.onreadystatechange = function() {
+            VENC_INFINITE_SCROLL_UPDATE_DOM();
+            callback();
+        };
+    }
 		this.xmlhttp.open("GET", this.pageHook, true);
 		this.xmlhttp.send();
 	},
@@ -166,7 +173,7 @@ function VENC_INFINITE_SCROLL_RUN() {
   page_height = Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight );
   if (page_height <= viewPortHeight + window.pageYOffset + 512) { // Add a 512px offset because height / offset computation is really painful ...
       if ((VENC_INFINITE_SCROLL.queue == 0 || VENC_INFINITE_SCROLL.dontWait) && !VENC_INFINITE_SCROLL.end) {
-        VENC_INFINITE_SCROLL.getContent();
+        VENC_INFINITE_SCROLL.getContent(null);
         return 1;
       }
   }
