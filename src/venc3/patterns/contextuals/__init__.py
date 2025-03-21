@@ -21,6 +21,7 @@ from copy import deepcopy
 
 from venc3.patterns.third_party_wrapped_features.pygmentize import get_style_sheets
 from venc3.patterns.processor import Pattern
+from venc3.patterns.processor import process_condition
 
 class ThreadPatterns:
     def get_random_number(self, pattern, min_value, max_value, precision):    
