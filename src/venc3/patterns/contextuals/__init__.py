@@ -189,44 +189,41 @@ class ThreadPatterns:
             self.processor.process(content, Pattern.FLAG_CONTEXTUAL,id(pattern.payload[0]))
             return content.string            
         
-    def if_entries_in_page_have_metadata(self, pattern, metadata_name, string_1, string_2=''):
+    def if_entries_in_page_have_metadata(self, pattern, metadata_name, if_true, if_false=''):
+        conditon = False
         for entry in self.pages[self.current_page]:
             if hasattr(entry.metadata, metadata_name):
-                return string_1
+                condition = True
+                break
                 
-        return string_2
+        return process_condition(pattern, condition, if_true, if_false)
 
-    def if_pages(self, pattern, string1, string2=''):
-        if self.pages_count > 1:
-            return string1.strip()
-            
-        else:
-            return string2.strip()
+    def if_pages(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, self.pages_count > 1, if_true, if_false)
                     
-    def if_in_first_page(self, pattern, string1, string2=''):
-        return string1.strip() if self.current_page == 0 else string2.strip()
+    def if_in_first_page(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, self.current_page == 0, if_true, if_false)
             
-    def if_in_last_page(self, pattern, string1, string2=''):
-        return string1.strip() if self.current_page == len(self.pages) -1 else string2.strip()
+    def if_in_last_page(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, self.current_page == len(self.pages) -1, if_true, if_false)
 
+    def if_in_entry_id(self, pattern, entry_id, if_true, if_false=''):
+        return process_condition(pattern, False, if_true, if_false)
 
-    def if_in_entry_id(self, pattern, entry_id, string1, string2=''):
-        return string2.strip()
-
-    def if_in_main_thread(self, pattern, string1, string2=''):
-        return string2.strip()
+    def if_in_main_thread(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, False, if_true, if_false)
             
-    def if_in_categories(self, pattern, string1, string2=''):
-        return string2.strip()
+    def if_in_categories(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, False, if_true, if_false)
             
-    def if_in_archives(self, pattern, string1, string2=''):
-        return string2
+    def if_in_archives(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, False, if_true, if_false)
         
-    def if_in_thread(self, pattern, string1, string2=''):
-        return (string1 if self.in_thread else string2).strip()
+    def if_in_thread(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, self.in_thread, if_true, if_false)
 
-    def if_in_thread_and_has_feeds(self, pattern, string1, string2=''):
-        return (string1 if self.thread_has_feeds else string2).strip()
+    def if_in_thread_and_has_feeds(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, self.thread_has_feeds, if_true, if_false)
         
-    def if_in_feed(self, pattern, string1, string2=''):
-        return string2.strip() 
+    def if_in_feed(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, False, if_true, if_false)

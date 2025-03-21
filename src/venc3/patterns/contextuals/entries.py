@@ -18,6 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc3.patterns.contextuals import ThreadPatterns
+from venc3.patterns.processor import process_condition
 
 class EntriesThreadPatterns(ThreadPatterns):
     def get_last_entry_timestamp(self, pattern, time_format):
@@ -27,23 +28,22 @@ class EntriesThreadPatterns(ThreadPatterns):
             pattern
         )
         
-    def if_in_first_page(self, node, string1, string2=''):
-        return string2.strip()
+    def if_in_first_page(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, False, if_true, if_false)
 
-    def if_in_last_page(self, node, string1, string2=''):
-        return string2.strip()
+    def if_in_last_page(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, False, if_true, if_false)
     
-    def if_in_entry_id(self, node, entry_id, string1, string2=''):
+    def if_in_entry_id(self, pattern, entry_id, if_true, if_false=''):
         try:
-            if entry_id == str(self.current_entry.id):
-                return string1.strip()
+            condition = entry_id == str(self.current_entry.id)
                 
         except AttributeError:
-            pass
+            condition = False
             
-        return string2.strip()
+        return process_condition(pattern, condition, if_true, if_false)
 
-    def for_pages(self, node, length, string, separator):
+    def for_pages(self, pattern, length, string, separator):
         output = ""
         params = {
             "entry_id":str(self.current_entry.id),
@@ -57,14 +57,14 @@ class EntriesThreadPatterns(ThreadPatterns):
 
         except:
             from venc3.exceptions import VenCException
-            raise VenCException(("arg_must_be_an_integer","length"), node)        
+            raise VenCException(("arg_must_be_an_integer","length"), pattern)        
         
         try:
             output += string.format(**params) + separator
             
         except KeyError as e:
             from venc3.exceptions import VenCException
-            raise VenCException(("unknown_contextual",str(e)[1:-1]), node)
+            raise VenCException(("unknown_contextual",str(e)[1:-1]), pattern)
             
         for i in range(0, length):
             next_entry =  None if self.current_entry_index >=  len(self.entries) - 2 else self.entries[self.current_entry_index+1]

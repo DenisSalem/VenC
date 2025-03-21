@@ -18,6 +18,7 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc3.patterns.contextuals import ThreadPatterns
+from venc3.patterns.processor import process_condition
 
 class ChaptersThreadPatterns(ThreadPatterns):
     def get_next_page(self, pattern, string): #TODO : Any chance to factorize this in parent class ?
@@ -71,8 +72,9 @@ class ChaptersThreadPatterns(ThreadPatterns):
         else:
             return str()
 
-    def if_in_first_page(self, node, string1, string2=''):
-        return string2.strip()
+    # TODO: The following looks very wrong ...
+    def if_in_first_page(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, False, if_true, if_false)
     
-    def if_in_last_page(self, node, string1, string2=''):
-        return string2.strip()
+    def if_in_last_page(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, False, if_true, if_false)

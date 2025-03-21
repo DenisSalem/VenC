@@ -18,7 +18,9 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc3.patterns.contextuals import ThreadPatterns
+from venc3.patterns.processor import process_condition
 
 class FeedThreadPatterns(ThreadPatterns):
-    def if_in_feed(self, node, string1, string2=''):
-        return string1.strip()  
+    def if_in_feed(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, True, if_true, if_false)
+

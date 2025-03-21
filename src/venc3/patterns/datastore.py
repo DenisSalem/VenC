@@ -19,7 +19,7 @@
 
 import datetime
 
-from venc3.patterns.processor import strip_exception_from_pattern
+from venc3.patterns.processor import process_condition
 
 def merge(iterable, string, separator, pattern):
     try:
@@ -79,48 +79,25 @@ class DatastorePatterns:
         return self.cherry_pick_metadata(pattern, self.requested_entry.metadata, True, branch)
         
     def if_categories(self, pattern, if_true, if_false=''):
-        if self.entries_per_categories != [] and not self.blog_configuration["disable_categories"]:
-            return if_true
-            
-        else:
-            return if_false
+        return process_condition(pattern, self.entries_per_categories != [] and not self.blog_configuration["disable_categories"], if_true, if_false)
     
     def if_chapters(self, pattern, if_true, if_false=''):
-        if self.chapters_index != [] and not self.blog_configuration["disable_chapters"]:
-            return if_true
-            
-        else:
-            return if_false
+        return process_condition(pattern, self.chapters_index != [] and not self.blog_configuration["disable_chapters"], if_true, if_false)
     
     def if_feeds_enabled(self, pattern, if_true, if_false=''):
-        if self.blog_configuration["disable_atom_feed"] and self.blog_configuration["disable_rss_feed"]:
-            strip_exception_from_pattern(pattern, 1)
-            return if_false
-            
-        else: 
-            strip_exception_from_pattern(pattern, 2)
-            return if_true
+        return process_condition(pattern, not self.blog_configuration["disable_atom_feed"], if_true, if_false)
         
     def if_atom_enabled(self, pattern, if_true, if_false=''):
-        if self.blog_configuration["disable_atom_feed"]:
-            strip_exception_from_pattern(pattern, 1)
-            return if_false
+        return process_condition(pattern, not self.blog_configuration["disable_atom_feed"], if_true, if_false)
 
-        else: 
-            strip_exception_from_pattern(pattern, 2)
-            return if_true
-
-    def if_metadata_is_true(self, pattern, key, if_true, if_false, source):          
+    def if_metadata_is_true(self, pattern, key, if_true, if_false, source):
         try:
-            if (type(source) == dict and source[key]) or getattr(source,key):
-                strip_exception_from_pattern(pattern, 2)
-                return if_true.strip()
+            condition = (type(source) == dict and source[key]) or getattr(source,key)
         
         except (AttributeError, KeyError) as e:
-            pass
-
-        strip_exception_from_pattern(pattern, 1)        
-        return if_false.strip()
+            condition = False
+            
+        return process_condition(pattern, condition, if_true, if_false)
         
     def if_blog_metadata_is_true(self, pattern, metadata_name, if_true, if_false=''):
         return self.if_metadata_is_true(pattern, metadata_name, if_true, if_false, self.blog_configuration)
@@ -129,25 +106,17 @@ class DatastorePatterns:
         return self.if_metadata_is_true(pattern, metadata_name, if_true, if_false, self.requested_entry.metadata)
                 
     def if_rss_enabled(self, pattern, if_true, if_false=''):
-        if self.blog_configuration["disable_rss_feed"]:
-            strip_exception_from_pattern(pattern, 1)        
-            return if_false
-            
-        else:
-            strip_exception_from_pattern(pattern, 2)        
-            return if_true
+        return process_condition(pattern, not self.blog_configuration["disable_rss_feed"], if_true, if_false)
 
     def if_infinite_scroll_enabled(self, pattern, if_true, if_false=''):            
         try:
-            if self.blog_configuration["disable_infinite_scroll"]:
-                return if_false
-                                    
-            else:
-                return if_true
+            condition = not self.blog_configuration["disable_infinite_scroll"]
                     
         except KeyError:
-            return if_true
-                        
+            condition = False
+
+        return process_condition(pattern, not self.blog_configuration["disable_rss_feed"], if_true, if_false)
+
     def get_chapters(self, pattern, list_open, item_open, item_close, list_close):
         '''index,title,path,level,html_id'''
         key = list_open+item_open+item_close+list_close
@@ -166,13 +135,7 @@ class DatastorePatterns:
             return ""
             
     def if_entry_toc_empty(self, pattern, if_true, if_false):
-        if not (hasattr(self.requested_entry, "toc") and len(self.requested_entry.toc)):
-            strip_exception_from_pattern(pattern, 2)
-            return if_true
-            
-        else:
-            strip_exception_from_pattern(pattern, 1)
-            return if_false
+        return process_condition(pattern, not (hasattr(self.requested_entry, "toc") and len(self.requested_entry.toc), if_true, if_false)
         
     def get_generation_timestamp(self, pattern, time_format):
         return datetime.datetime.strftime(self.generation_timestamp, time_format)

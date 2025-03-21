@@ -39,6 +39,15 @@ from time import time
 from venc3.patterns.patterns_map import PatternsMap
 from venc3.exceptions import VenCException
 
+def process_condition(pattern, condition, if_true, if_false):
+        if condition:
+            strip_exception_from_pattern(pattern, 2)
+            return if_true.strip()
+
+        else: 
+            strip_exception_from_pattern(pattern, 1)
+            return if_false.strip()
+            
 def strip_exception_from_pattern(pattern, payload_index):
     if payload_index + 1 == pattern.payload_exception_index:
         pattern.payload_exception = None

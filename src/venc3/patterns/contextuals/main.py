@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2024 Denis Salem
+#    Copyright 2016, 2025 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -18,7 +18,8 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 from venc3.patterns.contextuals import ThreadPatterns
+from venc3.patterns.processor import process_condition
 
 class MainThreadPatterns(ThreadPatterns):
-    def if_in_main_thread(self, node, string1, string2=''):
-        return string1.strip()
+    def if_in_main_thread(self, pattern, if_true, if_false=''):
+        return process_condition(pattern, True, if_true, if_false)
