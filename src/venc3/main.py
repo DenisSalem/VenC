@@ -31,7 +31,7 @@ def venc_entry_point():
     ## ... do something ...
     
     if locale_err:
-        from venc3.helpers import notify
+        from venc3.prompt import notify
         notify(("cannot_get_current_locale",), color="YELLOW")
         
     # Force stdout encoding to utf-8

@@ -18,9 +18,33 @@
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
 import locale
+import os
+import yaml
+
+override_locale = None
 
 try:
-    current_locale = '.'.join(locale.getlocale())
+    blog_configuration = yaml.load(
+        open(
+            os.getcwd()+"/blog_configuration.yaml",
+            'r'
+        ).read(),
+        Loader=yaml.FullLoader
+    )
+    
+    override_locale = blog_configuration["blog_locale"]
+        
+except Exception as e:
+    print(e)
+    pass
+
+try:        
+    if override_locale != None:
+        current_locale = '.'.join(override_locale)
+        
+    else:
+        current_locale = '.'.join(locale.getlocale())
+        
     if current_locale == None:
         from venc3.prompt import get_formatted_message
         print(get_formatted_message("Your system locale seems to be undefined, VenC fallback to default.", "YELLOW"), flush=True)
@@ -32,7 +56,7 @@ try:
     
 except locale.Error as e:
     from venc3.prompt import get_formatted_message
-    print(get_formatted_message(e.args, "YELLOW"), flush=True)
+    print(get_formatted_message(str(e.args)+" "+str(current_locale), "YELLOW"), flush=True)
     current_locale = 'en'
     locale_err = True
 
