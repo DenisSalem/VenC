@@ -191,7 +191,7 @@ class ThreadPatterns:
             return content.string            
         
     def if_entries_in_page_have_metadata(self, pattern, metadata_name, if_true, if_false=''):
-        conditon = False
+        condition = False
         for entry in self.pages[self.current_page]:
             if hasattr(entry.metadata, metadata_name):
                 condition = True
