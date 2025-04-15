@@ -36,6 +36,7 @@ class Messages:
     no_blog_configuration = "Blog's configuration file doesn't exist or you do not have right permissions."
     missing_mandatory_field_in_blog_conf = "Warning, the field \"{0}\" is missing in the blog's configuration file."
     username="Username: "
+    user_passwd="User password: "
     ftp_host="FTP hostname"
     ftp_path="Absolute path of your blog on FTP server."
     sync_ftp_directory="Syncing remote target with local data..."
