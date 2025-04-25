@@ -35,9 +35,10 @@ try:
     override_locale = blog_configuration["blog_locale"]
         
 except Exception as e:
-    print(e)
+    # if blog_locale is not defined and VenC will fall back to default
+    # if blog_clonfiguration.yaml is not available and exception will be caught later.
     pass
-
+    
 try:        
     if override_locale != None:
         current_locale = '.'.join(override_locale)
