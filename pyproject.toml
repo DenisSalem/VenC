@@ -33,7 +33,7 @@ classifiers=[
     "Programming Language :: Python :: 3"
 ]
 urls = {source = "https://framagit.org/denissalem/VenC", documentation = "https://venc.software"}
-dependencies = ["pyyaml"]
+dependencies = ["pyyaml","unidecode"]
 
 [project.scripts]
 venc = "venc3.main:venc_entry_point"
