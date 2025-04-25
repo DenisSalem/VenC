@@ -86,12 +86,13 @@ class Thread:
     def organize_entries(self, entries):
         self.pages = list()
         
-        self.most_recent_entry_date = max([entry.date for entry in entries])
+        if len(entries):
+            self.most_recent_entry_date = max([entry.date for entry in entries])
         
-        for i in range(0, ceil(len(entries)/self.entries_per_page)):
-            self.pages.append(
-                entries[i*self.entries_per_page:(i+1)*self.entries_per_page]
-            )
+            for i in range(0, ceil(len(entries)/self.entries_per_page)):
+                self.pages.append(
+                    entries[i*self.entries_per_page:(i+1)*self.entries_per_page]
+                )
 
         self.pages_count = len(self.pages)
 

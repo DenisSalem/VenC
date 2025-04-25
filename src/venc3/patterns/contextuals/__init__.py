@@ -58,7 +58,7 @@ class ThreadPatterns:
                 
     def get_last_entry_timestamp(self, pattern, time_format):
         import datetime
-        return datetime.datetime.strftime(self.most_recent_entry_date, time_format)
+        return datetime.datetime.strftime(self.most_recent_entry_date, time_format) if hasattr(self, "most_recent_entry_date") else ""
         
     def get_next_page(self, pattern, string):
         '''page_number,entry_id,entry_title,path'''
