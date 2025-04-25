@@ -70,10 +70,7 @@ def export_extra_data(origin, destination=""):
         raise
 
 def quirk_encoding(string):
-    import unidecode
-    for char in ['\'',' ','%',':','&','\\']:
-        string = string.replace(char,'-')
-    return unidecode.unidecode(string)
+    return ''.join([ c if c in ('/','.','\x1a') or c.isalnum() else '-' for c in tuple(string)])
 
 def rm_tree_error_handler(function, path, excinfo):
     from venc3.prompt import notify

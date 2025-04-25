@@ -71,6 +71,7 @@ class EntriesThread(Thread, EntriesThreadPatterns):
             'entry_title': self.current_entry.metadata.title
         }))
         written_path = export_path+'/'+self.format_filename()
+
         stream = codecs.open(
             written_path,
             'w',

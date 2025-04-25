@@ -20,7 +20,6 @@
 import codecs
 from copy import deepcopy
 from math import ceil
-import unidecode
 
 from venc3.helpers import quirk_encoding
 from venc3.patterns.processor import Processor, Pattern

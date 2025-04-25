@@ -94,10 +94,10 @@ class Entry:
             "entry_title": self.metadata.title
         }
 
-        sf = quirk_encoding(paths["entries_sub_folders"].format(**params))
+        sf = paths["entries_sub_folders"].format(**params)
         self.sub_folder = (sf+'/' if sf[-1] != '/' else sf) if len(sf) else ''
         self.path = "\x1a/"+quirk_encoding(self.sub_folder+paths["entry_file_name"].format(**params)).replace('//','/')
-        
+
         if type(metadata["categories"]) != list:
             from venc3.exceptions import VenCException
             raise VenCException(("entry_metadata_is_not_a_list", "categories", self.id), context=self.filename)
