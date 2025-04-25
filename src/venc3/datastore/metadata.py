@@ -17,9 +17,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with VenC.  If not, see <http://www.gnu.org/licenses/>.
 
-from unidecode import unidecode
-from urllib.parse import quote
-
 from venc3.exceptions import VenCException
 from venc3.helpers import quirk_encoding
 

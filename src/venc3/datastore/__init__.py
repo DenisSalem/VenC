@@ -21,9 +21,7 @@ from copy import deepcopy
 
 import datetime
 import os
-import unidecode
 
-from urllib.parse import quote as urllib_parse_quote
 from venc3.datastore.configuration import get_blog_configuration
 from venc3.datastore.archives import Archives
 from venc3.datastore.entries import Entries
