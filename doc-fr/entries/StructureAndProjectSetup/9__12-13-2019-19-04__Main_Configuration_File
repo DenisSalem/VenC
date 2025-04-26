@@ -136,6 +136,15 @@ Définit la langue du site. Il s'agit d'une métadonnée historique qui à l'ori
 
 Permet de redéfinir la [`locale`](https://docs.python.org/3/library/locale.html) utilisé par VenC.
 
+Ce paramètre prend la forme suivante :
+
+.:CodeHighlight::YAML::False::blog_locale:
+  - fr_FR
+  - UTF-8
+:.
+
+Pour trouver la paire de valeurs que vous souhaitez ou dont vous avez besoin vous pouvez consulter les `locales` disponible dans votre système dans le fichier `/etc/locale.gen`.
+
 ## author_email
 
 Votre adresse e-mail.
