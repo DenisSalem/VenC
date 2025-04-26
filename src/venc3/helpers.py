@@ -20,7 +20,7 @@
 import os 
 import sys
 
-import unidecode
+import unicodedata
 
 # Sometimes format fail with {something} not found in given dict.
 class SafeFormatDict(dict):
@@ -72,8 +72,8 @@ def export_extra_data(origin, destination=""):
         raise
 
 def quirk_encoding(string):
-    return unidecode.unidecode(''.join([ c if c.isalnum() or c in ('/','.',) else '-' for c in string]))
-    
+    return ''.join(c for c in unicodedata.normalize('NFD', ''.join([ c if c.isalnum() or c in ('/','.',) else '-' for c in string])) if unicodedata.category(c) != "Mn")
+        
 def rm_tree_error_handler(function, path, excinfo):
     from venc3.prompt import notify
     
