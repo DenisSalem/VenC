@@ -37,7 +37,6 @@ définir dans votre [fichier de configuration principal](.:GetChapterAttributeBy
 - __`taxonomy`__ : Les catégories peuvent être gérées avec [`GetBlogCategoriesTreeFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getblogcategoriestreefrombranches) et
 [`GetFlattenedBlogCategoriesFromBranches`](.:GetChapterAttributeByIndex::path::5.4.2:.#getflattenedblogcategoriesfrombranches). La variable `taxonomy` contient une liste de categories racines qui servirons de base pour construire un ou plusieurs menus comme expliqué [ici](.:GetChapterAttributeByIndex::path::3.5.7:.).
 
-
 ### Autres options
 
 - __`disable_infinite_scroll`__ : il s'agit d'un `booléen` permettant de désactiver le script JS de [défilement infini](.:GetChapterAttributeByIndex::path::4.6.2.2:.).
@@ -50,3 +49,4 @@ définir dans votre [fichier de configuration principal](.:GetChapterAttributeBy
 - __`include_in_footer`__ : il s'agit du nom de fichier d'un éventuel pied de page HTML à inclure.
 - __`disable_rss_feed`__ : empêche VenC de générer un flux RSS. Ce champ est un booléen, fixé à `False` par défaut.
 - __`disable_atom_feed`__ : empêche VenC de générer un flux Atom. Ce champ est un booléen, fixé à `False` par défaut.
+- __`blog_language`__ : Permet de définir la langue du blog au niveau `HTML`.
