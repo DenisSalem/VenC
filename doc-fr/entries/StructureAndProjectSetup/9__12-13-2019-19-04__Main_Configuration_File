@@ -130,7 +130,11 @@ Il s'agit d'un nombre entier spécifiant le nombre simultané de connexion FTP q
 
 ## blog_language
 
-Définit la langue du site.
+Définit la langue du site. Il s'agit d'une métadonnée historique qui à l'origine peut-être récupéré avec [`GetBlogLanguage`](.:GetChapterAttributeByIndex::path::5.4.2:.#getbloglanguage).
+
+## blog_locale
+
+Permet de redéfinir la [`locale`](https://docs.python.org/3/library/locale.html) utilisé par VenC.
 
 ## author_email
 

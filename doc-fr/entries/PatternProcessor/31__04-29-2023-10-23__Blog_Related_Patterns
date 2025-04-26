@@ -390,7 +390,7 @@ Si la métadonnée est absente, le motif est ignoré.
 > .:Escape:: .:GetBlogLanguage:. :.
 
 Retourne la langue du blog définie dans [`blog_language`](.:GetChapterAttributeByIndex::path::4.2:.#blog-language).
-Si la métadonnée est absente, le motif est ignoré.
+Comme il s'agit d'une médatonnée _legacy_, elle n'est plus obligatoire. Si la métadonnée est absente, le motif est ignoré.
 
 #### GetBlogLicense
 
