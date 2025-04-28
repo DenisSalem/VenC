@@ -72,7 +72,7 @@ def export_extra_data(origin, destination=""):
         raise
 
 def quirk_encoding(string):
-    return ''.join(c for c in unicodedata.normalize('NFD', ''.join([ c if c.isalnum() or c in ('/','.',) else '-' for c in string])) if unicodedata.category(c) != "Mn")
+    return ''.join(c for c in unicodedata.normalize('NFD', ''.join([ c if c.isalnum() or c in ('/','.','\x1a') else '-' for c in string])) if unicodedata.category(c) != "Mn")
         
 def rm_tree_error_handler(function, path, excinfo):
     from venc3.prompt import notify
