@@ -203,6 +203,7 @@ class DataStore(DatastorePatterns, Taxonomy, Archives, Entries):
             "html_id": quirk_encoding(node.value),
             "count" : node.count,
             "weight" : round(node.count / node.weight_tracker.value,2),
+            "description": node.description,
             "path" : node.path,
             "childs" : self.build_html_categories_tree(
                 pattern,

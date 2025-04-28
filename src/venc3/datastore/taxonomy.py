@@ -101,7 +101,8 @@ class Taxonomy:
                     str(item), 
                     entry_id,
                     path,
-                    weight_tracker
+                    weight_tracker,
+                    description = self.blog_configuration["categories_descriptions"][str(item)] if str(item) in self.blog_configuration["categories_descriptions"].keys() else ""
                 )
     
                 blog_output_tree.append(metadata) 

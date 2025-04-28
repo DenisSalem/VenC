@@ -21,6 +21,7 @@ BLOG_CONFIGURATION = None
 
 def sanitize_optional_fields(blog_configuration):
     fields = {
+        "categories_descriptions": (dict,),
         "blog_keywords": (list,),
         "blog_url": (str,),
         "code_highlight_css_override": (bool,),
@@ -88,6 +89,7 @@ def setup_optional_fields(blog_configuration):
             "ftp_port": 21,
             "ftp_encoding": "latin-1",
             "ftp_sessions": 4,
+            "categories_descriptions": {}
         }
             
         for field in default_values.keys():

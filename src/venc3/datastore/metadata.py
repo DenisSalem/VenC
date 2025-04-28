@@ -56,7 +56,7 @@ class EntryMetadata:
                 setattr(self, key, '')
                             
 class MetadataNode:
-    def __init__(self, value, entry_index, path="", weight_tracker = None):
+    def __init__(self, value, entry_index, path="", weight_tracker = None, description=""):
         self.count = 1
         if weight_tracker != None:
             weight_tracker.update()
@@ -65,6 +65,7 @@ class MetadataNode:
         self.value = value
         self.related_to = [entry_index]
         self.childs = list()
+        self.description = description
 
 class WeightTracker:
     def __init__(self):
