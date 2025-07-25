@@ -16,7 +16,7 @@ def quirk_encoding_2(string):
 
 # Faster and run without unidecode dependancy
 def quirk_encoding_3(string):
-    return ''.join(c for c in unicodedata.normalize('NFD', ''.join([ c if c.isalnum() or c in ('/','.',) else '-' for c in string])) if unicodedata.category(c) != "Mn")
+    return ''.join(c for c in unicodedata.normalize('NFD', ''.join([ c if c.isalnum() or c in ('/','.','\x1a') else '-' for c in string])) if unicodedata.category(c) != "Mn")
     
 print(quirk_encoding_1("../Héllo Kitty Âéèà"), timeit.timeit(lambda: quirk_encoding_1("../Héllo Kitty Âéèà"), number=100000))
 print(quirk_encoding_2("../Héllo Kitty Âéèà"), timeit.timeit(lambda: quirk_encoding_2("../Héllo Kitty Âéèà"), number=100000))

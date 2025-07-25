@@ -166,9 +166,13 @@ class PatternTree:
           index = string.find(symbol, index)
           if index == -1:
               break
+        
+          if (index == len(string)-1 or string[index+2] != ':') and (index == 0 or string[index-1] != ':'):
+              yield Boundary(index, boundary_type)
+              index+=2
               
-          yield Boundary(index, boundary_type)
-          index+=1
+          else:
+              index+=1
           
     def __get_boundaries(self, string):
         o = [o for o in PatternTree.__find_pattern_boundaries(string, '.:', Boundary.BONDARY_TYPE_OPENING)]
