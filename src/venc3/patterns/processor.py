@@ -54,8 +54,8 @@ def strip_exception_from_pattern(pattern, payload_index):
         pattern.payload_exception_index = None
 
 class Boundary:
-    BONDARY_TYPE_OPENING = 1
-    BONDARY_TYPE_CLOSING = -1
+    BOUNDARY_TYPE_OPENING = 1
+    BOUNDARY_TYPE_CLOSING = -1
     
     def __init__(self, index, boundary_type):
         self.index = index
@@ -91,6 +91,8 @@ class Pattern:
             from venc3.exceptions import VenCException
             raise VenCException(("this_pattern_is_embed_in_the_name_of_another_one", sub_patterns[0].payload[0]), sub_patterns[0])
         
+        self.flags = Pattern.FLAG_NONE
+
         for arg in self.payload[1:]:
             limit += len(arg)
             while i < len_sub_patterns and sub_patterns[i].o < limit:
@@ -100,6 +102,8 @@ class Pattern:
                 sub_pattern.parent = self
                 sub_pattern.payload_index += payload_index
                 i+=1
+                if sub_pattern.flags & Pattern.FLAG_CONTEXTUAL:
+                    self.flags = Pattern.FLAG_CONTEXTUAL
                 
             limit+=2
             offset = limit
@@ -118,16 +122,16 @@ class Pattern:
             root.match_get_entry_preview = True
 
         self.name_id = id(pattern_name)
-
-        self.flags = Pattern.FLAG_NONE
         
-        if pattern_name in PatternsMap.CONTEXTUALS.keys():
-            self.flags = Pattern.FLAG_CONTEXTUAL
-        
-        for key in PatternsMap.NON_CONTEXTUALS.keys():
-            if key != "entries" and pattern_name in PatternsMap.NON_CONTEXTUALS[key].keys():
-                self.flags = Pattern.FLAG_NON_CONTEXTUAL
-                break
+        if self.flags == Pattern.FLAG_NONE:
+            if pattern_name in PatternsMap.CONTEXTUALS.keys():
+                self.flags = Pattern.FLAG_CONTEXTUAL
+                
+            else:
+                for key in PatternsMap.NON_CONTEXTUALS.keys():
+                    if key != "entries" and pattern_name in PatternsMap.NON_CONTEXTUALS[key].keys():
+                        self.flags = Pattern.FLAG_NON_CONTEXTUAL
+                        break
 
         if pattern_name in PatternsMap.NON_CONTEXTUALS["entries"]:
             self.flags = Pattern.FLAG_ENTRY_RELATED
@@ -167,7 +171,7 @@ class PatternTree:
           if index == -1:
               break
         
-          if (index == len(string)-1 or string[index+2] != ':') and (index == 0 or string[index-1] != ':'):
+          if (boundary_type == Boundary.BOUNDARY_TYPE_OPENING and (index == len(string)-1 or not string[index+2] in (':','.'))) or (boundary_type == Boundary.BOUNDARY_TYPE_CLOSING and (index == 0 or string[index-1] != ':')):
               yield Boundary(index, boundary_type)
               index+=2
               
@@ -175,24 +179,21 @@ class PatternTree:
               index+=1
           
     def __get_boundaries(self, string):
-        o = [o for o in PatternTree.__find_pattern_boundaries(string, '.:', Boundary.BONDARY_TYPE_OPENING)]
-        c = [c for c in PatternTree.__find_pattern_boundaries(string, ':.', Boundary.BONDARY_TYPE_CLOSING)]
+        o = [o for o in PatternTree.__find_pattern_boundaries(string, '.:', Boundary.BOUNDARY_TYPE_OPENING)]
+        c = [c for c in PatternTree.__find_pattern_boundaries(string, ':.', Boundary.BOUNDARY_TYPE_CLOSING)]
         
         if len(o) != len(c):
             from venc3.exceptions import MalformedPatterns
             raise MalformedPatterns(self, o, c)
-        
+
         return tuple(sorted( 
             o + c,
             key = lambda x: x.index
         ))
     
-    def __get_boundaries_block(self, boundaries, start, offset):
-        if boundaries[start].boundary_type == Boundary.BONDARY_TYPE_CLOSING:
-            from venc3.exceptions import VenCSyntaxError
-            raise VenCSyntaxError(self, boundaries[start].index+offset, boundaries[start].index+2+offset)
-        
+    def __get_boundaries_block(self, boundaries, start, offset):            
         level = 0
+        
         for i in range(start, len(boundaries)):
             level += boundaries[i].boundary_type
     
@@ -215,10 +216,10 @@ class PatternTree:
         parent_start, parent_offset = start, offset
         while start < limit:
             end = self.__get_boundaries_block(boundaries, start, offset)
+
             if end - start - 1 > 0:
                 offset, pattern = self.__build_tree(boundaries, start+1, end-1, end, offset)
                 sub_patterns_append(pattern)
-                
             else:
                 pattern = Pattern(
                     self.string,
@@ -226,7 +227,8 @@ class PatternTree:
                     boundaries[end].index+2+offset,
                     [],
                     self
-                )                    
+                )
+
                 offset += self.__apply_and_compute_offset_and_check_parallelizable(pattern)
                 sub_patterns_append(pattern)
                 
@@ -240,6 +242,7 @@ class PatternTree:
                 sub_patterns,
                 self
             )
+
             offset += self.__apply_and_compute_offset_and_check_parallelizable(pattern)
             return offset, pattern
             
@@ -328,7 +331,7 @@ class Processor:
     def process(self, parent, flags, recursion_error_triggered_by=None):
         payload_offset = [
             0, # offset
-            1 # payload_index
+            1  # payload_index
         ]
         parent_sub_patterns_filtered = []
         parent_sub_patterns, parent_sub_patterns_filtered_append = parent.sub_patterns, parent_sub_patterns_filtered.append

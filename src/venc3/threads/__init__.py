@@ -72,8 +72,12 @@ class Thread:
         # Setup pattern processor
         self.processor = Processor()
         self.processor.set_patterns(
-            { key : getattr(self, value)  for key,value, in patterns_map.CONTEXTUALS.items()}
+            { key : getattr(self, value) for key,value, in patterns_map.CONTEXTUALS.items()}
         )
+        self.processor.set_patterns(patterns_map.non_contextual["blog"])
+        self.processor.set_patterns(patterns_map.non_contextual["entries"])
+        self.processor.set_patterns(patterns_map.non_contextual["extra"])
+
 
     def return_page_around(self, string, params):
         try:
