@@ -10,8 +10,7 @@ Avant tout chose, il convient de prendre connaissance du chargeur de scripts.
 
 Dans le cas où vous souhaiteriez écrire votre script pour un thème de
 votre confection, il est __fortement__ recommandé de l'exécuter à l'aide
-de __`VenC-Scripts-Bootstrap-x.y.z.js`__ (`x.y.z` étant la version disponible
-avec la distribution de VenC que vous possédez).
+de __`VenC-Scripts-Bootstrap.js`__.
 
 Ce script déclenche l'effet des modules JS quand la page est chargée.
 
@@ -26,7 +25,7 @@ function VENC_ON_LOAD_CALLBACK() {
 
 window.onload = VENC_ON_LOAD_CALLBACK:.
 
-Pour fonctionner, __`VenC-Scripts-Bootstrap-x.y.z.js`__ doit être le
+Pour fonctionner, __`VenC-Scripts-Bootstrap.js`__ doit être le
 premier script appelé dans votre page.
 
 .:CodeHighlightInclude::html::False::js_loader_example:.

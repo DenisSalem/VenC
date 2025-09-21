@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Scripts-Bootstrap-x.y.z.js">
+        <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Scripts-Bootstrap.js">
         </script>
         .:IfInfiniteScrollEnabled::
             .:IfInThread::
-                <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Infinite-Scroll-x.y.z.js">
+                <script type="text/javascript" src=".:GetRelativeOrigin:.VenC-Infinite-Scroll.js">
                 </script>
             ::
         

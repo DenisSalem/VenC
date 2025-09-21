@@ -17,9 +17,9 @@ permet donc de plier/déplier les sous-parties d'une liste.
 Pour pouvoir utiliser ce module, vous devez inclure dans le fichier
 __`header.html`__ de votre thème deux scripts :
 
-- __`VenC-Scripts-Bootstrap-x.y.z.js`__ : ce script est obligatoire pour faire
+- __`VenC-Scripts-Bootstrap.js`__ : ce script est obligatoire pour faire
 fonctionner n'importe quel module.
-- __`VenC-Tree-x.y.z.js`__ : il s'agit du script permettant d'animer un arbre d'éléments.
+- __`VenC-Tree.js`__ : il s'agit du script permettant d'animer un arbre d'éléments.
 Il doit être inclus __après__ `VenC-Scripts-Bootstrap`.
 
 Une bonne façon de faire est d'inclure ces deux scripts de la façon
@@ -34,8 +34,8 @@ utiliser le module pour rendre interactif une table des matières, on
 aurait utilisé le pattern __`IfChapters`__.
 
 Précisons également que si vous n'avez pas prévu d'utiliser d'autres modules
-que __`VenC-Tree-x.y.z.js`__ dans votre thème, vous pouvez passer la ligne
-d'inclusion de __`VenC-Bootstrap-x.y.z.js`__ en paramètre de __`IfCategories`__
+que __`VenC-Tree.js`__ dans votre thème, vous pouvez passer la ligne
+d'inclusion de __`VenC-Bootstrap.js`__ en paramètre de __`IfCategories`__
 ou __`IfChapters`__.
 
 ## Inclure le module arbre dans votre thème
@@ -43,7 +43,7 @@ ou __`IfChapters`__.
 Il y a deux façons de procéder :
 
 - Vous pouvez copier le module et sa dépendance dans le répertoire assets
-de votre thème depuis __`~/.local/share/VenC/themes_assets`__. C'est cette méthode qui est recommandée si vous souhaitez distribuer votre thème.
+de votre thème depuis __`$(venc -pp)/themes_assets`__. C'est cette méthode qui est recommandée si vous souhaitez distribuer votre thème.
 - Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::4.6.1:.)
 dans lequel vous indiquez les noms de fichier des modules que vous souhaitez
 voir être exportés pendant la génération de votre blog.
@@ -106,4 +106,4 @@ Il est également possible de redéfinir complètement le style CSS des listes a
 :.
 
 La redéfinition des attributs de __`VENC_TREE`__ doit se faire __après__ avoir
-inclus dans votre page __`VenC-Tree-x.y.z.js`__.
+inclus dans votre page __`VenC-Tree.js`__.

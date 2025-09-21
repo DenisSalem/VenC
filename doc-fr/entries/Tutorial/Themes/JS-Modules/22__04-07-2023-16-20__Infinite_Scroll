@@ -14,9 +14,9 @@ quand vous arrivez à la fin de la page courante.
 Pour pouvoir utiliser ce module, vous devez inclure dans le fichier
 __`header.html`__ de votre thème deux scripts : 
 
-- __`VenC-Scripts-Bootstrap-x.y.z.js`__ : ce script est obligatoire pour faire
+- __`VenC-Scripts-Bootstrap.js`__ : ce script est obligatoire pour faire
 fonctionner n'importe quel module.
-- __`VenC-Infinite-Scroll-x.y.z.js`__ : il s'agit du script permettant le défilement infini.
+- __`VenC-Infinite-Scroll.js`__ : il s'agit du script permettant le défilement infini.
 Il doit être inclus __après__ `VenC-Scripts-Bootstrap`.
 
 Une bonne façon de faire est d'inclure ces deux scripts de la façon suivante : 
@@ -37,7 +37,7 @@ configuration principale de votre blog à l'aide de la variable booléenne __`di
 Il y a deux façons de procéder :
 
 - Vous pouvez copier le module et sa dépendance dans le répertoire _assets_
-de votre thème depuis __`~/.local/share/VenC/themes_assets`__. C'est cette méthode qui est recommandée.
+de votre thème depuis __`$(venc -pp)/themes_assets`__.
 - Vous pouvez définir [un fichier de configuration de thème](.:GetChapterAttributeByIndex::path::4.6.1:.)
 dans lequel vous indiquerez le nom des fichiers des modules que vous souhaitez
 voir être exportés pendant la génération de votre blog.
