@@ -81,4 +81,4 @@ Les dépendances de VenC sont :
 - [mistletoe](https://github.com/miyuchina/mistletoe/) : dépendance optionnelle pour utiliser Markdown.
 - [Pygments](https://pygments.org/) : dépendance optionnelle pour utiliser la coloration syntaxique.
 - [AsciiDoc3](https://asciidoc3.org/) : dépendance optionnelle pour utiliser AsciiDoc.
-- [pkg_resources](https://pypi.org/project/pkg_resources) : dépendance optionnelle pour inspecter et obtenir des informations sur les autres dépendances de VenC. 
+- [pkg_resources](https://setuptools.pypa.io/en/latest/pkg_resources.html) : dépendance optionnelle pour inspecter et obtenir des informations sur les autres dépendances de VenC. 
