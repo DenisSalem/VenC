@@ -5,3 +5,11 @@ title: WebGL
 chapter: 4.6.2.4
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
+`VenC-WebGL.js` est le module javascript permettant d'afficher des objets 3D au format STL avec VenC.
+
+Il y a deux cas de figure où vous avez besoin d'inclure ce script :
+
+- Avec le `motif` [`WebGL`](.:GetChapterAttributeByIndex::path::5.4.3:.#webgl). Dans ce cas, le module javascript
+peut-être automatiquement inclus dans la page courante avec le motif [`GetAssetDependencies`](#getassetdependencies).
+- Avec un autre module JS [`VenC-Media-Viewer.js`](.:GetChapterAttributeByIndex::path::4.6.2.5:.). Dans ce cas, le module
+doit-être inclus manuellement comme pour les autres modules javascript : voir chapitre [4.6.2](.:GetChapterAttributeByIndex::path::4.6.2:.) et [4.6.2.1](.:GetChapterAttributeByIndex::path::4.6.2.1:.)

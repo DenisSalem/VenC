@@ -1,2 +1,7 @@
 <script type="text/javascript" src=".:GetRelativeRoot:.VenC-Scripts-Bootstrap.js"></script>
+
+<!-- Exemple d'inclusion d'un module que vous pourriez avoir écrit -->
 <script type="text/javascript" src=".:GetRelativeRoot:.Mon-Module-Trop-Badass.js"></script>
+
+<!-- Exemple d'inclusion d'un module par défaut, livré avec VenC -->
+<script type="text/javascript" src=".:GetRelativeRoot:.VenC-Infinite-Scroll.js"></script>

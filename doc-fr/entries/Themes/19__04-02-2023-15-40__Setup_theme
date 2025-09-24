@@ -6,7 +6,7 @@ chapter: '4.6.1'
 title: Configuration d'un thème
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
-Lorsque vous créez votre thème, et si vous souhaitez le distribuer, il est possible et même recommandé de configurer
+Lorsque vous créez votre thème ou si vous souhaitez le distribuer, il est possible et recommandé de configurer
 le fichier `config.yaml` dans le répertoire racine de votre thème.
 
 Comme le nom de fichier le laisse penser, il s'agit d'un fichier de configuration au format [YAML](https://yaml.org/).

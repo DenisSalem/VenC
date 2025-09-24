@@ -12,3 +12,7 @@ VenC fournit quelques modules JavaScript pour vous aider à mettre en page votre
 
 Ce chapitre présente ces modules et en explique le fonctionnement.
 
+Pour pouvoir inclure ces modules vous devez configurer votre thème en conséquence comme expliqué
+dans le chapitre ["4.6.1 Configuration d'un thème"](.:GetChapterAttributeByIndex::path::4.6.1:.) en
+ajoutant le nom de fichier du module JS dans la liste `assets_dependencies`.
+
