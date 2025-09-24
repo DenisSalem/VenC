@@ -50,12 +50,9 @@ Cette dernière commande échouera si `setuptools` n'est pas installé. `setupto
 
 ## Fichiers installés
 
-Dépendances mises à part, VenC installe également ses ressources dans l'un de ces répertoires, selon la méthode d'installation :
+Dépendances mises à part, VenC installe également ses ressources dans le répertoire :
 
-- __`./setup.py`__: `~/.local/share/VenC` 
-- __`pip`__: `~/.local/share/VenC` 
-- __`pipx`__ : `~/.local/share/pipx/venvs/venc/share/VenC`
-
+> $(venc -pp)
 
 On y trouve les thèmes, des assets, des templates, des modules JavaScript et d'autres petites choses utiles au bon fonctionnement
 de VenC.

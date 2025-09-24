@@ -17,11 +17,11 @@ Ou :
 
 _Attention à ne pas confondre la notion de [template graphique](.:GetChapterAttributeByIndex::path::4.6:.) avec celle de [template de publication](.:GetChapterAttributeByIndex::path::4.5:.)._
 
-Si vous ne spécifiez pas de nom de template de publication, VenC produira une [publication](.:GetChapterAttributeByIndex::path::4.3:.) totalement vierge.
-Le nom de template de publication est en fait le nom de fichier du template désiré, se trouvant soit dans le
+Si vous ne spécifiez pas de nom de template de publication, VenC produira une [publication](.:GetChapterAttributeByIndex::path::4.3:.)
+totalement vierge. Le nom de template de publication est en fait le nom de fichier du template désiré, se trouvant soit dans le
 répertoire `templates` de votre projet, soit dans le répertoire des `templates` par défaut :
 
-> ~/.local/share/VenC/themes_templates/
+> $(venc -pp)/themes_templates/
 
 Si vous utilise un template celui-ci peu avoir besoin d'arguments supplémentaires comme expliqué dans le chappitre [4.5.1](.:GetChapterAttributeByIndex::path::4.5.1:.).
 

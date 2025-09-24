@@ -45,7 +45,7 @@ fonctionnement de tout ça. Le meilleur moyen de créer un thème soi-même
 est de jeter un œil au thème __`concrete`__ normalement installé avec VenC
 dans :
 
-> ~/.local/share/VenC/themes/concrete
+> $(venc -pp)/themes/concrete
 
 Ce thème en l'état offre un aperçu de ce qu'il est possible de faire avec VenC.
 C'est une solide base pour créer le vôtre.
