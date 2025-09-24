@@ -18,8 +18,6 @@ Le ou les séparateurs d'argument à l'intérieur d'un `motif` sont représenté
 
 > ::
 
-*__Important : Pour le moment, à l'intérieur d'un argument, un motif imbriqué ne peut pas être adjacent aux symbols séparant les arguement .__*
-
 Un `motif` a donc la forme suivante :
 
 > .:Escape:: .:PatternName[::Argument 1][::Argument 2][::Argument N] ... :. :.
@@ -46,3 +44,7 @@ Les `motifs` peuvent être imbriqués :
 Ci-dessus, __`GetRelativeRoot`__ est appelé dans le second argument de `ForBlogMetadataIfExists`.
 
 Les `motifs` sont toujours exécutés par ordre d'imbrication quand c'est possible : À type de context égal, les `motifs` les plus imbriqués sont exécutés en premier.
+
+Enfin, un motif imbriqué peut-être adjacent aux symbols séparant les arguement. Par exemple :
+
+.:CodeHighlight::HTML::False::.:Escape::.:CherryPickBlogMetadata::categories_descriptions::.:GetThreadName::{value}:.:.:.:.
