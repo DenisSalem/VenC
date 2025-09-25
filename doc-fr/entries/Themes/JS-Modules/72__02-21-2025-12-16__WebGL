@@ -13,3 +13,5 @@ Il y a deux cas de figure où vous avez besoin d'inclure ce script :
 peut-être automatiquement inclus dans la page courante avec le motif [`GetAssetDependencies`](#getassetdependencies).
 - Avec un autre module JS [`VenC-Media-Viewer.js`](.:GetChapterAttributeByIndex::path::4.6.2.5:.). Dans ce cas, le module
 doit-être inclus manuellement comme pour les autres modules javascript : voir chapitre [4.6.2](.:GetChapterAttributeByIndex::path::4.6.2:.) et [4.6.2.1](.:GetChapterAttributeByIndex::path::4.6.2.1:.)
+
+Dans la surface de rendu, avec la souris, la molette, ou l'interface tactile de votre écran, vous pouvez effectuer des rotations autour de l'objet ainsi que zoomer et dézoomer dessus.
