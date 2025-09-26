@@ -107,3 +107,11 @@ Il est également possible de redéfinir complètement le style CSS des listes a
 
 La redéfinition des attributs de __`VENC_TREE`__ doit se faire __après__ avoir
 inclus dans votre page __`VenC-Tree.js`__.
+
+## Persistance de l'état de l'arbre
+
+Par défaut VenC conserve l'état des noeuds de l'arbre (pliés ou dépliés) dans un cookie.
+Il est possible de désactiver la persistance avec le code javascript suivant :
+
+.:CodeHighlight::Javascript::False::// Code à placer après l'import de VenC-Tree.js
+VENC_TREE.enable_cookie = false; :.
