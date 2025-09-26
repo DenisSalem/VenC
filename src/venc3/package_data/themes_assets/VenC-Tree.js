@@ -24,6 +24,7 @@ var VENC_TREE = {
     button_disabled: '○',
     ul_style: function(ul) {},
     nodes_count: 0,
+    enable_cookie: true,
     cookie_data: {}
 }
 
@@ -140,7 +141,7 @@ function VENC_TREE_ON_LOAD() {
         nodes.forEach(function(node, node_index, nodes_array) {
             node_has_path_href = VENC_TREE_NODE_HAS(node, path_href)
             node.venc_node_id = VENC_TREE.nodes_count++
-            if (node.venc_node_id.toString() in VENC_TREE.cookie_data) {
+            if ( VENC_TREE.enable_cookie && (node.venc_node_id.toString() in VENC_TREE.cookie_data)) {
                 if (VENC_TREE.cookie_data[node.venc_node_id.toString()] == "HIDE") {
                     VENC_TREE_HIDE_ELEMENT(node)
                 }
