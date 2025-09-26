@@ -1,5 +1,5 @@
 /*
- * Copyright 2016, 2023 Denis Salem
+ * Copyright 2016, 2025 Denis Salem
  * 
  * This file is part of VenC.
  * 
@@ -22,7 +22,9 @@ var VENC_TREE = {
     button_show: '+',
     button_hide: '-',
     button_disabled: '○',
-    ul_style: function(ul) {}
+    ul_style: function(ul) {},
+    nodes_count: 0,
+    cookie_data: {}
 }
 
 function VENC_TREE_SWITCH_NODE_VISIBILIY(button) {
@@ -65,6 +67,8 @@ function VENC_TREE_UNHIDE_ELEMENT(element) {
     element.style.opacity = "1";
     element.style.padding = "5px";
     element.setAttribute("data-venc-state", "visible")
+    VENC_TREE.cookie_data[element.venc_node_id.toString()] = "UNHIDE"
+    document.cookie = JSON.stringify(VENC_TREE.cookie_data);
 }
 
 function VENC_TREE_HIDE_ELEMENT(element) {
@@ -73,6 +77,8 @@ function VENC_TREE_HIDE_ELEMENT(element) {
     element.style.opacity = "0";
     element.style.padding = "0px";
     element.setAttribute("data-venc-state", "hidden")
+    VENC_TREE.cookie_data[element.venc_node_id.toString()] = "HIDE"
+    document.cookie = JSON.stringify(VENC_TREE.cookie_data);
 }
 
 function VENC_TREE_ADD_BUTTON(button) {
@@ -106,7 +112,14 @@ function VENC_TREE_NODE_HAS(node, target) {
     return false
 }
 
-function VENC_TREE_ON_LOAD() {    
+function VENC_TREE_ON_LOAD() {
+    
+    var has_cookie = document.cookie.length > 0
+    
+    if (has_cookie) {
+        VENC_TREE.cookie_data = JSON.parse(document.cookie)
+    }
+    
     // Unhide current branch
     path_hrefs = document.getElementsByClassName("__VENC_TREE_PATH__");
     path_href = undefined
@@ -126,12 +139,22 @@ function VENC_TREE_ON_LOAD() {
         // First Pass: Setup the whole tree, and making visible active sublist
         nodes.forEach(function(node, node_index, nodes_array) {
             node_has_path_href = VENC_TREE_NODE_HAS(node, path_href)
-            
-            if (node.parentNode != root && !node_has_path_href) { 
-                VENC_TREE_HIDE_ELEMENT(node)
+            node.venc_node_id = VENC_TREE.nodes_count++
+            if (node.venc_node_id.toString() in VENC_TREE.cookie_data) {
+                if (VENC_TREE.cookie_data[node.venc_node_id.toString()] == "HIDE") {
+                    VENC_TREE_HIDE_ELEMENT(node)
+                }
+                else if(VENC_TREE.cookie_data[node.venc_node_id.toString()] == "UNHIDE") {
+                    VENC_TREE_UNHIDE_ELEMENT(node)
+                }
             }
             else {
-                VENC_TREE_UNHIDE_ELEMENT(node)
+                if (node.parentNode != root && !node_has_path_href) { 
+                    VENC_TREE_HIDE_ELEMENT(node)
+                }
+                else {
+                    VENC_TREE_UNHIDE_ELEMENT(node)
+                }
             }
             
             items = Array.from(node.children)
