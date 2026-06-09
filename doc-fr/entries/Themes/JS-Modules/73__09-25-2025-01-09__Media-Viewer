@@ -6,3 +6,6 @@ title: Media Viewer
 chapter: 4.6.2.5
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
+`VenC-Media-Viewer.js` permet de générer une visioneuse multimédia comportant
+un mode `carousel`. Ce module javascript permet ainsi de visualiser des vidéos,
+des images
