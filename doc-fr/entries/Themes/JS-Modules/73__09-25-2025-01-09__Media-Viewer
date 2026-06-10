@@ -4,8 +4,83 @@ categories:
 - ''
 title: Media Viewer
 chapter: 4.6.2.5
+medias:
+    - https://denissalem.ovh/downloads/img/2021_-_Denis_Salem_-_CC_By_SA_-_VenC_introducing.jpg
+    - https://denissalem.ovh/downloads/img/2021_-_Denis_Salem_-_CC_By_SA_-_VenC_CreateBlogInFiveMinutes.jpg
+    - https://denissalem.ovh/downloads/img/2021_-_Denis_Salem_-_CC_By_SA_-_VenC_Install_Party.jpg
+    - https://denissalem.ovh/downloads/img/2024_-_Denis_Salem_-_CC_By_SA_-_VenC_advanced_taxonomy.jpg
+    - https://denissalem.ovh/downloads/img/2024_-_Denis_Salem_-_CC_By_SA_-_VenC-3.2.jpg
+    
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 `VenC-Media-Viewer.js` permet de générer une visioneuse multimédia comportant
-un mode `carousel`. Ce module javascript permet ainsi de visualiser des vidéos,
-des images
+un mode `carrousel`. Ce module javascript permet ainsi de visualiser des vidéos,
+des images et même des objets 3D au format STL grace au module [WebGL](.:GetChapterAttributeByIndex::path::4.6.2.4:.). En effet la visionneuse s'intégre
+parfaitement avec les autres modules JS que VenC propose comme celui du [défilement infini](.:GetChapterAttributeByIndex::path::4.6.2.2:.).
+
+En outre la visioneuse reconnais les  noms de fichiers ayant l'extension suivantes:
+
+- Images:
+    - jpg/jpeg
+    - pjp/pjpeg
+    - png
+    - gif
+    - apng
+    - bmp
+    - avif
+    - svg
+    - webp
+    - jfif
+- Vidéos:
+    - mp4
+    - ogg
+    - ogv
+    - 3gp
+    - webm
+    - mpeg
+    - mov
+- Objets 3D:
+    - stl
+
+Un exemple classique d'utilisation du module se présenterait comme ça
+
+.:CodeHighlight::HTML::False::.:Escape::<a
+    class="entry"
+    id="entry.:GetEntryID:."
+    data-venc-media-viewer-title=".:GetEntryTitle:."
+    data-venc-media-viewer-contents="[.:ForEntryMetadataIfExists::medias::&#34;{value}&#34;::, :.]"
+    href="image_par_defaut_si_pas_de_javascript.jpg"
+>
+    <img src="some_thumbnail.png" alt=".:GetEntryTitle:." title=".:GetEntryTitle:." />
+</a>:.:.
+
+- __`data-venc-media-viewer-title`__ : Cet attribut permet de définit le titre du `carrousel` actif.
+- __`data-venc-media-viewer-contents`__ : Cet attribut doit contenir une liste au format `json` dans laquelle se trouvent les médias que vous souhaitez afficher pour le `carrousel` actif. Dans l'exemple, on génére la liste avec [`ForEntryMetadataIfExists`]() qui parcours la métadonné `medias` de la publication courante.
+
+##### Exemple
+
+Soit le code suivant :
+
+.:CodeHighlight::HTML::False::.:Escape::<a
+    class="entry"
+    id="entry.:GetEntryID:."
+    data-venc-media-viewer-title="Les illutrations thématiques de VenC"
+    data-venc-media-viewer-contents="[.:ForEntryMetadataIfExists::medias::&#34;{value}&#34;::, :.]"
+    href="#pas_de_javascript_disponible"
+>
+    Liens qui active le carrousel
+</a>:.:.
+
+Le rendu ressemble à ça :
+
+.:DisableMarkup::<a
+    class="entry"
+    id="entry.:GetEntryID:."
+    data-venc-media-viewer-title="Les illutrations thématiques de VenC"
+    data-venc-media-viewer-contents="[.:ForEntryMetadataIfExists::medias::&#34;{value}&#34;::, :.]"
+    href=""
+>
+    Liens qui active le carrousel
+</a>:.
+
+
