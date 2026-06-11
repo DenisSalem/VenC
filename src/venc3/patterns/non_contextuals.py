@@ -130,7 +130,7 @@ def escape(pattern, *content):
     return escape_walk(pattern, pattern)
     
 def webgl(pattern, uri, width, height):
-    return "<canvas class=\"VENC_WEB_GL_CANVAS\" width=\"{0}\" height=\"{1}\" data-venc-webgl-mesh=\"{2}\" title=\"{2}\" alt=\"{2}\">{2}: canvas is not supported.</canvas>".format(
+    return "<canvas class=\"VENC_WEB_GL_CANVAS\" width=\"{0}\" height=\"{1}\" data-venc-webgl-mesh=\"{2}\" title=\"{2}\" alt=\"{2}\"><span class=\"VENC_CANVAS_UNAVAILABLE\">{2}: canvas is not supported.</span></canvas>".format(
         width,
         height,
         uri

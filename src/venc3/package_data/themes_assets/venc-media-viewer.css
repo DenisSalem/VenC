@@ -1,6 +1,5 @@
 #VENC_MEDIA_VIEWER_CONTENTS_WRAPPER {
     background-color: rgba(0,0,0,0.75);
-    background-image: url('loading_nonagon.gif');
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
@@ -9,7 +8,11 @@
     height: 125%;
     top: 0px;
     left: 0px;}
-    
+
+.VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ON_LOAD {
+    background-image: url('loading_nonagon.gif');
+}
+
 .VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ACTIVATED {
     display:block;
 }
@@ -51,18 +54,51 @@
 	
 #VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_TITLE {
     position: fixed;
-    bottom: 0.5em;
+    bottom: 1.5em;
     width: 100%;
     text-align: center;
-    font-family: verdana;
+    font-family: Courier New;
     text-shadow: 0px 1px 1px black, 0px -1px 1px black, 1px 0px 1px black, -1px 0px 1px black, 1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black;
+}
+
+#VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_TITLE.VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_TITLE_LAYOUT_3 {
+    bottom: 1.66em;
+}
+
+#VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_TITLE.VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_TITLE_LAYOUT_2 {
+    bottom: 3em;
+}
+
+#VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_DOWNLOAD {
+    position: fixed;
+    bottom: 1em;
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-family: Courier New;
+    text-shadow: 0px 1px 1px black, 0px -1px 1px black, 1px 0px 1px black, -1px 0px 1px black, 1px 1px 1px black, -1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black;
+}
+
+#VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_DOWNLOAD.VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_DOWNLOAD_LAYOUT_3 {
+    bottom: 0.5em;
+}
+
+#VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_DOWNLOAD.VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_DOWNLOAD_LAYOUT_2 {
+    bottom: 1em;
 }
 
 #VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_CAROUSEL {
     position: fixed;
-    bottom: 2em;
     width: 100%;
     text-align: center;
+}
+
+#VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_CAROUSEL.VENC_MEDIA_VIEWER_CONTENTS_CAROUSEL_LAYOUT_3 {
+  bottom: 3.0em;
+}
+
+#VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_CAROUSEL.VENC_MEDIA_VIEWER_CONTENTS_CAROUSEL_LAYOUT_2 {
+  bottom: 2.0em;
 }
 
 .VENC_MEDIA_VIEWER_CONTENTS_CAROUSEL_BUTTON {
