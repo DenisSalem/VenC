@@ -1,4 +1,4 @@
 info:
     description : 'Template for doc'
     
-assets_dependencies: ['VenC-Scripts-Bootstrap.js','VenC-Media-Viewer.js']
+assets_dependencies: ['VenC-Scripts-Bootstrap.js','VenC-Media-Viewer.js','venc-media-viewer.css']

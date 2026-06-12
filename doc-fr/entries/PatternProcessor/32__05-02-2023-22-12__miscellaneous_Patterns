@@ -653,3 +653,7 @@ Ce motif prend trois paramètres :
 Pour fonctionner ce script nécessite l'import du module javascript [`VenC-WebGL.js`](.:GetChapterAttributeByIndex::path::4.6.2.4:.) dans
 [`header.html`](.:GetChapterAttributeByIndex::path::3.5.2:.). Il faut aussi s'assurer
 qu'il soit physiquement importé via la [`configuration d'un thème`](.:GetChapterAttributeByIndex::path::4.6.1:.).
+
+Dans un souci d'accessibilité, dans le cas où par exemple le navigateur ne supporte pas `canvas` ou `WebGL` le pattern génére un élément HTML
+avec la classe `VENC_WEBGL_ERROR` qui est par défaut caché mais qui sera rendu visible en cas d'erreur. Il est possible de customiser
+l'élément HTML en utilisant la classe CSS indiqué précédement.
