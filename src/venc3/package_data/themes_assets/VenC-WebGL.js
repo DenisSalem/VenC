@@ -425,7 +425,8 @@ var VENC_WEB_GL = {
                   normals : []
               },
               ready: false,
-              mesh_url: mesh_url
+              mesh_url: mesh_url,
+              parent: canvas
             };
         }
         else {
@@ -433,7 +434,10 @@ var VENC_WEB_GL = {
         }
                 
         if (!canvas.VENC_WEB_GL_CONTEXT.gl) {
-            console.log("VenC: Cannot initialize WebGL.");
+            console.log("VenC: "+canvas.VENC_WEB_GL_CONTEXT.mesh_url+": Cannot initialize WebGL.");
+            canvas.style.display = "none";
+            canvas.nextSibling.style.display = "block";
+            canvas.nextSibling.innerHTML = "VenC: "+canvas.VENC_WEB_GL_CONTEXT.mesh_url+": Cannot initialize WebGL."
             return null;
         }
         
@@ -531,6 +535,13 @@ var VENC_WEB_GL = {
 
                 console.log("VenC: WebGL: "+mesh_url+" is "+byte_array.length.toString()+" bytes.");                          
                 console.log("VenC: WebGL: "+mesh_url+" has "+triangles_count.toString()+" triangles.");
+                
+                if (byte_array.length == 0) {
+                    canvas.style.display = "none";
+                    canvas.nextSibling.style.display = "block";
+                    canvas.nextSibling.innerHTML = "VenC: WebGL: "+mesh_url+" is "+byte_array.length.toString()+" bytes."
+                    return
+                }
                 
                 for (i = 84; i < byte_array.length; i+=50) {
                     // Duplicate each normal for each vertex
@@ -746,6 +757,9 @@ var VENC_WEB_GL = {
         }
         else {
             console.log("VenC: WebGL: Mesh", context.mesh_url, "is not ready.");
+            context.parent.style.display = "none";
+            context.parent.nextSibling.style.display = "block";
+            context.parent.nextSibling.innerHTML = "VenC: WebGL: Mesh "+context.mesh_url+" is not ready."
         }
     }
 };
