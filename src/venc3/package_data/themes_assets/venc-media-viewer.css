@@ -13,6 +13,16 @@
     background-image: url('loading_nonagon.gif');
 }
 
+.VENC_WEBGL_ERROR {
+    width: 512px;
+    position: fixed;
+    top:50%;
+    left:50%;
+    margin-left: -256px;
+    background-color: black;
+    border: 1px solid #888;
+}
+
 .VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_ACTIVATED {
     display:block;
 }

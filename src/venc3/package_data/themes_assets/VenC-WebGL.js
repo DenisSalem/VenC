@@ -19,6 +19,12 @@
 
 // TODO : The following work as expected but the overall code is quite dirty in its internal structure and naming convention.
 
+function enable_error_message(canvas, message) {
+    canvas.style.display = "none";
+    canvas.nextSibling.style.display = "block";
+    canvas.nextSibling.innerHTML = message
+}
+
 var VENC_WEB_GL = {
     version: "0.0.0",
     ready_callback: function(canvas) {},
@@ -435,9 +441,7 @@ var VENC_WEB_GL = {
                 
         if (!canvas.VENC_WEB_GL_CONTEXT.gl) {
             console.log("VenC: "+canvas.VENC_WEB_GL_CONTEXT.mesh_url+": Cannot initialize WebGL.");
-            canvas.style.display = "none";
-            canvas.nextSibling.style.display = "block";
-            canvas.nextSibling.innerHTML = "VenC: "+canvas.VENC_WEB_GL_CONTEXT.mesh_url+": Cannot initialize WebGL."
+            enable_error_message(canvas, "VenC: "+canvas.VENC_WEB_GL_CONTEXT.mesh_url+": Cannot initialize WebGL.")
             return null;
         }
         
@@ -525,6 +529,11 @@ var VENC_WEB_GL = {
         query.responseType = "arraybuffer";
         query.onreadystatechange = function(e) {
             if (this.readyState == 4) {
+                if (!(query.status == 200 || query.status == 302)) {
+                    console.log("VenC: WebGL: Mesh", canvas.VENC_WEB_GL_CONTEXT.mesh_url, "is not ready.");
+                    enable_error_message(canvas, "VenC: WebGL: Mesh "+canvas.VENC_WEB_GL_CONTEXT.mesh_url+" is not ready.")
+                    return
+                }
                 var array_buffer = query.response;
                 var byte_array = new Uint8Array(array_buffer);
                 triangles_count =
@@ -537,9 +546,7 @@ var VENC_WEB_GL = {
                 console.log("VenC: WebGL: "+mesh_url+" has "+triangles_count.toString()+" triangles.");
                 
                 if (byte_array.length == 0) {
-                    canvas.style.display = "none";
-                    canvas.nextSibling.style.display = "block";
-                    canvas.nextSibling.innerHTML = "VenC: WebGL: "+mesh_url+" is "+byte_array.length.toString()+" bytes."
+                    enable_error_message(canvas, "VenC: WebGL: "+mesh_url+" is "+byte_array.length.toString()+" bytes.")
                     return
                 }
                 
@@ -625,13 +632,13 @@ var VENC_WEB_GL = {
                 if (canvas.ready_callback && typeof canvas.ready_callback == 'function') {
                     canvas.ready_callback();
                 }
+                clearTimeout(canvas.VENC_WEB_GL_CONTEXT.rendering_loop);
+                canvas.VENC_WEB_GL_CONTEXT.rendering_loop = setInterval(VENC_WEB_GL.render, 20, canvas.VENC_WEB_GL_CONTEXT);
             }
         };
          
-        query.send(); 
-        clearTimeout(canvas.VENC_WEB_GL_CONTEXT.rendering_loop);
-        canvas.VENC_WEB_GL_CONTEXT.rendering_loop = setInterval(VENC_WEB_GL.render, 20, canvas.VENC_WEB_GL_CONTEXT);
-
+        query.send();
+        
         return canvas.VENC_WEB_GL_CONTEXT;
     },
     draw_scene: function(context, buffers) {
@@ -744,23 +751,15 @@ var VENC_WEB_GL = {
         );
     },
     render: function(context) {
-        if (context.ready) {
-            context.mouse_motions = {
-                start_x: 0,
-                start_y: 0,
-                current_x : 0,
-                current_y : 0,
-                base_x: (context.mouse_motions.base_x + context.mouse_motions.current_x) % (2*3.141592),
-                base_y: (context.mouse_motions.base_y + context.mouse_motions.current_y) % (2*3.141592)
-            };
-            VENC_WEB_GL.draw_scene(context);
-        }
-        else {
-            console.log("VenC: WebGL: Mesh", context.mesh_url, "is not ready.");
-            context.parent.style.display = "none";
-            context.parent.nextSibling.style.display = "block";
-            context.parent.nextSibling.innerHTML = "VenC: WebGL: Mesh "+context.mesh_url+" is not ready."
-        }
+        context.mouse_motions = {
+            start_x: 0,
+            start_y: 0,
+            current_x : 0,
+            current_y : 0,
+            base_x: (context.mouse_motions.base_x + context.mouse_motions.current_x) % (2*3.141592),
+            base_y: (context.mouse_motions.base_y + context.mouse_motions.current_y) % (2*3.141592)
+        };
+        VENC_WEB_GL.draw_scene(context);
     }
 };
 

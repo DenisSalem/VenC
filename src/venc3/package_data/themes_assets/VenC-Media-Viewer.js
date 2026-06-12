@@ -22,6 +22,8 @@ var VENC_MEDIA_VIEWER = {
     wrapper : null,
     image: null,
     video: null,
+    canvas: null,
+    webgl_error: null,
     close_button: null,
     carousel: null,
     title: null,
@@ -104,6 +106,7 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
     if (VENC_MEDIA_VIEWER.image_extensions.includes(file_extension)) {
         VENC_MEDIA_VIEWER.video.style.display = "none";
         VENC_MEDIA_VIEWER.canvas.style.display = "none";
+        VENC_MEDIA_VIEWER.webgl_error.style.display = "none";
         VENC_MEDIA_VIEWER.image.style.display = "block";
         VENC_MEDIA_VIEWER.image.src = "";
         VENC_MEDIA_VIEWER.image.style.opacity = "0";
@@ -131,6 +134,7 @@ function VENC_MEDIA_VIEWER_SET_MEDIA(media_index) {
         VENC_MEDIA_VIEWER.image.style.display = "none";
         VENC_MEDIA_VIEWER.video.style.display = "none";
         VENC_MEDIA_VIEWER.canvas.style.display = "none";
+        VENC_MEDIA_VIEWER.webgl_error.style.display = "none";
         VENC_MEDIA_VIEWER.video.autoplay = true;
         VENC_MEDIA_VIEWER.video.loop = true;
         VENC_MEDIA_VIEWER.video.controls = true;
@@ -356,7 +360,11 @@ function VENC_MEDIA_VIEWER_ON_LOAD() {
     
     canvas = document.createElement('canvas');
     canvas.onclick = function(event) { event.stopPropagation(); return false;}
-        
+    
+    webgl_error = document.createElement('span');
+    webgl_error.className = "VENC_WEBGL_ERROR"
+    webgl_error.style.display = "none"
+    
     next = document.createElement('a');
     next.id = "VENC_MEDIA_VIEWER_CONTENTS_WRAPPER_NEXT";
     next.href = "";
@@ -379,6 +387,7 @@ function VENC_MEDIA_VIEWER_ON_LOAD() {
     wrapper.appendChild(image);
     wrapper.appendChild(video);
     wrapper.appendChild(canvas);
+    wrapper.appendChild(webgl_error);
     wrapper.appendChild(previous);
     wrapper.appendChild(carousel);
     wrapper.appendChild(title);
@@ -396,6 +405,7 @@ function VENC_MEDIA_VIEWER_ON_LOAD() {
     VENC_MEDIA_VIEWER.image = image;
     VENC_MEDIA_VIEWER.video = video;
     VENC_MEDIA_VIEWER.canvas = canvas;
+    VENC_MEDIA_VIEWER.webgl_error = webgl_error;
     VENC_MEDIA_VIEWER.carousel = carousel;
     VENC_MEDIA_VIEWER.title = title;
     VENC_MEDIA_VIEWER.download = download;
