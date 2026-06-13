@@ -41,6 +41,8 @@ fournit des exemples sur la façon dont cela fonctionne.
 publication avec l'éditeur de texte spécifié dans la variable d'environnement `EDITOR` ou à défaut dans le fichier de 
 configuration principale [`blog_configuration.yaml`](.:GetChapterAttributeByIndex::path::4.2:.#text-editor).
 
+### Formatage de la publication
+
 Maintenant, il faut rédiger le contenu de votre choix. Vous voulez sans doute le faire dans un langage de balisage
 _cool_ et _décontracté_. Avec [Markdown](https://daringfireball.net/projects/markdown/) par exemple. VenC supporte aussi
 [AsciiDoc](https://asciidoc.org/) ou [reStructuredText](https://docutils.sourceforge.io/rst.html). Dans tous les
@@ -52,4 +54,5 @@ et vous devez les installer explicitement :
 - Pour reStructuredText, vous aurez besoin de [docutils](https://docutils.sourceforge.io/index.html).
 
 Une fois que le module que vous souhaitez utiliser est installé il faut indiquer le langage de `markup` dans
-[les métadonnées de votre publication](.:GetChapterAttributeByIndex::path::4.3:.#markup-language).
+[les métadonnées de votre publication](.:GetChapterAttributeByIndex::path::4.3:.#markup-language) ou dans le [fichier de configuration principal](:GetChapterAttributeByIndex::path::4.2:.#markup-language) si vous souhaitez
+utiliser le même langage de `marjup` pour toutes vos publications.
