@@ -27,6 +27,9 @@ def yield_entries_content():
     try:
         for r, d, files in os.walk(os.getcwd()+"/entries"):
             for filename in files:
+                if "draft." == filename[0:6]:
+                    continue
+                    
                 exploded_filename = filename.split("__")
                 try:
                     date = exploded_filename[1].split('-')
@@ -59,7 +62,6 @@ def yield_entries_content():
 
 class Entries:
     def init_entries(self):
-      
         self.entries = []
 
         from venc3.prompt import notify
