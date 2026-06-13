@@ -35,15 +35,24 @@ class Chapter:
 class EntryMetadata:
     def __init__(self, metadata, entry):                       
         # Fix missing or incorrect metadata
-        for key in ("authors", "categories", "title"):
+        for key in ("authors", "categories", "title", "force_individual_entry"):
             if key not in metadata.keys() or metadata[key] == None:
-                metadata[key] = '' if key == "title" else []
+                if key == "title":
+                    metadata[key] = ''
+                elif key == "force_individual_entry":
+                    metadata[key] = False
+                else:
+                    metadata[key] = []
                 
         metadata["title"] = metadata["title"].replace(".:GetEntryTitle:.",'') # sanitize
 
+        if type(metadata["force_individual_entry"]) != bool:
+            from venc3.exceptions import VenCException
+            raise VenCException(("entry_metadata_is_not_a_bool", "authors", entry.id), context=entry.filename)
+            
         if type(metadata["authors"]) != list:
             from venc3.exceptions import VenCException
-            raise VenCException(("entry_metadata_is_not_a_list", "authors", entry.id), context=filename)
+            raise VenCException(("entry_metadata_is_not_a_list", "force_individual_entry", entry.id), context=entry.filename)
                     
         # Setting up optional metadata
         for key in metadata.keys():

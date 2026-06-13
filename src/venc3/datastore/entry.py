@@ -88,7 +88,7 @@ class Entry:
         self.raw_metadata = metadata
         
         self.metadata = EntryMetadata(metadata, self)
-         
+        
         params = {
             "entry_id": self.id,
             "entry_title": self.metadata.title

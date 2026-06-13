@@ -89,6 +89,7 @@ class Messages:
     blog_has_no_metadata_like = "Blog has no metadata identified by \"{0}\"."
     invalid_range = "Invalid range {0}:{1}."
     entry_metadata_is_not_a_list = "Metadata identified by \"{0}\" from entry {1} is not a list."
+    entry_metadata_is_not_a_bool = "Metadata identified by \"{0}\" from entry {1} is not a boolean."
     blog_metadata_is_not_a_list = "Metadata identified by \"{0}\" blog configuration file is not a list."
     item_deleted_from_server = "Deleted from server: {0}"
     item_uploaded_to_server = "Uploaded to server: {0}"
