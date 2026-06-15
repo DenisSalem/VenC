@@ -299,7 +299,7 @@ class DatastorePatterns:
         return self.cache_get_chapter_attribute_by_index[key]
             
     def get_entry_path(self, pattern):
-        if self.blog_configuration["disable_single_entries"]:
+        if self.blog_configuration["disable_single_entries"] and not self.requested_entry.metadata.force_individual_entry:
             return ""
             
         else:
