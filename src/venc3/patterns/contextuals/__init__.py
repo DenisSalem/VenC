@@ -111,9 +111,13 @@ class ThreadPatterns:
                 params["path"] = self.filename.format(**params)
 
             else:
+                # TODO: Condition is a quick fix, but with force individual entry enabled, chain of entries become unreliable
+                if self.current_entry.previous_entry != None:
                     params["entry_id"] = self.current_entry.previous_entry.id
                     params["entry_title"] = self.current_entry.previous_entry.metadata.title
                     params["path"] = self.current_entry.previous_entry.path
+                else:
+                    return str()
 
             try:
                 return string.format(**params)
