@@ -78,9 +78,10 @@ class ThreadPatterns:
                 # TODO: Condition is a quick fix, but with force individual entry enabled, chain of entries become unreliable
                 if self.current_entry.next_entry != None:
                     params["path"] = self.current_entry.next_entry.path
-
-                params["entry_id"] = self.current_entry.next_entry.id
-                params["entry_title"] = self.current_entry.next_entry.metadata.title
+                    params["entry_id"] = self.current_entry.next_entry.id
+                    params["entry_title"] = self.current_entry.next_entry.metadata.title
+                else:
+                    return str()
                     
             try:
                 return string.format(**params)
