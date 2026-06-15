@@ -3,7 +3,7 @@ authors:
 categories:
   - ''
 chapter: '3.2'
-title: Créer une nouvelle publication
+title: Créer et gérer une publication
 ---VENC-BEGIN-PREVIEW---
 ---VENC-END-PREVIEW---
 Une publication valide doit avoir un nom de fichier avec un format
@@ -54,5 +54,21 @@ et vous devez les installer explicitement :
 - Pour reStructuredText, vous aurez besoin de [docutils](https://docutils.sourceforge.io/index.html).
 
 Une fois que le module que vous souhaitez utiliser est installé il faut indiquer le langage de `markup` dans
-[les métadonnées de votre publication](.:GetChapterAttributeByIndex::path::4.3:.#markup-language) ou dans le [fichier de configuration principal](:GetChapterAttributeByIndex::path::4.2:.#markup-language) si vous souhaitez
+[les métadonnées de votre publication](.:GetChapterAttributeByIndex::path::4.3:.#markup-language) ou dans le [fichier de configuration principal](.:GetChapterAttributeByIndex::path::4.2:.#markup-language) si vous souhaitez
 utiliser le même langage de `marjup` pour toutes vos publications.
+
+### Passer la publication en mode draft
+
+Si la rédaction d'un billet s'annonce longue, mais que vous souhaitez quand même exporter votre site sans faire aparaittre un
+billet qui n'est pas finit, vous pouvez préfixez le nom de fichier de la publication avec
+
+`draft.`
+
+Par exemple pour que VenC ignore complétement ce billet :
+
+> 1948__10-07-2023__On_fascism_and_colonialism
+
+renommez le ainsi :
+
+> draft.1948__10-07-2023__On_fascism_and_colonialism
+
