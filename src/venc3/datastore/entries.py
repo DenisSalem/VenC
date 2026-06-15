@@ -63,6 +63,7 @@ def yield_entries_content():
 class Entries:
     def init_entries(self):
         self.entries = []
+        self.forced_individual_entries = []
 
         from venc3.prompt import notify
         notify(("loading_entries",), prepend="┌─ ")
@@ -111,6 +112,8 @@ class Entries:
                         path,
                         self.blog_configuration["paths"],
                     ))
+                    if self.entries[-1].metadata.force_individual_entry:
+                        self.forced_individual_entries.append(self.entries[-1])
                     
         except VenCException as e:
             if self.workers_count > 1:

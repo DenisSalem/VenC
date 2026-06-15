@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-#    Copyright 2016, 2023 Denis Salem
+#    Copyright 2016, 2026 Denis Salem
 #
 #    This file is part of VenC.
 #
@@ -33,6 +33,7 @@ def dispatcher(dispatcher_id, process, sub_chunk_len, send_in, recv_out):
             send_in.send(current)
             current = None
             output_context += recv_out.recv()
+
             
     except:
         multiprocessing_thread_params["cut_threads_kill_workers"] = True
@@ -59,7 +60,7 @@ def worker(worker_id, send_out, recv_in, single_process_argv=None):
                 filename,
                 worker_params["paths"],
             ))
-        
+            
         recv_in.send(output)
         output = None
         chunk = send_out.recv()

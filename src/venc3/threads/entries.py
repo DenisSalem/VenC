@@ -29,7 +29,10 @@ class EntriesThread(Thread, EntriesThreadPatterns):
         from venc3.l10n import messages
         super().__init__(messages.export_single_entries)
         self.entries_per_page = 1 #override value
-        self.organize_entries(self.datastore.entries)
+        if self.datastore.blog_configuration["disable_single_entries"]:
+            self.organize_entries(self.datastore.forced_individual_entries)
+        else:
+            self.organize_entries(self.datastore.entries)
         self.current_entry_index=-1
         self.entries = self.datastore.entries
         self.filename = self.datastore.blog_configuration["paths"]["entry_file_name"]

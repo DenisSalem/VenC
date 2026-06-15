@@ -108,6 +108,11 @@ def process_non_contextual_patterns():
             parallelism.kill()
             e.die()
 
+    if datastore.blog_configuration["disable_single_entries"]:
+        for entry in datastore.entries:
+            if entry.metadata.force_individual_entry:
+                datastore.forced_individual_entries.append(entry)
+                
     if not datastore.blog_configuration["disable_chapters"]:
         for entry in datastore.entries:
             datastore.update_chapters(entry)
@@ -211,7 +216,7 @@ def export_blog(params):
             thread = CategoriesThread()
             thread.do()
     
-        if not datastore.blog_configuration["disable_single_entries"]:
+        if not datastore.blog_configuration["disable_single_entries"] or len(datastore.forced_individual_entries):
             from venc3.threads.entries import EntriesThread
             thread = EntriesThread()
             thread.do()
