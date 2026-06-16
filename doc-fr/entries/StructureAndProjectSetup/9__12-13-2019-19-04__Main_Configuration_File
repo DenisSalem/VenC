@@ -54,6 +54,10 @@ Empêche VenC de générer les fils de publications des catégories. Ce champ es
 
 Empêche VenC de générer les publications individuelles. Ce champ est un booléen, fixé à `False` par défaut.
 
+Il est possible
+cependant de contourner cette fonctionnalité, si elle est activé, avec la propriété `force_individual_entry` dans les métadonnées d'une publication.
+Si `force_individual_entry` est fixé `true` pour une publication donnée, alors sa page individuelle correspondante sera toujours crée.
+
 ## disable_main_thread
 
 Empêche VenC de générer le fil principal de publication. Ce champ est un booléen, fixé à `False` par défaut.
